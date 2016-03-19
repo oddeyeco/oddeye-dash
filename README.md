@@ -1,4 +1,4 @@
-**Odd Eye Barlus**
+**Odd Eye Coconut**
 --------------
 
 ![Odd Eye](https://netangels.net/utils/odd_eye.jpg)
