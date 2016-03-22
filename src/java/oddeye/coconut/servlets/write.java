@@ -13,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.Collections;
-//import sun.org.mozilla.javascript.internal.json.JsonParser;
+import scala.util.parsing.json.JSON;
+import scala.util.parsing.json.JSONObject;
+import scala.Option;
+import scala.collection.immutable.Map;
 
 import kafka.producer.KeyedMessage;
 
@@ -34,17 +37,31 @@ public class write extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        Option msgObject = null;
         String uid = request.getParameter("UUID");
         String msg = "";
+        Map JsonMap = null;
         int idx = Arrays.binarySearch(AppConfiguration.getUsers(), uid, Collections.reverseOrder());
         if (idx > -1) {
             msg = request.getParameter("data");
         }
         if (msg != "") {
-
-//            JsonParser parser = new JsonParser( );
-
+            msgObject = JSON.parseFull(msg);
+            if (!msgObject.isEmpty()) {
+                Object maps = msgObject.productElement(0);
+                if (maps instanceof Map) {
+                    JsonMap = (Map) maps;
+                    if (!JsonMap.get("UUID").isEmpty() & !JsonMap.get("tags").isEmpty() & !JsonMap.get("data").isEmpty()) {
+                        if (JsonMap.get("UUID").productElement(0).equals(uid)) {
+                            msg = msg + "00000\n";
+                            String topic = AppConfiguration.getBrokerTopic();
+                            KeyedMessage<String, String> data = new KeyedMessage<String, String>(topic, msg);
+                            AppConfiguration.getProducer().send(data);
+                        }
+                    }
+//               out.println("<h1>" + JsonMap.get("UU").isEmpty()+ "</h1>");
+                }
+            }
 //            JsonObject mainObject = parser.parse(msg).getAsJsonObject();
             msg = msg + "\n";
             String topic = AppConfiguration.getBrokerTopic();
@@ -64,7 +81,11 @@ public class write extends HttpServlet {
             out.println("<body>");
 
             out.println("<h1>Servlet write at " + request.getContextPath() + "</h1>");
-            out.println("<h1>Servlet write at " + uid + idx + msg + "</h1>");
+//            out.println("<h1>" + maps.getClass()+ "</h1>");
+//            if(JsonMap.get("UUID").productElement(0) == uid)
+//            out.println("<h1>" + JsonMap.get("UUID").productElement(0) + "</h1>");
+            out.println("<h1>" + "Data sended" + "</h1>");
+//            out.println("<h2>" + (JsonMap.get("UUID").productElement(0).equals(uid)) + "</h2>");
             out.println("</body>");
             out.println("</html>");
         }
