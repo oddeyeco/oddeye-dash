@@ -6,11 +6,18 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Welcome to oddeye-coconut</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div>Use curl for send data curl -i -XPOST 'https://oddeye-coconuthost.co/oddeye-coconut/write' --data-binary 'UUID=youuuid&data={JsonData}'</div>
+        <div>Or Use this test form </div>
+        <form name="Test Form " action="write" method="POST" >
+            <div>Enter value:</div>
+            <div>UUID <input type="text" name="UUID" value="" /></div>
+            <div>Data <textarea name="data"></textarea>
+            <input type="submit" value="OK" />
+        </form>        
     </body>
 </html>
