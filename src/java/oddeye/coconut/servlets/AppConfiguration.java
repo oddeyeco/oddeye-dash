@@ -42,6 +42,7 @@ public class AppConfiguration {
     public static boolean Initbyfile(ServletContext cntxt) {
         String sFilePath = "";
         File currentDir = new File(".");
+        
         try {
 //            BrokerList = "aaaaaa";
             ServletContext ctx = cntxt;
