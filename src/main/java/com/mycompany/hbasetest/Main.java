@@ -134,7 +134,7 @@ public class Main {
             //   Use the `name` column family for the name
             //   Use the `contactinfo` column family for the email
             System.out.println("Start insert");
-            for (int i = 0; i < 100000; i++) {                
+            for (int i = 0; i < 10; i++) {                
                 UUID uuid = UUID.randomUUID();
 //                UUID uuid = UUID.fromString("1805df36-0cb0-4989-b8b9-6dac645ce464");
 
