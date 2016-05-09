@@ -29,13 +29,32 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <!-- Jar file entry point -->
+                            <addClasspath>true</addClasspath>
                             <mainClass>com.mycompany.hbasetest.Main</mainClass>
+                            <classpathPrefix>dependency-jars/</classpathPrefix>
                         </manifest>
-                    </archive>
+                    </archive>                    
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <!-- exclude junit, we need runtime dependency only -->
+                            <includeScope>runtime</includeScope>
+                            <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>    
 </project>
