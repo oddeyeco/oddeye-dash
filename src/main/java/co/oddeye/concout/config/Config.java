@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package oddeye.concout.config;
+package co.oddeye.concout.config;
 
 import org.springframework.context.annotation.Bean;  
 import org.springframework.context.annotation.ComponentScan;  
@@ -19,7 +19,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
  * @author vahan
  */
 @Configuration
-@ComponentScan("oddeye.concout")
+@ComponentScan("co.oddeye.concout")
 @EnableWebMvc   
 public class Config extends WebMvcConfigurerAdapter {  
       
