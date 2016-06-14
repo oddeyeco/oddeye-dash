@@ -22,6 +22,7 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.apache.hadoop.hbase.client.Get;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,7 @@ public class HbaseUserDao {
 
     public void addUser(User user) {
         UUID uuid = user.getId();
-        
+
         byte[] buuid = Bytes.toBytes(uuid.toString());
         java.util.Date date = new java.util.Date();
         Put row = new Put(buuid, date.getTime());
@@ -81,17 +82,30 @@ public class HbaseUserDao {
         row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("name"), Bytes.toBytes(user.getName()));
         row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("email"), Bytes.toBytes(user.getEmail()));
         row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("lastname"), Bytes.toBytes(user.getLastname()));
-
-        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("company"), Bytes.toBytes(user.getCompany()));
-        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("country"), Bytes.toBytes(user.getCountry()));
-        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"), Bytes.toBytes(user.getCity()));
-        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("region"), Bytes.toBytes(user.getRegion()));
-
-        row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("password"), user.getPasswordByte());
-        row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("solt"), user.getSolt());
-
-        row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("timezone"), Bytes.toBytes(user.getTimezone()));
-        row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"), Bytes.toBytes(user.getActive()));
+        if (user.getCompany() != null) {
+            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("company"), Bytes.toBytes(user.getCompany()));
+        }
+        if (user.getCountry() != null) {
+            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("country"), Bytes.toBytes(user.getCountry()));
+        }
+        if (user.getCity() != null) {
+            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"), Bytes.toBytes(user.getCity()));
+        }
+        if (user.getRegion() != null) {
+            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("region"), Bytes.toBytes(user.getRegion()));
+        }
+        if (user.getPasswordByte() != null) {
+            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("password"), user.getPasswordByte());
+        }
+        if (user.getSolt() != null) {
+            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("solt"), user.getSolt());
+        }
+        if (user.getTimezone() != null) {
+            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("timezone"), Bytes.toBytes(user.getTimezone()));
+        }
+        if (user.getActive() != null) {
+            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"), Bytes.toBytes(user.getActive()));
+        }
         try {
             this.htable.put(row);
         } catch (Exception e) {
@@ -108,7 +122,18 @@ public class HbaseUserDao {
         return null;
     }
 
-    public User getUserByUUID(UUID email) {
+    public User getUserByUUID(UUID uuid) {
+        Get g = new Get(Bytes.toBytes(uuid.toString()));
+        try {
+//            users.get(uuid)
+            Result result = this.htable.get(g);
+            User user = new User();
+            user.inituser(result);
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }

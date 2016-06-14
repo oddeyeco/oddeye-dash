@@ -5,12 +5,15 @@
  */
 package co.oddeye.concout.model;
 
+import co.oddeye.concout.helpers.mailSender;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 import java.util.UUID;
+import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.util.Bytes;
 
 /**
  *
@@ -36,8 +39,8 @@ public class User {
         this.id = UUID.randomUUID();
     }
 
-    public void SendConfirmMail() {
-
+    public void SendConfirmMail(mailSender Sender) {
+        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='http://localhost:8080/OddeyeCoconut/confirm/" + this.getId().toString() + "'>hear</a>", "oddeye.co@gmail.com", this.getEmail());
     }
 
     /**
@@ -199,18 +202,21 @@ public class User {
      */
     public String getPassword() {
         String pass = "";
-        return pass; 
+        return pass;
     }
-    public byte[] getPasswordByte() {        
-        return this.password; 
-    }    
+
+    public byte[] getPasswordByte() {
+        return this.password;
+    }
+
     public String getPasswordst() {
         String pass = "";
         if (this.password != null) {
             pass = new String(this.password);
         }
-        return pass; 
+        return pass;
     }
+
     /**
      * @param password the password to set
      */
@@ -231,10 +237,12 @@ public class User {
         }
         return pass;
     }
+
     public String getPasswordsecond() {
         String pass = "";
         return pass;
     }
+
     /**
      * @param passwordsecond the passwordsecond to set
      */
@@ -250,6 +258,18 @@ public class User {
      */
     public byte[] getSolt() {
         return solt;
+    }
+
+    public void inituser(Result result) {
+        byte[] value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("UUID"));
+        this.id = UUID.fromString(Bytes.toString(value));
+        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("email"));
+        this.email = Bytes.toString(value);
+        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("name"));
+        this.name = Bytes.toString(value);
+        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("lastname"));
+        this.lastname = Bytes.toString(value);
+
     }
 
 }

@@ -46,7 +46,7 @@
                             </div>
                             <div class="profile_info">
                                 <span>Welcome,</span>
-                                <h2>Vlo vloyan</h2>
+                                <h2>${curentuser.name} ${curentuser.lastname}</h2>
                             </div>
                         </div>
                         <!-- /menu profile quick info -->
@@ -60,7 +60,7 @@
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="<c:url value="/"/>">Dashboard</a></li>
+                                            <li><a href="<c:url value="/dashboard"/>">Dashboard</a></li>
                                             <li><a href="<c:url value="/dashboard2/"/>">Dashboard2</a></li>
                                             <li><a href="<c:url value="/dashboard3/"/>">Dashboard3</a></li>
                                         </ul>
@@ -187,7 +187,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="${cp}/resources/images/img.jpg" alt="">Vlo vloyan
+                                        <img src="${cp}/resources/images/img.jpg" alt="">${curentuser.email}
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">

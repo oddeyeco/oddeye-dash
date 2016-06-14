@@ -6,6 +6,7 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +35,8 @@ public class DefaultController {
     private UserValidator userValidator;
     @Autowired
     private HbaseUserDao Userdao;
+    @Autowired
+    private mailSender Sender; 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
@@ -53,6 +57,19 @@ public class DefaultController {
         return "index";
     }
 
+    @RequestMapping(value = "/confirm/{uuid}", method = RequestMethod.GET)
+    public String confirmuser(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+//        String templatename = "dashboard2";
+        User user = Userdao.getUserByUUID(UUID.fromString(uuid));
+        user.setActive(Boolean.TRUE);
+        Userdao.addUser(user);
+        //TODO Send refresh messge to kafka
+        return "redirect:/dashboard2";
+//        map.put("curentuser", user);
+//        map.put("body", templatename);
+//        return "index";
+    }    
+    
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result,ModelMap map) {        
         userValidator.validate(newUser, result);
@@ -63,9 +80,10 @@ public class DefaultController {
             map.put("result", result);
             map.put("body", "signup");
         } else {            
-            newUser.setActive(Boolean.FALSE);
-            newUser.SendConfirmMail();
+            newUser.setActive(Boolean.FALSE);            
             Userdao.addUser(newUser);
+            newUser.SendConfirmMail(Sender);
+            
             map.put("body", "homepage");
         }
         return "indexNotaut";
