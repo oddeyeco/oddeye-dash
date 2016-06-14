@@ -269,7 +269,18 @@ public class User {
         this.name = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("lastname"));
         this.lastname = Bytes.toString(value);
-
+        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("company"));
+        this.company = Bytes.toString(value);    
+        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("country"));
+        this.country = Bytes.toString(value);
+        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"));
+        this.city = Bytes.toString(value);
+        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("region"));
+        this.region = Bytes.toString(value);    
+        value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("timezone"));
+        this.timezone = Bytes.toString(value);
+        value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"));
+        this.active = Bytes.toBoolean(value);      
     }
 
 }

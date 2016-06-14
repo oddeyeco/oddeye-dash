@@ -125,7 +125,6 @@ public class HbaseUserDao {
     public User getUserByUUID(UUID uuid) {
         Get g = new Get(Bytes.toBytes(uuid.toString()));
         try {
-//            users.get(uuid)
             Result result = this.htable.get(g);
             User user = new User();
             user.inituser(result);
