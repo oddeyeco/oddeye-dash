@@ -31,6 +31,8 @@ public class DefaultController {
     
     @Autowired
     private UserValidator userValidator;
+    @Autowired
+    private HbaseUserDao Userdao;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
@@ -60,8 +62,7 @@ public class DefaultController {
             map.put("newUser", newUser);
             map.put("result", result);
             map.put("body", "signup");
-        } else {
-            HbaseUserDao Userdao = new HbaseUserDao();
+        } else {            
             newUser.setActive(Boolean.FALSE);
             newUser.SendConfirmMail();
             Userdao.addUser(newUser);

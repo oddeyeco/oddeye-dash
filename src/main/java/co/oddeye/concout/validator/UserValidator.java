@@ -29,13 +29,10 @@ public class UserValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");
         String username = user.getName();
-        if ((username.length()) > 16) {
-            errors.rejectValue("username", "username.tooLong", "Username must not more than 16 characters.");
-        }
 
-//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "password.empty", "Password must not be empty.");
-        if (!(user.getPassword()).equals(user.getPasswordsecond())) {
-            errors.rejectValue("confirmPassword", "confirmPassword.passwordDontMatch", "Passwords don't match.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "passwordst", "password.empty", "Password must not be empty.");
+        if (!(user.getPasswordst()).equals(user.getPasswordsecondst())) {
+            errors.rejectValue("passwordsecond", "passwordsecond.passwordDontMatch", "Passwords don't match.");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.empty", "Email address must not be empty.");

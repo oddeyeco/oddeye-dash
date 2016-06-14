@@ -23,32 +23,29 @@ public class User {
     private String name;
     private String email;
     private String company;
-    private byte[] password;    
-    private byte[] solt;
+    private byte[] password;
+    private byte[] passwordsecond;
+    private byte[] solt = null;
     private String country;
     private String city;
     private String region;
     private String timezone;
     private Boolean active;
 
-    
-    
-    public User() {        
-      this.id = UUID.randomUUID();  
-    }    
-    
-    public void SendConfirmMail()
-    {
-        
+    public User() {
+        this.id = UUID.randomUUID();
     }
-            
+
+    public void SendConfirmMail() {
+
+    }
+
     /**
      * @return the id
      */
     public UUID getId() {
         return id;
     }
-
 
     /**
      * @return the name
@@ -162,35 +159,6 @@ public class User {
         this.active = active;
     }
 
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.solt = getNextSalt();
-        this.password = get_SHA_512_SecurePassword(password, this.solt);
-    }
-
-    /**
-     * @return the empty string for password
-     */
-    public String getPassword() {
-        return "";
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPasswordsecond(String password) {
-
-    }
-
-    /**
-     * @return the empty string for password
-     */
-    public String getPasswordsecond() {
-        return "";
-    }
-
     private byte[] getNextSalt() {
         final Random r = new SecureRandom();
         byte[] salt = new byte[64];
@@ -224,6 +192,64 @@ public class User {
      */
     public void setLastname(String lastname) {
         this.lastname = lastname;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        String pass = "";
+        return pass; 
+    }
+    public byte[] getPasswordByte() {        
+        return this.password; 
+    }    
+    public String getPasswordst() {
+        String pass = "";
+        if (this.password != null) {
+            pass = new String(this.password);
+        }
+        return pass; 
+    }
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        if (this.getSolt() == null) {
+            this.solt = getNextSalt();
+        }
+        this.password = get_SHA_512_SecurePassword(password, this.getSolt());
+    }
+
+    /**
+     * @return the passwordsecond
+     */
+    public String getPasswordsecondst() {
+        String pass = "";
+        if (this.passwordsecond != null) {
+            pass = new String(this.passwordsecond);
+        }
+        return pass;
+    }
+    public String getPasswordsecond() {
+        String pass = "";
+        return pass;
+    }
+    /**
+     * @param passwordsecond the passwordsecond to set
+     */
+    public void setPasswordsecond(String passwordsecond) {
+        if (this.getSolt() == null) {
+            this.solt = getNextSalt();
+        }
+        this.passwordsecond = get_SHA_512_SecurePassword(passwordsecond, this.getSolt());
+    }
+
+    /**
+     * @return the solt
+     */
+    public byte[] getSolt() {
+        return solt;
     }
 
 }
