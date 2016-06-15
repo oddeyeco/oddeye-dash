@@ -54,8 +54,7 @@ public class HbaseUserDao {
             Connection connection = ConnectionFactory.createConnection(config);
             this.htable = connection.getTable(TableName.valueOf(tableName));
         } catch (Exception e) {
-            e.printStackTrace();
-
+            e.printStackTrace();            
         }
         if (this.htable == null) {
             throw new RuntimeException("Hbase Table '" + tableName + "' Can not connect");

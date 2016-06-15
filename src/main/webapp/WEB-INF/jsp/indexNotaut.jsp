@@ -24,7 +24,7 @@
         <!-- Select2 -->
         <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">        
         <!-- jVectorMap -->
-        <link href="${cp}/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
+        <link href="${cp}/resources/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
         <!-- Custom Theme Style -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />        
     </head>

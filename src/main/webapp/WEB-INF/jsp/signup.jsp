@@ -5,6 +5,7 @@
 --%>
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div>
     <div class="login_wrapper">
         <div id="register" class="form-horizontal">
@@ -79,7 +80,8 @@
 
                 <div class="separator">
                     <p class="change_link">Already a member ?
-                        <a class="to_register"> Log in </a>
+                        <c:url value="/login/" var="loginUrl" />
+                        <a class="to_register" href="${loginUrl}"> Log in </a>
                     </p>
                 </div>
             </form:form>           

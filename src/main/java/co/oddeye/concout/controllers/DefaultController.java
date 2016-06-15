@@ -15,7 +15,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,13 +37,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class DefaultController {
-    
+
     @Autowired
     private UserValidator userValidator;
     @Autowired
     private HbaseUserDao Userdao;
     @Autowired
-    private mailSender Sender; 
+    private mailSender Sender;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
@@ -44,46 +51,80 @@ public class DefaultController {
         return "indexNotaut";
     }
 
+    @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
+    public String logoutDo(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        SecurityContextHolder.clearContext();
+        session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        for (Cookie cookie : request.getCookies()) {
+            cookie.setMaxAge(0);
+        }
+        return "redirect:/";
+    }
+
+    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    public String loginDo(ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return redirecttodashboard();
+        }
+        map.put("body", "login");
+        return "indexNotaut";
+    }
+
     @RequestMapping(value = "/{templatename}", method = RequestMethod.GET)
     public String bytemplate(@PathVariable(value = "templatename") String templatename, ModelMap map) {
 
-        map.put("body", templatename);
         if (templatename.equals("signup")) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (!(auth instanceof AnonymousAuthenticationToken)) {
+                return redirecttodashboard();
+            }
             User newUser = new User();
             map.put("newUser", newUser);
             setLocaleInfo(map);
+            map.put("body", templatename);
             return "indexNotaut";
+
         }
+        map.put("body", templatename);
         return "index";
+    }
+
+    private String redirecttodashboard() {
+        return "redirect:/dashboard2";
     }
 
     @RequestMapping(value = "/confirm/{uuid}", method = RequestMethod.GET)
     public String confirmuser(@PathVariable(value = "uuid") String uuid, ModelMap map) {
-//        String templatename = "dashboard2";
+
         User user = Userdao.getUserByUUID(UUID.fromString(uuid));
         user.setActive(Boolean.TRUE);
         Userdao.addUser(user);
         //TODO Send refresh messge to kafka
-        return "redirect:/dashboard2";
+        return redirecttodashboard();
 //        map.put("curentuser", user);
 //        map.put("body", templatename);
 //        return "index";
-    }    
-    
+    }
+
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result,ModelMap map) {        
+    public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map) {
         userValidator.validate(newUser, result);
-        
+
         if (result.hasErrors()) {
             setLocaleInfo(map);
             map.put("newUser", newUser);
             map.put("result", result);
             map.put("body", "signup");
-        } else {            
-            newUser.setActive(Boolean.FALSE);            
+        } else {
+            newUser.setActive(Boolean.FALSE);
             Userdao.addUser(newUser);
             newUser.SendConfirmMail(Sender);
-            
+
             map.put("body", "homepage");
         }
         return "indexNotaut";

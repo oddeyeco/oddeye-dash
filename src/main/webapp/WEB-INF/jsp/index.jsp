@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +24,7 @@
         <!-- bootstrap-progressbar -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" />            
         <!-- jVectorMap -->
-        <link href="${cp}/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
+        <link href="${cp}/resources/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 
         <!-- Custom Theme Style -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />        
@@ -199,7 +201,9 @@
                                             </a>
                                         </li>
                                         <li><a href="javascript:;">Help</a></li>
-                                        <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                        <c:url value="/logout/" var="logoutUrl" />
+                                        
+                                        <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                     </ul>
                                 </li>
 
