@@ -23,6 +23,9 @@ import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.client.Get;
+import org.apache.hadoop.hbase.filter.BinaryComparator;
+import org.apache.hadoop.hbase.filter.CompareFilter;
+import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +57,7 @@ public class HbaseUserDao {
             Connection connection = ConnectionFactory.createConnection(config);
             this.htable = connection.getTable(TableName.valueOf(tableName));
         } catch (Exception e) {
-            e.printStackTrace();            
+            e.printStackTrace();
         }
         if (this.htable == null) {
             throw new RuntimeException("Hbase Table '" + tableName + "' Can not connect");
@@ -115,6 +118,34 @@ public class HbaseUserDao {
 
     public List<User> getAllUsers() {
         return new ArrayList<User>(users.values());
+    }
+
+    public Boolean checkUserByEmail(String email) {
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(
+                Bytes.toBytes("personalinfo"),
+                Bytes.toBytes("email"),
+                CompareFilter.CompareOp.EQUAL,
+                new BinaryComparator(Bytes.toBytes(email)));
+        filter.setFilterIfMissing(false);
+
+//            Filter filter = new ValueFilter(CompareFilter.CompareOp.EQUAL,
+//            new BinaryComparator(Bytes.toBytes(true)));
+        Scan scan1 = new Scan();
+        scan1.setFilter(filter);
+        try {
+            ResultScanner scanner1 = this.htable.getScanner(scan1);
+            Boolean mailexist = false;
+            for (Result res : scanner1) {
+                mailexist = true;
+                break;
+            }
+            scanner1.close();
+            return mailexist;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
     public User getUserByEmail(String email) {

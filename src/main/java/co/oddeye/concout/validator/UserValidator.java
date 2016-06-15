@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.validator;
 
+import co.oddeye.concout.dao.HbaseUserDao;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -12,6 +13,7 @@ import org.springframework.validation.ValidationUtils;
 import co.oddeye.concout.model.User;
 import org.springframework.validation.Validator;
 import org.apache.commons.validator.routines.EmailValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -19,7 +21,9 @@ import org.apache.commons.validator.routines.EmailValidator;
  */
 @Component
 public class UserValidator implements Validator {
-
+    @Autowired
+    private HbaseUserDao Userdao;
+    
     public boolean supports(Class<?> clazz) {
         return User.class.isAssignableFrom(clazz);
     }
@@ -38,6 +42,10 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.empty", "Email address must not be empty.");
         if (!EmailValidator.getInstance().isValid(user.getEmail())) {
             errors.rejectValue("email", "email.notValid", "Email address is not valid.");
+        }
+        if (Userdao.checkUserByEmail(user.getEmail()))
+        {
+            errors.rejectValue("email", "email.Exist", "Email address is exist.");
         }
     }
 }
