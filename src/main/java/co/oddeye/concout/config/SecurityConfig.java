@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/signup/", "/").permitAll()
+                .antMatchers("/resources/**", "/signup/", "/","/confirm/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
