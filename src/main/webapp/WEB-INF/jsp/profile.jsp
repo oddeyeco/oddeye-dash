@@ -2,17 +2,6 @@
     <div class="title_left">
         <h3>User Profile</h3>
     </div>
-
-    <div class="title_right">
-        <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Go!</button>
-                </span>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="clearfix"></div>
@@ -22,21 +11,6 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>User Report <small>Activity report</small></h2>
-                <ul class="nav navbar-right panel_toolbox">
-                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Settings 1</a>
-                            </li>
-                            <li><a href="#">Settings 2</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a class="close-link"><i class="fa fa-close"></i></a>
-                    </li>
-                </ul>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -50,16 +24,16 @@
                     <h3>${curentuser.getName()} ${curentuser.getLastname()}</h3>
 
                     <ul class="list-unstyled user_data">
-                        <li><i class="fa fa-map-marker user-profile-icon"></i> ${curentuser.getName()}
+                        <li><i class="fa fa-map-marker user-profile-icon"></i> ${curentuser.getCountry()} ${curentuser.getRegion()} ${curentuser.getCity()} 
                         </li>
 
                         <li>
-                            <i class="fa fa-briefcase user-profile-icon"></i> Software Engineer
+                            <i class="fa fa-suitcase  user-profile-icon"></i>  ${curentuser.getCompany()}
                         </li>
 
                         <li class="m-top-xs">
-                            <i class="fa fa-external-link user-profile-icon"></i>
-                            <a href="http://www.kimlabs.com/profile/" target="_blank">Kara lini url</a>
+                            <i class="glyphicon glyphicon-time user-profile-icon"></i>
+                            ${curentuser.getTimezone()}
                         </li>
                     </ul>
 
@@ -67,30 +41,24 @@
                     <br />
 
                     <!-- start skills -->
-                    <h4>Skills</h4>
+                    <h4>Resources</h4>
                     <ul class="list-unstyled user_data">
                         <li>
-                            <p>Web Applications</p>
+                            <p>Hosts</p>
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
                             </div>
                         </li>
                         <li>
-                            <p>Website Design</p>
+                            <p>Requests</p>
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="70"></div>
                             </div>
                         </li>
                         <li>
-                            <p>Automation & Testing</p>
+                            <p>Clouds</p>
                             <div class="progress progress_sm">
                                 <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <p>UI / UX</p>
-                            <div class="progress progress_sm">
-                                <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
                             </div>
                         </li>
                     </ul>
@@ -110,7 +78,7 @@
 
                     <div class="" role="tabpanel" data-example-id="togglable-tabs">
                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Recent Activity</a>
+                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Recent Messages</a>
                             </li>
                             <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Projects Worked on</a>
                             </li>
@@ -120,10 +88,9 @@
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
 
-                                <!-- start recent activity -->
+                                <!-- start recent Messages -->
                                 <ul class="messages">
-                                    <li>
-                                        <img src="images/img.jpg" class="avatar" alt="Avatar">
+                                    <li>                                        
                                         <div class="message_date">
                                             <h3 class="date text-info">24</h3>
                                             <p class="month">May</p>

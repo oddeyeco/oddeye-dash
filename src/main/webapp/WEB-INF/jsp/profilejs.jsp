@@ -11,7 +11,7 @@
                 {"period": "30", "Hours worked": 176},
                 {"period": "40", "Hours worked": 224},
                 {"period": "50", "Hours worked": 265},
-                {"period": "60", "Hours worked": 314},
+                {"period": "60", "Hours worked": 800},
                 {"period": "70", "Hours worked": 347},
                 {"period": "80", "Hours worked": 287},
                 {"period": "90", "Hours worked": 240},
