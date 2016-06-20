@@ -162,6 +162,7 @@ public class HbaseUserDao {
 //            new BinaryComparator(Bytes.toBytes(true)));
         Scan scan1 = new Scan();
         scan1.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("UUID"));
+        scan1.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("email"));
         scan1.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("password"));
         scan1.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("solt"));
         scan1.setFilter(filter);
@@ -171,9 +172,9 @@ public class HbaseUserDao {
             Boolean mailexist = false;
             for (Result res : scanner1) {
                 mailexist = true;
+                result = res;
                 break;
             }
-
             if (mailexist) {
                 boolean isvalidpass = false;
                 byte[] pass = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("password"));

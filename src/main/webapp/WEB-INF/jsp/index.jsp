@@ -48,7 +48,7 @@
                             </div>
                             <div class="profile_info">
                                 <span>Welcome,</span>
-                                <h2>${curentuser.name} ${curentuser.lastname}</h2>
+                                <h2>${curentuser.getName()} ${curentuser.getLastname()}</h2>
                             </div>
                         </div>
                         <!-- /menu profile quick info -->
@@ -189,11 +189,11 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="${cp}/resources/images/img.jpg" alt="">${curentuser.email}
+                                        <img src="${cp}/resources/images/img.jpg" alt="">${curentuser.getEmail()}
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                        <li><a href="javascript:;"> Profile</a></li>
+                                        <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                         <li>
                                             <a href="javascript:;">
                                                 <span class="badge bg-red pull-right">50%</span>

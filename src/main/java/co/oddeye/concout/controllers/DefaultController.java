@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -90,12 +91,18 @@ public class DefaultController {
             return "indexNotaut";
 
         }
+
+        User userDetails = (User) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();       
+        map.put("curentuser", userDetails);
+//        System.out.println(userDetails.getAuthorities().toString());
+
         map.put("body", templatename);
         return "index";
     }
 
     private String redirecttodashboard() {
-        return "redirect:/dashboard2";
+        return "redirect:/dashboard";
     }
 
     @RequestMapping(value = "/confirm/{uuid}", method = RequestMethod.GET)
