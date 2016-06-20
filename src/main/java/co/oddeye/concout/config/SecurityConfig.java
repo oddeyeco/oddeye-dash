@@ -9,6 +9,7 @@ package co.oddeye.concout.config;
  *
  * @author vahan
  */
+import co.oddeye.concout.providers.HbaseAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.security.config.annotation.authentication.builders.*;
@@ -21,13 +22,21 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {        
+//        auth
+//                .inMemoryAuthentication()
+//                .withUser("user").password("password").roles("USER");
+//    }
 
+    @Autowired
+    private HbaseAuthenticationProvider authProvider;
+    
+    @Autowired
+    protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authProvider);
+    }    
+//http://www.baeldung.com/spring-security-authentication-provider
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

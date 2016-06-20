@@ -7,6 +7,7 @@ package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.User;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,9 @@ import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -49,10 +53,10 @@ public class HbaseUserDao {
         Configuration config = HBaseConfiguration.create();
         config.clear();
 
-//        config.set("hbase.zookeeper.quorum", String.valueOf(conf.get("zookeeper.quorum")));
-//        config.set("hbase.zookeeper.property.clientPort", String.valueOf(conf.get("zookeeper.clientPort")));
         config.set("hbase.zookeeper.quorum", "192.168.10.50");
         config.set("hbase.zookeeper.property.clientPort", "2181");
+        config.set("zookeeper.session.timeout", "180");
+        config.set("zookeeper.recovery.retry", Integer.toString(1));
         try {
             Connection connection = ConnectionFactory.createConnection(config);
             this.htable = connection.getTable(TableName.valueOf(tableName));
@@ -63,15 +67,6 @@ public class HbaseUserDao {
             throw new RuntimeException("Hbase Table '" + tableName + "' Can not connect");
         }
 
-//        Scan scan = new Scan();
-//        try {
-//            ResultScanner scanner = this.htable.getScanner(scan);
-//            for (Result result = scanner.next(); result != null; result = scanner.next()) {
-//                users.put(UUID.fromString(new String(result.getRow())), null);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     public void addUser(User user) {
@@ -152,12 +147,59 @@ public class HbaseUserDao {
         return null;
     }
 
+    public UUID CheckUserAuthentication(Authentication authentication) {
+        String email = authentication.getName();
+        String password = authentication.getCredentials().toString();
+
+        SingleColumnValueFilter filter = new SingleColumnValueFilter(
+                Bytes.toBytes("personalinfo"),
+                Bytes.toBytes("email"),
+                CompareFilter.CompareOp.EQUAL,
+                new BinaryComparator(Bytes.toBytes(email)));
+        filter.setFilterIfMissing(false);
+
+//            Filter filter = new ValueFilter(CompareFilter.CompareOp.EQUAL,
+//            new BinaryComparator(Bytes.toBytes(true)));
+        Scan scan1 = new Scan();
+        scan1.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("UUID"));
+        scan1.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("password"));
+        scan1.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("solt"));
+        scan1.setFilter(filter);
+        try {
+            ResultScanner scanner1 = this.htable.getScanner(scan1);
+            Result result = null;
+            Boolean mailexist = false;
+            for (Result res : scanner1) {
+                mailexist = true;
+                break;
+            }
+
+            if (mailexist) {
+                boolean isvalidpass = false;
+                byte[] pass = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("password"));
+                byte[] solt = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("solt"));                
+                byte[] tmppassword = User.get_SHA_512_SecurePassword(password, solt);
+                if (Arrays.equals(tmppassword, pass)) {
+                    byte[] value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("UUID"));
+                    return UUID.fromString(Bytes.toString(value));
+                }
+            }
+            scanner1.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public User getUserByUUID(UUID uuid) {
         Get g = new Get(Bytes.toBytes(uuid.toString()));
         try {
             Result result = this.htable.get(g);
             User user = new User();
-            user.inituser(result);
+            final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+            grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
+            user.inituser(result, grantedAuths);
             return user;
         } catch (Exception e) {
             e.printStackTrace();

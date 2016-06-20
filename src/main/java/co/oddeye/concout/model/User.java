@@ -10,16 +10,20 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
  * @author vahan
  */
-public class User {
+public class User implements UserDetails {
 
     private UUID id;
     private String lastname;
@@ -34,9 +38,41 @@ public class User {
     private String region;
     private String timezone;
     private Boolean active;
+    private final Set<GrantedAuthority> authorities;
 
     public User() {
         this.id = UUID.randomUUID();
+        this.authorities = null;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.active;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.active;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.active;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.active;
+
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    public Collection<GrantedAuthority> getAuthorities() {
+        return this.authorities;
     }
 
     public void SendConfirmMail(mailSender Sender) {
@@ -169,7 +205,7 @@ public class User {
         return salt;
     }
 
-    private byte[] get_SHA_512_SecurePassword(String passwordToHash, byte[] salt) {
+    static public byte[] get_SHA_512_SecurePassword(String passwordToHash, byte[] salt) {
         byte[] bytes = null;
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -200,6 +236,7 @@ public class User {
     /**
      * @return the password
      */
+    @Override
     public String getPassword() {
         String pass = "";
         return pass;
@@ -260,7 +297,7 @@ public class User {
         return solt;
     }
 
-    public void inituser(Result result) {
+    public void inituser(Result result,Collection<? extends GrantedAuthority> authorities) {
         byte[] value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("UUID"));
         this.id = UUID.fromString(Bytes.toString(value));
         value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("email"));
@@ -270,17 +307,17 @@ public class User {
         value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("lastname"));
         this.lastname = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("company"));
-        this.company = Bytes.toString(value);    
+        this.company = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("country"));
         this.country = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"));
         this.city = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("region"));
-        this.region = Bytes.toString(value);    
+        this.region = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("timezone"));
         this.timezone = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"));
-        this.active = Bytes.toBoolean(value);      
+        this.active = Bytes.toBoolean(value);
     }
 
 }
