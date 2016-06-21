@@ -3,9 +3,7 @@
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
 
 <!DOCTYPE html>
-<html lang="en">
-    вапавпав
-    ${pageContext.request.servletContext.contextPath}    
+<html lang="en"> 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Meta, title, CSS, favicons, etc. -->
