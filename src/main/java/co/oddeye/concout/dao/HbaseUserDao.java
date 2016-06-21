@@ -55,7 +55,7 @@ public class HbaseUserDao {
 
         config.set("hbase.zookeeper.quorum", "192.168.10.50");
         config.set("hbase.zookeeper.property.clientPort", "2181");
-        config.set("zookeeper.session.timeout", "180");
+        config.set("zookeeper.session.timeout", "18000");
         config.set("zookeeper.recovery.retry", Integer.toString(1));
         try {
             Connection connection = ConnectionFactory.createConnection(config);
