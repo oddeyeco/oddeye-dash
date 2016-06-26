@@ -93,7 +93,7 @@ public class DefaultController {
         }
 
         User userDetails = (User) SecurityContextHolder.getContext().
-                getAuthentication().getPrincipal();       
+                getAuthentication().getPrincipal();
         map.put("curentuser", userDetails);
 //        System.out.println(userDetails.getAuthorities().toString());
 
@@ -107,8 +107,18 @@ public class DefaultController {
 
     @RequestMapping(value = "/confirm/{uuid}", method = RequestMethod.GET)
     public String confirmuser(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+        User user = null;
+        if (SecurityContextHolder.getContext().getAuthentication() != null
+                && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+                && //when Anonymous Authentication is enabled
+                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            user = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
 
-        User user = Userdao.getUserByUUID(UUID.fromString(uuid));
+        } else {
+            user = Userdao.getUserByUUID(UUID.fromString(uuid));
+        }
+
         user.setActive(Boolean.TRUE);
         Userdao.addUser(user);
         //TODO Send refresh messge to kafka
@@ -138,7 +148,7 @@ public class DefaultController {
         //else
 
     }
-
+    
     private void setLocaleInfo(ModelMap map) {
 
         Map<String, String> country = new LinkedHashMap<String, String>();

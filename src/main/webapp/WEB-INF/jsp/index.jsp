@@ -195,9 +195,8 @@
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                                         <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                         <li>
-                                            <a href="javascript:;">
-                                                <span class="badge bg-red pull-right">50%</span>
-                                                <span>Settings</span>
+                                            <a href="${cp}/actions/newdashboard">                                                
+                                                <span>New Dashboard</span>
                                             </a>
                                         </li>
                                         <li><a href="javascript:;">Help</a></li>
@@ -278,8 +277,14 @@
                 <!-- /top navigation -->
 
                 <!-- page content -->
-                <div class="right_col" role="main">
-                    <jsp:include page="${body}.jsp" />
+                <div class="right_col" role="main">                    
+                    <c:if test="${!curentuser.getActive()}">
+                        <div class="clearfix"></div>
+                        <div class="alert alert-danger alert-dismissible fade in " role="alert">
+                            You are not activate.
+                        </div>
+                    </c:if>                     
+                    <%--<jsp:include page="${body}.jsp" />--%>
                 </div>
 
                 <!-- /page content -->
@@ -333,6 +338,7 @@
         <!-- Custom Theme Scripts -->
         <script src="${cp}/resources/build/js/custom.min.js"></script>
 
-        <jsp:include page="${body}js.jsp" />
+        
+        <%--<jsp:include page="${body}js.jsp" />--%>
     </body>
 </html>

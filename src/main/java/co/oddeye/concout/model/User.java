@@ -82,7 +82,7 @@ public class User implements UserDetails {
     /**
      * @return the id
      */
-    public UUID getId() {
+    public UUID getId() {        
         return id;
     }
 
