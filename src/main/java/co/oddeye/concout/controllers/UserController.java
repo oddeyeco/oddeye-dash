@@ -26,6 +26,7 @@ public class UserController {
                 getAuthentication().getPrincipal();
         map.put("curentuser", userDetails);
         map.put("body", "newdush");
+        map.put("jspart", "newdushjs");
         return "index";
     }    
     

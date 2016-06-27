@@ -195,7 +195,7 @@
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                                         <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                         <li>
-                                            <a href="${cp}/actions/newdashboard">                                                
+                                            <a href="${cp}/dashboard/new">                                                
                                                 <span>New Dashboard</span>
                                             </a>
                                         </li>

@@ -47,6 +47,7 @@ public class DefaultController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
         map.put("body", "homepage");
+        map.put("jspart", "homepagejs");
         return "indexNotaut";
     }
 
@@ -71,6 +72,7 @@ public class DefaultController {
             return redirecttodashboard();
         }
         map.put("body", "login");
+        map.put("jspart", "loginjs");
         return "indexNotaut";
     }
 
@@ -139,12 +141,14 @@ public class DefaultController {
             map.put("newUser", newUser);
             map.put("result", result);
             map.put("body", "signup");
+            map.put("jspart", "signupjs");
         } else {
             newUser.setActive(Boolean.FALSE);
             Userdao.addUser(newUser);
             newUser.SendConfirmMail(Sender);
 
             map.put("body", "homepage");
+            map.put("jspart", "homepagejs");
         }
         return "indexNotaut";
         //else
