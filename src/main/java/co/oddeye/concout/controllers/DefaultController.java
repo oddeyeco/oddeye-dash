@@ -9,7 +9,6 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -79,26 +77,30 @@ public class DefaultController {
     @RequestMapping(value = "/{templatename}", method = RequestMethod.GET)
     public String bytemplate(@PathVariable(value = "templatename") String templatename, ModelMap map) {
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String layaut = "index";
         if (templatename.equals("signup")) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (!(auth instanceof AnonymousAuthenticationToken)) {
                 return redirecttodashboard();
             }
             User newUser = new User();
             map.put("newUser", newUser);
             setLocaleInfo(map);
-            map.put("body", templatename);
-            return "indexNotaut";
-
         }
 
-        User userDetails = (User) SecurityContextHolder.getContext().
-                getAuthentication().getPrincipal();
-        map.put("curentuser", userDetails);
-//        System.out.println(userDetails.getAuthorities().toString());
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+
+        } else {
+            layaut = "indexNotaut";
+        }
 
         map.put("body", templatename);
-        return "index";
+        map.put("jspart", templatename+"js");
+
+        return layaut;
     }
 
     private String redirecttodashboard() {
@@ -148,7 +150,7 @@ public class DefaultController {
         //else
 
     }
-    
+
     private void setLocaleInfo(ModelMap map) {
 
         Map<String, String> country = new LinkedHashMap<String, String>();

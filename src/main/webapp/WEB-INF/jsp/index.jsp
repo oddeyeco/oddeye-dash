@@ -284,7 +284,7 @@
                             You are not activate.
                         </div>
                     </c:if>                     
-                    <%--<jsp:include page="${body}.jsp" />--%>
+                    <jsp:include page="${body}.jsp" />
                 </div>
 
                 <!-- /page content -->
@@ -338,7 +338,10 @@
         <!-- Custom Theme Scripts -->
         <script src="${cp}/resources/build/js/custom.min.js"></script>
 
-        
-        <%--<jsp:include page="${body}js.jsp" />--%>
+        dsadada
+              
+        <jsp:include page="${jspart}.jsp" />
+
     </body>
+    
 </html>

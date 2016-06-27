@@ -70,6 +70,6 @@
         <!-- Custom Theme Scripts -->
         <script src="${cp}/resources/build/js/custom.min.js"></script>
 
-        <jsp:include page="${body}js.jsp" />
+        <jsp:include page="${jspart}.jsp" />
     </body>
 </html>
