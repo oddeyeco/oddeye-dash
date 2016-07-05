@@ -41,32 +41,12 @@ import org.springframework.stereotype.Repository;
  * @author vahan
  */
 @Repository
-public class HbaseUserDao {
+public class HbaseUserDao extends HbaseBaseDao {
 
-    private Map<UUID, User> users = new HashMap<UUID, User>();
-    private Table htable = null;
+    private Map<UUID, User> users = new HashMap<UUID, User>();        
 
     public HbaseUserDao() {
-
-        String tableName = "oddeyeusers";
-
-        Configuration config = HBaseConfiguration.create();
-        config.clear();
-
-        config.set("hbase.zookeeper.quorum", "192.168.10.50");
-        config.set("hbase.zookeeper.property.clientPort", "2181");
-        config.set("zookeeper.session.timeout", "18000");
-        config.set("zookeeper.recovery.retry", Integer.toString(1));
-        try {
-            Connection connection = ConnectionFactory.createConnection(config);
-            this.htable = connection.getTable(TableName.valueOf(tableName));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (this.htable == null) {
-            throw new RuntimeException("Hbase Table '" + tableName + "' Can not connect");
-        }
-
+        super("oddeyeusers");                
     }
 
     public void addUser(User user) {

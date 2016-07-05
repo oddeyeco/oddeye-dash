@@ -5,6 +5,8 @@
  */
 package co.oddeye.concout.model;
 
+import co.oddeye.concout.dao.HbaseMetaDao;
+import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -13,9 +15,11 @@ import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Random;
 import java.util.Set;
+import java.util.Map;
 import java.util.UUID;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -24,7 +28,13 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author vahan
  */
 public class User implements UserDetails {
-
+    
+    @Autowired
+    private HbaseUserDao Userdao; //TODO petqastugek    
+    @Autowired
+    private HbaseMetaDao Metadao; //TODO petqastugek
+    
+    
     private UUID id;
     private String lastname;
     private String name;
@@ -39,10 +49,14 @@ public class User implements UserDetails {
     private String timezone;
     private Boolean active;
     private final Set<GrantedAuthority> authorities;
+    private Map<String, Map<String, MetaTags>> Tags;
+    private final Set<String> Allkeys;
 
     public User() {
         this.id = UUID.randomUUID();
         this.authorities = null;
+        this.Tags = null;
+        this.Allkeys = null;
     }
 
     @Override
@@ -318,6 +332,9 @@ public class User implements UserDetails {
         this.timezone = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"));
         this.active = Bytes.toBoolean(value);
+        
+        this.Tags = Metadao.getByUUID(id);
+                
     }
 
 }
