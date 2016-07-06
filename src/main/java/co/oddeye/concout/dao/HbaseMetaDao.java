@@ -17,10 +17,11 @@ import org.springframework.stereotype.Repository;
  * @author vahan
  */
 @Repository
-public class HbaseMetaDao extends HbaseBaseDao {
+public class HbaseMetaDao extends HbaseBaseDao {    
+    private static String tablename = "oddeyemeta";
     
     public HbaseMetaDao() {
-        super("oddeyemeta");                
+        super(tablename);                
     }  
     
     public Map<String, Map<String, MetaTags>> getByUUID(UUID iserid) {

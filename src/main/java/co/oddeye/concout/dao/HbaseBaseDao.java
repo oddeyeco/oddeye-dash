@@ -20,8 +20,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 abstract public class HbaseBaseDao {
     protected Table htable = null;
-    
-    
     public HbaseBaseDao(String tableName) {
         if ((tableName == "")||(tableName == null))
         {
