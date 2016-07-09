@@ -27,14 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author vahan
  */
-public class User implements UserDetails {
-    
-    @Autowired
-    private HbaseUserDao Userdao; //TODO petqastugek    
-    @Autowired
-    private HbaseMetaDao Metadao; //TODO petqastugek
-    
-    
+public class User implements UserDetails {    
     private UUID id;
     private String lastname;
     private String name;
@@ -331,10 +324,22 @@ public class User implements UserDetails {
         value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("timezone"));
         this.timezone = Bytes.toString(value);
         value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"));
-        this.active = Bytes.toBoolean(value);
-        
-        this.Tags = Metadao.getByUUID(id);
+        this.active = Bytes.toBoolean(value);                
                 
+    }
+
+    /**
+     * @return the Tags
+     */
+    public Map<String, Map<String, MetaTags>> getTags() {
+        return Tags;
+    }
+
+    /**
+     * @param Tags the Tags to set
+     */
+    public void setTags(Map<String, Map<String, MetaTags>> Tags) {
+        this.Tags = Tags;
     }
 
 }

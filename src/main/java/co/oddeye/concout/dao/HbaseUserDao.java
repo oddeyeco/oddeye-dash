@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.model.MetaTags;
 import co.oddeye.concout.model.User;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,10 +46,13 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     private Map<UUID, User> users = new HashMap<UUID, User>();        
 
+    @Autowired
+    HbaseMetaDao MetaDao;
+    
     public HbaseUserDao() {
         super("oddeyeusers");                
     }
-
+    
     public void addUser(User user) {
         UUID uuid = user.getId();
 
@@ -181,6 +185,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             user.inituser(result, grantedAuths);
+            user.setTags(MetaDao.getByUUID(user.getId()));                            
             return user;
         } catch (Exception e) {
             e.printStackTrace();
