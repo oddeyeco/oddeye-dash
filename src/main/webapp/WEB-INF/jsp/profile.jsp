@@ -1,5 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <div class="page-title">
     <div class="title_left">
         <h3>User Profile </h3>
@@ -20,7 +20,7 @@
                     <div class="profile_img">
                         <div id="crop-avatar">
                             <!-- Current avatar -->
-                            <img class="img-responsive avatar-view" src="images/picture.jpg" alt="Avatar" title="Change the avatar">
+                            <!--<img class="img-responsive avatar-view" src="images/picture.jpg" alt="Avatar" title="Change the avatar">-->
                         </div>
                     </div>
                     <h3>${curentuser.getName()} ${curentuser.getLastname()}</h3>
@@ -77,7 +77,7 @@
                                                 ${tagitem.key}
                                             </td>                                    
                                             <td>
-                                                ${tagitem.value.getDatakeys().size()}
+                                              <a href="<c:url value="/${tagsgroup.key}/${tagitem.key}"/>">  ${tagitem.value.getDatakeys().size()} </a>
                                             </td>                                                                        
                                         </tr>                                
                                     </c:forEach>                            
