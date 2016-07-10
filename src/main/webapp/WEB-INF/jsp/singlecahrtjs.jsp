@@ -12,7 +12,6 @@
             console.log(start.toISOString(), end.toISOString(), label);
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
         };
-
         var optionSet1 = {
             startDate: moment(),
             endDate: moment(),
@@ -71,113 +70,69 @@
             $('#reportrange').data('daterangepicker').remove();
         });
     });
-
     function drawchart(tagkey, tagname, metric, fromdate, count)
     {
         //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
         var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
-
-        //generate random number for charts
-        randNum = function () {
-            return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
-        };
-
-        var d1 = [];
-        //var d2 = [];
-
+//        var d1 = [];
+        var d2 = [];
         //here we generate data for chart
         var url = "${cp}/getdata/" + tagkey + "/" + tagname + "/" + metric + "/" + Math.floor(fromdate / 1000) + "/" + count;
-//        alert(url);
         $.getJSON(url, null, function (data) {
 
             for (var k in data) {
-                console.log(k, data[k]);
-                d1.push([k*1000, data[k]]);
-            }            
-            var chartMaxDate = d1[d1.length-1][0]; //first day
-            var chartMinDate = d1[0][0]; //last day
+//                d1.push([k * 1000, data[k]]);
+                item = {x: k * 1000, y: data[k]};
+                d2.push(item);
+            }
+//            console.log(d1);
+//            console.log(d2);
 
-            var tickSize = [1, "second"];
-            var tformat = "%d/%m/%y %H:%M:%S";
 
-            //graph options
-            var options = {
-                grid: {
-                    show: true,
-                    aboveData: true,
-                    color: "#3f3f3f",
-                    labelMargin: 10,
-                    axisMargin: 0,
-                    borderWidth: 0,
-                    borderColor: null,
-                    minBorderMargin: 5,
-                    clickable: true,
-                    hoverable: true,
-                    autoHighlight: true,
-                    mouseActiveRadius: 100
-                },
-                series: {
-                    lines: {
-                        show: true,
-                        fill: true,
-                        lineWidth: 2,
-                        steps: false
-                    },
+//            var chartMaxDate = d1[d1.length - 1][0]; //first day
+//            var chartMinDate = d1[0][0]; //last day
+//
+//            var tickSize = [1, "second"];
+//            var tformat = "%d/%m/%y %H:%M:%S";
 
+            // Line chart
+            var ctx = document.getElementById("lineChart");
+            var lineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                            label: metric,
+                            backgroundColor: "rgba(38, 185, 154, 0.31)",
+                            borderColor: "rgba(38, 185, 154, 0.7)",
+                            pointBorderColor: "rgba(38, 185, 154, 0.7)",
+                            pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
+                            pointHoverBackgroundColor: "#fff",
+                            pointHoverBorderColor: "rgba(220,220,220,1)",
+                            pointBorderWidth: 1,
+                            data: d2
+                        }]
                 },
-                legend: {
-                    position: "ne",
-                    margin: [0, -25],
-                    noColumns: 0,
-                    labelBoxBorderColor: null,
-                    labelFormatter: function (label, series) {
-                        // just add some space to labes
-                        return label + '&nbsp;&nbsp;';
+                options: {
+                    tooltips: {
+                        enabled: true,
                     },
-                    width: 40,
-                    height: 1
-                },
-                colors: chartColours,
-                shadowSize: 0,
-                tooltip: true, //activate tooltip
-                tooltipOpts: {
-                    content: "%s: %y.0",
-                    xDateFormat: "%d/%m",
-                    shifts: {
-                        x: -30,
-                        y: -50
-                    },
-                    defaultTheme: false
-                },
-                yaxis: {
-                    min: 0
-                },
-                xaxis: {
-                    mode: "time",
-                    minTickSize: tickSize,
-                    timeformat: tformat,
-                    min: chartMinDate,
-                    max: chartMaxDate
-                }
-            };
-            var plot = $.plot($("#placeholder33x"), [{
-                    label: metric,
-                    data: d1,
-                    lines: {
-                        fillColor: "rgba(150, 202, 89, 0.12)"
-                    }, //#96CA59 rgba(150, 202, 89, 0.42)
-                    points: {
-                        fillColor: "#fff"
+                    scales: {
+                        xAxes: [{
+                                type: 'time',
+                                position: 'bottom',
+                                time: {
+                                    displayFormats: {
+                                        second: "HH:mm:ss",
+                                        minute: "HH:mm:ss"
+
+                                    },
+                                    tooltipFormat: 'DD/MM/YYYY HH:mm:ss',
+                                },
+                            }]
                     }
-                }], options);
+                }
+            });
 
         });
-
-
-//        for (var i = 0; i < 30; i++) {
-//            d1.push([new Date(moment().subtract(i, 'minute')).getTime(), randNum() + i + i + 10]);
-//            //    d2.push([new Date(Date.today().add(i).days()).getTime(), randNum()]);
-//        }
-
     }
 </script>

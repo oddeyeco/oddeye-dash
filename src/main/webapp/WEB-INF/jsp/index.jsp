@@ -310,6 +310,7 @@
         <!-- NProgress -->
         <script src="${cp}/resources/nprogress/nprogress.js"></script>
         <!-- Chart.js -->
+        <script src="${cp}/resources/js/moment/moment.min.js"></script>
         <script src="${cp}/resources/Chart.js/dist/Chart.min.js"></script>
         <!-- gauge.js -->
         <script src="${cp}/resources/gauge.js/dist/gauge.min.js"></script>
@@ -332,8 +333,7 @@
         <script src="${cp}/resources/js/flot/curvedLines.js"></script>
         <!-- jVectorMap -->
         <script src="${cp}/resources/js/maps/jquery-jvectormap-2.0.3.min.js"></script>
-        <!-- bootstrap-daterangepicker -->
-        <script src="${cp}/resources/js/moment/moment.min.js"></script>
+        <!-- bootstrap-daterangepicker -->       
         <script src="${cp}/resources/js/datepicker/daterangepicker.js"></script>
 
         <!-- Custom Theme Scripts -->
