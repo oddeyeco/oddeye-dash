@@ -74,7 +74,7 @@
     {
         //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
         var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
-//        var d1 = [];
+        var d1 = [];
         var d2 = [];
         //here we generate data for chart
         var url = "${cp}/getdata/" + tagkey + "/" + tagname + "/" + metric + "/" + Math.floor(fromdate / 1000) + "/" + count;
@@ -84,6 +84,7 @@
 //                d1.push([k * 1000, data[k]]);
                 item = {x: k * 1000, y: data[k]};
                 d2.push(item);
+
             }
 //            console.log(d1);
 //            console.log(d2);
@@ -110,7 +111,8 @@
                             pointHoverBorderColor: "rgba(220,220,220,1)",
                             pointBorderWidth: 1,
                             data: d2
-                        }]
+                        }
+                    ]
                 },
                 options: {
                     tooltips: {
