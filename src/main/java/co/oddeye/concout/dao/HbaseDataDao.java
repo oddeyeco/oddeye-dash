@@ -57,7 +57,7 @@ public class HbaseDataDao extends HbaseBaseDao {
         dataFilter.setFilterIfMissing(true);
         filters.add(dataFilter);
 
-        SingleColumnValueFilter userFilter = new SingleColumnValueFilter(Bytes.toBytes("tags"), Bytes.toBytes("UUID"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes("d4c4b7bd-10df-4195-8ed3-b3d8e8b57cfe"));
+        SingleColumnValueFilter userFilter = new SingleColumnValueFilter(Bytes.toBytes("tags"), Bytes.toBytes("UUID"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes(user.getId().toString()));
         userFilter.setFilterIfMissing(true);
         filters.add(userFilter);
 

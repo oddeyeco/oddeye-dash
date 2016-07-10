@@ -6,6 +6,7 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseDataDao;
+import co.oddeye.concout.model.User;
 import com.google.gson.JsonObject;
 import java.math.BigDecimal;
 import org.apache.hadoop.hbase.client.ResultScanner;
@@ -21,6 +22,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.hadoop.hbase.util.Bytes;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  *
@@ -39,8 +43,14 @@ public class AjaxControlers {
             @PathVariable(value = "fromdate") int fromdate,
             @PathVariable(value = "count") int count,
             ModelMap map) {
-//        tagkey = "valdasdsaod";
-        ResultScanner resultScanner = DataDao.getSingleDataByTags(null, tagkey, tagname, metric);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            user = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();            
+
+        } 
+        ResultScanner resultScanner = DataDao.getSingleDataByTags(user, tagkey, tagname, metric);
         try {
             Result[] result = resultScanner.next(count);
             map.put("result", result);

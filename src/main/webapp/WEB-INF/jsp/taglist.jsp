@@ -26,7 +26,7 @@
                     <tbody>
                         <c:forEach items="${list.getDatakeys()}" var="Datakey">
                             <tr>
-                                <td> <a href="<c:url value="/getdata/${tagkey}/${tagname}/${Datakey}/1468072117/1000"/>">  ${Datakey} </a></td>
+                                <td> <a href="<c:url value="/chart/${tagkey}/${tagname}/${Datakey}"/>">  ${Datakey} </a></td>
                                 
                             </tr>
                         </c:forEach> 

@@ -7,7 +7,7 @@
 <!-- bootstrap-daterangepicker -->
 <script type="text/javascript">
     $(document).ready(function () {
-
+        drawchart("${tagkey}", "${tagname}", "${metric}", moment(), 1000);
         var cb = function (start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -61,28 +61,43 @@
         });
         $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
             console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+//            drawchart();
 
-            //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
-            var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
+        });
+        $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
+            console.log("cancel event fired");
+        });
+        $('#destroy').click(function () {
+            $('#reportrange').data('daterangepicker').remove();
+        });
+    });
 
-            //generate random number for charts
-            randNum = function () {
-                return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
-            };
+    function drawchart(tagkey, tagname, metric, fromdate, count)
+    {
+        //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
+        var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
 
-            var d1 = [];
-            //var d2 = [];
+        //generate random number for charts
+        randNum = function () {
+            return (Math.floor(Math.random() * (1 + 40 - 20))) + 20;
+        };
 
-            //here we generate data for chart
-            for (var i = 0; i < 30; i++) {
-                d1.push([new Date(moment().subtract(i, 'minute')).getTime(), randNum() + i + i + 10]);
-                //    d2.push([new Date(Date.today().add(i).days()).getTime(), randNum()]);
-            }
+        var d1 = [];
+        //var d2 = [];
 
-            var chartMaxDate = d1[0][0]; //first day
-            var chartMinDate = d1[20][0]; //last day
+        //here we generate data for chart
+        var url = "${cp}/getdata/" + tagkey + "/" + tagname + "/" + metric + "/" + Math.floor(fromdate / 1000) + "/" + count;
+//        alert(url);
+        $.getJSON(url, null, function (data) {
 
-            var tickSize = [1, "minute"];
+            for (var k in data) {
+                console.log(k, data[k]);
+                d1.push([k*1000, data[k]]);
+            }            
+            var chartMaxDate = d1[d1.length-1][0]; //first day
+            var chartMinDate = d1[0][0]; //last day
+
+            var tickSize = [1, "second"];
             var tformat = "%d/%m/%y %H:%M:%S";
 
             //graph options
@@ -108,12 +123,7 @@
                         lineWidth: 2,
                         steps: false
                     },
-                    points: {
-                        show: true,
-                        radius: 4.5,
-                        symbol: "circle",
-                        lineWidth: 3.0
-                    }
+
                 },
                 legend: {
                     position: "ne",
@@ -151,7 +161,7 @@
                 }
             };
             var plot = $.plot($("#placeholder33x"), [{
-                    label: "${metric}",
+                    label: metric,
                     data: d1,
                     lines: {
                         fillColor: "rgba(150, 202, 89, 0.12)"
@@ -162,14 +172,12 @@
                 }], options);
 
         });
-        $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
-            console.log("cancel event fired");
-        });
-        $('#options1').click(function () {
-            $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
-        });
-        $('#destroy').click(function () {
-            $('#reportrange').data('daterangepicker').remove();
-        });
-    });
+
+
+//        for (var i = 0; i < 30; i++) {
+//            d1.push([new Date(moment().subtract(i, 'minute')).getTime(), randNum() + i + i + 10]);
+//            //    d2.push([new Date(Date.today().add(i).days()).getTime(), randNum()]);
+//        }
+
+    }
 </script>
