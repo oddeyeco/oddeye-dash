@@ -3,7 +3,7 @@
 ```
 git clone https://connect.netangels.net/pastor/oddeye-dash.git
 cd oddete-dash
-mvn install
+mvn clean package
 ```
 **Deploy**
 
