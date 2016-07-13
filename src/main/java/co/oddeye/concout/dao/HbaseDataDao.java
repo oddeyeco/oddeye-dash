@@ -26,7 +26,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 @Repository
 public class HbaseDataDao extends HbaseBaseDao {
 
-    private static String tablename = "oddeyedata";
+    private final static String tablename = "oddeyedata";
 
     public HbaseDataDao() {
         super(tablename);
@@ -36,7 +36,7 @@ public class HbaseDataDao extends HbaseBaseDao {
     public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey) {
 
         Scan scan = new Scan();
-        List<Filter> filters = new ArrayList<Filter>(2);
+        List<Filter> filters = new ArrayList();
 
         byte[] colfam = Bytes.toBytes("tags");
         byte[] Value = Bytes.toBytes(tagvalue);
@@ -53,16 +53,16 @@ public class HbaseDataDao extends HbaseBaseDao {
         filter1.setFilterIfMissing(true);
         filters.add(filter1);
 
-        SingleColumnValueFilter dataFilter = new SingleColumnValueFilter(Bytes.toBytes("tags"), Bytes.toBytes(tagkey), CompareFilter.CompareOp.EQUAL, Bytes.toBytes(tagvalue));
+        SingleColumnValueFilter dataFilter = new SingleColumnValueFilter(colfam, Bytes.toBytes(tagkey), CompareFilter.CompareOp.EQUAL, Value);
         dataFilter.setFilterIfMissing(true);
         filters.add(dataFilter);
 
-        SingleColumnValueFilter userFilter = new SingleColumnValueFilter(Bytes.toBytes("tags"), Bytes.toBytes("UUID"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes(user.getId().toString()));
+        SingleColumnValueFilter userFilter = new SingleColumnValueFilter(colfam, Bytes.toBytes("UUID"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes(user.getId().toString()));
         userFilter.setFilterIfMissing(true);
         filters.add(userFilter);
 
         FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ALL, filters);
-//        Filter dataFilter = new SingleColumnValueFilter(Bytes.toBytes("tags"), Bytes.toBytes(tagkey), CompareFilter.CompareOp.EQUAL, Bytes.toBytes("ab"));
+//        Filter dataFilter = new SingleColumnValueFilter(Bytes.toBytes("tags"), Bytes.toBytes(tagkey), CompareFilter.CompareOp.EQUAL, Bytes.toBytes("ab"));        
         scan.setFilter(filterList);
         scan.addColumn(Bytes.toBytes("tags"), colA);
         scan.addColumn(Bytes.toBytes("tags"), colB);

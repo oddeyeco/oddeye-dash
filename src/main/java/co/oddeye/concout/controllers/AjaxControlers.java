@@ -8,7 +8,6 @@ package co.oddeye.concout.controllers;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.model.User;
 import com.google.gson.JsonObject;
-import java.math.BigDecimal;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
