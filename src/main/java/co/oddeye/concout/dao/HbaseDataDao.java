@@ -33,7 +33,15 @@ public class HbaseDataDao extends HbaseBaseDao {
 
     }
 
-    public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey) {
+    public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey ) {
+        java.util.Date date= new java.util.Date();
+        
+        long fromdate = date.getTime();
+        int count = 1000; 
+        return getSingleDataByTags(user, tagkey, tagvalue, datakey, fromdate, count ) ;
+    }
+    
+    public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey,long fromdate,int count ) {
 
         Scan scan = new Scan();
         List<Filter> filters = new ArrayList();
@@ -57,6 +65,17 @@ public class HbaseDataDao extends HbaseBaseDao {
         dataFilter.setFilterIfMissing(true);
         filters.add(dataFilter);
 
+        
+        SingleColumnValueFilter dataFilterUpTime = new SingleColumnValueFilter(colfam, Bytes.toBytes("timestamp"), CompareFilter.CompareOp.LESS_OR_EQUAL, Bytes.toBytes(fromdate));
+        dataFilter.setFilterIfMissing(true);
+        filters.add(dataFilterUpTime);
+        
+        SingleColumnValueFilter dataFilterLowTime = new SingleColumnValueFilter(colfam, Bytes.toBytes("timestamp"), CompareFilter.CompareOp.GREATER_OR_EQUAL, Bytes.toBytes(fromdate-count));
+        dataFilter.setFilterIfMissing(true);
+        filters.add(dataFilterLowTime);
+
+        
+        
         SingleColumnValueFilter userFilter = new SingleColumnValueFilter(colfam, Bytes.toBytes("UUID"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes(user.getId().toString()));
         userFilter.setFilterIfMissing(true);
         filters.add(userFilter);

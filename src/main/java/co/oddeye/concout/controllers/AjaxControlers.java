@@ -38,7 +38,7 @@ public class AjaxControlers {
     @RequestMapping(value = "/getdata/{tagkey:.+}/{tagname:.+}/{metric:.+}/{fromdate}/{count}", method = RequestMethod.GET)
     public String singlecahrt(@PathVariable(value = "tagkey") String tagkey, @PathVariable(value = "tagname") String tagname,
             @PathVariable(value = "metric") String metric,
-            @PathVariable(value = "fromdate") int fromdate,
+            @PathVariable(value = "fromdate") long fromdate,
             @PathVariable(value = "count") int count,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -48,7 +48,7 @@ public class AjaxControlers {
                     getAuthentication().getPrincipal();            
 
         } 
-        ResultScanner resultScanner = DataDao.getSingleDataByTags(user, tagkey, tagname, metric);
+        ResultScanner resultScanner = DataDao.getSingleDataByTags(user, tagkey, tagname, metric,fromdate,count);
         try {
             Result[] result = resultScanner.next(count);
             map.put("result", result);
