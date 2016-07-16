@@ -7,7 +7,7 @@
 <!-- bootstrap-daterangepicker -->
 <script type="text/javascript">
     $(document).ready(function () {
-        drawchart("${tagkey}", "${tagname}", "${metric}", moment(), 1000);
+        drawchart("${tagkey}", "${tagname}", "${metric}", moment(), 100);
         var cb = function (start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -70,28 +70,68 @@
             $('#reportrange').data('daterangepicker').remove();
         });
     });
+
+    var colorset = [{
+            backgroundColor: "rgba(255, 0, 0, 0.31)",
+            borderColor: "rgba(255, 0, 0, 0.7)",
+            pointBorderColor: "rgba(255, 0, 0, 0.7)",
+            pointBackgroundColor: "rgba(255, 0, 0, 0.7)",
+        },
+        {
+            backgroundColor: "rgba(0, 255, 0, 0.31)",
+            borderColor: "rgba(0, 255, 0, 0.7)",
+            pointBorderColor: "rgba(0, 255, 0, 0.7)",
+            pointBackgroundColor: "rgba(255, 0, 0, 0.7)",
+        },
+        {
+            backgroundColor: "rgba(0, 0, 255, 0.31)",
+            borderColor: "rgba(0, 0, 255, 0.7)",
+            pointBorderColor: "rgba(0, 0, 255, 0.7)",
+            pointBackgroundColor: "rgba(0, 0, 255, 0.7)",
+        }];
+
     function drawchart(tagkey, tagname, metric, fromdate, count)
     {
-        //define chart clolors ( you maybe add more colors if you want or flot will add it automatic )
-        var chartColours = ['#96CA59', '#3F97EB', '#72c380', '#6f7a8a', '#f7cb38', '#5a8022', '#2c7282'];
-        var d1 = [];
         var d2 = [];
+        var datasets = [];
         //here we generate data for chart
         var url = "${cp}/getdata/" + tagkey + "/" + tagname + "/" + metric + "/" + Math.floor(fromdate / 1000) + "/" + count;
         $.getJSON(url, null, function (data) {
 
-            for (var k in data) {
-//                d1.push([k * 1000, data[k]]);
-                item = {x: k * 1000, y: data[k]};
-                d2.push(item);
-
-            }
+//            for (var k in data) {
+//                item = {x: k * 1000, y: data[k]};
+//                d2.push(item);
+//
+//            }
 //            console.log(d1);
 //            console.log(d2);
+            var pos = 0;
+            for (var k in data.chartdata) {
+                
+                var d = [];
+                for (var time in data.chartdata[k]) {
+                    itemdata = {x: time * 1000, y: data.chartdata[k][time]};
+                    d.push(itemdata);
+                }
+                item = {
+                    label: k,
+                    backgroundColor: colorset[pos].backgroundColor,
+                    borderColor: colorset[pos].borderColor,
+                    pointBorderColor: colorset[pos].pointBorderColor,
+                    pointBackgroundColor: colorset[pos].pointBackgroundColor,
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointBorderWidth: 1,
+                    data: d
+                };
+                datasets.push(item);
+                pos++;
+            }
 
 
-//            var chartMaxDate = d1[d1.length - 1][0]; //first day
-//            var chartMinDate = d1[0][0]; //last day
+
+//            var chartMaxDate = d2[d2.length - 1][0];
+//            var chartMinDate = d2[0][0];
 //
 //            var tickSize = [1, "second"];
 //            var tformat = "%d/%m/%y %H:%M:%S";
@@ -101,18 +141,7 @@
             var lineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    datasets: [{
-                            label: metric,
-                            backgroundColor: "rgba(38, 185, 154, 0.31)",
-                            borderColor: "rgba(38, 185, 154, 0.7)",
-                            pointBorderColor: "rgba(38, 185, 154, 0.7)",
-                            pointBackgroundColor: "rgba(38, 185, 154, 0.7)",
-                            pointHoverBackgroundColor: "#fff",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointBorderWidth: 1,
-                            data: d2
-                        }
-                    ]
+                    datasets: datasets
                 },
                 options: {
                     tooltips: {
@@ -123,6 +152,7 @@
                                 type: 'time',
                                 position: 'bottom',
                                 time: {
+//                                    max: chartMaxDate,
                                     displayFormats: {
                                         second: "HH:mm:ss",
                                         minute: "HH:mm:ss"

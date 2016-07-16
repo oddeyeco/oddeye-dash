@@ -33,15 +33,14 @@ public class HbaseDataDao extends HbaseBaseDao {
 
     }
 
-    public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey ) {
-        java.util.Date date= new java.util.Date();
-        
-        long fromdate = date.getTime();
-        int count = 1000; 
-        return getSingleDataByTags(user, tagkey, tagvalue, datakey, fromdate, count ) ;
-    }
-    
-    public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey,long fromdate,int count ) {
+//    public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey ) {
+//        java.util.Date date= new java.util.Date();
+//        
+//        long fromdate = date.getTime();
+//        int count = 1000; 
+//        return getSingleDataByTags(user, tagkey, tagvalue, datakey, fromdate, count ) ;
+//    }
+    public ResultScanner getSingleDataByTags(User user, String tagkey, String tagvalue, String datakey, long fromdate, int count) {
 
         Scan scan = new Scan();
         List<Filter> filters = new ArrayList();
@@ -65,29 +64,31 @@ public class HbaseDataDao extends HbaseBaseDao {
         dataFilter.setFilterIfMissing(true);
         filters.add(dataFilter);
 
-        
-        SingleColumnValueFilter dataFilterUpTime = new SingleColumnValueFilter(colfam, Bytes.toBytes("timestamp"), CompareFilter.CompareOp.LESS_OR_EQUAL, Bytes.toBytes(fromdate));
-        dataFilter.setFilterIfMissing(true);
-        filters.add(dataFilterUpTime);
-        
-        SingleColumnValueFilter dataFilterLowTime = new SingleColumnValueFilter(colfam, Bytes.toBytes("timestamp"), CompareFilter.CompareOp.GREATER_OR_EQUAL, Bytes.toBytes(fromdate-count));
-        dataFilter.setFilterIfMissing(true);
-        filters.add(dataFilterLowTime);
+        double Dfromdate = (double) fromdate;
 
-        
-        
+//        SingleColumnValueFilter dataFilterUpTime = new SingleColumnValueFilter(colfam, Bytes.toBytes("timestamp"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes(Dfromdate));
+//        dataFilter.setFilterIfMissing(true);
+//        filters.add(dataFilterUpTime);
+
+//        SingleColumnValueFilter dataFilterLowTime = new SingleColumnValueFilter(colfam, Bytes.toBytes("timestamp"), CompareFilter.CompareOp.GREATER_OR_EQUAL, Bytes.toBytes(fromdate-count));
+//        dataFilter.setFilterIfMissing(true);
+//        filters.add(dataFilterLowTime);
         SingleColumnValueFilter userFilter = new SingleColumnValueFilter(colfam, Bytes.toBytes("UUID"), CompareFilter.CompareOp.EQUAL, Bytes.toBytes(user.getId().toString()));
         userFilter.setFilterIfMissing(true);
         filters.add(userFilter);
 
         FilterList filterList = new FilterList(FilterList.Operator.MUST_PASS_ALL, filters);
 //        Filter dataFilter = new SingleColumnValueFilter(Bytes.toBytes("tags"), Bytes.toBytes(tagkey), CompareFilter.CompareOp.EQUAL, Bytes.toBytes("ab"));        
-        scan.setFilter(filterList);
-        scan.addColumn(Bytes.toBytes("tags"), colA);
-        scan.addColumn(Bytes.toBytes("tags"), colB);
-        scan.addColumn(Bytes.toBytes("data"), Bytes.toBytes(datakey));
-        scan.addColumn(Bytes.toBytes("tags"), Bytes.toBytes("timestamp"));
+
         try {
+            scan.setCaching(1000);
+            scan.setTimeRange((fromdate-count)*1000, (fromdate+1)*1000);
+            scan.setFilter(filterList);
+            scan.addFamily(Bytes.toBytes("tags"));
+//            scan.addColumn(Bytes.toBytes("tags"), colA);
+//            scan.addColumn(Bytes.toBytes("tags"), colB);
+            scan.addColumn(Bytes.toBytes("data"), Bytes.toBytes(datakey));
+//            scan.addColumn(Bytes.toBytes("tags"), Bytes.toBytes("timestamp"));
             ResultScanner resultScanner = this.htable.getScanner(scan);
             return resultScanner;
         } catch (Exception e) {
