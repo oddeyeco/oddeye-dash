@@ -88,6 +88,24 @@
             borderColor: "rgba(0, 0, 255, 0.7)",
             pointBorderColor: "rgba(0, 0, 255, 0.7)",
             pointBackgroundColor: "rgba(0, 0, 255, 0.7)",
+        },
+        {
+            backgroundColor: "rgba(0, 255, 255, 0.31)",
+            borderColor: "rgba(0, 255, 255, 0.7)",
+            pointBorderColor: "rgba(0, 255, 255, 0.7)",
+            pointBackgroundColor: "rgba(0, 255, 255, 0.7)",
+        },
+        {
+            backgroundColor: "rgba(255, 0, 255, 0.31)",
+            borderColor: "rgba(255, 0, 255, 0.7)",
+            pointBorderColor: "rgba(255, 0, 255, 0.7)",
+            pointBackgroundColor: "rgba(0, 0, 255, 0.7)",
+        },
+        {
+            backgroundColor: "rgba(255, 0, 255, 0.31)",
+            borderColor: "rgba(255, 0, 255, 0.7)",
+            pointBorderColor: "rgba(255, 0, 255, 0.7)",
+            pointBackgroundColor: "rgba(255, 0, 255, 0.7)",
         }];
 
     function drawchart(tagkey, tagname, metric, fromdate, count)
