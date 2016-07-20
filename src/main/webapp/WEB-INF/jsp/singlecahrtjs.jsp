@@ -144,6 +144,8 @@
                 };
                 datasets.push(item);
                 pos++;
+                if (pos == 6 )
+                    pos = 0;
             }
 
 
