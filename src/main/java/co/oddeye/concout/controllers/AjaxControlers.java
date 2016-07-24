@@ -49,7 +49,9 @@ public class AjaxControlers {
                     getAuthentication().getPrincipal();
 
         }
+        long starttime = System.currentTimeMillis();
         ResultScanner resultScanner = DataDao.getSingleDataByTags(user, tagkey, tagname, metric, fromdate, count);
+        long getinterval = System.currentTimeMillis()- starttime;
         try {
 //            Result[] result = resultScanner.next(1);
 //            map.put("result", result);
@@ -58,8 +60,24 @@ public class AjaxControlers {
             JsonObject jsonMessage = new JsonObject();
 //            JsonObjectBuilder model = Json.createObjectBuilder();
             byte[] Value;
+            starttime = System.currentTimeMillis();
+//            resultScanner.next();
+//            long scaninterval = System.currentTimeMillis()- starttime;
+            int itemscount = 0;
+            long firstinterval = 0;
+            long stepinterval = 0;
+            long stepstarttime = System.currentTimeMillis();
             for (Result item = resultScanner.next(); item != null; item = resultScanner.next()) //            for (Result item : result) 
-            {
+            {                
+                ++itemscount;
+                if (itemscount == 1)
+                {
+                   firstinterval = System.currentTimeMillis()- starttime;    
+                }
+                else
+                {
+                    stepinterval = System.currentTimeMillis()- stepstarttime;    
+                }
                 Value = item.getValue(Bytes.toBytes("tags"), Bytes.toBytes("timestamp"));
                 double tt = Bytes.toDouble(Value);
                 long timestamp = (long) tt;
@@ -75,9 +93,11 @@ public class AjaxControlers {
                     result1.put(host, datamap);
                 }
                 datamap.put(timestamp, data);
+                stepstarttime = System.currentTimeMillis();
 
             }
-
+            long scaninterval = System.currentTimeMillis()- starttime;
+            
             for (Map.Entry<String, Map<Long, Double>> hostentry : result1.entrySet()) {
                 if (!jsonMessage.has(hostentry.getKey())) {
                     JsonObject dataJson = new JsonObject();
@@ -94,6 +114,13 @@ public class AjaxControlers {
 //            map.put("result1", result1);
             JsonObject jsonResult= new JsonObject();
             jsonResult.add("chartdata",jsonMessage);
+            jsonResult.addProperty("gettime", getinterval);
+            jsonResult.addProperty("scantime", scaninterval);
+            jsonResult.addProperty("itemscount", itemscount);
+            jsonResult.addProperty("firstinterval", firstinterval);
+            jsonResult.addProperty("stepinterval", stepinterval);
+            
+            
             map.put("jsonmodel", jsonResult);
 
         } catch (Exception e) {

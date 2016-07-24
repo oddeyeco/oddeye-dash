@@ -6,8 +6,38 @@
 <!-- /Flot -->
 <!-- bootstrap-daterangepicker -->
 <script type="text/javascript">
+    var lineChart;
+
+
     $(document).ready(function () {
-        drawchart("${tagkey}", "${tagname}", "${metric}", moment(), 100);
+        drawchart("${tagkey}", "${tagname}", "${metric}", moment(), 300);
+
+        setInterval(function () {
+            var url = "${cp}/getdata/${tagkey}/${tagname}/${metric}/"+Math.floor(moment() / 1000) + "/" + 5;
+
+            $.getJSON(url, null, function (data) {
+                for (var k in data.chartdata) {
+                
+                    for (var dd in lineChart.data.datasets)
+                    {
+                        if (lineChart.data.datasets[dd].label == k)
+                        {
+                            d = lineChart.data.datasets[dd].data;
+                            break;
+                        }
+                    }
+                    
+                    for (var time in data.chartdata[k]) {
+                        itemdata = {x: time * 1000, y: data.chartdata[k][time]};
+                        d.splice (0, 1);
+                        d.push(itemdata);
+                    }
+                }
+                lineChart.update(0,true);
+            });
+
+        }, 5000);
+
         var cb = function (start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
             $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
@@ -125,7 +155,7 @@
 //            console.log(d2);
             var pos = 0;
             for (var k in data.chartdata) {
-                
+
                 var d = [];
                 for (var time in data.chartdata[k]) {
                     itemdata = {x: time * 1000, y: data.chartdata[k][time]};
@@ -144,7 +174,7 @@
                 };
                 datasets.push(item);
                 pos++;
-                if (pos == 6 )
+                if (pos == 6)
                     pos = 0;
             }
 
@@ -158,7 +188,7 @@
 
             // Line chart
             var ctx = document.getElementById("lineChart");
-            var lineChart = new Chart(ctx, {
+            lineChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     datasets: datasets
@@ -187,4 +217,5 @@
 
         });
     }
+
 </script>
