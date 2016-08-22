@@ -11,6 +11,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 
 import co.oddeye.concout.model.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.validation.Validator;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,9 +45,13 @@ public class UserValidator implements Validator {
         if (!EmailValidator.getInstance().isValid(user.getEmail())) {
             errors.rejectValue("email", "email.notValid", "Email address is not valid.");
         }
-        if (Userdao.checkUserByEmail(user.getEmail()))
-        {
-            errors.rejectValue("email", "email.Exist", "Email address is exist.");
+        try {
+            if (Userdao.checkUserByEmail(user.getEmail()))
+            {
+                errors.rejectValue("email", "email.Exist", "Email address is exist.");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(UserValidator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

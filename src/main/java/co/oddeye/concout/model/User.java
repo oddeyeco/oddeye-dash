@@ -12,13 +12,17 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Map;
 import java.util.UUID;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.hbase.async.KeyValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +31,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author vahan
  */
-public class User implements UserDetails {    
+public class User implements UserDetails {
+
     private UUID id;
     private String lastname;
     private String name;
@@ -89,7 +94,7 @@ public class User implements UserDetails {
     /**
      * @return the id
      */
-    public UUID getId() {        
+    public UUID getId() {
         return id;
     }
 
@@ -304,30 +309,9 @@ public class User implements UserDetails {
         return solt;
     }
 
-    public void inituser(Result result,Collection<? extends GrantedAuthority> authorities) {
-        byte[] value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("UUID"));
-        this.id = UUID.fromString(Bytes.toString(value));
-        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("email"));
-        this.email = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("name"));
-        this.name = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("lastname"));
-        this.lastname = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("company"));
-        this.company = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("country"));
-        this.country = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"));
-        this.city = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("personalinfo"), Bytes.toBytes("region"));
-        this.region = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("timezone"));
-        this.timezone = Bytes.toString(value);
-        value = result.getValue(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"));
-        this.active = Bytes.toBoolean(value);                
-                
-    }
-
+//    public void inituser(List<GrantedAuthority> result,Collection<? extends GrantedAuthority> authorities) {           
+//                
+//    }
     /**
      * @return the Tags
      */
@@ -340,6 +324,33 @@ public class User implements UserDetails {
      */
     public void setTags(Map<String, Map<String, MetaTags>> Tags) {
         this.Tags = Tags;
+    }
+
+    public void inituser(ArrayList<KeyValue> userkvs, List<GrantedAuthority> grantedAuths) {
+        
+        for (KeyValue property : userkvs) {
+            if (Arrays.equals(property.qualifier(), "UUID".getBytes()))
+                this.id = UUID.fromString(new String(property.value()));
+            if (Arrays.equals(property.qualifier(), "email".getBytes()))
+                this.email = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "name".getBytes()))
+                this.name = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "lastname".getBytes()))
+                this.lastname = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "company".getBytes()))
+                this.company = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "country".getBytes()))
+                this.country = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "city".getBytes()))
+                this.city = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "region".getBytes()))
+                this.region = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "timezone".getBytes()))
+                this.timezone = new String(property.value());
+            if (Arrays.equals(property.qualifier(), "active".getBytes()))
+                this.active = property.value()[0] != (byte) 0;
+            
+        }                 
     }
 
 }

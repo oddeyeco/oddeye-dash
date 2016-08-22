@@ -14,6 +14,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -124,7 +126,11 @@ public class DefaultController {
         }
 
         user.setActive(Boolean.TRUE);
-        Userdao.addUser(user);
+        try {
+            Userdao.addUser(user);
+        } catch (Exception ex) {
+            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //TODO Send refresh messge to kafka
         return redirecttodashboard();
 //        map.put("curentuser", user);
@@ -143,12 +149,16 @@ public class DefaultController {
             map.put("body", "signup");
             map.put("jspart", "signupjs");
         } else {
-            newUser.setActive(Boolean.FALSE);
-            Userdao.addUser(newUser);
-            newUser.SendConfirmMail(Sender);
-
-            map.put("body", "homepage");
-            map.put("jspart", "homepagejs");
+            try {
+                newUser.setActive(Boolean.FALSE);
+                Userdao.addUser(newUser);
+                newUser.SendConfirmMail(Sender);
+                
+                map.put("body", "homepage");
+                map.put("jspart", "homepagejs");
+            } catch (Exception ex) {
+                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return "indexNotaut";
         //else

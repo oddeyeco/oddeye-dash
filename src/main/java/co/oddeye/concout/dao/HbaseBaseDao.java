@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.dao;
 
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
@@ -20,21 +21,37 @@ import org.springframework.stereotype.Repository;
 @Repository
 abstract public class HbaseBaseDao {
     protected Table htable = null;
+
+    protected byte[] table = null;
+    /**
+     *
+     */
+    protected org.hbase.async.HBaseClient client;
+    
+    @SuppressWarnings("empty-statement")
     public HbaseBaseDao(String tableName) {
-        if ((tableName == "")||(tableName == null))
+        
+        
+        if (("".equals(tableName))||(tableName == null))
         {
             tableName = this.getClass().getSimpleName();
         };
         
+        table = tableName.getBytes();
+        
         Configuration config = HBaseConfiguration.create();
         config.clear();
 
+        String quorum = "192.168.10.50";
         config.set("hbase.zookeeper.quorum", "192.168.10.50");
         config.set("hbase.zookeeper.property.clientPort", "2181");
         config.set("zookeeper.session.timeout", "18000");
         config.set("zookeeper.recovery.retry", Integer.toString(1));    
         
         try {
+            
+            this.client = new org.hbase.async.HBaseClient(quorum);         
+            
             Connection connection = ConnectionFactory.createConnection(config);
             this.htable = connection.getTable(TableName.valueOf(tableName));
         } catch (Exception e) {
