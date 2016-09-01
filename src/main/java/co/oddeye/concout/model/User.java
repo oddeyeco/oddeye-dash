@@ -318,6 +318,10 @@ public class User implements UserDetails {
     public Map<String, Map<String, MetaTags>> getTags() {
         return Tags;
     }
+    
+    public Map<String, MetaTags> getMetrics() {       
+        return this.Tags.get("metrics");
+    }    
 
     /**
      * @param Tags the Tags to set

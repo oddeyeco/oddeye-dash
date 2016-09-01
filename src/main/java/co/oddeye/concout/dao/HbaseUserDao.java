@@ -16,16 +16,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.hbase.async.Bytes;
-//import org.apache.hadoop.hbase.client.ResultScanner;
-//import org.apache.hadoop.hbase.client.Result;
-//import org.apache.hadoop.hbase.client.Scan;
-//import org.apache.hadoop.hbase.util.Bytes;
-//import org.apache.hadoop.hbase.client.Get;
-//import org.apache.hadoop.hbase.filter.BinaryComparator;
-//import org.apache.hadoop.hbase.filter.CompareFilter;
-//import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
 import org.hbase.async.ColumnPrefixFilter;
-import org.hbase.async.ColumnRangeFilter;
 import org.hbase.async.FilterList;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
@@ -48,7 +39,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HbaseUserDao extends HbaseBaseDao {
 
-    private Map<UUID, User> users = new HashMap<UUID, User>();
+    private final Map<UUID, User> users = new HashMap<>();
 
     @Autowired
     HbaseMetaDao MetaDao;
@@ -225,20 +216,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             user.inituser(userkvs, grantedAuths);
             user.setTags(MetaDao.getByUUID(user.getId()));
-            return user;            
-            
-//        Get g = new Get(Bytes.toBytes(uuid.toString()));
-//        try {
-//            Result result = this.htable.get(g);
-//            User user = new User();
-//            final List<GrantedAuthority> grantedAuths = new ArrayList<>();
-//            grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
-//            user.inituser(result, grantedAuths);
-//            user.setTags(MetaDao.getByUUID(user.getId()));
-//            return user;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+            return user;                        
             
         } catch (Exception ex) {
             Logger.getLogger(HbaseUserDao.class.getName()).log(Level.SEVERE, null, ex);

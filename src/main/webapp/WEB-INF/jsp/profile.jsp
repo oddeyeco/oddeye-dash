@@ -55,10 +55,10 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Tag Type
+                                        Check
                                     </th> 
                                     <th>
-                                        Tag Value
+                                        Metric name
                                     </th>        
                                     <th>
                                         Metric count
@@ -67,21 +67,22 @@
                                 </tr>    
                             </thead>
                             <tbody>
-                                <c:forEach items="${curentuser.getTags()}" var="tagsgroup">
-                                    <c:forEach items="${tagsgroup.value}" var="tagitem">
-                                        <tr>
-                                            <td>
-                                                ${tagsgroup.key} 
-                                            </td>
-                                            <td>
-                                                ${tagitem.key}
-                                            </td>                                    
-                                            <td>
-                                              <a href="<c:url value="/${tagsgroup.key}/${tagitem.key}"/>">  ${tagitem.value.getDatakeys().size()} </a>
-                                            </td>                                                                        
-                                        </tr>                                
-                                    </c:forEach>                            
-                                </c:forEach> 
+
+                                <c:forEach items="${curentuser.getMetrics()}" var="tagitem">
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox">
+                                        </td>                                              
+                                        <td>
+                                            ${tagsgroup.key} 
+                                        </td>
+                                        <td>
+                                            ${tagitem.key}
+                                        </td>                                    
+
+                                    </tr>                                
+                                </c:forEach>                            
+
                             </tbody>       
                         </table>                                    
                     </div>

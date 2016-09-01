@@ -17,9 +17,6 @@ public class MetaTags {
 
     public MetaTags() {
         this.datakeys = new ArrayList();
-        
-        
-        
     }    
 
     /**

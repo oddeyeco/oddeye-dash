@@ -7,6 +7,8 @@ package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.MetaTags;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +16,15 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.opentsdb.core.TSDB;
+import net.opentsdb.uid.UniqueId;
 import net.opentsdb.utils.Config;
+import org.hbase.async.ColumnPrefixFilter;
+import org.hbase.async.FilterList;
+import org.hbase.async.GetRequest;
+import org.hbase.async.KeyValue;
+import org.hbase.async.ScanFilter;
+import org.hbase.async.Scanner;
+import org.hbase.async.ValueFilter;
 //import org.apache.hadoop.hbase.client.Result;
 //import org.apache.hadoop.hbase.client.ResultScanner;
 //import org.apache.hadoop.hbase.client.Scan;
@@ -23,7 +33,6 @@ import net.opentsdb.utils.Config;
 //import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Repository;
 
-
 /**
  *
  * @author vahan
@@ -31,30 +40,41 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HbaseMetaDao extends HbaseBaseDao {
 
-    private static final String tablename = "oddeyemeta";
-    private static TSDB tsdb;
+    private static final String tablename = "oddeye_tsdb_meta";
 
     public HbaseMetaDao() {
         super(tablename);
-        
-        try {
-            Config openTsdbConfig = new net.opentsdb.utils.Config(true);
-            openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", "true");
-            openTsdbConfig.overrideConfig("tsd.storage.hbase.data_table", "test_tsdb");
-            openTsdbConfig.overrideConfig("tsd.storage.hbase.uid_table", "test_tsdb-uid");
-            this.tsdb = new TSDB(
-                    this.client,
-                    openTsdbConfig);        
-        } catch (IOException ex) {
-            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public Map<String, Map<String, MetaTags>> getByUUID(UUID userid) {
-        
-        List<String> sss = this.tsdb.suggestTagNames(tablename);
-        
-        
+       Map<String, Map<String, MetaTags>> tagslist = new HashMap<>();
+       Map<String, MetaTags> metricslist = new HashMap<>();
+       Map<String, MetaTags> tagklist = new HashMap<>();
+       Map<String, MetaTags> tagvlist = new HashMap<>();
+       
+       
+        try {
+            GetRequest get = new GetRequest(table, userid.toString().getBytes());
+            final ArrayList<KeyValue> metalist = client.get(get).join();
+            for (KeyValue meta : metalist) {
+                if (Arrays.equals(meta.family(), "metrics".getBytes())) {
+                    metricslist.put(new String(meta.qualifier()), null);
+                }
+                if (Arrays.equals(meta.family(), "tagks".getBytes())) {
+                    tagklist.put(new String(meta.qualifier()), null);
+                }                
+                if (Arrays.equals(meta.family(), "tagvs".getBytes())) {
+                    tagvlist.put(new String(meta.qualifier()), null);
+                }                                
+            }
+            
+            tagslist.put("metrics", metricslist);
+            tagslist.put("tagks", tagklist);
+            tagslist.put("tagvs", tagvlist);
+            return tagslist;
+        } catch (Exception ex) {
+            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return null;
 
 //        try {
@@ -111,4 +131,5 @@ public class HbaseMetaDao extends HbaseBaseDao {
 //            return null;
 //        }
     }
+
 }
