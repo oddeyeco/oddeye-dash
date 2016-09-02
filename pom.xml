@@ -37,6 +37,11 @@
             <version>1.4.7</version>
         </dependency>
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
@@ -85,35 +90,6 @@
             <artifactId>log4j</artifactId>        
             <version>1.2.17</version>
         </dependency>                   
-        
-
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-client</artifactId>
-            <version>1.2.0-cdh5.7.0</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>tomcat</groupId>
-                    <artifactId>jasper-compiler</artifactId>
-                </exclusion>                
-                <exclusion>
-                    <groupId>tomcat</groupId>
-                    <artifactId>jasper-runtime</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-log4j12</artifactId>
-                </exclusion>
-            </exclusions>        
-        </dependency>                                                                                                                                              
         <dependency>
             <groupId>net.opentsdb</groupId>
             <artifactId>opentsdb</artifactId>
@@ -142,12 +118,6 @@
             </exclusions>                        
         </dependency>                                    
     </dependencies>
-    <repositories>
-        <repository>
-            <id>cloudera</id>
-            <url>https://repository.cloudera.com/artifactory/cloudera-repos/</url>
-        </repository>
-    </repositories> 
     <build>
         <plugins>
             <plugin>
