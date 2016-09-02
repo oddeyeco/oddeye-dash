@@ -6,25 +6,16 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.MetaTags;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.opentsdb.core.TSDB;
-import net.opentsdb.uid.UniqueId;
-import net.opentsdb.utils.Config;
-import org.hbase.async.ColumnPrefixFilter;
-import org.hbase.async.FilterList;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
-import org.hbase.async.ScanFilter;
-import org.hbase.async.Scanner;
-import org.hbase.async.ValueFilter;
 //import org.apache.hadoop.hbase.client.Result;
 //import org.apache.hadoop.hbase.client.ResultScanner;
 //import org.apache.hadoop.hbase.client.Scan;
@@ -51,8 +42,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
        Map<String, MetaTags> metricslist = new HashMap<>();
        Map<String, MetaTags> tagklist = new HashMap<>();
        Map<String, MetaTags> tagvlist = new HashMap<>();
-       
-       
+       MetaTags Temptags;
+       String[] parts;
         try {
             GetRequest get = new GetRequest(table, userid.toString().getBytes());
             final ArrayList<KeyValue> metalist = client.get(get).join();
@@ -63,8 +54,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 if (Arrays.equals(meta.family(), "tagks".getBytes())) {
                     tagklist.put(new String(meta.qualifier()), null);
                 }                
-                if (Arrays.equals(meta.family(), "tagvs".getBytes())) {
-                    tagvlist.put(new String(meta.qualifier()), null);
+                if (Arrays.equals(meta.family(), "tagvs".getBytes())) {                    
+                    parts = new String(meta.qualifier()).split("/");                    
+                    Temptags = tagvlist.getOrDefault(parts[0], new MetaTags());
+                    Temptags.addDatakeys(parts[1]);
+                    tagvlist.put(parts[0], Temptags);
                 }                                
             }
             
@@ -77,59 +71,6 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
         return null;
 
-//        try {
-//            byte[] bvalue;
-//            String tagkey;
-//            String tagvalue;
-//            String datakey;
-//            Map<String, MetaTags> List;
-//            MetaTags TegItem;
-//
-//            String key = userid.toString();
-//            byte[] prefix = Bytes.toBytes(key);
-//            Scan scan = new Scan(prefix);
-//            Filter prefixFilter = new PrefixFilter(prefix);
-//            scan.setFilter(prefixFilter);
-//            ResultScanner resultScanner = this.htable.getScanner(scan);
-//            Map<String, Map<String, MetaTags>> result = new HashMap();
-//
-//            for (Result res : resultScanner) {
-//                bvalue = res.getValue(Bytes.toBytes("data"), Bytes.toBytes("tagkey"));
-//                tagkey = Bytes.toString(bvalue);
-//                if (result.containsKey(tagkey)) {
-//                    List = result.get(tagkey);
-//                } else {
-//                    List = new HashMap();
-//                    result.put(tagkey, List);
-//                }
-//                bvalue = res.getValue(Bytes.toBytes("data"), Bytes.toBytes("tagvalue"));
-//                tagvalue = Bytes.toString(bvalue);
-//
-//                if (List.containsKey(tagvalue)) {
-//                    TegItem = List.get(tagvalue);
-//                } else {
-//                    TegItem = new MetaTags();
-//                    TegItem.setName(tagvalue);
-//                    List.put(tagvalue, TegItem);
-//                }
-//                bvalue = res.getValue(Bytes.toBytes("data"), Bytes.toBytes("datakey"));
-//                datakey = Bytes.toString(bvalue);
-//
-//                TegItem.addDatakeys(datakey);
-//
-//            }
-//
-////            Map<String, MetaTags> Tag = new HashMap();
-////            result.put("valods", Tag);
-////            Tag.put("host1", new MetaTags());
-////            Tag.put("host2", new MetaTags());
-////            Tag.put("host3", new MetaTags());
-////            Tag.put("host4", new MetaTags());
-//            return result;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
     }
 
 }

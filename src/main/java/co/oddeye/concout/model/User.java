@@ -5,8 +5,6 @@
  */
 package co.oddeye.concout.model;
 
-import co.oddeye.concout.dao.HbaseMetaDao;
-import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -20,10 +18,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Map;
 import java.util.UUID;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.util.Bytes;
 import org.hbase.async.KeyValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -315,13 +310,20 @@ public class User implements UserDetails {
     /**
      * @return the Tags
      */
-    public Map<String, Map<String, MetaTags>> getTags() {
-        return Tags;
-    }
-    
-    public Map<String, MetaTags> getMetrics() {       
+//    public Map<String, Map<String, MetaTags>> getTags() {
+//        return Tags;
+//    }
+    public Map<String, MetaTags> getMetrics() {
         return this.Tags.get("metrics");
-    }    
+    }
+
+    public Map<String, MetaTags> getTags() {
+        return this.Tags.get("tagks");
+    }
+
+    public Map<String, MetaTags> getTagsValues() {
+        return this.Tags.get("tagvs");
+    }
 
     /**
      * @param Tags the Tags to set
@@ -331,30 +333,40 @@ public class User implements UserDetails {
     }
 
     public void inituser(ArrayList<KeyValue> userkvs, List<GrantedAuthority> grantedAuths) {
-        
+
         for (KeyValue property : userkvs) {
-            if (Arrays.equals(property.qualifier(), "UUID".getBytes()))
+            if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
                 this.id = UUID.fromString(new String(property.value()));
-            if (Arrays.equals(property.qualifier(), "email".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "email".getBytes())) {
                 this.email = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "name".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "name".getBytes())) {
                 this.name = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "lastname".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "lastname".getBytes())) {
                 this.lastname = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "company".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "company".getBytes())) {
                 this.company = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "country".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "country".getBytes())) {
                 this.country = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "city".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "city".getBytes())) {
                 this.city = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "region".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "region".getBytes())) {
                 this.region = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "timezone".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "timezone".getBytes())) {
                 this.timezone = new String(property.value());
-            if (Arrays.equals(property.qualifier(), "active".getBytes()))
+            }
+            if (Arrays.equals(property.qualifier(), "active".getBytes())) {
                 this.active = property.value()[0] != (byte) 0;
-            
-        }                 
+            }
+
+        }
     }
 
 }

@@ -47,8 +47,9 @@
 
                     <div class="profile_title">
                         <div class="col-md-6">
-                            <h2>User Available tags</h2>
+                            <h2>User Available tags</h2>                            
                         </div>
+                        <a href="<c:url value="/metriclist?q='cluster=*host=*'"/>"  class="btn btn-default pull-right"> Choose Metrics >> </a>
                     </div>
                     <div class="x_content">
                         <table id="datatable-fixed-header" class="table table-striped table-bordered">
@@ -66,26 +67,40 @@
 
                                 </tr>    
                             </thead>
-                            <tbody>
-
-                                <c:forEach items="${curentuser.getMetrics()}" var="tagitem">
-                                    <tr>
-                                        <td>
-                                            <input type="checkbox">
-                                        </td>                                              
-                                        <td>
-                                            ${tagsgroup.key} 
-                                        </td>
-                                        <td>
-                                            ${tagitem.key}
-                                        </td>                                    
-
-                                    </tr>                                
+                            <tbody>                                
+                                <c:forEach items="${curentuser.getTagsValues()}" var="tagitem">
+                                    <tr class="checkAll">
+                                            <td>
+                                                <input type="checkbox" value = "*" type="${tagitem.key}">
+                                            </td>                                              
+                                            <td>
+                                                ${tagitem.key} 
+                                            </td>
+                                            <td>
+                                                All
+                                            </td>                                    
+                                        </tr>                                
+                                    
+                                    <c:forEach items="${tagitem.value.getDatakeys()}" var="metakey">
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" value = "${metakey}" type="${tagitem.key}">
+                                            </td>                                              
+                                            <td>
+                                                ${tagitem.key} 
+                                            </td>
+                                            <td>
+                                                ${metakey} 
+                                            </td>                                    
+                                        </tr>                                
+                                    </c:forEach>                            
                                 </c:forEach>                            
 
                             </tbody>       
                         </table>                                    
                     </div>
+                    
+                    <a href="<c:url value="/metriclist?q='cluster=*host=*'"/>" class="btn btn-default pull-right"> Choose Metrics >> </a>
                 </div>
             </div>
         </div>

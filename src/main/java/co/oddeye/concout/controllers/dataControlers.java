@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -22,20 +23,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class dataControlers {
 
-    @RequestMapping(value = "/{tagkey:.+}/{tagname:.+}", method = RequestMethod.GET)
-    public String tagMetricsList(@PathVariable(value = "tagkey") String tagkey, @PathVariable(value = "tagname") String tagname, ModelMap map) {
+    @RequestMapping(value = "/metriclist",params = {"q",}, method = RequestMethod.GET)
+    public String tagMetricsList(@RequestParam(value = "q") String q, ModelMap map) {
         map.put("body", "taglist");
         map.put("jspart", "taglistjs");
-
-        map.put("tagkey", tagkey);
-        map.put("tagname", tagname);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-            map.put("list", userDetails.getTags().get(tagkey).get(tagname));
+//            map.put("list", userDetails.getTags().get(tagkey).get(tagname));
 
         }
         return "index";
@@ -56,7 +54,7 @@ public class dataControlers {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-            map.put("list", userDetails.getTags().get(tagkey).get(tagname));
+//            map.put("list", userDetails.getTags().get(tagkey).get(tagname));
 
         }
         return "index";

@@ -5,12 +5,12 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-<h1>${tagkey} ${tagname} Metric list</h1>
+<h1>Your Metric list</h1>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>List of <small>${tagname} Metric list</small></h2>
+                <h2>List of <small>Metric list</small></h2>
                 <div class="clearfix"></div>
             </div>
 
@@ -19,15 +19,16 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>***</th>
                         </tr>
                     </thead>
 
 
                     <tbody>
-                        <c:forEach items="${list.getDatakeys()}" var="Datakey">
+                        <c:forEach items="${curentuser.getMetrics()}" var="Datakey">
                             <tr>
-                                <td> <a href="<c:url value="/chart/${tagkey}/${tagname}/${Datakey}"/>">  ${Datakey} </a></td>
-                                
+                                <td> <a href="<c:url value="/chart"/>">  ${Datakey.key} </a></td>
+                                <th>***</th>                                
                             </tr>
                         </c:forEach> 
                     </tbody>
