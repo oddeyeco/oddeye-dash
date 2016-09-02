@@ -30,6 +30,8 @@
     </head>
 
     <body class="login">
+        <c:url value="/login/" var="loginUrl" />
+        <a class="btn btn-dark pull-right" href="${loginUrl}"> Log in </a>
         <jsp:include page="${body}.jsp" />               
 
         <!-- jQuery -->

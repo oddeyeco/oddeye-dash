@@ -5,7 +5,9 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class dataControlers {
 
+    @Autowired
+    private HbaseDataDao Datadao;    
+    
     @RequestMapping(value = "/metriclist",params = {"q",}, method = RequestMethod.GET)
     public String tagMetricsList(@RequestParam(value = "q") String q, ModelMap map) {
         map.put("body", "taglist");
@@ -33,7 +38,7 @@ public class dataControlers {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-//            map.put("list", userDetails.getTags().get(tagkey).get(tagname));
+            map.put("data", Datadao.getDatabyQuery(q));
 
         }
         return "index";

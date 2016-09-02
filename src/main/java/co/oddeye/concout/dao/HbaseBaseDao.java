@@ -5,7 +5,7 @@
  */
 package co.oddeye.concout.dao;
 
-
+import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,31 +13,25 @@ import org.springframework.stereotype.Repository;
  * @author vahan
  */
 @Repository
-abstract public class HbaseBaseDao {    
+abstract public class HbaseBaseDao {
+
     protected byte[] table = null;
     /**
      *
      */
     protected org.hbase.async.HBaseClient client;
-    
+
     @SuppressWarnings("empty-statement")
     public HbaseBaseDao(String tableName) {
-        
-        
-        if (("".equals(tableName))||(tableName == null))
-        {
+
+        if (("".equals(tableName)) || (tableName == null)) {
             tableName = this.getClass().getSimpleName();
         };
-        
+
         table = tableName.getBytes();
         String quorum = "192.168.10.50";
-        
-        try {
-            
-            this.client = new org.hbase.async.HBaseClient(quorum);                     
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        this.client = new org.hbase.async.HBaseClient(quorum);
 
     }
 }
