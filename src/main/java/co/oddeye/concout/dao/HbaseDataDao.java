@@ -6,6 +6,8 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.User;
+import com.stumbleupon.async.Callback;
+import com.stumbleupon.async.Deferred;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,9 +23,11 @@ import net.opentsdb.core.TSDB;
 import org.springframework.stereotype.Repository;
 import net.opentsdb.utils.Config;
 import net.opentsdb.core.Query;
-import net.opentsdb.core.DataPoints; 
+import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
-
+import net.opentsdb.core.TSQuery;
+import net.opentsdb.core.TSSubQuery;
+import net.opentsdb.query.filter.TagVFilter;
 
 
 /**
@@ -38,7 +42,7 @@ public class HbaseDataDao extends HbaseBaseDao {
     private TSDB tsdb;
     private UUID uuid;
     private Map<String, String> tags = new HashMap<String, String>();
-    private DataPoints dataPoints; 
+    private DataPoints dataPoints;
 
     public HbaseDataDao() {
         super(tablename);
@@ -58,19 +62,59 @@ public class HbaseDataDao extends HbaseBaseDao {
 
     }
 
-    public Iterator<DataPoint> getDatabyQuery(String query) {
+    public ArrayList<DataPoints[]> getDatabyQuery(String query, UUID userid) {
 
-        Query q = this.tsdb.newQuery();
-//        tags.put("cluster", "*");
-        tags.put("host", "app00.raffle.int");
-        q.setTimeSeries("cpu_user", tags, Aggregators.AVG, false);        
+        try {
+            final TSQuery tsquery = new TSQuery();
+            tsquery.setStart("30d-ago");
 
-        q.setStartTime(System.currentTimeMillis()/1000-1);
-        q.setEndTime(System.currentTimeMillis()/1000);
-        //no group_bys for now 
-        dataPoints = q.run()[0];
+            final List<TagVFilter> filters = new ArrayList<>();
+            final ArrayList<TSSubQuery> sub_queries = new ArrayList<TSSubQuery>(1);
+//            filters.add(new TagVLiteralOrFilter("host", "app00.raffle.int"));
 
-        return dataPoints.iterator();
+            final TSSubQuery sub_query = new TSSubQuery();
+            sub_query.setMetric("cpu_user");
+            sub_query.setAggregator("sum");
+            tags.put("host", "*");
+            tags.put("UUID", userid.toString());
+            sub_query.setTags(tags);//;Filters(filters);                                    
+            sub_query.setDownsample("1d-max");
+            sub_queries.add(sub_query);
+            
+            tags.clear();
+            final TSSubQuery sub_query2 = new TSSubQuery();
+            sub_query2.setMetric("cpu_guest");
+            sub_query2.setAggregator("sum");
+            tags.put("host", "*");
+            tags.put("UUID", userid.toString());
+            sub_query2.setTags(tags);//;Filters(filters);                        
+            sub_query2.setDownsample("1d-max");
+            sub_queries.add(sub_query2);                        
+
+            tsquery.setQueries(sub_queries);
+
+            tsquery.validateAndSetQuery();
+
+            Query[] tsdbqueries = tsquery.buildQueries(tsdb);
+
+            // create some arrays for storing the results and the async calls
+            final int nqueries = tsdbqueries.length;
+            final ArrayList<DataPoints[]> results
+                    = new ArrayList<DataPoints[]>(nqueries);
+            final ArrayList<Deferred<DataPoints[]>> deferreds
+                    = new ArrayList<Deferred<DataPoints[]>>(nqueries);
+
+            // this executes each of the sub queries asynchronously and puts the
+            // deferred in an array so we can wait for them to complete.
+            for (int i = 0; i < nqueries; i++) {
+                results.add(tsdbqueries[i].run());
+            }
+
+            return results;
+        } catch (Exception ex) {
+            Logger.getLogger(HbaseDataDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
 
     }
 

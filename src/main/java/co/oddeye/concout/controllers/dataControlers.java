@@ -38,7 +38,7 @@ public class dataControlers {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-            map.put("data", Datadao.getDatabyQuery(q));
+            map.put("data", Datadao.getDatabyQuery(q,userDetails.getId()));
 
         }
         return "index";

@@ -36,15 +36,33 @@
                     </tbody>
                 </table>
 
-
+                <%--${data}--%>
                 <ul>                    
-                    <%--<c:forEach items="${data}" var="Datapoint">
-                        <ol>                                                   
-                            <jsp:useBean id="dateValue" class="java.util.Date"/>
-                            <jsp:setProperty name="dateValue" property="time" value="${Datapoint.timestamp()}"/>
-                            <fmt:formatDate value="${dateValue}" pattern="MM/dd/yyyy HH:mm:ss"/>
+                    <c:forEach items="${data}" var="Datapoints">
+                        <ol>            
+                            <ul>
+                                <c:forEach items="${Datapoints}" var="Datalist">
+                                    <li> ${Datalist.metricName()} ${Datalist.getTags()}   
+                                        <ul>
+                                            <c:forEach items="${Datalist.iterator()}" var="datapoint">
+                                                <li>                                                    
+                                                    <jsp:useBean id="dateValue" class="java.util.Date"/>
+                                                    <jsp:setProperty name="dateValue" property="time" value="${datapoint.timestamp()}"/>
+                                                    <fmt:formatDate value="${dateValue}" pattern="MM/dd/yyyy HH:mm:ss"/>                                                    
+                                                    - ${datapoint.doubleValue()}
+                                                </li>
+                                            </c:forEach>    
+                                        </ul>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+
+                            <%--<jsp:useBean id="dateValue" class="java.util.Date"/>--%>
+                            <%--<jsp:setProperty name="dateValue" property="time" value="${Datapoint.timestamp()}"/>--%>
+                            <%--<fmt:formatDate value="${dateValue}" pattern="MM/dd/yyyy HH:mm:ss"/>--%>
+                            <%--${Datapoint.doubleValue()}--%>
                         </ol>
-                    </c:forEach>--%>
+                    </c:forEach>
                 </ul>
             </div>
         </div>
