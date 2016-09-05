@@ -49,7 +49,7 @@
                         <div class="col-md-6">
                             <h2>User Available tags</h2>                            
                         </div>
-                        <a href="<c:url value="/metriclist?q='cluster=*host=*'"/>"  class="btn btn-default pull-right"> Choose Metrics >> </a>
+                        <a href="<c:url value="/metriclist?tags=cluster=*;host=*"/>"  class="btn btn-default pull-right"> Choose Metrics >> </a>
                     </div>
                     <div class="x_content">
                         <table id="datatable-fixed-header" class="table table-striped table-bordered">

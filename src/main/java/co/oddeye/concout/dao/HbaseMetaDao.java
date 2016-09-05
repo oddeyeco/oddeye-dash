@@ -38,12 +38,12 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public Map<String, Map<String, MetaTags>> getByUUID(UUID userid) {
-       Map<String, Map<String, MetaTags>> tagslist = new HashMap<>();
-       Map<String, MetaTags> metricslist = new HashMap<>();
-       Map<String, MetaTags> tagklist = new HashMap<>();
-       Map<String, MetaTags> tagvlist = new HashMap<>();
-       MetaTags Temptags;
-       String[] parts;
+        Map<String, Map<String, MetaTags>> tagslist = new HashMap<>();
+        Map<String, MetaTags> metricslist = new HashMap<>();
+        Map<String, MetaTags> tagklist = new HashMap<>();
+        Map<String, MetaTags> tagvlist = new HashMap<>();
+        MetaTags Temptags;
+        String[] parts;
         try {
             GetRequest get = new GetRequest(table, userid.toString().getBytes());
             final ArrayList<KeyValue> metalist = client.get(get).join();
@@ -53,15 +53,17 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 }
                 if (Arrays.equals(meta.family(), "tagks".getBytes())) {
                     tagklist.put(new String(meta.qualifier()), null);
-                }                
-                if (Arrays.equals(meta.family(), "tagvs".getBytes())) {                    
-                    parts = new String(meta.qualifier()).split("/");                    
-                    Temptags = tagvlist.getOrDefault(parts[0], new MetaTags());
-                    Temptags.addDatakeys(parts[1]);
-                    tagvlist.put(parts[0], Temptags);
-                }                                
+                }
+                if (Arrays.equals(meta.family(), "tagvs".getBytes())) {
+                    parts = new String(meta.qualifier()).split("/");
+                    if (!parts[0].equals("UUID")) {
+                        Temptags = tagvlist.getOrDefault(parts[0], new MetaTags());
+                        Temptags.addDatakeys(parts[1]);
+                        tagvlist.put(parts[0], Temptags);
+                    }
+                }
             }
-            
+
             tagslist.put("metrics", metricslist);
             tagslist.put("tagks", tagklist);
             tagslist.put("tagvs", tagvlist);

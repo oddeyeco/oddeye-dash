@@ -20,8 +20,10 @@
                 <table id="datatable" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>***</th>
+                            <th>
+                                Check
+                            </th>                             
+                            <th>Name</th>                            
                         </tr>
                     </thead>
 
@@ -29,14 +31,17 @@
                     <tbody>
                         <c:forEach items="${curentuser.getMetrics()}" var="Datakey">
                             <tr>
-                                <td> <a href="<c:url value="/chart"/>">  ${Datakey.key} </a></td>
-                                <th>***</th>                                
+                                <td>
+                                    <input type="checkbox" value = "*" type="${Datakey.key}">
+                                </td>                                  
+                                <td> <a href="<c:url value="/chart/?metrics=${Datakey.key}&tags=${tags}"/>">  ${Datakey.key} </a></td>                                                               
                             </tr>
                         </c:forEach> 
                     </tbody>
                 </table>
 
                 <%--${data}--%>
+                <%--
                 <ul>                    
                     <c:forEach items="${data}" var="Datapoints">
                         <ol>            
@@ -57,13 +62,11 @@
                                 </c:forEach>
                             </ul>
 
-                            <%--<jsp:useBean id="dateValue" class="java.util.Date"/>--%>
-                            <%--<jsp:setProperty name="dateValue" property="time" value="${Datapoint.timestamp()}"/>--%>
-                            <%--<fmt:formatDate value="${dateValue}" pattern="MM/dd/yyyy HH:mm:ss"/>--%>
-                            <%--${Datapoint.doubleValue()}--%>
+
                         </ol>
-                    </c:forEach>
+                    </c:forEach>                    
                 </ul>
+                            --%>
             </div>
         </div>
     </div>

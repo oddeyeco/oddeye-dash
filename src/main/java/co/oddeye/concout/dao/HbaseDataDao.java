@@ -29,7 +29,6 @@ import net.opentsdb.core.TSQuery;
 import net.opentsdb.core.TSSubQuery;
 import net.opentsdb.query.filter.TagVFilter;
 
-
 /**
  *
  * @author vahan
@@ -62,35 +61,36 @@ public class HbaseDataDao extends HbaseBaseDao {
 
     }
 
-    public ArrayList<DataPoints[]> getDatabyQuery(String query, UUID userid) {
+    public ArrayList<DataPoints[]> getDatabyQuery(UUID userid, String metrics, String tagsquery) {
 
         try {
             final TSQuery tsquery = new TSQuery();
-            tsquery.setStart("30d-ago");
+            tsquery.setStart("3d-ago");
 
             final List<TagVFilter> filters = new ArrayList<>();
             final ArrayList<TSSubQuery> sub_queries = new ArrayList<TSSubQuery>(1);
-//            filters.add(new TagVLiteralOrFilter("host", "app00.raffle.int"));
+            final String[] metricslist = metrics.split(";");
+            final String[] tglist = tagsquery.split(";");
+            String[] tgitem;
 
-            final TSSubQuery sub_query = new TSSubQuery();
-            sub_query.setMetric("cpu_user");
-            sub_query.setAggregator("sum");
-            tags.put("host", "*");
-            tags.put("UUID", userid.toString());
-            sub_query.setTags(tags);//;Filters(filters);                                    
-            sub_query.setDownsample("1d-max");
-            sub_queries.add(sub_query);
-            
+            for (String metric : metricslist) {
+                final TSSubQuery sub_query = new TSSubQuery();
+                sub_query.setMetric(metric);
+                sub_query.setAggregator("sum");
+
+                for (String tag : tglist) {
+                    tgitem = tag.split("=");
+                    tags.put(tgitem[0], tgitem[1]);                    
+                }
+                tags.put("UUID", userid.toString());
+                sub_query.setTags(tags);
+//            sub_query.setDownsample("1d-max");
+                sub_queries.add(sub_query);
+
+                tags.clear();
+            }
+
             tags.clear();
-            final TSSubQuery sub_query2 = new TSSubQuery();
-            sub_query2.setMetric("cpu_guest");
-            sub_query2.setAggregator("sum");
-            tags.put("host", "*");
-            tags.put("UUID", userid.toString());
-            sub_query2.setTags(tags);//;Filters(filters);                        
-            sub_query2.setDownsample("1d-max");
-            sub_queries.add(sub_query2);                        
-
             tsquery.setQueries(sub_queries);
 
             tsquery.validateAndSetQuery();

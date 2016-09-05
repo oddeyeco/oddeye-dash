@@ -28,8 +28,8 @@ public class dataControlers {
     @Autowired
     private HbaseDataDao Datadao;    
     
-    @RequestMapping(value = "/metriclist",params = {"q",}, method = RequestMethod.GET)
-    public String tagMetricsList(@RequestParam(value = "q") String q, ModelMap map) {
+    @RequestMapping(value = "/metriclist",params = {"tags",}, method = RequestMethod.GET)
+    public String tagMetricsList(@RequestParam(value = "tags") String tags, ModelMap map) {
         map.put("body", "taglist");
         map.put("jspart", "taglistjs");
 
@@ -38,21 +38,19 @@ public class dataControlers {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-            map.put("data", Datadao.getDatabyQuery(q,userDetails.getId()));
+            map.put("tags", tags);
 
         }
         return "index";
     }
 
-    @RequestMapping(value = "/chart/{tagkey:.+}/{tagname:.+}/{metric:.+}", method = RequestMethod.GET)
-    public String singlecahrt(@PathVariable(value = "tagkey") String tagkey, @PathVariable(value = "tagname") String tagname, @PathVariable(value = "metric") String metric, ModelMap map) {
+    @RequestMapping(value = "/chart", method = RequestMethod.GET)
+    public String singlecahrt(@RequestParam(value = "tags") String tags,@RequestParam(value = "metrics") String metrics, ModelMap map) {
         map.put("body", "singlecahrt");
         map.put("jspart", "singlecahrtjs");
 
-        map.put("tagkey", tagkey);
-        map.put("tagname", tagname);
-
-        map.put("metric", metric);
+        map.put("metric", metrics);
+        map.put("q", tags);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {

@@ -10,11 +10,31 @@
 
 
     $(document).ready(function () {
-
-        drawchart(window.location.search);
+        drawchart("${tagkey}", "${tagname}", "${metric}", moment(), 300);
 
         setInterval(function () {
+            var url = "${cp}/getdata/${tagkey}/${tagname}/${metric}/"+Math.floor(moment() / 1000) + "/" + 5;
 
+            $.getJSON(url, null, function (data) {
+                for (var k in data.chartdata) {
+                
+                    for (var dd in lineChart.data.datasets)
+                    {
+                        if (lineChart.data.datasets[dd].label == k)
+                        {
+                            d = lineChart.data.datasets[dd].data;
+                            break;
+                        }
+                    }
+                    
+                    for (var time in data.chartdata[k]) {
+                        itemdata = {x: time * 1000, y: data.chartdata[k][time]};
+                        d.splice (0, 1);
+                        d.push(itemdata);
+                    }
+                }
+                lineChart.update(0,true);
+            });
 
         }, 5000);
 
@@ -118,12 +138,12 @@
             pointBackgroundColor: "rgba(255, 0, 255, 0.7)",
         }];
 
-    function drawchart(query)
+    function drawchart(tagkey, tagname, metric, fromdate, count)
     {
         var d2 = [];
         var datasets = [];
         //here we generate data for chart
-        var url = "${cp}/getdata" + query;
+        var url = "${cp}/getdata/" + tagkey + "/" + tagname + "/" + metric + "/" + Math.floor(fromdate / 1000) + "/" + count;
         $.getJSON(url, null, function (data) {
 
 //            for (var k in data) {
@@ -133,25 +153,16 @@
 //            }
 //            console.log(d1);
 //            console.log(d2);
-//            for (var i = 0; i < json.length; i++) {
-//                var obj = json[i];
-//
-//                console.log(obj.id);
-//            }
             var pos = 0;
-//            for (var i = 0; i < data.chartsdata.length; i++) {
-            for (var k in data.chartsdata) {
-                var chartline = data.chartsdata[k];
-//                alert(JSON.stringify(chartline));
+            for (var k in data.chartdata) {
+
                 var d = [];
-                for (var time in chartline.data) {                    
-                    itemdata = {x: time*1, y: chartline.data[time]};
+                for (var time in data.chartdata[k]) {
+                    itemdata = {x: time * 1000, y: data.chartdata[k][time]};
                     d.push(itemdata);
-                    
                 }
-                
                 item = {
-                    label: chartline.tags.host,
+                    label: k,
                     backgroundColor: colorset[pos].backgroundColor,
                     borderColor: colorset[pos].borderColor,
                     pointBorderColor: colorset[pos].pointBorderColor,
