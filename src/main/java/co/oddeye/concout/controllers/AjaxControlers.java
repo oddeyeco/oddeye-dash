@@ -12,7 +12,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonArray;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
@@ -39,12 +38,11 @@ public class AjaxControlers {
 
     @Autowired
     HbaseDataDao DataDao;
-//http://localhost:8080/OddeyeCoconut/getdata/host/cassa005.mouseflow.eu/drive_md0_read_bytes/1468072117/10
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
-    public String singlecahrt(@RequestParam(value = "tags") String tags, 
+    public String singlecahrt(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "metrics") String metrics,
-            @RequestParam(value = "startdate" , required = false, defaultValue = "5m-ago") String startdate,
+            @RequestParam(value = "startdate", required = false, defaultValue = "1h-ago") String startdate,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
@@ -59,9 +57,13 @@ public class AjaxControlers {
         Map<String, String> Tagmap;
 
         Long start_time = DateTime.parseDateTimeString(startdate, null);
-        ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, tags,startdate);
+        Long starttime = System.currentTimeMillis();
+        ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, tags, startdate);
+        Long getinterval = System.currentTimeMillis() - starttime;
         JsonArray jsonMessages = new JsonArray();
         JsonObject jsonResult = new JsonObject();
+
+        starttime = System.currentTimeMillis();
         if (data != null) {
             for (DataPoints[] DataPointslist : data) {
                 for (DataPoints DataPoints : DataPointslist) {
@@ -77,8 +79,9 @@ public class AjaxControlers {
                     final JsonObject DatapointsJSON = new JsonObject();
                     while (Datalist.hasNext()) {
                         DataPoint Point = Datalist.next();
-                        if (Point.timestamp()<start_time)
+                        if (Point.timestamp() < start_time) {
                             continue;
+                        }
                         DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                     }
 
@@ -89,9 +92,11 @@ public class AjaxControlers {
 
             }
         }
+        Long scaninterval = System.currentTimeMillis() - starttime;
+        jsonResult.addProperty("gettime", getinterval);
+        jsonResult.addProperty("scantime", scaninterval);        
         jsonResult.add("chartsdata", jsonMessages);
-//            jsonResult.addProperty("gettime", getinterval);
-//            jsonResult.addProperty("scantime", scaninterval);
+
 //            jsonResult.addProperty("itemscount", itemscount);
 //            jsonResult.addProperty("firstinterval", firstinterval);
 //            jsonResult.addProperty("stepinterval", stepinterval);
