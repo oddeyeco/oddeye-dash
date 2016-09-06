@@ -80,8 +80,6 @@
             console.log (picker.startDate +" "+ picker.startDate.format('MM/DD/YYYY H:m:s')+" "+ picker.startDate.unix());
             redrawchart(window.location.search + '&startdate=' + picker.startDate);
 //            alert (window.location.search+'&startdate='+picker.startDate.unix());
-
-
         });
         $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
             console.log("cancel event fired");
