@@ -17,6 +17,7 @@ import java.util.Map;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
+import net.opentsdb.utils.DateTime;
 //import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -41,7 +42,9 @@ public class AjaxControlers {
 //http://localhost:8080/OddeyeCoconut/getdata/host/cassa005.mouseflow.eu/drive_md0_read_bytes/1468072117/10
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
-    public String singlecahrt(@RequestParam(value = "tags") String tags, @RequestParam(value = "metrics") String metrics,
+    public String singlecahrt(@RequestParam(value = "tags") String tags, 
+            @RequestParam(value = "metrics") String metrics,
+            @RequestParam(value = "startdate" , required = false, defaultValue = "5m-ago") String startdate,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
@@ -55,7 +58,8 @@ public class AjaxControlers {
 
         Map<String, String> Tagmap;
 
-        ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user.getId(), metrics, tags);
+        Long start_time = DateTime.parseDateTimeString(startdate, null);
+        ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, tags,startdate);
         JsonArray jsonMessages = new JsonArray();
         JsonObject jsonResult = new JsonObject();
         if (data != null) {
@@ -73,6 +77,8 @@ public class AjaxControlers {
                     final JsonObject DatapointsJSON = new JsonObject();
                     while (Datalist.hasNext()) {
                         DataPoint Point = Datalist.next();
+                        if (Point.timestamp()<start_time)
+                            continue;
                         DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                     }
 

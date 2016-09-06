@@ -59,10 +59,10 @@
                                         Check
                                     </th> 
                                     <th>
-                                        Metric name
+                                        Tag type
                                     </th>        
                                     <th>
-                                        Metric count
+                                        Tag name
                                     </th>        
 
                                 </tr>    
@@ -77,7 +77,7 @@
                                                 ${tagitem.key} 
                                             </td>
                                             <td>
-                                                All
+                                                <a href="<c:url value="/metriclist?tags=${tagitem.key}=*"/>"> All </a>
                                             </td>                                    
                                         </tr>                                
                                     
@@ -90,7 +90,7 @@
                                                 ${tagitem.key} 
                                             </td>
                                             <td>
-                                                ${metakey} 
+                                                <a href="<c:url value="/metriclist?tags=${tagitem.key}=${metakey}"/>">${metakey} </a> 
                                             </td>                                    
                                         </tr>                                
                                     </c:forEach>                            

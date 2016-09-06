@@ -61,11 +61,18 @@ public class HbaseDataDao extends HbaseBaseDao {
 
     }
 
-    public ArrayList<DataPoints[]> getDatabyQuery(UUID userid, String metrics, String tagsquery) {
+    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery) {
+        String Startdate = "5m-ago";
+        return getDatabyQuery (user,metrics,tagsquery,Startdate);
+    }
+    
+    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery,String Startdate) {
 
         try {
             final TSQuery tsquery = new TSQuery();
-            tsquery.setStart("3d-ago");
+            final UUID userid = user.getId();            
+            tsquery.setStart(Startdate);
+            
 
             final List<TagVFilter> filters = new ArrayList<>();
             final ArrayList<TSSubQuery> sub_queries = new ArrayList<TSSubQuery>(1);
@@ -106,7 +113,7 @@ public class HbaseDataDao extends HbaseBaseDao {
 
             // this executes each of the sub queries asynchronously and puts the
             // deferred in an array so we can wait for them to complete.
-            for (int i = 0; i < nqueries; i++) {
+            for (int i = 0; i < nqueries; i++) {                
                 results.add(tsdbqueries[i].run());
             }
 
