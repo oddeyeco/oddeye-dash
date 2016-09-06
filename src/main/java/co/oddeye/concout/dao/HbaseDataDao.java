@@ -75,7 +75,7 @@ public class HbaseDataDao extends HbaseBaseDao {
             
 
             final List<TagVFilter> filters = new ArrayList<>();
-            final ArrayList<TSSubQuery> sub_queries = new ArrayList<TSSubQuery>(1);
+            final ArrayList<TSSubQuery> sub_queries = new ArrayList<>(1);
             final String[] metricslist = metrics.split(";");
             final String[] tglist = tagsquery.split(";");
             String[] tgitem;
@@ -90,8 +90,10 @@ public class HbaseDataDao extends HbaseBaseDao {
                     tags.put(tgitem[0], tgitem[1]);                    
                 }
                 tags.put("UUID", userid.toString());
-                sub_query.setTags(tags);
-//            sub_query.setDownsample("1d-max");
+//                sub_query.setTags(tags);
+                TagVFilter.mapToFilters(tags, filters,true);
+                sub_query.setFilters(filters);
+//                sub_query.setDownsample("1m-ep999r7");
                 sub_queries.add(sub_query);
 
                 tags.clear();
@@ -108,8 +110,8 @@ public class HbaseDataDao extends HbaseBaseDao {
             final int nqueries = tsdbqueries.length;
             final ArrayList<DataPoints[]> results
                     = new ArrayList<DataPoints[]>(nqueries);
-            final ArrayList<Deferred<DataPoints[]>> deferreds
-                    = new ArrayList<Deferred<DataPoints[]>>(nqueries);
+//            final ArrayList<Deferred<DataPoints[]>> deferreds
+//                    = new ArrayList<Deferred<DataPoints[]>>(nqueries);
 
             // this executes each of the sub queries asynchronously and puts the
             // deferred in an array so we can wait for them to complete.
