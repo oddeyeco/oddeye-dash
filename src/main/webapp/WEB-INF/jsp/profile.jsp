@@ -42,66 +42,26 @@
                     <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                     <br />
 
-                </div>
-                <div class="col-md-9 col-sm-9 col-xs-12">
-
-                    <div class="profile_title">
-                        <div class="col-md-6">
-                            <h2>User Available tags</h2>                            
-                        </div>
-                        <a href="<c:url value="/metriclist?tags=cluster=*;host=*"/>"  class="btn btn-default pull-right"> Choose Metrics >> </a>
+                </div>        
+                <div class="col-md-9 col-sm-9 col-xs-12 profile_left">
+                    <div class="row tile_count">
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Total Tags Type</span>
+                            <div class="count">${curentuser.getMetricsMeta().getTagsList().size()}</div>
+                            <!--<span class="count_bottom"><i class="green">4% </i> From last Week</span>-->
+                        </div>                                                
                     </div>
-                    <div class="x_content">
-                        <table id="datatable-fixed-header" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Check
-                                    </th> 
-                                    <th>
-                                        Tag type
-                                    </th>        
-                                    <th>
-                                        Tag name
-                                    </th>        
-
-                                </tr>    
-                            </thead>
-                            <tbody>                                
-                                <c:forEach items="${curentuser.getTagsValues()}" var="tagitem">
-                                    <tr class="checkAll">
-                                            <td>
-                                                <input type="checkbox" value = "*" type="${tagitem.key}">
-                                            </td>                                              
-                                            <td>
-                                                ${tagitem.key} 
-                                            </td>
-                                            <td>
-                                                <a href="<c:url value="/metriclist?tags=${tagitem.key}=*"/>"> All </a>
-                                            </td>                                    
-                                        </tr>                                
-                                    
-                                    <c:forEach items="${tagitem.value.getDatakeys()}" var="metakey">
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" value = "${metakey}" type="${tagitem.key}">
-                                            </td>                                              
-                                            <td>
-                                                ${tagitem.key} 
-                                            </td>
-                                            <td>
-                                                <a href="<c:url value="/metriclist?tags=${tagitem.key}=${metakey}"/>">${metakey} </a> 
-                                            </td>                                    
-                                        </tr>                                
-                                    </c:forEach>                            
-                                </c:forEach>                            
-
-                            </tbody>       
-                        </table>                                    
+                    <div class="row tile_count">
+                        <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
+                            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                                <span class="count_top"><i class="fa fa-user"></i> Total ${tagitem.key}</span>
+                                <div class="count">${tagitem.value.size()}</div>
+                                <!--<span class="count_bottom"><i class="green">4% </i> From last Week</span>-->
+                            </div>                        
+                        </c:forEach>
                     </div>
-                    
-                    <a href="<c:url value="/metriclist?q='cluster=*host=*'"/>" class="btn btn-default pull-right"> Choose Metrics >> </a>
-                </div>
+                </div>                        
+
             </div>
         </div>
     </div>

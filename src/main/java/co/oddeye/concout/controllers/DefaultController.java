@@ -167,8 +167,8 @@ public class DefaultController {
 
     private void setLocaleInfo(ModelMap map) {
 
-        Map<String, String> country = new LinkedHashMap<String, String>();
-        Map<String, String> timezones = new LinkedHashMap<String, String>();
+        Map<String, String> country = new LinkedHashMap<>();
+        Map<String, String> timezones = new LinkedHashMap<>();
         country.put("", "");
         timezones.put("", "");
 

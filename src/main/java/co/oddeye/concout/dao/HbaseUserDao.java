@@ -39,11 +39,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HbaseUserDao extends HbaseBaseDao {
 
-    private final Map<UUID, User> users = new HashMap<>();
-
+    @Autowired
+    private BaseTsdbConnect BaseTsdb;     
     @Autowired
     HbaseMetaDao MetaDao;
-
+    
+    
+    private final Map<UUID, User> users = new HashMap<>();
     public HbaseUserDao() {
         super("oddeyeusers");
     }
@@ -60,44 +62,44 @@ public class HbaseUserDao extends HbaseBaseDao {
 
         if (user.getCompany() != null) {
             final PutRequest putcompany = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "company".getBytes(), user.getCompany().getBytes());
-            client.put(putcompany);
+            BaseTsdb.getClient().put(putcompany);
         }
         if (user.getCountry() != null) {
             final PutRequest putcountry = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "country".getBytes(), user.getCountry().getBytes());
-            client.put(putcountry);
+            BaseTsdb.getClient().put(putcountry);
 
         }
         if (user.getCity() != null) {
 //            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"), Bytes.toBytes(user.getCity()));
             final PutRequest putcity = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "city".getBytes(), user.getCity().getBytes());
-            client.put(putcity);
+            BaseTsdb.getClient().put(putcity);
         }
         if (user.getRegion() != null) {
             final PutRequest putregion = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "region".getBytes(), user.getRegion().getBytes());
-            client.put(putregion);
+            BaseTsdb.getClient().put(putregion);
         }
         if (user.getPasswordByte() != null) {
             final PutRequest putpassword = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "password".getBytes(), user.getPasswordByte());
-            client.put(putpassword);
+            BaseTsdb.getClient().put(putpassword);
 
         }
         if (user.getSolt() != null) {
             final PutRequest putsolt = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "solt".getBytes(), user.getSolt());
-            client.put(putsolt);
+            BaseTsdb.getClient().put(putsolt);
 
         }
         if (user.getTimezone() != null) {
             final PutRequest puttimezone = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "timezone".getBytes(), user.getTimezone().getBytes());
-            client.put(puttimezone);
+            BaseTsdb.getClient().put(puttimezone);
         }
         if (user.getActive() != null) {
             final PutRequest putactive = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "active".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
-            client.put(putactive);
+            BaseTsdb.getClient().put(putactive);
         }
-        client.put(putUUID);
-        client.put(putname);
-        client.put(putemail);
-        client.put(putlastname).join();
+        BaseTsdb.getClient().put(putUUID);
+        BaseTsdb.getClient().put(putname);
+        BaseTsdb.getClient().put(putemail);
+        BaseTsdb.getClient().put(putlastname).join();
 
         //***************************OLD
 //        Put row = new Put(buuid, date.getTime());
@@ -143,7 +145,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     public Boolean checkUserByEmail(String email) throws Exception {
 //        this.client.get(null);
 
-        final Scanner value_scanner = client.newScanner(table);
+        final Scanner value_scanner = BaseTsdb.getClient().newScanner(table);
 
         final ArrayList<ScanFilter> filters = new ArrayList<>(2);
         filters.add(
@@ -166,7 +168,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        final Scanner value_scanner = client.newScanner(table);
+        final Scanner value_scanner = BaseTsdb.getClient().newScanner(table);
 
         value_scanner.setFamily("personalinfo");
         final ArrayList<ScanFilter> filters = new ArrayList<>(2);
@@ -183,10 +185,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                 boolean isvalidpass = false;
                 byte[] bUUID = value_rows.get(0).get(0).key();
                 GetRequest get = new GetRequest(table, bUUID, "technicalinfo".getBytes(), "password".getBytes());
-                final ArrayList<KeyValue> passkvs = client.get(get).join();
+                final ArrayList<KeyValue> passkvs = BaseTsdb.getClient().get(get).join();
                 final KeyValue passkv = passkvs.get(0);
                 get = new GetRequest(table, bUUID, "technicalinfo".getBytes(), "solt".getBytes());
-                final ArrayList<KeyValue> soltkvs = client.get(get).join();
+                final ArrayList<KeyValue> soltkvs = BaseTsdb.getClient().get(get).join();
                 final KeyValue soltkv = soltkvs.get(0);
 
                 byte[] pass = passkv.value();
@@ -209,13 +211,13 @@ public class HbaseUserDao extends HbaseBaseDao {
 
         try {
             GetRequest get = new GetRequest(table, uuid.toString().getBytes());
-            final ArrayList<KeyValue> userkvs = client.get(get).join();
+            final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
             User user = new User();
             
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             user.inituser(userkvs, grantedAuths);
-            user.setTags(MetaDao.getByUUID(user.getId()));
+            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             return user;                        
             
         } catch (Exception ex) {

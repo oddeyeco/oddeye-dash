@@ -5,7 +5,9 @@
  */
 package co.oddeye.concout.model;
 
+import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.helpers.mailSender;
+import co.oddeye.core.OddeeyMetricMetaList;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,13 +44,14 @@ public class User implements UserDetails {
     private String timezone;
     private Boolean active;
     private final Set<GrantedAuthority> authorities;
-    private Map<String, Map<String, MetaTags>> Tags;
+//    private OddeeyMetricMetaList Tags;
+    private ConcoutMetricMetaList MetricsMeta;
     private final Set<String> Allkeys;
 
     public User() {
         this.id = UUID.randomUUID();
         this.authorities = null;
-        this.Tags = null;
+        this.MetricsMeta = null;
         this.Allkeys = null;
     }
 
@@ -310,28 +313,26 @@ public class User implements UserDetails {
     /**
      * @return the Tags
      */
-//    public Map<String, Map<String, MetaTags>> getTags() {
+//    public OddeeyMetricMetaList getTags() {
 //        return Tags;
 //    }
-    public Map<String, MetaTags> getMetrics() {
-        return this.Tags.get("metrics");
-    }
-
-    public Map<String, MetaTags> getTags() {
-        return this.Tags.get("tagks");
-    }
-
-    public Map<String, MetaTags> getTagsValues() {
-        return this.Tags.get("tagvs");
-    }
-
+//    public Map<String, MetaTags> getMetrics() {
+//        return this.Tags.get("metrics");
+//    }
+//
+//    public Map<String, MetaTags> getTags() {
+//        return this.Tags.get("tagks");
+//    }
+//
+//    public Map<String, MetaTags> getTagsValues() {
+//        return this.Tags.get("tagvs");
+//    }
     /**
      * @param Tags the Tags to set
      */
-    public void setTags(Map<String, Map<String, MetaTags>> Tags) {
-        this.Tags = Tags;
-    }
-
+//    public void setTags(OddeeyMetricMetaList Tags) {
+//        this.Tags = Tags;
+//    }
     public void inituser(ArrayList<KeyValue> userkvs, List<GrantedAuthority> grantedAuths) {
 
         for (KeyValue property : userkvs) {
@@ -367,6 +368,22 @@ public class User implements UserDetails {
             }
 
         }
+    }
+
+    /**
+     * @return the MetricsMeta
+     */
+    public ConcoutMetricMetaList getMetricsMeta() {
+        
+        return MetricsMeta;
+    }
+
+    /**
+     * @param MetricsMeta the MetricsMeta to set
+     */
+    public void setMetricsMeta(ConcoutMetricMetaList MetricsMeta) {
+        this.MetricsMeta = MetricsMeta;
+//        MetricsMeta.equals(id)
     }
 
 }

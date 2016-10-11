@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.dao;
 
-import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,12 +14,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 abstract public class HbaseBaseDao {
 
-    protected byte[] table = null;
+    protected byte[] table = null;    
     /**
      *
-     */
-    protected org.hbase.async.HBaseClient client;
-
+     * @param tableName
+     */    
     @SuppressWarnings("empty-statement")
     public HbaseBaseDao(String tableName) {
 
@@ -29,9 +27,5 @@ abstract public class HbaseBaseDao {
         };
 
         table = tableName.getBytes();
-        String quorum = "192.168.10.50";
-
-        this.client = new org.hbase.async.HBaseClient(quorum);
-
     }
 }

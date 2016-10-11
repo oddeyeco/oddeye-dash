@@ -42,7 +42,7 @@ public class AjaxControlers {
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "metrics") String metrics,
-            @RequestParam(value = "startdate", required = false, defaultValue = "1h-ago") String startdate,
+            @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
@@ -60,25 +60,46 @@ public class AjaxControlers {
         Long starttime = System.currentTimeMillis();
         ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, tags, startdate);
         Long getinterval = System.currentTimeMillis() - starttime;
-        JsonArray jsonMessages = new JsonArray();
+        JsonObject jsonMessages = new JsonObject();
         JsonObject jsonResult = new JsonObject();
 
         starttime = System.currentTimeMillis();
         if (data != null) {
             for (DataPoints[] DataPointslist : data) {
                 for (DataPoints DataPoints : DataPointslist) {
-                    final JsonObject jsonMessage = new JsonObject();
-                    jsonMessage.addProperty("index", DataPoints.getQueryIndex());
-                    jsonMessage.addProperty("metric", DataPoints.metricName());
                     Tagmap = DataPoints.getTags();
                     Tagmap.remove("UUID");
+                    Tagmap.remove("alert_level");
+
+                    JsonObject jsonMessage;
+
+                    String jsonuindex = DataPoints.metricName()+Integer.toString(Tagmap.hashCode());
+                    
+                    if (jsonMessages.get(jsonuindex) == null) {
+                        jsonMessage = new JsonObject();
+                    } else {
+                        jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
+                    }
+
+                    jsonMessage.addProperty("index", Tagmap.hashCode());
+                    jsonMessage.addProperty("metric", DataPoints.metricName());
+
                     final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
                     jsonMessage.add("tags", TagsJSON);
                     Tagmap.clear();
+
                     final SeekableView Datalist = DataPoints.iterator();
-                    final JsonObject DatapointsJSON = new JsonObject();
+                    
+                    JsonObject DatapointsJSON;
+                    
+                    if (jsonMessage.get("data") == null) {
+                        DatapointsJSON = new JsonObject();
+                    } else {
+                        DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
+                    }
+                    
                     while (Datalist.hasNext()) {
-                        DataPoint Point = Datalist.next();
+                        final DataPoint Point = Datalist.next();
                         if (Point.timestamp() < start_time) {
                             continue;
                         }
@@ -86,7 +107,7 @@ public class AjaxControlers {
                     }
 
                     jsonMessage.add("data", DatapointsJSON);
-                    jsonMessages.add(jsonMessage);
+                    jsonMessages.add(jsonuindex, jsonMessage);
 
                 }
 
@@ -94,7 +115,7 @@ public class AjaxControlers {
         }
         Long scaninterval = System.currentTimeMillis() - starttime;
         jsonResult.addProperty("gettime", getinterval);
-        jsonResult.addProperty("scantime", scaninterval);        
+        jsonResult.addProperty("scantime", scaninterval);
         jsonResult.add("chartsdata", jsonMessages);
 
 //            jsonResult.addProperty("itemscount", itemscount);

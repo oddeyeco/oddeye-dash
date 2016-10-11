@@ -4,7 +4,7 @@
 
     <groupId>oddeye.concout</groupId>
     <artifactId>OddeyeCoconut</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
     <packaging>war</packaging>
 
     <name>OddeyeCoconut</name>
@@ -40,6 +40,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>co.oddeye</groupId>
+            <artifactId>oddeye-core</artifactId>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

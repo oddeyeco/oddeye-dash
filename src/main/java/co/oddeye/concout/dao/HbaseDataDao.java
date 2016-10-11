@@ -6,28 +6,23 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.User;
-import com.stumbleupon.async.Callback;
-import com.stumbleupon.async.Deferred;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.opentsdb.core.Aggregators;
-import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.TSDB;
 import org.springframework.stereotype.Repository;
 import net.opentsdb.utils.Config;
 import net.opentsdb.core.Query;
 import net.opentsdb.core.DataPoints;
-import net.opentsdb.core.SeekableView;
 import net.opentsdb.core.TSQuery;
 import net.opentsdb.core.TSSubQuery;
 import net.opentsdb.query.filter.TagVFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -36,29 +31,17 @@ import net.opentsdb.query.filter.TagVFilter;
 @Repository
 public class HbaseDataDao extends HbaseBaseDao {
 
-    private final static String tablename = "HbaseDataDao";
-
-    private TSDB tsdb;
+    @Autowired
+    private BaseTsdbConnect BaseTsdb;         
+    
+    private final static String tablename = "HbaseDataDao";   
     private UUID uuid;
-    private Map<String, String> tags = new HashMap<String, String>();
+    private Map<String, String> tags = new HashMap<>();
     private DataPoints dataPoints;
+    
 
     public HbaseDataDao() {
         super(tablename);
-
-//        this.uuid = uuid;
-        try {
-            Config openTsdbConfig = new net.opentsdb.utils.Config(true);
-            openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", String.valueOf(false));
-            openTsdbConfig.overrideConfig("tsd.storage.hbase.data_table", String.valueOf("test_tsdb"));
-            openTsdbConfig.overrideConfig("tsd.storage.hbase.uid_table", String.valueOf("test_tsdb-uid"));
-            this.tsdb = new TSDB(
-                    this.client,
-                    openTsdbConfig);
-        } catch (IOException ex) {
-            Logger.getLogger(HbaseDataDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
     }
 
     public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery) {
@@ -83,7 +66,7 @@ public class HbaseDataDao extends HbaseBaseDao {
             for (String metric : metricslist) {
                 final TSSubQuery sub_query = new TSSubQuery();
                 sub_query.setMetric(metric);
-                sub_query.setAggregator("sum");
+                sub_query.setAggregator("none");
 
                 for (String tag : tglist) {
                     tgitem = tag.split("=");
@@ -104,12 +87,12 @@ public class HbaseDataDao extends HbaseBaseDao {
 
             tsquery.validateAndSetQuery();
 
-            Query[] tsdbqueries = tsquery.buildQueries(tsdb);
+            Query[] tsdbqueries = tsquery.buildQueries(BaseTsdb.getTsdb());
 
             // create some arrays for storing the results and the async calls
             final int nqueries = tsdbqueries.length;
             final ArrayList<DataPoints[]> results
-                    = new ArrayList<DataPoints[]>(nqueries);
+                    = new ArrayList<>(nqueries);
 //            final ArrayList<Deferred<DataPoints[]>> deferreds
 //                    = new ArrayList<Deferred<DataPoints[]>>(nqueries);
 
