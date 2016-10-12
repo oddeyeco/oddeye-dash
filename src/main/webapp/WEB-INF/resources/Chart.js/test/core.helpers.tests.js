@@ -224,6 +224,8 @@ describe('Core helper tests', function() {
 						display: true,
 						zeroLineColor: "rgba(0,0,0,0.25)",
 						zeroLineWidth: 1,
+						borderDash: [],
+						borderDashOffset: 0.0
 					},
 					position: "right",
 					scaleLabel: {
@@ -258,6 +260,8 @@ describe('Core helper tests', function() {
 						display: true,
 						zeroLineColor: "rgba(0,0,0,0.25)",
 						zeroLineWidth: 1,
+						borderDash: [],
+						borderDashOffset: 0.0
 					},
 					position: "left",
 					scaleLabel: {
@@ -425,6 +429,156 @@ describe('Core helper tests', function() {
 		});
 	});
 
+	it('should spline curves with monotone cubic interpolation', function() {
+		var dataPoints = [
+			{ _model: { x:    0, y:    0, skip: false } },
+			{ _model: { x:    3, y:    6, skip: false } },
+			{ _model: { x:    9, y:    6, skip: false } },
+			{ _model: { x:   12, y:   60, skip: false } },
+			{ _model: { x:   15, y:   60, skip: false } },
+			{ _model: { x:   18, y:  120, skip: false } },
+			{ _model: { x: null, y: null, skip: true  } },
+			{ _model: { x:   21, y:  180, skip: false } },
+			{ _model: { x:   24, y:  120, skip: false } },
+			{ _model: { x:   27, y:  125, skip: false } },
+			{ _model: { x:   30, y:  105, skip: false } },
+			{ _model: { x:   33, y:  110, skip: false } },
+			{ _model: { x:   36, y:  170, skip: false } }
+		];
+		helpers.splineCurveMonotone(dataPoints);
+		expect(dataPoints).toEqual([{
+			_model: {
+				x: 0,
+				y: 0,
+				skip: false,
+				controlPointNextX: 1,
+				controlPointNextY: 2
+			}
+		},
+		{
+			_model: {
+				x: 3,
+				y: 6,
+				skip: false,
+				controlPointPreviousX: 2,
+				controlPointPreviousY: 6,
+				controlPointNextX: 5,
+				controlPointNextY: 6
+			}
+		},
+		{
+			_model: {
+				x: 9,
+				y: 6,
+				skip: false,
+				controlPointPreviousX: 7,
+				controlPointPreviousY: 6,
+				controlPointNextX: 10,
+				controlPointNextY: 6
+			}
+		},
+		{
+			_model: {
+				x: 12,
+				y: 60,
+				skip: false,
+				controlPointPreviousX: 11,
+				controlPointPreviousY: 60,
+				controlPointNextX: 13,
+				controlPointNextY: 60
+			}
+		},
+		{
+			_model: {
+				x: 15,
+				y: 60,
+				skip: false,
+				controlPointPreviousX: 14,
+				controlPointPreviousY: 60,
+				controlPointNextX: 16,
+				controlPointNextY: 60
+			}
+		},
+		{
+			_model: {
+				x: 18,
+				y: 120,
+				skip: false,
+				controlPointPreviousX: 17,
+				controlPointPreviousY: 100
+			}
+		},
+		{
+			_model: {
+				x: null,
+				y: null,
+				skip: true
+			}
+		},
+		{
+			_model: {
+				x: 21,
+				y: 180,
+				skip: false,
+				controlPointNextX: 22,
+				controlPointNextY: 160
+			}
+		},
+		{
+			_model: {
+				x: 24,
+				y: 120,
+				skip: false,
+				controlPointPreviousX: 23,
+				controlPointPreviousY: 120,
+				controlPointNextX: 25,
+				controlPointNextY: 120
+			}
+		},
+		{
+			_model: {
+				x: 27,
+				y: 125,
+				skip: false,
+				controlPointPreviousX: 26,
+				controlPointPreviousY: 125,
+				controlPointNextX: 28,
+				controlPointNextY: 125
+			}
+		},
+		{
+			_model: {
+				x: 30,
+				y: 105,
+				skip: false,
+				controlPointPreviousX: 29,
+				controlPointPreviousY: 105,
+				controlPointNextX: 31,
+				controlPointNextY: 105
+			}
+		},
+		{
+			_model: {
+				x: 33,
+				y: 110,
+				skip: false,
+				controlPointPreviousX: 32,
+				controlPointPreviousY: 105,
+				controlPointNextX: 34,
+				controlPointNextY: 115
+			}
+		},
+		{
+			_model: {
+				x: 36,
+				y: 170,
+				skip: false,
+				controlPointPreviousX: 35,
+				controlPointPreviousY: 150
+			}
+		}]);
+	});
+
 	it('should get the next or previous item in an array', function() {
 		var testData = [0, 1, 2];
 
@@ -452,6 +606,68 @@ describe('Core helper tests', function() {
 			name: 'clearRect',
 			args: [0, 0, 100, 150]
 		}]);
+	});
+
+	it('should return the width of the longest text in an Array and 2D Array', function() {
+		var context = window.createMockContext();
+		var font = "normal 12px 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif";
+		var arrayOfThings_1D = ['FooBar','Bar'];
+		var arrayOfThings_2D = [['FooBar_1','Bar_2'],'Foo_1'];
+		
+
+		// Regardless 'FooBar' is the longest label it should return (charcters * 10)
+		expect(helpers.longestText(context, font, arrayOfThings_1D, {})).toEqual(60);
+		expect(helpers.longestText(context, font, arrayOfThings_2D, {})).toEqual(80);
+		// We check to make sure we made the right calls to the canvas.
+		expect(context.getCalls()).toEqual([{
+			name: 'measureText',
+			args: ['FooBar']
+		}, {
+			name: 'measureText',
+			args: ['Bar']
+		}, {
+			name: 'measureText',
+			args: ['FooBar_1']
+		}, {
+			name: 'measureText',
+			args: ['Bar_2']
+		}, {
+			name: 'measureText',
+			args: ['Foo_1']
+		}]);
+	});
+
+	it('compare text with current longest and update', function() {
+		var context = window.createMockContext();
+		var data = {};
+		var gc = [];
+		var longest = 70;
+
+		expect(helpers.measureText(context, data, gc, longest, 'foobar')).toEqual(70);
+		expect(helpers.measureText(context, data, gc, longest, 'foobar_')).toEqual(70);
+		expect(helpers.measureText(context, data, gc, longest, 'foobar_1')).toEqual(80);
+		// We check to make sure we made the right calls to the canvas.
+		expect(context.getCalls()).toEqual([{
+			name: 'measureText',
+			args: ['foobar']
+		}, {
+			name: 'measureText',
+			args: ['foobar_']
+		}, {
+			name: 'measureText',
+			args: ['foobar_1']
+		}]);
+	});
+
+	it('count look at all the labels and return maximum number of lines', function() {
+		var context = window.createMockContext();
+		var arrayOfThings_1 = ['Foo','Bar'];
+		var arrayOfThings_2 = [['Foo','Bar'],'Foo'];
+		var arrayOfThings_3 = [['Foo','Bar','Boo'],['Foo','Bar'],'Foo'];
+
+		expect(helpers.numberOfLabelLines(arrayOfThings_1)).toEqual(1);
+		expect(helpers.numberOfLabelLines(arrayOfThings_2)).toEqual(2);
+		expect(helpers.numberOfLabelLines(arrayOfThings_3)).toEqual(3);
 	});
 
 	it('should draw a rounded rectangle', function() {

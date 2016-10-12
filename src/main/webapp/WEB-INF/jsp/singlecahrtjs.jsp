@@ -198,7 +198,6 @@
                 for (var time in chartline.data) {
                     itemdata = {x: time * 1, y: chartline.data[time]};
                     d.push(itemdata);
-
                 }
 
                 item = {

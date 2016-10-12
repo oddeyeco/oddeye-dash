@@ -1,10 +1,16 @@
-"use strict";
+'use strict';
 
 module.exports = function() {
 
-	//Occupy the global variable of Chart, and create a simple base class
+	// Occupy the global variable of Chart, and create a simple base class
 	var Chart = function(context, config) {
-		this.config = config;
+		var me = this;
+		var helpers = Chart.helpers;
+		me.config = config || {
+			data: {
+				datasets: []
+			}
+		};
 
 		// Support a jQuery'd canvas element
 		if (context.length && context[0].getContext) {
@@ -13,58 +19,56 @@ module.exports = function() {
 
 		// Support a canvas domnode
 		if (context.getContext) {
-			context = context.getContext("2d");
+			context = context.getContext('2d');
 		}
 
-		this.ctx = context;
-		this.canvas = context.canvas;
+		me.ctx = context;
+		me.canvas = context.canvas;
+
+		context.canvas.style.display = context.canvas.style.display || 'block';
 
 		// Figure out what the size of the chart will be.
 		// If the canvas has a specified width and height, we use those else
 		// we look to see if the canvas node has a CSS width and height.
 		// If there is still no height, fill the parent container
-		this.width = context.canvas.width || parseInt(Chart.helpers.getStyle(context.canvas, 'width')) || Chart.helpers.getMaximumWidth(context.canvas);
-		this.height = context.canvas.height || parseInt(Chart.helpers.getStyle(context.canvas, 'height')) || Chart.helpers.getMaximumHeight(context.canvas);
+		me.width = context.canvas.width || parseInt(helpers.getStyle(context.canvas, 'width'), 10) || helpers.getMaximumWidth(context.canvas);
+		me.height = context.canvas.height || parseInt(helpers.getStyle(context.canvas, 'height'), 10) || helpers.getMaximumHeight(context.canvas);
 
-		this.aspectRatio = this.width / this.height;
+		me.aspectRatio = me.width / me.height;
 
-		if (isNaN(this.aspectRatio) || isFinite(this.aspectRatio) === false) {
+		if (isNaN(me.aspectRatio) || isFinite(me.aspectRatio) === false) {
 			// If the canvas has no size, try and figure out what the aspect ratio will be.
 			// Some charts prefer square canvases (pie, radar, etc). If that is specified, use that
 			// else use the canvas default ratio of 2
-			this.aspectRatio = config.aspectRatio !== undefined ? config.aspectRatio : 2;
+			me.aspectRatio = config.aspectRatio !== undefined ? config.aspectRatio : 2;
 		}
 
 		// Store the original style of the element so we can set it back
-		this.originalCanvasStyleWidth = context.canvas.style.width;
-		this.originalCanvasStyleHeight = context.canvas.style.height;
+		me.originalCanvasStyleWidth = context.canvas.style.width;
+		me.originalCanvasStyleHeight = context.canvas.style.height;
 
 		// High pixel density displays - multiply the size of the canvas height/width by the device pixel ratio, then scale.
-		Chart.helpers.retinaScale(this);
-
-		if (config) {
-			this.controller = new Chart.Controller(this);
-		}
+		helpers.retinaScale(me);
+		me.controller = new Chart.Controller(me);
 
 		// Always bind this so that if the responsive state changes we still work
-		var _this = this;
-		Chart.helpers.addResizeListener(context.canvas.parentNode, function() {
-			if (_this.controller && _this.controller.config.options.responsive) {
-				_this.controller.resize();
+		helpers.addResizeListener(context.canvas.parentNode, function() {
+			if (me.controller && me.controller.config.options.responsive) {
+				me.controller.resize();
 			}
 		});
 
-		return this.controller ? this.controller : this;
+		return me.controller ? me.controller : me;
 
 	};
 
-	//Globally expose the defaults to allow for user updating/changing
+	// Globally expose the defaults to allow for user updating/changing
 	Chart.defaults = {
 		global: {
 			responsive: true,
 			responsiveAnimationDuration: 0,
 			maintainAspectRatio: true,
-			events: ["mousemove", "mouseout", "click", "touchstart", "touchmove"],
+			events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove'],
 			hover: {
 				onHover: null,
 				mode: 'single',
@@ -94,10 +98,12 @@ module.exports = function() {
 				}
 				text.push('</ul>');
 
-				return text.join("");
+				return text.join('');
 			}
 		}
 	};
+
+	Chart.Chart = Chart;
 
 	return Chart;
 

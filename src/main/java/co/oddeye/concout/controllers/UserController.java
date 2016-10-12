@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
-@RequestMapping(value = "/dashboard/new", method = RequestMethod.GET)
-    public String dashboardnew( ModelMap map) {
-        User userDetails = (User) SecurityContextHolder.getContext().
-                getAuthentication().getPrincipal();
-        map.put("curentuser", userDetails);
-        map.put("body", "newdush");
-        map.put("jspart", "newdushjs");
-        return "index";
-    }    
+//@RequestMapping(value = "/dashboard/new", method = RequestMethod.GET)
+//    public String dashboardnew( ModelMap map) {
+//        User userDetails = (User) SecurityContextHolder.getContext().
+//                getAuthentication().getPrincipal();
+//        map.put("curentuser", userDetails);
+//        map.put("body", "newdush");
+//        map.put("jspart", "newdushjs");
+//        return "index";
+//    }    
     
 }

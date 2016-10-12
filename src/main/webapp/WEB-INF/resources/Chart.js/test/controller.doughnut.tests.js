@@ -1,14 +1,5 @@
 // Test the bar controller
 describe('Doughnut controller tests', function() {
-
-	beforeEach(function() {
-		window.addDefaultMatchers(jasmine);
-	});
-
-	afterEach(function() {
-		window.releaseAllCharts();
-	});
-
 	it('should be constructed', function() {
 		var chart = window.acquireChart({
 			type: 'doughnut',
@@ -75,8 +66,7 @@ describe('Doughnut controller tests', function() {
 					arc: {
 						backgroundColor: 'rgb(255, 0, 0)',
 						borderColor: 'rgb(0, 0, 255)',
-						borderWidth: 2,
-						hoverBackgroundColor: 'rgb(255, 255, 255)'
+						borderWidth: 2
 					}
 				}
 			}
@@ -102,7 +92,6 @@ describe('Doughnut controller tests', function() {
 				startAngle: Math.PI * -0.5,
 				endAngle: Math.PI * -0.5,
 				label: chart.data.labels[i],
-				hoverBackgroundColor: 'rgb(255, 255, 255)',
 				backgroundColor: 'rgb(255, 0, 0)',
 				borderColor: 'rgb(0, 0, 255)',
 				borderWidth: 2
@@ -125,7 +114,6 @@ describe('Doughnut controller tests', function() {
 			expect(meta.data[i]._model.endAngle).toBeCloseTo(expected.e, 8);
 			expect(meta.data[i]._model).toEqual(jasmine.objectContaining({
 				label: chart.data.labels[i],
-				hoverBackgroundColor: 'rgb(255, 255, 255)',
 				backgroundColor: 'rgb(255, 0, 0)',
 				borderColor: 'rgb(0, 0, 255)',
 				borderWidth: 2
@@ -173,8 +161,7 @@ describe('Doughnut controller tests', function() {
 					arc: {
 						backgroundColor: 'rgb(255, 0, 0)',
 						borderColor: 'rgb(0, 0, 255)',
-						borderWidth: 2,
-						hoverBackgroundColor: 'rgb(255, 255, 255)'
+						borderWidth: 2
 					}
 				}
 			}
