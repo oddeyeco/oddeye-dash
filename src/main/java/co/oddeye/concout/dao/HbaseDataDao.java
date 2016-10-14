@@ -32,13 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class HbaseDataDao extends HbaseBaseDao {
 
     @Autowired
-    private BaseTsdbConnect BaseTsdb;         
-    
-    private final static String tablename = "HbaseDataDao";   
-    private UUID uuid;
-    private Map<String, String> tags = new HashMap<>();
-    private DataPoints dataPoints;
-    
+    private BaseTsdbConnect BaseTsdb;
+
+    private final static String tablename = "HbaseDataDao";    
+    private final Map<String, String> tags = new HashMap<>();    
 
     public HbaseDataDao() {
         super(tablename);
@@ -46,40 +43,49 @@ public class HbaseDataDao extends HbaseBaseDao {
 
     public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery) {
         String Startdate = "5m-ago";
-        return getDatabyQuery (user,metrics,tagsquery,Startdate);
+        String Enddate = "now";
+        return getDatabyQuery(user, metrics, tagsquery, Startdate, Enddate, "");
     }
-    
-    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery,String Startdate) {
+
+    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery, String Startdate, String Enddate, String Downsample) {
 
         try {
             final TSQuery tsquery = new TSQuery();
-            final UUID userid = user.getId();            
+            final UUID userid = user.getId();
             tsquery.setStart(Startdate);
-            
+            if (!Enddate.equals("now")) {
+                tsquery.setEnd(Enddate);
+            }
 
+            tsquery.setDelete(false);
             final List<TagVFilter> filters = new ArrayList<>();
             final ArrayList<TSSubQuery> sub_queries = new ArrayList<>(1);
-            final String[] metricslist = metrics.split(";");
+            final String[] metricslist = metrics.split(";");           
             final String[] tglist = tagsquery.split(";");
-            String[] tgitem;
+            String[] tgitem;            
 
             for (String metric : metricslist) {
-                final TSSubQuery sub_query = new TSSubQuery();
-                sub_query.setMetric(metric);
-                sub_query.setAggregator("none");
+                
+                    final TSSubQuery sub_query = new TSSubQuery();
+                    sub_query.setMetric(metric);
+                    sub_query.setAggregator("none");
 
-                for (String tag : tglist) {
-                    tgitem = tag.split("=");
-                    tags.put(tgitem[0], tgitem[1]);                    
-                }
-                tags.put("UUID", userid.toString());
+                    if (!Downsample.equals(""))
+                    {
+                        sub_query.setDownsample(Downsample);
+                    }
+                    for (String tag : tglist) {
+                        tgitem = tag.split("=");
+                        tags.put(tgitem[0], tgitem[1]);
+                    }
+                    tags.put("UUID", userid.toString());
 //                sub_query.setTags(tags);
-                TagVFilter.mapToFilters(tags, filters,true);
-                sub_query.setFilters(filters);
+                    TagVFilter.mapToFilters(tags, filters, true);
+                    sub_query.setFilters(filters);
 //                sub_query.setDownsample("1m-ep999r7");
-                sub_queries.add(sub_query);
+                    sub_queries.add(sub_query);
 
-                tags.clear();
+                    tags.clear();                
             }
 
             tags.clear();
@@ -98,7 +104,7 @@ public class HbaseDataDao extends HbaseBaseDao {
 
             // this executes each of the sub queries asynchronously and puts the
             // deferred in an array so we can wait for them to complete.
-            for (int i = 0; i < nqueries; i++) {                
+            for (int i = 0; i < nqueries; i++) {
                 results.add(tsdbqueries[i].run());
             }
 

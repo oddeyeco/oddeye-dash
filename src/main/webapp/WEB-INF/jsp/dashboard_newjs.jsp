@@ -2,6 +2,8 @@
     dush_charts_options = [];
     dush_charts = [];
     var singleChart = null;
+    var pickerstart;
+    var pickerend;
     function getParameterByName(name, url) {
         if (!url)
             url = window.location.href;
@@ -31,13 +33,8 @@
                 var ctx = $("#dashcontent .rowcontent:last").find(".lineChart").last();
                 ctx.attr("datasetindex", dush_charts_options.length);
                 options = row[chartindex];
-                console.log(options);
+//                console.log(options);
                 dush_charts_options.push(options);
-//            legend: {
-//                display: false,
-//            },                
-                options.options.legend = {};    
-                options.options.legend.display = false;
                 lineChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));
                 dush_charts.push(lineChart);
             }
@@ -61,6 +58,86 @@
     }
 
     $(document).ready(function () {
+
+
+        // datepicer
+        var cb = function (start, end, label) {
+            $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
+            pickerstart = start;
+            pickerend = end;                        
+        };
+        var optionSet1 = {
+            startDate: moment().subtract(5, 'minute'),
+            endDate: moment(),
+            minDate: '01/01/2012',
+            maxDate: moment().add(1, 'days'),
+            dateLimit: {
+                days: 60
+            },
+            showDropdowns: true,
+            showWeekNumbers: true,
+            timePicker: true,
+            timePickerIncrement: 15,
+            timePicker12Hour: true,
+            ranges: {
+                'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
+                'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
+                'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
+                'Last 1 hour': [moment().subtract(1, 'hour'), moment()],
+                'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
+                'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
+                'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
+                'Last 24 hour': [moment().subtract(24, 'hour'), moment()],
+//                'Today': [moment(), moment()],
+//                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+//                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+//                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+//                'This Month': [moment().startOf('month'), moment().endOf('month')],
+//                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            opens: 'left',
+            buttonClasses: ['btn btn-default'],
+            applyClass: 'btn-small btn-primary',
+            cancelClass: 'btn-small',
+            format: 'MM/DD/YYYY H:m:s',
+            separator: ' to ',
+            locale: {
+                applyLabel: 'Submit',
+                cancelLabel: 'Clear',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: 'Custom',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        };
+        $('#reportrange span').html(optionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + optionSet1.endDate.format('MM/DD/YYYY H:m:s'));
+        
+        $('#reportrange').daterangepicker(optionSet1, cb);
+        pickerstart = optionSet1.startDate;                    
+        
+        $('#reportrange').on('show.daterangepicker', function () {
+//            console.log("show event fired");
+        });
+        $('#reportrange').on('hide.daterangepicker', function () {
+//            console.log("hide event fired");
+        });
+        $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+////            console.log("apply event fired, start/end dates are " + picker.startDate.format('MM/DD/YYYY H:m:s') + " to " + picker.endDate.format('MM/DD/YYYY H:m:s'));
+//            console.log(picker.startDate + " " + picker.startDate.format('MM/DD/YYYY H:m:s') + " " + picker.startDate.unix());
+////            redrawchart(window.location.search + '&startdate=' + picker.startDate);
+////            alert (window.location.search+'&startdate='+picker.startDate.unix());
+            dush_charts.forEach(redrawchart);
+        });
+        $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
+            console.log("cancel event fired");
+        });
+        $('#destroy').click(function () {
+            $('#reportrange').data('daterangepicker').remove();
+        });
+
+        // end date picer
 
         rebuilsCarts(${dashInfo});
         $("#addrow").on("click", function () {
@@ -260,6 +337,8 @@
     function redrawchart(chart, index)
     {
         url = dush_charts_options[index].data.datasetsUri;
+        url = (url+'&startdate=' + pickerstart);
+//        redrawchart(window.location.search + '&startdate=' + picker.startDate);
 //        console.log("URL=" + url);
         UpdateChart(chart, url);
     }

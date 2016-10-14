@@ -34,34 +34,37 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class AjaxControlers {
-
+    
     @Autowired
     HbaseDataDao DataDao;
-
+    
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "metrics") String metrics,
-            @RequestParam(value = "startdate", required = false, defaultValue = "5m-ago") String startdate,
+            @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
+            @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
+            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             user = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-
+            
         }
-
+        
         Gson gson = new Gson();
-
+        
         Map<String, String> Tagmap;
-
+        
         Long start_time = DateTime.parseDateTimeString(startdate, null);
+//        Long end_time = DateTime.parseDateTimeString(enddate, null);
         Long starttime = System.currentTimeMillis();
-        ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, tags, startdate);
+        ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, tags, startdate, enddate, downsample);
         Long getinterval = System.currentTimeMillis() - starttime;
         JsonObject jsonMessages = new JsonObject();
         JsonObject jsonResult = new JsonObject();
-
+        
         starttime = System.currentTimeMillis();
         if (data != null) {
             for (DataPoints[] DataPointslist : data) {
@@ -69,24 +72,24 @@ public class AjaxControlers {
                     Tagmap = DataPoints.getTags();
                     Tagmap.remove("UUID");
                     Tagmap.remove("alert_level");
-
+                    
                     JsonObject jsonMessage;
-
-                    String jsonuindex = DataPoints.metricName()+Integer.toString(Tagmap.hashCode());
+                    
+                    String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
                     
                     if (jsonMessages.get(jsonuindex) == null) {
                         jsonMessage = new JsonObject();
                     } else {
                         jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                     }
-
+                    
                     jsonMessage.addProperty("index", Tagmap.hashCode());
                     jsonMessage.addProperty("metric", DataPoints.metricName());
-
+                    
                     final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
                     jsonMessage.add("tags", TagsJSON);
                     Tagmap.clear();
-
+                    
                     final SeekableView Datalist = DataPoints.iterator();
                     
                     JsonObject DatapointsJSON;
@@ -104,12 +107,12 @@ public class AjaxControlers {
                         }
                         DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                     }
-
+                    
                     jsonMessage.add("data", DatapointsJSON);
                     jsonMessages.add(jsonuindex, jsonMessage);
-
+                    
                 }
-
+                
             }
         }
         Long scaninterval = System.currentTimeMillis() - starttime;
@@ -121,7 +124,7 @@ public class AjaxControlers {
 //            jsonResult.addProperty("firstinterval", firstinterval);
 //            jsonResult.addProperty("stepinterval", stepinterval);
         map.put("jsonmodel", jsonResult);
-
+        
         return "ajax";
     }
 }
