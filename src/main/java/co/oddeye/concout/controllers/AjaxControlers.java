@@ -41,7 +41,7 @@ public class AjaxControlers {
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "metrics") String metrics,
-            @RequestParam(value = "startdate", required = false, defaultValue = "1m-ago") String startdate,
+            @RequestParam(value = "startdate", required = false, defaultValue = "5m-ago") String startdate,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
