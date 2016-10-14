@@ -46,14 +46,16 @@
 
 <div class="x_panel fulldash">
     <div class="x_title">
-        <h2><input type="text" name="name" id="name" value="Dashboard 1"></h2>
+        <h2><input type="text" name="name" id="name" value="${dashname}"></h2>
         <div class="clearfix"></div>
         <a class="btn btn-primary" type="button" id="addrow">Add Row</a>
         <a class="btn btn-primary savedash" type="button">Save </a>
     </div>
     <div class="x_content" id="dashcontent">        
+        
     </div>
 </div>
+        
 <div class="x_panel editchartpanel" style="display: none">
     <div class="x_title">
         <h2>Edit Chart</h2>

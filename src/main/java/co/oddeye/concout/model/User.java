@@ -403,6 +403,7 @@ public class User implements UserDetails {
     /**
      * @param DushName
      * @param DushInfo
+     * @param Userdao
      * @return the DushList
      */
     public Map<String, String> addDush(String DushName, String DushInfo,HbaseUserDao Userdao) {
@@ -410,6 +411,11 @@ public class User implements UserDetails {
         Userdao.saveDush(id, DushName, DushInfo);
         return DushList;
     }
+    
+    public String getDush(String DushName) {                
+        return DushList.get(DushName);
+    }
+    
     
 
 }

@@ -2,17 +2,73 @@
     dush_charts_options = [];
     dush_charts = [];
     var singleChart = null;
+    function getParameterByName(name, url) {
+        if (!url)
+            url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+        if (!results)
+            return null;
+        if (!results[2])
+            return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function rebuilsCarts(Dashinfo)
+    {
+//            Dashinfo = {};
+        if (typeof Dashinfo == "undefined")
+        {
+            return false;
+        }
+//        alert(Dashinfo.constructor.name);
+        for (var index in Dashinfo) {
+            var row = Dashinfo[index];
+            $("#dashcontent").append($("#rowtemplate").html());
+            for (var chartindex in row) {
+                $("#dashcontent .rowcontent:last").append($("#charttemplate").html());
+                var ctx = $("#dashcontent .rowcontent:last").find(".lineChart").last();
+                ctx.attr("datasetindex", dush_charts_options.length);
+                options = row[chartindex];
+                console.log(options);
+                dush_charts_options.push(options);
+//            legend: {
+//                display: false,
+//            },                
+                options.options.legend = {};    
+                options.options.legend.display = false;
+                lineChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));
+                dush_charts.push(lineChart);
+            }
+
+        }
+
+        $("#dashcontent .rowcontent").each(function (index) {
+            itemcount = $(this).find(".lineChart").size();
+            size = 12;
+            if (itemcount < 12)
+            {
+                size = Math.round(12 / itemcount);
+            } else
+            {
+                size = 1;
+            }
+            $(this).find(".chartsection").attr("size", size);
+            $(this).find(".chartsection").attr("class", "chartsection col-lg-" + size);
+        });
+        dush_charts.forEach(redrawchart);
+    }
+
     $(document).ready(function () {
+
+        rebuilsCarts(${dashInfo});
         $("#addrow").on("click", function () {
             $("#dashcontent").append($("#rowtemplate").html());
         });
-
-//        $().live
-
         $('body').on("click", ".addchart", function () {
             $(this).parents(".x_content").first().find(".rowcontent").append($("#charttemplate").html());
             var ctx = $(this).parents(".x_content").first().find(".rowcontent").find(".lineChart").last();
-//            ctx.height = 600;
             ctx.attr("datasetindex", dush_charts_options.length);
             var datasets = [];
             var d = [];
@@ -54,10 +110,7 @@
 
             $(this).parents(".x_content").first().find(".rowcontent").find(".chartsection").attr("size", size);
             $(this).parents(".x_content").first().find(".rowcontent").find(".chartsection").attr("class", "chartsection col-lg-" + size);
-
         });
-
-
         $('body').on("click", ".plus", function () {
             block = $(this).parent().parent().parent();
             if (parseInt(block.attr("size")) < 12)
@@ -66,8 +119,6 @@
                 block.attr("class", "chartsection col-lg-" + block.attr("size"));
             }
         });
-
-
         $('body').on("click", ".minus", function () {
             block = $(this).parent().parent().parent();
             if (parseInt(block.attr("size")) > 1)
@@ -76,23 +127,40 @@
                 block.attr("class", "chartsection col-lg-" + block.attr("size"));
             }
         });
-
         $('body').on("click", ".editchart", function () {
             datasetindex = $(this).parents(".chartsection").find(".lineChart").attr("datasetindex")
             $(".editchartpanel").show();
             options = dush_charts_options[datasetindex];
+            console.log(options);
             singleChart = null;
             html = $("#charttemplate").html();
             $(".editchartpanel #singlewidget").html(html);
             $(".editchartpanel #singlewidget .controls").remove();
             var ctx = $(".editchartpanel #singlewidget").find(".lineChart").last();
             ctx.height = 600;
-
-            singleChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));
+            var url = options.data.datasetsUri;
+            drawchart(url, ctx, options);
+//            console.log(options);  
+//            singleChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));
             $(".editchartpanel").attr("datasetindex", datasetindex);
             $(".fulldash").hide();
+            //Fill edit form
+            console.log(options.data.datasetsUri);
+//            console.log(options.data.datasetsUri);
+            if (typeof (options.data.datasetsUri) == "undefined")
+            {
+                $("#tab_metrics input#tags").val("");
+                $("#tab_metrics input#metrics").val("");
+                $("#tab_metrics input#down-sample").val("");
+            } else
+            {
+//                dsadsa
+//                var url = document.createElement('a');
+//                url.href = options.data.datasetsUri;
+                $("#tab_metrics input#tags").val(getParameterByName("tags", options.data.datasetsUri));
+                $("#tab_metrics input#metrics").val(getParameterByName("metrics", options.data.datasetsUri));
+            }
         });
-
         $('body').on("click", ".backtodush", function () {
             $(".editchartpanel #singlewidget").html("");
             singleChart = null;
@@ -101,16 +169,14 @@
             dush_charts.forEach(redrawchart)
 //            redrawchart(dush_charts[0]);
         });
-
 //        $("input").blur()
         $('body').on("blur", ".edit-query input", function () {
             datasetindex = $(".editchartpanel").attr("datasetindex");
             query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val();
             options = dush_charts_options[datasetindex];
-            drawchart(query, $(".editchartpanel #singlewidget").find(".lineChart").last(), options)
+            var url = "${cp}/getdata" + query;
+            drawchart(url, $(".editchartpanel #singlewidget").find(".lineChart").last(), options)
         });
-
-
         $('body').on("click", ".savedash", function () {
             url = "${cp}/dashboard/save";
             to_senddata = {};
@@ -127,31 +193,19 @@
                             sendchartinfo = JSON.parse(JSON.stringify(dush_charts_options[dataindex]));
                             sendchartinfo.data.datasets.forEach(function (item) {
                                 item.data = [];
-                                alert(JSON.stringify(item));
                             });
                             to_senddata["raw" + rawindex]["chart" + dataindex] = sendchartinfo;
-
                         });
                     }
 
                 })
             }
 
-//            dush_charts_options.forEach(function (chartinfo, index) {
-//                sendchartinfo = JSON.parse(JSON.stringify(chartinfo));
-//                sendchartinfo.data.datasets = [];
-//                senddata["data" + index] = JSON.stringify(sendchartinfo);
-////                console.log(chartinfo);
-//            })
-
-            alert(JSON.stringify(to_senddata));
             senddata.info = JSON.stringify(to_senddata);
             senddata.name = $("#name").val();
-
-            console.log(senddata);
+//            console.log(senddata);
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
-
             $.ajax({
                 url: url,
                 data: senddata,
@@ -166,18 +220,13 @@
                     console.log(xhr.status + ": " + thrownError);
                 }
             });
-
 //
 //            $.post(url, senddata, function (data) {
 //                alert(JSON.stringify(data));
 //            });
 
         });
-
     });
-
-
-
     var defoptions = {
         type: 'line',
         data: {
@@ -185,6 +234,9 @@
         },
         options: {
 //            maintainAspectRatio: false,
+            legend: {
+                display: false,
+            },
             tooltips: {
 //                responsive
                 enabled: true,
@@ -205,20 +257,16 @@
             }
         }
     };
-
-
     function redrawchart(chart, index)
     {
         url = dush_charts_options[index].data.datasetsUri;
-        console.log("URL=" + url);
+//        console.log("URL=" + url);
         UpdateChart(chart, url);
-
     }
 
     function UpdateChart(chart, url)
     {
         var datasets = chart.data.datasets;
-
         $.getJSON(url, null, function (data) {
             var pos = 0;
             for (var k in data.chartsdata) {
@@ -231,8 +279,8 @@
                 d.sort(function (a, b) {
                     return parseInt(a.x) - parseInt(b.x);
                 });
-                console.log(pos);
-                console.log(datasets.length);
+//                console.log(pos);
+//                console.log(datasets.length);
                 if (pos < datasets.length)
                 {
                     item = datasets[pos];
@@ -258,15 +306,13 @@
 
             chart.data.datasets = datasets;
             chart.update(0, true);
-
-
         });
     }
 
-    function drawchart(query, ctx, options)
+    function drawchart(url, ctx, options)
     {
         var datasets = [];
-        var url = "${cp}/getdata" + query;
+//        var url = "${cp}/getdata" + query;
         $.getJSON(url, null, function (data) {
             var pos = 0;
             for (var k in data.chartsdata) {
