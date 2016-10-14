@@ -11,6 +11,7 @@ package co.oddeye.concout.config;
  */
 import co.oddeye.concout.providers.HbaseAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;

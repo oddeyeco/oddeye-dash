@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import java.util.UUID;
 import java.util.logging.Level;
@@ -40,21 +41,20 @@ import org.springframework.stereotype.Repository;
 public class HbaseUserDao extends HbaseBaseDao {
 
     @Autowired
-    private BaseTsdbConnect BaseTsdb;     
+    private BaseTsdbConnect BaseTsdb;
     @Autowired
     HbaseMetaDao MetaDao;
-    
-    
+
+    byte[] dashtable = "oddeyeDushboards".getBytes();
+
     private final Map<UUID, User> users = new HashMap<>();
+
     public HbaseUserDao() {
         super("oddeyeusers");
     }
 
     public void addUser(User user) throws Exception {
         UUID uuid = user.getId();
-
-//        byte[] buuid = Bytes.toBytes(uuid.toString());
-//        java.util.Date date = new java.util.Date();        
         final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
         final PutRequest putname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "name".getBytes(), user.getName().getBytes());
         final PutRequest putemail = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "email".getBytes(), user.getEmail().getBytes());
@@ -100,42 +100,6 @@ public class HbaseUserDao extends HbaseBaseDao {
         BaseTsdb.getClient().put(putname);
         BaseTsdb.getClient().put(putemail);
         BaseTsdb.getClient().put(putlastname).join();
-
-        //***************************OLD
-//        Put row = new Put(buuid, date.getTime());
-//        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("UUID"), Bytes.toBytes(uuid.toString()));
-//        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("name"), Bytes.toBytes(user.getName()));
-//        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("email"), Bytes.toBytes(user.getEmail()));
-//        row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("lastname"), Bytes.toBytes(user.getLastname()));
-//        if (user.getCompany() != null) {
-//            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("company"), Bytes.toBytes(user.getCompany()));
-//        }
-//        if (user.getCountry() != null) {
-//            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("country"), Bytes.toBytes(user.getCountry()));
-//        }
-//        if (user.getCity() != null) {
-//            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"), Bytes.toBytes(user.getCity()));
-//        }
-//        if (user.getRegion() != null) {
-//            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("region"), Bytes.toBytes(user.getRegion()));
-//        }
-//        if (user.getPasswordByte() != null) {
-//            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("password"), user.getPasswordByte());
-//        }
-//        if (user.getSolt() != null) {
-//            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("solt"), user.getSolt());
-//        }
-//        if (user.getTimezone() != null) {
-//            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("timezone"), Bytes.toBytes(user.getTimezone()));
-//        }
-//        if (user.getActive() != null) {
-//            row.addColumn(Bytes.toBytes("technicalinfo"), Bytes.toBytes("active"), Bytes.toBytes(user.getActive()));
-//        }
-//        try {
-//            this.htable.put(row);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
     }
 
     public List<User> getAllUsers() {
@@ -213,16 +177,35 @@ public class HbaseUserDao extends HbaseBaseDao {
             GetRequest get = new GetRequest(table, uuid.toString().getBytes());
             final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
             User user = new User();
-            
+
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             user.inituser(userkvs, grantedAuths);
             user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
-            return user;                        
-            
+            user.setDushList(getAllDush(uuid));
+            return user;
+
         } catch (Exception ex) {
             Logger.getLogger(HbaseUserDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public void saveDush(UUID id, String DushName, String DushInfo) {
+        if (DushName != null) {
+            final PutRequest put = new PutRequest(dashtable, id.toString().getBytes(), "data".getBytes(), DushName.getBytes(), DushInfo.getBytes());
+            BaseTsdb.getClient().put(put);
+        }
+    }
+
+    public Map<String, String> getAllDush(UUID id) throws Exception {
+        final Map<String, String> result = new TreeMap<>();
+        final GetRequest get = new GetRequest(dashtable, id.toString().getBytes());
+        final ArrayList<KeyValue> DushList = BaseTsdb.getClient().get(get).joinUninterruptibly();
+        DushList.stream().forEach((dush) -> {
+            result.put(new String(dush.qualifier()), new String(dush.value())) ;
+        });
+        
+        return result;
     }
 }

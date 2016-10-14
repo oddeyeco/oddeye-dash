@@ -10,7 +10,6 @@ import co.oddeye.concout.model.User;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonArray;
 import java.util.ArrayList;
 import java.util.Map;
 import net.opentsdb.core.DataPoint;

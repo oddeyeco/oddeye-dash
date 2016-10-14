@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
 
@@ -7,6 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <sec:csrfMetaTags/>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Meta, title, CSS, favicons, etc. -->
         <meta charset="utf-8">
@@ -69,8 +72,12 @@
                                         </ul>
                                     </li>
                                <li><a><i class="fa fa-desktop"></i> Dashboards <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">                                            
+                                        <ul class="nav child_menu">                                                                                        
                                             <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
+                                            <c:forEach items="${curentuser.getDushList()}" var="Dush">
+                                            <li><a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" id="newdush">${Dush.key}</a></li>
+                                            </c:forEach>
+                                            
                                         </ul>
                                     </li>
 <!--                                         <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>

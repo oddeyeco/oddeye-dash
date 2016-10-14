@@ -5,9 +5,13 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
+import com.google.gson.JsonObject;
+import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class DashController {
-
+    @Autowired
+    private HbaseUserDao Userdao;
+   
     @RequestMapping(value = {"/dashboard/new"}, method = RequestMethod.GET)
     public String NewDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -37,5 +43,23 @@ public class DashController {
         map.put("jspart", "dashboard_newjs");
 
         return "index";
+    }
+
+    @RequestMapping(value = {"/dashboard/save"})
+    public String SaveDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            String DushName = request.getParameter("name");
+            String DushInfo = request.getParameter("info");
+            userDetails.addDush(DushName, DushInfo,Userdao);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
     }
 }

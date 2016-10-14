@@ -6,8 +6,8 @@
 package co.oddeye.concout.model;
 
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
-import co.oddeye.core.OddeeyMetricMetaList;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
-import java.util.Map;
 import java.util.UUID;
 import org.hbase.async.KeyValue;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,8 +28,8 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author vahan
  */
-public class User implements UserDetails {
 
+public class User implements UserDetails {
     private UUID id;
     private String lastname;
     private String name;
@@ -47,6 +47,8 @@ public class User implements UserDetails {
 //    private OddeeyMetricMetaList Tags;
     private ConcoutMetricMetaList MetricsMeta;
     private final Set<String> Allkeys;
+    
+    private Map<String, String> DushList;
 
     public User() {
         this.id = UUID.randomUUID();
@@ -81,6 +83,7 @@ public class User implements UserDetails {
         return this.email;
     }
 
+    @Override
     public Collection<GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
@@ -221,10 +224,7 @@ public class User implements UserDetails {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
             md.update(salt);
             bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
         }
         return bytes;
     }
@@ -385,5 +385,31 @@ public class User implements UserDetails {
         this.MetricsMeta = MetricsMeta;
 //        MetricsMeta.equals(id)
     }
+
+    /**
+     * @return the DushList
+     */
+    public Map<String, String> getDushList() {
+        return DushList;
+    }
+
+    /**
+     * @param DushList the DushList to set
+     */
+    public void setDushList(Map<String, String> DushList) {
+        this.DushList = DushList;
+    }
+    
+    /**
+     * @param DushName
+     * @param DushInfo
+     * @return the DushList
+     */
+    public Map<String, String> addDush(String DushName, String DushInfo,HbaseUserDao Userdao) {
+        DushList.put(DushName, DushInfo);
+        Userdao.saveDush(id, DushName, DushInfo);
+        return DushList;
+    }
+    
 
 }

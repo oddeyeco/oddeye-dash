@@ -1,5 +1,5 @@
 <div class="hidden" id="rowtemplate">
-    <div class="raw">
+    <div class="raw widgetraw">
         <div class="x_content">
             <div class="btn-group">
                 <a type="button" class="btn btn-danger">Add widget To Row</a>
@@ -46,15 +46,15 @@
 
 <div class="x_panel fulldash">
     <div class="x_title">
-        <h2>New Dashboard</h2>
+        <h2><input type="text" name="name" id="name" value="Dashboard 1"></h2>
         <div class="clearfix"></div>
         <a class="btn btn-primary" type="button" id="addrow">Add Row</a>
-        <a class="btn btn-primary" type="button">Save </a>
+        <a class="btn btn-primary savedash" type="button">Save </a>
     </div>
     <div class="x_content" id="dashcontent">        
     </div>
 </div>
-<div class="x_panel editchartpanel" style="">
+<div class="x_panel editchartpanel" style="display: none">
     <div class="x_title">
         <h2>Edit Chart</h2>
         <div class="clearfix"></div>        
@@ -83,26 +83,26 @@
 
                 </div>
                 <div role="tabpanel" class="tab-pane fade active in" id="tab_metrics" aria-labelledby="metrics-tab">
-                    <form class="form-horizontal form-label-left">
+                    <form class="form-horizontal form-label-left edit-query">
                         <div class="form-group">
-                            <label class="control-label col-md-3" for="first-name">Tags 
+                            <label class="control-label col-md-3" for="tags">Tags 
                             </label>
                             <div class="col-md-7">
-                                <input id="first-name2" required="required" class="form-control col-md-7 col-xs-12" type="text">
+                                <input id="tags" name="tags" class="form-control col-md-7 col-xs-12" type="text" value="host=hdata011.smartlogic.llc">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3" for="last-name">Metrics 
+                            <label class="control-label col-md-3" for="metrics">Metrics 
                             </label>
                             <div class="col-md-7">
-                                <input id="last-name2" name="last-name" required="required" class="form-control col-md-7 col-xs-12" type="text">
+                                <input id="metrics" name="metrics" class="form-control col-md-7 col-xs-12" type="text" value="cpu_user">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3" for="last-name">Down sample 
+                            <label class="control-label col-md-3" for="down-sample">Down sample 
                             </label>
                             <div class="col-md-7">
-                                <input id="last-name2" name="last-name" required="required" class="form-control col-md-7 col-xs-12" type="text">
+                                <input id="down-sample" name="down-sample" class="form-control col-md-7 col-xs-12" type="text">
                             </div>
                         </div>                        
                     </form>                    
