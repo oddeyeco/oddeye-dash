@@ -5,7 +5,11 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,14 +24,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class UserController {
-//@RequestMapping(value = "/dashboard/new", method = RequestMethod.GET)
-//    public String dashboardnew( ModelMap map) {
-//        User userDetails = (User) SecurityContextHolder.getContext().
-//                getAuthentication().getPrincipal();
-//        map.put("curentuser", userDetails);
-//        map.put("body", "newdush");
-//        map.put("jspart", "newdushjs");
-//        return "index";
-//    }    
+    @Autowired
+    HbaseDataDao DataDao;    
+    
+    @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
+    public String bytemplate(ModelMap map) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+            map.put("DataDao", DataDao);
+
+        } 
+
+        map.put("body", "monitoring");
+        map.put("jspart", "monitoringjs");
+
+        return "index";
+    }  
     
 }

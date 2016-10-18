@@ -64,8 +64,9 @@
                             <div class="menu_section">
                                 <h3>General</h3>
                                 <ul class="nav side-menu">
-                                    <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-home"></i> General <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li><a href="<c:url value="/monitoring"/>">Monitoring</a></li>
                                             <li><a href="<c:url value="/hosts"/>">Hosts</a></li>
                                             <li><a href="<c:url value="/metrics"/>">Metrics</a></li>
                                             <!--<li><a href="<c:url value="/dashboard3/"/>">Dashboard3</a></li>-->
