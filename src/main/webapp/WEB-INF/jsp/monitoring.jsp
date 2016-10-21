@@ -76,7 +76,7 @@
 
                                                                      " value="${metric.getValue()}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: ${metric.getValuePersent()}%;"></div>
                                                             </div></td>
-                                                        <td>${metric.getTimestamp()}</td>
+                                                            <td class="time">${metric.getTimestamp()}</td>
                                                     </tr>
                                                 </c:forEach>
 
