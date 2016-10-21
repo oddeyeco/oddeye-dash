@@ -16,6 +16,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
 import org.hbase.async.ColumnPrefixFilter;
 import org.hbase.async.FilterList;
@@ -181,6 +182,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             user.inituser(userkvs, grantedAuths);
+            user.setTsdbID(BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV,user.getId().toString()));
             user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             user.setDushList(getAllDush(uuid));
             return user;

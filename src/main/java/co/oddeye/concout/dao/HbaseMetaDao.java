@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 import net.opentsdb.core.TSDB;
 import net.opentsdb.utils.Config;
 import org.hbase.async.GetRequest;
@@ -50,7 +51,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public ConcoutMetricMetaList getByUUID(UUID userid) throws Exception {
-        if (MtrscList == null) {
+        if ((MtrscList == null) || (MtrscList.isEmpty())) {
             try {
                 MtrscList = new OddeeyMetricMetaList(BaseTsdbV.getTsdb(), TBLENAME.getBytes());
             } catch (Exception ex) {
@@ -60,14 +61,10 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
 //        OddeyeTag tag = new OddeyeTag("UUID", userid.toString(), BaseTsdbV.getTsdb());
+        MtrscList.entrySet().stream().filter((metric) -> (metric.getValue().getTags().containsKey("UUID"))).filter((metric) -> (metric.getValue().getTags().get("UUID").getValue().equals(userid.toString()))).forEach((Map.Entry<Integer, OddeeyMetricMeta> metric) -> {
+            result.add(metric.getValue());
+        });
 
-        for (Map.Entry<Integer, OddeeyMetricMeta> metric : MtrscList.entrySet()) {
-            if (metric.getValue().getTags().containsKey("UUID")) {                
-                if (metric.getValue().getTags().get("UUID").getValue().equals(userid.toString()))
-                result.add(metric.getValue());
-            }
-        }
-        
         return result;
 
     }

@@ -36,14 +36,16 @@
 
                         <!-- start accordion -->
                         <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
-                            <c:forEach items="${curentuser.getMetricsMeta().getTagsList().get(group_item)}" var="showgroup" varStatus="loopgrups">   
+
+                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser)}" />                            
+                            <c:forEach items="${MetricsMeta.getTagsList().get(group_item)}" var="showgroup" varStatus="loopgrups">   
                                 <c:set var="showgroup_rp" value="${fn:replace(showgroup, '.', '_')}" />
-                                
+
                                 <div class="panel">
                                     <a class="panel-heading collapsed" role="tab" id="heading${showgroup_rp}" data-toggle="collapse" data-parent="#accordion1" href="#collapse_${showgroup_rp}" aria-expanded="false" aria-controls="collapseOne">
-                                        <h4 class="panel-title">${group_item} ${showgroup}</h4>
+                                        <h4 class="panel-title">${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()}</h4>
                                     </a>
-                                    
+
                                     <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="false" style="height: 0px;">
                                         <div class="panel-body">
                                             <table class="table table-striped">
@@ -55,24 +57,34 @@
                                                         <th>Time</th>
                                                     </tr>
                                                 </thead>
-                                                        
-                                                    
-                                                    <c:forEach items="${curentuser.getMetricsMeta().getbyTag(group_item,showgroup)}" var="metric" varStatus="loop">
-                                                        <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
-                                                            <th scope="row">${loop.index+1}</th>
-                                                            <td>${metric.getName()}</td>
-                                                            <td><div class="progress" style="margin-bottom: 0px">                                                                    
-                                                                    <div class="progress-bar progress-bar-success" data-transitiongoal="25" aria-valuenow="25" style="width: 25%;"></div>
-                                                                </div></td>
-                                                            <td>@mdo</td>
-                                                        </tr>
-                                                    </c:forEach>
-                                                
+
+
+                                                <c:forEach items="${MetricsMeta.getbyTag(group_item,showgroup)}" var="metric" varStatus="loop">
+                                                    <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
+                                                        <th scope="row">${loop.index+1}</th>
+                                                        <td>${metric.getName()}</td>
+                                                        <td>                                                               
+                                                            <div class="progress" style="margin-bottom: 0px">                                                                    
+                                                                <div class="progress-bar<c:choose>
+                                                                         <c:when test="${metric.getValuePersent() < 50}">
+                                                                             progress-bar-success
+                                                                         </c:when>    
+                                                                         <c:otherwise>
+                                                                             progress-bar-danger
+                                                                         </c:otherwise>
+                                                                     </c:choose>                                                                         
+
+                                                                     " value="${metric.getValue()}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: ${metric.getValuePersent()}%;"></div>
+                                                            </div></td>
+                                                        <td>${metric.getTimestamp()}</td>
+                                                    </tr>
+                                                </c:forEach>
+
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-                            </c:forEach>
+                            </c:forEach>                            
                         </div>
                         <!-- end of accordion -->
 

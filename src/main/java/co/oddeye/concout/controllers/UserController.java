@@ -6,6 +6,7 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseDataDao;
+import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -25,10 +26,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserController {
     @Autowired
-    HbaseDataDao DataDao;    
+    HbaseErrorsDao ErrorsDao;    
     
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
-    public String bytemplate(ModelMap map) {
+    public String monitoring(ModelMap map) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -36,7 +37,7 @@ public class UserController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-            map.put("DataDao", DataDao);
+            map.put("ErrorsDao", ErrorsDao);
 
         } 
 

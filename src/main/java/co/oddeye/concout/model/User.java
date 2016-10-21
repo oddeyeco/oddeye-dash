@@ -6,6 +6,7 @@
 package co.oddeye.concout.model;
 
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import java.io.UnsupportedEncodingException;
@@ -20,16 +21,20 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.KeyValue;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+
 
 /**
  *
  * @author vahan
  */
 
-public class User implements UserDetails {
+public class User implements UserDetails {        
     private UUID id;
     private String lastname;
     private String name;
@@ -42,6 +47,9 @@ public class User implements UserDetails {
     private String city;
     private String region;
     private String timezone;
+    
+    private byte[] TsdbID;
+    private String StTsdbID;
     private Boolean active;
     private final Set<GrantedAuthority> authorities;
 //    private OddeeyMetricMetaList Tags;
@@ -328,46 +336,62 @@ public class User implements UserDetails {
 //        return this.Tags.get("tagvs");
 //    }
     /**
-     * @param Tags the Tags to set
+     * @param userkvs
+     * @param grantedAuths
      */
 //    public void setTags(OddeeyMetricMetaList Tags) {
 //        this.Tags = Tags;
 //    }
     public void inituser(ArrayList<KeyValue> userkvs, List<GrantedAuthority> grantedAuths) {
 
-        for (KeyValue property : userkvs) {
+        userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
                 this.id = UUID.fromString(new String(property.value()));
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "email".getBytes())) {
                 this.email = new String(property.value());
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "name".getBytes())) {
                 this.name = new String(property.value());
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "lastname".getBytes())) {
                 this.lastname = new String(property.value());
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "company".getBytes())) {
                 this.company = new String(property.value());
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "country".getBytes())) {
                 this.country = new String(property.value());
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "city".getBytes())) {
                 this.city = new String(property.value());
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "region".getBytes())) {
                 this.region = new String(property.value());
             }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "timezone".getBytes())) {
                 this.timezone = new String(property.value());
             }
-            if (Arrays.equals(property.qualifier(), "active".getBytes())) {
-                this.active = property.value()[0] != (byte) 0;
-            }
-
-        }
+            return property;
+        }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
+            this.active = property.value()[0] != (byte) 0;
+        });
     }
 
     /**
@@ -415,7 +439,30 @@ public class User implements UserDetails {
     public String getDush(String DushName) {                
         return DushList.get(DushName);
     }
+
+    /**
+     * @return the TsdbID
+     */
+    public byte[] getTsdbID() {
+        return TsdbID;
+    }
+
+    /**
+     * @return the StTsdbID
+     */
+    public String getStTsdbID() {
+        return StTsdbID;
+    }    
     
+    /**
+     * @param TsdbID the TsdbID to set
+     */
+    public void setTsdbID(byte[] TsdbID) {
+        
+        this.TsdbID = TsdbID;
+        this.StTsdbID = Hex.encodeHexString(TsdbID);
+        
+    }
     
 
 }
