@@ -8,17 +8,14 @@ package co.oddeye.concout.dao;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.ConcoutMetricMeta;
 import co.oddeye.concout.model.User;
-import co.oddeye.core.OddeeyMetricMeta;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import net.opentsdb.core.Const;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang.ArrayUtils;
-import org.hbase.async.Bytes;
 import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
@@ -59,9 +56,16 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         scanner.setFamily("d".getBytes());
         scanner.setStartKey(start_row);
         scanner.setStopKey(end_row);
-        scanner.setMaxNumRows(1);
+//        scanner.setMaxNumRows(1);
         ArrayList<ArrayList<KeyValue>> rows;
-        ConcoutMetricMetaList MetricMetaList = new ConcoutMetricMetaList();
+        ConcoutMetricMetaList MetricMetaList;
+        try {
+            MetricMetaList = new ConcoutMetricMetaList();
+        } catch (Exception ex) {
+            Logger.getLogger(HbaseErrorsDao.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+                    
+        }
         try {
             while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {

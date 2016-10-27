@@ -9,14 +9,15 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeeyMetricMetaList;
 import co.oddeye.core.OddeyeTag;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Consumer;
+import static javafx.scene.input.KeyCode.V;
+import net.opentsdb.core.TSDB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,9 +25,19 @@ import java.util.function.Consumer;
  */
 public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     
-    private final Map<String, Set<String>> TagsList = new HashMap<>();
+    private final Map<String, Set<String>> TagsList = new HashMap<>();   
+    static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
+
+    public ConcoutMetricMetaList() {        
+        super();
+    }
+
+    public ConcoutMetricMetaList(TSDB tsdb, byte[] bytes) {
+        super(tsdb,bytes);
+    }
+        
+
     
-    @Override
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
         e.getTags().entrySet().stream().forEach((Entry<String, OddeyeTag> tag) -> {
             if (!tag.getKey().equals("UUID")) {
@@ -42,13 +53,21 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             }
         });
         
-        return super.add(e);
+        if (this.containsKey(e.hashCode())) {
+            ConcoutMetricMetaList.LOGGER.warn("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");            
+        }
+
+        e.getTags().keySet().stream().filter((tagkey) -> (!Tagkeys.contains(tagkey))).forEach(Tagkeys::add);
+
+        e.getTags().entrySet().stream().filter((tag) -> (!Tagkeyv.contains(tag.getValue().getValue()))).forEach((Map.Entry<String, OddeyeTag> tag) -> {
+            Tagkeyv.add(tag.getValue().getValue());
+        });
+
+        return this.put(e.hashCode(), e);
     }
     
-    public ArrayList<OddeeyMetricMeta> getbyTag(String tagK, String tagV) {
-        ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();
-        
-        final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
+    public ArrayList<OddeeyMetricMeta> getbyTag(String tagK, String tagV) throws Exception {
+        ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();                
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             if (MetricMeta.getValue().getTags().containsKey(tagK)) {
                 if (MetricMeta.getValue().getTags().get(tagK).getValue().equals(tagV)) {
@@ -56,15 +75,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 }
             }            
         }        
-        SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));
-//        this.stream().forEach((OddeeyMetricMeta MetricMeta) -> {
-//            if (MetricMeta.getTags().containsValue(tag)) {
-//                if (!result.contains(MetricMeta)) {
-//                    result.add(MetricMeta);
-//                }
-//            }
-//        });
-        
+        SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));        
         return SortbyName;
     }
 
@@ -74,4 +85,6 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public Map<String, Set<String>> getTagsList() {
         return TagsList;
     }
+    
+    
 }
