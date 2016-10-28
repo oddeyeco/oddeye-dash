@@ -74,7 +74,7 @@
                                                                          </c:otherwise>
                                                                      </c:choose>                                                                         
 
-                                                                     " value="${metric.getValue()}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: ${metric.getValuePersent()}%;"></div>
+                                                                     " value="${metric.getValue()}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: ${metric.getValuePersent()}%;">${metric.getValue()}</div>
                                                             </div></td>
                                                             <td class="time">${metric.getTimestamp()}</td>
                                                     </tr>

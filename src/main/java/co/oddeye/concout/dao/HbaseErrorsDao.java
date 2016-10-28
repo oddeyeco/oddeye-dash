@@ -44,18 +44,22 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
         final byte[] start_row;
         final byte[] end_row;
+        short value;
 
-        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
+//        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
         Calendar Date = Calendar.getInstance();
-        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
-        Date.add(Calendar.MINUTE, 1);
+        Date.add(Calendar.MINUTE, 60);
         end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+
+        Date.add(Calendar.MINUTE, -61);
+        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
 
         Scanner scanner = client.newScanner(table);
         scanner.setServerBlockCache(false);
         scanner.setFamily("d".getBytes());
         scanner.setStartKey(start_row);
         scanner.setStopKey(end_row);
+
 //        scanner.setMaxNumRows(1);
         ArrayList<ArrayList<KeyValue>> rows;
         ConcoutMetricMetaList MetricMetaList;
@@ -64,33 +68,38 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         } catch (Exception ex) {
             Logger.getLogger(HbaseErrorsDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
-                    
+
         }
+        int rowcount = 0;
         try {
             while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {
+                    rowcount++;
                     for (final KeyValue kv : row) {
+                        value = ByteBuffer.wrap(kv.value()).getShort();
+//                        if (value < 5) {
+//                            continue;
+//                        }
                         ConcoutMetricMeta e = new ConcoutMetricMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
                         if (MetricMetaList.get(e.hashCode()) != null) {
-                            e =(ConcoutMetricMeta) MetricMetaList.get(e.hashCode());
+                            e = (ConcoutMetricMeta) MetricMetaList.get(e.hashCode());
+
                         }
-                        
+
                         long time = getTime(kv.key());
                         e.setTimestamp(time);
-                        e.setValue(ByteBuffer.wrap(kv.value()).getShort());
+                        e.setValue(value);
 
                         MetricMetaList.add(e);
 
-                        
-                        ConcoutMetricMetaList value = result.get(time);
-                        if (value == null) {
-                            value = new ConcoutMetricMetaList();
-                        }
-                        value.add(e);
-
-                        result.put(time, value);
-
+//                        ConcoutMetricMetaList value = result.get(time);
+//                        if (value == null) {
+//                            value = new ConcoutMetricMetaList();
+//                        }
+//                        value.add(e);
+//
+//                        result.put(time, value);
                     }
 
                 }
