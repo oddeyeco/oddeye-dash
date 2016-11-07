@@ -11,14 +11,15 @@ import co.oddeye.concout.model.User;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.ArrayUtils;
+import org.hbase.async.BinaryComparator;
+import org.hbase.async.CompareFilter;
 import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
+import org.hbase.async.ValueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -60,7 +61,10 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         scanner.setStartKey(start_row);
         scanner.setStopKey(end_row);
 
-//        scanner.setMaxNumRows(1);
+        byte[] data = ByteBuffer.allocate(2).putShort((short) 6).array();
+        
+        ValueFilter filter = new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data));
+        scanner.setFilter(filter);
         ArrayList<ArrayList<KeyValue>> rows;
         ConcoutMetricMetaList MetricMetaList;
         try {
@@ -90,16 +94,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         long time = getTime(kv.key());
                         e.setTimestamp(time);
                         e.setValue(value);
-
                         MetricMetaList.add(e);
-
-//                        ConcoutMetricMetaList value = result.get(time);
-//                        if (value == null) {
-//                            value = new ConcoutMetricMetaList();
-//                        }
-//                        value.add(e);
-//
-//                        result.put(time, value);
                     }
 
                 }

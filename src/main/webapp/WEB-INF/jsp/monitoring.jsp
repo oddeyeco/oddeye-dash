@@ -67,14 +67,17 @@
                                                             <div class="progress" style="margin-bottom: 0px">                                                                    
                                                                 <div class="progress-bar<c:choose>
                                                                          <c:when test="${metric.getValuePersent() < 50}">
-                                                                             progress-bar-success
+                                                                             progress-bar-info
                                                                          </c:when>    
+                                                                         <c:when test="${metric.getValuePersent() < 80}">
+                                                                             progress-bar-warning
+                                                                         </c:when>                                                                             
                                                                          <c:otherwise>
                                                                              progress-bar-danger
                                                                          </c:otherwise>
                                                                      </c:choose>                                                                         
 
-                                                                     " value="${metric.getValue()}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: ${metric.getValuePersent()}%;">${metric.getValue()}</div>
+                                                                     " value="${metric.getValue()}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: 100%;">${metric.getValue()}</div>
                                                             </div></td>
                                                             <td class="time">${metric.getTimestamp()}</td>
                                                     </tr>

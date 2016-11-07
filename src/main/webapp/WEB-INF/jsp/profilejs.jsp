@@ -1,4 +1,7 @@
 <script>
+    var maetricrawHTML = '<tr><td>#</td><td><a>[metricname]</a></td><td><a>[tags]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a><a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
+    
+    
     $(document).ready(function () {
         $('body').on("click", ".showtags", function () {
 
@@ -12,7 +15,7 @@
         $('body').on("click", ".view", function () {
             var id = $(this).attr("key") + "_" + $(this).attr("idvalue");
             $(".metricinfo").hide();
-            var html = "<tr>" + $("#" + id).find("tbody tr").html() + "</tr>";
+            var html = maetricrawHTML;
             $("#" + id).find("tbody").html("");
             $.getJSON("getmetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (value) {
                 for (var k in value.data) {
