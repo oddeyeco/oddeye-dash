@@ -50,7 +50,7 @@ public class ConcoutMetricMeta extends OddeeyMetricMeta {
         if (value > MAX_VALUE) {
             return 100;
         }
-        return value * 100 / MAX_VALUE;
+        return Math.abs(value) * 100 / MAX_VALUE;
     }
 
     /**

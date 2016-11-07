@@ -43,7 +43,7 @@
 
                                 <div class="panel">
                                     <a class="panel-heading collapsed" role="tab" id="heading${showgroup_rp}" data-toggle="collapse" data-parent="#accordion1" href="#collapse_${showgroup_rp}" aria-expanded="false" aria-controls="collapseOne">
-                                        <h4 class="panel-title">${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()}</h4>
+                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()}</h4>
                                     </a>
 
                                     <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="false" style="height: 0px;">
@@ -60,27 +60,31 @@
 
 
                                                 <c:forEach items="${MetricsMeta.getbyTag(group_item,showgroup)}" var="metric" varStatus="loop">
-                                                    <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
-                                                        <th scope="row">${loop.index+1}</th>
-                                                        <td>${metric.getName()}</td>
-                                                        <td>                                                               
-                                                            <div class="progress" style="margin-bottom: 0px">                                                                    
-                                                                <div class="progress-bar<c:choose>
-                                                                         <c:when test="${metric.getValuePersent() < 50}">
-                                                                             progress-bar-info
-                                                                         </c:when>    
-                                                                         <c:when test="${metric.getValuePersent() < 80}">
-                                                                             progress-bar-warning
-                                                                         </c:when>                                                                             
-                                                                         <c:otherwise>
-                                                                             progress-bar-danger
-                                                                         </c:otherwise>
-                                                                     </c:choose>                                                                         
 
-                                                                     " value="${metric.getValue()}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: 100%;">${metric.getValue()}</div>
-                                                            </div></td>
+                                                    <c:set value="${metric.getValue() < 0 ? -metric.getValue():metric.getValue()}" var="val" />
+                                                    <c:if test="${val > 0}"> 
+                                                        <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
+                                                            <th scope="row">${loop.index+1}</th>
+                                                            <td>${metric.getName()}</td>
+                                                            <td>                                                               
+                                                                <div class="progress ${metric.getValue() < 0 ? "right":""}" style="margin-bottom: 0px">                                                                    
+                                                                    <div class="progress-bar<c:choose>
+                                                                             <c:when test="${metric.getValuePersent() < 50}">
+                                                                                 progress-bar-info
+                                                                             </c:when>    
+                                                                             <c:when test="${metric.getValuePersent() < 80}">
+                                                                                 progress-bar-warning
+                                                                             </c:when>                                                                             
+                                                                             <c:otherwise>
+                                                                                 progress-bar-danger
+                                                                             </c:otherwise>
+                                                                         </c:choose>                                                                         
+
+                                                                         " value="${val}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: 100%;">${metric.getValue()}</div>
+                                                                </div></td>
                                                             <td class="time">${metric.getTimestamp()}</td>
-                                                    </tr>
+                                                        </tr>
+                                                    </c:if>
                                                 </c:forEach>
 
                                             </table>

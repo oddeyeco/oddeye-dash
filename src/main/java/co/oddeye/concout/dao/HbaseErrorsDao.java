@@ -11,13 +11,17 @@ import co.oddeye.concout.model.User;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.BinaryComparator;
 import org.hbase.async.CompareFilter;
+import org.hbase.async.FilterList;
 import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
+import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
 import org.hbase.async.ValueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +66,17 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         scanner.setStopKey(end_row);
 
         byte[] data = ByteBuffer.allocate(2).putShort((short) 6).array();
+        byte[] Negdata = ByteBuffer.allocate(2).putShort((short) -6).array();
         
         ValueFilter filter = new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data));
-        scanner.setFilter(filter);
+        
+        List<ScanFilter> list= new LinkedList<>();
+        list.add(new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data)));
+        list.add(new ValueFilter(CompareFilter.CompareOp.LESS,new BinaryComparator(Negdata)));
+        FilterList filterlist = new FilterList(list,FilterList.Operator.MUST_PASS_ALL);
+        scanner.setFilter(filterlist);
+        
+        
         ArrayList<ArrayList<KeyValue>> rows;
         ConcoutMetricMetaList MetricMetaList;
         try {
