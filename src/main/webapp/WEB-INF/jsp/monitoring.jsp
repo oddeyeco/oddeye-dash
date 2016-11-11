@@ -49,7 +49,7 @@
 
                                     <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="false" style="height: 0px;">
                                         <div class="panel-body">
-                                            <table class="table table-striped">
+                                            <table class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
