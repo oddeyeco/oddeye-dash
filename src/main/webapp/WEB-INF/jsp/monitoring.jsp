@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <div class="page-title">
     <div class="title_left">
@@ -53,7 +54,9 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Metric Name</th>
-                                                        <th>Level</th>
+                                                        <th>Value</th>
+                                                        <th>Weight</th>
+                                                        <th>Deviation %</th>
                                                         <th>Time</th>
                                                     </tr>
                                                 </thead>
@@ -66,22 +69,10 @@
                                                         <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
                                                             <th scope="row">${loop.index+1}</th>
                                                             <td>${metric.getName()}</td>
-                                                            <td>                                                               
-                                                                <div class="progress ${metric.getValue() < 0 ? "right":""}" style="margin-bottom: 0px">                                                                    
-                                                                    <div class="progress-bar<c:choose>
-                                                                             <c:when test="${metric.getValuePersent() < 50}">
-                                                                                 progress-bar-info
-                                                                             </c:when>    
-                                                                             <c:when test="${metric.getValuePersent() < 80}">
-                                                                                 progress-bar-warning
-                                                                             </c:when>                                                                             
-                                                                             <c:otherwise>
-                                                                                 progress-bar-danger
-                                                                             </c:otherwise>
-                                                                         </c:choose>                                                                         
+                                                            <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
+                                                            <td>${metric.getWeight()}</td>
+                                                            <td>${metric.getPersent_weight()}</td>
 
-                                                                         " value="${val}" data-transitiongoal="${metric.getValuePersent()}" aria-valuenow="${metric.getValuePersent()}" style="width: 100%;">${metric.getValue()}</div>
-                                                                </div></td>
                                                             <td class="time">${metric.getTimestamp()}</td>
                                                         </tr>
                                                     </c:if>
