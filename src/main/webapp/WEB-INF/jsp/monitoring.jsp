@@ -44,12 +44,12 @@
 
                                 <div class="panel">
                                     <a class="panel-heading collapsed" role="tab" id="heading${showgroup_rp}" data-toggle="collapse" data-parent="#accordion1" href="#collapse_${showgroup_rp}" aria-expanded="false" aria-controls="collapseOne">
-                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()}</h4>
+                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup}</h4>
                                     </a>
 
                                     <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="false" style="height: 0px;">
                                         <div class="panel-body">
-                                            <table class="table table-striped table-bordered dataTable no-footer" role="grid" aria-describedby="datatable-fixed-header_info">
+                                            <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -61,23 +61,25 @@
                                                     </tr>
                                                 </thead>
 
+                                                <tbody>
+                                                    <c:forEach items="${MetricsMeta.getbyTag(group_item,showgroup)}" var="metric" varStatus="loop">
 
-                                                <c:forEach items="${MetricsMeta.getbyTag(group_item,showgroup)}" var="metric" varStatus="loop">
-
-                                                    <c:set value="${metric.getValue() < 0 ? -metric.getValue():metric.getValue()}" var="val" />
-                                                    <c:if test="${val > 0}"> 
+                                                        <c:set value="${metric.getValue() < 0 ? -metric.getValue():metric.getValue()}" var="val" />
+                                                        <c:set value="${metric.getWeight() < 0 ? -metric.getWeight():metric.getWeight()}" var="weight" />
+                                                        <c:set value="${metric.getPersent_weight() < 0 ? -metric.getPersent_weight():metric.getPersent_weight()}" var="persent" />
+                                                        <c:if test="${(val > 1)&&(weight>8)&&(persent>50) }"> 
                                                         <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
                                                             <th scope="row">${loop.index+1}</th>
                                                             <td>${metric.getName()}</td>
-                                                            <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
-                                                            <td>${metric.getWeight()}</td>
-                                                            <td>${metric.getPersent_weight()}</td>
+                                                            <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
+                                                            <td class="weight">${metric.getWeight()}</td>
+                                                            <td class="persent">${metric.getPersent_weight()}</td>
 
                                                             <td class="time">${metric.getTimestamp()}</td>
                                                         </tr>
-                                                    </c:if>
-                                                </c:forEach>
-
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
