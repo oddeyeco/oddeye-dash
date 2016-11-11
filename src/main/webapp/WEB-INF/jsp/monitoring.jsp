@@ -62,6 +62,7 @@
                                                 </thead>
 
                                                 <tbody>
+                                                    <c:set value="1" var="loopindex" />
                                                     <c:forEach items="${MetricsMeta.getbyTag(group_item,showgroup)}" var="metric" varStatus="loop">
 
                                                         <c:set value="${metric.getValue() < 0 ? -metric.getValue():metric.getValue()}" var="val" />
@@ -69,7 +70,8 @@
                                                         <c:set value="${metric.getPersent_weight() < 0 ? -metric.getPersent_weight():metric.getPersent_weight()}" var="persent" />
                                                         <c:if test="${(val > 1)&&(weight>8)&&(persent>50) }"> 
                                                         <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
-                                                            <th scope="row">${loop.index+1}</th>
+                                                            <th scope="row">${loopindex}</th>
+                                                            <c:set value="${loopindex+1}" var="loopindex" />
                                                             <td>${metric.getName()}</td>
                                                             <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
                                                             <td class="weight">${metric.getWeight()}</td>
