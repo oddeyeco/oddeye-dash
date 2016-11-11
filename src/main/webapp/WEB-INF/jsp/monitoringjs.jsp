@@ -11,7 +11,9 @@
 <script>
     $(document).ready(function () {
         var table = $('.table-striped').DataTable({
-            fixedHeader: true
+            fixedHeader: true,
+            "paging":   false,
+            
         });        
       });
 </script>
