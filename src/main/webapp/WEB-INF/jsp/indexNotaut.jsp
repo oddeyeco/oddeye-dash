@@ -3,75 +3,126 @@
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
 
 <!DOCTYPE html>
-<html lang="en"> 
+<html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <!-- Meta, title, CSS, favicons, etc. -->
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <title>OddEye Monitoring System </title>
 
-        <title>Oddeye </title>
+        <!-- Google fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
 
         <!-- Bootstrap -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/css/bootstrap.min.css" />    
         <!-- Font Awesome -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/font-awesome/css/font-awesome.min.css" />        
-        <!-- iCheck -->
-        <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css" />        
-        <!-- bootstrap-progressbar -->
-        <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" />            
-        <!-- Select2 -->
-        <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">        
-        <!-- jVectorMap -->
-        <link href="${cp}/resources/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
-        <!-- Custom Theme Style -->
-        <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />        
+
+        <!-- animate.css -->
+        <link rel="stylesheet" href="${cp}/resources/assets/animate/animate.css" />
+        <link rel="stylesheet" href="${cp}/resources/assets/animate/set.css" />
+
+        <!-- gallery -->
+        <link rel="stylesheet" href="${cp}/resources/assets/gallery/blueimp-gallery.min.css">
+
+        <!-- favicon -->
+        <link rel="shortcut icon" href="${cp}/resources/images/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="${cp}/resources/images/favicon.ico" type="image/x-icon">
+
+
+        <link rel="stylesheet" href="${cp}/resources/assets/style.css">      
     </head>
 
-    <body class="login">
-        <c:url value="/login/" var="loginUrl" />
-        <a class="btn btn-dark pull-right" href="${loginUrl}"> Log in </a>
-        <jsp:include page="${body}.jsp" />               
+    <body>
+        <div class="topbar animated fadeInLeftBig"></div>
 
-        <!-- jQuery -->
-        <script src="${cp}/resources/jquery/dist/jquery.min.js"></script>
-        <!-- Bootstrap -->
-        <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- FastClick -->
-        <script src="${cp}/resources/fastclick/lib/fastclick.js"></script>
-        <!-- NProgress -->
-        <script src="${cp}/resources/nprogress/nprogress.js"></script>
-        <!-- Chart.js -->
-        <script src="${cp}/resources/Chart.js/dist/Chart.min.js"></script>
-        <!-- gauge.js -->
-        <script src="${cp}/resources/gauge.js/dist/gauge.min.js"></script>
-        <!-- bootstrap-progressbar -->
-        <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-        <!-- iCheck -->
-        <script src="${cp}/resources/iCheck/icheck.min.js"></script>
-        <!-- Skycons -->
-        <script src="${cp}/resources/skycons/skycons.js"></script>
-        <!-- Flot -->
-        <script src="${cp}/resources/Flot/jquery.flot.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.pie.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.time.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.stack.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.resize.js"></script>
-        <!-- Flot plugins -->
-        <script src="${cp}/resources/js/flot/jquery.flot.orderBars.js"></script>
-        <script src="${cp}/resources/js/flot/date.js"></script>
-        <script src="${cp}/resources/js/flot/jquery.flot.spline.js"></script>
-        <script src="${cp}/resources/js/flot/curvedLines.js"></script>
-        <!-- jVectorMap -->
-        <script src="${cp}/resources/js/maps/jquery-jvectormap-2.0.3.min.js"></script>
-        <!-- bootstrap-daterangepicker -->
-        <script src="${cp}/resources/js/moment/moment.min.js"></script>
-        <script src="${cp}/resources/js/datepicker/daterangepicker.js"></script>
+        <!-- Header Starts -->
+        <div class="navbar-wrapper">
+            <div class="container">
 
-        <!-- Custom Theme Scripts -->
-        <script src="${cp}/resources/build/js/custom.min.js"></script>
+                <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="top-nav">
+                    <div class="container">
+                        <div class="navbar-header">
+                            <!-- Logo Starts -->
+                            <a class="navbar-brand" href="${cp}#home"><img src="${cp}/resources/images/logo.png" alt="logo"></a>
+                            <!-- #Logo Ends -->
 
-        <jsp:include page="${jspart}.jsp" />
+
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                        </div>
+
+
+                        <!-- Nav Starts -->
+                        <div class="navbar-collapse  collapse">
+                            <ul class="nav navbar-nav navbar-right scroll">
+                                <li class="active"><a href="${cp}#home">Home</a></li>
+                                <li ><a href="${cp}#about">About</a></li>                                
+                                <li ><a href="${cp}#partners">Partners</a></li>
+                                <li ><a href="${cp}#contact">Contact</a></li>                 
+                            </ul>
+                        </div>
+                        <!-- #Nav Ends -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- #Header Starts -->
+
+        <jsp:include page="${body}.jsp" />
+
+        <!-- Footer Starts -->
+        <div class="footer text-center spacer">
+            <p class="wowload flipInX"><a href="#"><i class="fa fa-facebook fa-2x"></i></a> <a href="#"><i class="fa fa-dribbble fa-2x"></i></a> <a href="#"><i class="fa fa-twitter fa-2x"></i></a> <a href="#"><i class="fa fa-linkedin fa-2x"></i></a> </p>
+            Copyright 2016 OddEye. All rights reserved.
+        </div>
+        <!-- # Footer Ends -->
+        <a href="#home" class="gototop "><i class="fa fa-angle-up  fa-3x"></i></a>
+
+
+
+
+
+        <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+        <div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+            <!-- The container for the modal slides -->
+            <div class="slides"></div>
+            <!-- Controls for the borderless lightbox -->
+            <h3 class="title">title</h3>
+            <a class="prev">‹</a>
+            <a class="next">›</a>
+            <a class="close">×</a>
+            <!-- The modal dialog, which will be used to wrap the lightbox content -->    
+        </div>
+
+
+
+        <!-- jquery -->
+        <script src="${cp}/resources/assets/jquery.js"></script>
+
+        <!-- wow script -->
+        <script src="${cp}/resources/assets/wow/wow.min.js"></script>
+
+
+        <!-- boostrap -->
+        <script src="${cp}/resources/assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
+
+        <!-- jquery mobile -->
+        <script src="${cp}/resources/assets/mobile/touchSwipe.min.js"></script>
+        <script src="${cp}/resources/assets/respond/respond.js"></script>
+
+        <!-- gallery -->
+        <script src="${cp}/resources/assets/gallery/jquery.blueimp-gallery.min.js"></script>
+
+        <!-- custom script -->
+        <script src="${cp}/resources/assets/script.js"></script>
+
     </body>
 </html>
