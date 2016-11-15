@@ -4,67 +4,100 @@
     var singleChart = null;
     var pickerstart;
     var pickerend;
-    function getParameterByName(name, url) {
-        if (!url)
-            url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-        if (!results)
-            return null;
-        if (!results[2])
-            return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
 
     function rebuilsCarts(Dashinfo)
     {
-//            Dashinfo = {};
+        var request_index = getParameterByName("chart");
+        alert(request_index);
         if (typeof Dashinfo == "undefined")
         {
             return false;
         }
 //        alert(Dashinfo.constructor.name);
-        for (var index in Dashinfo) {
-            var row = Dashinfo[index];
-            $("#dashcontent").append($("#rowtemplate").html());
-            for (var chartindex in row) {
-                $("#dashcontent .rowcontent:last").append($("#charttemplate").html());
-                var ctx = $("#dashcontent .rowcontent:last").find(".lineChart").last();
-                ctx.attr("datasetindex", dush_charts_options.length);
-                options = row[chartindex];
+        if (request_index == -1)
+        {
+            for (var index in Dashinfo) {
+                var row = Dashinfo[index];
+                $("#dashcontent").append($("#rowtemplate").html());
+                for (var chartindex in row) {
+                    $("#dashcontent .rowcontent:last").append($("#charttemplate").html());
+                    var ctx = $("#dashcontent .rowcontent:last").find(".lineChart").last();
+                    ctx.attr("datasetindex", dush_charts_options.length);
+                    options = row[chartindex];
 //                console.log(options);
-                dush_charts_options.push(options);
-                lineChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));
-                dush_charts.push(lineChart);
+                    dush_charts_options.push(options);
+                    lineChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));
+                    dush_charts.push(lineChart);
+                }
+
             }
 
+
+            $("#dashcontent .rowcontent").each(function (index) {
+                itemcount = $(this).find(".lineChart").size();
+                size = 12;
+                if (itemcount < 12)
+                {
+                    size = Math.round(12 / itemcount);
+                } else
+                {
+                    size = 1;
+                }
+                $(this).find(".chartsection").attr("size", size);
+                $(this).find(".chartsection").attr("class", "chartsection col-lg-" + size);
+            });
+        } else
+        {
+            for (var index in Dashinfo) {
+                var row = Dashinfo[index];
+                for (var chartindex in row) {
+                    options = row[chartindex];
+                    dush_charts_options.push(options);
+                }
+
+            }            
+            showsingleChart(request_index);
         }
-
-        $("#dashcontent .rowcontent").each(function (index) {
-            itemcount = $(this).find(".lineChart").size();
-            size = 12;
-            if (itemcount < 12)
-            {
-                size = Math.round(12 / itemcount);
-            } else
-            {
-                size = 1;
-            }
-            $(this).find(".chartsection").attr("size", size);
-            $(this).find(".chartsection").attr("class", "chartsection col-lg-" + size);
-        });
+        ;
+//        alert('fsdfsd');
         dush_charts.forEach(redrawchart);
     }
 
+    function showsingleChart(datasetindex) {
+        $(".editchartpanel").show();
+        options = dush_charts_options[datasetindex];
+        console.log(options);
+        singleChart = null;
+        html = $("#charttemplate").html();
+        $(".editchartpanel #singlewidget").html(html);
+        $(".editchartpanel #singlewidget .controls").remove();
+        var ctx = $(".editchartpanel #singlewidget").find(".lineChart").last();
+        ctx.height = 600;
+        var url = options.data.datasetsUri;
+        drawchart(url, ctx, options);
+        $(".editchartpanel").attr("datasetindex", datasetindex);
+        $(".fulldash").hide();
+        //Fill edit form
+        console.log(options.data.datasetsUri);
+//            console.log(options.data.datasetsUri);
+        if (typeof (options.data.datasetsUri) == "undefined")
+        {
+            $("#tab_metrics input#tags").val("");
+            $("#tab_metrics input#metrics").val("");
+            $("#tab_metrics input#down-sample").val("");
+        } else
+        {
+            $("#tab_metrics input#tags").val(getParameterByName("tags", options.data.datasetsUri));
+            $("#tab_metrics input#metrics").val(getParameterByName("metrics", options.data.datasetsUri));
+        }
+    }
+    ;
     $(document).ready(function () {
-
-
         // datepicer
         var cb = function (start, end, label) {
             $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
             pickerstart = start;
-            pickerend = end;                        
+            pickerend = end;
         };
         var optionSet1 = {
             startDate: moment().subtract(5, 'minute'),
@@ -113,10 +146,10 @@
             }
         };
         $('#reportrange span').html(optionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + optionSet1.endDate.format('MM/DD/YYYY H:m:s'));
-        
+
         $('#reportrange').daterangepicker(optionSet1, cb);
-        pickerstart = optionSet1.startDate;                    
-        
+        pickerstart = optionSet1.startDate;
+
         $('#reportrange').on('show.daterangepicker', function () {
 //            console.log("show event fired");
         });
@@ -204,49 +237,22 @@
                 block.attr("class", "chartsection col-lg-" + block.attr("size"));
             }
         });
+
         $('body').on("click", ".editchart", function () {
             datasetindex = $(this).parents(".chartsection").find(".lineChart").attr("datasetindex")
-            $(".editchartpanel").show();
-            options = dush_charts_options[datasetindex];
-            console.log(options);
-            singleChart = null;
-            html = $("#charttemplate").html();
-            $(".editchartpanel #singlewidget").html(html);
-            $(".editchartpanel #singlewidget .controls").remove();
-            var ctx = $(".editchartpanel #singlewidget").find(".lineChart").last();
-            ctx.height = 600;
-            var url = options.data.datasetsUri;
-            drawchart(url, ctx, options);
-//            console.log(options);  
-//            singleChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));
-            $(".editchartpanel").attr("datasetindex", datasetindex);
-            $(".fulldash").hide();
-            //Fill edit form
-            console.log(options.data.datasetsUri);
-//            console.log(options.data.datasetsUri);
-            if (typeof (options.data.datasetsUri) == "undefined")
-            {
-                $("#tab_metrics input#tags").val("");
-                $("#tab_metrics input#metrics").val("");
-                $("#tab_metrics input#down-sample").val("");
-            } else
-            {
-//                dsadsa
-//                var url = document.createElement('a');
-//                url.href = options.data.datasetsUri;
-                $("#tab_metrics input#tags").val(getParameterByName("tags", options.data.datasetsUri));
-                $("#tab_metrics input#metrics").val(getParameterByName("metrics", options.data.datasetsUri));
-            }
+            showsingleChart(datasetindex);
         });
+
         $('body').on("click", ".backtodush", function () {
             $(".editchartpanel #singlewidget").html("");
             singleChart = null;
             $(".editchartpanel").hide();
             $(".fulldash").show();
-            dush_charts.forEach(redrawchart)
-//            redrawchart(dush_charts[0]);
+//            dush_charts.forEach(redrawchart);
+            window.history.pushState({},"", "?");
+            rebuilsCarts(${dashInfo});            
         });
-//        $("input").blur()
+
         $('body').on("blur", ".edit-query input", function () {
             datasetindex = $(".editchartpanel").attr("datasetindex");
             query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val();
@@ -337,7 +343,7 @@
     function redrawchart(chart, index)
     {
         url = dush_charts_options[index].data.datasetsUri;
-        url = (url+'&startdate=' + pickerstart);
+        url = (url + '&startdate=' + pickerstart);
 //        redrawchart(window.location.search + '&startdate=' + picker.startDate);
 //        console.log("URL=" + url);
         UpdateChart(chart, url);
@@ -433,5 +439,20 @@
             }
 
         });
+    };
+    
+// TODO ? ??????? ?????????? js    
+    function getParameterByName(name, url) {
+        if (!url)
+            url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+        if (!results)
+            return null;
+        if (!results[2])
+            return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
+    
 </script>    
