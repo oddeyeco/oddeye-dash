@@ -91,7 +91,7 @@
         </div>
         <div class="col-sm-6 wowload fadeInRight">
             <h4><i class="fa fa-code"></i> Machine Learning</h4>
-            <p>Periodically learn statuses of client?s servers, create anomalies thresholds based on time.</p>    
+            <p>Periodically learn statuses of client`s servers, create anomalies thresholds based on time.</p>    
         </div>
     </div>
 
