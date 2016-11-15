@@ -4,18 +4,34 @@
     var singleChart = null;
     var pickerstart;
     var pickerend;
+    var pickerlabel = "";
+    var rangeslabels = {
+        'Last 5 minutes': "5m-ago",
+        'Last 15 minutes': "15m-ago",
+        'Last 30 minutes': "30m-ago",
+        'Last 1 hour': "1h-ago",
+        'Last 3 hour': "3h-ago",
+        'Last 6 hour': "6h-ago",
+        'Last 12 hour': "12h-ago",
+        'Last 24 hour': "24h-ago",
+    }
+
 
     function rebuilsCarts(Dashinfo)
     {
         var request_index = getParameterByName("chart");
-        alert(request_index);
+        if (request_index == null)
+        {
+            request_index = -1
+        }
         if (typeof Dashinfo == "undefined")
         {
             return false;
         }
-//        alert(Dashinfo.constructor.name);
         if (request_index == -1)
         {
+            dush_charts_options = [];
+            dush_charts = [];
             for (var index in Dashinfo) {
                 var row = Dashinfo[index];
                 $("#dashcontent").append($("#rowtemplate").html());
@@ -55,13 +71,14 @@
                     dush_charts_options.push(options);
                 }
 
-            }            
+            }
             showsingleChart(request_index);
         }
         ;
 //        alert('fsdfsd');
         dush_charts.forEach(redrawchart);
     }
+
 
     function showsingleChart(datasetindex) {
         $(".editchartpanel").show();
@@ -92,17 +109,27 @@
         }
     }
     ;
+
     $(document).ready(function () {
         // datepicer
         var cb = function (start, end, label) {
-            $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
+
             pickerstart = start;
             pickerend = end;
+            pickerlabel = label;
+
+            if (pickerlabel == "Custom")
+            {
+                $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
+            } else
+            {
+                $('#reportrange span').html(pickerlabel);
+            }
         };
         var optionSet1 = {
             startDate: moment().subtract(5, 'minute'),
             endDate: moment(),
-            minDate: '01/01/2012',
+            minDate: moment().subtract(1, 'year'),
             maxDate: moment().add(1, 'days'),
             dateLimit: {
                 days: 60
@@ -121,12 +148,6 @@
                 'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
                 'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
                 'Last 24 hour': [moment().subtract(24, 'hour'), moment()],
-//                'Today': [moment(), moment()],
-//                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-//                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-//                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-//                'This Month': [moment().startOf('month'), moment().endOf('month')],
-//                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
             },
             opens: 'left',
             buttonClasses: ['btn btn-default'],
@@ -145,7 +166,7 @@
                 firstDay: 1
             }
         };
-        $('#reportrange span').html(optionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + optionSet1.endDate.format('MM/DD/YYYY H:m:s'));
+        $('#reportrange span').html("Last 5 minutes");
 
         $('#reportrange').daterangepicker(optionSet1, cb);
         pickerstart = optionSet1.startDate;
@@ -157,11 +178,29 @@
 //            console.log("hide event fired");
         });
         $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-////            console.log("apply event fired, start/end dates are " + picker.startDate.format('MM/DD/YYYY H:m:s') + " to " + picker.endDate.format('MM/DD/YYYY H:m:s'));
-//            console.log(picker.startDate + " " + picker.startDate.format('MM/DD/YYYY H:m:s') + " " + picker.startDate.unix());
-////            redrawchart(window.location.search + '&startdate=' + picker.startDate);
-////            alert (window.location.search+'&startdate='+picker.startDate.unix());
-            dush_charts.forEach(redrawchart);
+            console.log(picker);
+            var request_index = getParameterByName("chart");
+            if (request_index == null)
+            {
+                request_index = -1
+            }
+            if (request_index == -1)
+            {
+                dush_charts.forEach(redrawchart);
+            } else
+            {
+                if (pickerlabel == "Custom")
+                {
+                    query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val() + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
+                } else
+                {
+                    query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val() + "&startdate=" + rangeslabels[pickerlabel];
+                }
+
+                var url = "${cp}/getdata" + query;
+                options = dush_charts_options[request_index];
+                drawchart(url, $(".editchartpanel #singlewidget").find(".lineChart").last(), options)
+            }
         });
         $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
             console.log("cancel event fired");
@@ -241,6 +280,7 @@
         $('body').on("click", ".editchart", function () {
             datasetindex = $(this).parents(".chartsection").find(".lineChart").attr("datasetindex")
             showsingleChart(datasetindex);
+            window.history.pushState({}, "", "?chart=" + datasetindex);
         });
 
         $('body').on("click", ".backtodush", function () {
@@ -249,13 +289,27 @@
             $(".editchartpanel").hide();
             $(".fulldash").show();
 //            dush_charts.forEach(redrawchart);
-            window.history.pushState({},"", "?");
-            rebuilsCarts(${dashInfo});            
+            window.history.pushState({}, "", "?");
+            if (dush_charts.length > 0)
+            {
+                dush_charts.forEach(redrawchart);
+            } else
+            {
+                rebuilsCarts(${dashInfo});
+            }
         });
 
         $('body').on("blur", ".edit-query input", function () {
             datasetindex = $(".editchartpanel").attr("datasetindex");
             query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val();
+
+            if (pickerlabel == "Custom")
+            {
+                query = query + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
+            } else
+            {
+                query = query + "&startdate=" + rangeslabels[pickerlabel];
+            }
             options = dush_charts_options[datasetindex];
             var url = "${cp}/getdata" + query;
             drawchart(url, $(".editchartpanel #singlewidget").find(".lineChart").last(), options)
@@ -331,8 +385,9 @@
                         time: {
 //                                    max: chartMaxDate,
                             displayFormats: {
-                                second: "HH:mm:ss",
-                                minute: "HH:mm:ss"
+                                second: "mm:ss",
+                                minute: "HH:mm:ss",
+                                houre: "HH:mm"
                             },
                             tooltipFormat: 'DD/MM/YYYY HH:mm:ss',
                         },
@@ -343,9 +398,22 @@
     function redrawchart(chart, index)
     {
         url = dush_charts_options[index].data.datasetsUri;
-        url = (url + '&startdate=' + pickerstart);
-//        redrawchart(window.location.search + '&startdate=' + picker.startDate);
-//        console.log("URL=" + url);
+
+
+        if (pickerlabel == "Custom")
+        {
+            url = url + $("#down-sample").val() + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
+        } else
+        {
+            if (typeof (rangeslabels[pickerlabel]) == "undefined")
+            {
+                url = url + "&startdate=5m-ago";
+            } else
+            {
+                url = url + "&startdate=" + rangeslabels[pickerlabel];
+            }
+
+        }
         UpdateChart(chart, url);
     }
 
@@ -439,9 +507,9 @@
             }
 
         });
-    };
-    
-// TODO ? ??????? ?????????? js    
+    }
+    ;
+// TODO To some global js    
     function getParameterByName(name, url) {
         if (!url)
             url = window.location.href;
@@ -454,5 +522,6 @@
             return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
-    
-</script>    
+
+
+</script>        
