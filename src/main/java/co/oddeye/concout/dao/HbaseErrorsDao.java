@@ -49,7 +49,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         super(TABLENAME);
     }
 
-    public ConcoutMetricMetaList getLast(User user) {
+    public ConcoutMetricMetaList getLast(User user,Double minValue,Double minPersent,short minWeight) {
         client = BaseTsdb.getClient();
 
         final byte[] start_row;
@@ -68,15 +68,15 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         scanner.setStartKey(start_row);
         scanner.setStopKey(end_row);
 
-        byte[] data = ByteBuffer.allocate(2).putShort((short) 6).array();
-        byte[] Negdata = ByteBuffer.allocate(2).putShort((short) -6).array();
+//        byte[] data = ByteBuffer.allocate(2).putShort((short) 6).array();
+//        byte[] Negdata = ByteBuffer.allocate(2).putShort((short) -6).array();
         
-        ValueFilter filter = new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data));
-        
-        List<ScanFilter> list= new LinkedList<>();
-        list.add(new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data)));
-        list.add(new ValueFilter(CompareFilter.CompareOp.LESS,new BinaryComparator(Negdata)));
-        FilterList filterlist = new FilterList(list,FilterList.Operator.MUST_PASS_ALL);
+//        ValueFilter filter = new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data));
+//        
+//        List<ScanFilter> list= new LinkedList<>();
+//        list.add(new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data)));
+//        list.add(new ValueFilter(CompareFilter.CompareOp.LESS,new BinaryComparator(Negdata)));
+//        FilterList filterlist = new FilterList(list,FilterList.Operator.MUST_PASS_ALL);
 //        scanner.setFilter(filterlist);
         
         
@@ -101,14 +101,20 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
                         value = ByteBuffer.wrap(kv.value()).getDouble(10);
                         
-//                        if (value < 5) {
-//                            continue;
-//                        }
+                        if (Math.abs(value) < minValue) {
+                            continue;
+                        }
+                        if (Math.abs(persent_weight) < minPersent) {
+                            continue;
+                        }
+                        if (Math.abs(weight) < minWeight) {
+                            continue;
+                        }
+                        
                         ConcoutMetricErrorMeta e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
                         if (MetricMetaList.get(e.hashCode()) != null) {
                             e = (ConcoutMetricErrorMeta) MetricMetaList.get(e.hashCode());
-
                         }
 
                         long time = getTime(kv.key());

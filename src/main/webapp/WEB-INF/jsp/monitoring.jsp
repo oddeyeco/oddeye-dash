@@ -18,18 +18,42 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content"> 
-                <c:set var="group_item" value="host" />
-                <form class="form-horizontal form-label-left">
+                <%--<c:set var="group_item" value="host" />--%>                
+                <form class="form-inline form-label-left">
                     <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Select Group Option</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Group by</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="form-control">
+                            <select class="form-control" name="group_item">
                                 <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
                                     <option <c:if test="${group_item == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
                                 </c:forEach>
                             </select>
                         </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min Value</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input class="form-control" value="${minValue}" name="minValue"></input>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min Persent</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input class="form-control" value="${minPersent}" name="minPersent"></input>
+                        </div>
+                    </div>                    
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min Weight</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <input class="form-control" value="${minWeight}" name="minWeight"></input>
+                        </div>
+                    </div>                                            
+                    <div class="form-group">                        
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                            <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                        </div>
+                    </div>                         
                 </form>
 
                 <div class="col-md-12 col-sm-12 col-xs-12 profile_left">
@@ -38,13 +62,13 @@
                         <!-- start accordion -->
                         <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
 
-                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser)}" />                            
+                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser,minValue,minPersent,minWeight)}" />                            
                             <c:forEach items="${MetricsMeta.getTagsList().get(group_item)}" var="showgroup" varStatus="loopgrups">   
                                 <c:set var="showgroup_rp" value="${fn:replace(showgroup, '.', '_')}" />
 
                                 <div class="panel">
                                     <a class="panel-heading collapsed" role="tab" id="heading${showgroup_rp}" data-toggle="collapse" data-parent="#accordion1" href="#collapse_${showgroup_rp}" aria-expanded="false" aria-controls="collapseOne">
-                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup}</h4>
+                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()}</h4>
                                     </a>
 
                                     <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="false" style="height: 0px;">
@@ -68,7 +92,7 @@
                                                         <c:set value="${metric.getValue() < 0 ? -metric.getValue():metric.getValue()}" var="val" />
                                                         <c:set value="${metric.getWeight() < 0 ? -metric.getWeight():metric.getWeight()}" var="weight" />
                                                         <c:set value="${metric.getPersent_weight() < 0 ? -metric.getPersent_weight():metric.getPersent_weight()}" var="persent" />
-                                                        <c:if test="${(val > 1)&&(weight>8)&&(persent>50) }"> 
+                                                        
                                                         <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
                                                             <th scope="row">${loopindex}</th>
                                                             <c:set value="${loopindex+1}" var="loopindex" />
@@ -79,7 +103,7 @@
 
                                                             <td class="time">${metric.getTimestamp()}</td>
                                                         </tr>
-                                                        </c:if>
+                                                        
                                                     </c:forEach>
                                                 </tbody>
                                             </table>
