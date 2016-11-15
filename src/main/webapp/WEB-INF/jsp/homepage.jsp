@@ -19,7 +19,7 @@
                             <img src="${cp}/resources/images/logobig.png" class="animated bounceInUp" alt="logo">
                             <h1 class="animated bounceInLeft">Unlimited Scalability Monitoring System</h1>
                             <p class="animated bounceInRight">Have effectively unlimited scalability (storage, access rate).</p>
-                            <div class="animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sine In</a></div>
+                            <div class="animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                             <img src="${cp}/resources/images/logobig.png" class="animated bounceInUp" alt="logo">
                             <h1 class="animated bounceInLeft">Enormous injection of metrics per client</h1>
                             <p class="animated bounceInRight">Supports enormous per 2-10 second injection of metrics per client machine.</p>
-                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sine In</a></div>
+                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
                         </div>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                             <img src="${cp}/resources/images/logobig.png" class="animated bounceInUp" alt="logo">
                             <h1 class="animated bounceInLeft">Open source python agent</h1>
                             <p class="animated bounceInRight">with absolute minimum configuration and dependencies.</p>
-                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sine In</a></div>
+                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                             <img src="${cp}/resources/images/logobig.png" class="animated bounceInUp" alt="logo">
                             <h1 class="animated bounceInLeft">Simple client API</h1>
                             <p class="animated bounceInRight">Simple client API to create own custom checks.</p>
-                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sine In</a></div>
+                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
                         </div>
                     </div>
                 </div>
