@@ -53,6 +53,15 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
+            String chartid = request.getParameter("chart");
+            if (chartid !=null)
+            {
+                map.put("chart", chartid);
+            }
+            else
+            {
+                map.put("chart", -1);
+            }
             map.put("curentuser", userDetails);
             map.put("dashname", dashname);
             map.put("dashInfo", userDetails.getDush(dashname));

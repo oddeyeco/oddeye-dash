@@ -49,7 +49,7 @@ public class AjaxControlers {
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "metrics") String metrics,
-            @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
+            @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,            
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
             @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
             ModelMap map) {
@@ -66,7 +66,7 @@ public class AjaxControlers {
         Map<String, String> Tagmap;
 
         Long start_time = DateTime.parseDateTimeString(startdate, null);
-//        Long end_time = DateTime.parseDateTimeString(enddate, null);
+        Long end_time = DateTime.parseDateTimeString(enddate, null);
         Long starttime = System.currentTimeMillis();
         ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, tags, startdate, enddate, downsample);
         Long getinterval = System.currentTimeMillis() - starttime;
@@ -113,6 +113,10 @@ public class AjaxControlers {
                         if (Point.timestamp() < start_time) {
                             continue;
                         }
+                        if (Point.timestamp() > end_time) {
+                            continue;
+                        }                        
+                        
                         DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                     }
 
