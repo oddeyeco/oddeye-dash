@@ -4,7 +4,7 @@
     var singleChart = null;
     var pickerstart;
     var pickerend;
-    var pickerlabel = "";
+    var pickerlabel = "Last 5 minutes";
     var rangeslabels = {
         'Last 5 minutes': "5m-ago",
         'Last 15 minutes': "15m-ago",
@@ -64,15 +64,15 @@
             });
         } else
         {
-            for (var index in Dashinfo) {
+            for (var index in Dashinfo) {                                
                 var row = Dashinfo[index];
-                for (var chartindex in row) {
+                for (var chartindex in row) {                    
                     options = row[chartindex];
                     dush_charts_options.push(options);
                 }
 
             }
-            showsingleChart(request_index);
+            showsingleChart(request_index);            
         }
         ;
 //        alert('fsdfsd');
@@ -91,6 +91,15 @@
         var ctx = $(".editchartpanel #singlewidget").find(".lineChart").last();
         ctx.height = 600;
         var url = options.data.datasetsUri;
+        if (pickerlabel == "Custom")
+        {
+            url = url + "&startdate=" + pickerstart + "&enddate=" + pickerend;
+        } else
+        {
+            url = url + "&startdate=" + rangeslabels[pickerlabel];
+        }
+
+//        var url = "${cp}/getdata" + query;
         drawchart(url, ctx, options);
         $(".editchartpanel").attr("datasetindex", datasetindex);
         $(".fulldash").hide();
@@ -189,17 +198,10 @@
                 dush_charts.forEach(redrawchart);
             } else
             {
-                if (pickerlabel == "Custom")
-                {
-                    query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val() + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
-                } else
-                {
-                    query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val() + "&startdate=" + rangeslabels[pickerlabel];
-                }
-
-                var url = "${cp}/getdata" + query;
-                options = dush_charts_options[request_index];
-                drawchart(url, $(".editchartpanel #singlewidget").find(".lineChart").last(), options)
+                query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val();
+                showsingleChart(request_index);
+//                alert(dush_charts[request_index]);
+//                redrawchart(dush_charts[request_index], request_index)
             }
         });
         $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
@@ -302,7 +304,8 @@
         $('body').on("blur", ".edit-query input", function () {
             datasetindex = $(".editchartpanel").attr("datasetindex");
             query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val();
-
+            options = dush_charts_options[datasetindex];
+            options.data.datasetsUri = "${cp}/getdata" + query;
             if (pickerlabel == "Custom")
             {
                 query = query + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
@@ -310,7 +313,7 @@
             {
                 query = query + "&startdate=" + rangeslabels[pickerlabel];
             }
-            options = dush_charts_options[datasetindex];
+
             var url = "${cp}/getdata" + query;
             drawchart(url, $(".editchartpanel #singlewidget").find(".lineChart").last(), options)
         });
@@ -340,7 +343,7 @@
 
             senddata.info = JSON.stringify(to_senddata);
             senddata.name = $("#name").val();
-//            console.log(senddata);
+            console.log(senddata);
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
             $.ajax({
@@ -398,11 +401,9 @@
     function redrawchart(chart, index)
     {
         url = dush_charts_options[index].data.datasetsUri;
-
-
         if (pickerlabel == "Custom")
         {
-            url = url + $("#down-sample").val() + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
+            url = url + $("#down-sample").val() + "&startdate=" + pickerstart + "&enddate=" + pickerend;
         } else
         {
             if (typeof (rangeslabels[pickerlabel]) == "undefined")
@@ -496,7 +497,7 @@
                     pos = 0;
             }
             options.data.datasets = datasets;
-            options.data.datasetsUri = url;
+//            options.data.datasetsUri = url;
             if (singleChart == null)
             {
                 singleChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));

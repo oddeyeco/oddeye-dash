@@ -66,7 +66,7 @@ public class UserController {
                 
             String minWeight = request.getParameter("minWeight");
             if (minValue == null) {
-                map.put("minWeight", 8);
+                map.put("minWeight", 14);
             }
             else
             {
