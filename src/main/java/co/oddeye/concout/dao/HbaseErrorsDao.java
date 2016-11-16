@@ -8,25 +8,20 @@ package co.oddeye.concout.dao;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.ConcoutMetricErrorMeta;
 import co.oddeye.concout.model.User;
+import co.oddeye.core.MetriccheckRule;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.ArrayUtils;
-import org.hbase.async.BinaryComparator;
-import org.hbase.async.CompareFilter;
-import org.hbase.async.FilterList;
+import org.hbase.async.GetRequest;
 import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
-import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
-import org.hbase.async.ValueFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import java.util.Arrays;
 
 /**
  *
@@ -48,12 +43,39 @@ public class HbaseErrorsDao extends HbaseBaseDao {
     public HbaseErrorsDao() {
         super(TABLENAME);
     }
+    
+    public ConcoutMetricErrorMeta getErrorMeta(User user, byte[] key, long time) throws Exception {
+        Calendar Date = Calendar.getInstance();
+        Date.setTimeInMillis(time);
+        client = BaseTsdb.getClient();
+        byte[] tablekey = user.getTsdbID();
+        tablekey = ArrayUtils.addAll(tablekey, ByteBuffer.allocate(8).putLong(time).array());
 
-    public ConcoutMetricMetaList getLast(User user,Double minValue,Double minPersent,short minWeight) {
+        GetRequest request = new GetRequest(table, tablekey, "d".getBytes(), key);
+        ArrayList<KeyValue> row = client.get(request).joinUninterruptibly();
+        ConcoutMetricErrorMeta e = null;
+        for (final KeyValue kv : row) {
+//                        datapart = Arrays.copyOfRange(kv.value(), 0, 2);
+            e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
+            weight = ByteBuffer.wrap(kv.value()).getShort();
+//                        datapart = Arrays.copyOfRange(kv.value(), 2, 10);
+            persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
+            value = ByteBuffer.wrap(kv.value()).getDouble(10);            
+
+            long loc_time = getTime(kv.key());
+            e.setTimestamp(time);
+            e.setValue(value);
+            e.setWeight(weight);
+            e.setPersent_weight(persent_weight);
+        }        
+        return e;
+    }
+
+    public ConcoutMetricMetaList getLast(User user, Double minValue, Double minPersent, short minWeight) {
         client = BaseTsdb.getClient();
 
         final byte[] start_row;
-        final byte[] end_row;        
+        final byte[] end_row;
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
         Calendar Date = Calendar.getInstance();
         Date.add(Calendar.MINUTE, 60);
@@ -68,18 +90,6 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         scanner.setStartKey(start_row);
         scanner.setStopKey(end_row);
 
-//        byte[] data = ByteBuffer.allocate(2).putShort((short) 6).array();
-//        byte[] Negdata = ByteBuffer.allocate(2).putShort((short) -6).array();
-        
-//        ValueFilter filter = new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data));
-//        
-//        List<ScanFilter> list= new LinkedList<>();
-//        list.add(new ValueFilter(CompareFilter.CompareOp.GREATER,new BinaryComparator(data)));
-//        list.add(new ValueFilter(CompareFilter.CompareOp.LESS,new BinaryComparator(Negdata)));
-//        FilterList filterlist = new FilterList(list,FilterList.Operator.MUST_PASS_ALL);
-//        scanner.setFilter(filterlist);
-        
-        
         ArrayList<ArrayList<KeyValue>> rows;
         ConcoutMetricMetaList MetricMetaList;
         try {
@@ -100,7 +110,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //                        datapart = Arrays.copyOfRange(kv.value(), 2, 10);
                         persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
                         value = ByteBuffer.wrap(kv.value()).getDouble(10);
-                        
+
                         if (Math.abs(value) < minValue) {
                             continue;
                         }
@@ -110,7 +120,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         if (Math.abs(weight) < minWeight) {
                             continue;
                         }
-                        
+
                         ConcoutMetricErrorMeta e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
                         if (MetricMetaList.get(e.hashCode()) != null) {

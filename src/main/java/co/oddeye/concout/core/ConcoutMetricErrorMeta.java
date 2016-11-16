@@ -7,6 +7,7 @@ package co.oddeye.concout.core;
 
 import co.oddeye.core.OddeeyMetricMeta;
 import net.opentsdb.core.TSDB;
+import org.apache.commons.codec.binary.Hex;
 
 /**
  *
@@ -80,4 +81,9 @@ public class ConcoutMetricErrorMeta extends OddeeyMetricMeta {
     public void setWeight(short weight) {
         this.weight = weight;
     }
+
+
+    public String getKeyString() {
+        return Hex.encodeHexString(getKey());
+    }    
 }

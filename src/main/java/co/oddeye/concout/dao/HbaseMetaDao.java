@@ -5,10 +5,13 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.core.ConcoutMetricErrorMeta;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
 import com.stumbleupon.async.Deferred;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import java.util.Map;
 import java.util.UUID;
@@ -44,6 +47,13 @@ public class HbaseMetaDao extends HbaseBaseDao {
         super(TBLENAME);
     }
 
+    public Map<String, MetriccheckRule> getErrorRules(ConcoutMetricErrorMeta meta,long time) throws Exception {
+        Calendar CalendarObj = Calendar.getInstance();
+        CalendarObj.setTimeInMillis(time*1000);
+        CalendarObj.add(Calendar.DATE, -1);
+        return meta.getRules(CalendarObj, 7, table, BaseTsdbV.getClient());
+    }    
+    
     public ConcoutMetricMetaList getByUUID(UUID userid) throws Exception {
         if ((MtrscList == null) || (MtrscList.isEmpty())) {
             try {

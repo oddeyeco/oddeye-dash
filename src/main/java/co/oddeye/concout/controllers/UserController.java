@@ -5,10 +5,15 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.core.ConcoutMetricErrorMeta;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,6 +33,8 @@ public class UserController {
 
     @Autowired
     HbaseErrorsDao ErrorsDao;
+    @Autowired
+    HbaseMetaDao MetaDao;
 
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
@@ -81,5 +88,36 @@ public class UserController {
 
         return "index";
     }
+    
+    
+    
+    @RequestMapping(value = "/expanded/{metriqkey}/{timestamp}", method = RequestMethod.GET)
+    public String advansedinfo(@PathVariable(value = "metriqkey") String metriqkey,
+                               @PathVariable(value = "timestamp") String timestamp,
+            HttpServletRequest request, ModelMap map) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+                map.put("curentuser", userDetails);
+                
+                ConcoutMetricErrorMeta Error = ErrorsDao.getErrorMeta(userDetails,Hex.decodeHex(metriqkey.toCharArray()),Long.parseLong(timestamp) );                
+                
+                map.put("Error", Error);
+                map.put("Rules", MetaDao.getErrorRules(Error,Long.parseLong(timestamp)));
+            } catch (Exception ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+
+        map.put("body", "advansed");
+        map.put("jspart", "advansedjs");
+
+        return "index";
+    }    
 
 }

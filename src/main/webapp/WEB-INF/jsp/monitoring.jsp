@@ -96,7 +96,7 @@
                                                         <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
                                                             <th scope="row">${loopindex}</th>
                                                             <c:set value="${loopindex+1}" var="loopindex" />
-                                                            <td>${metric.getName()}</td>
+                                                            <td><a href="${cp}/expanded/${metric.getKeyString()}/${metric.getTimestamp()}">${metric.getName()} </a></td>
                                                             <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
                                                             <td class="weight">${metric.getWeight()}</td>
                                                             <td class="persent">${metric.getPersent_weight()}</td>
