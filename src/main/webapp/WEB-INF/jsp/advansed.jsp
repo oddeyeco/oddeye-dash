@@ -20,7 +20,7 @@
             <div class="col-md-6 col-sm-6 col-xs-6">            
                 <div class="x_content "> 
                     <div class="x_title">
-                        <h2><i class="fa fa-align-left"></i> Tags</h2>                                         
+                        <h2><i class="fa fa-asterisk"></i> Tags</h2>                                         
                         <div class="clearfix"></div>
                     </div>                
                     <ul class="">
@@ -40,7 +40,7 @@
             <div class="col-md-6 col-sm-6 col-xs-6">            
                 <div class="x_content "> 
                     <div class="x_title">
-                        <h2><i class="fa fa-ambulance"></i> Info</h2>                                         
+                        <h2><i class="fa fa-weibo"></i> Info</h2>                                         
                         <div class="clearfix"></div>
                     </div>                
                     <ul class="">
@@ -86,8 +86,8 @@
                             </tr>
                         </thead>                        
                         <c:forEach items="${Rules}" var="rule" varStatus="loop">                            
-                            <tr>
-                                <td>${rule.getValue().getTime().getTime()}</td>
+                            <tr>                                
+                                <td><fmt:formatDate type="both" pattern="H:00 Y/M/d" value="${rule.getValue().getTime().getTime()}"/> </td>                                
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getAvg()}"/> </td>
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getDev()}"/> </td>
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getMin()}"/> </td>
@@ -101,3 +101,18 @@
         </div>
     </div>                        
 </div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2>Graphic Analysis</h2>
+                <div class="clearfix"></div>
+                ${chartdata.size()}
+
+            </div>
+            <div class="x_content">
+                <canvas id="lineChart"></canvas>
+            </div>                    
+        </div>
+    </div>
+</div>                

@@ -10,9 +10,19 @@ import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
+import co.oddeye.core.MetriccheckRule;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import net.opentsdb.core.DataPoint;
+import net.opentsdb.core.DataPoints;
+import net.opentsdb.core.SeekableView;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -35,6 +45,10 @@ public class UserController {
     HbaseErrorsDao ErrorsDao;
     @Autowired
     HbaseMetaDao MetaDao;
+    @Autowired
+    HbaseDataDao DataDao;
+    private Map<String, String> Tagmap;
+    private final Gson gson = new Gson();
 
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
@@ -56,30 +70,23 @@ public class UserController {
             String minValue = request.getParameter("minValue");
             if (minValue == null) {
                 map.put("minValue", 1);
+            } else {
+                map.put("minValue", Math.abs(Double.parseDouble(minValue)));
             }
-            else
-            {
-                map.put("minValue",Math.abs(Double.parseDouble(minValue)));
-            }
-            
+
             String minPersent = request.getParameter("minPersent");
             if (minValue == null) {
                 map.put("minPersent", 50);
+            } else {
+                map.put("minPersent", Math.abs(Double.parseDouble(minPersent)));
             }
-            else
-            {
-                map.put("minPersent",Math.abs(Double.parseDouble(minPersent)));
-            }            
-                
+
             String minWeight = request.getParameter("minWeight");
             if (minValue == null) {
                 map.put("minWeight", 14);
+            } else {
+                map.put("minWeight", Math.abs(Short.parseShort(minWeight)));
             }
-            else
-            {
-                map.put("minWeight",Math.abs(Short.parseShort(minWeight)));
-            }              
-            
 
         }
 
@@ -88,12 +95,10 @@ public class UserController {
 
         return "index";
     }
-    
-    
-    
+
     @RequestMapping(value = "/expanded/{metriqkey}/{timestamp}", method = RequestMethod.GET)
     public String advansedinfo(@PathVariable(value = "metriqkey") String metriqkey,
-                               @PathVariable(value = "timestamp") String timestamp,
+            @PathVariable(value = "timestamp") String timestamp,
             HttpServletRequest request, ModelMap map) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -103,11 +108,69 @@ public class UserController {
                 User userDetails = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
                 map.put("curentuser", userDetails);
-                
-                ConcoutMetricErrorMeta Error = ErrorsDao.getErrorMeta(userDetails,Hex.decodeHex(metriqkey.toCharArray()),Long.parseLong(timestamp) );                
-                
+                JsonObject jsonMessages = new JsonObject();
+                ConcoutMetricErrorMeta Error = ErrorsDao.getErrorMeta(userDetails, Hex.decodeHex(metriqkey.toCharArray()), Long.parseLong(timestamp));
+                Map<String, MetriccheckRule> rules = MetaDao.getErrorRules(Error, Long.parseLong(timestamp));
                 map.put("Error", Error);
-                map.put("Rules", MetaDao.getErrorRules(Error,Long.parseLong(timestamp)));
+                map.put("Rules", rules);
+                ArrayList<DataPoints[]> data = new ArrayList<>();
+
+                for (Map.Entry<String, MetriccheckRule> rule : rules.entrySet()) {
+                    Calendar calobject = rule.getValue().getTime();
+                    String startdate = Long.toString(calobject.getTimeInMillis());
+                    calobject.add(Calendar.HOUR, 1);
+                    calobject.add(Calendar.MILLISECOND, -1);
+                    String enddate = Long.toString(calobject.getTimeInMillis());
+                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), Error.getFullFilter(), startdate, enddate, ""));
+                    if (!data.isEmpty()) {
+                        for (DataPoints[] DataPointslist : data) {
+                            for (DataPoints DataPoints : DataPointslist) {
+                                Tagmap = DataPoints.getTags();
+                                Tagmap.remove("UUID");
+                                Tagmap.remove("alert_level");
+
+                                JsonObject jsonMessage;
+
+                                String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
+
+                                if (jsonMessages.get(jsonuindex) == null) {
+                                    jsonMessage = new JsonObject();
+                                } else {
+                                    jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
+                                }
+
+                                jsonMessage.addProperty("index", Tagmap.hashCode());
+                                jsonMessage.addProperty("metric", DataPoints.metricName());
+
+                                final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
+                                jsonMessage.add("tags", TagsJSON);
+                                Tagmap.clear();
+
+                                final SeekableView Datalist = DataPoints.iterator();
+
+                                JsonObject DatapointsJSON;
+
+                                if (jsonMessage.get("data") == null) {
+                                    DatapointsJSON = new JsonObject();
+                                } else {
+                                    DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
+                                }
+
+                                while (Datalist.hasNext()) {
+                                    final DataPoint Point = Datalist.next();
+                                    DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
+                                }
+
+                                jsonMessage.add("data", DatapointsJSON);
+                                jsonMessages.add(startdate, jsonMessage);
+
+                            }
+
+                        }
+                    }
+                }
+                map.put("chartdata", jsonMessages);
+
             } catch (Exception ex) {
                 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -118,6 +181,6 @@ public class UserController {
         map.put("jspart", "advansedjs");
 
         return "index";
-    }    
+    }
 
 }
