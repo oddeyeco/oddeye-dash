@@ -106,9 +106,7 @@
         <div class="x_panel">
             <div class="x_title">
                 <h2>Graphic Analysis</h2>
-                <div class="clearfix"></div>
-                ${chartdata.size()}
-
+                <div class="clearfix"></div>                
             </div>
             <div class="x_content">
                 <canvas id="lineChart"></canvas>
