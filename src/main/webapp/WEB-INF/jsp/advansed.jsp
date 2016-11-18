@@ -63,7 +63,34 @@
                     </ul>                
 
                 </div>
-            </div>                
+            </div> 
+            <div class="x_title">
+                <h2><i class="fa fa-repeat"></i> Recurrence by Weight</h2>                                         
+                <div class="clearfix"></div>
+            </div>
+            <div class="row tile_count">
+                <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-clock-o"></i> Current 1 minute</span>
+                    <div class="count">${Error.getRecurrence1m()} </div>
+                    <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence1m() > Error.getRecurrenceLast1m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast1m()} </i> Previous minute</span>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-clock-o"></i> Current 10 minutes</span>
+                    <div class="count">${Error.getRecurrence10m()}</div>
+                    <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence10m() > Error.getRecurrenceLast10m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast10m()} </i> Previous 10 minutes</span>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-clock-o"></i> Current 20 minutes </span>
+                    <div class="count green">${Error.getRecurrence20m()}</div>
+                    <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence20m() > Error.getRecurrenceLast20m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast20m()} </i> Previous 20 minutes</span>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+                    <span class="count_top"><i class="fa fa-clock-o"></i>Current 30 minutes</span>
+                    <div class="count">${Error.getRecurrence30m()}</div>
+                    <span class="count_bottom"><i class="<c:choose><c:when test="${Error.getRecurrence30m() > Error.getRecurrenceLast30m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast30m()} </i> Previous 30 minutes </span>
+                </div>
+            </div>                        
+
         </div>
     </div>
 
@@ -97,9 +124,9 @@
                     </table>                
 
                 </div>
-            </div>                                         
-        </div>
-    </div>                        
+            </div>                
+        </div>                    
+    </div>     
 </div>
 <div class="row">
     <div class="col-md-12">
