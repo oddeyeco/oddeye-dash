@@ -150,7 +150,9 @@ public class AjaxControlers {
             try {
                 User userDetails = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
-
+                
+//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                
                 ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
@@ -159,6 +161,7 @@ public class AjaxControlers {
                     final JsonObject tagsjson = new JsonObject();
                     metricjson.addProperty("name", metric.getName());
                     metricjson.addProperty("hash", metric.hashCode());
+                    metricjson.addProperty("lasttime", metric.getLasttime());
 
                     for (final Map.Entry<String, OddeyeTag> tag : metric.getTags().entrySet()) {
                         if (!tag.getValue().getKey().equals("UUID")) {
@@ -197,19 +200,19 @@ public class AjaxControlers {
                         getAuthentication().getPrincipal();
 
                 if (hash != null) {
-                    MetaDao.deleteMeta(hash,userDetails.getId());
+                    MetaDao.deleteMeta(hash,userDetails);
                     jsonResult.addProperty("sucsses", true);
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }
 
                 if ((key != null) && (value != null)) {
-                    MetaDao.deleteMetaByTag(key,value,userDetails.getId());
+                    MetaDao.deleteMetaByTag(key,value,userDetails);
                     jsonResult.addProperty("sucsses", true);
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }                
-                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);

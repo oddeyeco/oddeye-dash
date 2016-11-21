@@ -6,7 +6,6 @@
 package co.oddeye.concout.model;
 
 import co.oddeye.concout.core.ConcoutMetricMetaList;
-import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import java.io.UnsupportedEncodingException;
@@ -23,7 +22,6 @@ import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.KeyValue;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

@@ -70,7 +70,7 @@
                                         <tr>
                                             <th>Tag Name</th>
                                             <th>Metric Count</th>                                            
-                                            <th>Edit</th>
+                                            <th class="text-right">Edit</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,6 +95,7 @@
                                                                 <th>#</th>
                                                                 <th>Metric name</th>
                                                                 <th>Tags</th>
+                                                                <th>Last Time</th>
                                                                 <th>Edit</th>
                                                             </tr>
                                                         </thead>                                                
@@ -107,6 +108,9 @@
                                                                 <td>
                                                                     <a> [tags]</a>
                                                                 </td>
+                                                                <td>
+                                                                    <a>[lasttime]</a>
+                                                                </td>                                                                
                                                                 
                                                                 <td class="text-nowrap">
                                                                     <a href="javascript:void(0)" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>

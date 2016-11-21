@@ -54,10 +54,9 @@ public class DefaultController {
     }
 
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
-    public String logoutDo(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
+    public String logoutDo(ModelMap map, HttpServletRequest request, HttpServletResponse response) {        
         SecurityContextHolder.clearContext();
-        session = request.getSession(false);
+        HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
