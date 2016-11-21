@@ -58,7 +58,7 @@
                         </li>
                         <li>
                             <span class="name"> Time </span>
-                            <span class="value text-success">${Error.getTimestamp()} </span>
+                            <span class="value text-success"><fmt:formatDate value="${Error.getDate()}" pattern="HH:mm Y/M/d"/> </span>
                         </li>                                           
                     </ul>                
 

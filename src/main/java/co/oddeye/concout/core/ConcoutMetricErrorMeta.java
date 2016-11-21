@@ -39,6 +39,14 @@ public class ConcoutMetricErrorMeta extends OddeeyMetricMeta {
     }
 
     /**
+     * @return the date
+     */
+    public java.util.Date getDate() {
+        java.util.Date dateValue = new java.util.Date(timestamp*1000);
+        return dateValue;
+    }    
+    
+    /**
      * @return the timestamp
      */
     public long getTimestamp() {
