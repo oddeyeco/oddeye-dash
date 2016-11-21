@@ -55,9 +55,10 @@
         drawAnChart();
     });
     function drawAnChart()
-    {        
+    {
         var datasets = [];
         var pos = 0;
+        var cd = [];
         for (var k in chartsdata) {
             var chartline = chartsdata[k];
             var d = [];
@@ -66,12 +67,18 @@
                 itemdata = {x: htime, y: chartline.data[time]};
 //                console.log(htime.format("YYYY-MM-DD h:mm:ss"));
                 d.push(itemdata);
+                if (pos == 0)
+                {
+                    itemdata = {x: htime, y: curentvalue};
+                    cd.push(itemdata);
+                }
             }
+
 
 //cartedta
 
             item = {
-                label: moment(k * 1).format("DD/MM/YYYY"),                
+                label: moment(k * 1).format("DD/MM/YYYY"),
                 fill: false,
                 borderColor: colorset[pos].borderColor,
 //                pointBorderColor: colorset[pos].pointBorderColor,
@@ -82,23 +89,16 @@
                 borderWidth: 1,
                 radius: 0,
                 data: d
-                
+
             };
             datasets.push(item);
             pos++;
         }
 
-        var cd = [];
-        for (var index in d) {            
-            i_data = d[index];            
-            itemdata = {x: i_data.x, y: curentvalue};
-            cd.push(itemdata);
-        }
-
         item = {
             label: "Curent Value",
             fill: false,
-            borderColor: "rgba(255, 0, 0, 0.8)",            
+            borderColor: "rgba(255, 0, 0, 0.8)",
 //            pointBorderColor: "rgba(255, 0, 0, 0.8)",
 //            pointBackgroundColor: "rgba(255, 0, 0, 0.8)",
 //            pointHoverBackgroundColor: "#fff",
@@ -114,7 +114,7 @@
         // Line chart
         var ctx = document.getElementById("lineChart");
         lineChart = new Chart(ctx, {
-            type: 'line',            
+            type: 'line',
             data: {
                 labels: [],
                 datasets: datasets
