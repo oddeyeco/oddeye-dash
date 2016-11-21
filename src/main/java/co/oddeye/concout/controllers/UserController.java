@@ -208,6 +208,9 @@ public class UserController {
 
                     Calendar calobject = Calendar.getInstance();
                     calobject.setTimeInMillis(Long.parseLong(timestamp)*1000);
+                    calobject.set(Calendar.MINUTE, 0);
+                    calobject.set(Calendar.SECOND, 0);
+                    calobject.set(Calendar.MILLISECOND, 0);
                     String startdate = Long.toString(calobject.getTimeInMillis());
                     calobject.add(Calendar.HOUR, 1);
                     calobject.add(Calendar.MILLISECOND, -1);
