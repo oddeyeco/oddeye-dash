@@ -4,22 +4,22 @@
     var curentvalue = ${Error.getValue()};
     var chartsdata = ${chartdata};
     var colorset = [{
-            backgroundColor: "rgba(300, 10, 150, 0.3)",
-            borderColor: "rgba(300, 10, 150, 0.9)",
-            pointBorderColor: "rgba(300, 10, 150, 0.4)",
-            pointBackgroundColor: "rgba(300, 10, 150, 0.4)",
+            backgroundColor: "rgba(0, 128, 0, 0.3)",
+            borderColor: "rgba(0, 128, 0, 0.9)",
+            pointBorderColor: "rgba(0, 128, 0, 0.4)",
+            pointBackgroundColor: "rgba(0, 128, 0, 0.4)",
         },
         {
-            backgroundColor: "rgba(0, 255, 0, 0.1)",
-            borderColor: "rgba(0, 255, 0, 0.9)",
-            pointBorderColor: "rgba(0, 255, 0, 0.1)",
+            backgroundColor: "rgba(0, 0, 128, 0.1)",
+            borderColor: "rgba(0, 0, 128, 0.9)",
+            pointBorderColor: "rgba(0, 0, 128, 0.1)",
             pointBackgroundColor: "rgba(255, 0, 0, 0.1)",
         },
         {
-            backgroundColor: "rgba(0, 0, 255, 0.1)",
-            borderColor: "rgba(0, 0, 255, 0.9)",
-            pointBorderColor: "rgba(0, 0, 255, 0.1)",
-            pointBackgroundColor: "rgba(0, 0, 255, 0.1)",
+            backgroundColor: "rgba(0, 128, 128, 0.1)",
+            borderColor: "rgba(0, 128, 128, 0.9)",
+            pointBorderColor: "rgba(0, 128, 128, 0.1)",
+            pointBackgroundColor: "rgba(0, 128, 128, 0.1)",
         },
         {
             backgroundColor: "rgba(0, 255, 255, 0.1)",
@@ -28,28 +28,28 @@
             pointBackgroundColor: "rgba(0, 255, 255, 0.1)",
         },
         {
-            backgroundColor: "rgba(255, 0, 255, 0.1)",
-            borderColor: "rgba(255, 0, 255, 0.9)",
-            pointBorderColor: "rgba(255, 0, 255, 0.1)",
-            pointBackgroundColor: "rgba(0, 0, 255, 0.1)",
+            backgroundColor: "rgba(0, 128, 0, 0.1)",
+            borderColor: "rgba(0, 128, 0, 0.9)",
+            pointBorderColor: "rgba(0, 128, 0, 0.1)",
+            pointBackgroundColor: "rgba(0, 128, 0, 0.1)",
         },
         {
-            backgroundColor: "rgba(255, 0, 255, 0.1)",
-            borderColor: "rgba(255, 0, 255, 0.9)",
-            pointBorderColor: "rgba(255, 0, 255, 0.1)",
-            pointBackgroundColor: "rgba(255, 0, 255, 0.1)",
+            backgroundColor: "rgba(255, 255, 0, 0.1)",
+            borderColor: "rgba(255, 255, 0, 0.9)",
+            pointBorderColor: "rgba(255, 255, 0, 0.1)",
+            pointBackgroundColor: "rgba(255, 255, 0, 0.1)",
         },
         {
-            backgroundColor: "rgba(200, 50, 200, 0.1)",
-            borderColor: "rgba(200, 50, 200, 0.9)",
-            pointBorderColor: "rgba(200, 50, 200, 0.1)",
-            pointBackgroundColor: "rgba(200, 50, 200, 0.1)",
+            backgroundColor: "rgba(255, 165, 0, 0.1)",
+            borderColor: "rgba(255, 165, 0, 0.9)",
+            pointBorderColor: "rgba(255, 165, 0, 0.1)",
+            pointBackgroundColor: "rgba(255, 165, 0, 0.1)",
         },
         {
-            backgroundColor: "rgba(150, 100, 50, 0.1)",
-            borderColor: "rgba(150, 100, 50, 0.9)",
-            pointBorderColor: "rgba(150, 100, 50, 0.1)",
-            pointBackgroundColor: "rgba(150, 100, 50, 0.1)",
+            backgroundColor: "rgba(128, 0, 0, 0.1)",
+            borderColor: "rgba(128, 0, 0, 0.9)",
+            pointBorderColor: "rgba(128, 0, 0, 0.1)",
+            pointBackgroundColor: "rgba(128, 0, 0, 0.1)",
         }];
     $(document).ready(function () {
         drawAnChart();
