@@ -50,22 +50,116 @@ public class User implements UserDetails {
     private String StTsdbID;
     private Boolean active;
     private final Set<GrantedAuthority> authorities;
-//    private OddeeyMetricMetaList Tags;
-    private ConcoutMetricMetaList MetricsMeta;
-    private final Set<String> Allkeys;
-    
+    private ConcoutMetricMetaList MetricsMetas;      
     private Map<String, String> DushList;
 
     public User() {
         this.id = UUID.randomUUID();
         this.authorities = null;
-        this.MetricsMeta = null;
-        this.Allkeys = null;
+        this.MetricsMetas = null;        
+    }
+
+    // Developet metods
+
+    public void SendConfirmMail(mailSender Sender) {
+        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='http://localhost:8080/OddeyeCoconut/confirm/" + this.getId().toString() + "'>hear</a>", "oddeye.co@gmail.com", this.getEmail());
+    }
+
+    public void inituser(ArrayList<KeyValue> userkvs, List<GrantedAuthority> grantedAuths) {
+
+        userkvs.stream().map((property) -> {
+            if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
+                this.id = UUID.fromString(new String(property.value()));
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "email".getBytes())) {
+                this.email = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "name".getBytes())) {
+                this.name = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "lastname".getBytes())) {
+                this.lastname = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "company".getBytes())) {
+                this.company = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "country".getBytes())) {
+                this.country = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "city".getBytes())) {
+                this.city = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "region".getBytes())) {
+                this.region = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "timezone".getBytes())) {
+                this.timezone = new String(property.value());
+            }
+            return property;
+        }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
+            this.active = property.value()[0] != (byte) 0;
+        });
+    }
+    
+    /**
+     * @param DushName
+     * @param DushInfo
+     * @param Userdao
+     * @return the DushList
+     */
+    public Map<String, String> addDush(String DushName, String DushInfo,HbaseUserDao Userdao) {
+        DushList.put(DushName, DushInfo);
+        Userdao.saveDush(id, DushName, DushInfo);
+        return DushList;
+    }
+    
+    public String getDush(String DushName) {                
+        return DushList.get(DushName);
+    }
+    
+    
+    /**
+     * @param TsdbID the TsdbID to set
+     */
+    public void setTsdbID(byte[] TsdbID) {
+        
+        this.TsdbID = TsdbID;
+        this.StTsdbID = Hex.encodeHexString(TsdbID);
+        
+    }    
+    
+    
+    // Override metods
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.authorities;
     }
 
     @Override
-    public boolean isEnabled() {
-        return this.active;
+    public String getPassword() {
+        String pass = "";
+        return pass;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
     @Override
@@ -81,23 +175,87 @@ public class User implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return this.active;
-
     }
 
     @Override
-    public String getUsername() {
-        return this.email;
+    public boolean isEnabled() {
+        return this.active;
+    }
+    // Modified get sets
+    private byte[] getNextSalt() {
+        final Random r = new SecureRandom();
+        byte[] salt = new byte[64];
+        r.nextBytes(salt);
+        return salt;
     }
 
-    @Override
-    public Collection<GrantedAuthority> getAuthorities() {
-        return this.authorities;
+    static public byte[] get_SHA_512_SecurePassword(String passwordToHash, byte[] salt) {
+        byte[] bytes = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            bytes = md.digest(passwordToHash.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+        }
+        return bytes;
     }
 
-    public void SendConfirmMail(mailSender Sender) {
-        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='http://localhost:8080/OddeyeCoconut/confirm/" + this.getId().toString() + "'>hear</a>", "oddeye.co@gmail.com", this.getEmail());
+    public byte[] getPasswordByte() {
+        return this.password;
     }
 
+    public String getPasswordst() {
+        String pass = "";
+        if (this.password != null) {
+            pass = new String(this.password);
+        }
+        return pass;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        if (this.getSolt() == null) {
+            this.solt = getNextSalt();
+        }
+        this.password = get_SHA_512_SecurePassword(password, this.getSolt());
+    }
+
+    /**
+     * @return the passwordsecond
+     */
+    public String getPasswordsecondst() {
+        String pass = "";
+        if (this.passwordsecond != null) {
+            pass = new String(this.passwordsecond);
+        }
+        return pass;
+    }
+
+    public String getPasswordsecond() {
+        String pass = "";
+        return pass;
+    }
+
+    /**
+     * @param passwordsecond the passwordsecond to set
+     */
+    public void setPasswordsecond(String passwordsecond) {
+        if (this.getSolt() == null) {
+            this.solt = getNextSalt();
+        }
+        this.passwordsecond = get_SHA_512_SecurePassword(passwordsecond, this.getSolt());
+    }
+
+    /**
+     * @return the solt
+     */
+    public byte[] getSolt() {
+        return solt;
+    }    
+    
+    // Standart get sets
     /**
      * @return the id
      */
@@ -215,26 +373,8 @@ public class User implements UserDetails {
      */
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    private byte[] getNextSalt() {
-        final Random r = new SecureRandom();
-        byte[] salt = new byte[64];
-        r.nextBytes(salt);
-        return salt;
-    }
-
-    static public byte[] get_SHA_512_SecurePassword(String passwordToHash, byte[] salt) {
-        byte[] bytes = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(salt);
-            bytes = md.digest(passwordToHash.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-        }
-        return bytes;
-    }
-
+    }    
+    
     /**
      * @return the lastname
      */
@@ -250,162 +390,19 @@ public class User implements UserDetails {
     }
 
     /**
-     * @return the password
-     */
-    @Override
-    public String getPassword() {
-        String pass = "";
-        return pass;
-    }
-
-    public byte[] getPasswordByte() {
-        return this.password;
-    }
-
-    public String getPasswordst() {
-        String pass = "";
-        if (this.password != null) {
-            pass = new String(this.password);
-        }
-        return pass;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        if (this.getSolt() == null) {
-            this.solt = getNextSalt();
-        }
-        this.password = get_SHA_512_SecurePassword(password, this.getSolt());
-    }
-
-    /**
-     * @return the passwordsecond
-     */
-    public String getPasswordsecondst() {
-        String pass = "";
-        if (this.passwordsecond != null) {
-            pass = new String(this.passwordsecond);
-        }
-        return pass;
-    }
-
-    public String getPasswordsecond() {
-        String pass = "";
-        return pass;
-    }
-
-    /**
-     * @param passwordsecond the passwordsecond to set
-     */
-    public void setPasswordsecond(String passwordsecond) {
-        if (this.getSolt() == null) {
-            this.solt = getNextSalt();
-        }
-        this.passwordsecond = get_SHA_512_SecurePassword(passwordsecond, this.getSolt());
-    }
-
-    /**
-     * @return the solt
-     */
-    public byte[] getSolt() {
-        return solt;
-    }
-
-//    public void inituser(List<GrantedAuthority> result,Collection<? extends GrantedAuthority> authorities) {           
-//                
-//    }
-    /**
-     * @return the Tags
-     */
-//    public OddeeyMetricMetaList getTags() {
-//        return Tags;
-//    }
-//    public Map<String, MetaTags> getMetrics() {
-//        return this.Tags.get("metrics");
-//    }
-//
-//    public Map<String, MetaTags> getTags() {
-//        return this.Tags.get("tagks");
-//    }
-//
-//    public Map<String, MetaTags> getTagsValues() {
-//        return this.Tags.get("tagvs");
-//    }
-    /**
-     * @param userkvs
-     * @param grantedAuths
-     */
-//    public void setTags(OddeeyMetricMetaList Tags) {
-//        this.Tags = Tags;
-//    }
-    public void inituser(ArrayList<KeyValue> userkvs, List<GrantedAuthority> grantedAuths) {
-
-        userkvs.stream().map((property) -> {
-            if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
-                this.id = UUID.fromString(new String(property.value()));
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "email".getBytes())) {
-                this.email = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "name".getBytes())) {
-                this.name = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "lastname".getBytes())) {
-                this.lastname = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "company".getBytes())) {
-                this.company = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "country".getBytes())) {
-                this.country = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "city".getBytes())) {
-                this.city = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "region".getBytes())) {
-                this.region = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "timezone".getBytes())) {
-                this.timezone = new String(property.value());
-            }
-            return property;
-        }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
-            this.active = property.value()[0] != (byte) 0;
-        });
-    }
-
-    /**
-     * @return the MetricsMeta
+     * @return the MetricsMetas
      */
     public ConcoutMetricMetaList getMetricsMeta() {
         
-        return MetricsMeta;
+        return MetricsMetas;
     }
 
     /**
-     * @param MetricsMeta the MetricsMeta to set
+     * @param MetricsMeta the MetricsMetas to set
      */
     public void setMetricsMeta(ConcoutMetricMetaList MetricsMeta) {
-        this.MetricsMeta = MetricsMeta;
-//        MetricsMeta.equals(id)
+        this.MetricsMetas = MetricsMeta;
+//        MetricsMetas.equals(id)
     }
 
     /**
@@ -420,22 +417,6 @@ public class User implements UserDetails {
      */
     public void setDushList(Map<String, String> DushList) {
         this.DushList = DushList;
-    }
-    
-    /**
-     * @param DushName
-     * @param DushInfo
-     * @param Userdao
-     * @return the DushList
-     */
-    public Map<String, String> addDush(String DushName, String DushInfo,HbaseUserDao Userdao) {
-        DushList.put(DushName, DushInfo);
-        Userdao.saveDush(id, DushName, DushInfo);
-        return DushList;
-    }
-    
-    public String getDush(String DushName) {                
-        return DushList.get(DushName);
     }
 
     /**
@@ -452,15 +433,4 @@ public class User implements UserDetails {
         return StTsdbID;
     }    
     
-    /**
-     * @param TsdbID the TsdbID to set
-     */
-    public void setTsdbID(byte[] TsdbID) {
-        
-        this.TsdbID = TsdbID;
-        this.StTsdbID = Hex.encodeHexString(TsdbID);
-        
-    }
-    
-
 }

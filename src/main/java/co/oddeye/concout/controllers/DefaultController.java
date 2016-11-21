@@ -107,7 +107,7 @@ public class DefaultController {
     }
 
     private String redirecttodashboard() {
-        return "redirect:/dashboard";
+        return "redirect:/profile";
     }
 
     @RequestMapping(value = "/confirm/{uuid}", method = RequestMethod.GET)
