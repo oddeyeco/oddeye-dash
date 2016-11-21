@@ -77,7 +77,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         final byte[] end_row;
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
 
-        Date.setTimeInMillis((time+1) * 1000);
+        Date.setTimeInMillis((time + 1) * 1000);
         end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
 
         Date.add(Calendar.MINUTE, -60);
@@ -122,7 +122,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                                 e.setRecurrenceLast10m(e.getRecurrenceLast10m() + 1);
                             }
                         }
-                        
+
                         if (divator < 1200) {
                             e.setRecurrence20m(e.getRecurrence20m() + 1);
                         } else {
@@ -130,7 +130,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                                 e.setRecurrenceLast20m(e.getRecurrenceLast20m() + 1);
                             }
                         }
-                        
+
                         if (divator < 1800) {
                             e.setRecurrence30m(e.getRecurrence30m() + 1);
                         } else {
@@ -152,17 +152,17 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         return e;
     }
 
-    public ConcoutMetricMetaList getLast(User user, Double minValue, Double minPersent, short minWeight) {
+    public ConcoutMetricMetaList getLast(User user, Double minValue, Double minPersent, short minWeight, short minRecurrenceCount, int minRecurrenceTimeInterval) {
         client = BaseTsdb.getClient();
 
         final byte[] start_row;
         final byte[] end_row;
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
         Calendar Date = Calendar.getInstance();
-        Date.add(Calendar.MINUTE, 60);
+        Date.add(Calendar.SECOND, minRecurrenceTimeInterval);
         end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
 
-        Date.add(Calendar.MINUTE, -61);
+        Date.add(Calendar.SECOND, -2 * minRecurrenceTimeInterval);
         start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
 
         Scanner scanner = client.newScanner(table);
@@ -172,19 +172,19 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         scanner.setStopKey(end_row);
 
         ArrayList<ArrayList<KeyValue>> rows;
-        ConcoutMetricMetaList MetricMetaList;
+        ConcoutMetricMetaList MetricMetaListTmp;
+        ConcoutMetricMetaList MetricMetaListFinal;
         try {
-            MetricMetaList = new ConcoutMetricMetaList();
+            MetricMetaListTmp = new ConcoutMetricMetaList();
+            MetricMetaListFinal = new ConcoutMetricMetaList();
         } catch (Exception ex) {
             Logger.getLogger(HbaseErrorsDao.class.getName()).log(Level.SEVERE, null, ex);
             return null;
 
         }
-        int rowcount = 0;
         try {
             while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {
-                    rowcount++;
                     for (final KeyValue kv : row) {
 //                        datapart = Arrays.copyOfRange(kv.value(), 0, 2);
                         weight = ByteBuffer.wrap(kv.value()).getShort();
@@ -204,8 +204,8 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
                         ConcoutMetricErrorMeta e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
-                        if (MetricMetaList.get(e.hashCode()) != null) {
-                            e = (ConcoutMetricErrorMeta) MetricMetaList.get(e.hashCode());
+                        if (MetricMetaListTmp.get(e.hashCode()) != null) {
+                            e = (ConcoutMetricErrorMeta) MetricMetaListTmp.get(e.hashCode());
                         }
 
                         long time = getTime(kv.key());
@@ -213,7 +213,11 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         e.setValue(value);
                         e.setWeight(weight);
                         e.setPersent_weight(persent_weight);
-                        MetricMetaList.add(e);
+                        e.setRecurrenceTmp(e.getRecurrenceTmp() + 1);
+                        MetricMetaListTmp.add(e);
+                        if (e.getRecurrenceTmp() >= minRecurrenceCount) {
+                            MetricMetaListFinal.add(e);
+                        }
                     }
 
                 }
@@ -223,7 +227,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
             return null;
         }
 
-        return MetricMetaList;
+        return MetricMetaListFinal;
     }
 
     private long getTime(byte[] key) {

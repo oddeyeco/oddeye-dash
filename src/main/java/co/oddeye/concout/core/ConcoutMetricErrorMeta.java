@@ -19,6 +19,9 @@ public class ConcoutMetricErrorMeta extends OddeeyMetricMeta {
     private Double value;
     private Double persent_weight;
     private short weight;
+
+    private int RecurrenceTmp = 0;    
+    
     private int Recurrence1m = 0;
     private int RecurrenceLast1m = 0;
     private int Recurrence20m = 0;
@@ -207,5 +210,19 @@ public class ConcoutMetricErrorMeta extends OddeeyMetricMeta {
      */
     public void setRecurrenceLast30m(int RecurrenceLast30m) {
         this.RecurrenceLast30m = RecurrenceLast30m;
+    }
+
+    /**
+     * @return the RecurrenceTmp
+     */
+    public int getRecurrenceTmp() {
+        return RecurrenceTmp;
+    }
+
+    /**
+     * @param RecurrenceTmp the RecurrenceTmp to set
+     */
+    public void setRecurrenceTmp(int RecurrenceTmp) {
+        this.RecurrenceTmp = RecurrenceTmp;
     }
 }

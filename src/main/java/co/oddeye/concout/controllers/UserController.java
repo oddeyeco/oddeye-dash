@@ -16,7 +16,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -62,11 +64,29 @@ public class UserController {
             map.put("ErrorsDao", ErrorsDao);
 
             String group_item = request.getParameter("group_item");
-            if (group_item == null) {
-                map.put("group_item", userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next().getKey());
-            } else {
+//            if (group_item == null) {
+//                map.put("group_item", userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next().getKey());
+//            } else {
+//                map.put("group_item", group_item);
+//            }
+
+            String ident_tag = request.getParameter("ident_tag");
+
+            Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            while (iter.hasNext()) {
+//                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();
+                map.put("group_item", iter.next().getKey());
+                map.put("ident_tag", iter.next().getKey());
+                break;
+            }
+
+            if (group_item != null) {
                 map.put("group_item", group_item);
             }
+            if (group_item != null) {
+                map.put("ident_tag", ident_tag);
+            }
+
             String minValue = request.getParameter("minValue");
             if (minValue == null) {
                 map.put("minValue", 1);
@@ -86,6 +106,20 @@ public class UserController {
                 map.put("minWeight", 14);
             } else {
                 map.put("minWeight", Math.abs(Short.parseShort(minWeight)));
+            }
+
+            String minRecurrenceCount = request.getParameter("minRecurrenceCount");
+            if (minValue == null) {
+                map.put("minRecurrenceCount", 2);
+            } else {
+                map.put("minRecurrenceCount", Math.abs(Short.parseShort(minRecurrenceCount)));
+            }
+
+            String minRecurrenceTimeInterval = request.getParameter("minRecurrenceTimeInterval");
+            if (minValue == null) {
+                map.put("minRecurrenceTimeInterval", 60);
+            } else {
+                map.put("minRecurrenceTimeInterval", Math.abs(Integer.parseInt(minRecurrenceTimeInterval)));
             }
 
         }
@@ -114,7 +148,8 @@ public class UserController {
                 map.put("Error", Error);
                 map.put("Rules", rules);
                 ArrayList<DataPoints[]> data = new ArrayList<>();
-
+                
+                // Get rules chart data
                 for (Map.Entry<String, MetriccheckRule> rule : rules.entrySet()) {
                     Calendar calobject = rule.getValue().getTime();
                     String startdate = Long.toString(calobject.getTimeInMillis());
@@ -169,10 +204,69 @@ public class UserController {
                         }
                     }
                 }
+                // Get Curent chart data
+
+                    Calendar calobject = Calendar.getInstance();
+                    calobject.setTimeInMillis(Long.parseLong(timestamp)*1000);
+                    String startdate = Long.toString(calobject.getTimeInMillis());
+                    calobject.add(Calendar.HOUR, 1);
+                    calobject.add(Calendar.MILLISECOND, -1);
+                    String enddate = Long.toString(calobject.getTimeInMillis());
+                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), Error.getFullFilter(), startdate, enddate, ""));
+                    if (!data.isEmpty()) {
+                        for (DataPoints[] DataPointslist : data) {
+                            for (DataPoints DataPoints : DataPointslist) {
+                                Tagmap = DataPoints.getTags();
+                                Tagmap.remove("UUID");
+                                Tagmap.remove("alert_level");
+
+                                JsonObject jsonMessage;
+
+                                String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
+
+                                if (jsonMessages.get(jsonuindex) == null) {
+                                    jsonMessage = new JsonObject();
+                                } else {
+                                    jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
+                                }
+
+                                jsonMessage.addProperty("index", Tagmap.hashCode());
+                                jsonMessage.addProperty("metric", DataPoints.metricName());
+
+                                final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
+                                jsonMessage.add("tags", TagsJSON);
+                                Tagmap.clear();
+
+                                final SeekableView Datalist = DataPoints.iterator();
+
+                                JsonObject DatapointsJSON;
+
+                                if (jsonMessage.get("data") == null) {
+                                    DatapointsJSON = new JsonObject();
+                                } else {
+                                    DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
+                                }
+
+                                while (Datalist.hasNext()) {
+                                    final DataPoint Point = Datalist.next();
+                                    DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
+                                }
+
+                                jsonMessage.add("data", DatapointsJSON);
+                                jsonMessages.add(startdate, jsonMessage);
+
+                            }
+
+                        }
+                    }                
+                
+                
+                
                 map.put("chartdata", jsonMessages);
 
             } catch (Exception ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserController.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
 
         }

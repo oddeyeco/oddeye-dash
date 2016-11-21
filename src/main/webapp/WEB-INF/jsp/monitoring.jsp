@@ -17,52 +17,83 @@
                 <h2>Real Time monitor (UUID = ${curentuser.getId().toString()})</h2>
                 <div class="clearfix"></div>
             </div>
-            <div class="x_content"> 
-                <%--<c:set var="group_item" value="host" />--%>                
-                <form class="form-inline form-label-left">
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Group by</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <select class="form-control" name="group_item">
-                                <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
-                                    <option <c:if test="${group_item == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
-                                </c:forEach>
-                            </select>
+            <div class="x_content">                 
+                <%--<c:set var="group_item" value="host" />--%>   
+                <div class="col-md-2 col-sm-3 col-xs-12 profile_left">
+                    <h3>Filter</h3>
+                    <form class="form-horizontal form-label-left">
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Group by</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control" name="group_item">
+                                    <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
+                                        <option <c:if test="${group_item == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min Value</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control" value="${minValue}" name="minValue"></input>
-                        </div>
-                    </div>                    
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min Persent</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control" value="${minPersent}" name="minPersent"></input>
-                        </div>
-                    </div>                    
-                    <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Min Weight</label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input class="form-control" value="${minWeight}" name="minWeight"></input>
-                        </div>
-                    </div>                                            
-                    <div class="form-group">                        
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                            <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-                        </div>
-                    </div>                         
-                </form>
 
-                <div class="col-md-12 col-sm-12 col-xs-12 profile_left">
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Show Tag</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control" name="ident_tag">
+                                    <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
+                                        <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Min Value</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input class="form-control" value="${minValue}" name="minValue"></input>
+                            </div>
+                        </div>                    
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Min Persent</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input class="form-control" value="${minPersent}" name="minPersent"></input>
+                            </div>
+                        </div>                    
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Min Weight</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input class="form-control" value="${minWeight}" name="minWeight"></input>
+                            </div>
+                        </div>                                            
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Min Recurrence Count</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input class="form-control" value="${minRecurrenceCount}" name="minRecurrenceCount"></input>
+                            </div>
+                        </div>                                            
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Time interval (sec)</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input class="form-control" value="${minRecurrenceTimeInterval}" name="minRecurrenceTimeInterval"></input>
+                            </div>
+                        </div>                                            
+
+
+                            
+                        <div class="form-group">                        
+                            <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                <button class="btn btn-success" type="button" value="Default">Set as Default</button>
+                                <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                                
+                            </div>
+                        </div>                         
+                    </form>
+                </div>
+                <div class="col-md-10 col-sm-9 col-xs-12 profile_left">
                     <div class="x_content" style="display: block;">
 
                         <!-- start accordion -->
                         <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
 
-                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser,minValue,minPersent,minWeight)}" />                            
+                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser,minValue,minPersent,minWeight,minRecurrenceCount,minRecurrenceTimeInterval)}" />                            
                             <c:forEach items="${MetricsMeta.getTagsList().get(group_item)}" var="showgroup" varStatus="loopgrups">   
                                 <c:set var="showgroup_rp" value="${fn:replace(showgroup, '.', '_')}" />
 
@@ -78,9 +109,11 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Metric Name</th>
+                                                        <th>${ident_tag} </th>
                                                         <th>Value</th>
                                                         <th>Weight</th>
                                                         <th>Deviation %</th>
+                                                        <th>Recurrence</th>
                                                         <th>Time</th>
                                                     </tr>
                                                 </thead>
@@ -92,18 +125,20 @@
                                                         <c:set value="${metric.getValue() < 0 ? -metric.getValue():metric.getValue()}" var="val" />
                                                         <c:set value="${metric.getWeight() < 0 ? -metric.getWeight():metric.getWeight()}" var="weight" />
                                                         <c:set value="${metric.getPersent_weight() < 0 ? -metric.getPersent_weight():metric.getPersent_weight()}" var="persent" />
-                                                        
+
                                                         <tr name="${metric.getName()}" class="metricrow" filter="${metric.getFullFilter()}">
                                                             <th scope="row">${loopindex}</th>
-                                                            <c:set value="${loopindex+1}" var="loopindex" />
+                                                                <c:set value="${loopindex+1}" var="loopindex" />
                                                             <td><a href="${cp}/expanded/${metric.getKeyString()}/${metric.getTimestamp()}">${metric.getName()} </a></td>
+                                                            <td>${metric.getTags().get(ident_tag).getValue()}</td>
                                                             <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
                                                             <td class="weight">${metric.getWeight()}</td>
                                                             <td class="persent">${metric.getPersent_weight()}</td>
+                                                            <td class="persent">${metric.getRecurrenceTmp()}</td>
 
                                                             <td class="time">${metric.getTimestamp()}</td>
                                                         </tr>
-                                                        
+
                                                     </c:forEach>
                                                 </tbody>
                                             </table>

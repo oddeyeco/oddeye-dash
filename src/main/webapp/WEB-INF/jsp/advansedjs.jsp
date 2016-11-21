@@ -55,8 +55,7 @@
         drawAnChart();
     });
     function drawAnChart()
-    {
-        var d2 = [];
+    {        
         var datasets = [];
         var pos = 0;
         for (var k in chartsdata) {
