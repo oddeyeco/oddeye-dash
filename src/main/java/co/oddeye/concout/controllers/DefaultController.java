@@ -164,7 +164,7 @@ public class DefaultController {
 
     }
 
-    private void setLocaleInfo(ModelMap map) {
+    public static void setLocaleInfo(ModelMap map) {
 
         Map<String, String> country = new LinkedHashMap<>();
         Map<String, String> timezones = new LinkedHashMap<>();

@@ -40,7 +40,7 @@
                         </li>
                     </ul>
 
-                    <a class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                        <a class="btn btn-success" href="${cp}/profile/edit"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                     <br />
 
                 </div>        
