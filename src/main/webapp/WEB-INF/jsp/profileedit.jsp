@@ -14,7 +14,7 @@
                 </li>
                 <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Levels Settings</a>
                 </li>
-                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Add funds</a>
+                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Contacts</a>
                 </li>
             </ul>
             <div id="myTabContent" class="tab-content">
@@ -104,16 +104,18 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Project Name</th>
-                                <th>Client Company</th>
-                                <th class="hidden-phone">Hours Spent</th>
-                                <th>Contribution</th>
+                                <th>Name</th>
+                                <th>Min Value</th>
+                                <th class="hidden-phone">Min Persent</th>
+                                <th>Min Weight</th>
+                                <th>Min Recurrence Count</th>
+                                <th>Time interval (sec)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>1</td>
-                                <td>New Company Takeover Review</td>
+                                <td>All</td>
                                 <td>Deveint Inc</td>
                                 <td class="hidden-phone">18</td>
                                 <td class="vertical-align-mid">
@@ -124,7 +126,7 @@
                             </tr>
                             <tr>
                                 <td>2</td>
-                                <td>New Partner Contracts Consultanci</td>
+                                <td>LARGE</td>
                                 <td>Deveint Inc</td>
                                 <td class="hidden-phone">13</td>
                                 <td class="vertical-align-mid">
@@ -135,7 +137,7 @@
                             </tr>
                             <tr>
                                 <td>3</td>
-                                <td>Partners and Inverstors report</td>
+                                <td>WARNING</td>
                                 <td>Deveint Inc</td>
                                 <td class="hidden-phone">30</td>
                                 <td class="vertical-align-mid">
@@ -146,7 +148,7 @@
                             </tr>
                             <tr>
                                 <td>4</td>
-                                <td>New Company Takeover Review</td>
+                                <td>ERROR</td>
                                 <td>Deveint Inc</td>
                                 <td class="hidden-phone">28</td>
                                 <td class="vertical-align-mid">
@@ -155,6 +157,17 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>CRITICAL</td>
+                                <td>Deveint Inc</td>
+                                <td class="hidden-phone">28</td>
+                                <td class="vertical-align-mid">
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" data-transitiongoal="75" style="width: 75%;" aria-valuenow="75"></div>
+                                    </div>
+                                </td>
+                            </tr>                            
                         </tbody>
                     </table>
                     <!-- end user projects -->

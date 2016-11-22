@@ -5,7 +5,9 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,14 +23,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 public class ProfileController {
+    
+    @Autowired
+    HbaseMetaDao MetaDao;
+    
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile( ModelMap map) {
+    public String profile( ModelMap map) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "index";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
+            
+            userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
             map.put("curentuser", userDetails);
 
         } else {

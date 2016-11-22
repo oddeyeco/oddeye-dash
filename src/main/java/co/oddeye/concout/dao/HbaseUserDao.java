@@ -183,7 +183,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             user.inituser(userkvs, grantedAuths);
             user.setTsdbID(BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV,user.getId().toString()));
-            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+//            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             user.setDushList(getAllDush(uuid));
             return user;
 

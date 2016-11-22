@@ -110,7 +110,15 @@ public class HbaseMetaDao extends HbaseBaseDao {
         while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
             for (final ArrayList<KeyValue> row : rows) {
                 try {
-                    OddeeyMetricMeta add = result.add(new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false));
+                    OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
+                    if (meta.getTags().get("UUID").getValue().equals(userid.toString()))
+                    {
+                    OddeeyMetricMeta add = result.add(meta);
+                    }
+                    else
+                    {
+                        System.out.println("valod");
+                    }
                 } catch (InvalidKeyException e) {
                     LOGGER.warn("InvalidKeyException " + row + " Is deleted");
                     final DeleteRequest deleterequest = new DeleteRequest(table, row.get(0).key());
