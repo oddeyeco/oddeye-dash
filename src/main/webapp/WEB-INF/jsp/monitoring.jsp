@@ -102,7 +102,7 @@
                                         <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()}</h4>
                                     </a>
 
-                                    <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="false" style="height: 0px;">
+                                    <div id="collapse_${showgroup_rp}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="true">
                                         <div class="panel-body">
                                             <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
                                                 <thead>

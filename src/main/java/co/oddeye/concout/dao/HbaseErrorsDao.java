@@ -66,7 +66,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
             persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
             value = ByteBuffer.wrap(kv.value()).getDouble(10);
 
-            long loc_time = getTime(kv.key());
+//            long loc_time = getTime(kv.key());
             e.setTimestamp(time);
             e.setValue(value);
             e.setWeight(weight);
@@ -77,11 +77,11 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         final byte[] end_row;
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
 
-        Date.setTimeInMillis((time + 1) * 1000);
-        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+//        Date.setTimeInMillis((time * 1000)+1);
+        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time+1).array());
 
-        Date.add(Calendar.MINUTE, -60);
-        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+//        Date.add(Calendar.MINUTE, -60);
+        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time-(60*60) ).array());
 
         Scanner scanner = client.newScanner(table);
         scanner.setServerBlockCache(false);

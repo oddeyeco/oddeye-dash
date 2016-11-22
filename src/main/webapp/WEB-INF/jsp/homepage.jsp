@@ -119,13 +119,15 @@
 <!-- #Cirlce Ends -->
 
 <div id="partners" class="container spacer ">
-    <h2 class="text-center  wowload fadeInUp">Some of our happy clients</h2>
+    <h2 class="text-center  wowload fadeInUp">Used technologies</h2>
     <div class="clearfix">
         <div class="col-sm-6 partners  wowload fadeInLeft">
-            <img src="${cp}/resources/images/partners/1.jpg"  alt="partners">
-            <img src="${cp}/resources/images/partners/2.jpg"  alt="partners">
-            <img src="${cp}/resources/images/partners/3.jpg" alt="partners">
-            <img src="${cp}/resources/images/partners/4.jpg" alt="partners">
+            <img src="${cp}/resources/images/technologies/asf_logo.png" alt="apache">        
+            <img src="${cp}/resources/images/technologies/hadoop-logo.jpg"  alt="hadoop">            
+            <img src="${cp}/resources/images/technologies/hbase.png" alt="hbase">
+            <img src="${cp}/resources/images/technologies/kafka.png"  alt="kafka">
+            <img src="${cp}/resources/images/technologies/storm.png" alt="storm">        
+
         </div>
         <div class="col-sm-6">
 
@@ -133,24 +135,27 @@
             <div id="carousel-testimonials" class="carousel slide testimonails  wowload fadeInRight" data-ride="carousel">
                 <div class="carousel-inner">  
                     <div class="item active animated bounceInRight row">
-                        <div class="animated slideInLeft col-xs-2"><img alt="portfolio" src="${cp}/resources/images/team/1.jpg" width="100" class="img-circle img-responsive"></div>
+                        <div class="animated slideInLeft col-xs-2"><img alt="portfolio" src="${cp}/resources/images/technologies/hadoop-logo.jpg" width="100" class="img-circle img-responsive"></div>
                         <div  class="col-xs-10">
-                            <p> I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. </p>      
-                            <span>Angel Smith - <b>eshop Canada</b></span>
+                            <p> Hadoop makes it possible to run applications on systems with thousands of commodity hardware nodes, and to handle thousands of terabytes of data. Its distributed file system facilitates rapid data transfer rates among nodes and allows the system to continue operating in case of a node failure. This approach lowers the risk of catastrophic system failure and unexpected data loss, even if a significant number of nodes become inoperative. Consequently, Hadoop quickly emerged as a foundation for big data processing tasks, such as scientific analytics, business and sales planning, and processing enormous volumes of sensor data, including from internet of things sensors.
+                            </p>                                  
                         </div>
                     </div>
                     <div class="item  animated bounceInRight row">
-                        <div class="animated slideInLeft col-xs-2"><img alt="portfolio" src="${cp}/resources/images/team/2.jpg" width="100" class="img-circle img-responsive"></div>
+                        <div class="animated slideInLeft col-xs-2"><img alt="portfolio" src="${cp}/resources/images/technologies/kafka.png" width="100" class="img-circle img-responsive"></div>
                         <div  class="col-xs-10">
-                            <p>No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful.</p>
-                            <span>John Partic - <b>Crazy Pixel</b></span>
+                            <p> Kafka is one of those systems that is very simple to describe at a high level, but has an incredible depth of technical detail when you dig deeper. The Kafka documentation does an excellent job of explaining the many design and implementation subtleties in the system, so we will not attempt to explain them all here. In summary, Kafka is a distributed publish-subscribe messaging system that is designed to be fast, scalable, and durable.
+                                Like many publish-subscribe messaging systems, Kafka maintains feeds of messages in topics. Producers write data to topics and consumers read from topics. Since Kafka is a distributed system, topics are partitioned and replicated across multiple nodes.
+                            </p>    
+                            <p>John Partic - <b>Crazy Pixel</b></p>
                         </div>
                     </div>
                     <div class="item  animated bounceInRight row">
-                        <div class="animated slideInLeft  col-xs-2"><img alt="portfolio" src="${cp}/resources/images/team/3.jpg" width="100" class="img-circle img-responsive"></div>
+                        <div class="animated slideInLeft  col-xs-2"><img alt="portfolio" src="${cp}/resources/images/technologies/storm.png" width="100" class="img-circle img-responsive"></div>
                         <div  class="col-xs-10">
-                            <p>On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue.</p>
-                            <span>Harris David - <b>Jet London</b></span>
+                            <p> Storm is a distributed real-time computation system for processing large volumes of high-velocity data. Storm is extremely fast, with the ability to process over a million records per second per node on a cluster of modest size. Enterprises harness this speed and combine it with other data access applications in Hadoop to prevent undesirable events or to optimize positive outcomes.
+                                Some of specific new business opportunities include: real-time customer service management, data monetization, operational dashboards, or cyber security analytics and threat detection.
+                            </p>                                
                         </div>
                     </div>
                 </div>
@@ -259,7 +264,7 @@
     <div class="container contactform center">
         <h2 class="text-center  wowload fadeInUp">Have questions? Ask them to us.</h2>
         <div class="row wowload fadeInLeftBig">      
-            
+
             <div class="col-sm-6 col-sm-offset-3 col-xs-12">      
                 <input type="text" placeholder="Name" class="form-control">
                 <input type="text" placeholder="Company" class="form-control">
