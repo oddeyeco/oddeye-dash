@@ -16,17 +16,19 @@
                 </li>
                 <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Contacts</a>
                 </li>
+                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Sequrity</a>
+                </li>
+
             </ul>
             <div id="myTabContent" class="tab-content">
                 <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
                     <div class="x_content">
-                        <br>
-                        <form:form method="post" modelAttribute="curentuser" novalidate="true" cssClass="form-horizontal form-label-left">                            
+                        <br>                        
+                        <form:form method="post" action="${cp}/profile/saveuser" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">                            
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">First Name <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-
                                     <form:input path="name" cssClass="form-control" required="" placeholder="First Name *"/>
                                     <form:errors path="name" />
                                 </div>
@@ -87,7 +89,7 @@
                             </div>                
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                                    <button type="submit" class="btn btn-primary">Cancel</button>
+                                    <button type="reset" class="btn btn-primary">Cancel</button>
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
@@ -177,6 +179,55 @@
                     <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
                         photo booth letterpress, commodo enim craft beer mlkshk </p>
                 </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                    <div class="x_content">                                        
+                        <form:form method="post" action="${cp}/profile/chagelogin" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Chage Email (Login)</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <form:input path="email" cssClass="form-control" required="" placeholder="email"/>
+                                    <form:errors path="email" />
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <button type="reset" class="btn btn-primary">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>                                
+                            </div>
+                        </form:form>
+                    </div>
+
+                    <div class="x_content">                                        
+                        <form:form method="post" action="${cp}/profile/chagepassword" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Old Password</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <form:input path="oldpassword" cssClass="form-control" required="" placeholder="Old Password"/>
+                                    <form:errors path="oldpassword" />
+                                </div>                              
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">New Password</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <form:input path="password" cssClass="form-control" required="" placeholder="New Password"/>
+                                    <form:errors path="password" />
+                                </div>                               
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Re enter New Password</label>
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <form:input path="passwordsecond" cssClass="form-control" required="" placeholder="Re enter New Password"/>
+                                    <form:errors path="passwordsecond" />
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                    <button type="reset" class="btn btn-primary">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>                                
+                            </div>
+                        </form:form>
+                    </div>                     
+                   
+                </div>
+
             </div>
         </div>
     </div>

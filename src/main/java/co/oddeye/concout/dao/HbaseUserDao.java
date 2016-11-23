@@ -55,6 +55,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public void addUser(User user) throws Exception {
+        //TODO change for put qualifuers[][]
         UUID uuid = user.getId();
         final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
         final PutRequest putname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "name".getBytes(), user.getName().getBytes());
@@ -75,6 +76,12 @@ public class HbaseUserDao extends HbaseBaseDao {
             final PutRequest putcity = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "city".getBytes(), user.getCity().getBytes());
             BaseTsdb.getClient().put(putcity);
         }
+        
+        if (user.getTimezone() != null) {
+            final PutRequest puttimezone = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "timezone".getBytes(), user.getTimezone().getBytes());
+            BaseTsdb.getClient().put(puttimezone);
+        }
+        
         if (user.getRegion() != null) {
             final PutRequest putregion = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "region".getBytes(), user.getRegion().getBytes());
             BaseTsdb.getClient().put(putregion);
@@ -88,10 +95,6 @@ public class HbaseUserDao extends HbaseBaseDao {
             final PutRequest putsolt = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "solt".getBytes(), user.getSolt());
             BaseTsdb.getClient().put(putsolt);
 
-        }
-        if (user.getTimezone() != null) {
-            final PutRequest puttimezone = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "timezone".getBytes(), user.getTimezone().getBytes());
-            BaseTsdb.getClient().put(puttimezone);
         }
         if (user.getActive() != null) {
             final PutRequest putactive = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "active".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
@@ -182,7 +185,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
             user.inituser(userkvs, grantedAuths);
-            user.setTsdbID(BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV,user.getId().toString()));
+            user.setTsdbID(BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString()));
 //            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             user.setDushList(getAllDush(uuid));
             return user;
@@ -205,9 +208,25 @@ public class HbaseUserDao extends HbaseBaseDao {
         final GetRequest get = new GetRequest(dashtable, id.toString().getBytes());
         final ArrayList<KeyValue> DushList = BaseTsdb.getClient().get(get).joinUninterruptibly();
         DushList.stream().forEach((dush) -> {
-            result.put(new String(dush.qualifier()), new String(dush.value())) ;
+            result.put(new String(dush.qualifier()), new String(dush.value()));
         });
-        
+
         return result;
+    }
+
+    public void saveUserPersonalinfo(User user, Map<String, Object> changedata) throws Exception {
+        if (changedata.size() > 0) {
+            byte[][] qualifiers =new byte[changedata.size()][];
+            byte[][] values =new byte[changedata.size()][];
+            int index = 0;
+            for (Map.Entry<String, Object> data:changedata.entrySet())
+            {
+              qualifiers[index] = data.getKey().getBytes();
+              values[index] = data.getValue().toString().getBytes();
+              index++;  
+            }
+            PutRequest request = new PutRequest(table,user.getId().toString().getBytes(),"personalinfo".getBytes(),qualifiers,values);
+            BaseTsdb.getClient().put(request).joinUninterruptibly();
+        }        
     }
 }

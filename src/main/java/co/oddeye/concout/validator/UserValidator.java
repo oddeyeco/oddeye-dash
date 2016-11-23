@@ -26,10 +26,12 @@ public class UserValidator implements Validator {
     @Autowired
     private HbaseUserDao Userdao;
     
+    @Override
     public boolean supports(Class<?> clazz) {
         return User.class.isAssignableFrom(clazz);
     }
 
+    @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
 
@@ -54,4 +56,10 @@ public class UserValidator implements Validator {
             Logger.getLogger(UserValidator.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    public void updatevalidate(Object target, Errors errors) {
+        User user = (User) target;
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");                       
+
+    }    
 }

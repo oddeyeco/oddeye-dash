@@ -15,6 +15,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -25,14 +26,12 @@ import org.hbase.async.KeyValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
-
 /**
  *
  * @author vahan
  */
+public class User implements UserDetails {
 
-public class User implements UserDetails {        
     private UUID id;
     private String lastname;
     private String name;
@@ -40,27 +39,27 @@ public class User implements UserDetails {
     private String company;
     private byte[] password;
     private byte[] passwordsecond;
+    private byte[] oldpassword;
     private byte[] solt = null;
     private String country;
     private String city;
     private String region;
     private String timezone;
-    
+
     private byte[] TsdbID;
     private String StTsdbID;
     private Boolean active;
     private final Set<GrantedAuthority> authorities;
-    private ConcoutMetricMetaList MetricsMetas;      
+    private ConcoutMetricMetaList MetricsMetas;
     private Map<String, String> DushList;
 
     public User() {
         this.id = UUID.randomUUID();
         this.authorities = null;
-        this.MetricsMetas = null;        
+        this.MetricsMetas = null;
     }
 
     // Developet metods
-
     public void SendConfirmMail(mailSender Sender) {
         Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='http://localhost:8080/OddeyeCoconut/confirm/" + this.getId().toString() + "'>hear</a>", "oddeye.co@gmail.com", this.getEmail());
     }
@@ -107,44 +106,52 @@ public class User implements UserDetails {
                 this.region = new String(property.value());
             }
             return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "timezone".getBytes())) {
-                this.timezone = new String(property.value());
+        }).map((KeyValue property) -> {
+            if ((Arrays.equals(property.qualifier(), "timezone".getBytes()))) {
+                if ((Arrays.equals(property.family(), "personalinfo".getBytes()))) {
+                    this.timezone = new String(property.value());
+                } else {
+                    if (this.timezone == null) {
+                        this.timezone = new String(property.value());
+                    }
+                }
             }
             return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
             this.active = property.value()[0] != (byte) 0;
         });
     }
-    
+
     /**
      * @param DushName
      * @param DushInfo
      * @param Userdao
      * @return the DushList
      */
-    public Map<String, String> addDush(String DushName, String DushInfo,HbaseUserDao Userdao) {
+    public Map<String, String> addDush(String DushName, String DushInfo, HbaseUserDao Userdao) {
         DushList.put(DushName, DushInfo);
         Userdao.saveDush(id, DushName, DushInfo);
         return DushList;
     }
-    
-    public String getDush(String DushName) {                
+
+    public String getDush(String DushName) {
         return DushList.get(DushName);
     }
-    
-    
+
     /**
      * @param TsdbID the TsdbID to set
      */
     public void setTsdbID(byte[] TsdbID) {
-        
+
         this.TsdbID = TsdbID;
         this.StTsdbID = Hex.encodeHexString(TsdbID);
-        
+
+    }
+
+    public String getOldpassword() {
+        String pass = "";
+        return pass;
     }    
-    
-    
     // Override metods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -181,6 +188,7 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return this.active;
     }
+
     // Modified get sets
     private byte[] getNextSalt() {
         final Random r = new SecureRandom();
@@ -253,8 +261,8 @@ public class User implements UserDetails {
      */
     public byte[] getSolt() {
         return solt;
-    }    
-    
+    }
+
     // Standart get sets
     /**
      * @return the id
@@ -373,8 +381,8 @@ public class User implements UserDetails {
      */
     public void setActive(Boolean active) {
         this.active = active;
-    }    
-    
+    }
+
     /**
      * @return the lastname
      */
@@ -393,7 +401,7 @@ public class User implements UserDetails {
      * @return the MetricsMetas
      */
     public ConcoutMetricMetaList getMetricsMeta() {
-        
+
         return MetricsMetas;
     }
 
@@ -431,6 +439,41 @@ public class User implements UserDetails {
      */
     public String getStTsdbID() {
         return StTsdbID;
-    }    
-    
+    }
+
+    public Map<String, Object> updateBaseData(User newcurentuser) {
+        Map<String, Object> updatesdata = new HashMap<>();
+        if (!newcurentuser.getName().equals(this.name)) {
+            this.name = newcurentuser.getName();
+            updatesdata.put("name", newcurentuser.getName());
+        }
+
+        if (!newcurentuser.getLastname().equals(this.lastname)) {
+            this.lastname = newcurentuser.getLastname();
+            updatesdata.put("lastname", newcurentuser.getLastname());
+        }
+        if (!newcurentuser.getCompany().equals(this.company)) {
+            this.company = newcurentuser.getCompany();
+            updatesdata.put("company", newcurentuser.getCompany());
+        }
+        if (!newcurentuser.getCountry().equals(this.country)) {
+            this.country = newcurentuser.getCountry();
+            updatesdata.put("country", newcurentuser.getCountry());
+        }
+        if (!newcurentuser.getCity().equals(this.city)) {
+            this.city = newcurentuser.getCity();
+            updatesdata.put("city", newcurentuser.getCity());
+        }
+        if (!newcurentuser.getRegion().equals(this.region)) {
+            this.region = newcurentuser.getRegion();
+            updatesdata.put("region", newcurentuser.getRegion());
+        }
+        if (!newcurentuser.getTimezone().equals(this.timezone)) {
+            this.timezone = newcurentuser.getTimezone();
+            updatesdata.put("timezone", newcurentuser.getTimezone());
+        }
+
+        return updatesdata;
+    }
+
 }
