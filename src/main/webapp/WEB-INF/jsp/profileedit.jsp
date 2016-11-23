@@ -201,26 +201,26 @@
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Old Password</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <form:input path="oldpassword" cssClass="form-control" required="" placeholder="Old Password"/>
+                                    <form:input path="oldpassword" cssClass="form-control" required="" placeholder="Old Password" type="password"/>
                                     <form:errors path="oldpassword" />
                                 </div>                              
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">New Password</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <form:input path="password" cssClass="form-control" required="" placeholder="New Password"/>
+                                    <form:input path="password" cssClass="form-control" required="" placeholder="New Password" type="password"/>
                                     <form:errors path="password" />
                                 </div>                               
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Re enter New Password</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <form:input path="passwordsecond" cssClass="form-control" required="" placeholder="Re enter New Password"/>
+                                    <form:input path="passwordsecond" cssClass="form-control" required="" placeholder="Re enter New Password" type="password"/>
                                     <form:errors path="passwordsecond" />
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12">
                                     <button type="reset" class="btn btn-primary">Cancel</button>
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit" class="btn btn-success">Save Password</button>
                                 </div>                                
                             </div>
                         </form:form>

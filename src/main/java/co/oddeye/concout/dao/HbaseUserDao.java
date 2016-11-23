@@ -169,7 +169,6 @@ public class HbaseUserDao extends HbaseBaseDao {
             }
 //            scanner1.close();
         } catch (Exception e) {
-            e.printStackTrace();
         }
 
         return null;
@@ -183,8 +182,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             User user = new User();
 
             final List<GrantedAuthority> grantedAuths = new ArrayList<>();
-            grantedAuths.add(new SimpleGrantedAuthority("ROLE_USER"));
-            user.inituser(userkvs, grantedAuths);
+            user.inituser(userkvs);
             user.setTsdbID(BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString()));
 //            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             user.setDushList(getAllDush(uuid));

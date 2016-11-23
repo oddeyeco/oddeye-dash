@@ -35,6 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authProvider);
     }    
 //http://www.baeldung.com/spring-security-authentication-provider
+    //.antMatchers("/hosts").hasAnyAuthority("ROLE_ADMIN")
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
@@ -42,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/signup/", "/","/confirm/**").permitAll()
+                .antMatchers("/resources/**", "/signup/", "/","/confirm/**").permitAll()                
+                .antMatchers("/userslist*").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

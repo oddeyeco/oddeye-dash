@@ -16,22 +16,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.UUID;
+import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.KeyValue;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
  * @author vahan
  */
-public class User implements UserDetails {
-
+public class User implements UserDetails {    
+    
+    public final static String ROLE_ADMIN = "ROLE_ADMIN";
+    public final static String ROLE_USER = "ROLE_USER";
+    public final static String ROLE_SUPERADMIN = "ROLE_SUPERADMIN";
+    public final static String ROLE_READONLY_ADMIN = "ROLE_READONLY_ADMIN";
+    public final static String ROLE_READONLY = "ROLE_READONLY";
+    public final static String ROLE_DELETE = "ROLE_DELETE";
+    
+    @Id
     private UUID id;
     private String lastname;
     private String name;
@@ -49,13 +57,13 @@ public class User implements UserDetails {
     private byte[] TsdbID;
     private String StTsdbID;
     private Boolean active;
-    private final Set<GrantedAuthority> authorities;
+    private final Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
     private Map<String, String> DushList;
 
     public User() {
         this.id = UUID.randomUUID();
-        this.authorities = null;
+        this.authorities = new ArrayList<>();
         this.MetricsMetas = null;
     }
 
@@ -64,7 +72,7 @@ public class User implements UserDetails {
         Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='http://localhost:8080/OddeyeCoconut/confirm/" + this.getId().toString() + "'>hear</a>", "oddeye.co@gmail.com", this.getEmail());
     }
 
-    public void inituser(ArrayList<KeyValue> userkvs, List<GrantedAuthority> grantedAuths) {
+    public void inituser(ArrayList<KeyValue> userkvs) {
 
         userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
@@ -120,6 +128,12 @@ public class User implements UserDetails {
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
             this.active = property.value()[0] != (byte) 0;
         });
+//        authorities = grantedAuths;
+//        final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(ROLE_USER));
+        if (this.email.equals("vahan_a@mail.ru")) {
+            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+        }
     }
 
     /**
@@ -151,7 +165,8 @@ public class User implements UserDetails {
     public String getOldpassword() {
         String pass = "";
         return pass;
-    }    
+    }
+
     // Override metods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

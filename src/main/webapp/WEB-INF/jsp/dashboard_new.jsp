@@ -1,6 +1,6 @@
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
-        <div class="x_content">
+        <div class="x_content">            
             <div class="btn-group">
                 <a type="button" class="btn btn-danger">Add widget To Row</a>
                 <a type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
