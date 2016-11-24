@@ -59,6 +59,7 @@
         <div class="pull-right">            
             <a class="btn btn-primary" type="button" id="addrow">Add Row</a>
             <a class="btn btn-primary savedash" type="button">Save </a>
+            <a class="btn btn-danger deletedash" type="button">Delete </a>
         </div>
         <div class="clearfix"></div>
     </div>        
@@ -114,6 +115,14 @@
                                     <input id="metrics" name="metrics" class="form-control col-md-7 col-xs-12" type="text" value="cpu_user">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="metrics">Aggregator 
+                                </label>
+                                <div class="col-md-7">
+                                    <input id="aggregator" name="aggregator" class="form-control col-md-7 col-xs-12" type="text" value="avg">
+                                </div>
+                            </div>                            
+                            
                             <div class="form-group">
                                 <label class="control-label col-md-3" for="down-sample">Down sample 
                                 </label>

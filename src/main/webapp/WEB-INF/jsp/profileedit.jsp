@@ -108,7 +108,7 @@
                                 <th>#</th>
                                 <th>Name</th>
                                 <th>Min Value</th>
-                                <th class="hidden-phone">Min Persent</th>
+                                <th>Min Percent</th>
                                 <th>Min Weight</th>
                                 <th>Min Recurrence Count</th>
                                 <th>Time interval (sec)</th>
@@ -118,57 +118,49 @@
                             <tr>
                                 <td>1</td>
                                 <td>All</td>
-                                <td>Deveint Inc</td>
-                                <td class="hidden-phone">18</td>
-                                <td class="vertical-align-mid">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-success" data-transitiongoal="35" style="width: 35%;" aria-valuenow="35"></div>
-                                    </div>
-                                </td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
                             </tr>
                             <tr>
                                 <td>2</td>
                                 <td>LARGE</td>
-                                <td>Deveint Inc</td>
-                                <td class="hidden-phone">13</td>
-                                <td class="vertical-align-mid">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-danger" data-transitiongoal="15" style="width: 15%;" aria-valuenow="15"></div>
-                                    </div>
-                                </td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+
                             </tr>
                             <tr>
                                 <td>3</td>
                                 <td>WARNING</td>
-                                <td>Deveint Inc</td>
-                                <td class="hidden-phone">30</td>
-                                <td class="vertical-align-mid">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-success" data-transitiongoal="45" style="width: 45%;" aria-valuenow="45"></div>
-                                    </div>
-                                </td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
                             </tr>
                             <tr>
                                 <td>4</td>
                                 <td>ERROR</td>
-                                <td>Deveint Inc</td>
-                                <td class="hidden-phone">28</td>
-                                <td class="vertical-align-mid">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-success" data-transitiongoal="75" style="width: 75%;" aria-valuenow="75"></div>
-                                    </div>
-                                </td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+
                             </tr>
                             <tr>
                                 <td>4</td>
                                 <td>CRITICAL</td>
-                                <td>Deveint Inc</td>
-                                <td class="hidden-phone">28</td>
-                                <td class="vertical-align-mid">
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-success" data-transitiongoal="75" style="width: 75%;" aria-valuenow="75"></div>
-                                    </div>
-                                </td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
+                                <td><input class="form-control" value="" type="number"></td>
                             </tr>                            
                         </tbody>
                     </table>

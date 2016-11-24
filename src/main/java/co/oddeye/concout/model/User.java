@@ -147,6 +147,12 @@ public class User implements UserDetails {
         Userdao.saveDush(id, DushName, DushInfo);
         return DushList;
     }
+    
+    public Map<String, String> removeDush(String DushName, HbaseUserDao Userdao) {
+        DushList.remove(DushName);
+        Userdao.removeDush(id, DushName);
+        return DushList;
+    }    
 
     public String getDush(String DushName) {
         return DushList.get(DushName);

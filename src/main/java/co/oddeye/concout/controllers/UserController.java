@@ -156,7 +156,7 @@ public class UserController {
                     calobject.add(Calendar.HOUR, 1);
                     calobject.add(Calendar.MILLISECOND, -1);
                     String enddate = Long.toString(calobject.getTimeInMillis());
-                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), Error.getFullFilter(), startdate, enddate, ""));
+                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(),"none", Error.getFullFilter(), startdate, enddate, ""));
                     if (!data.isEmpty()) {
                         for (DataPoints[] DataPointslist : data) {
                             for (DataPoints DataPoints : DataPointslist) {
@@ -215,7 +215,7 @@ public class UserController {
                     calobject.add(Calendar.HOUR, 1);
                     calobject.add(Calendar.MILLISECOND, -1);
                     String enddate = Long.toString(calobject.getTimeInMillis());
-                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), Error.getFullFilter(), startdate, enddate, ""));
+                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(),"none", Error.getFullFilter(), startdate, enddate, ""));
                     if (!data.isEmpty()) {
                         for (DataPoints[] DataPointslist : data) {
                             for (DataPoints DataPoints : DataPointslist) {

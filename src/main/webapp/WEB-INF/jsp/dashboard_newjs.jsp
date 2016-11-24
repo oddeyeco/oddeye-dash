@@ -91,14 +91,6 @@
         var ctx = $(".editchartpanel #singlewidget").find(".lineChart").last();
         ctx.height = 600;
         var url = options.data.datasetsUri;
-        if (pickerlabel == "Custom")
-        {
-            url = url + "&startdate=" + pickerstart + "&enddate=" + pickerend;
-        } else
-        {
-            url = url + "&startdate=" + rangeslabels[pickerlabel];
-        }
-
 //        var url = "${cp}/getdata" + query;
         drawchart(url, ctx, options);
         $(".editchartpanel").attr("datasetindex", datasetindex);
@@ -109,6 +101,7 @@
         if (typeof (options.data.datasetsUri) == "undefined")
         {
             $("#tab_metrics input#tags").val("");
+            $("#tab_metrics input#aggregator").val("");
             $("#tab_metrics input#metrics").val("");
             $("#tab_metrics input#down-sample").val("");
         } else
@@ -303,20 +296,50 @@
 
         $('body').on("blur", ".edit-query input", function () {
             datasetindex = $(".editchartpanel").attr("datasetindex");
-            query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&downsample=" + $("#down-sample").val();
+            query = "?metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&aggregator=" + $("#aggregator").val()+ "&downsample=" + $("#down-sample").val();
             options = dush_charts_options[datasetindex];
             options.data.datasetsUri = "${cp}/getdata" + query;
-            if (pickerlabel == "Custom")
-            {
-                query = query + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
-            } else
-            {
-                query = query + "&startdate=" + rangeslabels[pickerlabel];
-            }
+//            if (pickerlabel == "Custom")
+//            {
+//                query = query + "&startdate=" + picker.startDate + "&enddate=" + picker.endDate;
+//            } else
+//            {
+//                query = query + "&startdate=" + rangeslabels[pickerlabel];
+//            }
 
             var url = "${cp}/getdata" + query;
             drawchart(url, $(".editchartpanel #singlewidget").find(".lineChart").last(), options)
         });
+        
+        
+        $('body').on("click", ".deletedash", function () {
+            url = "${cp}/dashboard/delete";
+            senddata = {};
+            senddata.name = $("#name").val();
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            $.ajax({
+                url: url,
+                data: senddata,
+                dataType: 'json',
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    alert(data.sucsses);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status + ": " + thrownError);
+                }
+            });
+//
+//            $.post(url, senddata, function (data) {
+//                alert(JSON.stringify(data));
+//            });
+
+        });        
+        
         $('body').on("click", ".savedash", function () {
             url = "${cp}/dashboard/save";
             to_senddata = {};
@@ -349,12 +372,14 @@
             $.ajax({
                 url: url,
                 data: senddata,
+                dataType: 'json',
                 type: 'POST',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (data) {
-                    alert(JSON.stringify(data));
+//                    console.log(data);
+                    alert(data.sucsses);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.status + ": " + thrownError);
@@ -466,8 +491,15 @@
     function drawchart(url, ctx, options)
     {
         var datasets = [];
-//        var url = "${cp}/getdata" + query;
-        $.getJSON(url, null, function (data) {
+        var uri = url;
+        if (pickerlabel == "Custom")
+        {
+            uri = url + "&startdate=" + pickerstart + "&enddate=" + pickerend;
+        } else
+        {
+            uri = url + "&startdate=" + rangeslabels[pickerlabel];
+        }
+        $.getJSON(uri, null, function (data) {
             var pos = 0;
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
@@ -497,7 +529,7 @@
                     pos = 0;
             }
             options.data.datasets = datasets;
-//            options.data.datasetsUri = url;
+            options.data.datasetsUri = url;
             if (singleChart == null)
             {
                 singleChart = new Chart(ctx, JSON.parse(JSON.stringify(options)));

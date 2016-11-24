@@ -97,4 +97,28 @@ public class DashController {
 
         return "ajax";
     }
+    
+    @RequestMapping(value = {"/dashboard/delete"})
+    public String DeleteDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            String DushName = request.getParameter("name");            
+            if (DushName != null) {
+                userDetails.removeDush(DushName, Userdao);
+                jsonResult.addProperty("sucsses", true);
+            }
+            else
+            {
+                jsonResult.addProperty("sucsses", false);
+            }
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }    
 }

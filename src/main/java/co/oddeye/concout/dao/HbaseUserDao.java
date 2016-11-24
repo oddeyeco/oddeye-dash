@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
 import org.hbase.async.ColumnPrefixFilter;
+import org.hbase.async.DeleteRequest;
 import org.hbase.async.FilterList;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
@@ -76,12 +77,12 @@ public class HbaseUserDao extends HbaseBaseDao {
             final PutRequest putcity = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "city".getBytes(), user.getCity().getBytes());
             BaseTsdb.getClient().put(putcity);
         }
-        
+
         if (user.getTimezone() != null) {
             final PutRequest puttimezone = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "timezone".getBytes(), user.getTimezone().getBytes());
             BaseTsdb.getClient().put(puttimezone);
         }
-        
+
         if (user.getRegion() != null) {
             final PutRequest putregion = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "region".getBytes(), user.getRegion().getBytes());
             BaseTsdb.getClient().put(putregion);
@@ -201,6 +202,13 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
+    public void removeDush(UUID id, String DushName) {
+        if (DushName != null) {
+            final DeleteRequest put = new DeleteRequest(dashtable, id.toString().getBytes(), "data".getBytes(), DushName.getBytes());
+            BaseTsdb.getClient().delete(put);
+        }
+    }
+
     public Map<String, String> getAllDush(UUID id) throws Exception {
         final Map<String, String> result = new TreeMap<>();
         final GetRequest get = new GetRequest(dashtable, id.toString().getBytes());
@@ -214,17 +222,17 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     public void saveUserPersonalinfo(User user, Map<String, Object> changedata) throws Exception {
         if (changedata.size() > 0) {
-            byte[][] qualifiers =new byte[changedata.size()][];
-            byte[][] values =new byte[changedata.size()][];
+            byte[][] qualifiers = new byte[changedata.size()][];
+            byte[][] values = new byte[changedata.size()][];
             int index = 0;
-            for (Map.Entry<String, Object> data:changedata.entrySet())
-            {
-              qualifiers[index] = data.getKey().getBytes();
-              values[index] = data.getValue().toString().getBytes();
-              index++;  
+            for (Map.Entry<String, Object> data : changedata.entrySet()) {
+                qualifiers[index] = data.getKey().getBytes();
+                values[index] = data.getValue().toString().getBytes();
+                index++;
             }
-            PutRequest request = new PutRequest(table,user.getId().toString().getBytes(),"personalinfo".getBytes(),qualifiers,values);
+            PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), "personalinfo".getBytes(), qualifiers, values);
             BaseTsdb.getClient().put(request).joinUninterruptibly();
-        }        
+        }
     }
+
 }
