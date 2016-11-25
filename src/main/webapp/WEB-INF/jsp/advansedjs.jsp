@@ -59,6 +59,7 @@
         var datasets = [];
         var pos = 0;
         var cd = [];
+        console.log(chartsdata);
         for (var k in chartsdata) {
             var chartline = chartsdata[k];
             var d = [];

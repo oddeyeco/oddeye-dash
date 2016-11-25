@@ -15,9 +15,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
@@ -49,9 +53,9 @@ public class AjaxControlers {
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "metrics") String metrics,
-            @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,            
+            @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
-            @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,            
+            @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,
             @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -116,8 +120,8 @@ public class AjaxControlers {
                         }
                         if (Point.timestamp() > end_time) {
                             continue;
-                        }                        
-                        
+                        }
+
                         DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                     }
 
@@ -138,6 +142,71 @@ public class AjaxControlers {
         return "ajax";
     }
 
+    
+    @RequestMapping(value = {"/getfiltredmetrics"})
+    public String GetMetricsLarge(
+            @RequestParam(value = "tags") String tags,
+            @RequestParam(value = "filter") String filter,
+            ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+        JsonArray jsondata = new JsonArray();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+
+                String[] tagslist = tags.split(";");
+                final Map<String, String> tagsMap = new HashMap<>();
+                for (String tag : tagslist) {
+                    String[] tgitem = tag.split("=");
+                    if (tgitem.length == 2) {
+                        if (tgitem[1].equals("")) {
+                            tgitem[1] = "*";                        
+                        }
+                        tagsMap.put(tgitem[0], tgitem[1]);
+                    }
+                }                
+                if (userDetails.getMetricsMeta()==null)
+                {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                }                
+//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap,filter);
+                jsonResult.addProperty("sucsses", true);
+                jsonResult.addProperty("count", Metriclist.size());
+                
+                for (final OddeeyMetricMeta metric : Metriclist) {
+                    final JsonObject metricjson = new JsonObject();
+                    final JsonObject tagsjson = new JsonObject();
+                    metricjson.addProperty("name", metric.getName());
+                    metricjson.addProperty("hash", metric.hashCode());
+                    metricjson.addProperty("lasttime", metric.getLasttime());
+
+                    for (final Map.Entry<String, OddeyeTag> tag : metric.getTags().entrySet()) {
+                        if (!tag.getValue().getKey().equals("UUID")) {
+                            tagsjson.addProperty(tag.getValue().getKey(), tag.getValue().getValue());
+                        }
+                    }
+                    metricjson.add("tags", tagsjson);
+                    jsondata.add(metricjson);
+                }
+                
+                jsonResult.add("data", jsondata);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }    
+    
     @RequestMapping(value = {"/getmetrics"})
     public String GetMetrics(
             @RequestParam(value = "key") String key,
@@ -151,9 +220,8 @@ public class AjaxControlers {
             try {
                 User userDetails = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
-                
+
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                
                 ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
@@ -201,18 +269,18 @@ public class AjaxControlers {
                         getAuthentication().getPrincipal();
 
                 if (hash != null) {
-                    MetaDao.deleteMeta(hash,userDetails);
+                    MetaDao.deleteMeta(hash, userDetails);
                     jsonResult.addProperty("sucsses", true);
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }
 
                 if ((key != null) && (value != null)) {
-                    MetaDao.deleteMetaByTag(key,value,userDetails);
+                    MetaDao.deleteMetaByTag(key, value, userDetails);
                     jsonResult.addProperty("sucsses", true);
                 } else {
                     jsonResult.addProperty("sucsses", false);
-                }                
+                }
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 
             } catch (Exception ex) {
@@ -228,4 +296,110 @@ public class AjaxControlers {
         return "ajax";
     }
 
+    @RequestMapping(value = {"/gettagkey"})
+    public String getTagkeys(
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
+            ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+
+                if (userDetails.getMetricsMeta()==null)
+                {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                }
+                Map<String, Set<String>> tags = userDetails.getMetricsMeta().getTagsList();
+                JsonArray jsondata = new JsonArray();
+
+                if (filter.equals("") || filter.equals("*")) {
+                    for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
+                        jsondata.add(tag.getKey());
+                    }
+                }
+                else
+                {
+                    Pattern r = Pattern.compile(filter);
+                    
+                    for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
+                        Matcher m = r.matcher(tag.getKey());
+                        if (m.find()) {
+                            jsondata.add(tag.getKey());    
+                        }
+                    }                    
+                }
+
+                jsonResult.add("data", jsondata);
+
+                jsonResult.addProperty("sucsses", true);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
+    
+    @RequestMapping(value = {"/gettagvalue"})
+    public String getTagvalues(
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
+            @RequestParam(value = "key", required = true) String key,
+            ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+
+                if (userDetails.getMetricsMeta()==null)
+                {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                }
+                Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key);
+                JsonArray jsondata = new JsonArray();
+
+                if (filter.equals("") || filter.equals("*")) {
+                    for (String tag : tags) {
+                        jsondata.add(tag);
+                    }
+                }
+                else
+                {
+                    Pattern r = Pattern.compile(filter);
+                    
+                    for (String tag : tags) {
+                        Matcher m = r.matcher(tag);
+                        if (m.find()) {
+                            jsondata.add(tag);    
+                        }
+                    }                    
+                }
+
+                jsonResult.add("data", jsondata);
+
+                jsonResult.addProperty("sucsses", true);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }    
+    
 }

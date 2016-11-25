@@ -203,6 +203,7 @@ public class UserController {
 
                         }
                     }
+                    data.clear();
                 }
                 // Get Curent chart data
 
@@ -215,6 +216,7 @@ public class UserController {
                     calobject.add(Calendar.HOUR, 1);
                     calobject.add(Calendar.MILLISECOND, -1);
                     String enddate = Long.toString(calobject.getTimeInMillis());
+                    data.clear();
                     data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(),"none", Error.getFullFilter(), startdate, enddate, ""));
                     if (!data.isEmpty()) {
                         for (DataPoints[] DataPointslist : data) {
@@ -262,11 +264,7 @@ public class UserController {
 
                         }
                     }                
-                
-                
-                
                 map.put("chartdata", jsonMessages);
-
             } catch (Exception ex) {
                 Logger.getLogger(UserController.class
                         .getName()).log(Level.SEVERE, null, ex);

@@ -511,6 +511,8 @@
                 d.sort(function (a, b) {
                     return parseInt(a.x) - parseInt(b.x);
                 });
+                
+//                alert(dddd);
 //                console.log(d.constructor.name);
                 item = {
                     label: chartline.metric + ":" + chartline.tags.host,
