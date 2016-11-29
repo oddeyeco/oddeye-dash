@@ -17,7 +17,7 @@
                 <h2>Metric: ${Error.getName()} Info</h2>
                 <div class="clearfix"></div>               
             </div>
-            <div class="col-md-6 col-sm-6 col-xs-6">            
+            <div class="col-md-4 col-sm-4 col-xs-6">            
                 <div class="x_content "> 
                     <div class="x_title">
                         <h2><i class="fa fa-asterisk"></i> Tags</h2>                                         
@@ -37,7 +37,7 @@
 
                 </div>
             </div>                
-            <div class="col-md-6 col-sm-6 col-xs-6">            
+            <div class="col-md-4 col-sm-4 col-xs-6">            
                 <div class="x_content "> 
                     <div class="x_title">
                         <h2><i class="fa fa-weibo"></i> Info</h2>                                         
@@ -54,7 +54,7 @@
                         </li>
                         <li>
                             <span class="name"> Deviation % </span>
-                            <span class="value text-success"> ${Error.getPersent_weight()}</span>
+                            <span class="value text-success"> <fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getPersent_weight()}" /> </span>
                         </li>
                         <li>
                             <span class="name"> Time </span>
@@ -64,6 +64,37 @@
 
                 </div>
             </div> 
+            <div class="col-md-4 col-sm-4 col-xs-6">            
+                <div class="x_content "> 
+                    <div class="x_title">
+                        <h2><i class="fa fa-asterisk"></i> Regression</h2>                                         
+                        <div class="clearfix"></div>
+                    </div>                
+                    <ul class="">
+                        <li>
+                            <span class="name"> Predict </span>
+                            <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getRegression().predict(Error.getTimestamp()*1000)}" />  </span>
+                        </li>                                                  
+                        <li>
+                            <span class="name">Correlation Coefficient </span>
+                            <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getRegression().getR()}" />  </span>
+                        </li>
+                        <li>
+                            <span class="name">SSE</span>
+                            <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSumSquaredErrors()}" /> </span>
+                        </li>                        
+                        <li>
+                            <span class="name">Significance</span>
+                            <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSignificance()}" /> </span>
+                        </li>
+
+
+                    </ul>                
+
+                </div>
+            </div>                         
+                        
+                        
             <div class="x_title">
                 <h2><i class="fa fa-repeat"></i> Recurrence by Weight</h2>                                         
                 <div class="clearfix"></div>
