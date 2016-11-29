@@ -113,6 +113,7 @@
                                                         <th>Value</th>
                                                         <th>Weight</th>
                                                         <th>Deviation %</th>
+                                                        <th>Predict Deviation %</th>
                                                         <th>Recurrence</th>
                                                         <th>Time</th>
                                                     </tr>
@@ -134,6 +135,7 @@
                                                             <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
                                                             <td class="weight">${metric.getWeight()}</td>
                                                             <td class="persent">${metric.getPersent_weight()}</td>
+                                                            <td class="persent">${metric.getPersent_predict()}</td>
                                                             <td class="persent">${metric.getRecurrenceTmp()}</td>
 
                                                             <td class="time">${metric.getTimestamp()}</td>

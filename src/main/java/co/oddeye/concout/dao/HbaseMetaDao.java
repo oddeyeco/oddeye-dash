@@ -47,7 +47,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     @Autowired
     private BaseTsdbConnect BaseTsdbV;
 
-    private static final String TBLENAME = "test_oddeye-meta";
+    public static final String TBLENAME = "test_oddeye-meta";
 //    private ConcoutMetricMetaList MtrscList;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
 

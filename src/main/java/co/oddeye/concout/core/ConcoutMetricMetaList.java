@@ -87,7 +87,6 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public ArrayList<OddeeyMetricMeta> getbyTags(Map<String, String> tagsMap, String filter) {
         ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
-
             boolean sucsses = true;
             for (Entry<String, String> tag : tagsMap.entrySet()) {
                 if (!tag.getValue().equals("*")) {

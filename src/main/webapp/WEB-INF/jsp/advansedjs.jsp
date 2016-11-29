@@ -50,6 +50,12 @@
             borderColor: "rgba(128, 0, 0, 0.9)",
             pointBorderColor: "rgba(128, 0, 0, 0.1)",
             pointBackgroundColor: "rgba(128, 0, 0, 0.1)",
+        },
+        {
+            backgroundColor: "rgba(128, 0, 0, 0.1)",
+            borderColor: "rgba(0, 0, 0, 0.9)",
+            pointBorderColor: "rgba(128, 0, 0, 0.1)",
+            pointBackgroundColor: "rgba(128, 0, 0, 0.1)",
         }];
     $(document).ready(function () {
         drawAnChart();
@@ -60,7 +66,7 @@
         var pos = 0;
         var cd = [];
         console.log(chartsdata);
-        for (var k in chartsdata) {
+        for (var k in chartsdata) {            
             var chartline = chartsdata[k];
             var d = [];
             for (var time in chartline.data) {
@@ -77,9 +83,16 @@
 
 
 //cartedta
-
+            if (k != "predict")
+            {
+                label = moment(k * 1).format("DD/MM/YYYY");
+            }
+            else
+            {
+                label = k;
+            }
             item = {
-                label: moment(k * 1).format("DD/MM/YYYY"),
+                label: label,
                 fill: false,
                 borderColor: colorset[pos].borderColor,
 //                pointBorderColor: colorset[pos].pointBorderColor,

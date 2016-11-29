@@ -11,6 +11,7 @@ import co.oddeye.concout.model.User;
 import co.oddeye.core.MetriccheckRule;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.logging.Level;
@@ -43,6 +44,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
     private double persent_weight;
     private double value;
     private short stat_weight;
+    private double persent_predict;
 
     public HbaseErrorsDao() {
         super(TABLENAME);
@@ -59,18 +61,24 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         ArrayList<KeyValue> curent_row = client.get(request).joinUninterruptibly();
         ConcoutMetricErrorMeta e = null;
         for (final KeyValue kv : curent_row) {
-//                        datapart = Arrays.copyOfRange(kv.value(), 0, 2);
             e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
             weight = ByteBuffer.wrap(kv.value()).getShort();
-//                        datapart = Arrays.copyOfRange(kv.value(), 2, 10);
             persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
             value = ByteBuffer.wrap(kv.value()).getDouble(10);
-
-//            long loc_time = getTime(kv.key());
             e.setTimestamp(time);
             e.setValue(value);
             e.setWeight(weight);
             e.setPersent_weight(persent_weight);
+        }
+        if (e == null) {
+            return null;
+        }
+        GetRequest getRegression = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), e.getKey(), "d".getBytes(), "Regression".getBytes());
+        ArrayList<KeyValue> Regressiondata = client.get(getRegression).joinUninterruptibly();
+        for (KeyValue Regression : Regressiondata) {
+            if (Arrays.equals(Regression.qualifier(), "Regression".getBytes())) {
+                e.setSerializedRegression(Regression.value());
+            }
         }
         //get  Recurrence
         final byte[] start_row;
@@ -78,10 +86,10 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
 
 //        Date.setTimeInMillis((time * 1000)+1);
-        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time+1).array());
+        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time + 1).array());
 
 //        Date.add(Calendar.MINUTE, -60);
-        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time-(60*60) ).array());
+        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time - (60 * 60)).array());
 
         Scanner scanner = client.newScanner(table);
         scanner.setServerBlockCache(false);
@@ -191,6 +199,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //                        datapart = Arrays.copyOfRange(kv.value(), 2, 10);
                         persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
                         value = ByteBuffer.wrap(kv.value()).getDouble(10);
+                        persent_predict = ByteBuffer.wrap(kv.value()).getDouble(18);
 
                         if (Math.abs(value) < minValue) {
                             continue;
@@ -213,6 +222,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         e.setValue(value);
                         e.setWeight(weight);
                         e.setPersent_weight(persent_weight);
+                        e.setPersent_predict(persent_predict);
                         e.setRecurrenceTmp(e.getRecurrenceTmp() + 1);
                         MetricMetaListTmp.add(e);
                         if (e.getRecurrenceTmp() >= minRecurrenceCount) {
@@ -236,4 +246,5 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         final long Ts = ByteBuffer.wrap(Tsarray).getLong();
         return Ts;
     }
+
 }

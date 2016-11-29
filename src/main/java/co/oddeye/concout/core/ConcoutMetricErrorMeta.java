@@ -15,9 +15,11 @@ import org.apache.commons.codec.binary.Hex;
  */
 public class ConcoutMetricErrorMeta extends OddeeyMetricMeta {
 
+
     private long timestamp;
     private Double value;
     private Double persent_weight;
+    private Double persent_predict;
     private short weight;
 
     private int RecurrenceTmp = 0;    
@@ -232,5 +234,18 @@ public class ConcoutMetricErrorMeta extends OddeeyMetricMeta {
      */
     public void setRecurrenceTmp(int RecurrenceTmp) {
         this.RecurrenceTmp = RecurrenceTmp;
+    }
+    /**
+     * @return the persent_predict
+     */
+    public Double getPersent_predict() {
+        return persent_predict;
+    }
+
+    /**
+     * @param persent_predict the persent_predict to set
+     */
+    public void setPersent_predict(Double persent_predict) {
+        this.persent_predict = persent_predict;
     }
 }
