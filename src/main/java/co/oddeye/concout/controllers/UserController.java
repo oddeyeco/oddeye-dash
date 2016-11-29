@@ -122,6 +122,14 @@ public class UserController {
             } else {
                 map.put("minRecurrenceCount", Math.abs(Short.parseShort(minRecurrenceCount)));
             }
+            String minPredictPersent = request.getParameter("minPredictPersent");
+            if (minValue == null) {
+                map.put("minPredictPersent", 50);
+            } else {
+                map.put("minPredictPersent", Math.abs(Short.parseShort(minPredictPersent)));
+            }            
+            
+            
 
             String minRecurrenceTimeInterval = request.getParameter("minRecurrenceTimeInterval");
             if (minValue == null) {

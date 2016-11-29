@@ -160,7 +160,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         return e;
     }
 
-    public ConcoutMetricMetaList getLast(User user, Double minValue, Double minPersent, short minWeight, short minRecurrenceCount, int minRecurrenceTimeInterval) {
+    public ConcoutMetricMetaList getLast(User user, Double minValue, Double minPersent, short minWeight, short minRecurrenceCount, int minRecurrenceTimeInterval, Double minPredictPersent) {
         client = BaseTsdb.getClient();
 
         final byte[] start_row;
@@ -210,7 +210,11 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         if (Math.abs(weight) < minWeight) {
                             continue;
                         }
-
+                        if (Math.abs(persent_predict) < minPredictPersent) {
+                            continue;
+                        }
+                        
+                        
                         ConcoutMetricErrorMeta e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
                         if (MetricMetaListTmp.get(e.hashCode()) != null) {

@@ -52,11 +52,18 @@
                             </div>
                         </div>                    
                         <div class="form-group">
-                            <label class="col-md-12 col-sm-12 col-xs-12">Min Persent</label>
+                            <label class="col-md-12 col-sm-12 col-xs-12">Min Percent</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <input class="form-control" value="${minPersent}" name="minPersent"></input>
                             </div>
-                        </div>                    
+                        </div>                  
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Min Predict Percent</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <input class="form-control" value="${minPredictPersent}" name="minPredictPersent"></input>
+                            </div>
+                        </div>                            
+                            
                         <div class="form-group">
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Weight</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -93,7 +100,7 @@
                         <!-- start accordion -->
                         <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
 
-                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser,minValue,minPersent,minWeight,minRecurrenceCount,minRecurrenceTimeInterval)}" />                            
+                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser,minValue,minPersent,minWeight,minRecurrenceCount,minRecurrenceTimeInterval,minPredictPersent)}" />                            
                             <c:forEach items="${MetricsMeta.getTagsList().get(group_item)}" var="showgroup" varStatus="loopgrups">   
                                 <c:set var="showgroup_rp" value="${fn:replace(showgroup, '.', '_')}" />
 
