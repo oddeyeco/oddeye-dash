@@ -83,7 +83,7 @@
     function showsingleChart(datasetindex) {
         $(".editchartpanel").show();
         options = dush_charts_options[datasetindex];
-        console.log(options);
+//        console.log(options);
         singleChart = null;
         html = $("#charttemplate").html();
         $(".editchartpanel #singlewidget").html(html);
@@ -96,7 +96,7 @@
         $(".editchartpanel").attr("datasetindex", datasetindex);
         $(".fulldash").hide();
         //Fill edit form
-        console.log(options.data.datasetsUri);
+//        console.log(options.data.datasetsUri);
 //            console.log(options.data.datasetsUri);
         if (typeof (options.data.datasetsUri) == "undefined")
         {
@@ -180,7 +180,7 @@
 //            console.log("hide event fired");
         });
         $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-            console.log(picker);
+//            console.log(picker);
             var request_index = getParameterByName("chart");
             if (request_index == null)
             {
@@ -366,7 +366,7 @@
 
             senddata.info = JSON.stringify(to_senddata);
             senddata.name = $("#name").val();
-            console.log(senddata);
+//            console.log(senddata);
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
             $.ajax({
