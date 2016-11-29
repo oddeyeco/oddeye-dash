@@ -23,33 +23,6 @@
                 $(this).parents(".panel").hide();
             }
         });
-//        $(".metrictable tr").each(function (){
-//            var val =Math.abs(parseFloat($(this).find(".value").html()));
-//            if (val<1)
-//            {
-//                $(this).hide();
-//            }
-//            var val =Math.abs(parseFloat($(this).find(".persent").html()));
-//            if (val<50)
-//            {
-//                $(this).hide();
-//            }
-//
-//            var val =Math.abs(parseFloat($(this).find(".weight").html()));
-//            if (val<8)
-//            {
-//                $(this).hide();
-//            }
-//        
-//                
-//        });
-
-
-
-
-//        $("td.value").filter(function () {
-//            return $(this).html() == 1;
-//        }).hide();
     });</script>
 
 <script>
@@ -58,8 +31,18 @@
             val = $(this).html();
             time = moment(val * 1000);
             $(this).html(time.format("h:mm:ss a"));
-
+        });
+        
+        
+        $('body').on("change", "#level", function () {
+            if ($(this).val()==-1)
+            {
+                $(".customvalue").fadeIn();      
+            }
+            else
+            {
+                $(".customvalue").fadeOut();      
+            }
         })
-
     });
 </script>    

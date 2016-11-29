@@ -111,57 +111,19 @@
                                 <th>Min Percent</th>
                                 <th>Min Weight</th>
                                 <th>Min Recurrence Count</th>
-                                <th>Time interval (sec)</th>
+                                <th>Min Predict Percent</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>All</td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>LARGE</td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>WARNING</td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>ERROR</td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>CRITICAL</td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                                <td><input class="form-control" value="" type="number"></td>
-                            </tr>                            
+                            <c:forEach items="${newuserdata.getAlertLevels()}" var="AlertLevel" varStatus="loopgrups">
+                                <tr>
+                                    <td>${loopgrups.index+1}</td>
+                                    <td>${newuserdata.getAlertLevels().getName(AlertLevel.getKey())}</td>
+                                    <c:forEach items="${AlertLevel.getValue()}" var="Value" >
+                                        <td><input class="form-control" value="${Value.getValue()}" type="number">    </td>
+                                        </c:forEach>                                
+                                </tr>                    
+                            </c:forEach>
                         </tbody>
                     </table>
                     <!-- end user projects -->
@@ -217,7 +179,7 @@
                             </div>
                         </form:form>
                     </div>                     
-                   
+
                 </div>
 
             </div>

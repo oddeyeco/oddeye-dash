@@ -35,6 +35,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import co.oddeye.concout.model.AlertLevel;
 
 /**
  *
@@ -72,8 +73,7 @@ public class UserController {
 
             String ident_tag = request.getParameter("ident_tag");
 
-            if (userDetails.getMetricsMeta()== null)
-            {
+            if (userDetails.getMetricsMeta() == null) {
                 try {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 } catch (Exception ex) {
@@ -95,44 +95,64 @@ public class UserController {
                 map.put("ident_tag", ident_tag);
             }
 
-            String minValue = request.getParameter("minValue");
-            if (minValue == null) {
-                map.put("minValue", 1);
+            String level_item = request.getParameter("level");
+
+            int int_level_item = -1;
+            if (level_item == null) {
+                map.put("level_item", AlertLevel.ALERT_LEVEL_ELEVATED);
             } else {
-                map.put("minValue", Math.abs(Double.parseDouble(minValue)));
+                int_level_item = Integer.parseInt(level_item);
+                if (int_level_item > AlertLevel.ALERT_LEVELS.length - 1) {
+                    int_level_item = -1;
+                }
+
+                map.put("level_item", int_level_item);
+
             }
 
-            String minPersent = request.getParameter("minPersent");
-            if (minValue == null) {
-                map.put("minPersent", 50);
-            } else {
-                map.put("minPersent", Math.abs(Double.parseDouble(minPersent)));
-            }
+            if (int_level_item == -1) {
+                String minValue = request.getParameter("minValue");
+                if (minValue == null) {
+                    map.put("minValue", 1);
+                } else {
+                    map.put("minValue", Math.abs(Double.parseDouble(minValue)));
+                }
 
-            String minWeight = request.getParameter("minWeight");
-            if (minValue == null) {
-                map.put("minWeight", 14);
-            } else {
-                map.put("minWeight", Math.abs(Short.parseShort(minWeight)));
-            }
+                String minPersent = request.getParameter("minPersent");
+                if (minValue == null) {
+                    map.put("minPersent", 50);
+                } else {
+                    map.put("minPersent", Math.abs(Double.parseDouble(minPersent)));
+                }
 
-            String minRecurrenceCount = request.getParameter("minRecurrenceCount");
-            if (minValue == null) {
-                map.put("minRecurrenceCount", 2);
-            } else {
-                map.put("minRecurrenceCount", Math.abs(Short.parseShort(minRecurrenceCount)));
-            }
-            String minPredictPersent = request.getParameter("minPredictPersent");
-            if (minValue == null) {
-                map.put("minPredictPersent", 50);
-            } else {
-                map.put("minPredictPersent", Math.abs(Short.parseShort(minPredictPersent)));
-            }            
-            
-            
+                String minWeight = request.getParameter("minWeight");
+                if (minValue == null) {
+                    map.put("minWeight", 14);
+                } else {
+                    map.put("minWeight", Math.abs(Short.parseShort(minWeight)));
+                }
 
+                String minRecurrenceCount = request.getParameter("minRecurrenceCount");
+                if (minValue == null) {
+                    map.put("minRecurrenceCount", 2);
+                } else {
+                    map.put("minRecurrenceCount", Math.abs(Short.parseShort(minRecurrenceCount)));
+                }
+                String minPredictPersent = request.getParameter("minPredictPersent");
+                if (minValue == null) {
+                    map.put("minPredictPersent", 50);
+                } else {
+                    map.put("minPredictPersent", Math.abs(Short.parseShort(minPredictPersent)));
+                }
+            } else {                
+                map.put("minValue", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_VALUE));
+                map.put("minPersent", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_PECENT));
+                map.put("minWeight", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_WEIGTH));
+                map.put("minRecurrenceCount", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_RECCOUNT));
+                map.put("minPredictPersent", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_PREDICTPERSENT));
+            }
             String minRecurrenceTimeInterval = request.getParameter("minRecurrenceTimeInterval");
-            if (minValue == null) {
+            if (minRecurrenceTimeInterval == null) {
                 map.put("minRecurrenceTimeInterval", 60);
             } else {
                 map.put("minRecurrenceTimeInterval", Math.abs(Integer.parseInt(minRecurrenceTimeInterval)));
@@ -160,14 +180,13 @@ public class UserController {
                 map.put("curentuser", userDetails);
                 JsonObject jsonMessages = new JsonObject();
                 ConcoutMetricErrorMeta Error = ErrorsDao.getErrorMeta(userDetails, Hex.decodeHex(metriqkey.toCharArray()), Long.parseLong(timestamp));
-                if (Error == null)
-                {
+                if (Error == null) {
                     return "index";
                 }
                 Map<String, MetriccheckRule> rules = MetaDao.getErrorRules(Error, Long.parseLong(timestamp));
                 map.put("Error", Error);
                 map.put("Rules", rules);
-                ArrayList<DataPoints[]> data = new ArrayList<>();                
+                ArrayList<DataPoints[]> data = new ArrayList<>();
                 // Get rules chart data
                 for (Map.Entry<String, MetriccheckRule> rule : rules.entrySet()) {
                     Calendar calobject = rule.getValue().getTime();
@@ -212,7 +231,7 @@ public class UserController {
 
                                 while (Datalist.hasNext()) {
                                     final DataPoint Point = Datalist.next();
-                                    DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());                                    
+                                    DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                                 }
 
                                 jsonMessage.add("data", DatapointsJSON);
@@ -273,7 +292,7 @@ public class UserController {
 
                             while (Datalist.hasNext()) {
                                 final DataPoint Point = Datalist.next();
-                                DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());                                
+                                DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                             }
 
                             jsonMessage.add("data", DatapointsJSON);
@@ -292,7 +311,7 @@ public class UserController {
                 } else {
                     jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                 }
-                
+
                 jsonMessage.addProperty("metric", Error.getName());
                 JsonObject DatapointsJSON;
                 if (jsonMessage.get("data") == null) {

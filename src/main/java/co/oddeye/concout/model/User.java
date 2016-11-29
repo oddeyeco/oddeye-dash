@@ -60,6 +60,8 @@ public class User implements UserDetails {
     private final Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
     private Map<String, String> DushList;
+    
+    private final AlertLevel AlertLevels = new AlertLevel();
 
     public User() {
         this.id = UUID.randomUUID();
@@ -495,6 +497,13 @@ public class User implements UserDetails {
         }
 
         return updatesdata;
+    }
+
+    /**
+     * @return the AlertLevels
+     */
+    public AlertLevel getAlertLevels() {
+        return AlertLevels;
     }
 
 }

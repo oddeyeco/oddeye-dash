@@ -46,31 +46,43 @@
 
 
                         <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Level</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control" name="level" id="level">
+                                    <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > Custom </option>  
+                                    <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
+                                        <option <c:if test="${level_item == level.key}"> selected="true" </c:if>  value="${level.key}"> ${curentuser.getAlertLevels().getName(level.key)} </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>                        
+
+                        <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Value</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <input class="form-control" value="${minValue}" name="minValue"></input>
                             </div>
                         </div>                    
-                        <div class="form-group">
+                        <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Percent</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <input class="form-control" value="${minPersent}" name="minPersent"></input>
                             </div>
                         </div>                  
-                        <div class="form-group">
+                        <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Predict Percent</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <input class="form-control" value="${minPredictPersent}" name="minPredictPersent"></input>
                             </div>
                         </div>                            
 
-                        <div class="form-group">
+                        <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Weight</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <input class="form-control" value="${minWeight}" name="minWeight"></input>
                             </div>
                         </div>                                            
-                        <div class="form-group">
+                        <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Recurrence Count</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <input class="form-control" value="${minRecurrenceCount}" name="minRecurrenceCount"></input>
