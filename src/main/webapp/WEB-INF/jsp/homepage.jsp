@@ -146,8 +146,7 @@
                         <div  class="col-xs-10">
                             <p> Kafka is one of those systems that is very simple to describe at a high level, but has an incredible depth of technical detail when you dig deeper. The Kafka documentation does an excellent job of explaining the many design and implementation subtleties in the system, so we will not attempt to explain them all here. In summary, Kafka is a distributed publish-subscribe messaging system that is designed to be fast, scalable, and durable.
                                 Like many publish-subscribe messaging systems, Kafka maintains feeds of messages in topics. Producers write data to topics and consumers read from topics. Since Kafka is a distributed system, topics are partitioned and replicated across multiple nodes.
-                            </p>    
-                            <p>John Partic - <b>Crazy Pixel</b></p>
+                            </p>                                
                         </div>
                     </div>
                     <div class="item  animated bounceInRight row">
@@ -177,7 +176,7 @@
 
     <!-- team -->
     <h3 class="text-center  wowload fadeInUp">Our team</h3>
-    <p class="text-center  wowload fadeInLeft">Our creative team that is making everything possible</p>
+    <p class="text-center  wowload fadeInLeft">Our fantastic team that sees the future</p>
     <div class="row grid team  wowload fadeInUpBig">	
         <div class=" col-sm-3 col-xs-6">
             <figure class="effect-chico">
