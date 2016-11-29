@@ -192,7 +192,7 @@
             <figure class="effect-chico">
                 <img src="${cp}/resources/images/team/10.jpg" alt="img01"/>
                 <figcaption>            
-                    <p><b>Barbara Husto</b><br>Senior Designer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>            
+                    <p><b>Vahan Avagyan</b><br>Senior Developer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>            
                 </figcaption>
             </figure>
         </div>
@@ -201,7 +201,7 @@
             <figure class="effect-chico">
                 <img src="${cp}/resources/images/team/12.jpg" alt="img01"/>
                 <figcaption>
-                    <p><b>Barbara Husto</b><br>Senior Designer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>          
+                    <p><b>Chewbacca</b><br>FrontEnd Developer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>          
                 </figcaption>
             </figure>
         </div>
@@ -210,7 +210,7 @@
             <figure class="effect-chico">
                 <img src="${cp}/resources/images/team/17.jpg" alt="img01"/>
                 <figcaption>
-                    <p><b>Barbara Husto</b><br>Senior Designer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>
+                    <p><b>Artoo-Detoo</b><br>Network Engineer<br><br><a href="#"><i class="fa fa-dribbble"></i></a> <a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a></p>
                 </figcaption>
             </figure>
         </div>

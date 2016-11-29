@@ -43,8 +43,8 @@
                                 </select>
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="form-group">
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Value</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -63,7 +63,7 @@
                                 <input class="form-control" value="${minPredictPersent}" name="minPredictPersent"></input>
                             </div>
                         </div>                            
-                            
+
                         <div class="form-group">
                             <label class="col-md-12 col-sm-12 col-xs-12">Min Weight</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -84,12 +84,12 @@
                         </div>                                            
 
 
-                            
+
                         <div class="form-group">                        
                             <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                                 <button class="btn btn-success" type="button" value="Default">Set as Default</button>
                                 <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-                                
+
                             </div>
                         </div>                         
                     </form>
@@ -106,10 +106,14 @@
 
                                 <div class="panel">
                                     <a class="panel-heading collapsed" role="tab" id="heading${showgroup_rp}" data-toggle="collapse" data-parent="#accordion1" href="#collapse_${showgroup_rp}" aria-expanded="false" aria-controls="collapseOne">
-                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()}</h4>
+                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()} of ${curentuser.getMetricsMeta().getbyTag(group_item,showgroup).size()}
+                                            <div class="progress"> 
+                                                <c:set var="metricpercent" value="${MetricsMeta.getbyTag(group_item,showgroup).size()*100/curentuser.getMetricsMeta().getbyTag(group_item,showgroup).size()}" />                            
+                                                <div class="progress-bar progress-bar-success" data-transitiongoal="${metricpercent}" aria-valuenow="${metricpercent}" style="width: ${metricpercent}%;"></div>
+                                            </div></h4>
                                     </a>
 
-                                    <div id="collapse_${showgroup_rp}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="true">
+                                    <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="true">
                                         <div class="panel-body">
                                             <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
                                                 <thead>

@@ -67,7 +67,7 @@
             <div class="col-md-4 col-sm-4 col-xs-6">            
                 <div class="x_content "> 
                     <div class="x_title">
-                        <h2><i class="fa fa-asterisk"></i> Regression</h2>                                         
+                        <h2><i class="fa fa-line-chart"></i> Regression</h2>                                         
                         <div class="clearfix"></div>
                     </div>                
                     <ul class="">
@@ -86,6 +86,10 @@
                         <li>
                             <span class="name">Significance</span>
                             <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSignificance()}" /> </span>
+                        </li>
+                        <li>
+                            <span class="name">Counts</span>
+                            <span class="value text-success">${Error.getRegression().getN()}</span>
                         </li>
 
 
