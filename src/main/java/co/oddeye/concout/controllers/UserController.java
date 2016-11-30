@@ -105,9 +105,7 @@ public class UserController {
                 if (int_level_item > AlertLevel.ALERT_LEVELS.length - 1) {
                     int_level_item = -1;
                 }
-
                 map.put("level_item", int_level_item);
-
             }
 
             if (int_level_item == -1) {
@@ -129,14 +127,14 @@ public class UserController {
                 if (minValue == null) {
                     map.put("minWeight", 14);
                 } else {
-                    map.put("minWeight", Math.abs(Short.parseShort(minWeight)));
+                    map.put("minWeight", Math.abs((short) Math.round(Float.parseFloat(minWeight))));
                 }
 
                 String minRecurrenceCount = request.getParameter("minRecurrenceCount");
                 if (minValue == null) {
                     map.put("minRecurrenceCount", 2);
-                } else {
-                    map.put("minRecurrenceCount", Math.abs(Short.parseShort(minRecurrenceCount)));
+                } else {                    
+                    map.put("minRecurrenceCount", Math.abs((short) Math.round(Float.parseFloat(minRecurrenceCount))));
                 }
                 String minPredictPersent = request.getParameter("minPredictPersent");
                 if (minValue == null) {
