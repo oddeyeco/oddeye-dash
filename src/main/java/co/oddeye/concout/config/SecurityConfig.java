@@ -11,7 +11,6 @@ package co.oddeye.concout.config;
  */
 import co.oddeye.concout.providers.HbaseAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
@@ -26,16 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .inMemoryAuthentication()
 //                .withUser("user").password("password").roles("USER");
 //    }
-
     @Autowired
     private HbaseAuthenticationProvider authProvider;
-    
+
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
-    }    
+    }
 //http://www.baeldung.com/spring-security-authentication-provider
     //.antMatchers("/hosts").hasAnyAuthority("ROLE_ADMIN")
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -44,12 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/signup/", "/","/confirm/**").permitAll()                
+                .antMatchers("/resources/**", "/signup/", "/", "/confirm/**").permitAll()
                 .antMatchers("/userslist*").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
                 .permitAll();
+
     }
 }

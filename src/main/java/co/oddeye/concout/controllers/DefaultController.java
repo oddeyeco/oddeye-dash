@@ -20,25 +20,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
 /**
  *
  * @author vahan
  */
 @Controller
 public class DefaultController {
-
+    
+    
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -54,7 +59,7 @@ public class DefaultController {
     }
 
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
-    public String logoutDo(ModelMap map, HttpServletRequest request, HttpServletResponse response) {        
+    public String logoutDo(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         SecurityContextHolder.clearContext();
         HttpSession session = request.getSession(false);
         if (session != null) {
@@ -79,6 +84,18 @@ public class DefaultController {
 
     @RequestMapping(value = "/{templatename}", method = RequestMethod.GET)
     public String bytemplate(@PathVariable(value = "templatename") String templatename, ModelMap map) {
+        
+//        ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("valod", "valod");
+//        messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+//            @Override
+//            public void onSuccess(SendResult<Integer, String> result) {
+//                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
+//            }
+//            @Override
+//            public void onFailure(Throwable ex) {
+//                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure",ex);
+//            }
+//        });
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "index";
@@ -101,7 +118,7 @@ public class DefaultController {
         }
 
         map.put("body", templatename);
-        map.put("jspart", templatename+"js");
+        map.put("jspart", templatename + "js");
 
         return layaut;
     }
@@ -152,7 +169,7 @@ public class DefaultController {
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);
                 newUser.SendConfirmMail(Sender);
-                
+
                 map.put("body", "homepage");
                 map.put("jspart", "homepagejs");
             } catch (Exception ex) {

@@ -11,7 +11,7 @@
         <title>OddEye Monitoring System </title>
 
         <!-- Google fonts -->
-        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type="text/css">
 
         <!-- Bootstrap -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/css/bootstrap.min.css" />    

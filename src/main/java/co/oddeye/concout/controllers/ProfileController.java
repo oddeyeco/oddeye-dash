@@ -5,25 +5,29 @@
  */
 package co.oddeye.concout.controllers;
 
-import static co.oddeye.concout.controllers.DefaultController.setLocaleInfo;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
+import com.google.gson.Gson;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import com.google.gson.JsonObject;
 
 /**
  *
@@ -38,6 +42,8 @@ public class ProfileController {
     HbaseMetaDao MetaDao;
     @Autowired
     private HbaseUserDao Userdao;
+    @Autowired
+    private KafkaTemplate<Integer, String> conKafkaTemplate;    
     
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
@@ -90,7 +96,7 @@ public class ProfileController {
     }    
     
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.POST)
-    public String createuser(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
+    public String updateuser(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -108,6 +114,25 @@ public class ProfileController {
                 try {
                     Map<String, Object> changedata = curentuser.updateBaseData(newuserdata);
                     Userdao.saveUserPersonalinfo(curentuser,changedata);
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
+                    Jsonchangedata.addProperty("action", "updateuser");
+                    Gson gson = new Gson();
+                    Jsonchangedata.addProperty("changedata", gson.toJson(changedata));
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
+                        }
+
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
+                        }
+                    });                    
+                    
+                    
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
                     Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
