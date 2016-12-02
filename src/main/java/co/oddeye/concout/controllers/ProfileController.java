@@ -119,6 +119,7 @@ public class ProfileController {
                     Jsonchangedata.addProperty("action", "updateuser");
                     Gson gson = new Gson();
                     Jsonchangedata.addProperty("changedata", gson.toJson(changedata));
+                    // Send chenges to kafka
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                         @Override
@@ -130,7 +131,7 @@ public class ProfileController {
                         public void onFailure(Throwable ex) {
                             Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
                         }
-                    });                    
+                    });  
                     
                     
                     return "redirect:/profile/edit";
