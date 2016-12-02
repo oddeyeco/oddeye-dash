@@ -145,8 +145,8 @@ public class AjaxControlers {
     
     @RequestMapping(value = {"/getfiltredmetrics"})
     public String GetMetricsLarge(
-            @RequestParam(value = "tags") String tags,
-            @RequestParam(value = "filter") String filter,
+            @RequestParam(value = "tags",required = false, defaultValue = "") String tags,
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
@@ -173,6 +173,10 @@ public class AjaxControlers {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 }                
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                if (filter.equals("")||filter.equals("*"))
+                {
+                    filter = "^(.*)$";
+                }
                 ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap,filter);
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
