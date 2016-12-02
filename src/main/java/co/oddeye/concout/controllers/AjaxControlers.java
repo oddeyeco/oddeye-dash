@@ -7,6 +7,7 @@ package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
+import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeyeTag;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -50,6 +52,9 @@ public class AjaxControlers {
     @Autowired
     HbaseMetaDao MetaDao;
 
+    @Autowired
+    HbaseUserDao UserDao;
+
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags") String tags,
             @RequestParam(value = "metrics") String metrics,
@@ -59,128 +64,130 @@ public class AjaxControlers {
             @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
+        User userDetails;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            user = (User) SecurityContextHolder.getContext().
+            userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-
+        } else {
+            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
         }
 
         Gson gson = new Gson();
 
         Map<String, String> Tagmap;
 
-        Long start_time = DateTime.parseDateTimeString(startdate, null);
-        Long end_time = DateTime.parseDateTimeString(enddate, null);
-        Long starttime = System.currentTimeMillis();
-        ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(user, metrics, aggregator, tags, startdate, enddate, downsample);
-        Long getinterval = System.currentTimeMillis() - starttime;
         JsonObject jsonMessages = new JsonObject();
         JsonObject jsonResult = new JsonObject();
+        if (userDetails != null) {
+            Long start_time = DateTime.parseDateTimeString(startdate, null);
+            Long end_time = DateTime.parseDateTimeString(enddate, null);
+            Long starttime = System.currentTimeMillis();
+            ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample);
+            Long getinterval = System.currentTimeMillis() - starttime;
+            starttime = System.currentTimeMillis();
+            if (data != null) {
+                for (DataPoints[] DataPointslist : data) {
+                    for (DataPoints DataPoints : DataPointslist) {
+                        Tagmap = DataPoints.getTags();
+                        Tagmap.remove("UUID");
+                        Tagmap.remove("alert_level");
 
-        starttime = System.currentTimeMillis();
-        if (data != null) {
-            for (DataPoints[] DataPointslist : data) {
-                for (DataPoints DataPoints : DataPointslist) {
-                    Tagmap = DataPoints.getTags();
-                    Tagmap.remove("UUID");
-                    Tagmap.remove("alert_level");
+                        JsonObject jsonMessage;
 
-                    JsonObject jsonMessage;
+                        String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
 
-                    String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
-
-                    if (jsonMessages.get(jsonuindex) == null) {
-                        jsonMessage = new JsonObject();
-                    } else {
-                        jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
-                    }
-
-                    jsonMessage.addProperty("index", Tagmap.hashCode());
-                    jsonMessage.addProperty("metric", DataPoints.metricName());
-
-                    final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
-                    jsonMessage.add("tags", TagsJSON);
-                    Tagmap.clear();
-
-                    final SeekableView Datalist = DataPoints.iterator();
-
-                    JsonObject DatapointsJSON;
-
-                    if (jsonMessage.get("data") == null) {
-                        DatapointsJSON = new JsonObject();
-                    } else {
-                        DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
-                    }
-
-                    while (Datalist.hasNext()) {
-                        final DataPoint Point = Datalist.next();
-                        if (Point.timestamp() < start_time) {
-                            continue;
-                        }
-                        if (Point.timestamp() > end_time) {
-                            continue;
+                        if (jsonMessages.get(jsonuindex) == null) {
+                            jsonMessage = new JsonObject();
+                        } else {
+                            jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                         }
 
-                        DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
-                    }
+                        jsonMessage.addProperty("index", Tagmap.hashCode());
+                        jsonMessage.addProperty("metric", DataPoints.metricName());
 
-                    jsonMessage.add("data", DatapointsJSON);
-                    jsonMessages.add(jsonuindex, jsonMessage);
+                        final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
+                        jsonMessage.add("tags", TagsJSON);
+                        Tagmap.clear();
+
+                        final SeekableView Datalist = DataPoints.iterator();
+
+                        JsonObject DatapointsJSON;
+
+                        if (jsonMessage.get("data") == null) {
+                            DatapointsJSON = new JsonObject();
+                        } else {
+                            DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
+                        }
+
+                        while (Datalist.hasNext()) {
+                            final DataPoint Point = Datalist.next();
+                            if (Point.timestamp() < start_time) {
+                                continue;
+                            }
+                            if (Point.timestamp() > end_time) {
+                                continue;
+                            }
+
+                            DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
+                        }
+
+                        jsonMessage.add("data", DatapointsJSON);
+                        jsonMessages.add(jsonuindex, jsonMessage);
+
+                    }
 
                 }
-
             }
+            Long scaninterval = System.currentTimeMillis() - starttime;
+            jsonResult.addProperty("gettime", getinterval);
+            jsonResult.addProperty("scantime", scaninterval);
+            jsonResult.add("chartsdata", jsonMessages);
         }
-        Long scaninterval = System.currentTimeMillis() - starttime;
-        jsonResult.addProperty("gettime", getinterval);
-        jsonResult.addProperty("scantime", scaninterval);
-        jsonResult.add("chartsdata", jsonMessages);
-
         map.put("jsonmodel", jsonResult);
 
         return "ajax";
     }
 
-    
     @RequestMapping(value = {"/getfiltredmetrics"})
     public String GetMetricsLarge(
-            @RequestParam(value = "tags",required = false, defaultValue = "") String tags,
+            @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
-
+        User userDetails;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        } else {
+            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
+        }
 
+        if (userDetails != null) {
+            try {
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
                 for (String tag : tagslist) {
                     String[] tgitem = tag.split("=");
                     if (tgitem.length == 2) {
                         if (tgitem[1].equals("")) {
-                            tgitem[1] = "*";                        
+                            tgitem[1] = "*";
                         }
                         tagsMap.put(tgitem[0], tgitem[1]);
                     }
-                }                
-                if (userDetails.getMetricsMeta()==null)
-                {
+                }
+                if (userDetails.getMetricsMeta() == null) {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                }                
+                }
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                if (filter.equals("")||filter.equals("*"))
-                {
+                if (filter.equals("") || filter.equals("*")) {
                     filter = "^(.*)$";
                 }
-                ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap,filter);
+                ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
-                
+
                 for (final OddeeyMetricMeta metric : Metriclist) {
                     final JsonObject metricjson = new JsonObject();
                     final JsonObject tagsjson = new JsonObject();
@@ -196,7 +203,7 @@ public class AjaxControlers {
                     metricjson.add("tags", tagsjson);
                     jsondata.add(metricjson);
                 }
-                
+
                 jsonResult.add("data", jsondata);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -205,12 +212,11 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
         map.put("jsonmodel", jsonResult);
 
         return "ajax";
-    }    
-    
+    }
+
     @RequestMapping(value = {"/getmetrics"})
     public String GetMetrics(
             @RequestParam(value = "key") String key,
@@ -307,13 +313,18 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+        User userDetails;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        } else {
+            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
+        }
 
-                if (userDetails.getMetricsMeta()==null)
-                {
+        if (userDetails != null) {
+            try {
+
+                if (userDetails.getMetricsMeta() == null) {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 }
                 Map<String, Set<String>> tags = userDetails.getMetricsMeta().getTagsList();
@@ -323,17 +334,15 @@ public class AjaxControlers {
                     for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
                         jsondata.add(tag.getKey());
                     }
-                }
-                else
-                {
+                } else {
                     Pattern r = Pattern.compile(filter);
-                    
+
                     for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
                         Matcher m = r.matcher(tag.getKey());
                         if (m.find()) {
-                            jsondata.add(tag.getKey());    
+                            jsondata.add(tag.getKey());
                         }
-                    }                    
+                    }
                 }
 
                 jsonResult.add("data", jsondata);
@@ -352,7 +361,6 @@ public class AjaxControlers {
         return "ajax";
     }
 
-    
     @RequestMapping(value = {"/gettagvalue"})
     public String getTagvalues(
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
@@ -361,13 +369,18 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
+        User userDetails;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        } else {
+            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
+        }
 
-                if (userDetails.getMetricsMeta()==null)
-                {
+        if (userDetails != null) {
+            try {
+
+                if (userDetails.getMetricsMeta() == null) {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 }
                 Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key);
@@ -377,17 +390,15 @@ public class AjaxControlers {
                     for (String tag : tags) {
                         jsondata.add(tag);
                     }
-                }
-                else
-                {
+                } else {
                     Pattern r = Pattern.compile(filter);
-                    
+
                     for (String tag : tags) {
                         Matcher m = r.matcher(tag);
                         if (m.find()) {
-                            jsondata.add(tag);    
+                            jsondata.add(tag);
                         }
-                    }                    
+                    }
                 }
 
                 jsonResult.add("data", jsondata);
@@ -404,6 +415,6 @@ public class AjaxControlers {
         map.put("jsonmodel", jsonResult);
 
         return "ajax";
-    }    
-    
+    }
+
 }
