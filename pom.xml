@@ -153,6 +153,32 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.lesscss</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <version>1.7.0.1.1</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/webapp/less</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/assets/css</outputDirectory>
+                    <compress>true</compress>                    
+                    <includes>
+                        <include>bootstrap/bootstrap.less</include>
+                        <include>font-awesome/font-awesome.less</include>
+                        <include>main.less</include>
+                        <include>maindash.less</include>
+                        
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
+                                    
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>

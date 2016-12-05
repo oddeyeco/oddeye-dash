@@ -14,9 +14,9 @@
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type="text/css">
 
         <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/css/bootstrap.min.css" />    
+        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css" />    
         <!-- Font Awesome -->
-        <link rel="stylesheet" type="text/css" href="${cp}/resources/font-awesome/css/font-awesome.min.css" />        
+        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css" />        
 
         <!-- animate.css -->
         <link rel="stylesheet" href="${cp}/resources/assets/animate/animate.css" />
@@ -31,6 +31,9 @@
 
 
         <link rel="stylesheet" href="${cp}/resources/assets/style.css">      
+        
+        
+        <link rel="stylesheet" href="${cp}/assets/css/main.css">    
     </head>
 
     <body>

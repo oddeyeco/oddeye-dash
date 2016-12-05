@@ -19,9 +19,9 @@
         <title>Oddeye Dashboard! | </title>
 
         <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/css/bootstrap.min.css" />    
+        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css" />      
         <!-- Font Awesome -->
-        <link rel="stylesheet" type="text/css" href="${cp}/resources/font-awesome/css/font-awesome.min.css" />        
+        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css" />
         <!-- iCheck -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css" />        
         <!-- bootstrap-progressbar -->
