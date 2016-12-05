@@ -5,10 +5,13 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
+import co.oddeye.core.MetricErrorMeta;
+import co.oddeye.core.OddeeyMetricMeta;
 import com.google.gson.Gson;
 import java.util.Map;
 import java.util.logging.Level;
@@ -28,6 +31,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.gson.JsonObject;
+import java.util.ArrayList;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  *
@@ -43,8 +48,9 @@ public class ProfileController {
     @Autowired
     private HbaseUserDao Userdao;
     @Autowired
-    private KafkaTemplate<Integer, String> conKafkaTemplate;    
-    
+    HbaseErrorsDao ErrorsDao;    
+    @Autowired
+    private KafkaTemplate<Integer, String> conKafkaTemplate;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap map) throws Exception {
@@ -64,6 +70,36 @@ public class ProfileController {
 
         map.put("body", "profile");
         map.put("jspart", "profilejs");
+
+        return layaut;
+    }
+
+    @RequestMapping(value = "/metriq/{hash}", method = RequestMethod.GET)
+    public String metricinfo(@PathVariable(value = "hash") Integer hash, ModelMap map) throws Exception {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String layaut = "index";
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+
+            if (userDetails.getMetricsMeta() == null) {
+                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+            }
+            
+            OddeeyMetricMeta metriq = userDetails.getMetricsMeta().getOrDefault(hash,null);
+            
+            map.put("metriq", metriq);
+            ArrayList<MetricErrorMeta> ErrorList = ErrorsDao.getErrorList(userDetails,metriq);
+            map.put("ErrorList", ErrorList);
+
+        } else {
+            layaut = "indexNotaut";
+        }
+
+        map.put("body", "metriqinfo");
+        map.put("jspart", "metriqinfojs");
 
         return layaut;
     }
@@ -93,27 +129,25 @@ public class ProfileController {
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.GET)
     public String createuserGet(@ModelAttribute("curentuser") User newcurentuser, BindingResult result, ModelMap map) {
         return "redirect:/profile/edit";
-    }    
-    
+    }
+
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.POST)
     public String updateuser(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            userValidator.updatevalidate(newuserdata, result);            
-            
+            userValidator.updatevalidate(newuserdata, result);
+
             DefaultController.setLocaleInfo(map);
-            
+
             DefaultController.setLocaleInfo(map);
-            if (result.hasErrors()) {                
-                map.put("result", result);                
-            } 
-            else
-            {                
+            if (result.hasErrors()) {
+                map.put("result", result);
+            } else {
                 try {
                     Map<String, Object> changedata = curentuser.updateBaseData(newuserdata);
-                    Userdao.saveUserPersonalinfo(curentuser,changedata);
+                    Userdao.saveUserPersonalinfo(curentuser, changedata);
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
                     Jsonchangedata.addProperty("action", "updateuser");
@@ -131,14 +165,13 @@ public class ProfileController {
                         public void onFailure(Throwable ex) {
                             Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
                         }
-                    });  
-                    
-                    
+                    });
+
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
                     Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
             map.put("newuserdata", newuserdata);
             map.put("curentuser", curentuser);

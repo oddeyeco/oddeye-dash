@@ -8,6 +8,7 @@ package co.oddeye.concout.dao;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.model.User;
+import co.oddeye.core.OddeeyMetricMeta;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -211,8 +212,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         if (Math.abs(persent_predict) < minPredictPersent) {
                             continue;
                         }
-                        
-                        
+
                         MetricErrorMeta e = new MetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
                         if (MetricMetaListTmp.get(e.hashCode()) != null) {
@@ -247,6 +247,56 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
         final long Ts = ByteBuffer.wrap(Tsarray).getLong();
         return Ts;
+    }
+
+    public ArrayList<MetricErrorMeta> getErrorList(User user, OddeeyMetricMeta metriq) {
+        try {
+            client = BaseTsdb.getClient();
+
+            ArrayList<MetricErrorMeta> result = new ArrayList();
+            final byte[] start_row;
+            final byte[] end_row;
+//        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
+            Calendar Date = Calendar.getInstance();
+            Date.add(Calendar.SECOND, 0);
+            end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+
+            Date.add(Calendar.SECOND, -1000);
+            start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+
+            Scanner scanner = client.newScanner(table);
+            scanner.setServerBlockCache(false);
+            scanner.setFamily("d".getBytes());
+            scanner.setStartKey(start_row);
+            scanner.setStopKey(end_row);
+            scanner.setQualifier(metriq.getKey());
+            ArrayList<ArrayList<KeyValue>> rows;
+            while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
+                for (final ArrayList<KeyValue> row : rows) {
+                    for (final KeyValue kv : row) {
+                        weight = ByteBuffer.wrap(kv.value()).getShort();
+//                        datapart = Arrays.copyOfRange(kv.value(), 2, 10);
+                        persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
+                        value = ByteBuffer.wrap(kv.value()).getDouble(10);
+                        persent_predict = ByteBuffer.wrap(kv.value()).getDouble(18);                        
+                        MetricErrorMeta e = new MetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
+
+                        long time = getTime(kv.key());
+                        e.setTimestamp(time);
+                        e.setValue(value);
+                        e.setWeight(weight);
+                        e.setPersent_weight(persent_weight);
+                        e.setPersent_predict(persent_predict);
+                        e.setRecurrenceTmp(e.getRecurrenceTmp() + 1);
+                        result.add(e);
+                    }
+                }                
+                return result;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(HbaseErrorsDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
 }
