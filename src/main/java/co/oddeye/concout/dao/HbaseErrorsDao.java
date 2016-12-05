@@ -6,14 +6,12 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.core.ConcoutMetricMetaList;
-import co.oddeye.concout.core.ConcoutMetricErrorMeta;
+import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.model.User;
-import co.oddeye.core.MetriccheckRule;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.lang.ArrayUtils;
@@ -50,7 +48,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         super(TABLENAME);
     }
 
-    public ConcoutMetricErrorMeta getErrorMeta(User user, byte[] key, long time) throws Exception {
+    public MetricErrorMeta getErrorMeta(User user, byte[] key, long time) throws Exception {
         Calendar Date = Calendar.getInstance();
         Date.setTimeInMillis(time);
         client = BaseTsdb.getClient();
@@ -59,9 +57,9 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
         GetRequest request = new GetRequest(table, tablekey, "d".getBytes(), key);
         ArrayList<KeyValue> curent_row = client.get(request).joinUninterruptibly();
-        ConcoutMetricErrorMeta e = null;
+        MetricErrorMeta e = null;
         for (final KeyValue kv : curent_row) {
-            e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
+            e = new MetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
             weight = ByteBuffer.wrap(kv.value()).getShort();
             persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
             value = ByteBuffer.wrap(kv.value()).getDouble(10);
@@ -215,10 +213,10 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         }
                         
                         
-                        ConcoutMetricErrorMeta e = new ConcoutMetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
+                        MetricErrorMeta e = new MetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
                         if (MetricMetaListTmp.get(e.hashCode()) != null) {
-                            e = (ConcoutMetricErrorMeta) MetricMetaListTmp.get(e.hashCode());
+                            e = (MetricErrorMeta) MetricMetaListTmp.get(e.hashCode());
                         }
 
                         long time = getTime(kv.key());

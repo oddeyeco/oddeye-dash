@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.model;
 
+import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;

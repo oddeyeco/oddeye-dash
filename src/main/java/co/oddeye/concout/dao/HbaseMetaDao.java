@@ -5,7 +5,7 @@
  */
 package co.oddeye.concout.dao;
 
-import co.oddeye.concout.core.ConcoutMetricErrorMeta;
+import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.InvalidKeyException;
@@ -55,7 +55,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         super(TBLENAME);
     }
 
-    public Map<String, MetriccheckRule> getErrorRules(ConcoutMetricErrorMeta meta, long time) throws Exception {
+    public Map<String, MetriccheckRule> getErrorRules(MetricErrorMeta meta, long time) throws Exception {
         Calendar CalendarObj = Calendar.getInstance();
         CalendarObj.setTimeInMillis(time * 1000);
         CalendarObj.add(Calendar.DATE, -1);

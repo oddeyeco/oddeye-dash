@@ -138,6 +138,7 @@
                                                         <th>Deviation %</th>
                                                         <th>Predict Deviation %</th>
                                                         <th>Recurrence</th>
+                                                        <th>Level</th>
                                                         <th>Time</th>
                                                     </tr>
                                                 </thead>
@@ -154,13 +155,14 @@
                                                             <th scope="row">${loopindex}</th>
                                                                 <c:set value="${loopindex+1}" var="loopindex" />
                                                             <td><a href="${cp}/expanded/${metric.getKeyString()}/${metric.getTimestamp()}">${metric.getName()} </a></td>
-                                                            <td>${metric.getTags().get(ident_tag).getValue()}</td>
+                                                            <td>${metric.getTags().get(ident_tag).getValue()}                                                                                                                       
+                                                            </td>
                                                             <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
                                                             <td class="weight">${metric.getWeight()}</td>
                                                             <td class="persent">${metric.getPersent_weight()}</td>
                                                             <td class="persent">${metric.getPersent_predict()}</td>
                                                             <td class="persent">${metric.getRecurrenceTmp()}</td>
-
+                                                            <td class="level_${curentuser.getAlertLevels().getErrorLevel(metric)}">${curentuser.getAlertLevels().getName(curentuser.getAlertLevels().getErrorLevel(metric))}</td>
                                                             <td class="time">${metric.getTimestamp()}</td>
                                                         </tr>
 

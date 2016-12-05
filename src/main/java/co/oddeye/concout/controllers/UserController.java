@@ -5,7 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
-import co.oddeye.concout.core.ConcoutMetricErrorMeta;
+import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
@@ -35,7 +35,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import co.oddeye.concout.model.AlertLevel;
+import co.oddeye.core.AlertLevel;
 
 /**
  *
@@ -177,7 +177,7 @@ public class UserController {
                         getAuthentication().getPrincipal();
                 map.put("curentuser", userDetails);
                 JsonObject jsonMessages = new JsonObject();
-                ConcoutMetricErrorMeta Error = ErrorsDao.getErrorMeta(userDetails, Hex.decodeHex(metriqkey.toCharArray()), Long.parseLong(timestamp));
+                MetricErrorMeta Error = ErrorsDao.getErrorMeta(userDetails, Hex.decodeHex(metriqkey.toCharArray()), Long.parseLong(timestamp));
                 if (Error == null) {
                     return "index";
                 }
