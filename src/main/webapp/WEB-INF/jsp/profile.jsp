@@ -113,7 +113,7 @@
                                                                 </td>                                                                
                                                                 
                                                                 <td class="text-nowrap">
-                                                                    <a href="javascript:void(0)" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
+                                                                    <a href="${cp}/metriq/[hash]" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>
                                                                     <a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>
                                                                     <a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a>
                                                                 </td>
