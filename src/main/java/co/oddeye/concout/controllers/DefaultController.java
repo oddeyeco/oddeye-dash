@@ -53,6 +53,11 @@ public class DefaultController {
         map.put("jspart", "homepagejs");
         return "indexNotaut";
     }
+    
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(ModelMap map) {
+        return "test";
+    }    
 
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
     public String logoutDo(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
