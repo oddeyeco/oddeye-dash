@@ -19,6 +19,7 @@
         function connect() {
             var socket = new SockJS('${cp}/subscribe');
             stompClient = Stomp.over(socket);
+            stompClient.debug = null;
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
