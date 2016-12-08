@@ -32,14 +32,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 /**
  *
  * @author vahan
  */
 @Controller
 public class DefaultController {
-    
-    
+
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -53,11 +53,23 @@ public class DefaultController {
         map.put("jspart", "homepagejs");
         return "indexNotaut";
     }
-    
+
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test(ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();       
+//        org.springframework.security.access.AccessDeniedException;
+//ExecutorSubscribableChannel
+        User user = null;
+        if (auth != null
+                && auth.isAuthenticated()
+                && //when Anonymous Authentication is enabled
+                !(auth instanceof AnonymousAuthenticationToken)) {
+            user = (User) auth.getPrincipal();
+            map.put("user", user);
+        }
+
         return "test";
-    }    
+    }
 
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
     public String logoutDo(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
@@ -85,19 +97,6 @@ public class DefaultController {
 
     @RequestMapping(value = "/{templatename}", method = RequestMethod.GET)
     public String bytemplate(@PathVariable(value = "templatename") String templatename, ModelMap map) {
-        
-//        ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("valod", "valod");
-//        messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-//            @Override
-//            public void onSuccess(SendResult<Integer, String> result) {
-//                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
-//            }
-//            @Override
-//            public void onFailure(Throwable ex) {
-//                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure",ex);
-//            }
-//        });
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "index";
         if (templatename.equals("signup")) {

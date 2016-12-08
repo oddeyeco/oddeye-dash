@@ -49,6 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/getdata*").permitAll()
                 .antMatchers("/gettagkey*").permitAll()
                 .antMatchers("/gettagvalue*").permitAll()                
+                .antMatchers("/test").permitAll()
+                .antMatchers("/subscribe/**").permitAll()
                 
                 .antMatchers("/userslist*").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
