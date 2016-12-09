@@ -67,6 +67,11 @@ public class errorSubscribeController {
         String UUID = jsonResult.getAsJsonObject().get("UUID").getAsString();
         int level = jsonResult.getAsJsonObject().get("level").getAsInt();
         int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
+//        if (level == -1)
+//        {
+//            System.out.println("valod");
+//        }
+        
         
         jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
 
