@@ -5,6 +5,13 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.HbaseMetaDao;
+import co.oddeye.core.AlertLevel;
+import co.oddeye.core.OddeeyMetricMeta;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.util.concurrent.CountDownLatch;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +32,53 @@ public class errorSubscribeController {
     private final Logger log = LoggerFactory.getLogger(errorSubscribeController.class);
     private final SimpMessagingTemplate template;
     public final CountDownLatch countDownLatch1 = new CountDownLatch(1);
-     
+    private static final JsonParser PARSER = new JsonParser();
+    private Gson gson = new Gson();
+    @Autowired
+    HbaseMetaDao MetaDao;
+
     @Autowired
     public errorSubscribeController(SimpMessagingTemplate template) {
         this.template = template;
     }
-  
+
     @RequestMapping("/valod")
     private void bgColor(String greeting) {
         String text = "{\"aaa\":\"aaaa\"}";
         this.template.convertAndSend("/topic/greetings", text);
         log.info("Send color: ");
     }
-    
+
 //    @KafkaListener(id = "foo", topics = "oddeyetsdb", group = "group1")
 //    public void listenTimeStamps(ConsumerRecord<?, String> record) {     
 //        this.template.convertAndSend("/topic/greetings", record.value());
 //        countDownLatch1.countDown();
 //    }    
-    
 //    @KafkaListener(id = "dush", topics = "semaphore", group = "dush")
 //    public void listenErrors(ConsumerRecord<?, String> record) {          
 //        this.template.convertAndSendToUser("vahan@medlib.am", "/greetings", record.value());
 ////        this.template.convertAndSend("/user/greetings", record.value());
 //        countDownLatch1.countDown();
 //    }        
+    @KafkaListener(id = "dush", topics = "errors", group = "dush")
+    public void listenErrors(ConsumerRecord<?, String> record) {
+        String msg = record.value();
+        JsonElement jsonResult = PARSER.parse(msg);
+        String UUID = jsonResult.getAsJsonObject().get("UUID").getAsString();
+        int level = jsonResult.getAsJsonObject().get("level").getAsInt();
+        int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
+        
+        jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
+
+        OddeeyMetricMeta metric = MetaDao.getFullmetalist().get(hash);
+        if (metric != null) {
+            JsonElement metajson = new JsonObject();
+            metajson.getAsJsonObject().add("tags",gson.toJsonTree(metric.getTags()));
+            metajson.getAsJsonObject().addProperty("name", metric.getName());
+            jsonResult.getAsJsonObject().add("info", metajson);
+        }
+
+        this.template.convertAndSendToUser(UUID, "/errors", jsonResult.toString());
+        countDownLatch1.countDown();
+    }
 }

@@ -53,6 +53,69 @@ public class UserController {
     private Map<String, String> Tagmap;
     private final Gson gson = new Gson();
 
+    @RequestMapping(value = "/fastmonitor", method = RequestMethod.GET)
+    public String fastmonitor(HttpServletRequest request, ModelMap map) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+            
+            String group_item = request.getParameter("group_item");
+            String ident_tag = request.getParameter("ident_tag");
+
+            if (userDetails.getMetricsMeta() == null) {
+                try {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                } catch (Exception ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            while (iter.hasNext()) {
+//                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();
+                map.put("group_item", iter.next().getKey());
+                map.put("ident_tag", iter.next().getKey());
+                break;
+            }
+
+            if (group_item != null) {
+                map.put("group_item", group_item);
+            }
+            if (group_item != null) {
+                map.put("ident_tag", ident_tag);
+            }
+
+            String level_item = request.getParameter("level");
+
+            int int_level_item = -1;
+            if (level_item == null) {
+                map.put("level_item", AlertLevel.ALERT_LEVEL_ELEVATED);
+            } else {
+                int_level_item = Integer.parseInt(level_item);
+                if (int_level_item > AlertLevel.ALERT_LEVELS.length - 1) {
+                    int_level_item = AlertLevel.ALERT_LEVEL_ELEVATED;
+                }
+                map.put("level_item", int_level_item);
+            }
+//            String minRecurrenceTimeInterval = request.getParameter("minRecurrenceTimeInterval");
+//            if (minRecurrenceTimeInterval == null) {
+//                map.put("minRecurrenceTimeInterval", 60);
+//            } else {
+//                map.put("minRecurrenceTimeInterval", Math.abs(Integer.parseInt(minRecurrenceTimeInterval)));
+//            }
+
+        }
+
+        map.put("body", "fastmonitoring");
+        map.put("jspart", "fastmonitoringjs");
+
+        return "index";
+    }    
+    
+    
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
 
@@ -65,11 +128,6 @@ public class UserController {
             map.put("ErrorsDao", ErrorsDao);
 
             String group_item = request.getParameter("group_item");
-//            if (group_item == null) {
-//                map.put("group_item", userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next().getKey());
-//            } else {
-//                map.put("group_item", group_item);
-//            }
 
             String ident_tag = request.getParameter("ident_tag");
 
@@ -163,6 +221,9 @@ public class UserController {
 
         return "index";
     }
+    
+    
+    
 
     @RequestMapping(value = "/expanded/{metriqkey}/{timestamp}", method = RequestMethod.GET)
     public String advansedinfo(@PathVariable(value = "metriqkey") String metriqkey,

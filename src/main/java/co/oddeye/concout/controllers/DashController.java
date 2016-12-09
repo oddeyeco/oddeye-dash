@@ -8,7 +8,6 @@ package co.oddeye.concout.controllers;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
 import com.google.gson.JsonObject;
-import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

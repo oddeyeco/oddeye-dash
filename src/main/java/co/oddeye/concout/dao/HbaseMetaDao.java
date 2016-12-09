@@ -43,37 +43,37 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HbaseMetaDao extends HbaseBaseDao {
-
+    
     @Autowired
     private BaseTsdbConnect BaseTsdbV;
-
+    private final ConcoutMetricMetaList fullmetalist = new ConcoutMetricMetaList();
     public static final String TBLENAME = "test_oddeye-meta";
 //    private ConcoutMetricMetaList MtrscList;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
-
+    
     public HbaseMetaDao() {
         super(TBLENAME);
     }
-
+    
     public Map<String, MetriccheckRule> getErrorRules(MetricErrorMeta meta, long time) throws Exception {
         Calendar CalendarObj = Calendar.getInstance();
         CalendarObj.setTimeInMillis(time * 1000);
         CalendarObj.add(Calendar.DATE, -1);
         return meta.getRules(CalendarObj, 7, table, BaseTsdbV.getClient());
     }
-
+    
     public ConcoutMetricMetaList getByUUID(UUID userid) throws Exception {
-
+        
         Scanner scanner = BaseTsdbV.getClient().newScanner(table);
         scanner.setServerBlockCache(false);
         scanner.setMaxNumRows(1000);
         scanner.setFamily("d".getBytes());
 //        scanner.setQualifier("n".getBytes());
-        byte [][] Qualifiers = new byte[2][];
+        byte[][] Qualifiers = new byte[2][];
         Qualifiers[0] = "n".getBytes();
         Qualifiers[1] = "timestamp".getBytes();
         scanner.setQualifiers(Qualifiers);
-
+        
         byte[] key = new byte[0];
 
 //        for (OddeyeTag tag : tags.values()) {
@@ -84,7 +84,6 @@ public class HbaseMetaDao extends HbaseBaseDao {
         key = ArrayUtils.addAll(key, BaseTsdbV.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, userid.toString()));
 
 //        final StringBuilder buf = new StringBuilder((key.length * 6));
-
         StringBuilder buffer = new StringBuilder();
         for (int i = 0; i < key.length; i++) {
             if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
@@ -111,12 +110,9 @@ public class HbaseMetaDao extends HbaseBaseDao {
             for (final ArrayList<KeyValue> row : rows) {
                 try {
                     OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
-                    if (meta.getTags().get("UUID").getValue().equals(userid.toString()))
-                    {
-                    OddeeyMetricMeta add = result.add(meta);
-                    }
-                    else
-                    {
+                    if (meta.getTags().get("UUID").getValue().equals(userid.toString())) {
+                        OddeeyMetricMeta add = result.add(meta);
+                    } else {
                         System.out.println("valod");
                     }
                 } catch (InvalidKeyException e) {
@@ -127,49 +123,26 @@ public class HbaseMetaDao extends HbaseBaseDao {
                     LOGGER.warn(globalFunctions.stackTrace(e));
                     LOGGER.warn("Can not add row to metrics " + row);
                 }
-
+                
             }
         }
 
-//        OddeyeTag tag = new OddeyeTag("UUID", userid.toString(), BaseTsdbV.getTsdb());
-//        MtrscList.entrySet().stream().filter((metric) -> (metric.getValue().getTags().containsKey("UUID"))).filter((metric) -> (metric.getValue().getTags().get("UUID").getValue().equals(userid.toString()))).forEach((Map.Entry<Integer, OddeeyMetricMeta> metric) -> {
-//            result.add(metric.getValue());
-//        });
+        getFullmetalist().putAll(result);
         return result;
-
+        
     }
-/*
-    public ConcoutMetricMetaList getByUUIDold(UUID userid) throws Exception {
-        if ((MtrscList == null) || (MtrscList.isEmpty())) {
-            try {
-                MtrscList = new ConcoutMetricMetaList(BaseTsdbV.getTsdb(), TBLENAME.getBytes());
-            } catch (Exception ex) {
-                MtrscList = new ConcoutMetricMetaList();
-            }
-        }
-
-        final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
-//        OddeyeTag tag = new OddeyeTag("UUID", userid.toString(), BaseTsdbV.getTsdb());
-        MtrscList.entrySet().stream().filter((metric) -> (metric.getValue().getTags().containsKey("UUID"))).filter((metric) -> (metric.getValue().getTags().get("UUID").getValue().equals(userid.toString()))).forEach((Map.Entry<Integer, OddeeyMetricMeta> metric) -> {
-            result.add(metric.getValue());
-        });
-
-        return result;
-
-    }
-    */
-
+    
     public OddeeyMetricMeta deleteMeta(Integer hash, User user) {
-        if (user.getMetricsMeta().get(hash) != null) {
+        if (user.getMetricsMeta().get(hash) != null) {            
             return deleteMeta(user.getMetricsMeta().get(hash), user);
         }
         return null;
     }
-
+    
     public OddeeyMetricMeta deleteMeta(OddeeyMetricMeta meta, User user) {
         final HBaseClient client = BaseTsdbV.getTsdb().getClient();
         final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
-
+        
         if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
             return meta;
         }
@@ -179,13 +152,14 @@ public class HbaseMetaDao extends HbaseBaseDao {
             Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
             return meta;
         }
+        getFullmetalist().remove(meta.hashCode());
         return user.getMetricsMeta().remove(meta.hashCode());
     }
-
+    
     public boolean deleteMetaByTag(String tagK, String tagV, User user) {
-
+        
         final HBaseClient client = BaseTsdbV.getTsdb().getClient();
-
+        
         ArrayList<OddeeyMetricMeta> MtrList;
         try {
             MtrList = user.getMetricsMeta().getbyTag(tagK, tagV);
@@ -193,13 +167,13 @@ public class HbaseMetaDao extends HbaseBaseDao {
             Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-
+        
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
         for (OddeeyMetricMeta meta : MtrList) {
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
             }
-
+            
             final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
             try {
                 result.add(client.delete(req));
@@ -207,6 +181,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
+            getFullmetalist().remove(meta.hashCode());
             user.getMetricsMeta().remove(meta.hashCode());
         }
         try {
@@ -218,4 +193,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return true;
     }
 
+    /**
+     * @return the fullmetalist
+     */
+    public ConcoutMetricMetaList getFullmetalist() {
+        return fullmetalist;
+    }
+    
 }
