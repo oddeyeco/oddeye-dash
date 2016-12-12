@@ -20,6 +20,9 @@
                 var errorjson = JSON.parse(error.body);
 //                console.log(errorjson);
 //                console.log($("select#level").val());
+                var message = "";
+                if (typeof (errorjson.message) != "undefined")
+                    message = errorjson.message;
                 if ($(".metrictable tbody tr#" + errorjson.hash).length == 0)
                 {
                     var display = "none";
@@ -33,16 +36,17 @@
                             '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>' +
 //                                '<td class="action">'+errorjson.action+'</td>' +
                             '<td class="level">' + errorjson.levelname + '</td>' +
+                            '<td class="message">' + message + '</td>' +
                             '<td class="time">' + moment(errorjson.starttimes[$("select#level").val()]).format("h:mm:ss a") + '</td>' +
                             '<td class="time">' + moment(errorjson.starttimes[errorjson.level]).format("h:mm:ss a") + '</td>' +
                             '</tr>');
 
                 } else
                 {
-                    if (errorjson.level == -1)
-                    {
-                        console.log(JSON.stringify(errorjson));
-                    }
+//                    if (errorjson.level == -1)
+//                    {
+//                        console.log(JSON.stringify(errorjson));
+//                    }
                     if (errorjson.action == -1)
                     {
                         $(".metrictable tbody tr#" + errorjson.hash).remove();
