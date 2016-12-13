@@ -62,7 +62,7 @@ public class errorSubscribeController {
 ////        this.template.convertAndSend("/user/greetings", record.value());
 //        countDownLatch1.countDown();
 //    }        
-    @KafkaListener(id = "dush", topics = "errors", group = "dush")
+    @KafkaListener(id = "dushtest", topics = "errors", group = "dushtest")
     public void listenErrors(ConsumerRecord<?, String> record) {
         String msg = record.value();
         JsonElement jsonResult = PARSER.parse(msg);
