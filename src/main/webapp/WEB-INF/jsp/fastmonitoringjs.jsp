@@ -11,7 +11,7 @@
     $(document).ready(function () {
         var socket = new SockJS('${cp}/subscribe');
         stompClient = Stomp.over(socket);
-        stompClient.debug = null;
+//        stompClient.debug = null;
         var headers = {};
         headers[headerName] = token;
         stompClient.connect(headers, function (frame) {

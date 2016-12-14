@@ -65,40 +65,42 @@ public class errorSubscribeController {
     @KafkaListener(id = "dushtest", topics = "errors", group = "dushtest")
     public void listenErrors(ConsumerRecord<?, String> record) {
         String msg = record.value();
-        JsonElement jsonResult = PARSER.parse(msg);
-        String Uuid = jsonResult.getAsJsonObject().get("UUID").getAsString();
-        int level = jsonResult.getAsJsonObject().get("level").getAsInt();
-        int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
+        if (record.timestamp() > System.currentTimeMillis() - 60000) {
+
+            JsonElement jsonResult = PARSER.parse(msg);
+            String Uuid = jsonResult.getAsJsonObject().get("UUID").getAsString();
+            int level = jsonResult.getAsJsonObject().get("level").getAsInt();
+            int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
 
 //        if (level == -1)
 //        {
 //            System.out.println("valod");
 //        }
-        if (jsonResult.getAsJsonObject().get("message") != null) {
-            String message = jsonResult.getAsJsonObject().get("message").getAsString();
-            jsonResult.getAsJsonObject().addProperty("message", message);
-        }
-
-        jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
-
-        OddeeyMetricMeta metric = MetaDao.getFullmetalist().get(hash);
-        if (metric == null) {
-            try {
-                MetaDao.getByUUID(UUID.fromString(Uuid));
-            } catch (Exception ex) {
-                log.info(globalFunctions.stackTrace(ex));
+            if (jsonResult.getAsJsonObject().get("message") != null) {
+                String message = jsonResult.getAsJsonObject().get("message").getAsString();
+                jsonResult.getAsJsonObject().addProperty("message", message);
             }
-        }
 
-        metric = MetaDao.getFullmetalist().get(hash);
-        if (metric != null) {
-            JsonElement metajson = new JsonObject();
-            metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
-            metajson.getAsJsonObject().addProperty("name", metric.getName());
-            jsonResult.getAsJsonObject().add("info", metajson);
-        }
+            jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
 
-        this.template.convertAndSendToUser(Uuid, "/errors", jsonResult.toString());
+            OddeeyMetricMeta metric = MetaDao.getFullmetalist().get(hash);
+            if (metric == null) {
+                try {
+                    MetaDao.getByUUID(UUID.fromString(Uuid));
+                } catch (Exception ex) {
+                    log.info(globalFunctions.stackTrace(ex));
+                }
+            }
+
+            metric = MetaDao.getFullmetalist().get(hash);
+            if (metric != null) {
+                JsonElement metajson = new JsonObject();
+                metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
+                metajson.getAsJsonObject().addProperty("name", metric.getName());
+                jsonResult.getAsJsonObject().add("info", metajson);
+            }
+            this.template.convertAndSendToUser(Uuid, "/errors", jsonResult.toString());
+        }
         countDownLatch1.countDown();
     }
 }
