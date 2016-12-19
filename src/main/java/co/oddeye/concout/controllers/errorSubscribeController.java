@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  *
@@ -35,7 +35,7 @@ public class errorSubscribeController {
     private final SimpMessagingTemplate template;
     public final CountDownLatch countDownLatch1 = new CountDownLatch(1);
     private static final JsonParser PARSER = new JsonParser();
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
     @Autowired
     HbaseMetaDao MetaDao;
 
@@ -71,13 +71,14 @@ public class errorSubscribeController {
             OddeeyMetricMeta metric = MetaDao.getFullmetalist().get(hash);
             if (metric == null) {
                 try {
-                    MetaDao.getByUUID(UUID.fromString(Uuid));
+                   byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
+                   metric =  MetaDao.getByKey(key);
                 } catch (Exception ex) {
                     log.info(globalFunctions.stackTrace(ex));
                 }
             }
 
-            metric = MetaDao.getFullmetalist().get(hash);
+//            metric = MetaDao.getFullmetalist().get(hash);
             if (metric != null) {
                 JsonElement metajson = new JsonObject();
                 metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));

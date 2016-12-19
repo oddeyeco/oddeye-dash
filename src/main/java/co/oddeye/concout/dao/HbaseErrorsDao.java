@@ -9,15 +9,13 @@ import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
-import co.oddeye.core.globalFunctions;
+import com.stumbleupon.async.Deferred;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.opentsdb.uid.UniqueId;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.BinaryComparator;
 import org.hbase.async.CompareFilter;
@@ -29,14 +27,10 @@ import org.hbase.async.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import net.opentsdb.core.Internal;
-import org.apache.commons.codec.binary.Hex;
-import org.hbase.async.ColumnPrefixFilter;
 import org.hbase.async.FilterList;
 import org.hbase.async.KeyRegexpFilter;
 import org.hbase.async.ScanFilter;
 import org.hbase.async.ValueFilter;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
@@ -62,11 +56,11 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         super(TABLENAME);
     }
 
-    public void getActiveErrors(User user) throws Exception {
+    public ArrayList<ArrayList<KeyValue>> getActiveErrors(User user) throws Exception {
         client = BaseTsdb.getClient();
         Scanner scanner = client.newScanner(TABLENAME_HISTORI);
         scanner.setServerBlockCache(false);
-        scanner.setFamily("d".getBytes());
+        scanner.setFamily("l".getBytes());
 
         byte[] key = user.getTsdbID();
 //        byte[] key = ArrayUtils.addAll(globalFunctions.getDayKey(metric.getErrorState().getTime()), user.getTsdbID());
@@ -95,32 +89,39 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //        }
 //        buffer.append("\\E(?:.{").append(4).append("})?$");
 //        scanner.setKeyRegexp(buffer.toString());
-        final ArrayList<ScanFilter> filters = new ArrayList<>(3);
-
-        filters.add(
-                new ValueFilter(org.hbase.async.CompareFilter.CompareOp.NOT_EQUAL,
-                        new org.hbase.async.BinaryComparator(ByteBuffer.allocate(1).put((byte) -1).array())));
+        final ArrayList<ScanFilter> filters = new ArrayList<>();
         filters.add(new KeyRegexpFilter(buffer.toString()));
-        filters.add(
-                new QualifierFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
-                        new org.hbase.async.BinaryComparator("lastlevel".getBytes())));        
+//        filters.add(
+//                new ValueFilter(org.hbase.async.CompareFilter.CompareOp.NOT_EQUAL,
+//                        new org.hbase.async.BinaryComparator(ByteBuffer.allocate(1).put((byte) -1).array())));
+//        
+//        filters.add(
+//                new QualifierFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
+//                        new org.hbase.async.BinaryComparator("lastlevel".getBytes())));        
+        
 
         scanner.setFilter(new FilterList(filters));
 
+        ArrayList<ArrayList<KeyValue>> all_rows = new ArrayList<>();
         ArrayList<ArrayList<KeyValue>> rows;
         while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
-            for (final ArrayList<KeyValue> row : rows) {
-                try {
-                    KeyValue cell = row.get(0);                    
-                    byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(),BaseTsdb.getTsdb());
-                    OddeeyMetricMeta Metric = new OddeeyMetricMeta(Metakey,BaseTsdb.getTsdb());
-                    
-                    System.out.println(Metric.hashCode()+" "+Metric.getName());                   
-                } catch (Exception e) {
-                }
-            }
+            all_rows.addAll(rows);
+//            for (final ArrayList<KeyValue> row : rows) {
+//                try {
+//                    KeyValue cell = row.get(0);                    
+//                    byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(),BaseTsdb.getTsdb());
+//                    OddeeyMetricMeta Metric = new OddeeyMetricMeta(Metakey,BaseTsdb.getTsdb());
+//                    
+//                    System.out.println(Metric.hashCode()+" "+Metric.getName());                   
+//                } catch (Exception e) {
+//                }
+//            }
 
         }
+
+
+        return all_rows;
+        
 //        Internal.getScanner(query);
 
 //        buf.append((char) (1 & 0xFF));

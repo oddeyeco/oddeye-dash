@@ -7,8 +7,24 @@
     var token = "${_csrf.token}";
     var uuid = "${curentuser.getId()}";
 
-
     $(document).ready(function () {
+        $(".timech").each(function () {
+            val = $(this).html();
+            time = moment(parseFloat(val));
+            $(this).html(time.format("DD/MM HH:mm:ss"));
+        });
+
+        $(".metrictable tbody tr").each(function () {
+            if ($(this).attr("level") < $("select#level").val())
+            {
+                $(this).fadeOut();
+            } else
+            {
+                $(this).fadeIn();
+            }
+        });
+
+
         var socket = new SockJS('${cp}/subscribe');
         stompClient = Stomp.over(socket);
 //        stompClient.debug = null;
@@ -37,16 +53,12 @@
 //                                '<td class="action">'+errorjson.action+'</td>' +
                             '<td class="level">' + errorjson.levelname + '</td>' +
                             '<td class="message">' + message + '</td>' +
-                            '<td class="time">' + moment(errorjson.starttimes[$("select#level").val()]).format("h:mm:ss a") + '</td>' +
-                            '<td class="time">' + moment(errorjson.starttimes[errorjson.level]).format("h:mm:ss a") + '</td>' +
+                            '<td class="timest">' + moment(errorjson.starttimes[$("select#level").val()]).format("h:mm:ss a") + '</td>' +
+                            '<td class="timech">' + moment(errorjson.starttimes[errorjson.level]).format("h:mm:ss a") + '</td>' +
                             '</tr>');
 
                 } else
                 {
-//                    if (errorjson.level == -1)
-//                    {
-//                        console.log(JSON.stringify(errorjson));
-//                    }
                     if (errorjson.action == -1)
                     {
                         $(".metrictable tbody tr#" + errorjson.hash).remove();
@@ -59,15 +71,15 @@
                     $(".metrictable tbody tr#" + errorjson.hash).attr("level", errorjson.level);
                     $(".metrictable tbody tr#" + errorjson.hash + " td.level").html(errorjson.levelname);
                     $(".metrictable tbody tr#" + errorjson.hash + " td.action").html(errorjson.action);
+                    $(".metrictable tbody tr#" + errorjson.hash + " td.timest").html(moment(errorjson.starttimes[$("select#level").val()]).format("h:mm:ss a"));
+                    $(".metrictable tbody tr#" + errorjson.hash + " td.timech").html(moment(errorjson.starttimes[errorjson.level]).format("h:mm:ss a"));
                 }
                 //                    showGreeting(JSON.parse(greeting.body).content);
             });
         });
 
         $('body').on("change", "#level", function () {
-
             $(".metrictable tbody tr").each(function () {
-
                 if ($(this).attr("level") < $("select#level").val())
                 {
                     $(this).fadeOut();
@@ -75,24 +87,8 @@
                 {
                     $(this).fadeIn();
                 }
-
-
-
             });
         });
-
-
-//        var table = $('.table-striped').DataTable({
-//            fixedHeader: false,
-//            "paging": false,
-//        });
-//        $(".time").each(function () {
-//            val = $(this).html();
-//            time = moment(val * 1000);
-//            $(this).html(time.format("h:mm:ss a"));
-//        });        
-
-
     });
 
 

@@ -56,12 +56,12 @@
                             </div>
                         </div>                                                                                       
 
-<!--                        <div class="form-group">                        
-                            <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                                <button class="btn btn-success" type="button" value="Default">Set as Default</button>
-                                <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-                            </div>
-                        </div>                         -->
+                        <!--                        <div class="form-group">                        
+                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                                        <button class="btn btn-success" type="button" value="Default">Set as Default</button>
+                                                        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                                                    </div>
+                                                </div>                         -->
                     </form>
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_left">
@@ -73,9 +73,9 @@
                                     <!--<th>#</th>-->
                                     <th>Metric Name</th>
                                     <th>${ident_tag} </th>
-<!--                                    <th>Value</th>
-                                    <th>Weight</th>
-                                    <th>Deviation %</th>                                    -->
+                                    <!--                                    <th>Value</th>
+                                                                        <th>Weight</th>
+                                                                        <th>Deviation %</th>                                    -->
                                     <!--<th>Action</th>-->
                                     <th>Level</th>
                                     <th>Message</th>
@@ -84,18 +84,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-<!--                                    <tr>
-                                        <th scope="row"></th>                                            
-                                        <td></td>
-                                        <td></td>
-                                        <td class="value"></td>
-                                        <td class="weight"></td>
-                                        <td class="persent"></td>
-                                        <td class="persent"></td>
-                                        <td class="persent"></td>
-                                        <td class="level"></td>
-                                        <td class="time"></td>
-                                    </tr>-->
+                                <c:forEach items="${errorslist}" var="erroritem">
+                                    <tr style="display: none;" id="${erroritem.get('info').getAsJsonObject().get("hash").getAsString()}" level="${erroritem.get('level').getAsString()}">                                        
+                                        <td>${erroritem.get('info').getAsJsonObject().get("name").getAsString()}</td>
+                                        <td>${erroritem.get('info').getAsJsonObject().get('tags').getAsJsonObject().get(ident_tag).getAsJsonObject().get('value').getAsString()}</td>                                        
+                                        <td class="level">${erroritem.get('levelname').getAsString()}</td>
+                                        <td class="message"></td>
+                                        
+                                        <td class="timest"></td>
+                                        <td class="timech">${erroritem.get('time').getAsString()}</td>
+                                        </tr>
+                                    </c:forEach>
+
                             </tbody>
                         </table>
                         <!-- end of List -->

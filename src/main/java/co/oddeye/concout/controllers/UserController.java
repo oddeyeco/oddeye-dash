@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
@@ -36,6 +37,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.oddeye.core.AlertLevel;
+import co.oddeye.core.OddeeyMetricMeta;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.hbase.async.KeyValue;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
@@ -52,6 +58,8 @@ public class UserController {
     HbaseDataDao DataDao;
     private Map<String, String> Tagmap;
     private final Gson gson = new Gson();
+    @Autowired
+    private BaseTsdbConnect BaseTsdb;
 
     @RequestMapping(value = "/fastmonitor", method = RequestMethod.GET)
     public String fastmonitor(HttpServletRequest request, ModelMap map) {
@@ -62,17 +70,54 @@ public class UserController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-            
+
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
-            
+            ArrayList<JsonObject> savedErrors = new ArrayList();
+
             try {
-                ErrorsDao.getActiveErrors(userDetails);
+                ArrayList<ArrayList<KeyValue>> errors_list = ErrorsDao.getActiveErrors(userDetails);
+                for (ArrayList<KeyValue> err_row : errors_list) {
+                    JsonObject item = new JsonObject();
+                    for (KeyValue cell : err_row)
+                    {
+                        if (Arrays.equals(cell.qualifier(), "level".getBytes()))
+                        {
+                            int level = cell.value()[0];
+                            item.addProperty("level", level);
+                            item.addProperty("levelname", AlertLevel.getName(level));
+                        }
+                        if (Arrays.equals(cell.qualifier(), "time".getBytes()))
+                        {
+                            Long time = ByteBuffer.wrap(cell.value()).getLong() ;
+                            item.addProperty("time", time);
+                            
+                        }                        
+                    }
+
+                    KeyValue cell = err_row.get(0);
+                    byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(), BaseTsdb.getTsdb());
+                    OddeeyMetricMeta metric = new OddeeyMetricMeta(Metakey, BaseTsdb.getTsdb());
+
+                    if (metric != null) {
+                        JsonElement metajson = new JsonObject();
+                        metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
+                        metajson.getAsJsonObject().addProperty("name", metric.getName());
+                        metajson.getAsJsonObject().addProperty("hash", metric.hashCode());
+                        item.getAsJsonObject().add("info", metajson);
+                    }
+                    savedErrors.add(item);
+                    //TODO SEND TO USER in new task
+//                    this.template.convertAndSendToUser(Metric.getTags().get("UUID").getValue(), "/errors", Metric.toString());    
+                }
+
             } catch (Exception ex) {
                 Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
+            map.put("errorslist", savedErrors);
+
             if (userDetails.getMetricsMeta() == null) {
                 try {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
@@ -115,9 +160,8 @@ public class UserController {
         map.put("jspart", "fastmonitoringjs");
 
         return "index";
-    }    
-    
-    
+    }
+
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
 
@@ -193,7 +237,7 @@ public class UserController {
                 String minRecurrenceCount = request.getParameter("minRecurrenceCount");
                 if (minValue == null) {
                     map.put("minRecurrenceCount", 2);
-                } else {                    
+                } else {
                     map.put("minRecurrenceCount", Math.abs((short) Math.round(Float.parseFloat(minRecurrenceCount))));
                 }
                 String minPredictPersent = request.getParameter("minPredictPersent");
@@ -202,7 +246,7 @@ public class UserController {
                 } else {
                     map.put("minPredictPersent", Math.abs(Short.parseShort(minPredictPersent)));
                 }
-            } else {                
+            } else {
                 map.put("minValue", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_VALUE));
                 map.put("minPersent", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_PECENT));
                 map.put("minWeight", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_WEIGTH));
@@ -223,9 +267,6 @@ public class UserController {
 
         return "index";
     }
-    
-    
-    
 
     @RequestMapping(value = "/expanded/{metriqkey}/{timestamp}", method = RequestMethod.GET)
     public String advansedinfo(@PathVariable(value = "metriqkey") String metriqkey,
