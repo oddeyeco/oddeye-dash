@@ -9,12 +9,15 @@ import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
+import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.opentsdb.uid.UniqueId;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.BinaryComparator;
 import org.hbase.async.CompareFilter;
@@ -26,6 +29,15 @@ import org.hbase.async.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import net.opentsdb.core.Internal;
+import org.apache.commons.codec.binary.Hex;
+import org.hbase.async.ColumnPrefixFilter;
+import org.hbase.async.FilterList;
+import org.hbase.async.KeyRegexpFilter;
+import org.hbase.async.ScanFilter;
+import org.hbase.async.ValueFilter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+
 /**
  *
  * @author vahan
@@ -35,7 +47,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
     @Autowired
     private BaseTsdbConnect BaseTsdb;
-
+    private final static String TABLENAME_HISTORI = "test_oddeye-error-history";
     private final static String TABLENAME = "test_oddeye-errors";
     private HBaseClient client;
     private byte[] datapart;
@@ -44,9 +56,74 @@ public class HbaseErrorsDao extends HbaseBaseDao {
     private double value;
     private short stat_weight;
     private double persent_predict;
-
+    
+    
     public HbaseErrorsDao() {
         super(TABLENAME);
+    }
+
+    public void getActiveErrors(User user) throws Exception {
+        client = BaseTsdb.getClient();
+        Scanner scanner = client.newScanner(TABLENAME_HISTORI);
+        scanner.setServerBlockCache(false);
+        scanner.setFamily("d".getBytes());
+
+        byte[] key = user.getTsdbID();
+//        byte[] key = ArrayUtils.addAll(globalFunctions.getDayKey(metric.getErrorState().getTime()), user.getTsdbID());
+
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("(?s)^.{4}(");
+        for (int i = 0; i < key.length; i++) {
+            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
+                buffer.append((char) key[i]);
+            } else {
+                String temp;
+                if (key[i] == 92) {
+                    buffer.append("\\\\");
+                } else {
+                    temp = String.format("\\x%02x", key[i]);
+                    buffer.append(temp);
+                }
+            }
+        }
+        buffer.append(")(.*)$");
+
+//        buffer.append("(?s)" // Ensure we use the DOTALL flag.
+//                + "^\\Q");
+//        for (final byte b : key) {
+//            buffer.append((char) (b & 0xFF));
+//        }
+//        buffer.append("\\E(?:.{").append(4).append("})?$");
+//        scanner.setKeyRegexp(buffer.toString());
+        final ArrayList<ScanFilter> filters = new ArrayList<>(3);
+
+        filters.add(
+                new ValueFilter(org.hbase.async.CompareFilter.CompareOp.NOT_EQUAL,
+                        new org.hbase.async.BinaryComparator(ByteBuffer.allocate(1).put((byte) -1).array())));
+        filters.add(new KeyRegexpFilter(buffer.toString()));
+        filters.add(
+                new QualifierFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
+                        new org.hbase.async.BinaryComparator("lastlevel".getBytes())));        
+
+        scanner.setFilter(new FilterList(filters));
+
+        ArrayList<ArrayList<KeyValue>> rows;
+        while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
+            for (final ArrayList<KeyValue> row : rows) {
+                try {
+                    KeyValue cell = row.get(0);                    
+                    byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(),BaseTsdb.getTsdb());
+                    OddeeyMetricMeta Metric = new OddeeyMetricMeta(Metakey,BaseTsdb.getTsdb());
+                    
+                    System.out.println(Metric.hashCode()+" "+Metric.getName());                   
+                } catch (Exception e) {
+                }
+            }
+
+        }
+//        Internal.getScanner(query);
+
+//        buf.append((char) (1 & 0xFF));
     }
 
     public MetricErrorMeta getErrorMeta(User user, byte[] key, long time) throws Exception {
@@ -278,7 +355,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //                        datapart = Arrays.copyOfRange(kv.value(), 2, 10);
                         persent_weight = ByteBuffer.wrap(kv.value()).getDouble(2);
                         value = ByteBuffer.wrap(kv.value()).getDouble(10);
-                        persent_predict = ByteBuffer.wrap(kv.value()).getDouble(18);                        
+                        persent_predict = ByteBuffer.wrap(kv.value()).getDouble(18);
                         MetricErrorMeta e = new MetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
                         long time = getTime(kv.key());
@@ -290,7 +367,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                         e.setRecurrenceTmp(e.getRecurrenceTmp() + 1);
                         result.add(e);
                     }
-                }                
+                }
                 return result;
             }
         } catch (Exception ex) {

@@ -44,25 +44,15 @@ public class errorSubscribeController {
         this.template = template;
     }
 
-    @RequestMapping("/valod")
-    private void bgColor(String greeting) {
-        String text = "{\"aaa\":\"aaaa\"}";
-        this.template.convertAndSend("/topic/greetings", text);
-        log.info("Send color: ");
-    }
+//    @RequestMapping("/valod")
+//    private void bgColor(String greeting) {
+//        String text = "{\"aaa\":\"aaaa\"}";
+//        this.template.convertAndSend("/topic/greetings", text);
+//        log.info("Send color: ");
+//    }
 
-//    @KafkaListener(id = "foo", topics = "oddeyetsdb", group = "group1")
-//    public void listenTimeStamps(ConsumerRecord<?, String> record) {     
-//        this.template.convertAndSend("/topic/greetings", record.value());
-//        countDownLatch1.countDown();
-//    }    
-//    @KafkaListener(id = "dush", topics = "semaphore", group = "dush")
-//    public void listenErrors(ConsumerRecord<?, String> record) {          
-//        this.template.convertAndSendToUser("vahan@medlib.am", "/greetings", record.value());
-////        this.template.convertAndSend("/user/greetings", record.value());
-//        countDownLatch1.countDown();
-//    }        
-    @KafkaListener(id = "dushtest", topics = "errors", group = "dushtest")
+      
+    @KafkaListener(id = "dush", topics = "errors", group = "dush")
     public void listenErrors(ConsumerRecord<?, String> record) {
         String msg = record.value();
         if (record.timestamp() > System.currentTimeMillis() - 60000) {
@@ -71,11 +61,6 @@ public class errorSubscribeController {
             String Uuid = jsonResult.getAsJsonObject().get("UUID").getAsString();
             int level = jsonResult.getAsJsonObject().get("level").getAsInt();
             int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
-
-//        if (level == -1)
-//        {
-//            System.out.println("valod");
-//        }
             if (jsonResult.getAsJsonObject().get("message") != null) {
                 String message = jsonResult.getAsJsonObject().get("message").getAsString();
                 jsonResult.getAsJsonObject().addProperty("message", message);

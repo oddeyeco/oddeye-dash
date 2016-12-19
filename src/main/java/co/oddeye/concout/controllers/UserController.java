@@ -66,6 +66,13 @@ public class UserController {
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
+            
+            try {
+                ErrorsDao.getActiveErrors(userDetails);
+            } catch (Exception ex) {
+                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             if (userDetails.getMetricsMeta() == null) {
                 try {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
@@ -90,7 +97,8 @@ public class UserController {
 
             String level_item = request.getParameter("level");
 
-            int int_level_item = -1;
+            int int_level_item;
+//            int_level_item = AlertLevel.ALERT_LEVEL_ELEVATED;
             if (level_item == null) {
                 map.put("level_item", AlertLevel.ALERT_LEVEL_ELEVATED);
             } else {
@@ -100,12 +108,6 @@ public class UserController {
                 }
                 map.put("level_item", int_level_item);
             }
-//            String minRecurrenceTimeInterval = request.getParameter("minRecurrenceTimeInterval");
-//            if (minRecurrenceTimeInterval == null) {
-//                map.put("minRecurrenceTimeInterval", 60);
-//            } else {
-//                map.put("minRecurrenceTimeInterval", Math.abs(Integer.parseInt(minRecurrenceTimeInterval)));
-//            }
 
         }
 
