@@ -6,12 +6,13 @@
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
     var uuid = "${curentuser.getId()}";
+    var timeformat = "DD/MM HH:mm:ss";
 
     $(document).ready(function () {
         $(".timech").each(function () {
             val = $(this).html();
             time = moment(parseFloat(val));
-            $(this).html(time.format("DD/MM HH:mm:ss"));
+            $(this).html(time.format(timeformat));
         });
 
         $(".metrictable tbody tr").each(function () {
@@ -53,8 +54,8 @@
 //                                '<td class="action">'+errorjson.action+'</td>' +
                             '<td class="level">' + errorjson.levelname + '</td>' +
                             '<td class="message">' + message + '</td>' +
-                            '<td class="timest">' + moment(errorjson.starttimes[$("select#level").val()]).format("h:mm:ss a") + '</td>' +
-                            '<td class="timech">' + moment(errorjson.starttimes[errorjson.level]).format("h:mm:ss a") + '</td>' +
+                            '<td class="timest">' + moment(errorjson.starttimes[$("select#level").val()]).format(timeformat) + '</td>' +
+                            '<td class="timech">' + moment(errorjson.starttimes[errorjson.level]).format(timeformat) + '</td>' +
                             '</tr>');
 
                 } else
@@ -67,12 +68,16 @@
                     {
                         $(".metrictable tbody tr#" + errorjson.hash).fadeOut();
                     }
+                    else
+                    {
+                        $(".metrictable tbody tr#" + errorjson.hash).fadeIn();
+                    }
 
                     $(".metrictable tbody tr#" + errorjson.hash).attr("level", errorjson.level);
                     $(".metrictable tbody tr#" + errorjson.hash + " td.level").html(errorjson.levelname);
                     $(".metrictable tbody tr#" + errorjson.hash + " td.action").html(errorjson.action);
-                    $(".metrictable tbody tr#" + errorjson.hash + " td.timest").html(moment(errorjson.starttimes[$("select#level").val()]).format("h:mm:ss a"));
-                    $(".metrictable tbody tr#" + errorjson.hash + " td.timech").html(moment(errorjson.starttimes[errorjson.level]).format("h:mm:ss a"));
+                    $(".metrictable tbody tr#" + errorjson.hash + " td.timest").html(moment(errorjson.starttimes[$("select#level").val()]).format(timeformat));
+                    $(".metrictable tbody tr#" + errorjson.hash + " td.timech").html(moment(errorjson.starttimes[errorjson.level]).format(timeformat));
                 }
                 //                    showGreeting(JSON.parse(greeting.body).content);
             });

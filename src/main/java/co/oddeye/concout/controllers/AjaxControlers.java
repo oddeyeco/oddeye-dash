@@ -269,6 +269,7 @@ public class AjaxControlers {
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "hash", required = false) Integer hash,
+            @RequestParam(value = "name", required = false) String name,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -291,6 +292,15 @@ public class AjaxControlers {
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }
+                if (name != null) {
+                    MetaDao.deleteMetaByName(name, userDetails);
+                    jsonResult.addProperty("sucsses", true);
+                } else {
+                    jsonResult.addProperty("sucsses", false);
+                }
+                
+                
+                
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 
             } catch (Exception ex) {

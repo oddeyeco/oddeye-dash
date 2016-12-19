@@ -106,7 +106,19 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 if (m.matches()) {
                     SortbyName.add(MetricMeta.getValue());
                 }
-            }          
+            }
+        }
+        SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));
+        return SortbyName;
+    }
+
+    public ArrayList<OddeeyMetricMeta> getbyName(String name) {
+        ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();
+        for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
+            if (MetricMeta.getValue().getName().equals(name)) {
+                SortbyName.add(MetricMeta.getValue());
+            }
+
         }
         SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));
         return SortbyName;

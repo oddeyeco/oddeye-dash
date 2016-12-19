@@ -74,6 +74,14 @@ public class UserController {
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
+            if (userDetails.getMetricsMeta() == null) {
+                try {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                } catch (Exception ex) {
+                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }            
+            
             ArrayList<JsonObject> savedErrors = new ArrayList();
 
             try {
@@ -91,23 +99,25 @@ public class UserController {
                         if (Arrays.equals(cell.qualifier(), "time".getBytes()))
                         {
                             Long time = ByteBuffer.wrap(cell.value()).getLong() ;
-                            item.addProperty("time", time);
-                            
+                            item.addProperty("time", time);                            
                         }                        
                     }
 
                     KeyValue cell = err_row.get(0);
                     byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(), BaseTsdb.getTsdb());
                     OddeeyMetricMeta metric = new OddeeyMetricMeta(Metakey, BaseTsdb.getTsdb());
-
+//                    if (metric.getName().equals("mem_buffers"))
+                    
+                    metric = userDetails.getMetricsMeta().get(metric.hashCode());                    
                     if (metric != null) {
                         JsonElement metajson = new JsonObject();
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
                         metajson.getAsJsonObject().addProperty("hash", metric.hashCode());
                         item.getAsJsonObject().add("info", metajson);
+                        savedErrors.add(item);
                     }
-                    savedErrors.add(item);
+                    
                     //TODO SEND TO USER in new task
 //                    this.template.convertAndSendToUser(Metric.getTags().get("UUID").getValue(), "/errors", Metric.toString());    
                 }
@@ -117,14 +127,6 @@ public class UserController {
             }
 
             map.put("errorslist", savedErrors);
-
-            if (userDetails.getMetricsMeta() == null) {
-                try {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                } catch (Exception ex) {
-                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
             Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
 //                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();

@@ -210,4 +210,40 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return fullmetalist;
     }
 
+    public boolean deleteMetaByName(String name, User user) {
+        final HBaseClient client = BaseTsdbV.getTsdb().getClient();
+
+        ArrayList<OddeeyMetricMeta> MtrList;
+        try {
+            MtrList = user.getMetricsMeta().getbyName(name);
+        } catch (Exception ex) {
+            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+        final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
+        for (OddeeyMetricMeta meta : MtrList) {
+            if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
+                continue;
+            }
+
+            final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
+            try {
+                result.add(client.delete(req));
+            } catch (Exception ex) {
+                Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
+            getFullmetalist().remove(meta.hashCode());
+            user.getMetricsMeta().remove(meta.hashCode());
+        }
+        try {
+            Deferred.groupInOrder(result).joinUninterruptibly();
+        } catch (Exception ex) {
+            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        return true;
+    }
+
 }
