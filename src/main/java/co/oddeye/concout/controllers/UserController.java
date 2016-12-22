@@ -100,7 +100,14 @@ public class UserController {
                         {
                             Long time = ByteBuffer.wrap(cell.value()).getLong() ;
                             item.addProperty("time", time);                            
-                        }                        
+                        }    
+                        if (Arrays.equals(cell.qualifier(), "message".getBytes()))
+                        {
+                            String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
+                            item.addProperty("message", message);                            
+                        }    
+                        
+                        
                     }
 
                     KeyValue cell = err_row.get(0);

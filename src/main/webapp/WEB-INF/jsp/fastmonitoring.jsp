@@ -89,7 +89,9 @@
                                         <td>${erroritem.get('info').getAsJsonObject().get("name").getAsString()}</td>
                                         <td>${erroritem.get('info').getAsJsonObject().get('tags').getAsJsonObject().get(ident_tag).getAsJsonObject().get('value').getAsString()}</td>                                        
                                         <td class="level">${erroritem.get('levelname').getAsString()}</td>
-                                        <td class="message"></td>
+                                        <td class="message">
+                                            ${erroritem.get('message').getAsString()}
+                                        </td>
                                         
                                         <td class="timest"></td>
                                         <td class="timech">${erroritem.get('time').getAsString()}</td>
