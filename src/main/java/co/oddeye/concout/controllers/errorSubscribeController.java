@@ -55,6 +55,7 @@ public class errorSubscribeController {
     @KafkaListener(id = "dush", topics = "errors", group = "dush")
     public void listenErrors(ConsumerRecord<?, String> record) {
         String msg = record.value();
+        System.out.println("OFFSET "+record.offset()); 
         if (record.timestamp() > System.currentTimeMillis() - 60000) {
 
             JsonElement jsonResult = PARSER.parse(msg);

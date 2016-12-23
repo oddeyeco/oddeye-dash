@@ -5,8 +5,6 @@
  */
 package co.oddeye.concout.config;
 
-import co.oddeye.concout.beans.Listener;
-import com.fasterxml.jackson.databind.deser.std.StringDeserializer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -52,7 +50,7 @@ public class KafkaConsumerConfig {
         propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
         propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);        
         propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
-        propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "none");
         return propsMap;
     }
 
