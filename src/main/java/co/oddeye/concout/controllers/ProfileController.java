@@ -59,8 +59,7 @@ public class ProfileController {
         String layaut = "index";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-
+                    getAuthentication().getPrincipal();            
             userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
             map.put("curentuser", userDetails);
 

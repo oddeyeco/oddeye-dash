@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.opentsdb.query.QueryUtil;
 import net.opentsdb.uid.UniqueId;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.DeleteRequest;
@@ -95,19 +96,22 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
 //        final StringBuilder buf = new StringBuilder((key.length * 6));
         StringBuilder buffer = new StringBuilder();
-        for (int i = 0; i < key.length; i++) {
-            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
-                buffer.append((char) key[i]);
-            } else {
-                String temp;
-                if (key[i] == 92) {
-                    buffer.append("\\\\");
-                } else {
-                    temp = String.format("\\x%02x", key[i]);
-                    buffer.append(temp);
-                }
-            }
-        }
+        buffer.append("\\Q");
+        QueryUtil.addId(buffer, key, true);
+        
+//        for (int i = 0; i < key.length; i++) {
+//            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
+//                buffer.append((char) key[i]);
+//            } else {
+//                String temp;
+//                if (key[i] == 92) {
+//                    buffer.append("\\\\");
+//                } else {
+//                    temp = String.format("\\x%02x", key[i]);
+//                    buffer.append(temp);
+//                }
+//            }
+//        }
 //        buf.append((char) (1 & 0xFF));
 
         scanner.setKeyRegexp(buffer.toString(), Charset.forName("ISO-8859-1"));

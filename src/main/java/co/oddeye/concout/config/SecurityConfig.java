@@ -43,15 +43,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**","/assets/**", "/signup/", "/", "/confirm/**").permitAll()
-                
+                .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**").permitAll()
                 .antMatchers("/getfiltredmetrics*").permitAll()
                 .antMatchers("/getdata*").permitAll()
                 .antMatchers("/gettagkey*").permitAll()
-                .antMatchers("/gettagvalue*").permitAll()                
+                .antMatchers("/gettagvalue*").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/subscribe/**").permitAll()
-                
                 .antMatchers("/userslist*").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()

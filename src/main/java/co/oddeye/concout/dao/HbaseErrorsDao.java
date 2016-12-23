@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.opentsdb.query.QueryUtil;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.BinaryComparator;
 import org.hbase.async.CompareFilter;
@@ -61,64 +62,37 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         Scanner scanner = client.newScanner(TABLENAME_HISTORI);
         scanner.setServerBlockCache(false);
         scanner.setFamily("l".getBytes());
-
         byte[] key = user.getTsdbID();
 //        byte[] key = ArrayUtils.addAll(globalFunctions.getDayKey(metric.getErrorState().getTime()), user.getTsdbID());
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("(?s)^.{4}(");
-        for (int i = 0; i < key.length; i++) {
-            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
-                buffer.append((char) key[i]);
-            } else {
-                String temp;
-                if (key[i] == 92) {
-                    buffer.append("\\\\");
-                } else {
-                    temp = String.format("\\x%02x", key[i]);
-                    buffer.append(temp);
-                }
-            }
-        }
-        buffer.append(")(.*)$");
-
-//        buffer.append("(?s)" // Ensure we use the DOTALL flag.
-//                + "^\\Q");
-//        for (final byte b : key) {
-//            buffer.append((char) (b & 0xFF));
+        buffer.append("\\Q");
+        QueryUtil.addId(buffer, key, true);
+//        for (int i = 0; i < key.length; i++) {
+//            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
+//                buffer.append((char) key[i]);
+//            } else {
+//                String temp;
+//                if (key[i] == 92) {
+//                    buffer.append("\\\\");
+//                } else {
+//                    temp = String.format("\\x%02x", key[i]);
+//                    buffer.append(temp);
+//                }
+//            }
 //        }
-//        buffer.append("\\E(?:.{").append(4).append("})?$");
-//        scanner.setKeyRegexp(buffer.toString());
+        buffer.append(")(.*)$");
         final ArrayList<ScanFilter> filters = new ArrayList<>();
-        filters.add(new KeyRegexpFilter(buffer.toString()));
-//        filters.add(
-//                new ValueFilter(org.hbase.async.CompareFilter.CompareOp.NOT_EQUAL,
-//                        new org.hbase.async.BinaryComparator(ByteBuffer.allocate(1).put((byte) -1).array())));
-//        
-//        filters.add(
-//                new QualifierFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
-//                        new org.hbase.async.BinaryComparator("lastlevel".getBytes())));        
-        
-
+        filters.add(new KeyRegexpFilter(buffer.toString()));             
         scanner.setFilter(new FilterList(filters));
 
         ArrayList<ArrayList<KeyValue>> all_rows = new ArrayList<>();
         ArrayList<ArrayList<KeyValue>> rows;
         while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
             all_rows.addAll(rows);
-//            for (final ArrayList<KeyValue> row : rows) {
-//                try {
-//                    KeyValue cell = row.get(0);                    
-//                    byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(),BaseTsdb.getTsdb());
-//                    OddeeyMetricMeta Metric = new OddeeyMetricMeta(Metakey,BaseTsdb.getTsdb());
-//                    
-//                    System.out.println(Metric.hashCode()+" "+Metric.getName());                   
-//                } catch (Exception e) {
-//                }
-//            }
-
         }
-
+        scanner.close();
 
         return all_rows;
         
