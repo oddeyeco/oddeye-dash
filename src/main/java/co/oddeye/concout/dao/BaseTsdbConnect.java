@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package co.oddeye.concout.dao;
+import co.oddeye.core.globalFunctions;
 import java.io.IOException;
+import java.util.logging.Level;
+import javax.annotation.PreDestroy;
 import net.opentsdb.core.TSDB;
 import net.opentsdb.utils.Config;
 import org.slf4j.LoggerFactory;
@@ -39,7 +42,7 @@ public final class BaseTsdbConnect {
                     this.getClient(),
                     openTsdbConfig);
         } catch (IOException ex) {
-            LOGGER.error("TSDB CONNECT ERROR "+ex);
+            LOGGER.error("TSDB CONNECT ERROR "+globalFunctions.stackTrace(ex));
         } 
     }
 
@@ -56,4 +59,14 @@ public final class BaseTsdbConnect {
     public TSDB getTsdb() {
         return tsdb;
     }
+    
+    @PreDestroy
+    public void PreDestroy() {
+        try {
+            tsdb.shutdown().joinUninterruptibly();
+            client.shutdown().joinUninterruptibly();
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+    }    
 }
