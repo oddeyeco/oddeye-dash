@@ -6,7 +6,6 @@
 package co.oddeye.concout.dao;
 import co.oddeye.core.globalFunctions;
 import java.io.IOException;
-import java.util.logging.Level;
 import javax.annotation.PreDestroy;
 import net.opentsdb.core.TSDB;
 import net.opentsdb.utils.Config;
@@ -36,6 +35,7 @@ public final class BaseTsdbConnect {
         try {
             Config openTsdbConfig = new net.opentsdb.utils.Config(false);
             openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", String.valueOf(false));
+            openTsdbConfig.overrideConfig("tsd.storage.enable_compaction", String.valueOf(false));
             openTsdbConfig.overrideConfig("tsd.storage.hbase.data_table", String.valueOf("test_tsdb"));
             openTsdbConfig.overrideConfig("tsd.storage.hbase.uid_table", String.valueOf("test_tsdb-uid"));
             this.tsdb = new TSDB(
