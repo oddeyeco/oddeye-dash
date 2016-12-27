@@ -5,6 +5,10 @@
  */
 package co.oddeye.concout.config;
 
+import java.io.File;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -15,7 +19,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{Config.class,SecurityConfig.class};
+        return new Class[]{Config.class, SecurityConfig.class};
     }
 
     @Override
@@ -28,14 +32,16 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
         return new String[]{"/"};
     }
 
-//    @Override
-//    public void onStartup(ServletContext servletContext) throws ServletException {
-//        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
-//        ctx.register(Config.class);
-//        ctx.setServletContext(servletContext);
-//        Dynamic servlet = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
-//        servlet.addMapping("/");
-//        servlet.setLoadOnStartup(1);
-//    }
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        String log4jConfigFile = servletContext.getInitParameter("log4jConfigLocation");
+        String fullPath = servletContext.getRealPath("") + log4jConfigFile;
+        final File f = new File(fullPath);
+        if (f.exists()) {
+            PropertyConfigurator.configure(fullPath);
+            servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class); 
+        }
+        super.onStartup(servletContext);
+    }
 
 }
