@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.opentsdb.query.QueryUtil;
 import net.opentsdb.uid.UniqueId;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.DeleteRequest;
 import org.hbase.async.GetRequest;
@@ -66,10 +67,18 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
     public OddeeyMetricMeta getByKey(byte[] key) throws Exception {
 
-        GetRequest request = new GetRequest(table, key, "d".getBytes());
+        GetRequest request = new GetRequest(table, key, "d".getBytes(),"n".getBytes());
         ArrayList<KeyValue> row = BaseTsdbV.getClient().get(request).joinUninterruptibly();
-        OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
-        return metric;
+        if (row.size() > 0) {           
+            return new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
+        }
+        else
+        {
+            LOGGER.warn("Key "+Hex.encodeHexString(key)+" Not Found in database");
+        }
+        
+        return null;
+        
 
     }
 
@@ -98,7 +107,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         StringBuilder buffer = new StringBuilder();
         buffer.append("\\Q");
         QueryUtil.addId(buffer, key, true);
-        
+
 //        for (int i = 0; i < key.length; i++) {
 //            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
 //                buffer.append((char) key[i]);
@@ -113,7 +122,6 @@ public class HbaseMetaDao extends HbaseBaseDao {
 //            }
 //        }
 //        buf.append((char) (1 & 0xFF));
-
         scanner.setKeyRegexp(buffer.toString(), Charset.forName("ISO-8859-1"));
 //        scanner.setKeyRegexp("\\x00\\x01", Charset.forName("ISO-8859-1"));
 

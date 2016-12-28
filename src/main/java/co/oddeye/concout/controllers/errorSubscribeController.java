@@ -13,9 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+
 import org.apache.commons.codec.binary.Hex;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.messaging.Message;
+
 ;
 
 /**
@@ -54,24 +52,19 @@ public class errorSubscribeController {
 //        this.template.convertAndSend("/topic/greetings", text);
 //        log.info("Send color: ");
 //    }
-
 //    /**
 //     *
 //     * @param list
 //     * @param ackd
 //     */
 //
-//      @KafkaListener(id = "listMsgAck", topics = "errors")
-//      public void listenErrors(List<Message<?>> list, Acknowledgment ackd) {
-//          System.out.println("co.oddeye.concout.controllers.errorSubscribeController.listenErrors()" +list);
-//      }
-    
-    
-    @KafkaListener(topics = "errors")    
-    public void listenErrors(ConsumerRecord<?, String> record) {
+    @KafkaListener(topics = "errors")
+    public void listenErrors(ConsumerRecord<?, String> record) {        
         String msg = record.value();
-        log.info("OFFSET "+record.offset()+" partition "+record.partition()); 
-        if (record.timestamp() > System.currentTimeMillis() - 60000) {
+        if (log.isInfoEnabled()) {
+            log.info("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
+        }
+        if (System.currentTimeMillis() - record.timestamp() < 60000) {
 
             JsonElement jsonResult = PARSER.parse(msg);
             String Uuid = jsonResult.getAsJsonObject().get("UUID").getAsString();
@@ -87,8 +80,8 @@ public class errorSubscribeController {
             OddeeyMetricMeta metric = MetaDao.getFullmetalist().get(hash);
             if (metric == null) {
                 try {
-                   byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
-                   metric =  MetaDao.getByKey(key);
+                    byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
+                    metric = MetaDao.getByKey(key);
                 } catch (Exception ex) {
                     log.info(globalFunctions.stackTrace(ex));
                 }

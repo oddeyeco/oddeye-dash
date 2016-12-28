@@ -27,9 +27,9 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 public class KafkaConsumerConfig {
 
     @Bean
-    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Integer, String>> kafkaListenerContainerFactory() {
         
-        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        ConcurrentKafkaListenerContainerFactory<Integer, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());        
         factory.setConcurrency(3);
         factory.getContainerProperties().setPollTimeout(3000);        
@@ -37,8 +37,10 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, String> consumerFactory() {
+    public ConsumerFactory<Integer, String> consumerFactory() {
+        
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
+        
     }
 
     @Bean
@@ -49,9 +51,11 @@ public class KafkaConsumerConfig {
         propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
         propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
         propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "15000");
+        propsMap.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "50");
         propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
         propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);        
         propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
+//        propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");//latest
         propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");//latest
         return propsMap;
     }
