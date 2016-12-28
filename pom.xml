@@ -132,6 +132,11 @@
             <version>1.7.21</version>
         </dependency>           
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.21</version>
+        </dependency>        
+        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>        
             <version>1.2.17</version>
@@ -160,6 +165,14 @@
                 <exclusion>
                     <groupId>commons-logging</groupId>
                     <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-core</artifactId>
                 </exclusion>
             </exclusions>                        
         </dependency>                                    

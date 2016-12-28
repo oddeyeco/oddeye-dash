@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.codec.binary.Hex;
@@ -23,6 +24,9 @@ import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.messaging.Message;
+;
 
 /**
  *
@@ -51,7 +55,18 @@ public class errorSubscribeController {
 //        log.info("Send color: ");
 //    }
 
-      
+//    /**
+//     *
+//     * @param list
+//     * @param ackd
+//     */
+//
+//      @KafkaListener(id = "listMsgAck", topics = "errors")
+//      public void listenErrors(List<Message<?>> list, Acknowledgment ackd) {
+//          System.out.println("co.oddeye.concout.controllers.errorSubscribeController.listenErrors()" +list);
+//      }
+    
+    
     @KafkaListener(topics = "errors")    
     public void listenErrors(ConsumerRecord<?, String> record) {
         String msg = record.value();
