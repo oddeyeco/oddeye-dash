@@ -65,23 +65,25 @@
 
 
     var echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
-    var date = [];
-    var chdata = [];
-    var dateval = moment();
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
     drawEchart(url);
-    
-    
-    function drawEchart (url)
+
+
+    function drawEchart(url)
     {
         $.getJSON(url, null, function (data) {
             console.log(data);
+            var date = [];
+            var chdata = [];
+            var chdata2 = [];
+            var dateval = moment();
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
                     dateval = moment(time * 1);
-                    date.push(dateval.format("h:m:s"));
+                    date.push(dateval.format("HH:mm:ss"));
                     chdata.push(chartline.data[time]);
+                    chdata2.push(chartline.data[time] * 2);
                 }
             }
             echartLine.setOption({
@@ -125,18 +127,17 @@
                         data: date
                     }],
                 yAxis: [{
-                        type: 'value'
+                        type: 'value',
                     }],
                 dataZoom: {
                     show: true,
                     realtime: true,
-                    start: 90,
+                    start: 0,
                     end: 100
                 },
                 series: [{
-                        name: 'Deal',
+                        name: chartline.metric,
                         type: 'line',
-                        smooth: true,
                         sampling: 'average',
                         itemStyle: {
                             normal: {
@@ -145,11 +146,17 @@
                                 }
                             }
                         },
+                        markPoint: {
+                            data: [
+                                {type: 'max', name: 'max'},
+                                {type: 'min', name: 'min'}
+                            ]
+                        },
                         data: chdata
                     }]
             });
 
-        });        
+        });
     }
 //    for (var i = 1; i < 200; i++) {
 //        
