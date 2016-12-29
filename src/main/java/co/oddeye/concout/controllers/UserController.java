@@ -41,7 +41,6 @@ import co.oddeye.core.OddeeyMetricMeta;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.hbase.async.KeyValue;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
