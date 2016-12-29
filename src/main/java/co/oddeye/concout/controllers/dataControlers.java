@@ -6,13 +6,18 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseDataDao;
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
+import co.oddeye.core.OddeeyMetricMeta;
+import co.oddeye.core.globalFunctions;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,7 +30,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class dataControlers {
 
     @Autowired
-    private HbaseDataDao Datadao;    
+    private HbaseDataDao Datadao;        
+    @Autowired
+    HbaseMetaDao MetaDao;
+    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
     
     @RequestMapping(value = "/metriclist",params = {"tags",}, method = RequestMethod.GET)
     public String tagMetricsList(@RequestParam(value = "tags") String tags, ModelMap map) {
@@ -43,21 +51,28 @@ public class dataControlers {
         return "index";
     }
 
-    @RequestMapping(value = "/chart", method = RequestMethod.GET)
-    public String singlecahrt(@RequestParam(value = "tags") String tags,@RequestParam(value = "metrics") String metrics, ModelMap map) {
+    @RequestMapping(value = "/chart/{metricshash}", method = RequestMethod.GET)
+    public String singlecahrt(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
         map.put("body", "singlecahrt");
         map.put("jspart", "singlecahrtjs");
 
-        map.put("metric", metrics);
-        map.put("q", tags);
+        
+        
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-//            map.put("list", userDetails.getTags().get(tagkey).get(tagname));
-
+            if (userDetails.getMetricsMeta() == null) {
+                try {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+            }             
+            OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(metricshash);
+            map.put("metric", metric);
         }
         return "index";
     }

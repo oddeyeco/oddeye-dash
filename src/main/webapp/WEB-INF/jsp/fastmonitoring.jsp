@@ -86,7 +86,7 @@
                             <tbody>
                                 <c:forEach items="${errorslist}" var="erroritem">
                                     <tr style="display: none;" id="${erroritem.get('info').getAsJsonObject().get("hash").getAsString()}" level="${erroritem.get('level').getAsString()}">                                        
-                                        <td>${erroritem.get('info').getAsJsonObject().get("name").getAsString()}</td>
+                                        <td><a href="${cp}/chart/${erroritem.get('info').getAsJsonObject().get("hash").getAsString()}"> ${erroritem.get('info').getAsJsonObject().get("name").getAsString()}</a></td>
                                         <td>${erroritem.get('info').getAsJsonObject().get('tags').getAsJsonObject().get(ident_tag).getAsJsonObject().get('value').getAsString()}</td>                                        
                                         <td class="level">${erroritem.get('levelname').getAsString()}</td>
                                         <td class="message">

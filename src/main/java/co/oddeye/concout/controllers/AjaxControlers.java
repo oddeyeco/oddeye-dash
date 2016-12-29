@@ -56,8 +56,9 @@ public class AjaxControlers {
     HbaseUserDao UserDao;
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
-    public String singlecahrt(@RequestParam(value = "tags") String tags,
-            @RequestParam(value = "metrics") String metrics,
+    public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
+            @RequestParam(value = "hash", required = false) Integer hash,
+            @RequestParam(value = "metrics", required = false) String metrics,
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
             @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,
@@ -75,10 +76,29 @@ public class AjaxControlers {
         Gson gson = new Gson();
 
         Map<String, String> Tagmap;
-
         JsonObject jsonMessages = new JsonObject();
         JsonObject jsonResult = new JsonObject();
+        if ((hash == null) && (metrics == null) && (tags == null)) {
+            jsonResult.addProperty("sucsses", Boolean.FALSE);
+            map.put("jsonmodel", jsonResult);
+            return "ajax";
+        }
+
         if (userDetails != null) {
+
+            if ((hash != null)) {
+                final OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(hash);
+                if (metric == null) {
+                    jsonResult.addProperty("sucsses", Boolean.FALSE);
+                    map.put("jsonmodel", jsonResult);
+                    return "ajax";
+                }
+                metrics = metric.getName();
+                tags = "";
+                for (Map.Entry<String, OddeyeTag> tag : metric.getTags().entrySet()) {
+                    tags = tags + tag.getKey() + "=" + tag.getValue().getValue() + ";";
+                }
+            }
             Long start_time = DateTime.parseDateTimeString(startdate, null);
             Long end_time = DateTime.parseDateTimeString(enddate, null);
             Long starttime = System.currentTimeMillis();
@@ -298,11 +318,8 @@ public class AjaxControlers {
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }
-                
-                
-                
-//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 
+//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
                 Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);

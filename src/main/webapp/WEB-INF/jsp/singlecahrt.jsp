@@ -7,19 +7,17 @@
                     <div class="filter">
                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                            <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                            <span></span> <b class="caret"></b>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <canvas id="lineChart"></canvas>
+                    valod
+                    ${metric.hashCode()}
+                    <div id="echart_line" style="height:350px;"></div>
+<!--                    <canvas id="lineChart"></canvas>-->
                 </div>                    
-                <div class="x_content">
-                    <div class="col-md-12 col-sm-12 col-xs-12">
-                    </div>                    
-
-                </div>
             </div>
         </div>
     </div>
