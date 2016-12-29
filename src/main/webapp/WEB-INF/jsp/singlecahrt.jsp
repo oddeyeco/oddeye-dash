@@ -13,7 +13,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    <div id="echart_line" style="height:450px;"></div>
+                    <div id="echart_line" style="height:600px;"></div>
                 </div>                    
             </div>
         </div>
