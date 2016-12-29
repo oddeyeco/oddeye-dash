@@ -13,10 +13,7 @@
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-                    valod
-                    ${metric.hashCode()}
-                    <div id="echart_line" style="height:350px;"></div>
-<!--                    <canvas id="lineChart"></canvas>-->
+                    <div id="echart_line" style="height:450px;"></div>
                 </div>                    
             </div>
         </div>

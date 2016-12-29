@@ -49,7 +49,7 @@
                     }
                     $(".metrictable tbody").append('<tr style="display: ' + display + ';" id="' + errorjson.hash + '" level="' + errorjson.level + '">' +
 //                                '<th scope="row" >' + errorjson.hash + '</th>' +
-                            '<td>' + errorjson.info.name + '</td>' +
+                            '<td><a href="${cp}/chart/'+errorjson.hash+'">' + errorjson.info.name + '</a></td>' +
                             '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>' +
 //                                '<td class="action">'+errorjson.action+'</td>' +
                             '<td class="level">' + errorjson.levelname + '</td>' +

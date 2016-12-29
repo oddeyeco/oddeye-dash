@@ -9,7 +9,6 @@ import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
-import com.stumbleupon.async.Deferred;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +30,6 @@ import org.springframework.stereotype.Repository;
 import org.hbase.async.FilterList;
 import org.hbase.async.KeyRegexpFilter;
 import org.hbase.async.ScanFilter;
-import org.hbase.async.ValueFilter;
 
 /**
  *
@@ -42,10 +40,9 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
     @Autowired
     private BaseTsdbConnect BaseTsdb;
-    private final static String TABLENAME_HISTORI = "test_oddeye-error-history";
+    private final static String TABLENAME_LAST = "test_oddeye-error-last";
     private final static String TABLENAME = "test_oddeye-errors";
-    private HBaseClient client;
-    private byte[] datapart;
+    private HBaseClient client;    
     private short weight;
     private double persent_weight;
     private double value;
@@ -59,29 +56,16 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
     public ArrayList<ArrayList<KeyValue>> getActiveErrors(User user) throws Exception {
         client = BaseTsdb.getClient();
-        Scanner scanner = client.newScanner(TABLENAME_HISTORI);
+        Scanner scanner = client.newScanner(TABLENAME_LAST);
         scanner.setServerBlockCache(false);
         scanner.setFamily("l".getBytes());
         byte[] key = user.getTsdbID();
 //        byte[] key = ArrayUtils.addAll(globalFunctions.getDayKey(metric.getErrorState().getTime()), user.getTsdbID());
 
         StringBuilder buffer = new StringBuilder();
-        buffer.append("(?s)^.{4}(");
+        buffer.append("(?s)(");
         buffer.append("\\Q");
         QueryUtil.addId(buffer, key, true);
-//        for (int i = 0; i < key.length; i++) {
-//            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
-//                buffer.append((char) key[i]);
-//            } else {
-//                String temp;
-//                if (key[i] == 92) {
-//                    buffer.append("\\\\");
-//                } else {
-//                    temp = String.format("\\x%02x", key[i]);
-//                    buffer.append(temp);
-//                }
-//            }
-//        }
         buffer.append(")(.*)$");
         final ArrayList<ScanFilter> filters = new ArrayList<>();
         filters.add(new KeyRegexpFilter(buffer.toString()));             
