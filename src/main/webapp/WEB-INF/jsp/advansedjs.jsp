@@ -14,8 +14,8 @@
         sampling: 'average',
         markPoint: {
             data: [
-                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 30},
-                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 30}
+                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle:{normal:{label:{position:'top'}}}},
+                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle:{normal:{label:{position:'top'}}}},
             ]
         },
 //        markLine: {
