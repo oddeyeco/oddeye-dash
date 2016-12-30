@@ -1,160 +1,123 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
+<script src="${cp}/resources/echarts/theme/macarons.js"></script>
+
 <script>
-    var lineChart;
     var curentvalue = ${Error.getValue()};
     var chartsdata = ${chartdata};
-    var colorset = [{
-            backgroundColor: "rgba(0, 128, 0, 0.3)",
-            borderColor: "rgba(0, 128, 0, 0.9)",
-            pointBorderColor: "rgba(0, 128, 0, 0.4)",
-            pointBackgroundColor: "rgba(0, 128, 0, 0.4)",
+    var echartLine;
+    var series = [];
+    var legend = [];
+    var defserie = {
+        name: null,
+        type: 'line',
+        sampling: 'average',
+        markPoint: {
+            data: [
+                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 30},
+                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 30}
+            ]
         },
-        {
-            backgroundColor: "rgba(0, 0, 128, 0.1)",
-            borderColor: "rgba(0, 0, 128, 0.9)",
-            pointBorderColor: "rgba(0, 0, 128, 0.1)",
-            pointBackgroundColor: "rgba(255, 0, 0, 0.1)",
-        },
-        {
-            backgroundColor: "rgba(0, 128, 128, 0.1)",
-            borderColor: "rgba(0, 128, 128, 0.9)",
-            pointBorderColor: "rgba(0, 128, 128, 0.1)",
-            pointBackgroundColor: "rgba(0, 128, 128, 0.1)",
-        },
-        {
-            backgroundColor: "rgba(0, 255, 255, 0.1)",
-            borderColor: "rgba(0, 255, 255, 0.9)",
-            pointBorderColor: "rgba(0, 255, 255, 0.1)",
-            pointBackgroundColor: "rgba(0, 255, 255, 0.1)",
-        },
-        {
-            backgroundColor: "rgba(0, 128, 0, 0.1)",
-            borderColor: "rgba(0, 128, 0, 0.9)",
-            pointBorderColor: "rgba(0, 128, 0, 0.1)",
-            pointBackgroundColor: "rgba(0, 128, 0, 0.1)",
-        },
-        {
-            backgroundColor: "rgba(255, 255, 0, 0.1)",
-            borderColor: "rgba(255, 255, 0, 0.9)",
-            pointBorderColor: "rgba(255, 255, 0, 0.1)",
-            pointBackgroundColor: "rgba(255, 255, 0, 0.1)",
-        },
-        {
-            backgroundColor: "rgba(255, 165, 0, 0.1)",
-            borderColor: "rgba(255, 165, 0, 0.9)",
-            pointBorderColor: "rgba(255, 165, 0, 0.1)",
-            pointBackgroundColor: "rgba(255, 165, 0, 0.1)",
-        },
-        {
-            backgroundColor: "rgba(128, 0, 0, 0.1)",
-            borderColor: "rgba(128, 0, 0, 0.9)",
-            pointBorderColor: "rgba(128, 0, 0, 0.1)",
-            pointBackgroundColor: "rgba(128, 0, 0, 0.1)",
-        },
-        {
-            backgroundColor: "rgba(128, 0, 0, 0.1)",
-            borderColor: "rgba(0, 0, 0, 0.9)",
-            pointBorderColor: "rgba(128, 0, 0, 0.1)",
-            pointBackgroundColor: "rgba(128, 0, 0, 0.1)",
-        }];
+//        markLine: {
+//            data: [
+//                {type: 'average', name: 'average'}
+//            ]
+//        },
+        data: null
+    };
+
     $(document).ready(function () {
-        drawAnChart();
+        echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
+        drawEchart(chartsdata);
     });
-    function drawAnChart()
+
+    function drawEchart(data)
     {
-        var datasets = [];
-        var pos = 0;
-        var cd = [];
-        console.log(chartsdata);
-        for (var k in chartsdata) {            
-            var chartline = chartsdata[k];
-            var d = [];
+        console.log(data);
+        for (var k in data) {
+            var chartline = data[k];
+            var chdata = [];
+
             for (var time in chartline.data) {
-                htime = moment(time * 1).dayOfYear(0);
-                itemdata = {x: htime, y: chartline.data[time]};
-//                console.log(htime.format("YYYY-MM-DD h:mm:ss"));
-                d.push(itemdata);
-                if (pos == 0)
-                {
-                    itemdata = {x: htime, y: curentvalue};
-                    cd.push(itemdata);
-                }
+                var dateval = moment(time * 1);
+//                    date.push(dateval.format("h:m:s"));
+                dateval = moment(time * 1).dayOfYear(0);
+                chdata.push([dateval.unix(), chartline.data[time]]);
             }
-
-
-//cartedta
+//                date.sort();
+            var serie = JSON.parse(JSON.stringify(defserie));
+            serie.data = chdata;
             if (k != "predict")
             {
-                label = moment(k * 1).format("DD/MM/YYYY");
-            }
-            else
+                serie.name = moment(k * 1).format("YY/MM/DD");
+                legend.push(moment(k * 1).format("YY/MM/DD"));
+            } else
             {
-                label = k;
+                serie.name = 'predict';
+                legend.push('predict');
+                prserie = serie;
             }
-            item = {
-                label: label,
-                fill: false,
-                borderColor: colorset[pos].borderColor,
-//                pointBorderColor: colorset[pos].pointBorderColor,
-//                pointBackgroundColor: colorset[pos].pointBackgroundColor,
-//                pointHoverBackgroundColor: "#fff",
-//                pointHoverBorderColor: "rgba(220,220,220,1)",
-//                pointBorderWidth: 1,                
-                borderWidth: 1,
-                radius: 0,
-                data: d
-
-            };
-            datasets.push(item);
-            pos++;
+            series.push(serie);
         }
+        ;
 
-        item = {
-            label: "Curent Value",
-            fill: false,
-            borderColor: "rgba(255, 0, 0, 0.8)",
-//            pointBorderColor: "rgba(255, 0, 0, 0.8)",
-//            pointBackgroundColor: "rgba(255, 0, 0, 0.8)",
-//            pointHoverBackgroundColor: "#fff",
-//            pointHoverBorderColor: "rgba(255, 0, 0, 0.8)",
-//            pointBorderWidth: 0,
-            radius: 0,
-            borderWidth: 3,
-            data: cd
+        var serie = JSON.parse(JSON.stringify(defserie));
+        serie.name = "Curent Value";
+        legend.push('Curent Value');
+        serie.markLine = {
+            data: [
+                {name: 'Curentvalue', value: curentvalue, xAxis: prserie.data[0][0], yAxis: curentvalue}, // When xAxis is the category axis, value 1 will be understood as the index of the category axis. By xAxis: -1 | MAXNUMBER, markLine can reach the edge of the grid.
+                {name: 'Curentvalue', xAxis: prserie.data[prserie.data.length - 1][0], yAxis: curentvalue}, // When xAxis is the category axis, String 'Wednesday' will be understood as matching the category axis text.
+            ],
+            itemStyle:{normal:{color:'#ff0000'}}
         };
+        serie.data = []
+        series.push(serie);
 
-        datasets.push(item);
-
-        // Line chart
-        var ctx = document.getElementById("lineChart");
-        lineChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [],
-                datasets: datasets
+        echartLine.setOption({
+            title: {
+                text: chartline.metric,
             },
-            options: {
-                tooltips: {
-                    enabled: true,
-                },
-                scales: {
-                    xAxes: [{
-                            type: 'time',
-                            position: 'bottom',
-                            time: {
-                                displayFormats: {
-                                    second: "mm:ss",
-                                    minute: "mm:ss"
-
-                                },
-                                tooltipFormat: 'mm:ss',
-                            },
-                        }]
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: legend
+            },
+            animation:false,
+            toolbox: {
+                show: true,
+                feature: {
+                    magicType: {
+                        show: true,
+                        title: {
+                            line: 'Line',
+                            bar: 'Bar',
+                        },
+                        type: ['line', 'bar']
+                    },
+                    saveAsImage: {
+                        show: true,
+                        title: "Save Image"
+                    }
                 }
-            }
+            },
+            calculable: false,
+            xAxis: [{
+                    type: 'time',
+//                    data: date
+                }],
+            yAxis: [{
+                    type: 'value',
+                }],
+            dataZoom: {
+                show: true,
+                realtime: true,
+                start: 0,
+                end: 100
+            },
+            series: series
         });
 
-
     }
-
 </script>

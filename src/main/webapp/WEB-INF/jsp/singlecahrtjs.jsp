@@ -1,7 +1,5 @@
-
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
 <script src="${cp}/resources/echarts/theme/macarons.js"></script>
-
 <script>
     $(document).ready(function () {
         // datepicer
@@ -70,7 +68,6 @@
     function drawEchart(url)
     {
         $.getJSON(url, null, function (data) {
-//            console.log(data);
             var date = [];
             var chdata = [];
             var dateval = moment();
@@ -82,10 +79,11 @@
                     chdata.push(chartline.data[time]);
                 }
             }
+            console.log(chdata);
             echartLine.setOption({
                 title: {
                     text: chartline.metric,
-                    subtext: JSON.stringify(chartline.tags)
+//                    subtext: JSON.stringify(chartline.tags)
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -98,8 +96,6 @@
                             title: {
                                 line: 'Line',
                                 bar: 'Bar',
-//                                stack: 'Stack',
-//                                tiled: 'Tiled'
                             },
                             type: ['line', 'bar']
                         },
@@ -109,7 +105,7 @@
                         }
                     }
                 },
-                calculable: true,
+                calculable: false,
                 xAxis: [{
                         type: 'category',
                         data: date
