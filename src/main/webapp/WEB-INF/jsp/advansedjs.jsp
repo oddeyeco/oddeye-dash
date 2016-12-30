@@ -14,8 +14,8 @@
         sampling: 'average',
         markPoint: {
             data: [
-                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle:{normal:{label:{position:'top'}}}},
-                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle:{normal:{label:{position:'top'}}}},
+                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle: {normal: {label: {position: 'top'}}}},
+                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top'}}}},
             ]
         },
 //        markLine: {
@@ -69,7 +69,7 @@
                 {name: 'Curentvalue', value: curentvalue, xAxis: prserie.data[0][0], yAxis: curentvalue}, // When xAxis is the category axis, value 1 will be understood as the index of the category axis. By xAxis: -1 | MAXNUMBER, markLine can reach the edge of the grid.
                 {name: 'Curentvalue', xAxis: prserie.data[prserie.data.length - 1][0], yAxis: curentvalue}, // When xAxis is the category axis, String 'Wednesday' will be understood as matching the category axis text.
             ],
-            itemStyle:{normal:{color:'#ff0000'}}
+            itemStyle: {normal: {color: '#ff0000'}}
         };
         serie.data = []
         series.push(serie);
@@ -84,10 +84,11 @@
             legend: {
                 data: legend
             },
-            animation:false,
+            animation: false,
             toolbox: {
                 show: true,
                 feature: {
+//                    dataZoom: {show: true, title: "dataZoom"},
                     magicType: {
                         show: true,
                         title: {
@@ -95,7 +96,7 @@
                             bar: 'Bar',
                         },
                         type: ['line', 'bar']
-                    },
+                    },                    
                     saveAsImage: {
                         show: true,
                         title: "Save Image"
@@ -112,7 +113,7 @@
                 }],
             dataZoom: {
                 show: true,
-                realtime: true,
+//                realtime: true,
                 start: 0,
                 end: 100
             },
