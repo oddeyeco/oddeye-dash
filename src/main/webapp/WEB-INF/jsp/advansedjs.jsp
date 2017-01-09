@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
 <script src="${cp}/resources/echarts/theme/macarons.js"></script>
-
+<script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     var curentvalue = ${Error.getValue()};
     var chartsdata = ${chartdata};
@@ -14,15 +14,13 @@
         sampling: 'average',
         markPoint: {
             data: [
-                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle: {normal: {label: {position: 'top'}}}},
-                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top'}}}},
+                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle: {
+                        normal: {
+                            label: {position: "top", formatter: format_func}
+                        }}},
+                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top', formatter: format_func}}}},
             ]
         },
-//        markLine: {
-//            data: [
-//                {type: 'average', name: 'average'}
-//            ]
-//        },
         data: null
     };
 
@@ -31,9 +29,9 @@
         drawEchart(chartsdata);
     });
 
+
     function drawEchart(data)
     {
-        console.log(data);
         for (var k in data) {
             var chartline = data[k];
             var chdata = [];
@@ -45,7 +43,7 @@
                 chdata.push([dateval.unix(), chartline.data[time]]);
             }
 //                date.sort();
-            var serie = JSON.parse(JSON.stringify(defserie));
+            var serie = clone_obg(defserie);
             serie.data = chdata;
             if (k != "predict")
             {
@@ -69,7 +67,7 @@
                 {name: 'Curentvalue', value: curentvalue, xAxis: prserie.data[0][0], yAxis: curentvalue}, // When xAxis is the category axis, value 1 will be understood as the index of the category axis. By xAxis: -1 | MAXNUMBER, markLine can reach the edge of the grid.
                 {name: 'Curentvalue', xAxis: prserie.data[prserie.data.length - 1][0], yAxis: curentvalue}, // When xAxis is the category axis, String 'Wednesday' will be understood as matching the category axis text.
             ],
-            itemStyle: {normal: {color: '#ff0000'}}
+            itemStyle: {normal: {color: '#ff0000', label: {formatter: format_func}}}
         };
         serie.data = []
         series.push(serie);
@@ -96,7 +94,7 @@
                             bar: 'Bar',
                         },
                         type: ['line', 'bar']
-                    },                    
+                    },
                     saveAsImage: {
                         show: true,
                         title: "Save Image"
@@ -110,6 +108,9 @@
                 }],
             yAxis: [{
                     type: 'value',
+                    axisLabel: {
+                        formatter: format_func
+                    }
                 }],
             dataZoom: {
                 show: true,

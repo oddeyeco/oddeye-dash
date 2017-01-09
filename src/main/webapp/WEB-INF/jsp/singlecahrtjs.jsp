@@ -1,105 +1,51 @@
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
 <script src="${cp}/resources/echarts/theme/macarons.js"></script>
+<script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
-    var format_func = function (params) {
-        if (isNaN(params))
-        {
-            if (isNaN(params.value))
-            {
-                val = 0;
-            } else
-            {
-                val = params.value;
-            }
-        } else
-        {
-            val = params;
-        }        
-        metric = "";
-        if (val > 999)
-        {
-            metric = "K";
-            val = val / 1000;
-        }
-        if (val > 999)
-        {
-            metric = "M";
-            val = val / 1000;
-        }
-        if (val > 999)
-        {
-            metric = "G";
-            val = val / 1000;
-        }
-        return val.toFixed(2) + "" + metric;
-    };
-
-
-    $(document).ready(function () {
-        // datepicer
-        var cb = function (start, end, label) {
-
-            pickerstart = start;
-            pickerend = end;
-            pickerlabel = label;
-
-            if (pickerlabel === "Custom")
-            {
-                $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
-            } else
-            {
-                $('#reportrange span').html(pickerlabel);
-            }
-        };
-        var optionSet1 = {
-            startDate: moment().subtract(5, 'minute'),
-            endDate: moment(),
-            minDate: moment().subtract(1, 'year'),
-            maxDate: moment().add(1, 'days'),
-            dateLimit: {
-                days: 60
-            },
-            showDropdowns: true,
-            showWeekNumbers: true,
-            timePicker: true,
-            timePickerIncrement: 15,
-            timePicker12Hour: true,
-            ranges: {
-                'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
-                'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
-                'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
-                'Last 1 hour': [moment().subtract(1, 'hour'), moment()],
-                'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
-                'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
-                'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
-                'Last 1 day': [moment().subtract(24, 'hour'), moment()]
-            },
-            opens: 'left',
-            buttonClasses: ['btn btn-default'],
-            applyClass: 'btn-small btn-primary',
-            cancelClass: 'btn-small',
-            format: 'MM/DD/YYYY H:m:s',
-            separator: ' to ',
-            locale: {
-                applyLabel: 'Submit',
-                cancelLabel: 'Clear',
-                fromLabel: 'From',
-                toLabel: 'To',
-                customRangeLabel: 'Custom',
-                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                firstDay: 1
-            }
-        };
-        $('#reportrange span').html("Last 1 day");
-        $('#reportrange').daterangepicker(optionSet1, cb);
-    });
-
+    pickerlabel = "Last 1 day";
 
     var echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
-    drawEchart(url);
-    function drawEchart(url)
+    var timer;
+
+    var interval = 10000;
+    $(document).ready(function () {
+        $('#reportrange span').html(pickerlabel);
+        $('#reportrange').daterangepicker(PicerOptionSet1, cb);
+    });
+
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+        console.log(pickerlabel);
+        if (pickerlabel == "Custom")
+        {
+            url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + pickerstart + "&enddate=" + pickerend;
+        } else
+        {
+            if (typeof (rangeslabels[pickerlabel]) == "undefined")
+            {
+                url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
+            } else
+            {
+                url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + rangeslabels[pickerlabel];
+            }
+
+        }
+        clearTimeout(timer);
+        drawEchart(url, echartLine);
+        timer = setInterval(function () {
+            ReDrawEchart(url, echartLine);
+        }, interval);
+
+
+    });
+
+    drawEchart(url, echartLine);
+    timer = setInterval(function () {
+        ReDrawEchart(url, echartLine);
+    }, interval);
+
+
+    function drawEchart(url, chart)
     {
         $.getJSON(url, null, function (data) {
             var date = [];
@@ -113,11 +59,10 @@
                     chdata.push(chartline.data[time]);
                 }
             }
-            console.log(chdata);
-            echartLine.setOption({
+//        console.log(chdata);
+            chart.setOption({
                 title: {
                     text: chartline.metric
-//                    subtext: JSON.stringify(chartline.tags)
                 },
                 tooltip: {
                     trigger: 'axis'
@@ -181,7 +126,10 @@
                         },
                         markLine: {
                             data: [
-                                {type: 'average', name: 'average'}
+                                {type: 'average', name: 'average', itemStyle: {
+                                        normal: {
+                                            label: {formatter: format_func}
+                                        }}}
                             ]
                         },
                         data: chdata
@@ -208,7 +156,6 @@
                         },
                         title: {
                             show: true,
-//                            offsetCenter: ["50%", "120%"],
                             textStyle: {
                                 color: '#333',
                                 fontSize: 15
@@ -222,7 +169,7 @@
                             width: 100,
                             height: 40,
                             offsetCenter: ["50%", "140%"],
-                            formatter: '{value}',
+                            formatter: format_func,
                             textStyle: {
                                 color: 'auto',
                                 fontSize: 30
@@ -231,14 +178,11 @@
                         data: [{value: chdata[chdata.length - 1], name: 'Last Value'}]
                     }]
             });
-            setTimeout(function () {
-                ReDrawEchart(url);
-            }, 10000);
         });
-    }
+    };
 
 
-    function ReDrawEchart(url)
+    function ReDrawEchart(url, chart)
     {
         $.getJSON(url, null, function (data) {
 //            console.log(data);
@@ -253,16 +197,17 @@
                     chdata.push(chartline.data[time]);
                 }
             }
-            var options = echartLine.getOption();
+            var options = chart.getOption();
 
             options.series[1].data[0].value = chdata[chdata.length - 1];
             options.series[0].data = chdata;
             options.xAxis[0].data = date;
-            echartLine.setOption(options);
-            setTimeout(function () {
-                ReDrawEchart(url);
-            }, 10000);
-        });
-    }
+            chart.setOption(options);
+//        setTimeout(function () {
+//            ReDrawEchart(url, chart, interval);
+//        }, interval);
+        }
+        );
+    };
 
 </script>
