@@ -1,6 +1,40 @@
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
 <script src="${cp}/resources/echarts/theme/macarons.js"></script>
 <script>
+    var format_func = function (params) {
+        if (isNaN(params))
+        {
+            if (isNaN(params.value))
+            {
+                val = 0;
+            } else
+            {
+                val = params.value;
+            }
+        } else
+        {
+            val = params;
+        }        
+        metric = "";
+        if (val > 999)
+        {
+            metric = "K";
+            val = val / 1000;
+        }
+        if (val > 999)
+        {
+            metric = "M";
+            val = val / 1000;
+        }
+        if (val > 999)
+        {
+            metric = "G";
+            val = val / 1000;
+        }
+        return val.toFixed(2) + "" + metric;
+    };
+
+
     $(document).ready(function () {
         // datepicer
         var cb = function (start, end, label) {
@@ -9,7 +43,7 @@
             pickerend = end;
             pickerlabel = label;
 
-            if (pickerlabel == "Custom")
+            if (pickerlabel === "Custom")
             {
                 $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
             } else
@@ -38,7 +72,7 @@
                 'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
                 'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
                 'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
-                'Last 1 day': [moment().subtract(24, 'hour'), moment()],
+                'Last 1 day': [moment().subtract(24, 'hour'), moment()]
             },
             opens: 'left',
             buttonClasses: ['btn btn-default'],
@@ -82,7 +116,7 @@
             console.log(chdata);
             echartLine.setOption({
                 title: {
-                    text: chartline.metric,
+                    text: chartline.metric
 //                    subtext: JSON.stringify(chartline.tags)
                 },
                 tooltip: {
@@ -95,7 +129,7 @@
                             show: true,
                             title: {
                                 line: 'Line',
-                                bar: 'Bar',
+                                bar: 'Bar'
                             },
                             type: ['line', 'bar']
                         },
@@ -112,6 +146,9 @@
                     }],
                 yAxis: [{
                         type: 'value',
+                        axisLabel: {
+                            formatter: format_func
+                        }
                     }],
                 dataZoom: {
                     show: true,
@@ -132,8 +169,14 @@
                         },
                         markPoint: {
                             data: [
-                                {type: 'max', name: 'max'},
-                                {type: 'min', name: 'min'}
+                                {type: 'max', name: 'max', itemStyle: {
+                                        normal: {
+                                            label: {position: "top", formatter: format_func}
+                                        }}},
+                                {type: 'min', name: 'min', itemStyle: {
+                                        normal: {
+                                            label: {position: "top", formatter: format_func}
+                                        }}}
                             ]
                         },
                         markLine: {
@@ -154,13 +197,6 @@
                         min: Math.min.apply(null, chdata),
                         max: Math.max.apply(null, chdata),
                         splitNumber: 3,
-                        title: {
-                            show: true,
-                            textStyle: {
-                                color: 'rgba(255, 255, 255, 0.8)',
-                                fontSize: 15
-                            }
-                        },
                         axisLine: {
                             lineStyle: {
                                 width: 10
@@ -168,11 +204,11 @@
                         },
                         pointer: {
                             width: 4,
-                            length: '100%',
+                            length: '100%'
                         },
                         title: {
                             show: true,
-                            offsetCenter: ["50%", "120%"],
+//                            offsetCenter: ["50%", "120%"],
                             textStyle: {
                                 color: '#333',
                                 fontSize: 15
@@ -196,7 +232,7 @@
                     }]
             });
             setTimeout(function () {
-                ReDrawEchart(url)
+                ReDrawEchart(url);
             }, 10000);
         });
     }
@@ -224,7 +260,7 @@
             options.xAxis[0].data = date;
             echartLine.setOption(options);
             setTimeout(function () {
-                ReDrawEchart(url)
+                ReDrawEchart(url);
             }, 10000);
         });
     }

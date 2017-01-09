@@ -135,7 +135,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                     if (meta.getTags().get("UUID").getValue().equals(userid.toString())) {
                         OddeeyMetricMeta add = result.add(meta);
                     } else {
-                        System.out.println("valod");
+                        LOGGER.info("Oter User ID"); 
                     }
                 } catch (InvalidKeyException e) {
                     LOGGER.warn("InvalidKeyException " + row + " Is deleted");
