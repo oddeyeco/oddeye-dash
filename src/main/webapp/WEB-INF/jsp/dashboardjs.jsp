@@ -6,6 +6,37 @@
 
 <script>
     var dashJSONvar = ${dashInfo};
+    var cp = "${cp}";
+
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+        var startdate = "5m-ago";
+        var enddate = "now";
+        if (pickerlabel == "Custom")
+        {
+            startdate = pickerstart;
+            enddate = pickerend;
+        } else
+        {
+            if (typeof (rangeslabels[pickerlabel]) !== "undefined")
+            {
+                startdate = rangeslabels[pickerlabel];
+            }
+
+        }
+
+        if ($(".editchartpanel").is(':visible'))
+        {
+            var request_W_index = getParameterByName("widget");
+            var request_R_index = getParameterByName("row");
+            var action = getParameterByName("action");
+
+            showsingleChart(request_R_index, request_W_index, dashJSONvar, action !== "edit");
+        } else
+        {
+            window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
+            redrawAllJSON(dashJSONvar);
+        }
+    });
 
     $("#addrow").on("click", function () {
         dashJSONvar[Object.keys(dashJSONvar).length] = {widgets: {}};
@@ -173,16 +204,16 @@
     $('body').on("click", ".editchart", function () {
         single_rowindex = $(this).parents(".widgetraw").first().attr("index");
         single_widgetindex = $(this).parents(".chartsection").first().attr("index");
-        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex);
+        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
         showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
     });
-    
+
     $('body').on("click", ".view", function () {
         single_rowindex = $(this).parents(".widgetraw").first().attr("index");
         single_widgetindex = $(this).parents(".chartsection").first().attr("index");
-        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex);
-        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar,true);
-    });    
+        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
+        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar, true);
+    });
 
     $('body').on("click", ".backtodush", function () {
         $(".editchartpanel").hide();
@@ -190,6 +221,15 @@
         window.history.pushState({}, "", window.location.pathname);
         redrawAllJSON(dashJSONvar);
     });
+
+    $('body').on("blur", ".edit-query input", function () {
+        query = "metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&aggregator=" + $("#aggregator").val() + "&downsample=" + $("#down-sample").val();
+
+        dashJSONvar[single_rowindex]["widgets"][single_widgetindex].queryes = [];
+        dashJSONvar[single_rowindex]["widgets"][single_widgetindex].queryes.push(query);
+        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
+//        console.log(dashJSONvar[single_rowindex]["widgets"][single_widgetindex].queryes);
+    })
 
 
     $(document).ready(function () {
@@ -225,8 +265,12 @@
                 redrawAllJSON(dashJSONvar);
             } else
             {
-                showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
+                var action = getParameterByName("action");
+                showsingleChart(request_R_index, request_W_index, dashJSONvar, action !== "edit");
+//                showsingleChart(request_R_index, request_W_index, dashJSONvar);
             }
         }
+        ;
+
     })
 </script>

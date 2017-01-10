@@ -40,7 +40,8 @@
                 var dateval = moment(time * 1);
 //                    date.push(dateval.format("h:m:s"));
                 dateval = moment(time * 1).dayOfYear(0);
-                chdata.push([dateval.unix(), chartline.data[time]]);
+//                dateval = moment(time * 1).year(0);
+                chdata.push([dateval.toDate(), chartline.data[time]]);
             }
 //                date.sort();
             var serie = clone_obg(defserie);

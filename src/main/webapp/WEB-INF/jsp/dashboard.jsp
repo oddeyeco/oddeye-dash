@@ -109,7 +109,7 @@
                                 <label class="control-label col-md-3" for="tags">Tags 
                                 </label>
                                 <div class="col-md-7">
-                                    <input id="tags" name="tags" class="form-control col-md-7 col-xs-12" type="text" value="host=hdata011.smartlogic.llc">
+                                    <input id="tags" name="tags" class="form-control col-md-7 col-xs-12" type="text" value="host=cassa001*">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -150,4 +150,4 @@
 
         </div>    
     </div>
-</div>
+</div>        

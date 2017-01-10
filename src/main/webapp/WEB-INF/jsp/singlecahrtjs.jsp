@@ -15,7 +15,7 @@
     });
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-        console.log(pickerlabel);
+//        console.log(pickerlabel);
         if (pickerlabel == "Custom")
         {
             url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + pickerstart + "&enddate=" + pickerend;

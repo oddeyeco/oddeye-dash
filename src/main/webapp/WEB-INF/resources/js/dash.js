@@ -14,6 +14,41 @@ function datafunc() {
 }
 ;
 
+function setdatabyQueryes(option, url, start, end, chart)
+{
+//    console.log(option.queryes);
+    var k;
+    option.tmpoptions.series = [];
+    for (k in option.queryes)
+    {
+        var query = option.queryes[k];
+        var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
+        $.getJSON(uri, null, function (data) {
+            if (Object.keys(data.chartsdata).length > 0)
+            {
+                for (index in data.chartsdata)
+                {
+
+                    var series = clone_obg(defserie);
+                    var chdata = [];
+                    for (var time in data.chartsdata[index].data) {
+                        var dateval = moment(time * 1);
+                        chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
+                        delete dateval;
+                    }
+                    series.data = chdata;
+                    series.name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+//                    console.log(data.chartsdata[index]);
+                    option.tmpoptions.series.push(series);
+
+                }
+            }
+            chart.setOption(option.tmpoptions);
+        });
+    }
+
+}
+
 
 var defserie = {
     name: null,
@@ -78,7 +113,6 @@ defoption = {
     series: [defserie]
 };
 
-
 function redrawAllJSON(dashJSON)
 {
     var rowindex;
@@ -109,9 +143,37 @@ function redrawAllJSON(dashJSON)
                     dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
                 } else
                 {
-                    if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data.length === 0)
+
+                    if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
                     {
-                        dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
+                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'macarons');
+                        var startdate = "5m-ago";
+                        var enddate = "now";
+                        if (pickerlabel == "Custom")
+                        {
+                            startdate = pickerstart;
+                            enddate = pickerend;
+                        } else
+                        {
+                            if (typeof (rangeslabels[pickerlabel]) !== "undefined")
+                            {
+                                startdate = rangeslabels[pickerlabel];
+                            }
+
+                        }
+
+                        setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);
+                    } else
+                    {
+                        if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length == 1)
+                        {
+                            if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data.length === 0)
+                            {
+                                dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
+                            }
+                        }
+                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'macarons');
+                        dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].tmpoptions);
                     }
                 }
 //                } 
@@ -119,10 +181,6 @@ function redrawAllJSON(dashJSON)
 //                {
 //                    options = dashJSON[rowindex]["widgets"][widgetindex].echartLine.getOption();
 //                }
-
-                dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'macarons');
-                dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].tmpoptions);
-
                 $("#charttemplate .chartsection").attr("id", "widget");
             }
         }
@@ -137,13 +195,50 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
     if (readonly)
     {
         $(".edit-form").hide();
-    }
-    else
+    } else
     {
         $(".edit-form").show();
     }
     echartLine = echarts.init(document.getElementById("echart_line_single"), 'macarons');
-    echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
+    if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
+    {
+
+        var startdate = "5m-ago";
+        var enddate = "now";
+        if (pickerlabel == "Custom")
+        {
+            startdate = pickerstart;
+            enddate = pickerend;
+        } else
+        {
+            if (typeof (rangeslabels[pickerlabel]) !== "undefined")
+            {
+                startdate = rangeslabels[pickerlabel];
+            }
+
+        }
+        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);
+
+        //TODO For many qyery
+        query = "?" + dashJSON[row]["widgets"][index].queryes[0];
+//        console.log(index);
+//        console.log(query);
+//        console.log(getParameterByName("tags", query));
+//        console.log(getParameterByName("metrics", query));
+        $("#tab_metrics input#tags").val(getParameterByName("tags", query));
+        $("#tab_metrics input#metrics").val(getParameterByName("metrics", query));
+        $("#tab_metrics input#aggregator").val(getParameterByName("aggregator", query));
+        $("#tab_metrics input#down-sample").val(getParameterByName("downsample", query));
+
+
+    } else
+    {
+        $("#tab_metrics input#tags").val("");
+        $("#tab_metrics input#aggregator").val("");
+        $("#tab_metrics input#metrics").val("");
+        $("#tab_metrics input#down-sample").val("");
+        echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
+    }
     $(".fulldash").hide();
 }
 ;
