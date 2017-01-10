@@ -59,7 +59,7 @@
         }
         ;
 
-        var serie = JSON.parse(JSON.stringify(defserie));
+        var serie = clone_obg(defserie);
         serie.name = "Curent Value";
         legend.push('Curent Value');
         serie.markLine = {

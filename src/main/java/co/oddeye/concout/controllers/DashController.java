@@ -37,11 +37,12 @@ public class DashController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-            map.put("dashname", "Dashboard" + userDetails.getDushList().size() + 1);
+            map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
         }
 
-        map.put("body", "dashboard_new");
-        map.put("jspart", "dashboard_newjs");
+        map.put("body", "dashboard");
+        map.put("jspart", "dashboardjs");
+        map.put("dashInfo", "{}");
 
         return "index";
     }
@@ -66,8 +67,8 @@ public class DashController {
             map.put("dashInfo", userDetails.getDush(dashname));
         }
 
-        map.put("body", "dashboard_new");
-        map.put("jspart", "dashboard_newjs");
+        map.put("body", "dashboard");
+        map.put("jspart", "dashboardjs");
 
         return "index";
     }

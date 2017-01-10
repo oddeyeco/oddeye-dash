@@ -59,7 +59,6 @@
                     chdata.push(chartline.data[time]);
                 }
             }
-//        console.log(chdata);
             chart.setOption({
                 title: {
                     text: chartline.metric
