@@ -128,3 +128,38 @@ function redrawAllJSON(dashJSON)
         }
     }
 }
+
+
+var echartLine;
+
+function showsingleChart(row, index, dashJSON, readonly = false) {
+    $(".editchartpanel").show();
+    if (readonly)
+    {
+        $(".edit-form").hide();
+    }
+    else
+    {
+        $(".edit-form").show();
+    }
+    echartLine = echarts.init(document.getElementById("echart_line_single"), 'macarons');
+    echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
+    $(".fulldash").hide();
+}
+;
+
+
+
+// TODO To some global js    
+function getParameterByName(name, url) {
+    if (!url)
+        url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+    if (!results)
+        return null;
+    if (!results[2])
+        return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

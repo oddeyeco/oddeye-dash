@@ -81,9 +81,10 @@
         <div class="clearfix"></div>
         <div class="x_content" id="dashcontent"> 
         </div>
-        <div class="x_content" id="singlewidget">        
+        <div class="x_content" id="singlewidget">      
+            <div class="echart_line_single" id="echart_line_single" style="height:600px;"></div>                   
         </div>    
-        <div class="x_content">
+        <div class="x_content edit-form">
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                     <li role="presentation" class=""><a href="#tab_general" id="general-tab" role="tab" data-toggle="tab" aria-expanded="false">General</a>

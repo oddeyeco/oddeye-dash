@@ -7,12 +7,6 @@
 <script>
     var dashJSONvar = ${dashInfo};
 
-    $(document).ready(function () {
-        $('#reportrange span').html("Last 5 minutes");
-        $('#reportrange').daterangepicker(PicerOptionSet1, cb);
-        redrawAllJSON(dashJSONvar);
-    })
-
     $("#addrow").on("click", function () {
         dashJSONvar[Object.keys(dashJSONvar).length] = {widgets: {}};
         redrawAllJSON(dashJSONvar);
@@ -163,14 +157,76 @@
                 success: function (data) {
                     if (data.sucsses)
                     {
-                        window.location = "${cp}/dashboard/"+senddata.name;
+                        window.location = "${cp}/dashboard/" + senddata.name;
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     console.log(xhr.status + ": " + thrownError);
                 }
             });
-        }        
+        }
     });
 
+    var single_rowindex = 0;
+    var single_widgetindex = 0;
+
+    $('body').on("click", ".editchart", function () {
+        single_rowindex = $(this).parents(".widgetraw").first().attr("index");
+        single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex);
+        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
+    });
+    
+    $('body').on("click", ".view", function () {
+        single_rowindex = $(this).parents(".widgetraw").first().attr("index");
+        single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex);
+        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar,true);
+    });    
+
+    $('body').on("click", ".backtodush", function () {
+        $(".editchartpanel").hide();
+        $(".fulldash").show();
+        window.history.pushState({}, "", window.location.pathname);
+        redrawAllJSON(dashJSONvar);
+    });
+
+
+    $(document).ready(function () {
+        $('#reportrange span').html("Last 5 minutes");
+        $('#reportrange').daterangepicker(PicerOptionSet1, cb);
+
+        var request_W_index = getParameterByName("widget");
+        var request_R_index = getParameterByName("row");
+
+        if ((request_W_index == null) && (request_R_index == null))
+        {
+            window.history.pushState({}, "", window.location.pathname);
+            redrawAllJSON(dashJSONvar);
+        } else
+        {
+            var NoOpt = false;
+            if (typeof (dashJSONvar[request_R_index]) === "undefined")
+            {
+                NoOpt = true;
+            }
+
+            if (!NoOpt)
+            {
+                if (typeof (dashJSONvar[request_R_index]["widgets"][request_W_index]) === "undefined")
+                {
+                    NoOpt = true;
+                }
+            }
+
+            if (NoOpt)
+            {
+                window.history.pushState({}, "", window.location.pathname);
+                redrawAllJSON(dashJSONvar);
+            } else
+            {
+                showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
+            }
+        }
+    })
 </script>
