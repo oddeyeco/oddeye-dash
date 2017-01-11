@@ -80,7 +80,7 @@
     }
 
 
-    function showsingleChart(datasetindex) {
+    function showsingleChart000(datasetindex) {
         $(".editchartpanel").show();
         options = dush_charts_options[datasetindex];
 //        console.log(options);

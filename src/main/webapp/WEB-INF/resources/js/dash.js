@@ -218,27 +218,11 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
 
         }
         setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);
-
-        //TODO For many qyery
-        query = "?" + dashJSON[row]["widgets"][index].queryes[0];
-//        console.log(index);
-//        console.log(query);
-//        console.log(getParameterByName("tags", query));
-//        console.log(getParameterByName("metrics", query));
-        $("#tab_metrics input#tags").val(getParameterByName("tags", query));
-        $("#tab_metrics input#metrics").val(getParameterByName("metrics", query));
-        $("#tab_metrics input#aggregator").val(getParameterByName("aggregator", query));
-        $("#tab_metrics input#down-sample").val(getParameterByName("downsample", query));
-
-
     } else
     {
-        $("#tab_metrics input#tags").val("");
-        $("#tab_metrics input#aggregator").val("");
-        $("#tab_metrics input#metrics").val("");
-        $("#tab_metrics input#down-sample").val("");
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
     }
+    chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
     $(".fulldash").hide();
 }
 ;

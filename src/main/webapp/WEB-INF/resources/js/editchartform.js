@@ -28,7 +28,7 @@ class ChartEditForm {
             this.formwraper.find("#tab_metrics input#down-sample").val("");
         }
     }
-    chage() {
+    chage(input) {
         var query = "metrics=" + this.formwraper.find("#metrics").val() + "&tags=" + this.formwraper.find("#tags").val() + 
                 "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + this.formwraper.find("#down-sample").val();
 

@@ -3,10 +3,12 @@
 <script src="${cp}/resources/echarts/theme/macarons.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script src="${cp}/resources/js/dash.js"></script>
+<script src="${cp}/resources/js/editchartform.js"></script>
 
 <script>
     var dashJSONvar = ${dashInfo};
     var cp = "${cp}";
+    var chartForm;
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";
@@ -222,13 +224,8 @@
         redrawAllJSON(dashJSONvar);
     });
 
-    $('body').on("blur", ".edit-query input", function () {
-        query = "metrics=" + $("#metrics").val() + "&tags=" + $("#tags").val() + "&aggregator=" + $("#aggregator").val() + "&downsample=" + $("#down-sample").val();
-
-        dashJSONvar[single_rowindex]["widgets"][single_widgetindex].queryes = [];
-        dashJSONvar[single_rowindex]["widgets"][single_widgetindex].queryes.push(query);
-        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
-//        console.log(dashJSONvar[single_rowindex]["widgets"][single_widgetindex].queryes);
+    $('body').on("blur", ".edit-form .edit-query input", function () {        
+        chartForm.chage($(this));
     })
 
 
