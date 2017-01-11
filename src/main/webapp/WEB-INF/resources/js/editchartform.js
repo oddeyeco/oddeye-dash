@@ -29,13 +29,17 @@ class ChartEditForm {
         }
     }
     chage(input) {
+        
         var query = "metrics=" + this.formwraper.find("#metrics").val() + "&tags=" + this.formwraper.find("#tags").val() + 
                 "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + this.formwraper.find("#down-sample").val();
 
         this.dashJSON[this.row]["widgets"][this.index].queryes = [];
         this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
+        
+//        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title.text = "valod";
+        
         showsingleChart(this.row, this.index, this.dashJSON);
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].queryes);  
-        this.chart.setOption(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
+//        this.chart.setOption(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
     }
 }
