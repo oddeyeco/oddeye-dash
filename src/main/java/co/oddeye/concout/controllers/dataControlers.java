@@ -33,7 +33,7 @@ public class dataControlers {
     private HbaseDataDao Datadao;        
     @Autowired
     HbaseMetaDao MetaDao;
-    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
+    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
     
     @RequestMapping(value = "/metriclist",params = {"tags",}, method = RequestMethod.GET)
     public String tagMetricsList(@RequestParam(value = "tags") String tags, ModelMap map) {

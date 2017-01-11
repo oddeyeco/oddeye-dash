@@ -5,21 +5,22 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
+import co.oddeye.core.globalFunctions;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.slf4j.Logger;
 
 /**
  *
@@ -47,6 +49,8 @@ public class DefaultController {
     @Autowired
     private mailSender Sender;
 
+    protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map) {
         map.put("body", "homepage");
@@ -56,7 +60,7 @@ public class DefaultController {
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test(ModelMap map) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();       
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        org.springframework.security.access.AccessDeniedException;
 //ExecutorSubscribableChannel
         User user = null;
@@ -145,7 +149,7 @@ public class DefaultController {
         try {
             Userdao.addUser(user);
         } catch (Exception ex) {
-            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(globalFunctions.stackTrace(ex));
         }
         //TODO Send refresh messge to kafka
         return redirecttodashboard();
@@ -155,7 +159,7 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map) {
+    public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map,HttpServletRequest request) {
         userValidator.validate(newUser, result);
 
         if (result.hasErrors()) {
@@ -165,15 +169,20 @@ public class DefaultController {
             map.put("body", "signup");
             map.put("jspart", "signupjs");
         } else {
-            try {
+            try {                
+                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),request.getScheme(),  request.getServerName(), request.getServerPort());
+                newUser.SendConfirmMail(Sender,baseUrl);                
                 newUser.setActive(Boolean.FALSE);
-                Userdao.addUser(newUser);
-                newUser.SendConfirmMail(Sender);
-
+                Userdao.addUser(newUser);                                
                 map.put("body", "homepage");
                 map.put("jspart", "homepagejs");
             } catch (Exception ex) {
-                Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+                map.put("newUser", newUser);
+                map.put("result", result);
+                map.put("body", "signup");
+                map.put("jspart", "signupjs");
+                map.put("message", ex.toString());                
             }
         }
         return "indexNotaut";
