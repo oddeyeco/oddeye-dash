@@ -52,8 +52,7 @@ public class DefaultController {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap map,HttpServletRequest request) {
-        
+    public String index(ModelMap map,HttpServletRequest request) {        
         map.put("request", request);
         map.put("body", "homepage");
         map.put("jspart", "homepagejs");
@@ -172,7 +171,8 @@ public class DefaultController {
             map.put("jspart", "signupjs");
         } else {
             try {                
-                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),request.getScheme(),  request.getServerName(), request.getServerPort());
+                //request.getScheme()
+                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),"https",  request.getServerName(), request.getServerPort());
                 newUser.SendConfirmMail(Sender,baseUrl);                
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);                                
