@@ -87,9 +87,9 @@
         <div class="x_content edit-form">
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                    <li role="presentation" class=""><a href="#tab_general" id="general-tab" role="tab" data-toggle="tab" aria-expanded="false">General</a>
+                    <li role="presentation" class="active"><a href="#tab_general" id="general-tab" role="tab" data-toggle="tab" aria-expanded="true">General</a>
                     </li>
-                    <li role="presentation" class="active"><a href="#tab_metrics" role="tab" id="metrics-tab" data-toggle="tab" aria-expanded="true">Metrics</a>
+                    <li role="presentation" class=""><a href="#tab_metrics" role="tab" id="metrics-tab" data-toggle="tab" aria-expanded="false">Metrics</a>
                     </li>
                     <li role="presentation" class=""><a href="#tab_axes" role="tab" id="axes-tab" data-toggle="tab" aria-expanded="false">Axes</a>
                     </li>
@@ -99,11 +99,200 @@
                     </li>                                
                 </ul>
                 <div id="myTabContent" class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade" id="tab_general" aria-labelledby="general-tab">
-                        lolololo
+                    <div role="tabpanel" class="tab-pane fade active in" id="tab_general" aria-labelledby="general-tab">                        
+                        <form class="form-horizontal form-label-left edit-query">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label for="show" class="control-label col-md-3" >
+                                        Show
+                                    </label>
+                                    <div class="col-md-7">
+                                        <input id="show" name="show" type="checkbox" class="flat" checked="checked">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="text" class="control-label col-md-3" >
+                                    Text
+                                </label>
+                                <div class="col-md-7">
+                                    <input id="text" name="text" type="text" class="form-control col-md-5 col-xs-12" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="link" class="control-label col-md-3" >
+                                    Link
+                                </label>
+                                <div class="col-md-7">
+                                    <input id="link" name="link" type="text" class="form-control col-md-5 col-xs-12" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="target" class="control-label col-md-3" >
+                                    Target
+                                </label>
+                                <div class="col-md-3">                                    
+                                    <select id="target" name="target" class="form-control col-md-5 col-xs-12">
+                                        <option selected>  </option>
+                                        <option>Self</option>
+                                        <option>Blank</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subtext" class="control-label col-md-3" >
+                                    Subtext
+                                </label>                                
+                                <div class="col-md-7">
+                                    <input id="subtext" name="subtext" type="text" class="form-control col-md-5 col-xs-12" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="sublink" class="control-label col-md-3" >
+                                    Sublink
+                                </label>
+                                <div class="col-md-7">
+                                    <input id="sublink" name="sublink" type="text" class="form-control col-md-5 col-xs-12" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="subtarget" class="control-label col-md-3" >
+                                    Subtarget
+                                </label>
+                                <div class="col-md-3">
+                                    <select id="subtarget" name="subtarget" class="form-control col-md-5 col-xs-12">
+                                        <option selected>  </option>
+                                        <option>Self</option>
+                                        <option>Blank</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="x_position" class="control-label col-md-3" >
+                                    X Position
+                                </label>
+                                <div class="col-md-3">
+                                    <input id="x_position_text" name="x_position" type="number" class="form-control col-md-3 col-xs-3" >
+                                </div>
+                                <label class="control-label col-md-1" style="white-space: nowrap">
+                                    px OR
+                                </label>
+                                <div class="col-md-3">
+                                    <select id="x_position" name="x_position" class="form-control col-md-3 col-xs-9 select_edit">
+                                        <option selected value=""></option>
+                                        <option value="center">Center</option>
+                                        <option >Left</option>
+                                        <option>Right</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label for="y_position" class="control-label col-md-3" >
+                                    Y Position
+                                </label>
+                                <div class="col-md-3">
+                                    <input id="y_position_text" name="y_position" type="number" class="form-control col-md-3 col-xs-3" >
+                                </div>
+                                <label class="control-label col-md-1" style="white-space: nowrap">
+                                    px OR
+                                </label>
+                                <div class="col-md-3">
+                                    <select id="x_position" name="x_position" class="form-control col-md-3 col-xs-9 select_edit">
+                                        <option selected value=""></option>
+                                        <option value="center">Center</option>
+                                        <option >Left</option>
+                                        <option>Right</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label for="text_alaign" class="control-label col-md-3" >
+                                    Text Alaign
+                                </label>
+                                <div class="col-md-3">                                    
+                                    <select id="text_alaign" name="text_alaign" class="form-control col-md-5 col-xs-12">
+                                        <option selected>  </option>
+                                        <option>Center</option>
+                                        <option>Left</option>
+                                        <option>Right</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="background_color" class="control-label col-md-3" >
+                                    Background Color
+                                </label>
+                                <div class="col-md-7">
+                                    <div class="input-group cl_picer">                            
+                                        <input id="background_color" name="background_color" type="text" value="" class="form-control" >
+                                        <span class="input-group-addon"><i></i></span>
+                                    </div>                                
+                                </div>                                
+                            </div>
+                            <div class="form-group">
+                                <label for="border_color" class="control-label col-md-3" >
+                                    Border Color
+                                </label>
+                                <div class="col-md-7">
+                                    <div class="input-group cl_picer">                            
+                                        <input id="background_color" name="background_color" type="text" value="" class="form-control" >
+                                        <span class="input-group-addon"><i></i></span>
+                                    </div>                                
+                                </div>   
+                            </div>
+                            <div class="form-group">
+                                <label for="border_width" class="control-label col-md-3" >
+                                    Border Width
+                                </label>
+                                <div class="col-md-7">
+                                    <input id="border_width" name="border_width" type="number" value="" class="form-control col-md-5 col-xs-12" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="padding" class="control-label col-md-3" >
+                                    Padding
+                                </label>
 
+                                <label for="left" class="noMargin control-label col-md-1">
+                                    left
+                                </label>
+
+                                <div class="coordInput col-md-2" style="">
+                                    <input id="left" name="left" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                </div>
+                                <label for="right" class="noMargin control-label col-md-1" >
+                                    right
+                                </label>
+
+                                <div class="coordInput col-md-2">
+                                    <input id="right" name="right" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                </div>
+                                <label for="top" class="noMargin control-label col-md-1" >
+                                    top
+                                </label>
+
+                                <div class="coordInput col-md-2">
+                                    <input id="top" name="top" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                </div>
+                                <label for="bottom" class="noMargin control-label col-md-1" >
+                                    bottom
+                                </label>
+
+                                <div class="coordInput col-md-2">
+                                    <input id="bottom" name="bottom" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="item_gap" class="control-label col-md-3" >
+                                    Item Gap
+                                </label>
+                                <div class="col-md-7">
+                                    <input id="item_gap" name="item_gap" type="number" value="" class="form-control col-md-5 col-xs-12" >
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade active in" id="tab_metrics" aria-labelledby="metrics-tab">
+                    <div role="tabpanel" class="tab-pane fade" id="tab_metrics" aria-labelledby="metrics-tab">
                         <form class="form-horizontal form-label-left edit-query">
                             <div class="form-group">
                                 <label class="control-label col-md-3" for="tags">Tags 

@@ -5,6 +5,8 @@
 <script src="${cp}/resources/js/dash.js"></script>
 <script src="${cp}/resources/js/editchartform.js"></script>
 
+
+
 <script>
     var dashJSONvar = ${dashInfo};
     var cp = "${cp}";
@@ -232,7 +234,8 @@
     $(document).ready(function () {
         $('#reportrange span').html("Last 5 minutes");
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
-
+        $('.cl_picer').colorpicker();
+        
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
 

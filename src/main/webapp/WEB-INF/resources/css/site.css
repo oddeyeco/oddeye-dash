@@ -13,3 +13,21 @@ and open the template in the editor.
     text-align: right;
     width: 100%;
 }
+
+.radio label,
+.checkbox label {
+    font-weight: bold;
+}
+
+.noMargin {
+    margin: 0px;
+}
+
+.coordInput {
+    width: 65px;
+    padding-right: 0px;
+}
+.coordInput input {
+    padding-left: 2px;
+    padding-right: 2px;
+}

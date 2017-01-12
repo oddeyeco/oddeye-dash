@@ -29,6 +29,10 @@
         <!-- jVectorMap -->
         <link href="${cp}/resources/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 
+        <!-- Bootstrap Colorpicker -->
+        <link href="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
+        <link href="${cp}/resources/cropper/dist/cropper.min.css" rel="stylesheet" /> 
+
         <!-- Custom Theme Style -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />        
         <link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />        
@@ -73,13 +77,13 @@
                                             <!--<li><a href="<c:url value="/dashboard3/"/>">Dashboard3</a></li>-->
                                         </ul>
                                     </li>
-                               <li><a><i class="fa fa-desktop"></i> Dashboards <span class="fa fa-chevron-down"></span></a>
+                                    <li><a><i class="fa fa-desktop"></i> Dashboards <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">                                                                                        
                                             <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
-                                            <c:forEach items="${curentuser.getDushList()}" var="Dush">
-                                            <li><a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" id="newdush">${Dush.key}</a></li>
-                                            </c:forEach>
-                                            
+                                                <c:forEach items="${curentuser.getDushList()}" var="Dush">
+                                                <li><a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" id="newdush">${Dush.key}</a></li>
+                                                </c:forEach>
+
                                         </ul>
                                     </li>
                                 </ul>
@@ -197,8 +201,11 @@
         <script src="${cp}/resources/js/maps/jquery-jvectormap-2.0.3.min.js"></script>
         <!-- bootstrap-daterangepicker -->       
         <script src="${cp}/resources/js/datepicker/daterangepicker.js"></script>
-
+        <!-- Bootstrap Colorpicker -->
+        <script src="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
         <!-- Custom Theme Scripts -->
+        <!-- Cropper -->
+        <script src="${cp}/resources/cropper/dist/cropper.min.js"></script>        
         <script src="${cp}/resources/build/js/custom.min.js"></script>
 
         <jsp:include page="${jspart}.jsp" />
