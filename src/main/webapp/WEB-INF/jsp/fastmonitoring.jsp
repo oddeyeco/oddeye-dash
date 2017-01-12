@@ -73,14 +73,10 @@
                                     <!--<th>#</th>-->
                                     <th>Metric Name</th>
                                     <th>${ident_tag} </th>
-                                    <!--                                    <th>Value</th>
-                                                                        <th>Weight</th>
-                                                                        <th>Deviation %</th>                                    -->
-                                    <!--<th>Action</th>-->
                                     <th>Level</th>
                                     <th>Message</th>
                                     <th>Start Time</th>
-                                    <th>Change Time</th>
+                                    <th>Change Time</th>                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -95,6 +91,7 @@
                                         
                                         <td class="timest"></td>
                                         <td class="timech">${erroritem.get('time').getAsString()}</td>
+                                        
                                         </tr>
                                     </c:forEach>
 

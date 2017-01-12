@@ -87,6 +87,7 @@ public class UserController {
                 ArrayList<ArrayList<KeyValue>> errors_list = ErrorsDao.getActiveErrors(userDetails);
                 for (ArrayList<KeyValue> err_row : errors_list) {
                     JsonObject item = new JsonObject();
+                    System.out.println("***********************");
                     for (KeyValue cell : err_row)
                     {
                         if (Arrays.equals(cell.qualifier(), "level".getBytes()))
@@ -104,8 +105,9 @@ public class UserController {
                         {
                             String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
                             item.addProperty("message", message);                            
+                            item.addProperty("type", "Special");                            
                         }    
-                        
+                        System.out.println(new String(cell.qualifier()));
                         
                     }
 
@@ -120,6 +122,7 @@ public class UserController {
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
                         metajson.getAsJsonObject().addProperty("hash", metric.hashCode());
+//                        metajson.getAsJsonObject().addProperty("type", metric.getClass().toString());
                         item.getAsJsonObject().add("info", metajson);
                         savedErrors.add(item);
                     }
