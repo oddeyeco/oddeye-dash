@@ -3,10 +3,30 @@
     Created on : Jun 13, 2016, 4:39:17 PM
     Author     : vahan
 --%>
+<%@page import="java.util.Enumeration"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:url value="/login/" var="loginUrl" />
 <c:url value="/signup/" var="sineupUrl"/>
 <div id="home">
+    ${request.getScheme()}<br>
+    ${request.getServerName()}<br>
+    ${request.getServerPort()}<br>
+    ${request.isSecure()}<br>
+    ${request.getRequestURL()}<br>
+    ${request.getRequestURI()}<br>
+    <table border="1" cellpadding="4" cellspacing="0">
+        <%
+            Enumeration eNames = request.getHeaderNames();
+            while (eNames.hasMoreElements()) {
+                String name = (String) eNames.nextElement();
+                String value = request.getHeader(name);
+        %>
+        <tr><td><%= name%></td><td><%= value%></td></tr>
+        <%
+            }
+        %>
+    </table>
+
     <!-- Slider Starts -->
     <div id="myCarousel" class="carousel slide banner-slider animated flipInX" data-ride="carousel">     
         <div class="carousel-inner">

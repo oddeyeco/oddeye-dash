@@ -52,7 +52,9 @@ public class DefaultController {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap map) {
+    public String index(ModelMap map,HttpServletRequest request) {
+        
+        map.put("request", request);
         map.put("body", "homepage");
         map.put("jspart", "homepagejs");
         return "indexNotaut";
