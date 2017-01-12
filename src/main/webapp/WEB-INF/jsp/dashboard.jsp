@@ -100,7 +100,7 @@
                 </ul>
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_general" aria-labelledby="general-tab">                        
-                        <form class="form-horizontal form-label-left edit-query">
+                        <form class="form-horizontal form-label-left edit-title">
                             <div class="form-group">
                                 <div class="checkbox">
                                     <label for="show" class="control-label col-md-3" >
@@ -200,8 +200,8 @@
                                     <select id="x_position" name="x_position" class="form-control col-md-3 col-xs-9 select_edit">
                                         <option selected value=""></option>
                                         <option value="center">Center</option>
-                                        <option >Left</option>
-                                        <option>Right</option>
+                                        <option >Top</option>
+                                        <option>Bottom</option>
                                     </select>
                                 </div>                                
                             </div>
@@ -235,7 +235,7 @@
                                 </label>
                                 <div class="col-md-7">
                                     <div class="input-group cl_picer">                            
-                                        <input id="background_color" name="background_color" type="text" value="" class="form-control" >
+                                        <input id="border_color" name="background_color" type="text" value="" class="form-control" >
                                         <span class="input-group-addon"><i></i></span>
                                     </div>                                
                                 </div>   
