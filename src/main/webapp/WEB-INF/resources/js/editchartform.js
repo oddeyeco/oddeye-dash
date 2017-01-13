@@ -40,6 +40,9 @@ class ChartEditForm {
                 input.parent().colorpicker('setValue',this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
             }
             //TODO check Positions
+//            if(isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title))
+//            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
+            
             input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
         }
 
@@ -74,13 +77,13 @@ class ChartEditForm {
                 {
 //                    console.log($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
                     if ($.isNumeric(input.val()))
-                    {
+                    {   
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = parseInt(input.val());
                     } else
-                    {
+                    {   
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = input.val();
                     }
-
+                       console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
                 }
 
             }
