@@ -11,6 +11,8 @@ class ChartEditForm {
         this.formwraper = formwraper;
         this.row = row;
         this.index = index;
+//        console.log(this.row);
+//        console.log(this.index);
         this.dashJSON = dashJSON;
         //TODO For many qyery
         if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
@@ -27,19 +29,49 @@ class ChartEditForm {
             this.formwraper.find("#tab_metrics input#metrics").val("");
             this.formwraper.find("#tab_metrics input#down-sample").val("");
         }
+
+        this.formwraper.find("#tab_general input").val("");
+        var key;
+        for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title)
+        {
+            this.formwraper.find("#tab_general input#" + key).val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+        }
+
     }
     chage(input) {
-        
-        var query = "metrics=" + this.formwraper.find("#metrics").val() + "&tags=" + this.formwraper.find("#tags").val() + 
-                "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + this.formwraper.find("#down-sample").val();
+        if (input.parents("form").hasClass("edit-query"))
+        {
+            this.formwraper.find("#tab_general input").val("");
 
-        this.dashJSON[this.row]["widgets"][this.index].queryes = [];
-        this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
-        
-//        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title.text = "valod";
-        
+            var query = "metrics=" + this.formwraper.find("#metrics").val() + "&tags=" + this.formwraper.find("#tags").val() +
+                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + this.formwraper.find("#down-sample").val();
+            this.dashJSON[this.row]["widgets"][this.index].queryes = [];
+            this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
+        }
+
+        if (input.parents("form").hasClass("edit-title"))
+        {
+            var key = input.attr("id");
+            
+            if (input.prop("tagName") == "INPUT")
+            {
+                if (input.val() == "")
+                {
+                    delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
+                } else
+                {                    
+                    this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = input.val();
+                }
+            }
+
+        }
+
+
+
+
         showsingleChart(this.row, this.index, this.dashJSON);
-//        console.log(this.dashJSON[this.row]["widgets"][this.index].queryes);  
+//        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);  
 //        this.chart.setOption(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
+//        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
     }
 }
