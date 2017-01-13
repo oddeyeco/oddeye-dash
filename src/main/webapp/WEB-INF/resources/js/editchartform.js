@@ -30,11 +30,12 @@ class ChartEditForm {
             this.formwraper.find("#tab_metrics input#down-sample").val("");
         }
 
-        this.formwraper.find("#tab_general input").val("");
+        this.formwraper.find("#tab_general input").val("");        
         var key;
         for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title)
         {
-            this.formwraper.find("#tab_general input#" + key).val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+            this.formwraper.find("#tab_general [chart_prop_key='" + key + "']").val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
         }
 
     }
@@ -48,25 +49,36 @@ class ChartEditForm {
             this.dashJSON[this.row]["widgets"][this.index].queryes = [];
             this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
         }
-
+        
         if (input.parents("form").hasClass("edit-title"))
         {
-            var key = input.attr("id");
-            
-            if (input.prop("tagName") == "INPUT")
+            var key = input.attr("chart_prop_key");
+
+            if (input.prop("tagName") == "INPUT" || "SELECT" || "CHECKBOX")
             {
+//                console.log(key);
+//                console.log(input.val());
                 if (input.val() == "")
                 {
                     delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
                 } else
-                {                    
-                    this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = input.val();
+                {
+//                    console.log($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
+                    if ($.isNumeric(input.val()))
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = parseInt(input.val());
+                    } else
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = input.val();
+                    }
+
                 }
+
             }
 
         }
 
-
+//        console.log(this.dashJSON[this.row]);
 
 
         showsingleChart(this.row, this.index, this.dashJSON);

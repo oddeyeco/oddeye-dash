@@ -226,9 +226,13 @@
         redrawAllJSON(dashJSONvar);
     });
 
-    $('body').on("blur", ".edit-form .edit-query input", function () {        
-        chartForm.chage($(this));
+    $('body').on("blur", ".edit-form input", function () {        
+        chartForm.chage($(this));        
     })
+    
+    $('body').on("change", ".edit-form select", function () {        
+        chartForm.chage($(this));        
+    })    
 
 
     $(document).ready(function () {
