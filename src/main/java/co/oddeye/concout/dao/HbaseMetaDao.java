@@ -95,40 +95,18 @@ public class HbaseMetaDao extends HbaseBaseDao {
         scanner.setQualifiers(Qualifiers);
 
         byte[] key = new byte[0];
-
-//        for (OddeyeTag tag : tags.values()) {
-//            key = ArrayUtils.addAll(key, tag.getKeyTSDBUID());
-//            key = ArrayUtils.addAll(key, tag.getValueTSDBUID());
-//        }        
+      
         key = ArrayUtils.addAll(key, BaseTsdbV.getTsdb().getUID(UniqueId.UniqueIdType.TAGK, "UUID"));
         key = ArrayUtils.addAll(key, BaseTsdbV.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, userid.toString()));
 
-//        final StringBuilder buf = new StringBuilder((key.length * 6));
         StringBuilder buffer = new StringBuilder();
         buffer.append("\\Q");
         QueryUtil.addId(buffer, key, true);
-
-//        for (int i = 0; i < key.length; i++) {
-//            if (key[i] >= 32 && key[i] != 92 && key[i] != 127) {
-//                buffer.append((char) key[i]);
-//            } else {
-//                String temp;
-//                if (key[i] == 92) {
-//                    buffer.append("\\\\");
-//                } else {
-//                    temp = String.format("\\x%02x", key[i]);
-//                    buffer.append(temp);
-//                }
-//            }
-//        }
-//        buf.append((char) (1 & 0xFF));
         scanner.setKeyRegexp(buffer.toString(), Charset.forName("ISO-8859-1"));
-//        scanner.setKeyRegexp("\\x00\\x01", Charset.forName("ISO-8859-1"));
-
-//        Internal.createAndSetTSUIDFilter(scanner, tsuids);        
+    
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
         ArrayList<ArrayList<KeyValue>> rows;
-        while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
+        while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
             for (final ArrayList<KeyValue> row : rows) {
                 try {
                     OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
