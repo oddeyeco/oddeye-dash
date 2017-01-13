@@ -226,20 +226,22 @@
         redrawAllJSON(dashJSONvar);
     });
 
-    $('body').on("blur", ".edit-form input", function () {        
-        chartForm.chage($(this));        
+    $('body').on("blur", ".edit-form input", function () {
+        chartForm.chage($(this));
     })
-    
-    $('body').on("change", ".edit-form select", function () {        
-        chartForm.chage($(this));        
-    })    
+
+    $('body').on("change", ".edit-form select", function () {
+        chartForm.chage($(this));
+    })
 
 
     $(document).ready(function () {
         $('#reportrange span').html("Last 5 minutes");
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
-        $('.cl_picer').colorpicker();
-        
+        $('.cl_picer').colorpicker().on('hidePicker', function () {
+            chartForm.chage($(this).find("input"));
+        });
+
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
 

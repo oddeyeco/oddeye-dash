@@ -223,7 +223,7 @@
                                     Background Color
                                 </label>
                                 <div class="col-md-7">
-                                    <div class="input-group cl_picer">                            
+                                    <div class="input-group cl_picer" >                            
                                         <input id="background_color" chart_prop_key="backgroundColor" name="background_color" type="text" value="" class="form-control" >
                                         <span class="input-group-addon"><i></i></span>
                                     </div>                                
@@ -235,7 +235,7 @@
                                 </label>
                                 <div class="col-md-7">
                                     <div class="input-group cl_picer">                            
-                                        <input id="border_color" chart_prop_key="border_color" name="background_color" type="text" value="" class="form-control" >
+                                        <input id="border_color" name="border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
                                         <span class="input-group-addon"><i></i></span>
                                     </div>                                
                                 </div>   
@@ -245,7 +245,7 @@
                                     Border Width
                                 </label>
                                 <div class="col-md-7">
-                                    <input id="border_width" chart_prop_key="border_width" name="border_width" type="number" value="" class="form-control col-md-5 col-xs-12" >
+                                    <input id="border_width" chart_prop_key="borderWidth" name="border_width" type="number" value="" class="form-control col-md-5 col-xs-12" >
                                 </div>
                             </div>
 <!--                            <div class="form-group">
