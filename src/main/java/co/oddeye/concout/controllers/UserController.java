@@ -81,12 +81,12 @@ public class UserController {
                 }
             }            
             
-            ArrayList<JsonObject> savedErrors = new ArrayList();
+            JsonObject savedErrors = new JsonObject();
 
             try {
                 ArrayList<ArrayList<KeyValue>> errors_list = ErrorsDao.getActiveErrors(userDetails);
                 for (ArrayList<KeyValue> err_row : errors_list) {
-                    JsonObject item = new JsonObject();
+                    JsonObject item = new JsonObject();                    
                     for (KeyValue cell : err_row)
                     {
                         if (Arrays.equals(cell.qualifier(), "level".getBytes()))
@@ -104,6 +104,7 @@ public class UserController {
                         {
                             String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
                             item.addProperty("message", message);                            
+                            item.addProperty("type", "Special");                            
                         }    
                         
                         
@@ -120,8 +121,9 @@ public class UserController {
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
                         metajson.getAsJsonObject().addProperty("hash", metric.hashCode());
+//                        metajson.getAsJsonObject().addProperty("type", metric.getClass().toString());
                         item.getAsJsonObject().add("info", metajson);
-                        savedErrors.add(item);
+                        savedErrors.add(Integer.toString(metric.hashCode()) ,item);
                     }
                     
                     //TODO SEND TO USER in new task

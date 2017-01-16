@@ -4,13 +4,22 @@
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script src="${cp}/resources/js/dash.js"></script>
 <script src="${cp}/resources/js/editchartform.js"></script>
-
+<script src="${cp}/resources/switchery/dist/switchery.min.js"></script>
 
 
 <script>
     var dashJSONvar = ${dashInfo};
     var cp = "${cp}";
     var chartForm;
+
+    var elems = document.querySelectorAll('.js-switch-small');
+
+    for (var i = 0; i < elems.length; i++) {
+        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+        elems[i].onchange = function () {
+            chartForm.chage($(this));              
+        };
+    }
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";

@@ -16,6 +16,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
 import org.hbase.async.ColumnPrefixFilter;
@@ -182,9 +183,18 @@ public class HbaseUserDao extends HbaseBaseDao {
             final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
             User user = new User();
 
-            final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+//            final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+            byte[] TsdbID;
             user.inituser(userkvs);
-            user.setTsdbID(BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString()));
+            try {
+                TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
+//                    nameTSDBUID = tsdb.getUID(UniqueId.UniqueIdType.METRIC, name);
+            } catch (NoSuchUniqueName e) {
+                TsdbID = BaseTsdb.getTsdb().assignUid("tagv", user.getId().toString());
+            }
+
+            user.setTsdbID(TsdbID);
+
 //            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             user.setDushList(getAllDush(uuid));
             return user;

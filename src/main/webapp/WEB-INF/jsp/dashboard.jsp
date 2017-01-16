@@ -1,3 +1,5 @@
+<link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />        
+
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
         <div class="x_content">            
@@ -106,9 +108,14 @@
                                     <label for="show" class="control-label col-md-3" >
                                         Show
                                     </label>
-                                    <div class="col-md-7">
+<!--                                    <div class="col-md-7">
                                         <input chart_prop_key="show" id="show" name="show" type="checkbox" class="flat" checked="checked">
-                                    </div>
+                                    </div>-->
+                                    <div class="">
+                                        <label>
+                                            <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
+                                        </label>
+                                    </div>                                        
                                 </div>
                             </div>
                             <div class="form-group">
@@ -205,19 +212,19 @@
                                     </select>
                                 </div>                                
                             </div>
-<!--                            <div class="form-group">
-                                <label for="text_alaign" class="control-label col-md-3" >
-                                    Text Alaign
-                                </label>
-                                <div class="col-md-3">                                    
-                                    <select id="text_alaign" chart_prop_key="text_alaign" name="text_alaign" class="form-control col-md-5 col-xs-12">
-                                        <option selected>  </option>
-                                        <option>Center</option>
-                                        <option>Left</option>
-                                        <option>Right</option>
-                                    </select>
-                                </div>
-                            </div>-->
+                            <!--                            <div class="form-group">
+                                                            <label for="text_alaign" class="control-label col-md-3" >
+                                                                Text Alaign
+                                                            </label>
+                                                            <div class="col-md-3">                                    
+                                                                <select id="text_alaign" chart_prop_key="text_alaign" name="text_alaign" class="form-control col-md-5 col-xs-12">
+                                                                    <option selected>  </option>
+                                                                    <option>Center</option>
+                                                                    <option>Left</option>
+                                                                    <option>Right</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>-->
                             <div class="form-group">
                                 <label for="background_color" class="control-label col-md-3" >
                                     Background Color
@@ -248,40 +255,40 @@
                                     <input id="border_width" chart_prop_key="borderWidth" name="border_width" type="number" value="" class="form-control col-md-5 col-xs-12" >
                                 </div>
                             </div>
-<!--                            <div class="form-group">
-                                <label for="padding" class="control-label col-md-3" >
-                                    Padding
-                                </label>
-
-                                <label for="left" class="noMargin control-label col-md-1">
-                                    left
-                                </label>
-
-                                <div class="coordInput col-md-2" style="">
-                                    <input id="left" chart_prop_key="left" name="left" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                </div>
-                                <label for="right" class="noMargin control-label col-md-1" >
-                                    right
-                                </label>
-
-                                <div class="coordInput col-md-2">
-                                    <input id="right" name="right" chart_prop_key="right" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                </div>
-                                <label for="top" class="noMargin control-label col-md-1" >
-                                    top
-                                </label>
-
-                                <div class="coordInput col-md-2">
-                                    <input id="top" name="top" chart_prop_key="top" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                </div>
-                                <label for="bottom" class="noMargin control-label col-md-1" >
-                                    bottom
-                                </label>
-
-                                <div class="coordInput col-md-2">
-                                    <input id="bottom" chart_prop_key="bottom" name="bottom" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                </div>
-                            </div>-->
+                            <!--                            <div class="form-group">
+                                                            <label for="padding" class="control-label col-md-3" >
+                                                                Padding
+                                                            </label>
+                            
+                                                            <label for="left" class="noMargin control-label col-md-1">
+                                                                left
+                                                            </label>
+                            
+                                                            <div class="coordInput col-md-2" style="">
+                                                                <input id="left" chart_prop_key="left" name="left" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                                            </div>
+                                                            <label for="right" class="noMargin control-label col-md-1" >
+                                                                right
+                                                            </label>
+                            
+                                                            <div class="coordInput col-md-2">
+                                                                <input id="right" name="right" chart_prop_key="right" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                                            </div>
+                                                            <label for="top" class="noMargin control-label col-md-1" >
+                                                                top
+                                                            </label>
+                            
+                                                            <div class="coordInput col-md-2">
+                                                                <input id="top" name="top" chart_prop_key="top" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                                            </div>
+                                                            <label for="bottom" class="noMargin control-label col-md-1" >
+                                                                bottom
+                                                            </label>
+                            
+                                                            <div class="coordInput col-md-2">
+                                                                <input id="bottom" chart_prop_key="bottom" name="bottom" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
+                                                            </div>
+                                                        </div>-->
                             <div class="form-group">
                                 <label for="item_gap" class="control-label col-md-3" >
                                     Item Gap
