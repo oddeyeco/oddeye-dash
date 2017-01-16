@@ -48,7 +48,7 @@ public class ProfileController {
     @Autowired
     private HbaseUserDao Userdao;
     @Autowired
-    HbaseErrorsDao ErrorsDao;    
+    HbaseErrorsDao ErrorsDao;
     @Autowired
     private KafkaTemplate<Integer, String> conKafkaTemplate;
 
@@ -59,8 +59,10 @@ public class ProfileController {
         String layaut = "index";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();            
-            userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                    getAuthentication().getPrincipal();
+//            if (userDetails.getMetricsMeta() == null) {
+                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//            }
             map.put("curentuser", userDetails);
 
         } else {
@@ -86,11 +88,11 @@ public class ProfileController {
             if (userDetails.getMetricsMeta() == null) {
                 userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
             }
-            
-            OddeeyMetricMeta metriq = userDetails.getMetricsMeta().getOrDefault(hash,null);
-            
+
+            OddeeyMetricMeta metriq = userDetails.getMetricsMeta().getOrDefault(hash, null);
+
             map.put("metriq", metriq);
-            ArrayList<MetricErrorMeta> ErrorList = ErrorsDao.getErrorList(userDetails,metriq);
+            ArrayList<MetricErrorMeta> ErrorList = ErrorsDao.getErrorList(userDetails, metriq);
             map.put("ErrorList", ErrorList);
 
         } else {

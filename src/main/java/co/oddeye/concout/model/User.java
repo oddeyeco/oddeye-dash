@@ -22,6 +22,7 @@ import java.util.Random;
 import java.util.UUID;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
+import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,15 +32,15 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author vahan
  */
-public class User implements UserDetails {    
-    
+public class User implements UserDetails {
+
     public final static String ROLE_ADMIN = "ROLE_ADMIN";
     public final static String ROLE_USER = "ROLE_USER";
     public final static String ROLE_SUPERADMIN = "ROLE_SUPERADMIN";
     public final static String ROLE_READONLY_ADMIN = "ROLE_READONLY_ADMIN";
     public final static String ROLE_READONLY = "ROLE_READONLY";
     public final static String ROLE_DELETE = "ROLE_DELETE";
-    
+
     @Id
     private UUID id;
     private String lastname;
@@ -61,7 +62,7 @@ public class User implements UserDetails {
     private final Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
     private Map<String, String> DushList;
-    
+
     private final AlertLevel AlertLevels = new AlertLevel();
 
     public User() {
@@ -71,8 +72,8 @@ public class User implements UserDetails {
     }
 
     // Developet metods
-    public void SendConfirmMail(mailSender Sender) {
-        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='http://localhost:8080/OddeyeCoconut/confirm/" + this.getId().toString() + "'>hear</a>", "oddeye.co@gmail.com", this.getEmail());
+    public void SendConfirmMail(mailSender Sender, String uri) throws UnsupportedEncodingException {
+        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
     }
 
     public void inituser(ArrayList<KeyValue> userkvs) {
@@ -129,7 +130,12 @@ public class User implements UserDetails {
             }
             return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
-            this.active = property.value()[0] != (byte) 0;
+            if (property.value().length == 1) {
+                this.active = property.value()[0] != (byte) 0;
+            }
+            if (property.value().length == 4) {
+                this.active = Bytes.getInt(property.value()) != 0;
+            }
         });
 //        authorities = grantedAuths;
 //        final List<GrantedAuthority> grantedAuths = new ArrayList<>();
@@ -150,12 +156,12 @@ public class User implements UserDetails {
         Userdao.saveDush(id, DushName, DushInfo);
         return DushList;
     }
-    
+
     public Map<String, String> removeDush(String DushName, HbaseUserDao Userdao) {
         DushList.remove(DushName);
         Userdao.removeDush(id, DushName);
         return DushList;
-    }    
+    }
 
     public String getDush(String DushName) {
         return DushList.get(DushName);
