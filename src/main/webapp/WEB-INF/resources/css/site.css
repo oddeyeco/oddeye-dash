@@ -23,6 +23,10 @@ and open the template in the editor.
     margin: 0px;
 }
 
+.noPadding {
+    padding: 0px;
+}
+
 .coordInput {
     width: 65px;
     padding-right: 0px;

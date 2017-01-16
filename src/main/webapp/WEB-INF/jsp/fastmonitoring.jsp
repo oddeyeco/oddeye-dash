@@ -25,14 +25,13 @@
                     <h3>Filter</h3>
                     <form class="form-horizontal form-label-left">
                         <div class="form-group">
-                            <label class="col-md-12 col-sm-12 col-xs-12">Group by</label>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <select class="form-control" name="group_item">
-                                    <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
-                                        <option <c:if test="${group_item == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
-                                    </c:forEach>
-                                </select>
-                            </div>
+                            <label class="col-md-12 col-sm-12 col-xs-12">By Tag</label>
+                            <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
+                                <label class=" control-label col-lg-4 col-sm-12 col-xs-12" for="${tagitem.key}_input">${tagitem.key}</label>
+                                <div class="col-lg-8 col-sm-12 col-xs-12 noPadding">
+                                    <input class="form-control" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" value="">
+                                </div>
+                            </c:forEach>
                         </div>
 
 
@@ -40,7 +39,7 @@
                             <label class="col-md-12 col-sm-12 col-xs-12">Level</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
-                                    <div class="">
+                                    <div class="col-lg-6">
                                         <label>
                                             <input type="checkbox" class="js-switch-small" <c:if test="${level_item <= level.key}"> checked ="checked " </c:if> id="check_level_${level.key}" name="check_level_${level.key}" /> ${curentuser.getAlertLevels().getName(level.key)}
                                             </label>

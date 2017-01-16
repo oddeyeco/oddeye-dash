@@ -142,7 +142,7 @@
                 var errorjson = JSON.parse(error.body);
                 errorlistJson[errorjson.hash] = errorjson;
                 DrawErrorList(errorlistJson, $(".metrictable"));
-                console.log(errorjson);
+//                console.log(errorjson);
 
 //                var message = "";
 //                if (typeof (errorjson.message) != "undefined")
