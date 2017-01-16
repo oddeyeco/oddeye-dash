@@ -40,10 +40,50 @@ class ChartEditForm {
                 input.parent().colorpicker('setValue',this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
             }
             //TODO check Positions
-//            if(isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title))
+            var field = this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title;
+//                if($('#x_position_text').length>0)
+//                {
+//                   $('#x_position').removeAttr('value'); 
+//                }else
+//                {
+//                    $('#x_position_text').removeAttr('value');;
+//                }
+//            
+//                if($('#y_position_text').length>0)
+//                {
+//                   $('#y_position').removeAttr('value'); 
+//                }else
+//                {
+//                    $('#y_position_text').removeAttr('value');;
+//                }
+            if(jQuery.hasData($('#x_position_text')))
+            {
+                delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title['x'];
+            }
+            if(jQuery.hasData($('#x_position')))
+            {
+                delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title['x_position_text'];
+            }
+            if(jQuery.hasData($('#y_position_text')))
+            {
+                delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title['y'];
+            }
+            if(jQuery.hasData($('#y_position')))
+            {
+                delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title['y_position_text'];
+            }
+            
 //            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
             
             input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+            
+            if($("imput[chart_prop_key='show']").attr('checked') == 'checked')
+            {
+                $("imput[chart_prop_key='show']").css('show: true');
+            }else
+            {
+                $("imput[chart_prop_key='show']").css('show: false');
+            }
         }
 
     }
@@ -75,7 +115,7 @@ class ChartEditForm {
                     }
                 } else
                 {
-//                    console.log($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
+                    
                     if ($.isNumeric(input.val()))
                     {   
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = parseInt(input.val());
@@ -83,9 +123,17 @@ class ChartEditForm {
                     {   
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = input.val();
                     }
-                       console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
+//                       console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
                 }
 
+            }
+            console.log(input.attr('checked'));
+            if(input.attr('checked') == 'checked')
+            {
+                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = "show";
+            }else
+            {
+                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = "hide";
             }
 
         }
