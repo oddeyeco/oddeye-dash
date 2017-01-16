@@ -31,3 +31,18 @@ and open the template in the editor.
     padding-left: 2px;
     padding-right: 2px;
 }
+#title_title{
+    color: 'green' !important;
+    text-height: 20px !important;
+}
+
+.title_input{
+    min-width: 100%;
+        height: 34px;
+}
+
+.title_select{
+    width: 50%;
+    margin-right: 57px;
+    float: right;
+}

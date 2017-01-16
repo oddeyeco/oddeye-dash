@@ -91,8 +91,10 @@ class ChartEditForm {
 
             if (input.prop("tagName") == "INPUT" || "SELECT" || "CHECKBOX" || "DIV")
             {
+//                console.log($(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
 //                console.log(key);
 //                console.log(input.val());
+                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
                 if (input.val() == "")
                 {
                     delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];

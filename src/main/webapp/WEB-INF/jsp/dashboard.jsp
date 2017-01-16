@@ -103,14 +103,12 @@
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_general" aria-labelledby="general-tab">                        
                         <form class="form-horizontal form-label-left edit-title">
+                            <span id="title_title" style="display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: bold;">Title</span>
                             <div class="form-group">
                                 <div class="checkbox">
-                                    <label for="show" class="control-label col-md-3" >
+                                    <label for="title_show" class="control-label col-md-1" >
                                         Show
                                     </label>
-<!--                                    <div class="col-md-7">
-                                        <input chart_prop_key="show" id="show" name="show" type="checkbox" class="flat" checked="checked">
-                                    </div>-->
                                     <div class="">
                                         <label>
                                             <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
@@ -119,27 +117,23 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="text" class="control-label col-md-3" >
+                                <label for="title_text" class="control-label col-md-1" >
                                     Text
                                 </label>
-                                <div class="col-md-7">
-                                    <input chart_prop_key="text" id="text" name="text" type="text" class="form-control col-md-5 col-xs-12" >
+                                <div class="col-md-3">
+                                    <input chart_prop_key="text" id="title_text" name="title_text" type="text" class="title_input col-md-5 col-xs-12" >
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="link" class="control-label col-md-3" >
+                                <label for="title_link" class="col-md-1" style="margin-top: 6px;">
                                     Link
                                 </label>
-                                <div class="col-md-7">
-                                    <input chart_prop_key="link" id="link" name="link" type="text" class="form-control col-md-5 col-xs-12" >
+                                <div class="col-md-3">
+                                    <input chart_prop_key="link" id="title_link" name="title_link" type="text" class="title_input col-md-5 col-xs-12" >
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="target" class="control-label col-md-3" >
+                                <label for="title_target" class="col-md-1" style="margin-top: 6px;" >
                                     Target
                                 </label>
                                 <div class="col-md-3">                                    
-                                    <select id="target" chart_prop_key="target" name="target" class="form-control col-md-5 col-xs-12">
+                                    <select id="title_target" chart_prop_key="target" name="title_target" class=" title_select form-control col-md-5 col-xs-12">
                                         <option selected></option>
                                         <option value="self">Self</option>
                                         <option value="blank">Blank</option>
@@ -147,154 +141,107 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="subtext" class="control-label col-md-3" >
+                                <label for="title_subtext" class="control-label col-md-1" >
                                     Subtext
                                 </label>                                
-                                <div class="col-md-7">
-                                    <input chart_prop_key="subtext" id="subtext" name="subtext" type="text" class="form-control col-md-5 col-xs-12" >
+                                <div class="col-md-3">
+                                    <input chart_prop_key="subtext" id="title_subtext" name="title_subtext" type="text" class="title_input col-md-5 col-xs-12" >
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="sublink" class="control-label col-md-3" >
+                                <label for="title_sublink" class="control-label col-md-1" >
                                     Sublink
                                 </label>
-                                <div class="col-md-7">
-                                    <input chart_prop_key="sublink" id="sublink" name="sublink" type="text" class="form-control col-md-5 col-xs-12" >
+                                <div class="col-md-3">
+                                    <input chart_prop_key="sublink" id="title_sublink" name="title_sublink" type="text" class="title_input col-md-5 col-xs-12" >
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="subtarget" class="control-label col-md-3" >
+                                <label for="title_subtarget" class="control-label col-md-1" >
                                     Subtarget
                                 </label>
                                 <div class="col-md-3">
-                                    <select id="subtarget" chart_prop_key="subtarget" name="subtarget" class="form-control col-md-5 col-xs-12">
+                                    <select id="title_subtarget" chart_prop_key="subtarget" name="title_subtarget" class="title_select form-control col-md-5 col-xs-12">
                                         <option selected></option>
                                         <option value="self">Self</option>
                                         <option value="blank">Blank</option>
                                     </select>
                                 </div>
                             </div>
+                            
                             <div class="form-group">
-                                <label for="x_position" class="control-label col-md-3" >
+                                <label for="title_x_position" class="control-label col-md-2" style="text-align: left; margin-left: -16px;">
                                     X Position
                                 </label>
                                 <div class="col-md-3">
-                                    <input id="x_position_text" chart_prop_key="x" name="x_position" type="number" class="form-control col-md-3 col-xs-3" >
-                                </div>
-                                <label class="control-label col-md-1" style="white-space: nowrap">
-                                    px OR
-                                </label>
-                                <div class="col-md-3">
-                                    <select id="x_position" chart_prop_key="x" name="x_position" class="form-control col-md-3 col-xs-9 select_edit">
+                                    <select id="title_x_position" chart_prop_key="x" name="title_x_position" class="title_select form-control col-md-3 col-xs-9 select_edit" style="margin-right: 116px;">
                                         <option selected value=""></option>
                                         <option value="center">Center</option>
                                         <option value="left">Left</option>
                                         <option value="right">Right</option>
                                     </select>
-                                </div>                                
-                            </div>
-                            <div class="form-group">
-                                <label for="y_position" class="control-label col-md-3" >
-                                    Y Position
+                                </div> 
+                                <label class="control-label col-md-1" style="white-space: nowrap; margin-left: -145px !important;">
+                                    OR
                                 </label>
                                 <div class="col-md-3">
-                                    <input id="y_position_text" chart_prop_key="y" name="y_position" type="number" class="form-control col-md-3 col-xs-3" >
+                                    <input id="title_x_position_text" chart_prop_key="x" name="title_x_position_text" type="number" class="form-control col-md-3 col-xs-3" style="width: 50%; margin-left: -100px;" >
                                 </div>
-                                <label class="control-label col-md-1" style="white-space: nowrap">
-                                    px OR
+                                <label class="control-label col-md-1" style="white-space: nowrap;     margin-left: -210px;">
+                                    px
                                 </label>
+                                <label for="title_y_position" class="control-label col-md-2" style="text-align: left; margin-left: -155px;" >
+                                    Y Position
+                                </label>  
                                 <div class="col-md-3">
-                                    <select id="x_position" chart_prop_key="y" name="x_position" class="form-control col-md-3 col-xs-9 select_edit">
+                                    <select id="title_y_position" chart_prop_key="y" name="title_y_position" class="title_select form-control col-md-3 col-xs-9 select_edit" style="margin-right: 160px;">
                                         <option selected value=""></option>
                                         <option value="center">Center</option>
                                         <option value="top">Top</option>
                                         <option value="bottom">Bottom</option>
                                     </select>
-                                </div>                                
-                            </div>
-                            <!--                            <div class="form-group">
-                                                            <label for="text_alaign" class="control-label col-md-3" >
-                                                                Text Alaign
-                                                            </label>
-                                                            <div class="col-md-3">                                    
-                                                                <select id="text_alaign" chart_prop_key="text_alaign" name="text_alaign" class="form-control col-md-5 col-xs-12">
-                                                                    <option selected>  </option>
-                                                                    <option>Center</option>
-                                                                    <option>Left</option>
-                                                                    <option>Right</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>-->
+                                </div>  
+                                <label class="control-label col-md-1" style="white-space: nowrap; margin-left: -185px !important;">
+                                    OR
+                                </label>
+                                <div class="col-md-3">
+                                    <input id="title_y_position_text" chart_prop_key="y" name="title_y_position_text" type="number" class="form-control col-md-3 col-xs-3" style="width: 50%; margin-left: 464px; margin-top: -34px;">
+                                </div>
+                                <label class="control-label col-md-1" style="white-space: nowrap; margin-left: 525px; margin-top: -34px;">
+                                    px
+                                </label>
+                            </div>                          
                             <div class="form-group">
-                                <label for="background_color" class="control-label col-md-3" >
+                                <label for="title_background_color" class="control-label col-md-3" style="    text-align: left; margin-left: -16px;">
                                     Background Color
                                 </label>
-                                <div class="col-md-7">
+                                <div class="col-md-3" style="margin-left: -50px; width: 240px;"">
                                     <div class="input-group cl_picer" >                            
-                                        <input id="background_color" chart_prop_key="backgroundColor" name="background_color" type="text" value="" class="form-control" >
+                                        <input id="title_background_color" chart_prop_key="backgroundColor" name="title_background_color" type="text" value="" class="form-control" >
                                         <span class="input-group-addon"><i></i></span>
                                     </div>                                
-                                </div>                                
-                            </div>
-                            <div class="form-group">
-                                <label for="border_color" class="control-label col-md-3" >
-                                    Border Color
-                                </label>
-                                <div class="col-md-7">
-                                    <div class="input-group cl_picer">                            
-                                        <input id="border_color" name="border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
-                                        <span class="input-group-addon"><i></i></span>
-                                    </div>                                
-                                </div>   
-                            </div>
-                            <div class="form-group">
-                                <label for="border_width" class="control-label col-md-3" >
-                                    Border Width
-                                </label>
-                                <div class="col-md-7">
-                                    <input id="border_width" chart_prop_key="borderWidth" name="border_width" type="number" value="" class="form-control col-md-5 col-xs-12" >
-                                </div>
-                            </div>
-                            <!--                            <div class="form-group">
-                                                            <label for="padding" class="control-label col-md-3" >
-                                                                Padding
-                                                            </label>
-                            
-                                                            <label for="left" class="noMargin control-label col-md-1">
-                                                                left
-                                                            </label>
-                            
-                                                            <div class="coordInput col-md-2" style="">
-                                                                <input id="left" chart_prop_key="left" name="left" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                                            </div>
-                                                            <label for="right" class="noMargin control-label col-md-1" >
-                                                                right
-                                                            </label>
-                            
-                                                            <div class="coordInput col-md-2">
-                                                                <input id="right" name="right" chart_prop_key="right" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                                            </div>
-                                                            <label for="top" class="noMargin control-label col-md-1" >
-                                                                top
-                                                            </label>
-                            
-                                                            <div class="coordInput col-md-2">
-                                                                <input id="top" name="top" chart_prop_key="top" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                                            </div>
-                                                            <label for="bottom" class="noMargin control-label col-md-1" >
-                                                                bottom
-                                                            </label>
-                            
-                                                            <div class="coordInput col-md-2">
-                                                                <input id="bottom" chart_prop_key="bottom" name="bottom" type="number" value="" class="noMargin form-control col-md-1 col-xs-12" >                                    
-                                                            </div>
-                                                        </div>-->
-                            <div class="form-group">
-                                <label for="item_gap" class="control-label col-md-3" >
+                                </div> 
+                                <label for="title_item_gap" class="control-label col-md-2" >
                                     Item Gap
                                 </label>
-                                <div class="col-md-7">
-                                    <input id="item_gap" chart_prop_key="itemGap" name="item_gap" type="number" value="" class="form-control col-md-5 col-xs-12" >
+                                <div class="col-md-3">
+                                    <input id="title_item_gap" chart_prop_key="itemGap" name="title_item_gap" type="number" value="" class="form-control col-md-5 col-xs-12" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="border_color" class="control-label col-md-2" style="text-align: left;" >
+                                    Border
+                                </label>
+                                <label for="title_border_width" class="control-label col-md-2"  style="text-align: left;  margin-left: -5px; width: 45px;" >
+                                    Color
+                                </label>
+                                <div class="col-md-3" style="width: 240px;">
+                                    <div class="input-group cl_picer">                            
+                                        <input id="title_border_color" name="title_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
+                                        <span class="input-group-addon"><i></i></span>
+                                    </div>                                
+                                </div> 
+                                <label for="title_border_width" class="control-label col-md-2" >
+                                    Width
+                                </label>
+                                <div class="col-md-2">
+                                    <input id="title_border_width" chart_prop_key="borderWidth" name="title_border_width" type="number" value="" class="title_input form-control col-md-2 col-xs-12" >
                                 </div>
                             </div>
                         </form>
