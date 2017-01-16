@@ -74,8 +74,7 @@
                                     </th>
                                     <th>Level</th>
                                     <th>Message</th>
-                                    <th>Start Time</th>
-                                    <th>Change Time</th>                                    
+                                    <th>Time</th>                                    
                                 </tr>
                             </thead>
                             <tbody>

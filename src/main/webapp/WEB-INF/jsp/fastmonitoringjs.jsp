@@ -44,11 +44,14 @@
 
         var sort_array = [];
         for (var key in listJson) {
-            var errorjson = listJson[key];            
-            var elems = document.getElementById("check_level_" + errorjson.level);           
-            if (elems.checked)
+            var errorjson = listJson[key];
+            var elems = document.getElementById("check_level_" + errorjson.level);
+            if (elems != null)
             {
-                sort_array.push(errorjson);
+                if (elems.checked)
+                {
+                    sort_array.push(errorjson);
+                }
             }
 
         }
@@ -62,20 +65,36 @@
         for (key in sort_array)
         {
             var errorjson = sort_array[key];
-            message = "";
+//            console.log(errorjson);
+            var message = "";
             if (typeof (errorjson.message) != "undefined")
             {
                 message = errorjson.message;
             }
+            var starttime = "";
+            if (typeof (errorjson.starttimes) != "undefined")
+            {
+//                console.log(errorjson.starttimes);
+//                starttime = moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat);
+                    starttime = moment(errorjson.time * 1).format(timeformat);
+            }
+
+//            console.log(starttime);
+            var arrowclass="fa-arrow-up"; 
+            var color = "red";
+            if (errorjson.action == 2)
+            {
+                arrowclass="fa-arrow-down"; 
+                color = "green";
+            }
             table.find("tbody").append('<tr id="' + errorjson.hash + '" level="' + errorjson.level + '">' +
 //                                '<th scope="row" >' + errorjson.hash + '</th>' +
-                    '<td><a href="${cp}/chart/' + errorjson.hash + '">' + errorjson.info.name + '</a></td>' +
+                    '<td><i class="fa '+arrowclass+'" style="color:'+color+'"></i> <a href="${cp}/chart/' + errorjson.hash + '">' + errorjson.info.name + '</a></td>' +
                     '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>' +
 //                                '<td class="action">'+errorjson.action+'</td>' +
                     '<td class="level">' + errorjson.levelname + '</td>' +
                     '<td class="message">' + message + '</td>' +
-//                        '<td class="timest">' + moment(errorjson.starttimes[level]).format(timeformat) + '</td>' +
-//                        '<td class="timech">' + moment(errorjson.starttimes[errorjson.level]).format(timeformat) + '</td>' +
+                    '<td class="timech">' + starttime +'</td>' +                    
                     '</tr>');
         }
         $("select").attr('disabled', false);
@@ -102,15 +121,15 @@
 
         DrawErrorList(errorlistJson, $(".metrictable"));
 
-        $(".metrictable tbody tr").each(function () {
-            if ($(this).attr("level") < $("select#level").val())
-            {
-                $(this).fadeOut();
-            } else
-            {
-                $(this).fadeIn();
-            }
-        });
+//        $(".metrictable tbody tr").each(function () {
+//            if ($(this).attr("level") < $("select#level").val())
+//            {
+//                $(this).fadeOut();
+//            } else
+//            {
+//                $(this).fadeIn();
+//            }
+//        });
 
 
         var socket = new SockJS('${cp}/subscribe');
@@ -120,7 +139,11 @@
         headers[headerName] = token;
         stompClient.connect(headers, function (frame) {
             stompClient.subscribe('/user/' + uuid + '/errors', function (error) {
-//                var errorjson = JSON.parse(error.body);
+                var errorjson = JSON.parse(error.body);
+                errorlistJson[errorjson.hash] = errorjson;
+                DrawErrorList(errorlistJson, $(".metrictable"));
+                console.log(errorjson);
+
 //                var message = "";
 //                if (typeof (errorjson.message) != "undefined")
 //                    message = errorjson.message;
