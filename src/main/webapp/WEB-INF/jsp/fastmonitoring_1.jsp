@@ -1,8 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />        
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <div class="page-title">
     <div class="title_left">
@@ -35,17 +33,26 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="col-md-12 col-sm-12 col-xs-12">Show Tag</label>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <select class="form-control" name="ident_tag" id="ident_tag">
+                                    <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
+                                        <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <label class="col-md-12 col-sm-12 col-xs-12">Level</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
-                                    <div class="">
-                                        <label>
-                                            <input type="checkbox" class="js-switch-small" <c:if test="${level_item <= level.key}"> checked ="checked " </c:if> id="check_level_${level.key}" name="check_level_${level.key}" /> ${curentuser.getAlertLevels().getName(level.key)}
-                                            </label>
-                                        </div>                                
-                                </c:forEach>
+                                <select class="form-control" name="level" id="level">                                    
+                                    <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
+                                        <option <c:if test="${level_item == level.key}"> selected="true" </c:if>  value="${level.key}"> ${curentuser.getAlertLevels().getName(level.key)} </option>
+                                    </c:forEach>
+                                </select>
                             </div>
                         </div>                                                                                       
 
@@ -65,13 +72,7 @@
                                 <tr>
                                     <!--<th>#</th>-->
                                     <th>Metric Name</th>
-                                    <th id="ident_tag_head">
-                                        <select class="form-control" name="ident_tag" id="ident_tag">
-                                            <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
-                                                <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
-                                            </c:forEach>
-                                        </select>
-                                    </th>
+                                    <th>${ident_tag} </th>
                                     <th>Level</th>
                                     <th>Message</th>
                                     <th>Start Time</th>
@@ -79,10 +80,26 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <c:forEach items="${errorslist}" var="erroritem">
+                                    <tr style="display: none;" id="${erroritem.get('info').getAsJsonObject().get("hash").getAsString()}" level="${erroritem.get('level').getAsString()}">                                        
+                                        <td><a href="${cp}/chart/${erroritem.get('info').getAsJsonObject().get("hash").getAsString()}"> ${erroritem.get('info').getAsJsonObject().get("name").getAsString()}</a></td>
+                                        <td>${erroritem.get('info').getAsJsonObject().get('tags').getAsJsonObject().get(ident_tag).getAsJsonObject().get('value').getAsString()}</td>                                        
+                                        <td class="level">${erroritem.get('levelname').getAsString()}</td>
+                                        <td class="message">
+                                            ${erroritem.get('message').getAsString()}
+                                        </td>
+                                        
+                                        <td class="timest"></td>
+                                        <td class="timech">${erroritem.get('time').getAsString()}</td>
+                                        
+                                        </tr>
+                                    </c:forEach>
 
                             </tbody>
                         </table>
-                        <!-- end of List -->                        
+                        <!-- end of List -->
+
+
                     </div>
                 </div>                        
 
