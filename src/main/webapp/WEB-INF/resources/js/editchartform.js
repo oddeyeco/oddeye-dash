@@ -102,7 +102,7 @@ class ChartEditForm {
                     }
                 } else
                 {
-                    
+//                    console.log($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
                     if ($.isNumeric(input.val()))
                     {   
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = parseInt(input.val());
@@ -110,7 +110,7 @@ class ChartEditForm {
                     {   
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = input.val();
                     }
-//                       console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
+
                 }
 
                 if (input.attr("type") == "checkbox")
@@ -127,14 +127,6 @@ class ChartEditForm {
                 }
 
 
-            }
-            console.log(input.attr('checked'));
-            if(input.attr('checked') == 'checked')
-            {
-                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = "show";
-            }else
-            {
-                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = "hide";
             }
 
         }
