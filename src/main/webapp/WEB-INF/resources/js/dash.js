@@ -50,19 +50,20 @@ function setdatabyQueryes(option, url, start, end, chart)
 }
 
 
+//    markPoint: {
+//        data: [
+//            {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle: {
+//                    normal: {
+//                        label: {position: "top", formatter: format_func}
+//                    }}},
+//            {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top', formatter: format_func}}}},
+//        ]
+//    },
+
 var defserie = {
     name: null,
     type: 'line',
     sampling: 'average',
-    markPoint: {
-        data: [
-            {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle: {
-                    normal: {
-                        label: {position: "top", formatter: format_func}
-                    }}},
-            {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top', formatter: format_func}}}},
-        ]
-    },
     data: null
 };
 
@@ -77,7 +78,7 @@ defoption = {
         show: false,
         data: []
     },
-    animation: true,
+    animation: false,
     toolbox: {
         show: true,
         feature: {
