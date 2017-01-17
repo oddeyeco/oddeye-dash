@@ -139,7 +139,7 @@ class ChartEditForm {
             }
             if (input.attr("type").toLowerCase() == "checkbox")
             {
-                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+//                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
                 var elem = document.getElementById(input.attr("id"));
 
                 if (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key])
