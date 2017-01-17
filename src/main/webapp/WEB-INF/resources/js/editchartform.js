@@ -34,46 +34,16 @@ class ChartEditForm {
         var key;
         for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title)
         {
-            var input = this.formwraper.find("#tab_general [chart_prop_key='" + key + "']");
-            if (input.parent().hasClass("cl_picer"))
-            {
-                input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
-            }
-//            console.log(input.attr("type"));
-            //TODO check Positions
-            if (input.attr("type") == "number")
-            {
-                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
-            }
-            if (input.attr("type") == "text")
-            {
-                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
-            }
-            if (input.attr("type") == "checkbox")
-            {
-                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
-                var elem = document.getElementById(input.attr("id"));
+            var inputs = this.formwraper.find("#tab_general [chart_prop_key='" + key + "']");
+            var formObj = this;
+            inputs.each(function () {
+                formObj.fillinputs($(this), key);
+            })
 
-                if (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key])
-                {
-                    if (!elem.checked)
-                    {
-                        $(elem).trigger('click')
-                    }
-
-                } else
-                {
-                    if (elem.checked)
-                    {
-                        $(elem).trigger('click')
-                    }
-//                    elem.checked = false                    
-                }
-
-            }
         }
 
     }
+
     chage(input) {
         if (input.parents("form").hasClass("edit-query"))
         {
@@ -106,10 +76,10 @@ class ChartEditForm {
                 {
 //                    console.log($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
                     if ($.isNumeric(input.val()))
-                    {   
+                    {
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = parseInt(input.val());
                     } else
-                    {   
+                    {
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = input.val();
                     }
 
@@ -140,5 +110,54 @@ class ChartEditForm {
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);  
 //        this.chart.setOption(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
+    }
+
+    fillinputs(input, key)
+    {
+
+        if (input.parent().hasClass("cl_picer"))
+        {
+            input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+        }
+//        console.log(input.attr("type"));
+        //TODO check Positions
+        if (typeof (input.attr("type")) == "undefined")
+        {
+            if (input.prop("tagName").toLowerCase() == "select")
+            {
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+            }
+        } else
+        {
+            if (input.attr("type").toLowerCase() == "number")
+            {
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+            }
+            if (input.attr("type").toLowerCase() == "text")
+            {
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+            }
+            if (input.attr("type").toLowerCase() == "checkbox")
+            {
+                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+                var elem = document.getElementById(input.attr("id"));
+
+                if (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key])
+                {
+                    if (!elem.checked)
+                    {
+                        $(elem).trigger('click');
+                    }
+
+                } else
+                {
+                    if (elem.checked)
+                    {
+                        $(elem).trigger('click');
+                    }
+                }
+
+            }
+        }
     }
 }
