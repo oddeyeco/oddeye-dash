@@ -40,6 +40,7 @@ import co.oddeye.core.AlertLevel;
 import co.oddeye.core.OddeeyMetricMeta;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import javax.json.Json;
 import org.hbase.async.KeyValue;
 
 /**
@@ -95,6 +96,12 @@ public class UserController {
                             item.addProperty("level", level);
                             item.addProperty("levelname", AlertLevel.getName(level));
                         }
+                        
+                        if (Arrays.equals(cell.qualifier(), "action".getBytes()))
+                        {
+                            int action = cell.value()[0];
+                            item.addProperty("action", action);                            
+                        }                        
                         if (Arrays.equals(cell.qualifier(), "time".getBytes()))
                         {
                             Long time = ByteBuffer.wrap(cell.value()).getLong() ;
@@ -106,6 +113,24 @@ public class UserController {
                             item.addProperty("message", message);                            
                             item.addProperty("type", "Special");                            
                         }    
+                        
+                        if (Arrays.equals(cell.qualifier(), "starttimes".getBytes()))
+                        {
+                            final byte[] starttimes = cell.value();                            
+                            JsonObject stTimes = new JsonObject();
+                            int i = 0;
+                            final ByteBuffer Buffer = ByteBuffer.wrap(starttimes);
+                            while (i < starttimes.length) {
+//                               final byte[] level = Arrays.copyOfRange(starttimes, i, i + 1);
+                                byte level = Buffer.array()[i];
+                               i++;
+                                long time = Buffer.getLong(i);
+                                i=i+8;
+                                stTimes.addProperty(Byte.toString(level), time);
+                            }
+                            item.add("starttimes",stTimes );                            
+                            
+                        }                            
                         
                         
                     }
@@ -120,7 +145,7 @@ public class UserController {
                         JsonElement metajson = new JsonObject();
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
-                        metajson.getAsJsonObject().addProperty("hash", metric.hashCode());
+                        item.getAsJsonObject().addProperty("hash", metric.hashCode());
 //                        metajson.getAsJsonObject().addProperty("type", metric.getClass().toString());
                         item.getAsJsonObject().add("info", metajson);
                         savedErrors.add(Integer.toString(metric.hashCode()) ,item);
