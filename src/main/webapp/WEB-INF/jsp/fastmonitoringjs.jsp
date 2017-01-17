@@ -57,13 +57,14 @@
                         if (filterelems[i].checked)
                         {
                             var filter = $("#" + filterelems[i].value + "_input").val();
-                            regex = new RegExp(filter);
+                            regex = new RegExp(filter,'i');
                             filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                            console.log(filtred);
                             if (!filtred)
                             {
                                 break;
                             }
-//                            console.log(match);
+                            
                         }
                         ;
                     }
