@@ -121,4 +121,33 @@ public class DashController {
 
         return "ajax";
     }    
+    
+    @RequestMapping(value = {"/savefilter", "/savefilter/{filtername}"})
+    public String savemonitoringsetings(@PathVariable(value = "filtername", required = false) String filtername, ModelMap map,HttpServletRequest request) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User userDetails;
+        JsonObject jsonResult = new JsonObject();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+
+            if (filtername == null) {
+                filtername = "oddeye_base_def";
+            }
+                        
+            String filterinfo = request.getParameter("filter");
+            if (filtername != null) {
+                userDetails.addFiltertemplate(filtername, filterinfo, Userdao);
+                jsonResult.addProperty("sucsses", true);
+            }                        
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+                
+        map.put("jsonmodel", jsonResult);
+        return "ajax";
+    }    
 }

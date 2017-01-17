@@ -10,25 +10,8 @@
     var uuid = "${curentuser.getId()}";
     var timeformat = "DD/MM HH:mm:ss";
     var errorlistJson = ${errorslist};
+    var filterJson = ${curentuser.getDefaultFilter()};
     var cp = "${cp}";
-
-//    var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch-small'));
-//
-//    elems.forEach(function (html) {
-//        var switchery = new Switchery(html, {size: 'small', color: '#26B99A'});
-//        switchery.onchange = function () {
-//            alert(changeCheckbox.checked);
-//        };
-//    });
-
-    var elems = document.querySelectorAll('.js-switch-small');
-
-    for (var i = 0; i < elems.length; i++) {
-        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-        elems[i].onchange = function () {
-            DrawErrorList(errorlistJson, $(".metrictable"));
-        };
-    }
 
     function compareStrings(a, b) {
         // Assuming you want case-insensitive comparison
@@ -122,14 +105,6 @@
             $(this).html(time.format(timeformat));
         });
 
-
-
-//        var countriesArray = $.map(countries, function (value, key) {
-//            return {
-//                value: value,
-//                data: key
-//            };
-//        });        
         $('.autocomplete-append').each(function () {
             var input = $(this);
             var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=^(.*)$";
@@ -140,8 +115,27 @@
                 });
             })
 
-        })
+        });
+        var elems = document.querySelectorAll('.js-switch-small');
 
+        for (var i = 0; i < elems.length; i++) {
+            if (typeof (filterJson[elems[i].id]) != "undefined")
+                if (filterJson[elems[i].id] != "")
+                {
+                    $(elems[i]).trigger('click');
+                }
+            var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+            elems[i].onchange = function () {
+                DrawErrorList(errorlistJson, $(".metrictable"));
+            };
+        }
+        
+        $(".filter-input").each(function (){
+            $(this).val(filterJson[$(this).attr("name")]);
+//            console.log($(this).attr("name"));
+        });
+        
+//        console.log(filterJson);
 
         DrawErrorList(errorlistJson, $(".metrictable"));
 
@@ -165,11 +159,45 @@
         $('body').on("change", "#ident_tag", function () {
             DrawErrorList(errorlistJson, $(".metrictable"));
         });
-        
-        
+
+
         $('body').on("click", "#Default", function () {
 //            console.log("valod");
-        });        
+            var formData = $("form.form-filter").serializeArray();
+            filterJson = {};
+            jQuery.each(formData, function (i, field) {
+                if (field.value != "")
+                {
+                    filterJson[field.name] = field.value;
+                }
+
+            });
+            var sendData = {};
+            sendData.filter = JSON.stringify(filterJson);
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            url = cp + "/savefilter";
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: url,
+                data: sendData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            }).done(function (msg) {
+                if (msg.sucsses)
+                {
+                    alert("Data Saved ");
+                } else
+                {
+                    alert("Request failed");
+                }
+            }).fail(function (jqXHR, textStatus) {
+                alert("Request failed");
+            });
+        }
+        );
 
     });
 </script>    

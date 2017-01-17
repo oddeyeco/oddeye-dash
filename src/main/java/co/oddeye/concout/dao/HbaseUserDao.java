@@ -226,7 +226,6 @@ public class HbaseUserDao extends HbaseBaseDao {
         DushList.stream().forEach((dush) -> {
             result.put(new String(dush.qualifier()), new String(dush.value()));
         });
-
         return result;
     }
 
@@ -242,6 +241,20 @@ public class HbaseUserDao extends HbaseBaseDao {
             }
             PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), "personalinfo".getBytes(), qualifiers, values);
             BaseTsdb.getClient().put(request).joinUninterruptibly();
+        }
+    }
+
+    public void saveFiltertemplate(UUID id, String filtername, String filterinfo) {
+        if (filtername != null) {
+            final PutRequest put = new PutRequest(table, id.toString().getBytes(), "filtertemplates".getBytes(), filtername.getBytes(), filterinfo.getBytes());
+            BaseTsdb.getClient().put(put);
+        }
+    }
+
+    public void removeFiltertemplate(UUID id, String filtername) {
+        if (filtername != null) {
+            final DeleteRequest put = new DeleteRequest(table, id.toString().getBytes(), "filtertemplates".getBytes(), filtername.getBytes());
+            BaseTsdb.getClient().delete(put);
         }
     }
 

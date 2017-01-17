@@ -23,7 +23,7 @@
                 <%--<c:set var="group_item" value="host" />--%>   
                 <div class="col-md-2 col-sm-3 col-xs-12 profile_left">
                     <h3>Filter</h3>
-                    <form class="form-horizontal form-label-left">
+                    <form class="form-horizontal form-label-left form-filter">
                         <div class="form-group">
                             <label class="col-md-12 col-sm-12 col-xs-12">By Tag</label>
                             <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
@@ -33,7 +33,7 @@
                                         <input type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem.key}" name="check_${tagitem.key}" value="${tagitem.key}"/> 
                                     </label>
                                     <div class="col-lg-12 col-sm-12 col-xs-12">
-                                        <input class="form-control autocomplete-append" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="">
+                                        <input class="form-control autocomplete-append filter-input" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="">
                                         <div class="autocomplete-container_${tagitem.key}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
                                     </div>
                                 </div>
@@ -45,7 +45,7 @@
                                 <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
                                     <div class="col-lg-6">
                                         <label>
-                                            <input type="checkbox" class="js-switch-small" <c:if test="${level_item <= level.key}"> checked ="checked " </c:if> id="check_level_${level.key}" name="check_level_${level.key}" /> ${curentuser.getAlertLevels().getName(level.key)}
+                                            <input type="checkbox" class="js-switch-small" id="check_level_${level.key}" name="check_level_${level.key}" /> ${curentuser.getAlertLevels().getName(level.key)}
                                             </label>
                                         </div>                                
                                 </c:forEach>
@@ -54,7 +54,7 @@
                         <div class="form-group">                        
                             <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                                 <button class="btn btn-success" type="button" value="Default" id="Default">Set as Default</button>
-                                <button class="btn btn-primary" type="submit" value="Submit" id="Save As">Save As</button>
+                                <!--<button class="btn btn-primary" type="button" value="Submit" id="Save As">Save As</button>-->
                             </div>
                         </div>  
                     </form>

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.Function;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
@@ -62,6 +63,8 @@ public class User implements UserDetails {
     private final Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
     private Map<String, String> DushList;
+    private Map<String, String> FiltertemplateList = new HashMap<>();
+    ;
 
     private final AlertLevel AlertLevels = new AlertLevel();
 
@@ -129,6 +132,11 @@ public class User implements UserDetails {
                 }
             }
             return property;
+        }).map((KeyValue property) -> {
+            if (Arrays.equals(property.family(), "filtertemplates".getBytes())) {
+                this.FiltertemplateList.put(new String(property.qualifier()), new String(property.value()));
+            }
+            return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
             if (property.value().length == 1) {
                 this.active = property.value()[0] != (byte) 0;
@@ -137,8 +145,7 @@ public class User implements UserDetails {
                 this.active = Bytes.getInt(property.value()) != 0;
             }
         });
-//        authorities = grantedAuths;
-//        final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+
         authorities.add(new SimpleGrantedAuthority(ROLE_USER));
         if (this.email.equals("vahan_a@mail.ru")) {
             authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
@@ -511,6 +518,32 @@ public class User implements UserDetails {
      */
     public AlertLevel getAlertLevels() {
         return AlertLevels;
+    }
+
+    public void addFiltertemplate(String filtername, String filterinfo, HbaseUserDao Userdao) {
+        FiltertemplateList.put(filtername, filterinfo);
+        Userdao.saveFiltertemplate(id, filtername, filterinfo);
+    }
+
+    /**
+     * @return the FiltertemplateList
+     */
+    public Map<String, String> getFiltertemplateList() {
+        return FiltertemplateList;
+    }
+
+    public String getDefaultFilter() {
+        if (FiltertemplateList.get("oddeye_base_def") != null) {
+            return FiltertemplateList.get("oddeye_base_def");
+        }
+        return " [{{\"name\":\"check_level_3\",\"value\":\"on\"},{\"name\":\"check_level_4\",\"value\":\"on\"},{\"name\":\"check_level_5\",\"value\":\"on\"}]";
+    }
+
+    /**
+     * @param FiltertemplateList the FiltertemplateList to set
+     */
+    public void setFiltertemplateList(Map<String, String> FiltertemplateList) {
+        this.FiltertemplateList = FiltertemplateList;
     }
 
 }
