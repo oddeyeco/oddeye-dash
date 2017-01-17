@@ -33,7 +33,8 @@
                                         <input type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem.key}" name="check_${tagitem.key}" value="${tagitem.key}"/> 
                                         </label>
                                     <div class="col-lg-12 col-sm-12 col-xs-12">
-                                        <input class="form-control" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" value="">
+                                        <input class="form-control autocomplete-append" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="">
+                                        <div class="autocomplete-container_${tagitem.key}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
                                     </div>
                                 </div>
                             </c:forEach>
