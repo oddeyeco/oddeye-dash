@@ -31,7 +31,7 @@
                                     <label class=" col-lg-12 col-sm-12 col-xs-12">
                                         ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}
                                         <input type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem.key}" name="check_${tagitem.key}" value="${tagitem.key}"/> 
-                                        </label>
+                                    </label>
                                     <div class="col-lg-12 col-sm-12 col-xs-12">
                                         <input class="form-control autocomplete-append" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="">
                                         <div class="autocomplete-container_${tagitem.key}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
@@ -39,8 +39,6 @@
                                 </div>
                             </c:forEach>
                         </div>
-
-
                         <div class="form-group">
                             <label class="col-md-12 col-sm-12 col-xs-12">Level</label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -53,13 +51,12 @@
                                 </c:forEach>
                             </div>
                         </div>                                                                                       
-
-                        <!--                        <div class="form-group">                        
-                                                    <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                                                        <button class="btn btn-success" type="button" value="Default">Set as Default</button>
-                                                        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-                                                    </div>
-                                                </div>                         -->
+                        <div class="form-group">                        
+                            <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                <button class="btn btn-success" type="button" value="Default" id="Default">Set as Default</button>
+                                <button class="btn btn-primary" type="submit" value="Submit" id="Save As">Save As</button>
+                            </div>
+                        </div>  
                     </form>
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_left">

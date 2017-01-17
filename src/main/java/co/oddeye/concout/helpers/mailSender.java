@@ -15,6 +15,7 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 /**
@@ -64,4 +65,19 @@ public class mailSender {
             throw new RuntimeException(e);
         }
     }    
+
+    public String getBaseurl(HttpServletRequest request) {
+        return String.format("%s://%s:%d"+request.getContextPath(),"https",  getServerName(request), request.getServerPort());
+    }
+    
+    private String getServerName(HttpServletRequest request)
+    {
+        String Host = request.getHeader("X-OddEye-Host");
+        if (Host != null)
+        {
+            return Host;             
+        }
+        
+        return request.getServerName();
+    }
 }

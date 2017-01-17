@@ -172,7 +172,8 @@ public class DefaultController {
         } else {
             try {                
                 //request.getScheme()
-                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),"https",  request.getServerName(), request.getServerPort());
+//                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),"https",  request.getServerName(), request.getServerPort());
+                String baseUrl = Sender.getBaseurl(request);
                 newUser.SendConfirmMail(Sender,baseUrl);                
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);                                

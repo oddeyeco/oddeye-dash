@@ -57,18 +57,15 @@
                         if (filterelems[i].checked)
                         {
                             var filter = $("#" + filterelems[i].value + "_input").val();
-                            regex = new RegExp(filter,'i');
+                            regex = new RegExp(filter, 'i');
                             filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
-                            console.log(filtred);
                             if (!filtred)
                             {
                                 break;
                             }
-                            
                         }
-                        ;
                     }
-
+                    ;
                     if (filtred)
                     {
                         sort_array.push(errorjson);
@@ -168,8 +165,11 @@
         $('body').on("change", "#ident_tag", function () {
             DrawErrorList(errorlistJson, $(".metrictable"));
         });
+        
+        
+        $('body').on("click", "#Default", function () {
+//            console.log("valod");
+        });        
 
     });
-
-
 </script>    

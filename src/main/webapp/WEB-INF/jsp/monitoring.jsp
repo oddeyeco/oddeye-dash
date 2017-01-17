@@ -101,7 +101,6 @@
                             <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                                 <button class="btn btn-success" type="button" value="Default">Set as Default</button>
                                 <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
-
                             </div>
                         </div>                         
                     </form>
