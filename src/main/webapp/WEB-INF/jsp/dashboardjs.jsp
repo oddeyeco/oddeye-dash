@@ -257,12 +257,12 @@
             $('#title_subtitle').fadeToggle(500, function () {
                 if ($('#title_subtitle').css('display') == 'block')
                 {
-                    $('#button_title_subtitle').removeClass("fa fa-chevron-circle-down");
-                    $('#button_title_subtitle').addClass("fa fa-chevron-circle-up");
+                    $('#button_title_subtitle').removeClass("fa-chevron-circle-down");
+                    $('#button_title_subtitle').addClass("fa-chevron-circle-up");
                 } else
                 {
-                    $('#button_title_subtitle').removeClass("fa fa-chevron-circle-up");
-                    $('#button_title_subtitle').addClass("fa fa-chevron-circle-down");
+                    $('#button_title_subtitle').removeClass("fa-chevron-circle-up");
+                    $('#button_title_subtitle').addClass("fa-chevron-circle-down");
 
                 }
             });
@@ -274,12 +274,12 @@
             $('#title_subdescription').fadeToggle(500, function () {
                 if ($('#title_subdescription').css('display') == 'block')
                 {
-                    $('#button_title_description').removeClass("fa fa-chevron-circle-down");
-                    $('#button_title_description').addClass("fa fa-chevron-circle-up");
+                    $('#button_title_description').removeClass("fa-chevron-circle-down");
+                    $('#button_title_description').addClass("fa-chevron-circle-up");
                 } else
                 {
-                    $('#button_title_description').removeClass("fa fa-chevron-circle-up");
-                    $('#button_title_description').addClass("fa fa-chevron-circle-down");
+                    $('#button_title_description').removeClass("fa-chevron-circle-up");
+                    $('#button_title_description').addClass("fa-chevron-circle-down");
 
                 }
             });

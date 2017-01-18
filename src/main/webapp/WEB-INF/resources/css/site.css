@@ -65,3 +65,15 @@ and open the template in the editor.
     margin: 10px !important;
     width: 70px;
 }
+
+#buttons_div{
+    margin-left: 140px;
+}
+
+.dropdown_button{
+    font-size: 19px; color: #26B99A;
+}
+
+#position_block{
+    margin-left: 22px;
+}
