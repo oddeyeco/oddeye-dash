@@ -536,7 +536,7 @@ public class User implements UserDetails {
         if (FiltertemplateList.get("oddeye_base_def") != null) {
             return FiltertemplateList.get("oddeye_base_def");
         }
-        return " [{{\"name\":\"check_level_3\",\"value\":\"on\"},{\"name\":\"check_level_4\",\"value\":\"on\"},{\"name\":\"check_level_5\",\"value\":\"on\"}]";
+        return "{\"check_level_3\":\"on\",\"check_level_4\":\"on\",\"check_level_5\":\"on\"}";
     }
 
     /**

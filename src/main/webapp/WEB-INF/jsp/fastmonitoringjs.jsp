@@ -60,7 +60,7 @@
 
 // Now sort it:
         sort_array.sort(function (a, b) {
-            return compareStrings(a.info.name, b.info.name);
+            return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
         })
 
 
