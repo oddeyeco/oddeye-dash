@@ -41,7 +41,7 @@ and open the template in the editor.
 }
 
 .title_input{
-    width: 150px;
+    width: 255px;
     height: 34px;
 }
 
@@ -67,7 +67,8 @@ and open the template in the editor.
 }
 
 #buttons_div{
-    margin-left: 215px;
+    text-align: right;
+    margin-right: 46px;
 }
 
 .dropdown_button{
