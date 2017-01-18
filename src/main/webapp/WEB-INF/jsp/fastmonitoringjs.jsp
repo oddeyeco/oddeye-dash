@@ -129,12 +129,12 @@
                 DrawErrorList(errorlistJson, $(".metrictable"));
             };
         }
-        
-        $(".filter-input").each(function (){
+
+        $(".filter-input").each(function () {
             $(this).val(filterJson[$(this).attr("name")]);
 //            console.log($(this).attr("name"));
         });
-        
+
 //        console.log(filterJson);
 
         DrawErrorList(errorlistJson, $(".metrictable"));
@@ -147,7 +147,18 @@
         stompClient.connect(headers, function (frame) {
             stompClient.subscribe('/user/' + uuid + '/errors', function (error) {
                 var errorjson = JSON.parse(error.body);
-                errorlistJson[errorjson.hash] = errorjson;
+                if (errorjson.level == -1)
+                {
+//                   console.log(errorlistJson[errorjson.hash]);
+                   delete errorlistJson[errorjson.hash];
+//                   console.log(errorlistJson[errorjson.hash]);
+                } else
+                {
+                    errorlistJson[errorjson.hash] = errorjson;
+                }
+//                console.log(Object.keys(errorlistJson).length)
+//                if (errorjson.info.name == "host_alive")
+//                console.log(errorjson.level);
                 DrawErrorList(errorlistJson, $(".metrictable"));
 //                console.log(errorjson);
 
