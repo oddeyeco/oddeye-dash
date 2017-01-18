@@ -56,7 +56,7 @@ and open the template in the editor.
 
 .title_main_block{
     display: block;
-    width: 438px;
+    width: 655px;
     height: auto;
     margin: 10px;
 }
@@ -67,7 +67,7 @@ and open the template in the editor.
 }
 
 #buttons_div{
-    margin-left: 140px;
+    margin-left: 215px;
 }
 
 .dropdown_button{
