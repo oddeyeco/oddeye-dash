@@ -317,7 +317,7 @@
                                 </div>
                                 <div id="position_block" style="display: none;">
                                     <div class="row">
-                                        <label for="title_x_position" class="control-label col-md-2" style="margin-left: -45px; margin-right: 45px;">
+                                        <label for="title_x_position" class="control-label col-md-2" style="margin-left: -40px; margin-right: 40px;">
                                             X
                                         </label>
                                         <div class="col-md-3">
@@ -339,7 +339,7 @@
                                         </label>
                                     </div>
                                     <div class="row">
-                                        <label for="title_y_position" class="control-label col-md-2" style="margin-left: -45px; margin-right: 45px;">
+                                        <label for="title_y_position" class="control-label col-md-2" style="margin-left: -40px; margin-right: 40px;">
                                             Y
                                         </label> 
                                         <div class="col-md-3">
