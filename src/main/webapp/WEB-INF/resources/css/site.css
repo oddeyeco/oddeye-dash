@@ -7,10 +7,25 @@ and open the template in the editor.
     Created on : Apr 20, 2016, 10:22:24 AM
     Author     : vahan
 */
+
+.chartbkg
+{
+    background-color: #F5F7FA
+}
+
+
 .editchartpanel
 {
-    width: auto;
+    /*background-color: #ff0000;*/
 }
+
+@media (max-width: 600px) {
+    .editchartpanel
+    {
+        width: auto;
+    }
+}
+
 .dataTables_filter {
     float: right;
     text-align: right;
@@ -56,7 +71,7 @@ and open the template in the editor.
 }
 
 .titile_input_midle2{
-    
+
     width: 192px;
     display: inline-block;
     margin-bottom: -25px;    
@@ -106,7 +121,7 @@ and open the template in the editor.
 }
 
 #color_block{
-      height: 33px;
+    height: 33px;
 }
 
 .form-horizontal .control-label-custom{

@@ -130,11 +130,16 @@ function redrawAllJSON(dashJSON)
         {
             if (dashJSON[rowindex]["widgets"][widgetindex].type === "linechart")
             {
+                var bkgclass = ""
+                if (dashJSON[rowindex]["widgets"][widgetindex].transparent)
+                {
+                    bkgclass = "chartbkg";
+                }
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
-                $("#charttemplate .chartsection").attr("class", "chartsection col-lg-" + dashJSON[rowindex]["widgets"][widgetindex].size);
+                $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-lg-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
                 $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
@@ -200,6 +205,12 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
     {
         $(".edit-form").show();
     }
+    if (dashJSON[row]["widgets"][index].transparent)
+    {
+        $(".editchartpanel #singlewidget").addClass("chartbkg")
+    }
+
+
     echartLine = echarts.init(document.getElementById("echart_line_single"), 'macarons');
     if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
     {
@@ -223,6 +234,7 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
     }
+
     chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
     $(".fulldash").hide();
 }
