@@ -128,7 +128,7 @@
 
     }
     ;
-
+    
     $('body').on("click", "#Clear_reg", function () {
         var sendData = {};
         sendData.hash = ${Error.hashCode()};

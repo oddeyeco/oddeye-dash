@@ -7,11 +7,39 @@
     var echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
     var timer;
-
+    var cp = "${cp}";
     var interval = 10000;
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
+
+
+        $('body').on("click", "#Clear_reg", function () {
+            var sendData = {};
+            sendData.hash = ${metric.hashCode()};
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            url = cp + "/resetregression";
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: url,
+                data: sendData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            }).done(function (msg) {
+                if (msg.sucsses)
+                {
+                    alert("Message Sended ");
+                } else
+                {
+                    alert("Request failed");
+                }
+            }).fail(function (jqXHR, textStatus) {
+                alert("Request failed");
+            });
+        });
     });
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
@@ -178,7 +206,8 @@
                     }]
             });
         });
-    };
+    }
+    ;
 
 
     function ReDrawEchart(url, chart)
@@ -207,6 +236,7 @@
 //        }, interval);
         }
         );
-    };
+    }
+    ;
 
 </script>

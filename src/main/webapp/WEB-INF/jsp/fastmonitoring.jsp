@@ -66,6 +66,7 @@
                             <thead>
                                 <tr>
                                     <!--<th>#</th>-->
+                                    <th></th>
                                     <th>Metric Name</th>
                                     <th id="ident_tag_head">
                                         <select class="form-control" name="ident_tag" id="ident_tag">

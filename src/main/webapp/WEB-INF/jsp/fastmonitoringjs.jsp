@@ -93,14 +93,13 @@
             html = html + '<tr id="' + errorjson.hash + '" level="' + errorjson.level + '">';
             if (errorjson.isspec == 0)
             {
-                html = html + '<td><i class="fa ' + arrowclass + '" style="color:' + color + '"></i> <a href="${cp}/chart/' + errorjson.hash + '"><i class="fa fa-area-chart"></i></a>' + errorjson.info.name + '</td>';
-            }
-            else
+                html = html + '<td><i class="fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="${cp}/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
+            } else
             {
 //                console.log(errorjson.isspec+" "+errorjson.info.name);
-                html = html + '<td><i class="fa fa-bell" style="color:red"></i>'+  errorjson.info.name + '</td>';
+                html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
             }
-
+            html = html + '<td>' + errorjson.info.name + '</td>';
 
             html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
             html = html + '<td class="level">' + errorjson.levelname + '</td>';
@@ -176,11 +175,7 @@
                 {
                     errorlistJson[errorjson.hash] = errorjson;
                 }
-//                console.log(Object.keys(errorlistJson).length)
-//                if (errorjson.info.name == "host_alive")
-//                console.log(errorjson.level);
                 DrawErrorList(errorlistJson, $(".metrictable"));
-//                console.log(errorjson);
 
             });
         });

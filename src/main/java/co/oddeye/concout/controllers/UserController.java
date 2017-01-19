@@ -80,70 +80,62 @@ public class UserController {
                 } catch (Exception ex) {
                     Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }            
-            
+            }
+
             JsonObject savedErrors = new JsonObject();
 
             try {
                 ArrayList<ArrayList<KeyValue>> errors_list = ErrorsDao.getActiveErrors(userDetails);
                 for (ArrayList<KeyValue> err_row : errors_list) {
-                    JsonObject item = new JsonObject();                    
-                    for (KeyValue cell : err_row)
-                    {
-                        if (Arrays.equals(cell.qualifier(), "level".getBytes()))
-                        {
+                    JsonObject item = new JsonObject();
+                    for (KeyValue cell : err_row) {
+                        if (Arrays.equals(cell.qualifier(), "level".getBytes())) {
                             int level = cell.value()[0];
                             item.addProperty("level", level);
                             item.addProperty("levelname", AlertLevel.getName(level));
                         }
-                        
-                        if (Arrays.equals(cell.qualifier(), "action".getBytes()))
-                        {
+
+                        if (Arrays.equals(cell.qualifier(), "action".getBytes())) {
                             int action = cell.value()[0];
-                            item.addProperty("action", action);                            
-                        }                        
-                        if (Arrays.equals(cell.qualifier(), "time".getBytes()))
-                        {
-                            Long time = ByteBuffer.wrap(cell.value()).getLong() ;
-                            item.addProperty("time", time);                            
-                        }    
-                        if (Arrays.equals(cell.qualifier(), "message".getBytes()))
-                        {
+                            item.addProperty("action", action);
+                        }
+                        if (Arrays.equals(cell.qualifier(), "time".getBytes())) {
+                            Long time = ByteBuffer.wrap(cell.value()).getLong();
+                            item.addProperty("time", time);
+                        }
+                        if (Arrays.equals(cell.qualifier(), "message".getBytes())) {
                             String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
-                            item.addProperty("message", message);                                                                                  
-                        }    
-                        if (Arrays.equals(cell.qualifier(), "isspec".getBytes()))
-                        {
+                            item.addProperty("message", message);
+                        }
+                        if (Arrays.equals(cell.qualifier(), "isspec".getBytes())) {
                             int type = cell.value()[0];// ByteBuffer.wrap(cell.value()).toString() ;                                                    
-                            item.addProperty("isspec", type);                            
-                        }                           
-                        if (Arrays.equals(cell.qualifier(), "starttimes".getBytes()))
-                        {
-                            final byte[] starttimes = cell.value();                            
+                            item.addProperty("isspec", type);
+                        }
+                        if (Arrays.equals(cell.qualifier(), "starttimes".getBytes())) {
+                            final byte[] starttimes = cell.value();
                             JsonObject stTimes = new JsonObject();
                             int i = 0;
                             final ByteBuffer Buffer = ByteBuffer.wrap(starttimes);
                             while (i < starttimes.length) {
 //                               final byte[] level = Arrays.copyOfRange(starttimes, i, i + 1);
                                 byte level = Buffer.array()[i];
-                               i++;
+                                i++;
                                 long time = Buffer.getLong(i);
-                                i=i+8;
+                                i = i + 8;
                                 stTimes.addProperty(Byte.toString(level), time);
                             }
-                            item.add("starttimes",stTimes );                            
-                            
-                        }                            
-                        
-                        
+                            item.add("starttimes", stTimes);
+
+                        }
+
                     }
 
                     KeyValue cell = err_row.get(0);
                     byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(), BaseTsdb.getTsdb());
                     OddeeyMetricMeta metric = new OddeeyMetricMeta(Metakey, BaseTsdb.getTsdb());
 //                    if (metric.getName().equals("mem_buffers"))
-                    
-                    metric = userDetails.getMetricsMeta().get(metric.hashCode());                    
+
+                    metric = userDetails.getMetricsMeta().get(metric.hashCode());
                     if (metric != null) {
                         JsonElement metajson = new JsonObject();
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
@@ -151,9 +143,10 @@ public class UserController {
                         item.getAsJsonObject().addProperty("hash", metric.hashCode());
 //                        metajson.getAsJsonObject().addProperty("type", metric.getClass().toString());
                         item.getAsJsonObject().add("info", metajson);
-                        savedErrors.add(Integer.toString(metric.hashCode()) ,item);
+                        savedErrors.add(Integer.toString(metric.hashCode()), item);
+
                     }
-                    
+
                     //TODO SEND TO USER in new task
 //                    this.template.convertAndSendToUser(Metric.getTags().get("UUID").getValue(), "/errors", Metric.toString());    
                 }
@@ -466,7 +459,7 @@ public class UserController {
 
                 DatapointsJSON.addProperty(startdate, Error.getRegression().predict(Long.parseLong(startdate)));
                 DatapointsJSON.addProperty(enddate, Error.getRegression().predict(Long.parseLong(enddate)));
-                
+
                 jsonMessage.add("data", DatapointsJSON);
                 jsonMessages.add("predict", jsonMessage);
                 map.put("chartdata", jsonMessages);

@@ -34,7 +34,6 @@
 
                         </c:forEach>
                     </ul>                
-
                 </div>
             </div>                
             <div class="col-md-4 col-sm-4 col-xs-6">            
@@ -74,7 +73,19 @@
                     <ul class="">
                         <li>
                             <span class="name"> Predict </span>
-                            <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getRegression().predict(Error.getTimestamp()*1000)}" />  </span>
+                            <span class="value text-success">
+                                <c:choose>
+                                    <c:when test="${Error.getRegression().predict(Error.getTimestamp()*1000) == Double.NaN}">
+                                        ${Error.getRegression().predict(Error.getTimestamp()*1000)}
+                                        <br />
+                                    </c:when>    
+                                    <c:otherwise>
+                                        <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().predict(Error.getTimestamp()*1000)}" />
+                                        <br />
+                                    </c:otherwise>
+                                </c:choose>                                
+                                <%--<fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getRegression().predict(Error.getTimestamp()*1000)}" />--%>  
+                            </span>
                         </li>                                                  
                         <li>
                             <span class="name">Correlation Coefficient </span>                            
@@ -93,7 +104,18 @@
                         </li>
                         <li>
                             <span class="name">SSE</span>
-                            <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSumSquaredErrors()}" /> </span>
+                            <span class="value text-success">
+                                <c:choose>
+                                    <c:when test="${Error.getRegression().getSumSquaredErrors() == Double.NaN}">
+                                        ${Error.getRegression().getSumSquaredErrors()}
+                                        <br />
+                                    </c:when>    
+                                    <c:otherwise>
+                                        <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSumSquaredErrors()}" />
+                                        <br />
+                                    </c:otherwise>
+                                </c:choose>                                                                
+                            </span>
                         </li>                         
                         
                         <li>

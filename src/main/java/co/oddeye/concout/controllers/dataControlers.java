@@ -5,11 +5,19 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.hbase.async.GetRequest;
+import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -30,12 +38,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class dataControlers {
 
     @Autowired
-    private HbaseDataDao Datadao;        
+    private HbaseDataDao Datadao;
     @Autowired
     HbaseMetaDao MetaDao;
+    @Autowired
+    private BaseTsdbConnect BaseTsdb;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
-    
-    @RequestMapping(value = "/metriclist",params = {"tags",}, method = RequestMethod.GET)
+
+    @RequestMapping(value = "/metriclist", params = {"tags",}, method = RequestMethod.GET)
     public String tagMetricsList(@RequestParam(value = "tags") String tags, ModelMap map) {
         map.put("body", "taglist");
         map.put("jspart", "taglistjs");
@@ -55,24 +65,38 @@ public class dataControlers {
     public String singlecahrt(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
         map.put("body", "singlecahrt");
         map.put("jspart", "singlecahrtjs");
-
-        
-        
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-            map.put("curentuser", userDetails);
-            if (userDetails.getMetricsMeta() == null) {
-                try {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+                map.put("curentuser", userDetails);
+                if (userDetails.getMetricsMeta() == null) {
+                    try {
+                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                    } catch (Exception ex) {
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
                 }
-            }             
-            OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(metricshash);
-            map.put("metric", metric);
+                OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(metricshash);
+                GetRequest getRegression = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), metric.getKey(), "d".getBytes(), "Regression".getBytes());
+                ArrayList<KeyValue> Regressiondata = BaseTsdb.getClient().get(getRegression).joinUninterruptibly();
+                for (KeyValue Regression : Regressiondata) {
+                    if (Arrays.equals(Regression.qualifier(), "Regression".getBytes())) {
+                        try {
+                            metric.setSerializedRegression(Regression.value());
+                        } catch (IOException ex) {
+                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+                metric.getRegression();
+                map.put("metric", metric);
+            } catch (Exception ex) {
+                Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return "index";
     }
