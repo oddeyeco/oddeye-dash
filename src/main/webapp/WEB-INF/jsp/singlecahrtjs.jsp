@@ -83,7 +83,7 @@
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
                     dateval = moment(time * 1);
-                    date.push(dateval.format("HH:mm:ss"));
+                    date.push(dateval.format("MM/DD HH:mm:ss"));
                     chdata.push(chartline.data[time]);
                 }
             }
@@ -221,7 +221,7 @@
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
                     dateval = moment(time * 1);
-                    date.push(dateval.format("HH:mm:ss"));
+                    date.push(dateval.format("MM/DD HH:mm:ss"));
                     chdata.push(chartline.data[time]);
                 }
             }
