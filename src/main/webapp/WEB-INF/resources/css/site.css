@@ -105,6 +105,10 @@ and open the template in the editor.
     margin: 10px;
 }
 
+#color_block{
+      height: 33px;
+}
+
 .form-horizontal .control-label-custom{
     padding: 2px;
     width: 75px;

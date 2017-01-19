@@ -174,7 +174,7 @@
                                         <button type="button" id="button_title_border" class="btn btn-primary btn-xs">Border <i class="fa fa-chevron-circle-down"></i></button>
                                     </div>
                                 </div>
-                                <div id="position_block" style="display: block;">
+                                <div id="position_block" style="display: none;">
                                     <div class="form-group form-group-custom">
                                         <label for="title_x_position" class="control-label control-label-custom" >
                                             X
@@ -227,7 +227,7 @@
                                     </div>
 
                                 </div>
-                                <div id="color_block" style="display: block;  height: 33px;">
+                                <div id="color_block" style="display: none;">
                                     <div class="form-group form-group-custom">
                                         <label for="title_border_color" class="control-label control-label-custom" >
                                             Border
@@ -252,7 +252,7 @@
                                         </div> 
                                     </div>
                                 </div>
-                                <div id="border_block" style="display: block;">
+                                <div id="border_block" style="display: none;">
                                     <label for="title_border_color" class="control-label control-label-custom">
                                         Color
                                     </label>
