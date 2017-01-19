@@ -17,7 +17,7 @@
     for (var i = 0; i < elems.length; i++) {
         var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
         elems[i].onchange = function () {
-            chartForm.chage($(this));              
+            chartForm.chage($(this));
         };
     }
 
@@ -244,12 +244,99 @@
     })
 
 
+
+
     $(document).ready(function () {
         $('#reportrange span').html("Last 5 minutes");
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
         $('.cl_picer').colorpicker().on('hidePicker', function () {
             chartForm.chage($(this).find("input"));
         });
+
+        $('#button_title_subtitle').on('click', function () {
+            $('#title_subtitle').fadeToggle(500, function () {
+                if ($('#title_subtitle').css('display') == 'block')
+                {
+                    $('#button_title_subtitle').removeClass("fa-chevron-circle-down");
+                    $('#button_title_subtitle').addClass("fa-chevron-circle-up");
+                } else
+                {
+                    $('#button_title_subtitle').removeClass("fa-chevron-circle-up");
+                    $('#button_title_subtitle').addClass("fa-chevron-circle-down");
+
+                }
+            });
+
+
+        })
+        
+         $('#button_title_description').on('click', function () {
+            $('#title_subdescription').fadeToggle(500, function () {
+                if ($('#title_subdescription').css('display') == 'block')
+                {
+                    $('#button_title_description').removeClass("fa-chevron-circle-down");
+                    $('#button_title_description').addClass("fa-chevron-circle-up");
+                } else
+                {
+                    $('#button_title_description').removeClass("fa-chevron-circle-up");
+                    $('#button_title_description').addClass("fa-chevron-circle-down");
+
+                }
+            });
+
+
+        })
+        
+        $('#button_title_position').on('click', function () {
+            $('#position_block').fadeToggle(500, function () {
+                if ($('#position_block').css('display') == 'block')
+                {
+                    $('#button_title_position i').removeClass("fa-chevron-circle-down");
+                    $('#button_title_position i').addClass("fa-chevron-circle-up");
+                } else
+                {
+                    $('#button_title_position i').removeClass("fa-chevron-circle-up");
+                    $('#button_title_position i').addClass("fa-chevron-circle-down");
+
+                }
+            });
+
+
+        })
+        
+         $('#button_title_color').on('click', function () {
+            $('#color_block').fadeToggle(500, function () {
+                if ($('#color_block').css('display') == 'block')
+                {
+                    $('#button_title_color i').removeClass("fa-chevron-circle-down");
+                    $('#button_title_color i').addClass("fa-chevron-circle-up");
+                } else
+                {
+                    $('#button_title_color i').removeClass("fa-chevron-circle-up");
+                    $('#button_title_color i').addClass("fa-chevron-circle-down");
+
+                }
+            });
+
+
+        })
+        
+        $('#button_title_border').on('click', function () {
+            $('#border_block').fadeToggle(500, function () {
+                if ($('#border_block').css('display') == 'block')
+                {
+                    $('#button_title_border i').removeClass("fa-chevron-circle-down");
+                    $('#button_title_border i').addClass("fa-chevron-circle-up");
+                } else
+                {
+                    $('#button_title_border i').removeClass("fa-chevron-circle-up");
+                    $('#button_title_border i').addClass("fa-chevron-circle-down");
+
+                }
+            });
+
+
+        })
 
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");

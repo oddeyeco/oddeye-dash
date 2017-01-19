@@ -7,7 +7,10 @@ and open the template in the editor.
     Created on : Apr 20, 2016, 10:22:24 AM
     Author     : vahan
 */
-
+.editchartpanel
+{
+    width: auto;
+}
 .dataTables_filter {
     float: right;
     text-align: right;
@@ -41,12 +44,122 @@ and open the template in the editor.
 }
 
 .title_input{
-    min-width: 100%;
-        height: 34px;
+    width: 350px;
+    display: inline-block;
+    /*height: 34px;*/
 }
 
-.title_select{
-    width: 50%;
-    margin-right: 57px;
-    float: right;
+.titile_input_midle{
+    width: 215px;
+    display: inline-block;
+    margin-bottom: -25px;
 }
+
+.titile_input_midle2{
+    
+    width: 192px;
+    display: inline-block;
+    margin-bottom: -25px;    
+}
+
+.title-input2_2{
+    margin-left: 80px;
+    margin-top: -29px;
+}
+
+.title-input2_3{
+    margin-left: 81px;
+}
+
+.title_input_large
+{
+    width: 510px;
+    display: inline-block;
+}
+
+.title_input_small{
+    width: 67px;
+    display: inline-block;
+}    
+
+.title_select{
+    width: 100px;
+    display: inline-block;
+    /*float: right;*/
+}
+
+.title_block{
+    font-size: 17px;
+}
+
+.title_main_block{
+    display: block;
+    width: 655px;
+    height: auto;
+    margin: 10px;
+}
+
+.toggles_main_block {
+    display: block;
+    height: auto;
+    margin: 10px;
+}
+
+#color_block{
+      height: 33px;
+}
+
+.form-horizontal .control-label-custom{
+    padding: 2px;
+    width: 75px;
+    text-align: right;
+}
+.float-left
+{
+    float: left;
+}
+.control-label-custom2
+{
+    width: 52px;
+}
+
+.control-label_Y
+{
+    margin-left: 68px;
+}
+.control-label-custom3{
+    /*margin-left: 10px;*/
+}
+
+.control-label-custom4
+{
+    width: 20px;
+}
+
+.control-label-custom5
+{
+    margin-left: 39px;
+}
+
+.control-label2{
+    margin-left: 38px;
+}
+
+.form-horizontal .form-group-custom
+{
+    margin: 2px 0px; 
+}
+
+#buttons_div{
+    text-align: right;
+    margin-right: 50px;
+}
+
+.dropdown_button{
+    font-size: 19px; 
+    color: #26B99A;
+}
+
+/*#position_block{
+    margin-left: 22px;
+}*/

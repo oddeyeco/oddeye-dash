@@ -86,7 +86,7 @@
         <div class="x_content" id="singlewidget">      
             <div class="echart_line_single" id="echart_line_single" style="height:600px;"></div>                   
         </div>    
-        <div class="x_content edit-form">
+        <div class="x_content edit-form" style="overflow: hidden">
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#tab_general" id="general-tab" role="tab" data-toggle="tab" aria-expanded="true">General</a>
@@ -100,148 +100,228 @@
                     <li role="presentation" class=""><a href="#tab_desplay" role="tab" id="desplay-tab" data-toggle="tab" aria-expanded="false">Display</a>
                     </li>                                
                 </ul>
-                <div id="myTabContent" class="tab-content">
+                <div id="myTabContent" class="tab-content" >
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_general" aria-labelledby="general-tab">                        
-                        <form class="form-horizontal form-label-left edit-title">
-                            <span id="title_title" style="display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: bold;">Title</span>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label for="title_show" class="control-label col-md-1" >
-                                        Show
+                        <form class="form-horizontal form-label-left edit-title">                            
+                            <div class="title_main_block col-md-4" >
+                                <div class="row">
+                                    <label for="title_text" class="title_block control-label col-md-3" >
+                                        Info
                                     </label>
-                                    <div class="">
-                                        <label>
-                                            <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
+
+                                    <div class="checkbox">
+                                        <div class="">
+                                            <label>
+                                                <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
+                                            </label>
+                                        </div>                                        
+                                    </div>
+                                </div>
+                                <!--<div class="row">-->
+                                <div class="form-group form-group-custom">
+                                    <label for="title_text" class="control-label control-label-custom">
+                                        Title
+                                    </label>
+                                    <input chart_prop_key="text" id="title_text" name="title_text" type="text" class="form-control title_input_large">
+                                    <i class="dropdown_button fa fa-chevron-circle-down" id='button_title_subtitle' ></i>
+
+                                    <div id='title_subtitle' class='form-group form-group-custom' style="display: none;">
+                                        <label for="title_link" class="control-label control-label-custom" >
+                                            Link
                                         </label>
-                                    </div>                                        
+
+                                        <input chart_prop_key="link" id="title_link" name="title_link" type="text" class="form-control title_input" >
+                                        <label for="title_target" class="control-label control-label-custom control-label-custom2" >
+                                            Target
+                                        </label>                                 
+                                        <select id="title_target" chart_prop_key="target" name="title_target" class="form-control title_select">
+                                            <option selected></option>
+                                            <option value="self">Self</option>
+                                            <option value="blank">Blank</option>
+                                        </select>
+                                    </div>
+
                                 </div>
+                                <div class="form-group form-group-custom">
+                                    <label for="title_subtext" class="control-label control-label-custom"  >
+                                        Description
+                                    </label>
+                                    <input chart_prop_key="subtext" id="title_subtext" name="title_subtext" type="text" class="form-control title_input_large">
+                                    <i class="dropdown_button fa fa-chevron-circle-down" id='button_title_description' ></i>
+
+                                    <div id='title_subdescription' class='form-group form-group-custom' style="display: none;">
+                                        <label for="title_sublink" class="control-label control-label-custom">
+                                            Link
+                                        </label>
+
+                                        <input chart_prop_key="sublink" id="title_sublink" name="title_sublink" type="text" class="form-control title_input">
+
+                                        <label for="title_subtarget" class="control-label control-label-custom control-label-custom2">
+                                            Target
+                                        </label>                                 
+                                        <select id="title_subtarget" chart_prop_key="subtarget" name="title_subtarget" class="form-control title_select">
+                                            <option selected></option>
+                                            <option value="self">Self</option>
+                                            <option value="blank">Blank</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div id="buttons_div">
+                                        <button type="button" id="button_title_position" class="btn btn-primary btn-xs">Positions <i class="fa fa-chevron-circle-down"></i></button>
+                                        <button type="button" id="button_title_color" class="btn btn-primary btn-xs">Colors <i class="fa fa-chevron-circle-down"></i></button>
+                                        <button type="button" id="button_title_border" class="btn btn-primary btn-xs">Border <i class="fa fa-chevron-circle-down"></i></button>
+                                    </div>
+                                </div>
+                                <div id="position_block" style="display: none;">
+                                    <div class="form-group form-group-custom">
+                                        <label for="title_x_position" class="control-label control-label-custom" >
+                                            X
+                                        </label>
+
+                                        <select id="title_x_position" chart_prop_key="x" name="title_x_position" class="form-control title_select" >
+                                            <option selected value=""></option>
+                                            <option value="center">Center</option>
+                                            <option value="left">Left</option>
+                                            <option value="right">Right</option>
+                                        </select>
+
+                                        <label class="control-label control-label-custom3" >
+                                            OR
+                                        </label>
+                                        <input id="title_x_position_text" chart_prop_key="x" name="title_x_position_text" type="number" class="form-control title_input_small" >
+                                        <label class="control-label control-label-custom3" >
+                                            px
+                                        </label>
+                                        <!--                                    </div>
+                                                                            <div class="row">-->
+                                        <label for="title_y_position" class="control-label control-label_Y" >
+                                            Y
+                                        </label> 
+
+                                        <select id="title_y_position" chart_prop_key="y" name="title_y_position" class="form-control title_select" >
+                                            <option selected value=""></option>
+                                            <option value="center">Center</option>
+                                            <option value="top">Top</option>
+                                            <option value="bottom">Bottom</option>
+                                        </select>
+
+                                        <label class="control-label control-label-custom3" >
+                                            OR
+                                        </label>
+                                        <!--<div class="col-md-1" >-->
+                                        <input id="title_y_position_text" chart_prop_key="y" name="title_y_position_text" type="number" class="form-control title_input_small" >
+                                        <!--</div>-->
+                                        <label class="control-label control-label-custom3" >
+                                            px
+                                        </label>
+                                        <!--                                        <label for="title_item_gap" class="control-label col-md-3" style="margin-left: -245px;">
+                                                                                    Item Gap
+                                                                                </label>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-3">
+                                                                                        <input id="title_item_gap" chart_prop_key="itemGap" name="title_item_gap" type="number" value="" class="form-control col-md-5 col-xs-12" style="margin-left: -95px;  width: 62px;">
+                                                                                    </div>-->
+                                        <!--</div>-->
+                                    </div>
+
+                                </div>
+                                <div id="color_block" style="display: none;">
+                                    <div class="form-group form-group-custom">
+                                        <label for="title_border_color" class="control-label control-label-custom" >
+                                            Border
+                                        </label>    
+
+                                        <div class="titile_input_midle">                                                                                                     
+                                            <div class="input-group cl_picer">                            
+                                                <input id="title_border_color" name="title_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>                                
+                                        </div>    
+
+
+                                        <label for="title_background_color" class="control-label control-label-custom" >
+                                            Background
+                                        </label>
+                                        <div class="titile_input_midle">
+                                            <div class="input-group cl_picer" >                            
+                                                <input id="title_background_color" chart_prop_key="backgroundColor" name="title_background_color" type="text" value="" class="form-control" >
+                                                <span class="input-group-addon"><i></i></span>
+                                            </div>                                
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div id="border_block" style="display: none;">
+                                    <label for="title_border_color" class="control-label control-label-custom">
+                                        Color
+                                    </label>
+                                    <div class="titile_input_midle">
+                                        <div class="input-group cl_picer" >                            
+                                            <input id="title_border_color" chart_prop_key="borderColor" name="title_border_color" type="text" value="" class="form-control" >
+                                            <span class="input-group-addon"><i></i></span>
+                                        </div>                                
+                                    </div> 
+                                    <label for="title_border_width" class="control-label control-label2">
+                                        Width
+                                    </label>
+                                    <div class="titile_input_midle2">
+                                        <div class="input-group" >   
+                                            <input id="title_border_width" chart_prop_key="borderWidth" name="title_border_width" type="number" value="" class="form-control">
+                                        </div>
+                                    </div>
+                                    <label class="control-label control-label-custom3" >
+                                        px
+                                    </label>
+                                </div>
+
+
                             </div>
-                            <div class="form-group">
-                                <label for="title_text" class="control-label col-md-1" >
-                                    Text
-                                </label>
-                                <div class="col-md-3">
-                                    <input chart_prop_key="text" id="title_text" name="title_text" type="text" class="title_input col-md-5 col-xs-12" >
+                            <div id="toggles_main_block" class="col-md-4" style="background-color: yellow;">
+                                <div class="row">
+                                    <label for="title_text" class="title_block control-label col-md-3" >
+                                        Dimensions
+                                    </label>
                                 </div>
-                                <label for="title_link" class="col-md-1" style="margin-top: 6px;">
-                                    Link
-                                </label>
-                                <div class="col-md-3">
-                                    <input chart_prop_key="link" id="title_link" name="title_link" type="text" class="title_input col-md-5 col-xs-12" >
+                                <div class="row">
+                                    <label for="title_toggle_span" class="control-label col-md-6" style="width: 105px;">
+                                        Span
+                                    </label>
+                                    <div >
+                                        <select id="title_toggle_span" chart_prop_key="y" name="graph_tooltip_select_box" class="title_select form-control col-md-6" style="width: 70px !important;">
+                                            <option selected value="0">0</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>  
                                 </div>
-                                <label for="title_target" class="col-md-1" style="margin-top: 6px;" >
-                                    Target
-                                </label>
-                                <div class="col-md-3">                                    
-                                    <select id="title_target" chart_prop_key="target" name="title_target" class=" title_select form-control col-md-5 col-xs-12">
-                                        <option selected></option>
-                                        <option value="self">Self</option>
-                                        <option value="blank">Blank</option>
-                                    </select>
+                                <div class="row">
+                                    <label for="title_toggle_height" class="control-label col-md-2" style="width: 105px;">
+                                        Height
+                                    </label>
+                                    <input id="title_toggle_height" chart_prop_key="x" name="title_toggle_height" type="text" class="title_input" style="width: 105px; float: right;">
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="title_subtext" class="control-label col-md-1" >
-                                    Subtext
-                                </label>                                
-                                <div class="col-md-3">
-                                    <input chart_prop_key="subtext" id="title_subtext" name="title_subtext" type="text" class="title_input col-md-5 col-xs-12" >
-                                </div>
-                                <label for="title_sublink" class="control-label col-md-1" >
-                                    Sublink
-                                </label>
-                                <div class="col-md-3">
-                                    <input chart_prop_key="sublink" id="title_sublink" name="title_sublink" type="text" class="title_input col-md-5 col-xs-12" >
-                                </div>
-                                <label for="title_subtarget" class="control-label col-md-1" >
-                                    Subtarget
-                                </label>
-                                <div class="col-md-3">
-                                    <select id="title_subtarget" chart_prop_key="subtarget" name="title_subtarget" class="title_select form-control col-md-5 col-xs-12">
-                                        <option selected></option>
-                                        <option value="self">Self</option>
-                                        <option value="blank">Blank</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="title_x_position" class="control-label col-md-2" style="text-align: left; margin-left: -16px;">
-                                    X Position
-                                </label>
-                                <div class="col-md-3">
-                                    <select id="title_x_position" chart_prop_key="x" name="title_x_position" class="title_select form-control col-md-3 col-xs-9 select_edit" style="margin-right: 116px;">
-                                        <option selected value=""></option>
-                                        <option value="center">Center</option>
-                                        <option value="left">Left</option>
-                                        <option value="right">Right</option>
-                                    </select>
-                                </div> 
-                                <label class="control-label col-md-1" style="white-space: nowrap; margin-left: -145px !important;">
-                                    OR
-                                </label>
-                                <div class="col-md-3">
-                                    <input id="title_x_position_text" chart_prop_key="x" name="title_x_position_text" type="number" class="form-control col-md-3 col-xs-3" style="width: 50%; margin-left: -100px;" >
-                                </div>
-                                <label class="control-label col-md-1" style="white-space: nowrap;     margin-left: -210px;">
-                                    px
-                                </label>
-                                <label for="title_y_position" class="control-label col-md-2" style="text-align: left; margin-left: -155px;" >
-                                    Y Position
-                                </label>  
-                                <div class="col-md-3">
-                                    <select id="title_y_position" chart_prop_key="y" name="title_y_position" class="title_select form-control col-md-3 col-xs-9 select_edit" style="margin-right: 160px;">
-                                        <option selected value=""></option>
-                                        <option value="center">Center</option>
-                                        <option value="top">Top</option>
-                                        <option value="bottom">Bottom</option>
-                                    </select>
-                                </div>  
-                                <label class="control-label col-md-1" style="white-space: nowrap; margin-left: -185px !important;">
-                                    OR
-                                </label>
-                                <div class="col-md-3">
-                                    <input id="title_y_position_text" chart_prop_key="y" name="title_y_position_text" type="number" class="form-control col-md-3 col-xs-3" style="width: 50%; margin-left: 464px; margin-top: -34px;">
-                                </div>
-                                <label class="control-label col-md-1" style="white-space: nowrap; margin-left: 525px; margin-top: -34px;">
-                                    px
-                                </label>
-                            </div>                          
-                            <div class="form-group">
-                                <label for="title_background_color" class="control-label col-md-3" style="    text-align: left; margin-left: -16px;">
-                                    Background Color
-                                </label>
-                                <div class="col-md-3" style="margin-left: -50px; width: 240px;"">
-                                    <div class="input-group cl_picer" >                            
-                                        <input id="title_background_color" chart_prop_key="backgroundColor" name="title_background_color" type="text" value="" class="form-control" >
-                                        <span class="input-group-addon"><i></i></span>
-                                    </div>                                
-                                </div> 
-                                <label for="title_item_gap" class="control-label col-md-2" >
-                                    Item Gap
-                                </label>
-                                <div class="col-md-3">
-                                    <input id="title_item_gap" chart_prop_key="itemGap" name="title_item_gap" type="number" value="" class="form-control col-md-5 col-xs-12" >
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="border_color" class="control-label col-md-2" style="text-align: left;" >
-                                    Border
-                                </label>
-                                <label for="title_border_width" class="control-label col-md-2"  style="text-align: left;  margin-left: -5px; width: 45px;" >
-                                    Color
-                                </label>
-                                <div class="col-md-3" style="width: 240px;">
-                                    <div class="input-group cl_picer">                            
-                                        <input id="title_border_color" name="title_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
-                                        <span class="input-group-addon"><i></i></span>
-                                    </div>                                
-                                </div> 
-                                <label for="title_border_width" class="control-label col-md-2" >
-                                    Width
-                                </label>
-                                <div class="col-md-2">
-                                    <input id="title_border_width" chart_prop_key="borderWidth" name="title_border_width" type="number" value="" class="title_input form-control col-md-2 col-xs-12" >
+                                <div class="row">
+                                    <label for="title_toggle_transparent" class="control-label col-md-3" style="width: auto;">
+                                        Transparent
+                                    </label>
+                                    <div class="checkbox">
+                                        <div class="">
+                                            <label>
+                                                <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
+                                            </label>
+                                        </div>                                        
+                                    </div>
                                 </div>
                             </div>
                         </form>
