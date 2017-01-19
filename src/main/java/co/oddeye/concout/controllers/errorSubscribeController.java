@@ -94,6 +94,15 @@ public class errorSubscribeController {
                 metajson.getAsJsonObject().addProperty("name", metric.getName());
                 jsonResult.getAsJsonObject().add("info", metajson);
             }
+            if (jsonResult.getAsJsonObject().get("type").getAsString().equals("Regular"))
+            {
+                jsonResult.getAsJsonObject().addProperty("isspec", 0);
+            }
+            else
+            {
+                jsonResult.getAsJsonObject().addProperty("isspec", 1);
+            }
+            
             this.template.convertAndSendToUser(Uuid, "/errors", jsonResult.toString());
         }
         countDownLatch1.countDown();

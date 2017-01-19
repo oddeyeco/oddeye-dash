@@ -110,10 +110,13 @@ public class UserController {
                         if (Arrays.equals(cell.qualifier(), "message".getBytes()))
                         {
                             String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
-                            item.addProperty("message", message);                            
-                            item.addProperty("type", "Special");                            
+                            item.addProperty("message", message);                                                                                  
                         }    
-                        
+                        if (Arrays.equals(cell.qualifier(), "isspec".getBytes()))
+                        {
+                            int type = cell.value()[0];// ByteBuffer.wrap(cell.value()).toString() ;                                                    
+                            item.addProperty("isspec", type);                            
+                        }                           
                         if (Arrays.equals(cell.qualifier(), "starttimes".getBytes()))
                         {
                             final byte[] starttimes = cell.value();                            

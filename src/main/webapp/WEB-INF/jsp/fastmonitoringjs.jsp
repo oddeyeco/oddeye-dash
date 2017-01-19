@@ -87,13 +87,27 @@
                 arrowclass = "fa-arrow-down";
                 color = "green";
             }
-            table.find("tbody").append('<tr id="' + errorjson.hash + '" level="' + errorjson.level + '">' +
-                    '<td><i class="fa ' + arrowclass + '" style="color:' + color + '"></i> <a href="${cp}/chart/' + errorjson.hash + '">' + errorjson.info.name + '</a></td>' +
-                    '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>' +
-                    '<td class="level">' + errorjson.levelname + '</td>' +
-                    '<td class="message">' + message + '</td>' +
-                    '<td class="timech">' + starttime + '</td>' +
-                    '</tr>');
+//            console.log(errorjson.isspec);
+
+            html = "";
+            html = html + '<tr id="' + errorjson.hash + '" level="' + errorjson.level + '">';
+            if (errorjson.isspec == 0)
+            {
+                html = html + '<td><i class="fa ' + arrowclass + '" style="color:' + color + '"></i> <a href="${cp}/chart/' + errorjson.hash + '"><i class="fa fa-area-chart"></i></a>' + errorjson.info.name + '</td>';
+            }
+            else
+            {
+//                console.log(errorjson.isspec+" "+errorjson.info.name);
+                html = html + '<td><i class="fa fa-bell" style="color:red"></i>'+  errorjson.info.name + '</td>';
+            }
+
+
+            html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
+            html = html + '<td class="level">' + errorjson.levelname + '</td>';
+            html = html + '<td class="message">' + message + '</td>';
+            html = html + '<td class="timech">' + starttime + '</td>';
+            html = html + '</tr>'
+            table.find("tbody").append(html);
         }
         $("select").attr('disabled', false);
     }
