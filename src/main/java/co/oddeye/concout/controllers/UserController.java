@@ -463,8 +463,10 @@ public class UserController {
 //                for (long i = Long.parseLong(startdate); i < Long.parseLong(enddate); i = i + 10000) {
 //                    DatapointsJSON.addProperty(Long.toString(i), Error.getRegression().predict(i));
 //                }
+
                 DatapointsJSON.addProperty(startdate, Error.getRegression().predict(Long.parseLong(startdate)));
                 DatapointsJSON.addProperty(enddate, Error.getRegression().predict(Long.parseLong(enddate)));
+                
                 jsonMessage.add("data", DatapointsJSON);
                 jsonMessages.add("predict", jsonMessage);
                 map.put("chartdata", jsonMessages);
