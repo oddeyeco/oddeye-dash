@@ -8,6 +8,10 @@
     var echartLine;
     var series = [];
     var legend = [];
+    var cp = "${cp}";
+    var headerName = "${_csrf.headerName}";
+    var token = "${_csrf.token}";
+
     var defserie = {
         name: null,
         type: 'line',
@@ -123,4 +127,32 @@
         });
 
     }
+    ;
+
+    $('body').on("click", "#Clear_reg", function () {
+        var sendData = {};
+        sendData.hash = ${Error.hashCode()};
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        url = cp + "/resetregression";
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                alert("Message Sended ");
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
+    })
 </script>

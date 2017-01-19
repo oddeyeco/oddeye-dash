@@ -67,11 +67,11 @@
             <div class="col-md-4 col-sm-4 col-xs-6">            
                 <div class="x_content "> 
                     <div class="x_title">
-                        <h2><i class="fa fa-line-chart"></i> Regression</h2>                                         
+                        <h2><i class="fa fa-line-chart"></i> Regression</h2>     
+                        <button class="btn btn-warning pull-right" type="button" value="Default" id="Clear_reg">Clear</button>    
                         <div class="clearfix"></div>
                     </div>                
                     <ul class="">
-
                         <li>
                             <span class="name"> Predict </span>
                             <span class="value text-success"><fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getRegression().predict(Error.getTimestamp()*1000)}" />  </span>
@@ -115,9 +115,9 @@
                             <span class="name">Counts</span>
                             <span class="value text-success">${Error.getRegression().getN()}</span>
                         </li>
-
-
-                    </ul>                
+                    </ul>   
+                    
+                        
 
                 </div>
             </div>                         

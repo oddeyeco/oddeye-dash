@@ -30,6 +30,8 @@ import net.opentsdb.core.SeekableView;
 import net.opentsdb.utils.DateTime;
 //import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,6 +40,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -55,6 +59,9 @@ public class AjaxControlers {
 
     @Autowired
     HbaseUserDao UserDao;
+    
+    @Autowired
+    private KafkaTemplate<Integer, String> conKafkaTemplate;    
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
@@ -445,4 +452,55 @@ public class AjaxControlers {
         return "ajax";
     }
 
+    @RequestMapping(value = {"/resetregression"})
+    public String regrresinreset(
+            @RequestParam(value = "hash") int hash,            
+            ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User userDetails;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        } else {
+            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
+        }
+
+        if (userDetails != null) {
+            try {
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                    Jsonchangedata.addProperty("action", "resetregresion");
+                    Jsonchangedata.addProperty("hash", hash);
+                
+                
+                    // Send chenges to kafka
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
+                        }
+
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
+                        }
+                    });                
+                
+                jsonResult.addProperty("sucsses", true);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }    
+    
 }
