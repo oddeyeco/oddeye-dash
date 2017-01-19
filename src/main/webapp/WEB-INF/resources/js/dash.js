@@ -135,6 +135,7 @@ function redrawAllJSON(dashJSON)
                 {
                     bkgclass = "chartbkg";
                 }
+//                console.log(dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);

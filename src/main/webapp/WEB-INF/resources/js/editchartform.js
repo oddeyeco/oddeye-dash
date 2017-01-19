@@ -41,6 +41,23 @@ class ChartEditForm {
             })
 
         }
+        ;
+
+        if (typeof (dashJSON[this.row]["widgets"][this.index].height) !== "undefined")
+        {
+            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val(dashJSON[this.row]["widgets"][this.index].height);
+        } else
+        {
+            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val("300px");
+        }
+//        console.log(dashJSON[this.row]["widgets"][this.index].size);
+        if (typeof (dashJSON[this.row]["widgets"][this.index].size) !== "undefined")
+        {
+            this.formwraper.find("#tab_general .edit-dimensions select#dimensions_span").val(dashJSON[this.row]["widgets"][this.index].size);
+        } else
+        {
+            this.formwraper.find("#tab_general .edit-dimensions select#dimensions_span").val("12");
+        }        
 
     }
 
@@ -55,13 +72,33 @@ class ChartEditForm {
             this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
         }
 
+//        console.log($(this.dashJSON));
+        if (input.parents("form").hasClass("edit-dimensions"))
+        {
+            if (input.attr("id") == "dimensions_height")
+            {
+                var points = ""
+                if ($.isNumeric(input.val()))
+                {
+                    points = "px";
+                }
+                this.dashJSON[this.row]["widgets"][this.index].height = input.val()+points;
+            }
+            if (input.attr("id") == "dimensions_span")
+            {
+                this.dashJSON[this.row]["widgets"][this.index].size = input.val();
+            }            
+            console.log(input.attr("id"));
+        }
+
+
         if (input.parents("form").hasClass("edit-title"))
         {
             var key = input.attr("chart_prop_key");
 
             if (input.prop("tagName") == "INPUT" || "SELECT" || "CHECKBOX" || "DIV")
             {
-//                console.log($(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
+
 //                console.log(key);
 //                console.log(input.val());
                 console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
