@@ -122,7 +122,13 @@
             if (typeof (filterJson[elems[i].id]) != "undefined")
                 if (filterJson[elems[i].id] != "")
                 {
-                    $(elems[i]).trigger('click');
+                    if (!elems[i].checked)
+                        $(elems[i]).trigger('click');
+                } else
+                {
+                    if (elems[i].checked)
+                        $(elems[i]).trigger('click');
+
                 }
             var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
             elems[i].onchange = function () {
@@ -150,7 +156,7 @@
                 if (errorjson.level == -1)
                 {
 //                   console.log(errorlistJson[errorjson.hash]);
-                   delete errorlistJson[errorjson.hash];
+                    delete errorlistJson[errorjson.hash];
 //                   console.log(errorlistJson[errorjson.hash]);
                 } else
                 {
