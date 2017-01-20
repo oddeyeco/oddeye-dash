@@ -260,42 +260,38 @@
                                         </label>
                                     </div>
                                     <div class="form-group form-group-custom">
-                                        <label for="title_toggle_span" class="control-label col-md-6" style="width: 105px;">
+                                        <label for="dimensions_span" class="control-label control-label-custom">
                                             Span
                                         </label>
-                                        <div >
-                                            <select id="dimensions_span" chart_prop_key="y" name="dimensions_span" class="toggles_select title_select form-control col-md-6" >
-                                                <option value=1>1</option>
-                                                <option value=2>2</option>
-                                                <option value=3>3</option>
-                                                <option value=4>4</option>
-                                                <option value=5>5</option>
-                                                <option value=6>6</option>
-                                                <option value=7>7</option>
-                                                <option value=8>8</option>
-                                                <option value=9>9</option>
-                                                <option value=10>10</option>
-                                                <option value=11>11</option>
-                                                <option value=12>12</option>
-                                            </select>
-                                        </div>  
+
+                                        <select id="dimensions_span" chart_prop_key="y" name="dimensions_span" class="form-control dimensions_input" >
+                                            <option value=1>1</option>
+                                            <option value=2>2</option>
+                                            <option value=3>3</option>
+                                            <option value=4>4</option>
+                                            <option value=5>5</option>
+                                            <option value=6>6</option>
+                                            <option value=7>7</option>
+                                            <option value=8>8</option>
+                                            <option value=9>9</option>
+                                            <option value=10>10</option>
+                                            <option value=11>11</option>
+                                            <option value=12>12</option>
+                                        </select>
+
                                     </div>
                                     <div class="form-group form-group-custom">
-                                        <label for="title_toggle_height" class="control-label col-md-2" style="width: 105px;">
+                                        <label for="dimensions_height" class="control-label control-label-custom">
                                             Height
                                         </label>
-                                        <input id="dimensions_height" name="dimensions_height" type="text" class="toggles_height_input form-control">
+                                        <input id="dimensions_height" name="dimensions_height" type="text" class="form-control dimensions_input">
                                     </div>
                                     <div class="form-group form-group-custom">
-                                        <label for="dimensions_transparent" class="control-label col-md-3" style="width: 105px;">
+                                        <label for="dimensions_transparent" class="control-label control-label-custom">
                                             Transparent
                                         </label>
-                                        <div class="checkbox">
-                                            <div class="">
-                                                <label>
-                                                    <input type="checkbox" class="js-switch-small" checked ="checked " id="dimensions_transparent" name="dimensions_transparent" /> 
-                                                </label>
-                                            </div>                                        
+                                        <div class="checkbox" style="display: inline-block">
+                                            <input type="checkbox" class="js-switch-small" checked ="checked " id="dimensions_transparent" name="dimensions_transparent" /> 
                                         </div>
                                     </div>
                                 </div>

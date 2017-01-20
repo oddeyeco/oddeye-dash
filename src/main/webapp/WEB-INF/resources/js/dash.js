@@ -153,6 +153,15 @@ function redrawAllJSON(dashJSON)
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-lg-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
+//                console.log(dashJSON[rowindex]["widgets"][widgetindex].height);
+                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) === "undefined")
+                {
+                    $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height)
+                }
+                else
+                {
+                    $("#charttemplate .chartsection").find(".echart_line").css("height", "300px")
+                }
                 $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions) === "undefined")

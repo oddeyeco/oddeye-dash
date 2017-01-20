@@ -45,7 +45,7 @@ class ChartEditForm {
 
         if (typeof (dashJSON[this.row]["widgets"][this.index].height) !== "undefined")
         {
-            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val(dashJSON[this.row]["widgets"][this.index].height);
+            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val(dashJSON[this.row]["widgets"][this.index].height);            
         } else
         {
             this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val("300px");
@@ -97,6 +97,10 @@ class ChartEditForm {
                 if ($.isNumeric(input.val()))
                 {
                     points = "px";
+                }                
+                if (input.val()=="")
+                {
+                    delete this.dashJSON[this.row]["widgets"][this.index].height;
                 }
                 this.dashJSON[this.row]["widgets"][this.index].height = input.val() + points;
             }
