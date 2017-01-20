@@ -103,10 +103,10 @@
                 <div id="myTabContent" class="tab-content" >
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_general" aria-labelledby="general-tab">                        
                         <div class="row">
-                            <form class="form-horizontal form-label-left edit-title pull-left" style="background-color: pink;">                            
+                            <form class="form-horizontal form-label-left edit-title pull-left" >                            
                                 <div class="title_main_block " >
                                     <div class="row">
-                                        <label for="title_text" class="title_block control-label col-md-3" >
+                                        <label for="title_text" class="title_block control-label col-md-1" >
                                             Info
                                         </label>
 
@@ -118,7 +118,6 @@
                                             </div>                                        
                                         </div>
                                     </div>
-                                    <!--<div class="row">-->
                                     <div class="form-group form-group-custom">
                                         <label for="title_text" class="control-label control-label-custom">
                                             Title
@@ -130,7 +129,6 @@
                                             <label for="title_link" class="control-label control-label-custom" >
                                                 Link
                                             </label>
-
                                             <input chart_prop_key="link" id="title_link" name="title_link" type="text" class="form-control title_input" >
                                             <label for="title_target" class="control-label control-label-custom control-label-custom2" >
                                                 Target
@@ -141,7 +139,6 @@
                                                 <option value="blank">Blank</option>
                                             </select>
                                         </div>
-
                                     </div>
                                     <div class="form-group form-group-custom">
                                         <label for="title_subtext" class="control-label control-label-custom"  >
@@ -149,14 +146,11 @@
                                         </label>
                                         <input chart_prop_key="subtext" id="title_subtext" name="title_subtext" type="text" class="form-control title_input_large">
                                         <i class="dropdown_button fa fa-chevron-circle-down" id='button_title_description' ></i>
-
                                         <div id='title_subdescription' class='form-group form-group-custom' style="display: none;">
                                             <label for="title_sublink" class="control-label control-label-custom">
                                                 Link
                                             </label>
-
                                             <input chart_prop_key="sublink" id="title_sublink" name="title_sublink" type="text" class="form-control title_input">
-
                                             <label for="title_subtarget" class="control-label control-label-custom control-label-custom2">
                                                 Target
                                             </label>                                 
@@ -166,7 +160,6 @@
                                                 <option value="blank">Blank</option>
                                             </select>
                                         </div>
-
                                     </div>
                                     <div class="row">
                                         <div id="buttons_div">
@@ -180,51 +173,36 @@
                                             <label for="title_x_position" class="control-label control-label-custom" >
                                                 X
                                             </label>
-
                                             <select id="title_x_position" chart_prop_key="x" name="title_x_position" class="form-control title_select" >
                                                 <option selected value=""></option>
                                                 <option value="center">Center</option>
                                                 <option value="left">Left</option>
                                                 <option value="right">Right</option>
                                             </select>
-
-                                            <label class="control-label control-label-custom3" >
+                                            <label class="control-label control-label-custom3 control_label_or" >
                                                 OR
                                             </label>
                                             <input id="title_x_position_text" chart_prop_key="x" name="title_x_position_text" type="number" class="form-control title_input_small" >
                                             <label class="control-label control-label-custom3" >
                                                 px
                                             </label>
-                                            <!--                                    </div>
-                                                                                <div class="row">-->
                                             <label for="title_y_position" class="control-label control-label_Y" >
                                                 Y
                                             </label> 
-
                                             <select id="title_y_position" chart_prop_key="y" name="title_y_position" class="form-control title_select" >
                                                 <option selected value=""></option>
                                                 <option value="center">Center</option>
                                                 <option value="top">Top</option>
                                                 <option value="bottom">Bottom</option>
                                             </select>
-
-                                            <label class="control-label control-label-custom3" >
+                                            <label class="control-label control-label-custom3 control_label_or" >
                                                 OR
                                             </label>
-                                            <!--<div class="col-md-1" >-->
+
                                             <input id="title_y_position_text" chart_prop_key="y" name="title_y_position_text" type="number" class="form-control title_input_small" >
-                                            <!--</div>-->
                                             <label class="control-label control-label-custom3" >
                                                 px
                                             </label>
-                                            <!--                                        <label for="title_item_gap" class="control-label col-md-3" style="margin-left: -245px;">
-                                                                                        Item Gap
-                                                                                    </label>
-                                                                                    <div class="row">
-                                                                                        <div class="col-md-3">
-                                                                                            <input id="title_item_gap" chart_prop_key="itemGap" name="title_item_gap" type="number" value="" class="form-control col-md-5 col-xs-12" style="margin-left: -95px;  width: 62px;">
-                                                                                        </div>-->
-                                            <!--</div>-->
                                         </div>
 
                                     </div>
@@ -233,15 +211,12 @@
                                             <label for="title_border_color" class="control-label control-label-custom" >
                                                 Border
                                             </label>    
-
                                             <div class="titile_input_midle">                                                                                                     
                                                 <div class="input-group cl_picer">                            
                                                     <input id="title_border_color" name="title_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
                                                     <span class="input-group-addon"><i></i></span>
                                                 </div>                                
                                             </div>    
-
-
                                             <label for="title_background_color" class="control-label control-label-custom" >
                                                 Background
                                             </label>
@@ -278,7 +253,7 @@
                                 </div>
                             </form>
                             <form class="form-horizontal form-label-left edit-dimensions pull-left">
-                                <div id="toggles_main_block" style="background-color: yellow;">
+                                <div id="toggles_main_block" >
                                     <div class="row">
                                         <label for="title_text" class="title_block control-label col-md-3" >
                                             Dimensions
