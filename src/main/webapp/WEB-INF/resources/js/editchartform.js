@@ -41,6 +41,39 @@ class ChartEditForm {
             })
 
         }
+        ;
+
+        if (typeof (dashJSON[this.row]["widgets"][this.index].height) !== "undefined")
+        {
+            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val(dashJSON[this.row]["widgets"][this.index].height);
+        } else
+        {
+            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val("300px");
+        }
+//        console.log(dashJSON[this.row]["widgets"][this.index].size);
+        if (typeof (dashJSON[this.row]["widgets"][this.index].size) !== "undefined")
+        {
+            this.formwraper.find("#tab_general .edit-dimensions select#dimensions_span").val(dashJSON[this.row]["widgets"][this.index].size);
+        } else
+        {
+            this.formwraper.find("#tab_general .edit-dimensions select#dimensions_span").val("12");
+        }
+
+        if (typeof (dashJSON[this.row]["widgets"][this.index].transparent) !== "undefined")
+        {
+            var elem = document.getElementById("dimensions_transparent");            
+            if (elem.checked != dashJSON[this.row]["widgets"][this.index].transparent)
+            {
+                $(elem).trigger('click');
+            }
+        } else
+        {
+            var elem = document.getElementById("dimensions_transparent");
+            if (elem.checked)
+            {
+                $(elem).trigger('click');
+            }
+        }
 
     }
 
@@ -55,13 +88,44 @@ class ChartEditForm {
             this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
         }
 
+//        console.log($(this.dashJSON));
+        if (input.parents("form").hasClass("edit-dimensions"))
+        {
+            if (input.attr("id") == "dimensions_height")
+            {
+                var points = ""
+                if ($.isNumeric(input.val()))
+                {
+                    points = "px";
+                }
+                this.dashJSON[this.row]["widgets"][this.index].height = input.val() + points;
+            }
+            if (input.attr("id") == "dimensions_span")
+            {
+                this.dashJSON[this.row]["widgets"][this.index].size = input.val();
+            }
+            if (input.attr("id") == "dimensions_transparent")
+            {
+                var elem = document.getElementById(input.attr("id"));
+                if (elem.checked)
+                {
+                    this.dashJSON[this.row]["widgets"][this.index].transparent = true;
+                } else
+                {
+                    delete this.dashJSON[this.row]["widgets"][this.index].transparent;
+                }
+            }
+//            console.log(input.attr("id"));
+        }
+
+
         if (input.parents("form").hasClass("edit-title"))
         {
             var key = input.attr("chart_prop_key");
 
             if (input.prop("tagName") == "INPUT" || "SELECT" || "CHECKBOX" || "DIV")
             {
-//                console.log($(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
+
 //                console.log(key);
 //                console.log(input.val());
                 console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
@@ -95,7 +159,7 @@ class ChartEditForm {
                     {
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = false;
                     }
-                    console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+//                    console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
                 }
 
 
@@ -103,7 +167,11 @@ class ChartEditForm {
 
         }
 
-//        console.log(this.dashJSON[this.row]);
+//        console.log(input.attr("type"));
+
+//        this.dashJSON[this.row]["widgets"][this.index].transparent = input.val();
+
+//        console.log(this.dashJSON[this.row]["widgets"][this.index]);
 
 
         showsingleChart(this.row, this.index, this.dashJSON);

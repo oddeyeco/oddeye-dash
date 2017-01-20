@@ -97,10 +97,20 @@ and open the template in the editor.
     display: inline-block;
 }    
 
-.title_select{
+.toggles_height_input{
     width: 100px;
+    height: 34px;
+    /*display: inline-block;*/
+}
+
+.title_select{
+    width: 78px;
     display: inline-block;
     /*float: right;*/
+}
+
+.toggles_select{
+    width: 100px;
 }
 
 .title_block{
@@ -114,10 +124,11 @@ and open the template in the editor.
     margin: 10px;
 }
 
-.toggles_main_block {
+#toggles_main_block {
     display: block;
     height: auto;
-    margin: 10px;
+    padding: 10px;
+    
 }
 
 #color_block{
@@ -140,7 +151,7 @@ and open the template in the editor.
 
 .control-label_Y
 {
-    margin-left: 68px;
+    margin-left: 89px;
 }
 .control-label-custom3{
     /*margin-left: 10px;*/

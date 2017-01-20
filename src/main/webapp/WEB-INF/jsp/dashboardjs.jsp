@@ -12,15 +12,6 @@
     var cp = "${cp}";
     var chartForm;
 
-    var elems = document.querySelectorAll('.js-switch-small');
-
-    for (var i = 0; i < elems.length; i++) {
-        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-        elems[i].onchange = function () {
-            chartForm.chage($(this));
-        };
-    }
-
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";
         var enddate = "now";
@@ -249,6 +240,19 @@
     $(document).ready(function () {
         $('#reportrange span').html("Last 5 minutes");
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
+
+        var elems = document.querySelectorAll('.js-switch-small');
+
+        for (var i = 0; i < elems.length; i++) {
+            var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+            elems[i].onchange = function () {
+                if (chartForm != null)
+                {
+                    chartForm.chage($(this));
+                }
+            };
+        }
+
         $('.cl_picer').colorpicker().on('hidePicker', function () {
             chartForm.chage($(this).find("input"));
         });
@@ -269,8 +273,8 @@
 
 
         })
-        
-         $('#button_title_description').on('click', function () {
+
+        $('#button_title_description').on('click', function () {
             $('#title_subdescription').fadeToggle(500, function () {
                 if ($('#title_subdescription').css('display') == 'block')
                 {
@@ -286,7 +290,7 @@
 
 
         })
-        
+
         $('#button_title_position').on('click', function () {
             $('#position_block').fadeToggle(500, function () {
                 if ($('#position_block').css('display') == 'block')
@@ -303,8 +307,8 @@
 
 
         })
-        
-         $('#button_title_color').on('click', function () {
+
+        $('#button_title_color').on('click', function () {
             $('#color_block').fadeToggle(500, function () {
                 if ($('#color_block').css('display') == 'block')
                 {
@@ -320,7 +324,7 @@
 
 
         })
-        
+
         $('#button_title_border').on('click', function () {
             $('#border_block').fadeToggle(500, function () {
                 if ($('#border_block').css('display') == 'block')
@@ -337,6 +341,9 @@
 
 
         })
+
+
+
 
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");

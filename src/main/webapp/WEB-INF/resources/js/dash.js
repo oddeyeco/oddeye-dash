@@ -131,10 +131,22 @@ function redrawAllJSON(dashJSON)
             if (dashJSON[rowindex]["widgets"][widgetindex].type === "linechart")
             {
                 var bkgclass = ""
-                if (dashJSON[rowindex]["widgets"][widgetindex].transparent)
+                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) == "undefined")
                 {
                     bkgclass = "chartbkg";
+
+                } else
+                {
+                    if (dashJSON[rowindex]["widgets"][widgetindex].transparent)
+                    {
+                        bkgclass = "";
+                    } else
+                    {
+                        bkgclass = "chartbkg";
+                    }
                 }
+
+//                console.log(dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
@@ -205,9 +217,20 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
     {
         $(".edit-form").show();
     }
-    if (dashJSON[row]["widgets"][index].transparent)
+
+    if (typeof (dashJSON[row]["widgets"][index].transparent) == "undefined")
     {
         $(".editchartpanel #singlewidget").addClass("chartbkg")
+
+    } else
+    {
+        if (dashJSON[row]["widgets"][index].transparent)
+        {
+            $(".editchartpanel #singlewidget").removeClass("chartbkg");
+        } else
+        {
+            $(".editchartpanel #singlewidget").addClass("chartbkg");
+        }
     }
 
 
