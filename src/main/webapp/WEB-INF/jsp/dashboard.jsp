@@ -106,17 +106,13 @@
                             <form class="form-horizontal form-label-left edit-title pull-left" >                            
                                 <div class="title_main_block " >
                                     <div class="row">
-                                        <label for="title_text" class="title_block control-label col-md-1" >
-                                            Info
-                                        </label>
-
-                                        <div class="checkbox">
-                                            <div class="">
-                                                <label>
-                                                    <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
-                                                </label>
-                                            </div>                                        
-                                        </div>
+                                        <h2 style="width: 100%"><label for="title_text" class="control-label control-label-custom" >
+                                                Info
+                                            </label>
+                                            <div class="checkbox" style="display: inline-block">
+                                                <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
+                                            </div>
+                                        </h2>
                                     </div>
                                     <div class="form-group form-group-custom">
                                         <label for="title_text" class="control-label control-label-custom">
@@ -255,94 +251,94 @@
                             <form class="form-horizontal form-label-left edit-dimensions pull-left">
                                 <div id="toggles_main_block" >
                                     <div class="row">
-                                        <label for="title_text" class="title_block control-label col-md-3" >
-                                            Dimensions
-                                        </label>
-                                    </div>
-                                    <div class="form-group form-group-custom">
-                                        <label for="dimensions_span" class="control-label control-label-custom">
-                                            Span
-                                        </label>
+                                        <h2><label for="title_text" class="control-label col-md-3" >
+                                                Dimensions
+                                            </label><h2>
+                                                </div>
+                                                <div class="form-group form-group-custom">
+                                                    <label for="dimensions_span" class="control-label control-label-custom">
+                                                        Span
+                                                    </label>
 
-                                        <select id="dimensions_span" chart_prop_key="y" name="dimensions_span" class="form-control dimensions_input" >
-                                            <option value=1>1</option>
-                                            <option value=2>2</option>
-                                            <option value=3>3</option>
-                                            <option value=4>4</option>
-                                            <option value=5>5</option>
-                                            <option value=6>6</option>
-                                            <option value=7>7</option>
-                                            <option value=8>8</option>
-                                            <option value=9>9</option>
-                                            <option value=10>10</option>
-                                            <option value=11>11</option>
-                                            <option value=12>12</option>
-                                        </select>
+                                                    <select id="dimensions_span" chart_prop_key="y" name="dimensions_span" class="form-control dimensions_input" >
+                                                        <option value=1>1</option>
+                                                        <option value=2>2</option>
+                                                        <option value=3>3</option>
+                                                        <option value=4>4</option>
+                                                        <option value=5>5</option>
+                                                        <option value=6>6</option>
+                                                        <option value=7>7</option>
+                                                        <option value=8>8</option>
+                                                        <option value=9>9</option>
+                                                        <option value=10>10</option>
+                                                        <option value=11>11</option>
+                                                        <option value=12>12</option>
+                                                    </select>
 
-                                    </div>
-                                    <div class="form-group form-group-custom">
-                                        <label for="dimensions_height" class="control-label control-label-custom">
-                                            Height
-                                        </label>
-                                        <input id="dimensions_height" name="dimensions_height" type="text" class="form-control dimensions_input">
-                                    </div>
-                                    <div class="form-group form-group-custom">
-                                        <label for="dimensions_transparent" class="control-label control-label-custom">
-                                            Transparent
-                                        </label>
-                                        <div class="checkbox" style="display: inline-block">
-                                            <input type="checkbox" class="js-switch-small" checked ="checked " id="dimensions_transparent" name="dimensions_transparent" /> 
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_metrics" aria-labelledby="metrics-tab">
-                        <form class="form-horizontal form-label-left edit-query">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="tags">Tags 
-                                </label>
-                                <div class="col-md-7">
-                                    <input id="tags" name="tags" class="form-control col-md-7 col-xs-12" type="text" value="host=cassa001*">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="metrics">Metrics 
-                                </label>
-                                <div class="col-md-7">
-                                    <input id="metrics" name="metrics" class="form-control col-md-7 col-xs-12" type="text" value="cpu_user">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="metrics">Aggregator 
-                                </label>
-                                <div class="col-md-7">
-                                    <input id="aggregator" name="aggregator" class="form-control col-md-7 col-xs-12" type="text" value="avg">
-                                </div>
-                            </div>                            
+                                                </div>
+                                                <div class="form-group form-group-custom">
+                                                    <label for="dimensions_height" class="control-label control-label-custom">
+                                                        Height
+                                                    </label>
+                                                    <input id="dimensions_height" name="dimensions_height" type="text" class="form-control dimensions_input">
+                                                </div>
+                                                <div class="form-group form-group-custom">
+                                                    <label for="dimensions_transparent" class="control-label control-label-custom">
+                                                        Transparent
+                                                    </label>
+                                                    <div class="checkbox" style="display: inline-block">
+                                                        <input type="checkbox" class="js-switch-small" checked ="checked " id="dimensions_transparent" name="dimensions_transparent" /> 
+                                                    </div>
+                                                </div>
+                                                </div>
+                                                </form>
+                                                </div>
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_metrics" aria-labelledby="metrics-tab">
+                                                    <form class="form-horizontal form-label-left edit-query">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="tags">Tags 
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <input id="tags" name="tags" class="form-control col-md-7 col-xs-12" type="text" value="host=cassa001*">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="metrics">Metrics 
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <input id="metrics" name="metrics" class="form-control col-md-7 col-xs-12" type="text" value="cpu_user">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="metrics">Aggregator 
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <input id="aggregator" name="aggregator" class="form-control col-md-7 col-xs-12" type="text" value="avg">
+                                                            </div>
+                                                        </div>                            
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="down-sample">Down sample 
-                                </label>
-                                <div class="col-md-7">
-                                    <input id="down-sample" name="down-sample" class="form-control col-md-7 col-xs-12" type="text">
-                                </div>
-                            </div>                        
-                        </form>                    
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_axes" aria-labelledby="axes-tab">
-                        dododo
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_legend" aria-labelledby="legend-tab">
-                        dododo
-                    </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_desplay" aria-labelledby="desplay-tab">
-                        dododo
-                    </div>
-                </div>
-            </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-3" for="down-sample">Down sample 
+                                                            </label>
+                                                            <div class="col-md-7">
+                                                                <input id="down-sample" name="down-sample" class="form-control col-md-7 col-xs-12" type="text">
+                                                            </div>
+                                                        </div>                        
+                                                    </form>                    
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_axes" aria-labelledby="axes-tab">
+                                                    dododo
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_legend" aria-labelledby="legend-tab">
+                                                    dododo
+                                                </div>
+                                                <div role="tabpanel" class="tab-pane fade" id="tab_desplay" aria-labelledby="desplay-tab">
+                                                    dododo
+                                                </div>
+                                                </div>
+                                                </div>
 
-        </div>    
-    </div>
-</div>        
+                                                </div>    
+                                                </div>
+                                                </div>        

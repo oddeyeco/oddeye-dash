@@ -45,19 +45,6 @@ and open the template in the editor.
     padding: 0px;
 }
 
-.coordInput {
-    width: 65px;
-    padding-right: 0px;
-}
-.coordInput input {
-    padding-left: 2px;
-    padding-right: 2px;
-}
-#title_title{
-    color: 'green' !important;
-    text-height: 20px !important;
-}
-
 .title_input{
     width: 350px;
     display: inline-block;
@@ -77,15 +64,6 @@ and open the template in the editor.
     margin-bottom: -25px;    
 }
 
-.title-input2_2{
-    margin-left: 80px;
-    margin-top: -29px;
-}
-
-.title-input2_3{
-    margin-left: 81px;
-}
-
 .title_input_large
 {
     width: 510px;
@@ -99,28 +77,14 @@ and open the template in the editor.
 }
 
 .title_input_small{
-    width: 90px;
+    width: 73px;
     display: inline-block;
 }    
 
-.toggles_height_input{
-    width: 100px;
-    height: 34px;
-    /*display: inline-block;*/
-}
-
 .title_select{
-    width: 78px;
+    width: 95px;
     display: inline-block;
     /*float: right;*/
-}
-
-.toggles_select{
-    width: 100px;
-}
-
-.title_block{
-    font-size: 17px;
 }
 
 .title_main_block{
@@ -157,7 +121,7 @@ and open the template in the editor.
 
 .control-label_Y
 {
-    margin-left: 97px;
+    margin-left: 67px;
 }
 .control-label-custom3{
     /*margin-left: 10px;*/
@@ -191,7 +155,3 @@ and open the template in the editor.
     font-size: 19px; 
     color: #26B99A;
 }
-
-/*#position_block{
-    margin-left: 22px;
-}*/
