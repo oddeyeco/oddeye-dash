@@ -131,16 +131,37 @@ function redrawAllJSON(dashJSON)
             if (dashJSON[rowindex]["widgets"][widgetindex].type === "linechart")
             {
                 var bkgclass = ""
-                if (dashJSON[rowindex]["widgets"][widgetindex].transparent)
+                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) == "undefined")
                 {
                     bkgclass = "chartbkg";
+
+                } else
+                {
+                    if (dashJSON[rowindex]["widgets"][widgetindex].transparent)
+                    {
+                        bkgclass = "";
+                    } else
+                    {
+                        bkgclass = "chartbkg";
+                    }
                 }
+
+//                console.log(dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-lg-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
+//                console.log(dashJSON[rowindex]["widgets"][widgetindex].height);
+                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) === "undefined")
+                {
+                    $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height)
+                }
+                else
+                {
+                    $("#charttemplate .chartsection").find(".echart_line").css("height", "300px")
+                }
                 $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions) === "undefined")
@@ -205,9 +226,20 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
     {
         $(".edit-form").show();
     }
-    if (dashJSON[row]["widgets"][index].transparent)
+
+    if (typeof (dashJSON[row]["widgets"][index].transparent) == "undefined")
     {
         $(".editchartpanel #singlewidget").addClass("chartbkg")
+
+    } else
+    {
+        if (dashJSON[row]["widgets"][index].transparent)
+        {
+            $(".editchartpanel #singlewidget").removeClass("chartbkg");
+        } else
+        {
+            $(".editchartpanel #singlewidget").addClass("chartbkg");
+        }
     }
 
 
