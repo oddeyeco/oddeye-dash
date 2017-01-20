@@ -312,13 +312,13 @@
                                         <input id="dimensions_height" name="dimensions_height" type="text" class="toggles_height_input form-control">
                                     </div>
                                     <div class="form-group form-group-custom">
-                                        <label for="title_toggle_transparent" class="control-label col-md-3" style="width: 105px;">
+                                        <label for="dimensions_transparent" class="control-label col-md-3" style="width: 105px;">
                                             Transparent
                                         </label>
                                         <div class="checkbox">
                                             <div class="">
                                                 <label>
-                                                    <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
+                                                    <input type="checkbox" class="js-switch-small" checked ="checked " id="dimensions_transparent" name="dimensions_transparent" /> 
                                                 </label>
                                             </div>                                        
                                         </div>
