@@ -40,8 +40,9 @@ function setdatabyQueryes(option, url, start, end, chart)
                     series.data = chdata;
                     // TODO Change by alias
                     var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+//                    var name = data.chartsdata[index].tags.host;
                     series.name = name;
-                    option.tmpoptions.legend.data.push(name);
+                    option.tmpoptions.legend.data.push({"name":name} );
 //                    console.log(data.chartsdata[index]);
                     option.tmpoptions.series.push(series);
 
