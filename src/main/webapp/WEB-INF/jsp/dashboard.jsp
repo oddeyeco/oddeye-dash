@@ -106,13 +106,13 @@
                             <form class="form-horizontal form-label-left edit-title pull-left" >                            
                                 <div class="title_main_block " >
                                     <div class="row">
-                                        <h2 style="width: 100%"><label for="title_text" class="control-label control-label-custom" >
+                                        <h3 style="width: 100%"><label for="title_text" class="control-label control-label-custom" >
                                                 Info
                                             </label>
                                             <div class="checkbox" style="display: inline-block">
                                                 <input type="checkbox" class="js-switch-small" checked ="checked " chart_prop_key="show" id="title_show" name="title_show" /> 
                                             </div>
-                                        </h2>
+                                        </h3>
                                     </div>
                                     <div class="form-group form-group-custom">
                                         <label for="title_text" class="control-label control-label-custom">
@@ -331,7 +331,91 @@
                                                     dododo
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane fade" id="tab_legend" aria-labelledby="legend-tab">
-                                                    dododo
+                                                    BOO!!!
+                                                    <div class="row">
+                                                        <form class="form-horizontal form-label-left edit-legend pull-left">                            
+                                                            <div class="title_main_block " style="background-color: purple;">
+                                                                <div class="row">
+                                                                    <h3 style="width: 100%"><label for="title_text" class="control-label control-label-custom legend_title" >
+                                                                            Legend
+                                                                        </label>
+                                                                        <div class="checkbox" style="display: inline-block">
+                                                                            <input type="checkbox" class="js-switch-small" checked ="checked " id="legend_show" name="legend_show" /> 
+                                                                        </div>
+                                                                    </h3>
+                                                                </div>
+                                                                <label for="legend_orient" class="control-label control-label-custom control-label-custom2" >
+                                                                    Orient
+                                                                </label>                                 
+                                                                <select id="legend_orient" name="legend_orient" chart_prop_key="orient" class="form-control title_select legend_orient">
+                                                                    <option value="horizontal" selected>Horizontal</option>
+                                                                    <option value="vertical">Vertical</option>
+                                                                </select>
+                                                                <div id="legend_position_block" style="display: block;">
+                                                                    <div class="form-group form-group-custom">
+                                                                        <label for="legend_x_position" class="control-label control-label-custom" >
+                                                                            X
+                                                                        </label>
+                                                                        <select id="legend_x_position" name="legend_x_position" chart_prop_key="legendX" class="form-control title_select" >
+                                                                            <option selected value=""></option>
+                                                                            <option value="center">Center</option>
+                                                                            <option value="left">Left</option>
+                                                                            <option value="right">Right</option>
+                                                                        </select>
+                                                                        <label class="control-label control-label-custom3 control_label_or" >
+                                                                            OR
+                                                                        </label>
+                                                                        <input id="legend_x_position_text" name="legend_x_position_text" chart_prop_key="legendX" type="number" class="form-control title_input_small" >
+                                                                        <label class="control-label control-label-custom3" >
+                                                                            px
+                                                                        </label>
+                                                                        <label for="legend_y_position" class="control-label control-label_Y" >
+                                                                            Y
+                                                                        </label> 
+                                                                        <select id="legend_y_position" name="legend_y_position" chart_prop_key="legendY" class="form-control title_select" >
+                                                                            <option selected value=""></option>
+                                                                            <option value="center">Center</option>
+                                                                            <option value="top">Top</option>
+                                                                            <option value="bottom">Bottom</option>
+                                                                        </select>
+                                                                        <label class="control-label control-label-custom3 control_label_or" >
+                                                                            OR
+                                                                        </label>
+
+                                                                        <input id="legend_y_position_text" name="legend_y_position_text" chart_prop_key="legendY" type="number" class="form-control title_input_small" >
+                                                                        <label class="control-label control-label-custom3" >
+                                                                            px
+                                                                        </label>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div id="legend_color_block" style="display: block;">
+                                                                    <div class="form-group form-group-custom">
+                                                                        <label for="legend_border_color" class="control-label control-label-custom" >
+                                                                            Border
+                                                                        </label>    
+                                                                        <div class="titile_input_midle">                                                                                                     
+                                                                            <div class="input-group cl_picer">                            
+                                                                                <input id="legend_border_color" name="legend_border_color" chart_prop_key="legendBorderColor" type="text" value="" class="form-control" >
+                                                                                <span class="input-group-addon"><i></i></span>
+                                                                            </div>                                
+                                                                        </div>    
+                                                                        <label for="legend_background_color" class="control-label control-label-custom" >
+                                                                            Background
+                                                                        </label>
+                                                                        <div class="titile_input_midle">
+                                                                            <div class="input-group cl_picer" >                            
+                                                                                <input id="legend_background_color" name="legend_background_color" chart_prop_key="legendBackgroundColor" type="text" value="" class="form-control" >
+                                                                                <span class="input-group-addon"><i></i></span>
+                                                                            </div>                                
+                                                                        </div> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+
+
                                                 </div>
                                                 <div role="tabpanel" class="tab-pane fade" id="tab_desplay" aria-labelledby="desplay-tab">
                                                     dododo
