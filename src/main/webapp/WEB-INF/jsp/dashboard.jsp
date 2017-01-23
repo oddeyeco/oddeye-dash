@@ -75,7 +75,7 @@
 
 <div class="x_panel editchartpanel" style="display: none">
     <div class="x_title">
-        <h2 class="col-md-3">Edit Chart</h2>              
+        <h1 class="col-md-3">Edit Chart</h1>              
         <div class="pull-right">
             <!--<a class="btn btn-primary" type="button">Save </a>-->
             <a class="btn btn-primary backtodush" type="button">Back to Dash </a>
@@ -106,7 +106,8 @@
                             <form class="form-horizontal form-label-left edit-title pull-left" >                            
                                 <div class="title_main_block " >
                                     <div class="row">
-                                        <h3 style="width: 100%"><label for="title_text" class="control-label control-label-custom" >
+                                        <h3 style="width: 100%">
+                                            <label for="title_text" class="control-label control-label-custom" >
                                                 Info
                                             </label>
                                             <div class="checkbox" style="display: inline-block">
@@ -251,9 +252,9 @@
                             <form class="form-horizontal form-label-left edit-dimensions pull-left">
                                 <div id="toggles_main_block" >
                                     <div class="row">
-                                        <h2><label for="title_text" class="control-label col-md-3" >
+                                        <h3><label for="title_text" class="control-label col-md-3" >
                                                 Dimensions
-                                            </label><h2>
+                                            </label></h3>
                                                 </div>
                                                 <div class="form-group form-group-custom">
                                                     <label for="dimensions_span" class="control-label control-label-custom">

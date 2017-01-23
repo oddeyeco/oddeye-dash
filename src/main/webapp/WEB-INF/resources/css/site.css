@@ -158,3 +158,12 @@ and open the template in the editor.
     font-size: 19px; 
     color: #26B99A;
 }
+
+.legend_title{
+    margin-right: 15px;
+    margin-left: 7px;
+}
+
+.legend_orient{
+    width: 110px;
+}

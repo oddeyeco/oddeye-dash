@@ -45,7 +45,7 @@ class ChartEditForm {
 
         if (typeof (dashJSON[this.row]["widgets"][this.index].height) !== "undefined")
         {
-            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val(dashJSON[this.row]["widgets"][this.index].height);            
+            this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val(dashJSON[this.row]["widgets"][this.index].height);
         } else
         {
             this.formwraper.find("#tab_general .edit-dimensions input#dimensions_height").val("300px");
@@ -61,7 +61,7 @@ class ChartEditForm {
 
         if (typeof (dashJSON[this.row]["widgets"][this.index].transparent) !== "undefined")
         {
-            var elem = document.getElementById("dimensions_transparent");            
+            var elem = document.getElementById("dimensions_transparent");
             if (elem.checked != dashJSON[this.row]["widgets"][this.index].transparent)
             {
                 $(elem).trigger('click');
@@ -97,8 +97,8 @@ class ChartEditForm {
                 if ($.isNumeric(input.val()))
                 {
                     points = "px";
-                }                
-                if (input.val()=="")
+                }
+                if (input.val() == "")
                 {
                     delete this.dashJSON[this.row]["widgets"][this.index].height;
                 }
@@ -127,12 +127,12 @@ class ChartEditForm {
         {
             var key = input.attr("chart_prop_key");
 
-            if (input.prop("tagName") == "INPUT" || "SELECT" || "CHECKBOX" || "DIV")
+            if (input.prop("tagName") == "INPUT" || "SELECT" || "DIV")
             {
 
 //                console.log(key);
 //                console.log(input.val());
-                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+//                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
                 if (input.val() == "")
                 {
                     delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
@@ -169,6 +169,49 @@ class ChartEditForm {
 
             }
 
+        }
+
+        if (input.parents("form").hasClass("edit-legend"))
+        {
+            var key = input.attr("chart_prop_key");
+
+            if (input.prop("tagName") == "INPUT" || "SELECT" || "DIV")
+            {
+                if (input.val() == "")
+                {
+                    delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key];
+                    if (input.parent().hasClass("cl_picer"))
+                    {
+                        input.parent().colorpicker('setValue', 'transparent');
+                    }
+                } else
+                {
+
+                    if ($.isNumeric(input.val()))
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key] = parseInt(input.val());
+                    } else
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key] = input.val();
+                    }
+
+                }
+                
+                if (input.attr("type") == "checkbox")
+                {
+                    var elem = document.getElementById(input.attr("id"));
+                    if (elem.checked)
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["checked"] = true;
+                    } else
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["checked"] = false;
+                    }
+                    
+                    this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["show"] = this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["checked"];
+                    console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
+                }
+            }
         }
 
 //        console.log(input.attr("type"));

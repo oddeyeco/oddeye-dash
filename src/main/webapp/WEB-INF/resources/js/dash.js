@@ -19,6 +19,7 @@ function setdatabyQueryes(option, url, start, end, chart)
 //    console.log(option.queryes);
     var k;
     option.tmpoptions.series = [];
+    option.tmpoptions.legend.data = [];
     for (k in option.queryes)
     {
         var query = option.queryes[k];
@@ -37,7 +38,10 @@ function setdatabyQueryes(option, url, start, end, chart)
                         delete dateval;
                     }
                     series.data = chdata;
-                    series.name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+                    // TODO Change by alias
+                    var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+                    series.name = name;
+                    option.tmpoptions.legend.data.push(name);
 //                    console.log(data.chartsdata[index]);
                     option.tmpoptions.series.push(series);
 
@@ -242,7 +246,7 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
         }
     }
 
-
+//    dashJSON[row]["widgets"][index].tmpoptions.legend.show = true;
     echartLine = echarts.init(document.getElementById("echart_line_single"), 'macarons');
     if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
     {
@@ -267,6 +271,7 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
     }
 
+    console.log(dashJSON[row]["widgets"][index].tmpoptions.legend);
     chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
     $(".fulldash").hide();
 }
