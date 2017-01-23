@@ -75,7 +75,7 @@
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
                                             <ul class="dropdown-menu" role="menu">
-                                                <li><a href="#">Show Chart</a>
+                                                <li><a href="#" id="Show_chart">Show Chart</a>
                                                 </li>
                                                 <li class="divider"></li>
                                                 <li><a href="#" id="Clear_reg">Clear Regression</a>

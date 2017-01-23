@@ -432,6 +432,21 @@
             });
 
         });
+        $('body').on("click", "#Show_chart", function () {
+            hashes = "";
+            if ($(".bulk_action tbody input[name='table_records']:checked").length == 1)
+            {
+                hashes = "/"+$(".bulk_action tbody input[name='table_records']:checked").first().parents("tr").attr("id")
+            } else
+            {
+                hashes="?hashes="
+                $(".bulk_action tbody input[name='table_records']:checked").each(function () {
+                    hashes = hashes+$(this).parents("tr").attr("id") + ";";
+                })
+            }
+            var win = window.open(cp + "/chart" + hashes, '_blank');
+            win.focus();
+        });
 
 
     });
