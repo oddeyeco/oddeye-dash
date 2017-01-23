@@ -97,12 +97,12 @@ and open the template in the editor.
     margin: 10px;
 }
 
-#toggles_main_block {
+/*#toggles_main_block {
     display: block;
     height: auto;
     padding: 10px;
     
-}
+}*/
 
 #color_block{
     height: 33px;
@@ -166,4 +166,12 @@ and open the template in the editor.
 
 .legend_orient{
     width: 110px;
+}
+
+.legend_border{
+    margin-top: 7px;
+}
+
+.legend-shape{
+    margin-top: 7px;
 }

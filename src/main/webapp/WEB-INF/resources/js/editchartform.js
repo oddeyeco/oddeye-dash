@@ -37,7 +37,7 @@ class ChartEditForm {
             var inputs = this.formwraper.find("#tab_general [chart_prop_key='" + key + "']");
             var formObj = this;
             inputs.each(function () {
-                formObj.fillinputs($(this),"title", key);
+                formObj.fillinputs($(this), "title", key);
             })
 
         }
@@ -74,15 +74,14 @@ class ChartEditForm {
                 $(elem).trigger('click');
             }
         }
-        
+
         for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend)
-        {        
+        {
             var inputs = this.formwraper.find(".edit-legend [chart_prop_key='" + key + "']");
             var formObj = this;
             inputs.each(function () {
-                formObj.fillinputs($(this),"legend", key);
-            })
-
+                formObj.fillinputs($(this), "legend", key);
+            });
         }
 
 //        if (document.getElementById("legend_show").checked != dashJSON[this.row]["widgets"][this.index].tmpoptions.legend.show)
@@ -150,14 +149,15 @@ class ChartEditForm {
 //                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
                 if (input.val() == "")
                 {
-                    delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
+                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]) {
+                        delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
+                    }
                     if (input.parent().hasClass("cl_picer"))
                     {
                         input.parent().colorpicker('setValue', 'transparent');
                     }
                 } else
                 {
-//                    console.log($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]));
                     if ($.isNumeric(input.val()))
                     {
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] = parseInt(input.val());
@@ -183,7 +183,7 @@ class ChartEditForm {
 
 
             }
-
+//            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
         }
 
         if (input.parents("form").hasClass("edit-legend"))
@@ -194,7 +194,10 @@ class ChartEditForm {
             {
                 if (input.val() == "")
                 {
-                    delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key];
+                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key]) {
+                        delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key];
+                    }
+
                     if (input.parent().hasClass("cl_picer"))
                     {
                         input.parent().colorpicker('setValue', 'transparent');
@@ -202,6 +205,7 @@ class ChartEditForm {
                 } else
                 {
 
+//                    console.log(key);
                     if ($.isNumeric(input.val()))
                     {
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key] = parseInt(input.val());
@@ -211,6 +215,8 @@ class ChartEditForm {
                     }
 
                 }
+
+                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
 
                 if (input.attr("type") == "checkbox")
                 {
@@ -223,9 +229,6 @@ class ChartEditForm {
                     {
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key] = false;
                     }
-
-
-//                    console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
                 }
             }
         }
@@ -243,7 +246,7 @@ class ChartEditForm {
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
     }
 
-    fillinputs(input,item, key)
+    fillinputs(input, item, key)
     {
 
         if (input.parent().hasClass("cl_picer"))
@@ -262,7 +265,11 @@ class ChartEditForm {
         {
             if (input.attr("type").toLowerCase() == "number")
             {
-                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+//                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+                if ($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]))
+                {
+                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+                }
             }
             if (input.attr("type").toLowerCase() == "text")
             {
@@ -273,7 +280,7 @@ class ChartEditForm {
 //                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
                 var elem = document.getElementById(input.attr("id"));
 
-                console.log(input.attr("id"));
+//                console.log(input.attr("id"));
 
                 if (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key])
                 {
