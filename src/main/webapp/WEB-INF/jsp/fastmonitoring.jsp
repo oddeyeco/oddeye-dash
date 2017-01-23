@@ -46,8 +46,8 @@
                                     <div class="col-lg-6">
                                         <label>
                                             <input type="checkbox" class="js-switch-small" id="check_level_${level.key}" name="check_level_${level.key}" /> ${curentuser.getAlertLevels().getName(level.key)}
-                                            </label>
-                                        </div>                                
+                                        </label>
+                                    </div>                                
                                 </c:forEach>
                             </div>
                         </div>                                                                                       
@@ -62,11 +62,27 @@
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_left">
                     <div class="x_content" style="display: block;">
                         <!-- start List -->
-                        <table class="table metrictable">
+                        <table class="table metrictable jambo_table bulk_action">
                             <thead>
                                 <tr>
                                     <!--<th>#</th>-->
-                                    <th></th>
+                                    <th>
+                                        <input type="checkbox" id="check-all" class="flat">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-success btn-sm">Action</button>
+                                            <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#">Show Chart</a>
+                                                </li>
+                                                <li class="divider"></li>
+                                                <li><a href="#" id="Clear_reg">Clear Regression</a>
+                                                </li>
+                                            </ul>
+                                        </div>                                        
+                                    </th>
                                     <th>Metric Name</th>
                                     <th id="ident_tag_head">
                                         <select class="form-control" name="ident_tag" id="ident_tag">
