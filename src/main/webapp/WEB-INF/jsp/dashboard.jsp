@@ -341,7 +341,7 @@
                                                                             Legend
                                                                         </label>
                                                                         <div class="checkbox" style="display: inline-block">
-                                                                            <input type="checkbox" class="js-switch-small" checked ="checked " id="legend_show" name="legend_show" /> 
+                                                                            <input chart_prop_key="show" type="checkbox" class="js-switch-small" checked ="checked " id="legend_show" name="legend_show" /> 
                                                                         </div>
                                                                     </h3>
                                                                 </div>

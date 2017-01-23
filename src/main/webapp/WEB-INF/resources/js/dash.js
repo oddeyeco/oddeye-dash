@@ -161,8 +161,7 @@ function redrawAllJSON(dashJSON)
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) === "undefined")
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height)
-                }
-                else
+                } else
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", "300px")
                 }
@@ -271,7 +270,6 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
     }
 
-    console.log(dashJSON[row]["widgets"][index].tmpoptions.legend);
     chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
     $(".fulldash").hide();
 }

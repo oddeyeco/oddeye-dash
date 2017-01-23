@@ -37,7 +37,7 @@ class ChartEditForm {
             var inputs = this.formwraper.find("#tab_general [chart_prop_key='" + key + "']");
             var formObj = this;
             inputs.each(function () {
-                formObj.fillinputs($(this), key);
+                formObj.fillinputs($(this),"title", key);
             })
 
         }
@@ -74,6 +74,21 @@ class ChartEditForm {
                 $(elem).trigger('click');
             }
         }
+        
+        for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend)
+        {        
+            var inputs = this.formwraper.find(".edit-legend [chart_prop_key='" + key + "']");
+            var formObj = this;
+            inputs.each(function () {
+                formObj.fillinputs($(this),"legend", key);
+            })
+
+        }
+
+//        if (document.getElementById("legend_show").checked != dashJSON[this.row]["widgets"][this.index].tmpoptions.legend.show)
+//        {
+//            document.getElementById("legend_show").click();
+//        }
 
     }
 
@@ -196,20 +211,21 @@ class ChartEditForm {
                     }
 
                 }
-                
+
                 if (input.attr("type") == "checkbox")
                 {
                     var elem = document.getElementById(input.attr("id"));
                     if (elem.checked)
                     {
-                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["checked"] = true;
+                        delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key];
+
                     } else
                     {
-                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["checked"] = false;
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key] = false;
                     }
-                    
-                    this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["show"] = this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend["checked"];
-                    console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
+
+
+//                    console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
                 }
             }
         }
@@ -227,12 +243,12 @@ class ChartEditForm {
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);
     }
 
-    fillinputs(input, key)
+    fillinputs(input,item, key)
     {
 
         if (input.parent().hasClass("cl_picer"))
         {
-            input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+            input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
         }
 //        console.log(input.attr("type"));
         //TODO check Positions
@@ -240,24 +256,26 @@ class ChartEditForm {
         {
             if (input.prop("tagName").toLowerCase() == "select")
             {
-                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
             }
         } else
         {
             if (input.attr("type").toLowerCase() == "number")
             {
-                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
             }
             if (input.attr("type").toLowerCase() == "text")
             {
-                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
             }
             if (input.attr("type").toLowerCase() == "checkbox")
             {
 //                console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]);
                 var elem = document.getElementById(input.attr("id"));
 
-                if (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key])
+                console.log(input.attr("id"));
+
+                if (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key])
                 {
                     if (!elem.checked)
                     {
@@ -271,6 +289,21 @@ class ChartEditForm {
                         $(elem).trigger('click');
                     }
                 }
+
+//                if (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key])
+//                {
+//                    if (!elem.checked)
+//                    {
+//                        $(elem).trigger('click');
+//                    }
+//
+//                } else
+//                {
+//                    if (elem.checked)
+//                    {
+//                        $(elem).trigger('click');
+//                    }
+//                }
 
             }
         }
