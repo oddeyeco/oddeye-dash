@@ -1,10 +1,10 @@
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
-<script src="${cp}/resources/echarts/theme/macarons.js"></script>
+<script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     pickerlabel = "Last 1 day";
 
-    var echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
+    var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
     var timer;
     var cp = "${cp}";

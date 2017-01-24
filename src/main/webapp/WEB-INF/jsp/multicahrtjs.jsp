@@ -1,11 +1,11 @@
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
-<script src="${cp}/resources/echarts/theme/macarons.js"></script>
+<script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     pickerlabel = "Last 1 day";
 
     var hashes =${hashes};
-    var echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
+    var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var timer;
     var cp = "${cp}";
     var interval = 10000;
@@ -37,7 +37,7 @@
     });
 
 
-    function drawEchart(hashes, echartLine)
+    function drawEchart(hashes, echartLine, reload = false)
     {
         hashes.forEach(function (item, i, arr) {
             var url;
@@ -56,6 +56,7 @@
 
             }
             series = [];
+            legend = [];            
             $.getJSON(url, null, function (data) {
                 var chdata = [];
 
@@ -70,65 +71,77 @@
                     var serie = clone_obg(defserie);
 
                     serie.data = chdata;
-                    var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
+                    var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)                    
                     serie.name = name;
                     series.push(serie);
+                    legend.push(name);
                     if (series.length == hashes.length)
                     {
-//                        console.log(series);
-                        echartLine.setOption({
-                            title: {
-                                show: false,                                
-                            },
-                            tooltip: {
-                                trigger: 'axis'
-                            },
-//                    legend: {
-//                        data: legend
-//                    },
-                            animation: false,
-                            toolbox: {
-                                show: true,
-                                feature: {
-                                    magicType: {
-                                        show: true,
-                                        title: {
-                                            line: 'Line',
-                                            bar: 'Bar',
+                        
+                        if (!reload)
+                        {                            
+                            echartLine.setOption({
+                                title: {
+                                    show: false,
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                legend: {
+                                    data: legend
+                                },
+//                                animation: false,
+                                toolbox: {
+                                    show: true,
+                                    feature: {
+                                        magicType: {
+                                            show: true,
+                                            title: {
+                                                line: 'Line',
+                                                bar: 'Bar',
+                                            },
+                                            type: ['line', 'bar']
                                         },
-                                        type: ['line', 'bar']
-                                    },
-                                    saveAsImage: {
-                                        show: true,
-                                        title: "Save Image"
+                                        saveAsImage: {
+                                            show: true,
+                                            title: "Save Image"
+                                        }
                                     }
-                                }
-                            },                            
-                            grid: {
-                                x: 90,
-                                y: 40,
-                                x2: 20,
-                                y2: 80
-                            },
-                            xAxis: [{
-                                    type: 'time',
-                                }],
-                            yAxis: [{
-                                    type: 'value',
-                                    axisLabel: {
-                                        formatter: format_func
-                                    }
-                                }],
-                            dataZoom: {
-                                show: true,
-                                start: 0,
-                                end: 100
-                            },
-                            series: series
-                        });
-
+                                },
+                                grid: {
+                                    x: 90,
+                                    y: 40,
+                                    x2: 20,
+                                    y2: 80
+                                },
+                                xAxis: [{
+                                        type: 'time',
+                                        splitNumber: 20,
+                                        axisLabel: {
+                                            formatter: format_date
+                                        }
+                                    }],
+                                yAxis: [{
+                                        type: 'value',
+                                        axisLabel: {
+                                            formatter: format_func
+                                        }
+                                    }],
+                                dataZoom: {
+                                    show: true,
+                                    start: 0,
+                                    end: 100
+                                },
+                                series: series
+                            });
+                        } else
+                        {
+                            echartLine.setOption({series: series});
+//                           echartLine.setSeries(series); 
+                            echartLine.resize();
+                        }
                         timer = setTimeout(function () {
-                            drawEchart(hashes, echartLine);
+                            drawEchart(hashes, echartLine, true);
                         }, interval);
                     }
                 }
