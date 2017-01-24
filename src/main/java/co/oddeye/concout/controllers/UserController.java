@@ -135,7 +135,7 @@ public class UserController {
                     OddeeyMetricMeta metric = new OddeeyMetricMeta(Metakey, BaseTsdb.getTsdb());
 //                    if (metric.getName().equals("mem_buffers"))
 
-//                    metric = userDetails.getMetricsMeta().get(metric.hashCode());
+                    metric = userDetails.getMetricsMeta().get(metric.hashCode());
                     if (metric != null) {
                         JsonElement metajson = new JsonObject();
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));

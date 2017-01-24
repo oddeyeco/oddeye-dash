@@ -43,7 +43,6 @@
     });
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-//        console.log(pickerlabel);
         if (pickerlabel == "Custom")
         {
             url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + pickerstart + "&enddate=" + pickerend;
@@ -231,9 +230,6 @@
             options.series[0].data = chdata;
             options.xAxis[0].data = date;
             chart.setOption(options);
-//        setTimeout(function () {
-//            ReDrawEchart(url, chart, interval);
-//        }, interval);
         }
         );
     }
