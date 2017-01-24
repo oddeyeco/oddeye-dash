@@ -186,19 +186,6 @@
         <script src="${cp}/resources/iCheck/icheck.min.js"></script>
         <!-- Skycons -->
         <script src="${cp}/resources/skycons/skycons.js"></script>
-        <!-- Flot -->
-        <script src="${cp}/resources/Flot/jquery.flot.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.pie.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.time.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.stack.js"></script>
-        <script src="${cp}/resources/Flot/jquery.flot.resize.js"></script>
-        <!-- Flot plugins -->
-        <script src="${cp}/resources/js/flot/jquery.flot.orderBars.js"></script>
-        <script src="${cp}/resources/js/flot/date.js"></script>
-        <script src="${cp}/resources/js/flot/jquery.flot.spline.js"></script>
-        <script src="${cp}/resources/js/flot/curvedLines.js"></script>
-        <!-- jVectorMap -->
-        <script src="${cp}/resources/js/maps/jquery-jvectormap-2.0.3.min.js"></script>
         <!-- bootstrap-daterangepicker -->       
         <script src="${cp}/resources/js/datepicker/daterangepicker.js"></script>
         <!-- Bootstrap Colorpicker -->
@@ -207,6 +194,8 @@
         <!-- Cropper -->
         <script src="${cp}/resources/cropper/dist/cropper.min.js"></script>        
         <script src="${cp}/resources/build/js/custom.min.js"></script>
+        
+        <script src="${cp}/resources/js/global.js"></script>
 
         <jsp:include page="${jspart}.jsp" />
         <script>

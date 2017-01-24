@@ -92,9 +92,9 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-
+            OddeeyMetricMeta metric =null;
             if ((hash != null)) {
-                final OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(hash);
+                metric = userDetails.getMetricsMeta().get(hash);
                 if (metric == null) {
                     jsonResult.addProperty("sucsses", Boolean.FALSE);
                     map.put("jsonmodel", jsonResult);
@@ -129,7 +129,11 @@ public class AjaxControlers {
                             jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                         }
 
-                        jsonMessage.addProperty("index", Tagmap.hashCode());
+                        if (metric!=null)
+                        {
+                            jsonMessage.addProperty("hash", metric.hashCode());
+                        }
+                        jsonMessage.addProperty("taghash", Tagmap.hashCode());
                         jsonMessage.addProperty("metric", DataPoints.metricName());
 
                         final JsonElement TagsJSON = gson.toJsonTree(Tagmap);

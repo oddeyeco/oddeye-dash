@@ -39,6 +39,7 @@
 
     function drawEchart(hashes, echartLine, reload = false)
     {
+        var requestcount = 0;
         hashes.forEach(function (item, i, arr) {
             var url;
             if (pickerlabel == "Custom")
@@ -56,10 +57,11 @@
 
             }
             series = [];
-            legend = [];            
+            legend = [];
+            requestcount++;
             $.getJSON(url, null, function (data) {
                 var chdata = [];
-
+                requestcount--;
                 for (key in data.chartsdata)
                 {
                     var chartline = data.chartsdata[key];
@@ -71,15 +73,17 @@
                     var serie = clone_obg(defserie);
 
                     serie.data = chdata;
-                    var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)                    
+                    var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
                     serie.name = name;
                     series.push(serie);
-                    legend.push(name);
-                    if (series.length == hashes.length)
-                    {
-                        
+                    legend.push(name);                                                            
+                    if (requestcount==0)
+                    {                        
+                        series.sort(function (a, b) {
+                            return compareStrings(a.name, b.name);
+                        });
                         if (!reload)
-                        {                            
+                        {
                             echartLine.setOption({
                                 title: {
                                     show: false,
@@ -145,7 +149,14 @@
                         }, interval);
                     }
                 }
-            });
+            })
+                    .done(function () {
+//                        console.log('getJSON request succeeded!');
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log('getJSON request failed! ' + textStatus);
+                    })
+                    ;
         });        
     }       
 </script>    
