@@ -335,7 +335,7 @@
                         BOO!!!
                         <div class="row">
                             <form class="form-horizontal form-label-left edit-legend pull-left">                            
-                                <div class="title_main_block " style="background-color: purple;">
+                                <div class="title_main_block">
                                     <div class="row">
                                         <h3 style="width: 100%"><label for="title_text" class="control-label control-label-custom legend_title" >
                                                 Legend
@@ -431,7 +431,7 @@
                                     
                                         <div id="legend_shape_block" style="display: block;">
                                             <div class="form-group form-group-custom">
-                                                <label for="legend_shape_width" class="control-label control-label2 legend-shape">
+                                                <label for="legend_shape_width" class="control-label control-label2 legend-shape-width">
                                                     Shape Width
                                                 </label>
                                                 <div class="titile_input_midle2">
@@ -444,7 +444,7 @@
                                                 </label>
                                             </div>
                                             <div class="form-group form-group-custom">
-                                                <label for="legend_shape_height" class="control-label control-label2 legend-shape">
+                                                <label for="legend_shape_height" class="control-label control-label2 legend-shape-height">
                                                     Shape Height
                                                 </label>
                                                 <div class="titile_input_midle2">
@@ -457,22 +457,13 @@
                                                 </label>
                                             </div>
                                         </div>
-                                    
-                                    <!--                                    <div id="legend_shape_block" class="legend_border" style="display: block;">
-                                                                            <div class="form-group form-group-custom">
-                                                                                <label for="legend_shape_width" class="control-label control-label2">
-                                                                                    Width
-                                                                                </label>
-                                                                                <div class="titile_input_midle2">
-                                                                                    <div class="input-group" >   
-                                                                                        <input id="legend_border_width" chart_prop_key="legendBorderWidth" name="legend_border_width" type="number" value="" class="form-control">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <label class="control-label control-label-custom3" >
-                                                                                    px
-                                                                                </label>
-                                                                            </div>
-                                                                        </div>-->
+                                    <label for="legend_select_mode" class="control-label control-label_Y  legend_select" >
+                                                Select Mode
+                                            </label> 
+                                            <select id="legend_select_mode" name="legend_select_mode" chart_prop_key="selectedMode" class="form-control title_select" >
+                                                <option value="single">Single</option>
+                                                <option value="multiple" selected>Multiple</option>
+                                            </select>
                             </form>
                         </div>
 

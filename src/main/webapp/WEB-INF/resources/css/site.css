@@ -172,6 +172,17 @@ and open the template in the editor.
     margin-top: 7px;
 }
 
-.legend-shape{
+.legend-shape-width{
     margin-top: 7px;
+    margin-left: -7px;
+}
+
+.legend-shape-height{
+    margin-top: 7px;
+    margin-left: -11px;
+}
+
+.legend_select{
+    margin-top: 10px;
+    margin-left: -4px;
 }
