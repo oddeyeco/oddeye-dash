@@ -6,7 +6,6 @@
 
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
-//    var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
     var timer;
     var cp = "${cp}";
     var interval = 10000;
@@ -18,88 +17,122 @@
         sampling: 'average',
         data: null
     };
-
+    window.onresize = echartLine.resize;
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
+//        clearTimeout(timer);
+        drawEchart(hashes, echartLine);
+//        timer = setInterval(function () {
+//            drawEchart(hashes, echartLine);
+//        }, interval);
     });
 
-    hashes.forEach(function (item, i, arr) {
-        var url = "${cp}/getdata?hash=" + item + "&startdate=1d-ago";
-        $.getJSON(url, null, function (data) {
-            var chdata = [];
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+//        clearTimeout(timer);
+        drawEchart(hashes, echartLine);
+//        timer = setInterval(function () {
+//            drawEchart(hashes, echartLine);
+//        }, interval);
+    });
 
-            for (key in data.chartsdata)
+
+    function drawEchart(hashes, echartLine)
+    {
+        hashes.forEach(function (item, i, arr) {
+            var url;
+            if (pickerlabel == "Custom")
             {
-                var chartline = data.chartsdata[key];
-
-                for (var time in chartline.data) {
-                    var dateval = moment(time * 1);
-//                    dateval = moment(time * 1).dayOfYear(0);
-                    chdata.push([dateval.toDate(), chartline.data[time]]);
-                }
-                var serie = clone_obg(defserie);
-
-                serie.data = chdata;
-                var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
-                serie.name = name;
-                series.push(serie);
-                if (series.length == hashes.length)
+                url = "${cp}/getdata?hash=" + item + "&startdate=" + pickerstart + "&enddate=" + pickerend;
+            } else
+            {
+                if (typeof (rangeslabels[pickerlabel]) == "undefined")
                 {
-                    console.log(series);
-                    echartLine.setOption({
-                        title: {
-                            show: false,
-//                            text: chartline.metric,
-                        },
-                        tooltip: {
-                            trigger: 'axis'
-                        },
+                    url = "${cp}/getdata?hash=" + item + "&startdate=1d-ago";
+                } else
+                {
+                    url = "${cp}/getdata?hash=" + item + "&startdate=" + rangeslabels[pickerlabel];
+                }
+
+            }
+            series = [];
+            $.getJSON(url, null, function (data) {
+                var chdata = [];
+
+                for (key in data.chartsdata)
+                {
+                    var chartline = data.chartsdata[key];
+
+                    for (var time in chartline.data) {
+                        var dateval = moment(time * 1);
+                        chdata.push([dateval.toDate(), chartline.data[time]]);
+                    }
+                    var serie = clone_obg(defserie);
+
+                    serie.data = chdata;
+                    var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
+                    serie.name = name;
+                    series.push(serie);
+                    if (series.length == hashes.length)
+                    {
+//                        console.log(series);
+                        echartLine.setOption({
+                            title: {
+                                show: false,                                
+                            },
+                            tooltip: {
+                                trigger: 'axis'
+                            },
 //                    legend: {
 //                        data: legend
 //                    },
-                        animation: false,
-                        toolbox: {
-                            show: true,
-                            feature: {
-//                    dataZoom: {show: true, title: "dataZoom"},
-                                magicType: {
-                                    show: true,
-                                    title: {
-                                        line: 'Line',
-                                        bar: 'Bar',
+                            animation: false,
+                            toolbox: {
+                                show: true,
+                                feature: {
+                                    magicType: {
+                                        show: true,
+                                        title: {
+                                            line: 'Line',
+                                            bar: 'Bar',
+                                        },
+                                        type: ['line', 'bar']
                                     },
-                                    type: ['line', 'bar']
-                                },
-                                saveAsImage: {
-                                    show: true,
-                                    title: "Save Image"
+                                    saveAsImage: {
+                                        show: true,
+                                        title: "Save Image"
+                                    }
                                 }
-                            }
-                        },
-                        calculable: false,
-                        xAxis: [{
-                                type: 'time',
-//                    data: date
-                            }],
-                        yAxis: [{
-                                type: 'value',
-                                axisLabel: {
-                                    formatter: format_func
-                                }
-                            }],
-                        dataZoom: {
-                            show: true,
-//                realtime: true,
-                            start: 0,
-                            end: 100
-                        },
-                        series: series
-                    });
-                }
-            }
-        });
-    });
-//    drawEchart(url, echartLine);
+                            },                            
+                            grid: {
+                                x: 90,
+                                y: 40,
+                                x2: 20,
+                                y2: 80
+                            },
+                            xAxis: [{
+                                    type: 'time',
+                                }],
+                            yAxis: [{
+                                    type: 'value',
+                                    axisLabel: {
+                                        formatter: format_func
+                                    }
+                                }],
+                            dataZoom: {
+                                show: true,
+                                start: 0,
+                                end: 100
+                            },
+                            series: series
+                        });
 
+                        timer = setTimeout(function () {
+                            drawEchart(hashes, echartLine);
+                        }, interval);
+                    }
+                }
+            });
+        });        
+    }       
 </script>    

@@ -17,8 +17,8 @@
                     </div>                    
                     <div class="clearfix"></div>
                 </div>                                                
-                <div class="x_content">
-                    <div id="echart_line" style="height:600px;"></div>
+                <div class="x_content col-md-12">
+                    <div id="echart_line" class="echart_line_single" style="height:600px;"></div>
                 </div> 
             </div>            
 

@@ -106,7 +106,12 @@
                     }
                 }
             },
-            calculable: false,
+            grid: {
+                x: 90,
+                y: 40,
+                x2: 20,
+                y2: 80
+            },
             xAxis: [{
                     type: 'time',
 //                    data: date
@@ -128,7 +133,7 @@
 
     }
     ;
-    
+
     $('body').on("click", "#Clear_reg", function () {
         var sendData = {};
         sendData.hash = ${Error.hashCode()};
