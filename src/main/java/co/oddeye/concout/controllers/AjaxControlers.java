@@ -11,6 +11,7 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeyeTag;
+import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -20,14 +21,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
 import net.opentsdb.utils.DateTime;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 //import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -58,9 +59,10 @@ public class AjaxControlers {
 
     @Autowired
     HbaseUserDao UserDao;
-    
+
     @Autowired
-    private KafkaTemplate<Integer, String> conKafkaTemplate;    
+    private KafkaTemplate<Integer, String> conKafkaTemplate;
+    protected static final Logger LOGGER = LoggerFactory.getLogger(AjaxControlers.class);
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
@@ -81,7 +83,6 @@ public class AjaxControlers {
         }
 
         Gson gson = new Gson();
-
         Map<String, String> Tagmap;
         JsonObject jsonMessages = new JsonObject();
         JsonObject jsonResult = new JsonObject();
@@ -92,11 +93,12 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            OddeeyMetricMeta metric =null;
+            OddeeyMetricMeta metric = null;
             if ((hash != null)) {
                 metric = userDetails.getMetricsMeta().get(hash);
                 if (metric == null) {
                     jsonResult.addProperty("sucsses", Boolean.FALSE);
+                    LOGGER.warn("Metric for hash:" + hash + " not exist");
                     map.put("jsonmodel", jsonResult);
                     return "ajax";
                 }
@@ -113,14 +115,18 @@ public class AjaxControlers {
             Long getinterval = System.currentTimeMillis() - starttime;
             starttime = System.currentTimeMillis();
             if (data != null) {
+                if (data.isEmpty()) {
+                    LOGGER.warn("Empty data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
+                }
                 for (DataPoints[] DataPointslist : data) {
+                    if (DataPointslist.length < 1) {
+                        LOGGER.warn("Empty DataPointslist for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
+                    }
                     for (DataPoints DataPoints : DataPointslist) {
                         Tagmap = DataPoints.getTags();
                         Tagmap.remove("UUID");
                         Tagmap.remove("alert_level");
-
                         JsonObject jsonMessage;
-
                         String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
 
                         if (jsonMessages.get(jsonuindex) == null) {
@@ -129,8 +135,7 @@ public class AjaxControlers {
                             jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                         }
 
-                        if (metric!=null)
-                        {
+                        if (metric != null) {
                             jsonMessage.addProperty("hash", metric.hashCode());
                         }
                         jsonMessage.addProperty("taghash", Tagmap.hashCode());
@@ -163,15 +168,19 @@ public class AjaxControlers {
                         }
 
                         jsonMessage.add("data", DatapointsJSON);
+
                         jsonMessages.add(jsonuindex, jsonMessage);
 
                     }
 
                 }
+            } else {
+                LOGGER.warn("Empty Data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
             }
             Long scaninterval = System.currentTimeMillis() - starttime;
             jsonResult.addProperty("gettime", getinterval);
             jsonResult.addProperty("scantime", scaninterval);
+//            jsonMessages.
             jsonResult.add("chartsdata", jsonMessages);
         }
         map.put("jsonmodel", jsonResult);
@@ -238,7 +247,7 @@ public class AjaxControlers {
                 jsonResult.add("data", jsondata);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
-                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         } else {
             jsonResult.addProperty("sucsses", false);
@@ -284,7 +293,7 @@ public class AjaxControlers {
                 jsonResult.add("data", jsondata);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
-                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         } else {
             jsonResult.addProperty("sucsses", false);
@@ -333,7 +342,7 @@ public class AjaxControlers {
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
-                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         } else {
             jsonResult.addProperty("sucsses", false);
@@ -388,7 +397,7 @@ public class AjaxControlers {
                 jsonResult.addProperty("sucsses", true);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
-                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         } else {
             jsonResult.addProperty("sucsses", false);
@@ -444,7 +453,7 @@ public class AjaxControlers {
                 jsonResult.addProperty("sucsses", true);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
-                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         } else {
             jsonResult.addProperty("sucsses", false);
@@ -457,7 +466,7 @@ public class AjaxControlers {
 
     @RequestMapping(value = {"/resetregression"})
     public String regrresinreset(
-            @RequestParam(value = "hash") int hash,            
+            @RequestParam(value = "hash") int hash,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -472,30 +481,31 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                    JsonObject Jsonchangedata = new JsonObject();
-                    Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
-                    Jsonchangedata.addProperty("action", "resetregresion");
-                    Jsonchangedata.addProperty("hash", hash);
-                
-                
-                    // Send chenges to kafka
-                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
-                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                        @Override
-                        public void onSuccess(SendResult<Integer, String> result) {
-                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
-                        }
+                JsonObject Jsonchangedata = new JsonObject();
+                Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                Jsonchangedata.addProperty("action", "resetregresion");
+                Jsonchangedata.addProperty("hash", hash);
 
-                        @Override
-                        public void onFailure(Throwable ex) {
-                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
+                // Send chenges to kafka
+                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                    @Override
+                    public void onSuccess(SendResult<Integer, String> result) {
+                        if (LOGGER.isInfoEnabled()) {
+                            LOGGER.info("Kafka resetregresion onSuccess");
                         }
-                    });                
-                
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex) {
+                        LOGGER.error("Kafka resetregresion onFailure:" + ex);
+                    }
+                });
+
                 jsonResult.addProperty("sucsses", true);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
-                Logger.getLogger(AjaxControlers.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         } else {
             jsonResult.addProperty("sucsses", false);
@@ -504,6 +514,6 @@ public class AjaxControlers {
         map.put("jsonmodel", jsonResult);
 
         return "ajax";
-    }    
-    
+    }
+
 }

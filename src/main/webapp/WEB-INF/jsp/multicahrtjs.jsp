@@ -62,6 +62,7 @@
             $.getJSON(url, null, function (data) {
                 var chdata = [];
                 requestcount--;
+                
                 for (key in data.chartsdata)
                 {
                     var chartline = data.chartsdata[key];
@@ -121,9 +122,9 @@
                                 xAxis: [{
                                         type: 'time',
                                         splitNumber: 20,
-                                        axisLabel: {
-                                            formatter: format_date
-                                        }
+//                                        axisLabel: {
+//                                            formatter: format_date
+//                                        }
                                     }],
                                 yAxis: [{
                                         type: 'value',
