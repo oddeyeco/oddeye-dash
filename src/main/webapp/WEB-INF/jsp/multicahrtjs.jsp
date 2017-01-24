@@ -2,7 +2,7 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
-    pickerlabel = "Last 1 day";
+    pickerlabel = "Last 1 hour";
 
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
