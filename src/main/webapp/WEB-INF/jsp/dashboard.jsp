@@ -293,6 +293,9 @@
                                     </div>
                                 </div>
                             </form>
+                            <div id="item_style_div" class="item-style" style="background-color: pink;">
+                                
+                            </div>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="tab_metrics" aria-labelledby="metrics-tab">
@@ -428,42 +431,42 @@
                                             </label>
                                         </div>
                                     </div>
-                                    
-                                        <div id="legend_shape_block" style="display: block;">
-                                            <div class="form-group form-group-custom">
-                                                <label for="legend_shape_width" class="control-label control-label2 legend-shape-width">
-                                                    Shape Width
-                                                </label>
-                                                <div class="titile_input_midle2">
-                                                    <div class="input-group" >   
-                                                        <input id="legend_shape_width" chart_prop_key="itemWidth" name="legend_shape_width" type="number" value="" class="form-control">
-                                                    </div>
+
+                                    <div id="legend_shape_block" style="display: block;">
+                                        <div class="form-group form-group-custom">
+                                            <label for="legend_shape_width" class="control-label control-label2 legend-shape-width">
+                                                Shape Width
+                                            </label>
+                                            <div class="titile_input_midle2">
+                                                <div class="input-group" >   
+                                                    <input id="legend_shape_width" chart_prop_key="itemWidth" name="legend_shape_width" type="number" value="" class="form-control">
                                                 </div>
-                                                <label class="control-label control-label-custom3" >
-                                                    px
-                                                </label>
                                             </div>
-                                            <div class="form-group form-group-custom">
-                                                <label for="legend_shape_height" class="control-label control-label2 legend-shape-height">
-                                                    Shape Height
-                                                </label>
-                                                <div class="titile_input_midle2">
-                                                    <div class="input-group" >   
-                                                        <input id="legend_shape_height" chart_prop_key="itemHeight" name="legend_shape_height" type="number" value="" class="form-control">
-                                                    </div>
-                                                </div>
-                                                <label class="control-label control-label-custom3" >
-                                                    px
-                                                </label>
+                                            <label class="control-label control-label-custom3" >
+                                                px
+                                            </label>
+                                        </div>
+                                        <!--<div class="form-group form-group-custom">-->
+                                        <label for="legend_shape_height" class="control-label control-label2 legend-shape-height">
+                                            Shape Height
+                                        </label>
+                                        <div class="titile_input_midle2">
+                                            <div class="input-group" >   
+                                                <input id="legend_shape_height" chart_prop_key="itemHeight" name="legend_shape_height" type="number" value="" class="form-control">
                                             </div>
                                         </div>
+                                        <label class="control-label control-label-custom3" >
+                                            px
+                                        </label>
+                                        <!--</div>-->
+                                    </div>
                                     <label for="legend_select_mode" class="control-label control-label_Y  legend_select" >
-                                                Select Mode
-                                            </label> 
-                                            <select id="legend_select_mode" name="legend_select_mode" chart_prop_key="selectedMode" class="form-control title_select" >
-                                                <option value="single">Single</option>
-                                                <option value="multiple" selected>Multiple</option>
-                                            </select>
+                                        Select Mode
+                                    </label> 
+                                    <select id="legend_select_mode" name="legend_select_mode" chart_prop_key="selectedMode" class="form-control title_select" >
+                                        <option value="single">Single</option>
+                                        <option value="multiple" selected>Multiple</option>
+                                    </select>
                             </form>
                         </div>
 
