@@ -337,7 +337,8 @@
                     <div role="tabpanel" class="tab-pane fade" id="tab_legend" aria-labelledby="legend-tab">
                         BOO!!!
                         <div class="row">
-                            <form class="form-horizontal form-label-left edit-legend pull-left">                            
+                            <form class="form-horizontal form-label-left edit-legend pull-left">   
+                                
                                 <div class="title_main_block">
                                     <div class="row">
                                         <h3 style="width: 100%"><label for="title_text" class="control-label control-label-custom legend_title" >
@@ -461,12 +462,13 @@
                                         <!--</div>-->
                                     </div>
                                     <label for="legend_select_mode" class="control-label control-label_Y  legend_select" >
-                                        Select Mode
-                                    </label> 
-                                    <select id="legend_select_mode" name="legend_select_mode" chart_prop_key="selectedMode" class="form-control title_select" >
-                                        <option value="single">Single</option>
-                                        <option value="multiple" selected>Multiple</option>
-                                    </select>
+                                                Select Mode
+                                            </label> 
+                                            <select id="legend_select_mode" name="legend_select_mode" chart_prop_key="selectedMode" class="form-control title_select" >
+                                                <option value="single">Single</option>
+                                                <option value="multiple" selected>Multiple</option>
+                                            </select>
+                                </div><!--TIKO es tegerin pageluc ushadir exi-->
                             </form>
                         </div>
 

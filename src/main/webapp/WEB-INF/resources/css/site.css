@@ -187,8 +187,7 @@ and open the template in the editor.
     margin-left: -4px;
 }
 
-.item-style{
-    height: 200px;
-    width: 200px;
-    z-index: 100;
+.echart_line_single{
+    height: 800px;
+    overflow: hidden;
 }

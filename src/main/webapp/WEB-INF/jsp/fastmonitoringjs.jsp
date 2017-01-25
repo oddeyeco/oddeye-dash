@@ -14,12 +14,6 @@
     var cp = "${cp}";
     var array_regular = [];
     var array_spec = [];
-    function compareStrings(a, b) {
-        // Assuming you want case-insensitive comparison
-        a = a.toLowerCase();
-        b = b.toLowerCase();
-        return (a < b) ? -1 : (a > b) ? 1 : 0;
-    }
 
     function findeByhash(element, array) {
         for (var i = 0; i < array.length; i++) {

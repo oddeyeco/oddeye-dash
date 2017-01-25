@@ -78,7 +78,22 @@ var cb = function (start, end, label) {
         $('#reportrange span').html(pickerlabel);
     }
 };
-
+//TODO DZRTEL
+var tmpday = ""
+var format_date = function (value) {
+    date = moment(value);    
+    if (tmpday != date.format("YY/MM/DD"))
+    {
+        tmpday = date.format("YY/MM/DD");
+        return (date.format("HH:mm:ss")+"\n"+date.format("YY/MM/DD"));     
+    }
+    else
+    {
+        return (date.format("HH:mm:ss"));
+    }
+       
+        
+}
 
 var format_func = function (params) {
     divatior = bytedivator;

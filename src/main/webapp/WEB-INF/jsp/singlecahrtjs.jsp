@@ -1,10 +1,10 @@
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
-<script src="${cp}/resources/echarts/theme/macarons.js"></script>
+<script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     pickerlabel = "Last 1 day";
 
-    var echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
+    var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
     var timer;
     var cp = "${cp}";
@@ -77,13 +77,14 @@
         $.getJSON(url, null, function (data) {
             var date = [];
             var chdata = [];
+            var chdataMath = [];
             var dateval = moment();
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
-                    dateval = moment(time * 1);
-                    date.push(dateval.format("MM/DD HH:mm:ss"));
-                    chdata.push(chartline.data[time]);
+                    var dateval = moment(time * 1);
+                    chdata.push([dateval.toDate(), chartline.data[time]]);
+                    chdataMath.push(chartline.data[time]);
                 }
             }
             chart.setOption({
@@ -110,10 +111,14 @@
                         }
                     }
                 },
-                calculable: false,
+                grid: {
+                    x: 90,
+                    y: 40,
+                    x2: 200,
+                    y2: 80
+                },
                 xAxis: [{
-                        type: 'category',
-                        data: date
+                        type: 'time',
                     }],
                 yAxis: [{
                         type: 'value',
@@ -164,12 +169,12 @@
                         name: 'Last',
                         type: 'gauge',
                         axisLabel: {show: false},
-                        center: ['91%', '35%'],
-                        radius: '48%',
+                        center: ['91%', 220],
+                        radius: 140,
                         startAngle: 90,
                         endAngle: -90,
-                        min: Math.min.apply(null, chdata),
-                        max: Math.max.apply(null, chdata),
+                        min: Math.min.apply(null, chdataMath),
+                        max: Math.max.apply(null, chdataMath),
                         splitNumber: 3,
                         axisLine: {
                             lineStyle: {
@@ -182,6 +187,7 @@
                         },
                         title: {
                             show: true,
+                            offsetCenter: ["30%", -160],
                             textStyle: {
                                 color: '#333',
                                 fontSize: 15
@@ -201,7 +207,7 @@
                                 fontSize: 30
                             }
                         },
-                        data: [{value: chdata[chdata.length - 1], name: 'Last Value'}]
+                        data: [{value: chdataMath[chdataMath.length - 1], name: 'Last Value'}]
                     }]
             });
         });
@@ -215,18 +221,22 @@
 //            console.log(data);
             var date = [];
             var chdata = [];
+            var chdataMath = [];
             var dateval = moment();
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
-                    dateval = moment(time * 1);
-                    date.push(dateval.format("MM/DD HH:mm:ss"));
-                    chdata.push(chartline.data[time]);
+                    var dateval = moment(time * 1);
+                    chdata.push([dateval.toDate(), chartline.data[time]]);   
+                    chdataMath.push(chartline.data[time]);
                 }
             }
             var options = chart.getOption();
 
-            options.series[1].data[0].value = chdata[chdata.length - 1];
+            options.series[1].data[0].value = chdataMath[chdataMath.length - 1];            
+            options.series[1].min = Math.min.apply(null, chdataMath),
+            options.series[1].max=Math.max.apply(null, chdataMath),            
+            
             options.series[0].data = chdata;
             options.xAxis[0].data = date;
             chart.setOption(options);

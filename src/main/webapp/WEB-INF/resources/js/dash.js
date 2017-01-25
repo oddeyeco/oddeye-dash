@@ -177,7 +177,7 @@ function redrawAllJSON(dashJSON)
 
                     if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
                     {
-                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'macarons');
+                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
                         var startdate = "5m-ago";
                         var enddate = "now";
                         if (pickerlabel == "Custom")
@@ -203,7 +203,7 @@ function redrawAllJSON(dashJSON)
                                 dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
                             }
                         }
-                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'macarons');
+                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
                         dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].tmpoptions);
                     }
                 }
@@ -247,7 +247,7 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
     }
 
 //    dashJSON[row]["widgets"][index].tmpoptions.legend.show = true;
-    echartLine = echarts.init(document.getElementById("echart_line_single"), 'macarons');
+    echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
     if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
     {
 

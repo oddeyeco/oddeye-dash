@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
-<script src="${cp}/resources/echarts/theme/macarons.js"></script>
+<script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     var curentvalue = ${Error.getValue()};
@@ -29,7 +29,7 @@
     };
 
     $(document).ready(function () {
-        echartLine = echarts.init(document.getElementById('echart_line'), 'macarons');
+        echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
         drawEchart(chartsdata);
     });
 
@@ -106,7 +106,12 @@
                     }
                 }
             },
-            calculable: false,
+            grid: {
+                x: 90,
+                y: 40,
+                x2: 20,
+                y2: 80
+            },
             xAxis: [{
                     type: 'time',
 //                    data: date
@@ -128,7 +133,7 @@
 
     }
     ;
-    
+
     $('body').on("click", "#Clear_reg", function () {
         var sendData = {};
         sendData.hash = ${Error.hashCode()};

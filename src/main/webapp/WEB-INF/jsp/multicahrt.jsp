@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="x_title">
-                <h1> sdsadasdas</h1>
+                <h1> Multi Chart</h1>
             </div>
             <div class="x_panel">
                 <div class="x_title">
@@ -17,8 +17,8 @@
                     </div>                    
                     <div class="clearfix"></div>
                 </div>                                                
-                <div class="x_content">
-                    <div id="echart_line" style="height:600px;"></div>
+                <div class="x_content col-md-12">
+                    <div id="echart_line" class="echart_line_single" style="height:600px;"></div>
                 </div> 
             </div>            
 
