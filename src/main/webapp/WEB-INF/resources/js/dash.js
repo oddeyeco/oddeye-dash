@@ -271,7 +271,7 @@ function showsingleChart(row, index, dashJSON, readonly = false) {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
     }
 
-    console.log(dashJSON[row]["widgets"][index].tmpoptions.legend);
+//    console.log(dashJSON[row]["widgets"][index].tmpoptions.legend);
     chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
     $(".fulldash").hide();
 }
