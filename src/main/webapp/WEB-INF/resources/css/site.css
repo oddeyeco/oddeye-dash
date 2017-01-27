@@ -54,12 +54,32 @@ and open the template in the editor.
     /*height: 34px;*/
 }
 
-.titile_input_midle{
-    width: 215px !important;
+.input-group .titile_input_midle,.titile_input_midle{
+    width: 215px;
+    display: inline-block;    
+}
+
+.titile_input_midle{    
+    margin-bottom: -25px;
+}
+.color-button
+{
     display: inline-block;
     margin-bottom: -25px;
 }
 
+.form-horizontal .control-label-custom-legend2
+{
+    padding: 2px;    
+    text-align: right;    
+    width: 85px;
+}
+.form-horizontal .control-label-custom-legend3
+{
+    padding: 2px;    
+    text-align: right;        
+    width: 138px;
+}
 .titile_input_midle2{
 
     width: 50px;
@@ -103,13 +123,6 @@ and open the template in the editor.
     width: 0% !important;
 }
 
-/*#toggles_main_block {
-    display: block;
-    height: auto;
-    padding: 10px;
-    
-}*/
-
 #color_block{
     height: 33px;
 }
@@ -119,6 +132,14 @@ and open the template in the editor.
     width: 75px;
     text-align: right;
 }
+
+
+.form-horizontal .control-label-custom-legend{
+    padding: 2px;
+    width: 90px;
+    text-align: right;
+}
+
 .float-left
 {
     float: left;
@@ -156,8 +177,7 @@ and open the template in the editor.
 }
 
 #buttons_div{
-    text-align: right;
-    /*margin-right: 50px;*/
+    text-align: right;    
 }
 
 .dropdown_button{
@@ -209,156 +229,3 @@ and open the template in the editor.
 .title-border-width-input{
     width: 193px !important;
 }
-
-.legend-orient-label{
-        margin-left: 14px;
-}
-
-.legend-x-div{
-    margin-top: -36px !important;
-}
-
-.legend-x-label{
-    margin-left: 240px;
-}
-
-.legend-y-div{
-    margin-top: -40px !important;
-}
-
-.legend-y-label{
-    margin-left: 307px;
-}
-
-.legend-select-label{
-    margin-left: 10px;
-    margin-top: 2px;
-}
-
-.legend-background-label{
-    margin-left: 24px;
-}
-
-.legend-border-div{
-    margin-top: -30px !important;
-}
-
-.legend-border-color-label{
-     margin-left: 250px;
-}
-
-.label-border-width{
-    margin-left: 410px;
-}
-
-.label-border-width-div{
-    margin-top: -31px !important;
-}
-
-.legend-shpe-width-label{
-    margin-top: 7px;
-}
-
-.legend-shape-width-div{
-    margin-top: 0px !important;
-}
-
-.label-border-width-input{
-        width: 74px !important;
-}
-
-.label-border-width-px{
-    margin-left: 23px;
-}
-
-.legend-shpe-width-label{
-    margin-left: 233px;
-}
-
-.label-shape-height-div{
-    margin-top: -29px !important;
-}
-
-.legend-shape-height-label{
-    margin-left: 396px;
-}
-
-.legend-shape-height-input{
-    width: 75px !important;
-}
-
-
-
-/*.form-group-custom2{
-    margin-bottom: -36px !important;
-    margin-left: 18px;
-}
-
-.form-group-custom3{
-    margin-bottom: -34px !important;
-}
-
-.control-label3{
-    margin-left: 182px;
-}
-
-.control-label4{
-    margin-left: 178px;
-}
-
-.legend_select2{
-    margin-left: 10px;
-    margin-top: 0px;
-}
-
-.select_mode_select_label{
-    margin-left: 10px;
-    margin-top: 0px;
-}
-
-.select_mode_select{
-    width: 110px;
-}
-
-.orient_label{
-    margin-left: 14px;
-    margin-right: 4px;
-}
-
-.label_y_position_div{
-    margin-top: -32px;
-}
-
-.label_y_position{
-    margin-left: 337px;
-}
-
-.label_border_width{
-    margin-left: 430px;
-    margin-top: -15px;
-}
-
-.label_border_width_div{
-    margin-top: -28px !important;
-}
-
-.label_border_color{
-    margin-left: 270px;
-    margin-top: 15px;
-}
-
-.label_legend_background{
-    margin-left: 14px;
-}
-
-.legend_shape_width_div{
-        margin-top: -6px;
-}
-
-.lable_shape_height{
-    margin-left: 416px;
-}*/
-
-
-
-
