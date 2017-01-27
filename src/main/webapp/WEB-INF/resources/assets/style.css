@@ -39,6 +39,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
 #home{padding-top: 6em;}
 .carousel-caption{top:0;bottom: 0;left: 0; right: 0;padding: 0;}
+.carousel-caption-small {display: none}
 .caption-wrapper{display: table;height: 100%;width: 100%;}
 .caption-info{display: table-cell;vertical-align: middle;}
 .caption-info p{font-size: 1.25em;}
@@ -135,6 +136,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 	.navbar-toggle{margin-top: 12px;}
 
 	.carousel-caption,.carousel-control,.carousel-indicators{display: none;}
+        .carousel-caption-small {display: block}
 
 	h2.text-center{text-align: left;font-size: 1.7em;}
 	h4 {font: 300 1.2em Roboto,Arial,Helvetica;}

@@ -19,11 +19,20 @@
                         <div class="caption-info">
                             <img src="${cp}/resources/images/logobig.png" class="animated bounceInUp" alt="logo">
                             <h1 class="animated bounceInLeft">Unlimited Scalability Monitoring System</h1>
-                            <p class="animated bounceInRight">Have effectively unlimited scalability (storage, access rate).</p>
+                            <p class="animated bounceInRight">Have effectively unlimited scalability (storage, access rate).</p>                            
                             <div class="animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
-                        </div>
-                    </div>
+                        </div>                            
+                    </div>                            
                 </div>
+                <div class="carousel-caption carousel-caption-small">
+                    <div class="caption-wrapper">
+                        <div class="caption-info">                            
+                            <h1 class="animated bounceInLeft">Unlimited Scalability Monitoring System</h1>                            
+                            <div class="animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
+                        </div>                            
+                    </div>                            
+                </div>
+
             </div>
             <!-- #Item 1 -->
 
@@ -40,10 +49,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="carousel-caption carousel-caption-small">
+                    <div class="caption-wrapper">
+                        <div class="caption-info">
+                            <h1 class="animated bounceInLeft">Enormous injection of metrics per client</h1>
+                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
+                        </div>
+                    </div>                            
+                </div>        
             </div>
-            <!-- #Item 1 -->
-
-            <!-- Item 1 -->
             <div class="item">
                 <img src="${cp}/resources/images/back3.jpg" alt="banner">          
                 <div class="carousel-caption">
@@ -56,10 +70,15 @@
                         </div>
                     </div>
                 </div>
+                <div class="carousel-caption carousel-caption-small">
+                    <div class="caption-wrapper">
+                        <div class="caption-info">
+                            <h1 class="animated bounceInLeft">Open source python agent</h1>
+                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
+                        </div>
+                    </div>                            
+                </div>         
             </div>
-            <!-- #Item 1 -->
-
-            <!-- Item 1 -->
             <div class="item">
                 <img src="${cp}/resources/images/back4.jpg" alt="banner">          
                 <div class="carousel-caption">
@@ -72,6 +91,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="carousel-caption carousel-caption-small">
+                    <div class="caption-wrapper">
+                        <div class="caption-info">                           
+                            <h1 class="animated bounceInLeft">Simple client API</h1>                            
+                            <div class="scroll animated fadeInUp"><a href="${sineupUrl}" class="btn btn-default"><i class="fa fa-flask"></i>  Join</a> <a href="${loginUrl}" class="btn btn-default"><i class="fa fa-paper-plane-o"></i> Sign In</a></div>
+                        </div>
+                    </div>                            
+                </div>        
             </div>
             <!-- #Item 1 -->
         </div>
