@@ -135,9 +135,26 @@ class ChartEditForm {
             {
                 if (input.val() == "")
                 {
-                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] || !input.val()) {
+                    var inputs = this.formwraper.find(".edit-title [chart_prop_key='" + key + "']");
+                    if (inputs.length == 1)
+                    {
                         delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
                     }
+                    if (inputs.length > 1)
+                    {
+                        var empty = true;
+                        inputs.each(function () {
+                            empty = empty & ($(this).val() == "")
+                        });
+                        if (empty)
+                        {
+                            delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
+                        }
+                    }
+
+//                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] || !input.val()) {
+
+//                    }
                     if (input.parent().hasClass("cl_picer"))
                     {
                         input.parent().colorpicker('setValue', 'transparent');
@@ -213,7 +230,7 @@ class ChartEditForm {
                 }
             }
         }
-console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key]);
+        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key]);
         showsingleChart(this.row, this.index, this.dashJSON);
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);  
 //        this.chart.setOption(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
@@ -227,7 +244,7 @@ console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key
         {
             input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
         }
-        
+
         if (typeof (input.attr("type")) == "undefined")
         {
             if (input.prop("tagName").toLowerCase() == "select")

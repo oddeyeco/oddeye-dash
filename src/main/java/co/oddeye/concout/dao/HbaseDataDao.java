@@ -35,7 +35,7 @@ public class HbaseDataDao extends HbaseBaseDao {
     private BaseTsdbConnect BaseTsdb;
 
     private final static String tablename = "HbaseDataDao";
-    private final Map<String, String> tags = new HashMap<>();
+//    private final Map<String, String> tags = new HashMap<>();
 
     public short getLastAlertLevel(User user, String metric, String tagsquery) throws Exception {
         KeyValue lastekv = getLastbyQuery(user, metric, tagsquery);
@@ -57,7 +57,7 @@ public class HbaseDataDao extends HbaseBaseDao {
         sub_query.setMetric(metric);
         sub_query.setAggregator("none");
         final String[] tglist = tagsquery.split(";");
-
+        final Map<String, String> tags = new HashMap<>();
         for (String tag : tglist) {
             tgitem = tag.split("=");
             tags.put(tgitem[0], tgitem[1]);
@@ -127,7 +127,7 @@ public class HbaseDataDao extends HbaseBaseDao {
             final String[] metricslist = metrics.split(";");
             final String[] tglist = tagsquery.split(";");
             String[] tgitem;
-
+            final Map<String, String> tags = new HashMap<>();
             for (String metric : metricslist) {
 
                 final TSSubQuery sub_query = new TSSubQuery();

@@ -2,7 +2,7 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
-    pickerlabel = "Last 1 day";
+    pickerlabel = "Last 1 hour";
 
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
@@ -62,6 +62,7 @@
             $.getJSON(url, null, function (data) {
                 var chdata = [];
                 requestcount--;
+                
                 for (key in data.chartsdata)
                 {
                     var chartline = data.chartsdata[key];
@@ -121,9 +122,9 @@
                                 xAxis: [{
                                         type: 'time',
                                         splitNumber: 20,
-                                        axisLabel: {
-                                            formatter: format_date
-                                        }
+//                                        axisLabel: {
+//                                            formatter: format_date
+//                                        }
                                     }],
                                 yAxis: [{
                                         type: 'value',

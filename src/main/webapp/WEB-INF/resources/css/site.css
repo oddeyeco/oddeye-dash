@@ -90,9 +90,9 @@ and open the template in the editor.
     /*float: right;*/
 }
 
-.title_main_block{
+.form_main_block{
     display: block;
-    width: 655px;
+    /*width: 655px;*/
     height: auto;
     margin: 10px;
 }
@@ -125,7 +125,7 @@ and open the template in the editor.
 }
 .control-label-custom2
 {
-    width: 52px;
+    width: 57px;
 }
 
 .control-label_Y
@@ -157,7 +157,7 @@ and open the template in the editor.
 
 #buttons_div{
     text-align: right;
-    margin-right: 50px;
+    /*margin-right: 50px;*/
 }
 
 .dropdown_button{

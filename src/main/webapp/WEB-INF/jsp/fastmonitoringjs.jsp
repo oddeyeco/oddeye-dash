@@ -26,7 +26,6 @@
 
     function reDrawErrorList(listJson, table, errorjson)
     {
-//        console.log(errorjson.levelname);
         var elems = document.getElementById("check_level_" + errorjson.level);
         filtred = false;
         if (elems != null)
@@ -55,7 +54,6 @@
             var index = findeByhash(errorjson, array_regular);
             if (filtred)
             {
-//                console.log(errorjson.levelname+" "+index);
                 if (index == -1)
                 {
                     array_regular.push(errorjson);
@@ -83,11 +81,10 @@
             {
                 if (index != -1)
                 {
-//                     console.log(errorjson.levelname);
                     array_regular[index] = errorjson;
                     table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
-                        table.find("tbody tr#" + errorjson.hash).remove();
-                        array_regular.slice(index, 1);
+                        table.find("tbody tr#" + errorjson.hash).remove();                        
+                        array_regular.splice(index, 1);                        
                     });
                 }
             }
@@ -131,7 +128,7 @@
                     array_spec[index] = errorjson;
                     table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
                         table.find("tbody tr#" + errorjson.hash).remove();
-                        array_spec.slice(index, 1);
+                        array_spec.splice(index, 1);
                     });
                 }
             }
