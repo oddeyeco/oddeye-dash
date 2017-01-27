@@ -55,7 +55,7 @@ and open the template in the editor.
 }
 
 .titile_input_midle{
-    width: 215px;
+    width: 215px !important;
     display: inline-block;
     margin-bottom: -25px;
 }
@@ -204,6 +204,22 @@ and open the template in the editor.
 }
 .inputSmall{
     width: 50px !important;
+}
+
+.title-border-width-input{
+    width: 193px !important;
+}
+
+.legend-x-div{
+    margin-top: -36px !important;
+}
+
+.legend-x-label{
+    margin-left: 220px;
+}
+
+.legend-y-div{
+    margin-top: -2px;
 }
 
 /*.form-group-custom2{
