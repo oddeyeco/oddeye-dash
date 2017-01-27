@@ -62,7 +62,7 @@ and open the template in the editor.
 
 .titile_input_midle2{
 
-    width: 192px;
+    width: 50px;
     display: inline-block;
     margin-bottom: -25px;    
 }
@@ -95,6 +95,12 @@ and open the template in the editor.
     width: 655px;
     height: auto;
     margin: 10px;
+}
+
+.imput-group-addon-overwrite{
+    border-radius: 4px !important;
+    border: 1px solid #ccc !important;
+    width: 0% !important;
 }
 
 /*#toggles_main_block {
@@ -174,12 +180,11 @@ and open the template in the editor.
 
 .legend-shape-width{
     margin-top: 7px;
-    margin-left: -7px;
+    margin-left: 253px;
 }
 
 .legend-shape-height{
     margin-top: 7px;
-    margin-left: -11px;
 }
 
 .legend_select{
@@ -191,3 +196,86 @@ and open the template in the editor.
     height: 800px;
     overflow: hidden;
 }
+
+.color-input{
+    padding: 0px;
+    width: 0px !important;
+    border: 0;
+}
+.inputSmall{
+    width: 50px !important;
+}
+
+/*.form-group-custom2{
+    margin-bottom: -36px !important;
+    margin-left: 18px;
+}
+
+.form-group-custom3{
+    margin-bottom: -34px !important;
+}
+
+.control-label3{
+    margin-left: 182px;
+}
+
+.control-label4{
+    margin-left: 178px;
+}
+
+.legend_select2{
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+.select_mode_select_label{
+    margin-left: 10px;
+    margin-top: 0px;
+}
+
+.select_mode_select{
+    width: 110px;
+}
+
+.orient_label{
+    margin-left: 14px;
+    margin-right: 4px;
+}
+
+.label_y_position_div{
+    margin-top: -32px;
+}
+
+.label_y_position{
+    margin-left: 337px;
+}
+
+.label_border_width{
+    margin-left: 430px;
+    margin-top: -15px;
+}
+
+.label_border_width_div{
+    margin-top: -28px !important;
+}
+
+.label_border_color{
+    margin-left: 270px;
+    margin-top: 15px;
+}
+
+.label_legend_background{
+    margin-left: 14px;
+}
+
+.legend_shape_width_div{
+        margin-top: -6px;
+}
+
+.lable_shape_height{
+    margin-left: 416px;
+}*/
+
+
+
+

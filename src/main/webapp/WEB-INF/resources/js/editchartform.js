@@ -135,7 +135,7 @@ class ChartEditForm {
             {
                 if (input.val() == "")
                 {
-                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key]) {
+                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] || !input.val()) {
                         delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
                     }
                     if (input.parent().hasClass("cl_picer"))
@@ -179,7 +179,7 @@ class ChartEditForm {
             {
                 if (input.val() == "")
                 {
-                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key]) {
+                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key] || !input.val()) {
                         delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key];
                     }
 
@@ -213,7 +213,7 @@ class ChartEditForm {
                 }
             }
         }
-
+console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key]);
         showsingleChart(this.row, this.index, this.dashJSON);
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);  
 //        this.chart.setOption(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
