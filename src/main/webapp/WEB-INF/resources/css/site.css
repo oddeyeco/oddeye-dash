@@ -210,17 +210,84 @@ and open the template in the editor.
     width: 193px !important;
 }
 
+.legend-orient-label{
+        margin-left: 14px;
+}
+
 .legend-x-div{
     margin-top: -36px !important;
 }
 
 .legend-x-label{
-    margin-left: 220px;
+    margin-left: 240px;
 }
 
 .legend-y-div{
-    margin-top: -2px;
+    margin-top: -40px !important;
 }
+
+.legend-y-label{
+    margin-left: 307px;
+}
+
+.legend-select-label{
+    margin-left: 10px;
+    margin-top: 2px;
+}
+
+.legend-background-label{
+    margin-left: 24px;
+}
+
+.legend-border-div{
+    margin-top: -30px !important;
+}
+
+.legend-border-color-label{
+     margin-left: 250px;
+}
+
+.label-border-width{
+    margin-left: 410px;
+}
+
+.label-border-width-div{
+    margin-top: -31px !important;
+}
+
+.legend-shpe-width-label{
+    margin-top: 7px;
+}
+
+.legend-shape-width-div{
+    margin-top: 0px !important;
+}
+
+.label-border-width-input{
+        width: 74px !important;
+}
+
+.label-border-width-px{
+    margin-left: 23px;
+}
+
+.legend-shpe-width-label{
+    margin-left: 233px;
+}
+
+.label-shape-height-div{
+    margin-top: -29px !important;
+}
+
+.legend-shape-height-label{
+    margin-left: 396px;
+}
+
+.legend-shape-height-input{
+    width: 75px !important;
+}
+
+
 
 /*.form-group-custom2{
     margin-bottom: -36px !important;
