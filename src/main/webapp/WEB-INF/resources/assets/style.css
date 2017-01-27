@@ -137,6 +137,7 @@ p{font-size:1em;line-height: 1.7em; margin-bottom: 1.7em;}
 
 	.carousel-caption,.carousel-control,.carousel-indicators{display: none;}
         .carousel-caption-small {display: block}
+        .caption-info h1{font-size: 1.5em}
 
 	h2.text-center{text-align: left;font-size: 1.7em;}
 	h4 {font: 300 1.2em Roboto,Arial,Helvetica;}
