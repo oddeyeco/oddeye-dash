@@ -31,8 +31,8 @@
 
 
         <link rel="stylesheet" href="${cp}/resources/assets/style.css">      
-        
-        
+
+
         <link rel="stylesheet" href="${cp}/assets/css/main.css">    
     </head>
 
@@ -63,16 +63,41 @@
 
                         <!-- Nav Starts -->
                         <div class="navbar-collapse  collapse">
+                            <c:if test="${isAuthentication}">
+                                <ul class="nav navbar-nav navbar-right">
+                                    <li class="">
+                                        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            ${curentuser.getEmail()}
+                                            <span class=" fa fa-angle-down"></span>
+                                        </a>
+                                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                            <li><a href="<c:url value="/profile"/>"> Profile</a></li>
+                                            <li>
+                                                <a href="<c:url value="/dashboard/new"/>">
+                                                    <span>New Dashboard</span>
+                                                </a>
+                                            </li>
+                                            <li><a href="javascript:;">Help</a></li>
+                                                <c:url value="/logout/" var="logoutUrl" />
+
+                                            <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                        </ul>
+                                    </li>                                
+                                </ul>
+                            </c:if>                              
+
+
                             <ul class="nav navbar-nav navbar-right scroll">
                                 <li class="active"><a href="${cp}#home">Home</a></li>
                                 <li ><a href="${cp}#about">About</a></li>                                
                                 <li ><a href="${cp}#partners">Partners</a></li>
                                 <li ><a href="${cp}#contact">Contact</a></li>                 
-                            </ul>
+                            </ul>                            
                         </div>
                         <!-- #Nav Ends -->
-
                     </div>
+
+
                 </div>
 
             </div>

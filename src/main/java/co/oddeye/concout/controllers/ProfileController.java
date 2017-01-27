@@ -66,7 +66,7 @@ public class ProfileController {
             map.put("curentuser", userDetails);
 
         } else {
-            layaut = "indexNotaut";
+            layaut = "indexPrime";
         }
 
         map.put("body", "profile");
@@ -96,7 +96,7 @@ public class ProfileController {
             map.put("ErrorList", ErrorList);
 
         } else {
-            layaut = "indexNotaut";
+            layaut = "indexPrime";
         }
 
         map.put("body", "metriqinfo");
@@ -118,7 +118,7 @@ public class ProfileController {
             DefaultController.setLocaleInfo(map);
 
         } else {
-            layaut = "indexNotaut";
+            layaut = "indexPrime";
         }
 
         map.put("body", "profileedit");
@@ -182,7 +182,7 @@ public class ProfileController {
             return "index";
 
         }
-        return "indexNotaut";
+        return "indexPrime";
         //else
     }
 }

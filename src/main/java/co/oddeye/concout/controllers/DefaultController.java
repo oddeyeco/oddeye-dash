@@ -55,8 +55,18 @@ public class DefaultController {
     public String index(ModelMap map,HttpServletRequest request) {        
         map.put("request", request);
         map.put("body", "homepage");
-        map.put("jspart", "homepagejs");
-        return "indexNotaut";
+        map.put("jspart", "homepagejs");        
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+            map.put("isAuthentication", true);
+        } else {
+            map.put("isAuthentication", false);
+        }        
+//        layaut = "indexPrime";
+        return "indexPrime";
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
@@ -97,7 +107,7 @@ public class DefaultController {
         }
         map.put("body", "login");
         map.put("jspart", "loginjs");
-        return "indexNotaut";
+        return "indexPrime";
     }
 
     @RequestMapping(value = "/{templatename}", method = RequestMethod.GET)
@@ -119,7 +129,7 @@ public class DefaultController {
             map.put("curentuser", userDetails);
 
         } else {
-            layaut = "indexNotaut";
+            layaut = "indexPrime";
         }
 
         map.put("body", templatename);
@@ -188,7 +198,7 @@ public class DefaultController {
                 map.put("message", ex.toString());                
             }
         }
-        return "indexNotaut";
+        return "indexPrime";
         //else
 
     }
