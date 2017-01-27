@@ -336,142 +336,144 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="tab_legend" aria-labelledby="legend-tab">
                         <!--<div class="row">-->
-                            <form class="form-horizontal form-label-left edit-legend pull-left">   
+                        <form class="form-horizontal form-label-left edit-legend pull-left">   
 
-                                <div class="title_main_block">
-                                    <!--<div class="row">-->
-                                        <h3 style="width: 100%"><label for="title_text" class="control-label control-label-custom legend_title" >
-                                                Legend
-                                            </label>
-                                            <div class="checkbox" style="display: inline-block">
-                                                <input chart_prop_key="show" type="checkbox" class="js-switch-small" checked ="checked " id="legend_show" name="legend_show" /> 
-                                            </div>
-                                        </h3>
+                            <div class="title_main_block">
+                                <!--<div class="row">-->
+                                <h3 style="width: 100%"><label for="title_text" class="control-label control-label-custom legend_title" >
+                                        Legend
+                                    </label>
+                                    <div class="checkbox" style="display: inline-block">
+                                        <input chart_prop_key="show" type="checkbox" class="js-switch-small" checked ="checked " id="legend_show" name="legend_show" /> 
                                     </div>
-                                    <div class="row">
-                                        <label for="legend_orient" class="control-label control-label-custom control-label-custom2 col-md-2 orient_label" >
-                                            Orient
-                                        </label>                                 
-                                        <select id="legend_orient" name="legend_orient" chart_prop_key="orient" class="form-control title_select legend_orient col-md-4">
-                                            <option value="horizontal" selected>Horizontal</option>
-                                            <option value="vertical">Vertical</option>
-                                        </select>
-                                        <div class="form-group form-group-custom">
-                                            <label for="legend_x_position" class="control-label control-label-custom control-label_Y" >
-                                                X
-                                            </label>
-                                            <select id="legend_x_position" name="legend_x_position" chart_prop_key="x" class="form-control title_select" >
-                                                <option selected value=""></option>
-                                                <option value="center">Center</option>
-                                                <option value="left">Left</option>
-                                                <option value="right">Right</option>
-                                            </select>
-                                            <label class="control-label control-label-custom3 control_label_or" >
-                                                OR
-                                            </label>
-                                            <input id="legend_x_position_text" name="legend_x_position_text" chart_prop_key="x" type="number" class="form-control title_input_small" >
-                                            <label class="control-label control-label-custom3" >
-                                                px
-                                            </label>
-                                            <label for="legend_y_position" class="control-label control-label_Y" >
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="legend_select_mode" class="control-label control-label_Y  legend_select legend_select2 col-md-2 select_mode_select_label" >
-                                            Select Mode
+                                </h3>
+                            </div>
+                            <div class="row">
+                                <label for="legend_orient" class="control-label control-label-custom control-label-custom2 col-md-2 orient_label" >
+                                    Orient
+                                </label>                                 
+                                <select id="legend_orient" name="legend_orient" chart_prop_key="orient" class="form-control title_select legend_orient col-md-4">
+                                    <option value="horizontal" selected>Horizontal</option>
+                                    <option value="vertical">Vertical</option>
+                                </select>
+                                <div class="form-group form-group-custom">
+                                    <label for="legend_x_position" class="control-label control-label-custom control-label_Y" >
+                                        X
+                                    </label>
+                                    <select id="legend_x_position" name="legend_x_position" chart_prop_key="x" class="form-control title_select" >
+                                        <option selected value=""></option>
+                                        <option value="center">Center</option>
+                                        <option value="left">Left</option>
+                                        <option value="right">Right</option>
+                                    </select>
+                                    <label class="control-label control-label-custom3 control_label_or" >
+                                        OR
+                                    </label>
+                                    <input id="legend_x_position_text" name="legend_x_position_text" chart_prop_key="x" type="number" class="form-control title_input_small" >
+                                    <label class="control-label control-label-custom3" >
+                                        px
+                                    </label>
+                                    <label for="legend_y_position" class="control-label control-label_Y" >
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="legend_select_mode" class="control-label control-label_Y  legend_select legend_select2 col-md-2 select_mode_select_label" >
+                                    Select Mode
+                                </label> 
+                                <select id="legend_select_mode" name="legend_select_mode" chart_prop_key="selectedMode" class="form-control title_select col-md-4 select_mode_select" >
+                                    <option value="single">Single</option>
+                                    <option value="multiple" selected>Multiple</option>
+                                </select>
+                                <div id="legend_position_block" style="display: block;">
+                                    <div id="legend_position_block" class="label_y_position_div" style="display: block;">
+                                        <label for="legend_y_position" class="control-label control-label_Y label_y_position col-md-1" >
+                                            Y
                                         </label> 
-                                        <select id="legend_select_mode" name="legend_select_mode" chart_prop_key="selectedMode" class="form-control title_select col-md-4 select_mode_select" >
-                                            <option value="single">Single</option>
-                                            <option value="multiple" selected>Multiple</option>
+                                        <select id="legend_y_position" name="legend_y_position" chart_prop_key="y" class="form-control col-md-2 title_select" >
+                                            <option selected value=""></option>
+                                            <option value="center">Center</option>
+                                            <option value="top">Top</option>
+                                            <option value="bottom">Bottom</option>
                                         </select>
-                                        <div id="legend_position_block" style="display: block;">
-                                            <div id="legend_position_block" class="label_y_position_div" style="display: block;">
-                                                <label for="legend_y_position" class="control-label control-label_Y label_y_position col-md-1" >
-                                                    Y
-                                                </label> 
-                                                <select id="legend_y_position" name="legend_y_position" chart_prop_key="y" class="form-control col-md-2 title_select" >
-                                                    <option selected value=""></option>
-                                                    <option value="center">Center</option>
-                                                    <option value="top">Top</option>
-                                                    <option value="bottom">Bottom</option>
-                                                </select>
-                                                <label class="control-label control-label-custom3 control_label_or col-md-1" >
-                                                    OR
-                                                </label>
+                                        <label class="control-label control-label-custom3 control_label_or col-md-1" >
+                                            OR
+                                        </label>
 
-                                                <input id="legend_y_position_text" name="legend_y_position_text" chart_prop_key="y" type="number" class="form-control title_input_small col-md-3" >
-                                                <label class="control-label control-label-custom3 col-md-1" >
-                                                    px
-                                                </label>
-                                            </div>
-                                        </div>
+                                        <input id="legend_y_position_text" name="legend_y_position_text" chart_prop_key="y" type="number" class="form-control title_input_small col-md-3" >
+                                        <label class="control-label control-label-custom3 col-md-1" >
+                                            px
+                                        </label>
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group form-group-custom form-group-custom2">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group form-group-custom form-group-custom2">
 
-                                            <label for="legend_background_color" class="control-label control-label-custom label_legend_background col-md-2" >
-                                                Background
-                                            </label>
-                                            <div class="titile_input_midle col-md2">
-                                                <div class="input-group cl_picer" >                            
-                                                    <input id="legend_background_color" name="legend_background_color" chart_prop_key="backgroundColor" type="text" value="" class="form-control color-input col-md-2" >
-                                                    <span class="input-group-addon imput-group-addon-overwrite"><i></i></span>
-                                                </div>                                
-                                            </div> 
-                                        </div>
-                                        <label for="legend_border_color" class="control-label control-label-custom label_border_color col-md-1" >
-                                            Border
-                                        </label>    
-                                        <div class="titile_input_midle">                                                                                                     
-                                            <div class="input-group cl_picer">                            
-                                                <input id="legend_border_color" name="legend_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control color-input col-md-1" >
+                                        <label for="legend_background_color" class="control-label control-label-custom label_legend_background col-md-2" >
+                                            Background
+                                        </label>
+                                        <div class="titile_input_midle col-md2">
+                                            <div class="input-group cl_picer" >                            
+                                                <input id="legend_background_color" name="legend_background_color" chart_prop_key="backgroundColor" type="text" value="" class="form-control color-input col-md-3" >
                                                 <span class="input-group-addon imput-group-addon-overwrite"><i></i></span>
                                             </div>                                
                                         </div> 
-                                        <div class="form-group form-group-custom label_border_width_div">
-                                            <label for="legend_border_width" class="control-label control-label3 label_border_width col-md-1">
-                                                Width
-                                            </label>
-                                            <div class="titile_input_midle2">
-                                                <div class="input-group" >   
-                                                    <input id="legend_border_width" chart_prop_key="borderWidth" name="legend_border_width" type="number" value="" class="form-control inputSmall col-md-2">
-                                                </div>
+                                    </div>
+                                    <label for="legend_border_color" class="control-label control-label-custom label_border_color col-md-1" >
+                                        Border
+                                    </label>    
+                                    <div class="titile_input_midle">                                                                                                     
+                                        <div class="input-group cl_picer">                            
+                                            <input id="legend_border_color" name="legend_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control color-input col-md-1" >
+                                            <span class="input-group-addon imput-group-addon-overwrite"><i></i></span>
+                                        </div>                                
+                                    </div> 
+                                    <div class="form-group form-group-custom label_border_width_div">
+                                        <label for="legend_border_width" class="control-label control-label3 label_border_width col-md-1">
+                                            Width
+                                        </label>
+                                        <div class="titile_input_midle2">
+                                            <div class="input-group" >   
+                                                <input id="legend_border_width" chart_prop_key="borderWidth" name="legend_border_width" type="number" value="" class="form-control inputSmall col-md-3">
                                             </div>
-                                            <label class="control-label control-label-custom3 col-md-1" >
-                                                px
-                                            </label>
+                                        </div>
+                                        <label class="control-label control-label-custom3 col-md-1" >
+                                            px
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div id="legend_shape_block" style="display: block;">
+                                    <div class="form-group form-group-custom form-group-custom3 legend_shape_width_div">
+                                        <label for="legend_shape_width" class="control-label control-label2 legend-shape-width">
+                                            Shape Width
+                                        </label>
+                                        <div class="titile_input_midle2">
+                                            <div class="input-group" >   
+                                                <input id="legend_shape_width" chart_prop_key="itemWidth" name="legend_shape_width" type="number" value="" class="form-control inputSmall">
+                                            </div>
+                                        </div>
+                                        <label class="control-label control-label-custom3" >
+                                            px
+                                        </label>
+                                    </div>
+                                    <label for="legend_shape_height" class="control-label control-label2 legend-shape-height control-label4 lable_shape_height">
+                                        Height
+                                    </label>
+                                    <div class="titile_input_midle2">
+                                        <div class="input-group" >   
+                                            <input id="legend_shape_height" chart_prop_key="itemHeight" name="legend_shape_height" type="number" value="" class="form-control inputSmall">
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div id="legend_shape_block" style="display: block;">
-                                            <div class="form-group form-group-custom form-group-custom3 legend_shape_width_div">
-                                                <label for="legend_shape_width" class="control-label control-label2 legend-shape-width">
-                                                    Shape Width
-                                                </label>
-                                                <div class="titile_input_midle2">
-                                                    <div class="input-group" >   
-                                                        <input id="legend_shape_width" chart_prop_key="itemWidth" name="legend_shape_width" type="number" value="" class="form-control inputSmall">
-                                                    </div>
-                                                </div>
-                                                <label class="control-label control-label-custom3" >
-                                                    px
-                                                </label>
-                                            </div>
-                                            <label for="legend_shape_height" class="control-label control-label2 legend-shape-height control-label4 lable_shape_height">
-                                                Height
-                                            </label>
-                                            <div class="titile_input_midle2">
-                                                <div class="input-group" >   
-                                                    <input id="legend_shape_height" chart_prop_key="itemHeight" name="legend_shape_height" type="number" value="" class="form-control inputSmall">
-                                                </div>
-                                            </div>
-                                            <label class="control-label control-label-custom3" >
-                                                px
-                                            </label>
-                                        </div>
-                                    </div>
-                                <!--</div>-->
-                            </form>
+                                    <label class="control-label control-label-custom3" >
+                                        px
+                                    </label>
+                                </div>
+                            </div>
+                            <!--</div>-->
+                        </form>
                         <!--</div>-->
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="tab_desplay" aria-labelledby="desplay-tab">
