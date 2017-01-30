@@ -1,6 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 <link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css" />        
+<link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />
 
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
@@ -14,9 +17,9 @@
                 </li>
                 <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Levels Settings</a>
                 </li>
-                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Contacts</a>
+                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Notifier</a>
                 </li>
-                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Sequrity</a>
+                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Security</a>
                 </li>
 
             </ul>
@@ -37,7 +40,6 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname">Last Name <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-
                                     <form:input path="lastname" cssClass="form-control" placeholder="Last Name"/>
                                     <form:errors path="lastname" />
                                 </div>
@@ -46,7 +48,6 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company">Company Name <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-
                                     <form:input path="company" cssClass="form-control" placeholder="Company name"/>
                                     <form:errors path="company" />
                                 </div>
@@ -130,8 +131,30 @@
 
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                    <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
-                        photo booth letterpress, commodo enim craft beer mlkshk </p>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="x_title">
+                            <h5>For Email <input type="checkbox" class="js-switch-small" id="send_email" name="send_email" /> </h5></div>
+                            <form class="form-horizontal form-label-left form-filter" name="email_note">
+                            <jsp:include page="filterform.jsp" />  
+                            <div class="form-group">                        
+                                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                    <button class="btn btn-success" type="button" value="Default" id="Default">Use It</button>        
+                                </div>
+                            </div>                        
+                        </form>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="x_title">
+                            <h5>For Telegram <input type="checkbox" class="js-switch-small" id="send_telegram" name="send_telegram" /> </h5></div>
+                            <form class="form-horizontal form-label-left form-filter" name="email_note">
+                            <jsp:include page="filterform.jsp" />  
+                            <div class="form-group">                        
+                                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                    <button class="btn btn-success" type="button" value="Default" id="Default">Use It</button>        
+                                </div>
+                            </div>                        
+                        </form>
+                    </div>                            
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
                     <div class="x_content">                                        
