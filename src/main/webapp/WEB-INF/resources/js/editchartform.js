@@ -130,7 +130,9 @@ class ChartEditForm {
         if (input.parents("form").hasClass("edit-title"))
         {
             var key = input.attr("chart_prop_key");
-
+            
+            this.formwraper.find(".edit-title " + input.prop("tagName") + "[chart_prop_key='" + key + "']").val(input.val());
+            
             if (input.prop("tagName") == "INPUT" || "SELECT" || "DIV")
             {
                 if (input.val() == "")
@@ -144,7 +146,7 @@ class ChartEditForm {
                     {
                         var empty = true;
                         inputs.each(function () {
-                            empty = empty & ($(this).val() == "")
+                            empty = empty & ($(this).val() == "")                            
                         });
                         if (empty)
                         {
@@ -157,7 +159,10 @@ class ChartEditForm {
 //                    }
                     if (input.parent().hasClass("cl_picer"))
                     {
-                        input.parent().colorpicker('setValue', 'transparent');
+                        inputs.each(function (){
+                            $(this).parent().colorpicker('setValue', 'transparent');
+                        })
+//                        input.parent().colorpicker('setValue', 'transparent');
                     }
                 } else
                 {
