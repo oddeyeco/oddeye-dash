@@ -6,8 +6,7 @@
 
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
-    var timer;
-    var cp = "${cp}";
+    var timer;    
     var interval = 10000;
     series = [];
 

@@ -10,8 +10,7 @@
     var uuid = "${curentuser.getId()}";
     var timeformat = "DD/MM HH:mm:ss";
     var errorlistJson = ${errorslist};
-    var filterJson = ${curentuser.getDefaultFilter()};
-    var cp = "${cp}";
+    var filterJson = ${curentuser.getDefaultFilter()};    
     var array_regular = [];
     var array_spec = [];
 

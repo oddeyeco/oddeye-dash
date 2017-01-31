@@ -204,6 +204,7 @@
                     $(window).resize();
                 });
             });
+            var cp = "${cp}";
         </script>
     </body>
 
