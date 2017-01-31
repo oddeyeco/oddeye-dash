@@ -8,8 +8,7 @@
 
 
 <script>
-    var dashJSONvar = ${dashInfo};
-    var cp = "${cp}";
+    var dashJSONvar = ${dashInfo};    
     var chartForm;
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {

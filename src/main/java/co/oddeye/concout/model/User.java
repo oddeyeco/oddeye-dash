@@ -545,5 +545,18 @@ public class User implements UserDetails {
     public void setFiltertemplateList(Map<String, String> FiltertemplateList) {
         this.FiltertemplateList = FiltertemplateList;
     }
-
+    
+    public String getEmailFilter() {
+        if (FiltertemplateList.get("oddeye_base_send_email") != null) {
+            return FiltertemplateList.get("oddeye_base_send_email");
+        }
+        return getDefaultFilter();
+    }
+    
+    public String getTelegramFilter() {
+        if (FiltertemplateList.get("oddeye_base_send_telegram") != null) {
+            return FiltertemplateList.get("oddeye_base_send_telegram");
+        }
+        return getDefaultFilter();
+    }    
 }

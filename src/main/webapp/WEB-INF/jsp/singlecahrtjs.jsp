@@ -6,8 +6,7 @@
 
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
-    var timer;
-    var cp = "${cp}";
+    var timer;    
     var interval = 10000;
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);

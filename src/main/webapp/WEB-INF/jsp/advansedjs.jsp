@@ -7,8 +7,7 @@
     var chartsdata = ${chartdata};
     var echartLine;
     var series = [];
-    var legend = [];
-    var cp = "${cp}";
+    var legend = [];    
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
 

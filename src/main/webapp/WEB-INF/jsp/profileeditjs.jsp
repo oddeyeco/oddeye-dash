@@ -3,7 +3,12 @@
 <script src="${cp}/resources/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
 
 <script>
-    var filterJson = ${curentuser.getDefaultFilter()};
+    var emailfilterJson = ${curentuser.getEmailFilter()};
+    var telegramfilterJson = ${curentuser.getTelegramFilter()};
+
+    var headerName = "${_csrf.headerName}";
+    var token = "${_csrf.token}";
+
 
     $(document).ready(function () {
         $(".select2_country").select2({
@@ -12,11 +17,11 @@
         });
         $(".select2_tz").select2({});
 
-        var elems = document.querySelectorAll('.js-switch-small');
-
+        console.log(emailfilterJson);
+        var elems = document.querySelectorAll('#email_note .js-switch-small');
         for (var i = 0; i < elems.length; i++) {
-            if (typeof (filterJson[elems[i].id]) != "undefined")
-                if (filterJson[elems[i].id] != "")
+            if (typeof (emailfilterJson[elems[i].id]) != "undefined")
+                if (emailfilterJson[elems[i].id] != "")
                 {
                     if (!elems[i].checked)
                         $(elems[i]).trigger('click');
@@ -28,10 +33,71 @@
                 }
             var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
         }
-        $(".filter-input").each(function () {
-            $(this).val(filterJson[$(this).attr("name")]);
 
+        $("#email_note .filter-input").each(function () {
+            $(this).val(emailfilterJson[$(this).attr("name")]);
         });
+
+        var elems = document.querySelectorAll('#telegram_note .js-switch-small');
+        for (var i = 0; i < elems.length; i++) {
+            if (typeof (telegramfilterJson[elems[i].id]) != "undefined")
+                if (telegramfilterJson[elems[i].id] != "")
+                {
+                    if (!elems[i].checked)
+                        $(elems[i]).trigger('click');
+                } else
+                {
+                    if (elems[i].checked)
+                        $(elems[i]).trigger('click');
+
+                }
+            var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+        }
+
+        $("#telegram_note .filter-input").each(function () {
+            $(this).val(telegramfilterJson[$(this).attr("name")]);
+        });
+
+
+        $('body').on("click", ".savefilter", function () {
+            var name = "oddeye_base_" + $(this).parents("form").attr("name");
+            var formData = $(this).parents("form").serializeArray();
+            filterJson = {};
+            jQuery.each(formData, function (i, field) {
+                if (field.value != "")
+                {
+                    filterJson[field.name] = field.value;
+                }
+
+            });
+            var sendData = {};
+            console.log(filterJson);
+            sendData.filter = JSON.stringify(filterJson);
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            url = cp + "/savefilter/" + name;
+            console.log(url);
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: url,
+                data: sendData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            }).done(function (msg) {
+                if (msg.sucsses)
+                {
+                    alert("Data Saved ");
+                } else
+                {
+                    alert("Request failed");
+                }
+            }).fail(function (jqXHR, textStatus) {
+                alert("Request failed");
+            });
+        }
+        );
 
     });
 </script>

@@ -132,25 +132,25 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
                     <div class="col-md-4 col-sm-4 col-xs-12">
-                        <div class="x_title">
-                            <h5>For Email <input type="checkbox" class="js-switch-small" id="send_email" name="send_email" /> </h5></div>
-                            <form class="form-horizontal form-label-left form-filter" name="email_note">
-                            <jsp:include page="filterform.jsp" />  
+                        <form class="form-horizontal form-label-left form-filter" name="send_email" id="email_note">
+                            <div class="x_title">                            
+                                <h5>For Email <input type="checkbox" class="js-switch-small" id="send_email" name="send_email" /> </h5><input class="form-control autocomplete-append filter-input" type="text" name="email_input" id="email_input" value=""></div>                            
+                                    <jsp:include page="filterform.jsp" />  
                             <div class="form-group">                        
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                                    <button class="btn btn-success" type="button" value="Default" id="Default">Use It</button>        
+                                    <button class="btn btn-success savefilter" type="button">Save</button>                                            
                                 </div>
                             </div>                        
                         </form>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-12">
-                        <div class="x_title">
-                            <h5>For Telegram <input type="checkbox" class="js-switch-small" id="send_telegram" name="send_telegram" /> </h5></div>
-                            <form class="form-horizontal form-label-left form-filter" name="email_note">
+                        <form class="form-horizontal form-label-left form-filter" name="send_telegram" id="telegram_note">
+                            <div class="x_title">
+                                <h5>For Telegram <input type="checkbox" class="js-switch-small" id="send_telegram" name="send_telegram" /> </h5><input class="form-control autocomplete-append filter-input" type="text" name="telegram_input" id="telegram_input" value=""></div>
                             <jsp:include page="filterform.jsp" />  
                             <div class="form-group">                        
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                                    <button class="btn btn-success" type="button" value="Default" id="Default">Use It</button>        
+                                    <button class="btn btn-success savefilter" type="button" >Save</button>        
                                 </div>
                             </div>                        
                         </form>
