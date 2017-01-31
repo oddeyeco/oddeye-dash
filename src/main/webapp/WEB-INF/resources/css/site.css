@@ -229,3 +229,14 @@ and open the template in the editor.
 .title-border-width-input{
     width: 193px !important;
 }
+
+.form-horizontal .control-label-custom-axes{
+    padding: 2px;
+    width: auto;
+    text-align: right;
+}
+
+.axes_select{
+    width: 196px;
+    display: inline-block;
+}
