@@ -12,7 +12,7 @@ class ChartEditForm {
         this.row = row;
         this.index = index;
         this.dashJSON = dashJSON;
-
+        
         if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
         {
             var query = "?" + dashJSON[row]["widgets"][index].queryes[0];
@@ -81,6 +81,7 @@ class ChartEditForm {
                 formObj.fillinputs($(this), "legend", key);
             });
         }
+//        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend);
 
     }
 
@@ -235,7 +236,7 @@ class ChartEditForm {
                 }
             }
         }
-        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key]);
+//        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key]);
         showsingleChart(this.row, this.index, this.dashJSON);
 //        console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title);  
 //        this.chart.setOption(this.dashJSON[this.row]["widgets"][this.index].tmpoptions);
@@ -247,7 +248,8 @@ class ChartEditForm {
 
         if (input.parent().hasClass("cl_picer"))
         {
-            input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+            input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);            
+            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]+" "+key);
         }
 
         if (typeof (input.attr("type")) == "undefined")

@@ -253,9 +253,14 @@
             };
         }
 
-        $('.cl_picer').colorpicker().on('hidePicker', function () {
+        $('.cl_picer_input').colorpicker().on('hidePicker', function () {            
             chartForm.chage($(this).find("input"));
         });
+        $('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+//            $('#colordiv').css('background-color', $('.color').colorpicker('getValue'));
+            chartForm.chage($(this).find("input"));
+        });        
+        
 
         $('#button_title_subtitle').on('click', function () {
             $('#title_subtitle').fadeToggle(500, function () {

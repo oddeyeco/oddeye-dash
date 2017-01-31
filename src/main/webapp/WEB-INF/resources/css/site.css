@@ -65,7 +65,7 @@ and open the template in the editor.
 .color-button
 {
     display: inline-block;
-    margin-bottom: -25px;
+    margin-bottom: -20px;
 }
 
 .form-horizontal .control-label-custom-legend2
@@ -117,10 +117,9 @@ and open the template in the editor.
     margin: 10px;
 }
 
-.imput-group-addon-overwrite{
-    border-radius: 4px !important;
-    border: 1px solid #ccc !important;
-    width: 0% !important;
+.input-group .imput-group-addon-overwrite{
+    border-radius: 4px ;
+    border: 1px solid #ccc ;    
 }
 
 #color_block{
@@ -217,17 +216,8 @@ and open the template in the editor.
     overflow: hidden;
 }
 
-.color-input{
-    padding: 0px;
-    width: 0px !important;
-    border: 0;
-}
-.inputSmall{
-    width: 50px !important;
-}
-
-.title-border-width-input{
-    width: 193px !important;
+.input-group.cl_picer_noinput input{
+    display: none;
 }
 
 .form-horizontal .control-label-custom-axes{

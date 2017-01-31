@@ -207,7 +207,7 @@
                                                 Border
                                             </label>    
                                             <div class="titile_input_midle">                                                                                                     
-                                                <div class="input-group cl_picer">                            
+                                                <div class="input-group cl_picer cl_picer_input">                            
                                                     <input id="title_border_color" name="title_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
                                                     <span class="input-group-addon"><i></i></span>
                                                 </div>                                
@@ -216,7 +216,7 @@
                                                 Background
                                             </label>
                                             <div class="titile_input_midle">
-                                                <div class="input-group cl_picer" >                            
+                                                <div class="input-group cl_picer cl_picer_input" >                            
                                                     <input id="title_background_color" chart_prop_key="backgroundColor" name="title_background_color" type="text" value="" class="form-control" >
                                                     <span class="input-group-addon"><i></i></span>
                                                 </div>                                
@@ -228,7 +228,7 @@
                                             Color
                                         </label>
                                         <div class="titile_input_midle">                                                                                                     
-                                            <div class="input-group cl_picer">                            
+                                            <div class="input-group cl_picer cl_picer_input">                            
                                                 <input id="title_border_color" name="title_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
                                                 <span class="input-group-addon"><i></i></span>
                                             </div>                                
@@ -424,8 +424,8 @@
                                             Background
                                         </label>
                                         <div class="color-button">
-                                            <div class="input-group cl_picer" >                            
-                                                <input id="legend_background_color" name="legend_background_color" chart_prop_key="backgroundColor" type="text" value="" class="form-control color-input" >
+                                            <div class="input-group cl_picer cl_picer_noinput" >                            
+                                                <input id="legend_background_color" name="legend_background_color" chart_prop_key="backgroundColor" type="text" value="" class="form-control" >
                                                 <span class="input-group-addon imput-group-addon-overwrite"><i></i></span>
                                             </div>                                
                                         </div> 
@@ -488,8 +488,8 @@
                                             Border
                                         </label>                                                                                     
                                         <div class="color-button">                                                                                                     
-                                            <div class="input-group cl_picer">                            
-                                                <input id="legend_border_color" name="legend_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control color-input" >
+                                            <div class="input-group cl_picer cl_picer_noinput">                            
+                                                <input id="legend_border_color" name="legend_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
                                                 <span class="input-group-addon imput-group-addon-overwrite"><i></i></span>
                                             </div>                                
                                         </div>                                   
