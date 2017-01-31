@@ -325,66 +325,153 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="tab_axes" aria-labelledby="axes-tab">
                         <div class="row">
-                            <form class="form-horizontal form-label-left edit-legend pull-left">   
-                                <div class="form_main_block">                                
+                            <form class="form-horizontal form-label-left edit-legend pull-left">                                   
+                                <div class="form_main_block  pull-left">                                
                                     <h3><label class="control-label" >
                                             Left Y
                                         </label>
                                         <div class="checkbox" style="display: inline-block">
-                                            <input chart_prop_key="show" type="checkbox" class="js-switch-small" checked ="checked " id="axes_show" name="axes_show" /> 
+                                            <input chart_prop_key="leftAxesShow" type="checkbox" class="js-switch-small" checked ="checked " id="left_axes_show" name="left_axes_show" /> 
                                         </div>
                                     </h3>
+
+                                    <div class="">
+                                        <div class="form-group form-group-custom">
+                                            <label for="axes_unit_left_y" class="control-label control-label-custom-legend" >
+                                                Unit
+                                            </label>                                 
+                                            <select id="axes_unit_left_y" name="axes_unit_left_y" chart_prop_key="leftUnit" class="form-control axes_select ">
+                                                <option value="none">None</option>
+                                                <option value="currency">Currency</option>
+                                                <option value="time" selected>Time</option>
+                                                <option value="dataIEC">Data (IEC)</option>
+                                                <option value="dataMetric">Data (Metric)</option>
+                                                <option value="dataRate">Data Rate</option>
+                                                <option value="throughput">Throughput</option>
+                                                <option value="lenght">Lenght</option>
+                                                <option value="energy">Energy</option>
+                                                <option value="temperature">Temperature</option>
+                                                <option value="pressure">Pressure</option>
+                                                <option value="velocity">Velocity</option>
+                                                <option value="volume">Volume</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group form-group-custom">
+                                            <label for="axes_scale_left_y" class="control-label control-label-custom-legend" >
+                                                Scale
+                                            </label>                                 
+                                            <select id="axes_scale_left_y" name="axes_scale_left_y" chart_prop_key="leftScale" class="form-control axes_select ">
+                                                <option value="linear" selected>Linear</option>
+                                                <option value="logBase2">Log (base 2)</option>
+                                                <option value="logBase10">Log (base 10)</option>
+                                                <option value="logBase32">Log (base 32)</option>
+                                                <option value="logBase1024">Log (base 1024)</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group form-group-custom">
+                                            <label for="axes_min_left_y" class="control-label control-label-custom-legend" >
+                                                Y-Min
+                                            </label>
+                                            <input id="axes_min_left_y" name="axes_min_left_y" chart_prop_key="leftYMin" type="number" placeholder="auto" class="form-control title_input_small" >
+                                            <label for="axes_max_left_y" class="control-label control-label-custom-axes" >
+                                                Y-Max
+                                            </label>
+                                            <input id="axes_max_left_y" name="axes_max_left_y" chart_prop_key="leftYMax" type="number" placeholder="auto" class="form-control title_input_small" >
+                                        </div>
+                                        <div class="form-group form-group-custom">
+                                            <label for="axes_label_left_y" class="control-label control-label-custom-legend" >
+                                                Label
+                                            </label>
+                                            <input id="axes_label_left_y" name="axes_label_left_y" chart_prop_key="leftLabel" type="text" class="form-control axes_select" >
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form_main_block pull-left">
+                                <div class="form_main_block  pull-left">     
                                     <div class="form-group form-group-custom">
-                                        <label for="axes_unit_left_y" class="control-label control-label-custom-legend" >
-                                            Unit
-                                        </label>                                 
-                                        <select id="axes_unit_left_y" name="axes_unit_left_y" chart_prop_key="unit" class="form-control axes_select ">
-                                            <option value="none">None</option>
-                                            <option value="currency">Currency</option>
-                                            <option value="time" selected>Time</option>
-                                            <option value="dataIEC">Data (IEC)</option>
-                                            <option value="dataMetric">Data (Metric)</option>
-                                            <option value="dataRate">Data Rate</option>
-                                            <option value="throughput">Throughput</option>
-                                            <option value="lenght">Lenght</option>
-                                            <option value="energy">Energy</option>
-                                            <option value="temperature">Temperature</option>
-                                            <option value="pressure">Pressure</option>
-                                            <option value="velocity">Velocity</option>
-                                            <option value="volume">Volume</option>
-                                        </select>
-                                    </div>
+                                        <div class="form_main_block">                                
+                                            <h3><label class="control-label" >
+                                                    Right Y
+                                                </label>
+                                                <div class="checkbox" style="display: inline-block">
+                                                    <input chart_prop_key="rightAxesShow" type="checkbox" class="js-switch-small" checked ="checked " id="right_axes_show" name="right_axes_show" /> 
+                                                </div>
+                                            </h3>
+                                        </div>
+                                        <div class="">
+                                            <div class="form-group form-group-custom">
+                                                <label for="axes_unit_right_y" class="control-label control-label-custom-legend" >
+                                                    Unit
+                                                </label>                                 
+                                                <select id="axes_unit_right_y" name="axes_unit_right_y" chart_prop_key="rightUnit" class="form-control axes_select ">
+                                                    <option value="none">None</option>
+                                                    <option value="currency">Currency</option>
+                                                    <option value="time" selected>Time</option>
+                                                    <option value="dataIEC">Data (IEC)</option>
+                                                    <option value="dataMetric">Data (Metric)</option>
+                                                    <option value="dataRate">Data Rate</option>
+                                                    <option value="throughput">Throughput</option>
+                                                    <option value="lenght">Lenght</option>
+                                                    <option value="energy">Energy</option>
+                                                    <option value="temperature">Temperature</option>
+                                                    <option value="pressure">Pressure</option>
+                                                    <option value="velocity">Velocity</option>
+                                                    <option value="volume">Volume</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group form-group-custom">
+                                                <label for="axes_scale_right_y" class="control-label control-label-custom-legend" >
+                                                    Scale
+                                                </label>                                 
+                                                <select id="axes_scale_right_y" name="axes_scale_right_y" chart_prop_key="rightScale" class="form-control axes_select ">
+                                                    <option value="linear" selected>Linear</option>
+                                                    <option value="logBase2">Log (base 2)</option>
+                                                    <option value="logBase10">Log (base 10)</option>
+                                                    <option value="logBase32">Log (base 32)</option>
+                                                    <option value="logBase1024">Log (base 1024)</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group form-group-custom">
+                                                <label for="axes_min_right_y" class="control-label control-label-custom-legend" >
+                                                    Y-Min
+                                                </label>
+                                                <input id="axes_min_left_y" name="axes_min_right_y" chart_prop_key="rightYMin" type="number" placeholder="auto" class="form-control title_input_small" >
+                                                <label for="axes_max_left_y" class="control-label control-label-custom-axes" >
+                                                    Y-Max
+                                                </label>
+                                                <input id="axes_max_left_y" name="axes_max_left_y" chart_prop_key="rightYMax" type="number" placeholder="auto" class="form-control title_input_small" >
+                                            </div>
+                                            <div class="form-group form-group-custom">
+                                                <label for="axes_label_right_y" class="control-label control-label-custom-legend" >
+                                                    Label
+                                                </label>
+                                                <input id="axes_label_right_y" name="axes_label_right_y" chart_prop_key="rightLabel" type="text" class="form-control axes_select" >
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="form_main_block  pull-left">     
                                     <div class="form-group form-group-custom">
-                                        <label for="axes_scale_left_y" class="control-label control-label-custom-legend" >
-                                            Scale
-                                        </label>                                 
-                                        <select id="axes_scale_left_y" name="axes_scale_left_y" chart_prop_key="scale" class="form-control axes_select ">
-                                            <option value="linear" selected>Linear</option>
-                                            <option value="logBase2">Log (base 2)</option>
-                                            <option value="logBase10">Log (base 10)</option>
-                                            <option value="logBase32">Log (base 32)</option>
-                                            <option value="logBase1024">Log (base 1024)</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group form-group-custom">
-                                        <label for="axes_ymin_left_y" class="control-label control-label-custom-legend" >
-                                            Y-Min
-                                        </label>
-                                        <input id="axes_ymin_left_y" name="axes_ymin_left_y" chart_prop_key="yMin" type="text" placeholder="auto" class="form-control title_input_small" >
-                                        <label for="axes_ymax_left_y" class="control-label control-label-custom-axes" >
-                                            Y-Max
-                                        </label>
-                                        <input id="axes_ymax_left_y" name="axes_ymax_left_y" chart_prop_key="yMax" type="text" placeholder="auto" class="form-control title_input_small" >
-                                    </div>
-                                    <div class="form-group form-group-custom">
-                                        <label for="axes_label_left_y" class="control-label control-label-custom-legend" >
-                                            Label
-                                        </label>
-                                        <input id="axes_label_left_y" name="axes_label_left_y" chart_prop_key="label" type="text" class="form-control axes_select" >
+                                        <div class="form_main_block">                                
+                                            <h3><label class="control-label" >
+                                                    X-Axis
+                                                </label>
+                                                <div class="checkbox" style="display: inline-block">
+                                                    <input chart_prop_key="xAxesShow" type="checkbox" class="js-switch-small" checked ="checked " id="x_axes_show" name="x_axes_show" /> 
+                                                </div>
+                                            </h3>
+                                        </div>
+                                        <div class="form-group form-group-custom">
+                                            <label for="axes_mode_x" class="control-label control-label-custom-legend" >
+                                                Scale
+                                            </label>                                 
+                                            <select id="axes_mode_x" name="axes_mode_x" chart_prop_key="xMode" class="form-control axes_select ">
+                                                <option value="time" selected>Time</option>
+                                                <option value="series">Series</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+                                <!--                                <form class="form-horizontal form-label-left edit-legend pull-left">   -->                                
                             </form>
                         </div>
                     </div>
