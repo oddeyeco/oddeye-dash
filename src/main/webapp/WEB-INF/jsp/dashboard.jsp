@@ -426,7 +426,7 @@
                                         <div class="color-button">
                                             <div class="input-group cl_picer cl_picer_noinput" >                            
                                                 <input id="legend_background_color" name="legend_background_color" chart_prop_key="backgroundColor" type="text" value="" class="form-control" >
-                                                <span class="input-group-addon imput-group-addon-overwrite"><i></i></span>
+                                                <span class="input-group-addon"><i></i></span>
                                             </div>                                
                                         </div> 
                                     </div>                                    
@@ -490,7 +490,7 @@
                                         <div class="color-button">                                                                                                     
                                             <div class="input-group cl_picer cl_picer_noinput">                            
                                                 <input id="legend_border_color" name="legend_border_color" chart_prop_key="borderColor" type="text" value="" class="form-control" >
-                                                <span class="input-group-addon imput-group-addon-overwrite"><i></i></span>
+                                                <span class="input-group-addon"><i></i></span>
                                             </div>                                
                                         </div>                                   
                                         <label for="legend_border_width" class="control-label control-label-custom-legend3">
