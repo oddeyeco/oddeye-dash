@@ -17,7 +17,7 @@
         });
         $(".select2_tz").select2({});
 
-        console.log(emailfilterJson);
+//        console.log(emailfilterJson);
         var elems = document.querySelectorAll('#email_note .js-switch-small');
         for (var i = 0; i < elems.length; i++) {
             if (typeof (emailfilterJson[elems[i].id]) != "undefined")
@@ -33,6 +33,28 @@
                 }
             var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
         }
+        
+        $('.autocomplete-append-metric').each(function () {
+            var input = $(this);
+            var uri = cp + "/getfiltredmetricsnames?filter=^(.*)$";
+            $.getJSON(uri, null, function (data) {
+                input.autocomplete({
+                    lookup: data.data,
+                    appendTo: '.autocomplete-container-metric'
+                });
+            })
+        });
+
+        $('.autocomplete-append').each(function () {
+            var input = $(this);
+            var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=^(.*)$";
+            $.getJSON(uri, null, function (data) {
+                input.autocomplete({
+                    lookup: data.data,
+                    appendTo: '.autocomplete-container_' + input.attr("tagkey")
+                });
+            })
+        });        
 
         $("#email_note .filter-input").each(function () {
             $(this).val(emailfilterJson[$(this).attr("name")]);
@@ -71,12 +93,12 @@
 
             });
             var sendData = {};
-            console.log(filterJson);
+//            console.log(filterJson);
             sendData.filter = JSON.stringify(filterJson);
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
             url = cp + "/savefilter/" + name;
-            console.log(url);
+//            console.log(url);
             $.ajax({
                 dataType: 'json',
                 type: 'POST',

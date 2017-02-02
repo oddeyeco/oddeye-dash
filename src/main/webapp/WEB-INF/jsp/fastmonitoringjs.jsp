@@ -300,12 +300,7 @@
         });
 
         $('.autocomplete-append-metric').each(function () {
-            var input = $(this);
-            console.log(input.attr("id"));
-//            input.autocomplete({
-//                lookup: ["sssss", "wwwww", "sssswwws"],
-//                appendTo: '.autocomplete-container-metric'
-//            });
+            var input = $(this);            
             var uri = cp + "/getfiltredmetricsnames?filter=^(.*)$";
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
