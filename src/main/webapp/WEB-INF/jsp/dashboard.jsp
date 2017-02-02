@@ -129,7 +129,7 @@
                                                 Target
                                             </label>                                 
                                             <select id="title_target" chart_prop_key="target" name="title_target" class="form-control title_select">
-                                                <option selected></option>
+                                                <option selected>&nbsp;</option>
                                                 <option value="self">Self</option>
                                                 <option value="blank">Blank</option>
                                             </select>
@@ -150,7 +150,7 @@
                                                 Target
                                             </label>                                 
                                             <select id="title_subtarget" chart_prop_key="subtarget" name="title_subtarget" class="form-control title_select">
-                                                <option selected></option>
+                                                <option selected>&nbsp;</option>
                                                 <option value="self">Self</option>
                                                 <option value="blank">Blank</option>
                                             </select>
@@ -169,7 +169,7 @@
                                                 X
                                             </label>
                                             <select id="title_x_position" chart_prop_key="x" name="title_x_position" class="form-control title_select" >
-                                                <option selected value=""></option>
+                                                <option selected value="">&nbsp;</option>
                                                 <option value="center">Center</option>
                                                 <option value="left">Left</option>
                                                 <option value="right">Right</option>
@@ -185,7 +185,7 @@
                                                 Y
                                             </label> 
                                             <select id="title_y_position" chart_prop_key="y" name="title_y_position" class="form-control title_select" >
-                                                <option selected value=""></option>
+                                                <option selected value="">&nbsp;</option>
                                                 <option value="center">Center</option>
                                                 <option value="top">Top</option>
                                                 <option value="bottom">Bottom</option>
@@ -342,10 +342,23 @@
                                             </label>                                 
                                             <select id="axes_unit_left_y" name="axes_unit_left_y" chart_prop_key="leftUnit" class="select2_group form-control axes_select ">                                                
                                                 <optgroup label="None">
-                                                    <option value="AK">Alaska</option>
-                                                    <option value="HI">Hawaii</option>
+                                                    <option value="none">None</option>
+                                                    <option value="short">Short</option>
+                                                    <option value="percent0-100">Percent(0-100)</option>
+                                                    <option value="percent00-10">Percent(0.0-1.0)</option>
+                                                    <option value="humidity">Humidity(%H)</option>
+                                                    <option value="ppm">PPM</option>
+                                                    <option value="decible">Decible</option>
+                                                    <option value="hexadecimal0x">Hexadecimal(0x)</option>
+                                                    <option value="hexadecimal">Hexadecimal</option>
                                                 </optgroup>                                                
-                                                <option value="currency">Currency</option>
+                                                <optgroup label="Currency">
+                                                    <option value="dollars">Dollars</option>
+                                                    <option value="pounds">Pounds</option>
+                                                    <option value="euro">Euro</option>
+                                                    <option value="yen">Yen</option>
+                                                    <option value="rubles">Rubles</option>
+                                                </optgroup>                                                                                                  
                                                 <option value="time" selected>Time</option>
                                                 <option value="dataIEC">Data (IEC)</option>
                                                 <option value="dataMetric">Data (Metric)</option>
@@ -527,7 +540,7 @@
                                             X
                                         </label>
                                         <select id="legend_x_position" name="legend_x_position" chart_prop_key="x" class="form-control title_select" >
-                                            <option selected value=""></option>
+                                            <option selected value="">&nbsp;</option>
                                             <option value="center">Center</option>
                                             <option value="left">Left</option>
                                             <option value="right">Right</option>
@@ -545,7 +558,7 @@
                                             Y
                                         </label> 
                                         <select id="legend_y_position" name="legend_y_position" chart_prop_key="y" class="form-control title_select" >
-                                            <option selected value=""></option>
+                                            <option selected value="">&nbsp;</option>
                                             <option value="center">Center</option>
                                             <option value="top">Top</option>
                                             <option value="bottom">Bottom</option>
