@@ -63,8 +63,7 @@ public class User implements UserDetails {
     private final Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
     private Map<String, String> DushList;
-    private Map<String, String> FiltertemplateList = new HashMap<>();
-    ;
+    private Map<String, String> FiltertemplateList = new HashMap<>();    
 
     private final AlertLevel AlertLevels = new AlertLevel();
 

@@ -239,7 +239,9 @@
     $(document).ready(function () {
         $('#reportrange span').html("Last 5 minutes");
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
-
+        
+        $(".select2_group").select2({});
+        
         var elems = document.querySelectorAll('.js-switch-small');
 
         for (var i = 0; i < elems.length; i++) {

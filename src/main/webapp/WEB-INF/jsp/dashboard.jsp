@@ -340,8 +340,11 @@
                                             <label for="axes_unit_left_y" class="control-label control-label-custom-legend" >
                                                 Unit
                                             </label>                                 
-                                            <select id="axes_unit_left_y" name="axes_unit_left_y" chart_prop_key="leftUnit" class="form-control axes_select ">
-                                                <option value="none">None</option>
+                                            <select id="axes_unit_left_y" name="axes_unit_left_y" chart_prop_key="leftUnit" class="select2_group form-control axes_select ">                                                
+                                                <optgroup label="None">
+                                                    <option value="AK">Alaska</option>
+                                                    <option value="HI">Hawaii</option>
+                                                </optgroup>                                                
                                                 <option value="currency">Currency</option>
                                                 <option value="time" selected>Time</option>
                                                 <option value="dataIEC">Data (IEC)</option>

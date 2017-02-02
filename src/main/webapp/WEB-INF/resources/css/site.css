@@ -231,3 +231,9 @@ and open the template in the editor.
     width: 196px;
     display: inline-block;
 }
+
+
+.select2-container--default .select2-results__group
+{
+    display: none;
+}
