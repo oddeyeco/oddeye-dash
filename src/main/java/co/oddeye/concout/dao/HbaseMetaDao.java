@@ -67,7 +67,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
     public OddeeyMetricMeta getByKey(byte[] key) throws Exception {
 
-        GetRequest request = new GetRequest(table, key, "d".getBytes(),"n".getBytes());
+//        final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "Special".getBytes(), "Regression".getBytes()};
+        GetRequest request = new GetRequest(table, key, "d".getBytes());
         ArrayList<KeyValue> row = BaseTsdbV.getClient().get(request).joinUninterruptibly();
         if (row.size() > 0) {           
             return new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
@@ -89,9 +90,10 @@ public class HbaseMetaDao extends HbaseBaseDao {
         scanner.setMaxNumRows(1000);
         scanner.setFamily("d".getBytes());
 //        scanner.setQualifier("n".getBytes());
-        byte[][] Qualifiers = new byte[2][];
-        Qualifiers[0] = "n".getBytes();
-        Qualifiers[1] = "timestamp".getBytes();
+//        byte[][] Qualifiers = new byte[2][];
+//        Qualifiers[0] = "n".getBytes();
+//        Qualifiers[1] = "timestamp".getBytes();
+        final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "Special".getBytes(), "Regression".getBytes()};
         scanner.setQualifiers(Qualifiers);
 
         byte[] key = new byte[0];

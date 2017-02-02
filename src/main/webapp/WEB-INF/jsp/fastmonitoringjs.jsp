@@ -10,7 +10,7 @@
     var uuid = "${curentuser.getId()}";
     var timeformat = "DD/MM HH:mm:ss";
     var errorlistJson = ${errorslist};
-    var filterJson = ${curentuser.getDefaultFilter()};    
+    var filterJson = ${curentuser.getDefaultFilter()};
     var array_regular = [];
     var array_spec = [];
 
@@ -38,7 +38,16 @@
                     {
                         var filter = $("#" + filterelems[i].value + "_input").val();
                         regex = new RegExp(filter, 'i');
-                        filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                        
+                            if (filterelems[i].value == "metric")
+                            {
+                                filtred = regex.test(errorjson.info.name);
+                            } else
+                            {                                
+                                filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                            }                        
+                        
+                        
                         if (!filtred)
                         {
                             break;
@@ -82,8 +91,8 @@
                 {
                     array_regular[index] = errorjson;
                     table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
-                        table.find("tbody tr#" + errorjson.hash).remove();                        
-                        array_regular.splice(index, 1);                        
+                        table.find("tbody tr#" + errorjson.hash).remove();
+                        array_regular.splice(index, 1);
                     });
                 }
             }
@@ -156,7 +165,15 @@
                         {
                             var filter = $("#" + filterelems[i].value + "_input").val();
                             regex = new RegExp(filter, 'i');
-                            filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                            
+                            if (filterelems[i].value == "metric")
+                            {
+                                filtred = regex.test(errorjson.info.name);
+                            } else
+                            {
+                                filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                            }
+
                             if (!filtred)
                             {
                                 break;
@@ -282,6 +299,22 @@
             $(this).html(time.format(timeformat));
         });
 
+        $('.autocomplete-append-metric').each(function () {
+            var input = $(this);
+            console.log(input.attr("id"));
+//            input.autocomplete({
+//                lookup: ["sssss", "wwwww", "sssswwws"],
+//                appendTo: '.autocomplete-container-metric'
+//            });
+            var uri = cp + "/getfiltredmetricsnames?filter=^(.*)$";
+            $.getJSON(uri, null, function (data) {
+                input.autocomplete({
+                    lookup: data.data,
+                    appendTo: '.autocomplete-container-metric'
+                });
+            })
+        });
+
         $('.autocomplete-append').each(function () {
             var input = $(this);
             var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=^(.*)$";
@@ -291,8 +324,8 @@
                     appendTo: '.autocomplete-container_' + input.attr("tagkey")
                 });
             })
-
         });
+
         var elems = document.querySelectorAll('.js-switch-small');
 
         for (var i = 0; i < elems.length; i++) {
@@ -312,7 +345,9 @@
                 DrawErrorList(errorlistJson, $(".metrictable"));
             };
         }
-
+        $("body").on("blur", ".filter-input", function () {
+            DrawErrorList(errorlistJson, $(".metrictable"))
+        })
         $(".filter-input").each(function () {
             $(this).val(filterJson[$(this).attr("name")]);
 //            console.log($(this).attr("name"));
@@ -426,12 +461,12 @@
             hashes = "";
             if ($(".bulk_action tbody input[name='table_records']:checked").length == 1)
             {
-                hashes = "/"+$(".bulk_action tbody input[name='table_records']:checked").first().parents("tr").attr("id")
+                hashes = "/" + $(".bulk_action tbody input[name='table_records']:checked").first().parents("tr").attr("id")
             } else
             {
-                hashes="?hashes="
+                hashes = "?hashes="
                 $(".bulk_action tbody input[name='table_records']:checked").each(function () {
-                    hashes = hashes+$(this).parents("tr").attr("id") + ";";
+                    hashes = hashes + $(this).parents("tr").attr("id") + ";";
                 })
             }
             var win = window.open(cp + "/chart" + hashes, '_blank');

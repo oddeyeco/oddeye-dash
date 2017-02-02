@@ -17,6 +17,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -182,6 +184,74 @@ public class AjaxControlers {
             jsonResult.addProperty("scantime", scaninterval);
 //            jsonMessages.
             jsonResult.add("chartsdata", jsonMessages);
+        }
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
+    @RequestMapping(value = {"/getfiltredmetricsnames"})
+    public String GetMetricsLargeNames(
+            @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
+            ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+        JsonArray jsondata = new JsonArray();
+        List<String> data = new ArrayList<>();
+        User userDetails;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        } else {
+            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
+        }
+
+        if (userDetails != null) {
+            try {
+                String[] tagslist = tags.split(";");
+                final Map<String, String> tagsMap = new HashMap<>();
+                for (String tag : tagslist) {
+                    String[] tgitem = tag.split("=");
+                    if (tgitem.length == 2) {
+                        if (tgitem[1].equals("")) {
+                            tgitem[1] = "*";
+                        }
+                        tagsMap.put(tgitem[0], tgitem[1]);
+                    }
+                }
+                if (userDetails.getMetricsMeta() == null) {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                }
+//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                if (filter.equals("") || filter.equals("*")) {
+                    filter = "^(.*)$";
+                }
+                ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
+                jsonResult.addProperty("sucsses", true);                
+                for (final OddeeyMetricMeta metric : Metriclist) {
+                    if (!metric.isSpecial()) {                        
+                        if (!data.contains(metric.getName()))
+                        {
+                            data.add(metric.getName());
+                        }
+                    }
+                }
+                Collections.sort(data);
+                Gson gson = new Gson();
+                
+                jsondata.addAll(gson.toJsonTree(data).getAsJsonArray());
+//                        if (!jsondata.contains(metricjson)) {
+//                            jsondata.add(metricjson);
+//                        }                
+                jsonResult.addProperty("count", jsondata.size());
+                jsonResult.add("data", jsondata);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
         }
         map.put("jsonmodel", jsonResult);
 
