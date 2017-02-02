@@ -198,7 +198,7 @@
         <script src="${cp}/resources/cropper/dist/cropper.min.js"></script>        
         <script src="${cp}/resources/build/js/custom.min.js"></script>
         <!-- Select2 -->
-        <script src="${cp}/resources//select2/dist/js/select2.full.min.js"></script>
+        <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
 
         <script src="${cp}/resources/js/global.js"></script>
 

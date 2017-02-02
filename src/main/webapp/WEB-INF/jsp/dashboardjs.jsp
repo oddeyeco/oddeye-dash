@@ -8,7 +8,7 @@
 
 
 <script>
-    var dashJSONvar = ${dashInfo};    
+    var dashJSONvar = ${dashInfo};
     var chartForm;
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
@@ -233,16 +233,26 @@
         chartForm.chage($(this));
     })
 
-
+    $('body').on("change", ".edit-form select#axes_mode_x", function () {
+        if ($(this).val() == 'Series') {
+            $("#select2-axes_value_x-container").css('display', 'block');
+        }
+        else{
+            $("#select2-axes_value_x-container").css('display', 'none');
+        }
+    })
 
 
     $(document).ready(function () {
         $('#reportrange span').html("Last 5 minutes");
-        $('#reportrange').daterangepicker(PicerOptionSet1, cb);                
-        $(".select2_group").select2({dropdownCssClass : "menu-select"});
-        
-        
-        
+        $('#reportrange').daterangepicker(PicerOptionSet1, cb);
+
+        $("select").select2({minimumResultsForSearch: 15});
+
+        $(".select2_group").select2({dropdownCssClass: "menu-select"});
+
+
+
         var elems = document.querySelectorAll('.js-switch-small');
 
         for (var i = 0; i < elems.length; i++) {
@@ -255,14 +265,14 @@
             };
         }
 
-        $('.cl_picer_input').colorpicker().on('hidePicker', function () {            
+        $('.cl_picer_input').colorpicker().on('hidePicker', function () {
             chartForm.chage($(this).find("input"));
         });
         $('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
 //            $('#colordiv').css('background-color', $('.color').colorpicker('getValue'));
             chartForm.chage($(this).find("input"));
-        });        
-        
+        });
+
 
         $('#button_title_subtitle').on('click', function () {
             $('#title_subtitle').fadeToggle(500, function () {

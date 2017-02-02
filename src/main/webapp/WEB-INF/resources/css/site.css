@@ -264,6 +264,12 @@ and open the template in the editor.
     top: 0;
 }
 
+.select2-container--default .menu-select .select2-results__option[role=group]:hover
+{
+
+    /*background-color: red;*/
+
+}
 .select2-container--default .menu-select .select2-results__option[role=group] ul li
 {
     white-space: nowrap;
