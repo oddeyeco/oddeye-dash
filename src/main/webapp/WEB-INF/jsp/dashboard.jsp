@@ -599,12 +599,12 @@
                                                     Scale
                                                 </label>                                 
                                                 <select id="axes_scale_left_y" name="axes_scale_left_y" chart_prop_key="leftScale" class="select2_group form-control axes_select ">
-                                                <option value="{value}" selected>Linear</option>
-                                                <option value="{value}">Log (base 2)</option>
-                                                <option value="{value}">Log (base 10)</option>
-                                                <option value="{value}">Log (base 32)</option>
-                                                <option value="{value}">Log (base 1024)</option>
-                                            </select>
+                                                    <option value="{value}" selected>Linear</option>
+                                                    <option value="{value}">Log (base 2)</option>
+                                                    <option value="{value}">Log (base 10)</option>
+                                                    <option value="{value}">Log (base 32)</option>
+                                                    <option value="{value}">Log (base 1024)</option>
+                                                </select>
                                             </div>
                                             <div class="form-group form-group-custom">
                                                 <label for="axes_min_right_y" class="control-label control-label-custom-legend" >
@@ -635,7 +635,7 @@
                                                     <input chart_prop_key="xAxesShow" type="checkbox" class="js-switch-small" checked ="checked " id="x_axes_show" name="x_axes_show" /> 
                                                 </div>
                                             </h3>
-                                            
+
                                         </div>
                                         <div class="form-group form-group-custom">
                                             <label for="axes_mode_x" class="control-label control-label-custom-legend" >
@@ -645,18 +645,29 @@
                                                 <option value="time" selected>Time</option>
                                                 <option value="series">Series</option>
                                             </select>
+                                        </div>
+                                        <div class="form-group form-group-custom only-Series">    
                                             <label for="axes_value_x" class="control-label control-label-custom-legend" >
                                                 Value
                                             </label>                                 
-                                            <select id="axes_value_x" name="axes_value_x" chart_prop_key="xModeValue" class="form-control axes_select " style="display: block;">
-                                                <option value="{value}" selected>Avg</option>
-                                                <option value="{value}">Min</option>
-                                                <option value="{value}">Max</option>
-                                                <option value="{value}">Total</option>
-                                                <option value="{value}">Count</option>
-                                                <option value="{value}">Current</option>
+                                            <select id="axes_value_x" name="axes_value_x" chart_prop_key="xModeValue" class="form-control axes_select ">
+                                                <option value="avg" selected>Avg</option>
+                                                <option value="min">Min</option>
+                                                <option value="max">Max</option>
+                                                <option value="total">Total</option>
+                                                <option value="count">Count</option>
+                                                <option value="current">Current</option>
                                             </select>
                                         </div>
+                                        <div class="form-group form-group-custom only-Series">    
+                                            <label for="axes_value_x" class="control-label control-label-custom-legend" >
+                                                Tags
+                                            </label>                                 
+                                            <select id="axes_tags_x" name="axes_tags_x" chart_prop_key="xModeTags" class="form-control axes_select ">
+                                                <option value="nan" selected>NaN</option>
+                                                <!--TODO FILL by data tags-->
+                                            </select>
+                                        </div>                                        
                                     </div>
                                 </div>
                                 <!--                                <form class="form-horizontal form-label-left edit-legend pull-left">   -->                                
