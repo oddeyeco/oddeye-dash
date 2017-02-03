@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="x_title">
-                <h1> ${metric.getDisplayName()}</h1>
+                <h1> ${metric.getDisplayName()} : ${metric.getTypeName()}</h1>
             </div>
             <div class="x_panel">
                 <div class="col-md-2 col-sm-2 col-xs-4">

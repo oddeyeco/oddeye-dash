@@ -93,7 +93,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 //        byte[][] Qualifiers = new byte[2][];
 //        Qualifiers[0] = "n".getBytes();
 //        Qualifiers[1] = "timestamp".getBytes();
-        final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "Special".getBytes(), "Regression".getBytes()};
+        final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "type".getBytes(), "Regression".getBytes()};
         scanner.setQualifiers(Qualifiers);
 
         byte[] key = new byte[0];
