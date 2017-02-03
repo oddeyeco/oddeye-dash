@@ -32,10 +32,13 @@
         <!-- Bootstrap Colorpicker -->
         <link href="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
         <link href="${cp}/resources/cropper/dist/cropper.min.css" rel="stylesheet" /> 
-
+        <!-- Select2 -->
+        <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">
         <!-- Custom Theme Style -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />        
         <link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />        
+
+
     </head>
 
     <body class="nav-md">
@@ -194,7 +197,9 @@
         <!-- Cropper -->
         <script src="${cp}/resources/cropper/dist/cropper.min.js"></script>        
         <script src="${cp}/resources/build/js/custom.min.js"></script>
-        
+        <!-- Select2 -->
+        <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
+
         <script src="${cp}/resources/js/global.js"></script>
 
         <jsp:include page="${jspart}.jsp" />

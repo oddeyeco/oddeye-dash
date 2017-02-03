@@ -42,7 +42,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
 //                    var name = data.chartsdata[index].tags.host;
                     series.name = name;
-                    option.tmpoptions.legend.data.push({"name":name} );
+                    option.tmpoptions.legend.data.push({"name": name});
 //                    console.log(data.chartsdata[index]);
                     option.tmpoptions.series.push(series);
 
@@ -292,3 +292,29 @@ function getParameterByName(name, url) {
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+
+$(document).ready(function () {
+
+
+    $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
+        $(this).find("ul").css("top", $(this).position().top);
+        var curent = $(this);
+        if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").length == 0)
+        {
+            curent.find("ul:hidden").show();
+        } else
+        {
+            if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").parents(".select2-results__option[role=group]").attr("aria-label") != $(this).attr("aria-label"))
+            {
+                $(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").hide();
+                curent.find("ul:hidden").show();
+            }
+        }
+
+    });
+    $('body').on("mouseleave", ".select2-container--default .menu-select", function () {        
+        $(".select2-container--default .menu-select .select2-results__option[role=group] ul").hide();
+    });
+
+});

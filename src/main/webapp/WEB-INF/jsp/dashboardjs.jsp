@@ -8,7 +8,7 @@
 
 
 <script>
-    var dashJSONvar = ${dashInfo};    
+    var dashJSONvar = ${dashInfo};
     var chartForm;
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
@@ -233,12 +233,33 @@
         chartForm.chage($(this));
     })
 
-
+    $('body').on("change", ".edit-form select#axes_mode_x", function () {
+        if ($(this).val() === 'series') {
+            $('.only-Series').fadeIn();
+//            $(".only-Series").css('display', 'block');
+        }
+        else{
+            $('.only-Series').fadeOut();
+            
+        }
+    })
 
 
     $(document).ready(function () {
         $('#reportrange span').html("Last 5 minutes");
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
+
+        $("select").select2({minimumResultsForSearch: 15});
+
+        $(".select2_group").select2({dropdownCssClass: "menu-select"});
+
+        if ($('#axes_mode_x').val() === 'series') {
+            $('.only-Series').show();
+        }
+        else{
+            $('.only-Series').hide();
+            
+        }
 
         var elems = document.querySelectorAll('.js-switch-small');
 
@@ -252,14 +273,14 @@
             };
         }
 
-        $('.cl_picer_input').colorpicker().on('hidePicker', function () {            
+        $('.cl_picer_input').colorpicker().on('hidePicker', function () {
             chartForm.chage($(this).find("input"));
         });
         $('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
 //            $('#colordiv').css('background-color', $('.color').colorpicker('getValue'));
             chartForm.chage($(this).find("input"));
-        });        
-        
+        });
+
 
         $('#button_title_subtitle').on('click', function () {
             $('#title_subtitle').fadeToggle(500, function () {
