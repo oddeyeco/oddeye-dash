@@ -38,16 +38,16 @@
                     {
                         var filter = $("#" + filterelems[i].value + "_input").val();
                         regex = new RegExp(filter, 'i');
-                        
-                            if (filterelems[i].value == "metric")
-                            {
-                                filtred = regex.test(errorjson.info.name);
-                            } else
-                            {                                
-                                filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
-                            }                        
-                        
-                        
+
+                        if (filterelems[i].value == "metric")
+                        {
+                            filtred = regex.test(errorjson.info.name);
+                        } else
+                        {
+                            filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                        }
+
+
                         if (!filtred)
                         {
                             break;
@@ -165,7 +165,7 @@
                         {
                             var filter = $("#" + filterelems[i].value + "_input").val();
                             regex = new RegExp(filter, 'i');
-                            
+
                             if (filterelems[i].value == "metric")
                             {
                                 filtred = regex.test(errorjson.info.name);
@@ -300,7 +300,7 @@
         });
 
         $('.autocomplete-append-metric').each(function () {
-            var input = $(this);            
+            var input = $(this);
             var uri = cp + "/getfiltredmetricsnames?filter=^(.*)$";
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
@@ -360,6 +360,7 @@
         stompClient.connect(headers, function (frame) {
             stompClient.subscribe('/user/' + uuid + '/errors', function (error) {
                 var errorjson = JSON.parse(error.body);
+//                console.log(errorjson);
                 if (errorjson.level == -1)
                 {
 //                   console.log(errorlistJson[errorjson.hash]);

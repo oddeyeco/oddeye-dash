@@ -107,10 +107,10 @@ public class UserController {
                             String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
                             item.addProperty("message", message);
                         }
-                        if (Arrays.equals(cell.qualifier(), "isspec".getBytes())) {
-                            int type = cell.value()[0];// ByteBuffer.wrap(cell.value()).toString() ;                                                    
-                            item.addProperty("isspec", type);
-                        }
+//                        if (Arrays.equals(cell.qualifier(), "type".getBytes())) {
+//                            short type = ByteBuffer.wrap(cell.value()).getShort();
+//                            item.addProperty("isspec", type);
+//                        }
                         if (Arrays.equals(cell.qualifier(), "starttimes".getBytes())) {
                             final byte[] starttimes = cell.value();
                             JsonObject stTimes = new JsonObject();
@@ -141,13 +141,15 @@ public class UserController {
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
                         item.getAsJsonObject().addProperty("hash", metric.hashCode());
-//                        metajson.getAsJsonObject().addProperty("type", metric.getClass().toString());
+                        item.getAsJsonObject().addProperty("isspec", metric.isSpecial()?1:0);
+                        
+//                        metajson.getAsJsonObject().addProperty("isspec", metric.getClass().toString());
                         item.getAsJsonObject().add("info", metajson);
                         savedErrors.add(Integer.toString(metric.hashCode()), item);
-                        if (metric.getName().equals("CPU-Percent"))
-                        {
-                            System.out.println(savedErrors);
-                        }
+//                        if (metric.getName().equals("CPU-Percent"))
+//                        {
+//                            System.out.println(savedErrors);
+//                        }
                     }
 
                     //TODO SEND TO USER in new task

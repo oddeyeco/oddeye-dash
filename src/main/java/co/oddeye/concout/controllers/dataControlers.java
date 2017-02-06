@@ -11,9 +11,7 @@ import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -79,22 +77,29 @@ public class dataControlers {
                         LOGGER.error(globalFunctions.stackTrace(ex));
                     }
                 }
-                OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(metricshash);
-                GetRequest getRegression = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), metric.getKey(), "d".getBytes(), "Regression".getBytes());
-                ArrayList<KeyValue> Regressiondata = BaseTsdb.getClient().get(getRegression).joinUninterruptibly();
-                for (KeyValue Regression : Regressiondata) {
-                    if (Arrays.equals(Regression.qualifier(), "Regression".getBytes())) {
-                        try {
-                            metric.setSerializedRegression(Regression.value());
-                        } catch (IOException ex) {
-                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-                metric.getRegression();
-                map.put("metric", metric);
+                OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
+                //Update metric data
+                final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "type".getBytes(), "Regression".getBytes()};
+                GetRequest getMetric = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), meta.getKey(), "d".getBytes());
+                ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
+                meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+                
+                
+//                GetRequest getRegression = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), metric.getKey(), "d".getBytes(), "Regression".getBytes());
+//                ArrayList<KeyValue> Regressiondata = BaseTsdb.getClient().get(getRegression).joinUninterruptibly();
+//                for (KeyValue Regression : Regressiondata) {
+//                    if (Arrays.equals(Regression.qualifier(), "Regression".getBytes())) {
+//                        try {
+//                            metric.setSerializedRegression(Regression.value());
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
+//                        } catch (ClassNotFoundException ex) {
+//                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
+//                    }
+//                }
+//                meta.getRegression();
+                map.put("metric", meta);
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }

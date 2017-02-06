@@ -77,31 +77,32 @@ public class errorSubscribeController {
 
             jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
 
-            OddeeyMetricMeta metric = MetaDao.getFullmetalist().get(hash);
-            if (metric == null) {
+            OddeeyMetricMeta metricMeta = MetaDao.getFullmetalist().get(hash);
+            if (metricMeta == null) {
                 try {
                     byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
-                    metric = MetaDao.getByKey(key);
+                    metricMeta = MetaDao.getByKey(key);
                 } catch (Exception ex) {
                     log.info(globalFunctions.stackTrace(ex));
                 }
             }
 
 //            metric = MetaDao.getFullmetalist().get(hash);
-            if (metric != null) {
+            if (metricMeta != null) {
                 JsonElement metajson = new JsonObject();
-                metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
-                metajson.getAsJsonObject().addProperty("name", metric.getName());
+                metajson.getAsJsonObject().add("tags", gson.toJsonTree(metricMeta.getTags()));
+                metajson.getAsJsonObject().addProperty("name", metricMeta.getName());
                 jsonResult.getAsJsonObject().add("info", metajson);
+                jsonResult.getAsJsonObject().addProperty("isspec", metricMeta.isSpecial()?1:0);
             }
-            if (jsonResult.getAsJsonObject().get("type").getAsString().equals("Regular"))
-            {
-                jsonResult.getAsJsonObject().addProperty("isspec", 0);
-            }
-            else
-            {
-                jsonResult.getAsJsonObject().addProperty("isspec", 1);
-            }
+//            if (jsonResult.getAsJsonObject().get("type").getAsString().equals("Regular"))
+//            {
+//                jsonResult.getAsJsonObject().addProperty("isspec", 0);
+//            }
+//            else
+//            {
+//                jsonResult.getAsJsonObject().addProperty("isspec", 1);
+//            }
             
             this.template.convertAndSendToUser(Uuid, "/errors", jsonResult.toString());
         }
