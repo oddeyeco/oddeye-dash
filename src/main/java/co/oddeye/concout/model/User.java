@@ -9,6 +9,7 @@ import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
+import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -41,8 +42,7 @@ public class User implements UserDetails {
     public final static String ROLE_SUPERADMIN = "ROLE_SUPERADMIN";
     public final static String ROLE_READONLY_ADMIN = "ROLE_READONLY_ADMIN";
     public final static String ROLE_READONLY = "ROLE_READONLY";
-    public final static String ROLE_DELETE = "ROLE_DELETE";
-    private final Gson gson = new Gson();
+    public final static String ROLE_DELETE = "ROLE_DELETE";    
 
     @Id
     private UUID id;
@@ -140,7 +140,7 @@ public class User implements UserDetails {
             return property;
         }).map((KeyValue property) -> {
             if (Arrays.equals(property.qualifier(), "AL".getBytes())) {
-                AlertLevel map = gson.fromJson(new String(property.value()) ,AlertLevel.class);                        
+                AlertLevel map = globalFunctions.getGson().fromJson(new String(property.value()) ,AlertLevel.class);                        
                 this.AlertLevels =map;
             }
             return property;

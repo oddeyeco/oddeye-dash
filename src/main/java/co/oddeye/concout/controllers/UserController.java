@@ -132,24 +132,25 @@ public class UserController {
 
                     KeyValue cell = err_row.get(0);
                     byte[] Metakey = OddeeyMetricMeta.UUIDKey2Key(cell.key(), BaseTsdb.getTsdb());
-                    OddeeyMetricMeta metric = new OddeeyMetricMeta(Metakey, BaseTsdb.getTsdb());
+
+                    OddeeyMetricMeta metric2 = new OddeeyMetricMeta(Metakey, BaseTsdb.getTsdb());
+                    OddeeyMetricMeta metric;
 //                    if (metric.getName().equals("mem_buffers"))
 
-                    metric = userDetails.getMetricsMeta().get(metric.hashCode());
+                    metric = userDetails.getMetricsMeta().get(metric2.hashCode());
+                    if (metric == null) {
+                        metric = MetaDao.getByKey(metric2.getKey());
+                        userDetails.getMetricsMeta().set(metric);
+                    }
                     if (metric != null) {
+                        
                         JsonElement metajson = new JsonObject();
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
                         item.getAsJsonObject().addProperty("hash", metric.hashCode());
-                        item.getAsJsonObject().addProperty("isspec", metric.isSpecial()?1:0);
-                        
-//                        metajson.getAsJsonObject().addProperty("isspec", metric.getClass().toString());
+                        item.getAsJsonObject().addProperty("isspec", metric.isSpecial() ? 1 : 0);
                         item.getAsJsonObject().add("info", metajson);
                         savedErrors.add(Integer.toString(metric.hashCode()), item);
-//                        if (metric.getName().equals("CPU-Percent"))
-//                        {
-//                            System.out.println(savedErrors);
-//                        }
                     }
 
                     //TODO SEND TO USER in new task
