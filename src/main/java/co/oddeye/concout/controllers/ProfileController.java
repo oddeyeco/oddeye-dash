@@ -9,7 +9,9 @@ import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
+import co.oddeye.concout.validator.LevelsValidator;
 import co.oddeye.concout.validator.UserValidator;
+import co.oddeye.core.AlertLevel;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.core.OddeeyMetricMeta;
 import com.google.gson.Gson;
@@ -44,6 +46,8 @@ public class ProfileController {
     @Autowired
     private UserValidator userValidator;
     @Autowired
+    private LevelsValidator levelsValidator;
+    @Autowired
     HbaseMetaDao MetaDao;
     @Autowired
     private HbaseUserDao Userdao;
@@ -61,7 +65,7 @@ public class ProfileController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
 //            if (userDetails.getMetricsMeta() == null) {
-                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+            userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 //            }
             map.put("curentuser", userDetails);
 
@@ -114,6 +118,7 @@ public class ProfileController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
+            map.put("newuserleveldata", userDetails);
             map.put("newuserdata", userDetails);
             DefaultController.setLocaleInfo(map);
 
@@ -175,6 +180,66 @@ public class ProfileController {
 
             }
             map.put("newuserdata", newuserdata);
+            map.put("newuserleveldata", curentuser);
+            map.put("curentuser", curentuser);
+            map.put("body", "profileedit");
+            map.put("jspart", "profileeditjs");
+
+            return "index";
+
+        }
+        return "indexPrime";
+        //else
+    }
+
+    @RequestMapping(value = "/profile/saveuserlevels", method = RequestMethod.POST)
+    public String updatelevels(@ModelAttribute("newuserleveldata") User newuserdata, BindingResult result, ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            levelsValidator.validate(newuserdata, result);
+
+            DefaultController.setLocaleInfo(map);
+
+            DefaultController.setLocaleInfo(map);
+            if (result.hasErrors()) {
+                map.put("result", result);
+            } else {
+                try {
+
+                    curentuser.setAlertLevels(newuserdata.getAlertLevels());
+//                    Map<String, Object> changedata = curentuser.getAlertLevels().updateBaseData(newuserdata);
+                    Gson gson = new Gson();
+                    String levelsJSON = gson.toJson(curentuser.getAlertLevels());
+                    Userdao.saveAlertLevels(curentuser, levelsJSON);
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
+                    Jsonchangedata.addProperty("action", "updatelevels");
+
+                    Jsonchangedata.addProperty("changedata",levelsJSON);
+                    // Send chenges to kafka
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
+                        }
+
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
+                        }
+                    });
+
+                    return "redirect:/profile/edit";
+                } catch (Exception ex) {
+                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            map.put("newuserdata", curentuser);
+            map.put("newuserleveldata", newuserdata);
             map.put("curentuser", curentuser);
             map.put("body", "profileedit");
             map.put("jspart", "profileeditjs");

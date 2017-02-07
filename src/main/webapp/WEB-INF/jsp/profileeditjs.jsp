@@ -16,6 +16,9 @@
             allowClear: true
         });
         $(".select2_tz").select2({});
+        
+        
+        
 
 //        console.log(emailfilterJson);
         var elems = document.querySelectorAll('#email_note .js-switch-small');

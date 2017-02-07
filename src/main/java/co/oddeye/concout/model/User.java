@@ -9,6 +9,7 @@ import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
+import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -41,6 +42,7 @@ public class User implements UserDetails {
     public final static String ROLE_READONLY_ADMIN = "ROLE_READONLY_ADMIN";
     public final static String ROLE_READONLY = "ROLE_READONLY";
     public final static String ROLE_DELETE = "ROLE_DELETE";
+    private final Gson gson = new Gson();
 
     @Id
     private UUID id;
@@ -65,7 +67,7 @@ public class User implements UserDetails {
     private Map<String, String> DushList;
     private Map<String, String> FiltertemplateList = new HashMap<>();    
 
-    private final AlertLevel AlertLevels = new AlertLevel();
+    private AlertLevel AlertLevels;
 
     public User() {
         this.id = UUID.randomUUID();
@@ -136,6 +138,12 @@ public class User implements UserDetails {
                 this.FiltertemplateList.put(new String(property.qualifier()), new String(property.value()));
             }
             return property;
+        }).map((KeyValue property) -> {
+            if (Arrays.equals(property.qualifier(), "AL".getBytes())) {
+                AlertLevel map = gson.fromJson(new String(property.value()) ,AlertLevel.class);                        
+                this.AlertLevels =map;
+            }
+            return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
             if (property.value().length == 1) {
                 this.active = property.value()[0] != (byte) 0;
@@ -145,6 +153,10 @@ public class User implements UserDetails {
             }
         });
 
+        if (AlertLevels == null)
+        {
+            AlertLevels = new AlertLevel(true);
+        }
         authorities.add(new SimpleGrantedAuthority(ROLE_USER));
         if (this.email.equals("vahan_a@mail.ru")) {
             authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
@@ -518,6 +530,13 @@ public class User implements UserDetails {
     public AlertLevel getAlertLevels() {
         return AlertLevels;
     }
+    
+    /**
+     * @param AlertLevels the AlertLevels to set
+     */
+    public void setAlertLevels(AlertLevel AlertLevels) {
+        this.AlertLevels = AlertLevels;
+    }    
 
     public void addFiltertemplate(String filtername, String filterinfo, HbaseUserDao Userdao) {
         FiltertemplateList.put(filtername, filterinfo);

@@ -103,30 +103,45 @@
                 <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
 
                     <!-- start user projects -->
-                    <table class="data table table-striped no-margin">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Name</th>
-                                <th>Min Value</th>
-                                <th>Min Percent</th>
-                                <th>Min Weight</th>
-                                <th>Min Recurrence Count</th>
-                                <th>Min Predict Percent</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${newuserdata.getAlertLevels()}" var="AlertLevel" varStatus="loopgrups">
+                    <form:form method="post" action="${cp}/profile/saveuserlevels" commandName="newuserleveldata" modelAttribute="newuserleveldata" novalidate="true" cssClass="form-horizontal form-label-left">                            
+<!--                    <form name="levelssetings" id="levelssetings" enctype="multipart/form-data">-->
+                        <table class="data table table-striped no-margin">
+                            <thead>
                                 <tr>
-                                    <td>${loopgrups.index+1}</td>
-                                    <td>${newuserdata.getAlertLevels().getName(AlertLevel.getKey())}</td>
-                                    <c:forEach items="${AlertLevel.getValue()}" var="Value" >
-                                        <td><input class="form-control" value="${Value.getValue()}" type="number">    </td>
-                                        </c:forEach>                                
-                                </tr>                    
-                            </c:forEach>
-                        </tbody>
-                    </table>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Min Value</th>
+                                    <th>Min Percent</th>
+                                    <th>Min Weight</th>
+                                    <th>Min Recurrence Count</th>
+                                    <th>Min Predict Percent</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach items="${newuserdata.getAlertLevels()}" var="AlertLevel" varStatus="loopgrups">
+                                    <tr>
+                                        <td>${loopgrups.index+1}</td>
+                                        <td>${newuserdata.getAlertLevels().getName(AlertLevel.getKey())}                                                                               
+                                        </td>
+                                        <c:forEach items="${AlertLevel.getValue()}" var="Value" >
+                                            <td>                                                
+                                                <form:input path="AlertLevels[${AlertLevel.getKey()}][${Value.getKey()}]" cssClass="form-control"/>
+                                                <form:errors path="AlertLevels[${AlertLevel.getKey()}][${Value.getKey()}]" />
+                                                <!--<input class="form-control" value="${Value.getValue()}" type="number" name="[${AlertLevel.getKey()}][${Value.getKey()}]">-->    
+                                            </td>
+                                            </c:forEach>                                
+                                    </tr>                    
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <button type="reset" class="btn btn-primary">Cancel</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>                        
+                    
+                    </form:form>
                     <!-- end user projects -->
 
                 </div>
@@ -147,7 +162,7 @@
                         <form class="form-horizontal form-label-left form-filter" name="send_telegram" id="telegram_note">
                             <div class="x_title">
                                 <h5>For Telegram <input type="checkbox" class="js-switch-small" id="send_telegram" name="send_telegram" /> </h5><input class="form-control autocomplete-append filter-input" type="text" name="telegram_input" id="telegram_input" value=""></div>
-                            <jsp:include page="filterform.jsp" />  
+                                    <jsp:include page="filterform.jsp" />  
                             <div class="form-group">                        
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                                     <button class="btn btn-success savefilter" type="button" >Save</button>        

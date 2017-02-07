@@ -6,6 +6,7 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.User;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -256,6 +257,11 @@ public class HbaseUserDao extends HbaseBaseDao {
             final DeleteRequest put = new DeleteRequest(table, id.toString().getBytes(), "filtertemplates".getBytes(), filtername.getBytes());
             BaseTsdb.getClient().delete(put);
         }
+    }
+
+    public void saveAlertLevels(User curentuser,String levelsJSON) {
+        final PutRequest put = new PutRequest(table, curentuser.getId().toString().getBytes(), "technicalinfo".getBytes(), "AL".getBytes(), levelsJSON.getBytes());
+        BaseTsdb.getClient().put(put);
     }
 
 }
