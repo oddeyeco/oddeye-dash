@@ -107,10 +107,10 @@ public class UserController {
                             String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
                             item.addProperty("message", message);
                         }
-//                        if (Arrays.equals(cell.qualifier(), "type".getBytes())) {
-//                            short type = ByteBuffer.wrap(cell.value()).getShort();
-//                            item.addProperty("isspec", type);
-//                        }
+                        if (Arrays.equals(cell.qualifier(), "sv".getBytes())) {
+                            Double sv = ByteBuffer.wrap(cell.value()).getDouble();
+                            item.addProperty("startvalue", sv);
+                        }
                         if (Arrays.equals(cell.qualifier(), "starttimes".getBytes())) {
                             final byte[] starttimes = cell.value();
                             JsonObject stTimes = new JsonObject();

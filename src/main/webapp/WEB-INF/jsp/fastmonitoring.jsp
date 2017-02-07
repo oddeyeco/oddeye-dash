@@ -66,7 +66,7 @@
                                         </select>
                                     </th>
                                     <th>Level</th>
-                                    <th>Message</th>
+                                    <th>Info</th>
                                     <th>Time</th>                                    
                                 </tr>
                             </thead>

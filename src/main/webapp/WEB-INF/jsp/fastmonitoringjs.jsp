@@ -223,9 +223,13 @@
 
     function drawRaw(errorjson, table, index = null, update = false) {
         var message = "";
-        if (typeof (errorjson.message) != "undefined")
+        if (errorjson.isspec == 1)
         {
             message = errorjson.message;
+        }
+        else
+        {
+            message = errorjson.startvalue;
         }
         var starttime = "";
         if (typeof (errorjson.time) != "undefined")
