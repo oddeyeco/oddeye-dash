@@ -20,8 +20,6 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
@@ -38,10 +36,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.core.OddeeyMetricMeta;
+import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import javax.json.Json;
+
 import org.hbase.async.KeyValue;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  *
@@ -50,6 +51,7 @@ import org.hbase.async.KeyValue;
 @Controller
 public class UserController {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     @Autowired
     HbaseErrorsDao ErrorsDao;
     @Autowired
@@ -78,7 +80,7 @@ public class UserController {
                 try {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 } catch (Exception ex) {
-                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.error(globalFunctions.stackTrace(ex));
                 }
             }
 
@@ -140,10 +142,14 @@ public class UserController {
                     metric = userDetails.getMetricsMeta().get(metric2.hashCode());
                     if (metric == null) {
                         metric = MetaDao.getByKey(metric2.getKey());
-                        userDetails.getMetricsMeta().set(metric);
+                        if (metric != null) {
+                            userDetails.getMetricsMeta().set(metric);
+                        } else {
+                            ErrorsDao.geleteLastErrorRow(cell.key());
+                        }
                     }
                     if (metric != null) {
-                        
+
                         JsonElement metajson = new JsonObject();
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
@@ -158,7 +164,7 @@ public class UserController {
                 }
 
             } catch (Exception ex) {
-                Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
 
             map.put("errorslist", savedErrors);
@@ -218,7 +224,7 @@ public class UserController {
                 try {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 } catch (Exception ex) {
-                    Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.error(globalFunctions.stackTrace(ex));
                 }
             }
             Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
@@ -472,8 +478,7 @@ public class UserController {
                 // End Predict
 
             } catch (Exception ex) {
-                Logger.getLogger(UserController.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
 
         }

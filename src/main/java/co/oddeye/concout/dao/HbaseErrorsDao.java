@@ -5,20 +5,22 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.controllers.UserController;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
+import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.opentsdb.query.QueryUtil;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.BinaryComparator;
 import org.hbase.async.CompareFilter;
+import org.hbase.async.DeleteRequest;
 import org.hbase.async.GetRequest;
 import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
@@ -26,10 +28,11 @@ import org.hbase.async.QualifierFilter;
 import org.hbase.async.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import org.hbase.async.FilterList;
 import org.hbase.async.KeyRegexpFilter;
 import org.hbase.async.ScanFilter;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 /**
  *
@@ -38,18 +41,19 @@ import org.hbase.async.ScanFilter;
 @Repository
 public class HbaseErrorsDao extends HbaseBaseDao {
 
+    private final Logger LOGGER = LoggerFactory.getLogger(HbaseErrorsDao.class);
+    
     @Autowired
     private BaseTsdbConnect BaseTsdb;
     private final static String TABLENAME_LAST = "test_oddeye-error-last";
     private final static String TABLENAME = "test_oddeye-errors";
-    private HBaseClient client;    
+    private HBaseClient client;
     private short weight;
     private double persent_weight;
     private double value;
     private short stat_weight;
     private double persent_predict;
-    
-    
+
     public HbaseErrorsDao() {
         super(TABLENAME);
     }
@@ -68,7 +72,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         QueryUtil.addId(buffer, key, true);
         buffer.append(")(.*)$");
         final ArrayList<ScanFilter> filters = new ArrayList<>();
-        filters.add(new KeyRegexpFilter(buffer.toString()));             
+        filters.add(new KeyRegexpFilter(buffer.toString()));
         scanner.setFilter(new FilterList(filters));
 
         ArrayList<ArrayList<KeyValue>> all_rows = new ArrayList<>();
@@ -79,9 +83,8 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         scanner.close();
 
         return all_rows;
-        
-//        Internal.getScanner(query);
 
+//        Internal.getScanner(query);
 //        buf.append((char) (1 & 0xFF));
     }
 
@@ -220,8 +223,8 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         try {
             MetricMetaListTmp = new ConcoutMetricMetaList();
             MetricMetaListFinal = new ConcoutMetricMetaList();
-        } catch (Exception ex) {
-            Logger.getLogger(HbaseErrorsDao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {            
+            LOGGER.error(globalFunctions.stackTrace(ex));
             return null;
 
         }
@@ -330,9 +333,18 @@ public class HbaseErrorsDao extends HbaseBaseDao {
                 return result;
             }
         } catch (Exception ex) {
-            Logger.getLogger(HbaseErrorsDao.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(globalFunctions.stackTrace(ex));
         }
         return null;
+    }
+
+    public void geleteLastErrorRow(byte[] key) {
+        final DeleteRequest delreq = new DeleteRequest(TABLENAME_LAST.getBytes(), key);
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("Delete key:" + Hex.encodeHexString(key));
+        }
+        BaseTsdb.getClient().delete(delreq);
+
     }
 
 }
