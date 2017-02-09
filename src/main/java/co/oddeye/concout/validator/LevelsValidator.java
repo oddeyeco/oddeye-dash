@@ -40,10 +40,6 @@ public class LevelsValidator implements Validator {
                     {
                         errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
                     }
-                    if (level.getValue()>100)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "100value", "Value more than 100.");
-                    }                    
                 }
                 if (level.getKey()==AlertLevel.ALERT_PARAM_PREDICTPERSENT)
                 {
@@ -51,10 +47,6 @@ public class LevelsValidator implements Validator {
                     {
                         errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
                     }
-                    if (level.getValue()>100)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "100value", "Value more than 100.");
-                    }                    
                 }                
                 if (level.getKey()==AlertLevel.ALERT_PARAM_WEIGTH)
                 {
