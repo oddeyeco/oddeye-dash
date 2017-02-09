@@ -81,8 +81,9 @@ public class errorSubscribeController {
                         if (jsonResult.getAsJsonObject().get("message") != null) {                            
                             long time = jsonResult.getAsJsonObject().get("time").getAsLong();
                             long DURATION = time - metricMeta.getLasttime();
-                            message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");                            
                             message = jsonResult.getAsJsonObject().get("message").getAsString();
+                            message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");                            
+                            
                             jsonResult.getAsJsonObject().addProperty("message", message);
                         }
                     }
