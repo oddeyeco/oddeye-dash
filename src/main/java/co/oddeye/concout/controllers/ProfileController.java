@@ -5,6 +5,8 @@
  */
 package co.oddeye.concout.controllers;
 
+import static co.oddeye.concout.controllers.dataControlers.LOGGER;
+import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
@@ -14,6 +16,7 @@ import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.core.OddeeyMetricMeta;
+import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import java.util.Map;
 import java.util.logging.Level;
@@ -34,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import org.hbase.async.GetRequest;
+import org.hbase.async.KeyValue;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -55,6 +60,8 @@ public class ProfileController {
     HbaseErrorsDao ErrorsDao;
     @Autowired
     private KafkaTemplate<Integer, String> conKafkaTemplate;
+    @Autowired
+    private BaseTsdbConnect BaseTsdb;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap map) throws Exception {
@@ -83,30 +90,35 @@ public class ProfileController {
     public String metricinfo(@PathVariable(value = "hash") Integer hash, ModelMap map) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String layaut = "index";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-            map.put("curentuser", userDetails);
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+                map.put("curentuser", userDetails);
+                if (userDetails.getMetricsMeta() == null) {
+                    try {
+                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                    } catch (Exception ex) {
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
+                }
+                OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(hash);
 
-            if (userDetails.getMetricsMeta() == null) {
-                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                GetRequest getMetric = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), meta.getKey(), "d".getBytes());
+                ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
+                meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+
+                map.put("metric", meta);
+            } catch (Exception ex) {
+                Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-            OddeeyMetricMeta metriq = userDetails.getMetricsMeta().getOrDefault(hash, null);
-
-            map.put("metriq", metriq);
-            ArrayList<MetricErrorMeta> ErrorList = ErrorsDao.getErrorList(userDetails, metriq);
-            map.put("ErrorList", ErrorList);
-
-        } else {
-            layaut = "indexPrime";
         }
-
         map.put("body", "metriqinfo");
         map.put("jspart", "metriqinfojs");
+        
+        return "index";
 
-        return layaut;
+//        return layaut;
     }
 
     @RequestMapping(value = "/profile/edit", method = RequestMethod.GET)
@@ -217,7 +229,7 @@ public class ProfileController {
                     Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
                     Jsonchangedata.addProperty("action", "updatelevels");
 
-                    Jsonchangedata.addProperty("changedata",levelsJSON);
+                    Jsonchangedata.addProperty("changedata", levelsJSON);
                     // Send chenges to kafka
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {

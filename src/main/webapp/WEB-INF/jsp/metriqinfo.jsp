@@ -1,59 +1,92 @@
-<%-- 
-    Document   : metriqinfo
-    Created on : Dec 5, 2016, 2:38:33 PM
-    Author     : vahan
---%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="page-title">
-    <div class="title_left">
-        <h3>Metriq Info </h3>
-    </div>
-</div>
-
-<div class="clearfix"></div>
-
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="x_panel">
+<div class="">
+    <div class="row">
+        <div class="col-md-12">
             <div class="x_title">
-                <h2>Metriq: ${metriq.getName()}, Tags: ${metriq.getTags()}</h2>
-                <div class="clearfix"></div>
-
-                <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
-                    <thead>
-                        <tr>
-                            <th>#</th>                            
-                            <th>Value</th>
-                            <th>Weight</th>
-                            <th>Deviation %</th>
-                            <th>Predict Deviation %</th>                            
-                            <th>Level</th>
-                            <th>Time</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                    <c:set value="1" var="loopindex" />
-                    <c:forEach items="${ErrorList}" var="metric" varStatus="loop">
-                        <th scope="row">${loop.index}</th>                        
-                        <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
-                        <td class="weight">${metric.getWeight()}</td>
-                        <td class="persent">${metric.getPersent_weight()}</td>
-                        <td class="persent">${metric.getPersent_predict()}</td>                        
-                        <td class="level_${curentuser.getAlertLevels().getErrorLevel(metric)}">${curentuser.getAlertLevels().getName(curentuser.getAlertLevels().getErrorLevel(metric))}</td>                        
-                        <td class="time">${metric.getTimestamp()}</td>
-                        <td class=""> ${metric.getTimestamp()-lasttime}</td>
-                        
-                        <c:set value="${metric.getTimestamp()}" var="lasttime" />
-                        </tr>
-
-                    </c:forEach>
-                    </tbody>
-                </table>                
-
+                <h1> ${metric.getDisplayName()} : ${metric.getTypeName()}</h1>
             </div>
+            <div class="x_panel">
+                <div class="col-md-2 col-sm-2 col-xs-4">
+                    <div class="x_content "> 
+                        <div class="x_title">
+                            <h2><i class="fa fa-asterisk"></i> Tags</h2>                                         
+                            <div class="clearfix"></div>
+                        </div>                
+                        <ul class="">
+                            <c:forEach items="${metric.getTags()}" var="Tag" varStatus="loop">
+                                <c:if test="${Tag.getKey() != \"UUID\"}">
+                                    <li>
+                                        <span class="name"> ${Tag.getKey()}: </span>
+                                        <span class="value text-success"> ${Tag.getValue()}</span>
+                                    </li>
+                                </c:if>    
+                            </c:forEach>
+                        </ul>                
+                    </div>                    
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-4">            
+                    <div class="x_content "> 
+                        <div class="x_title">
+                            <h2><i class="fa fa-line-chart"></i> Regression</h2>     
+                            <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
+                            <div class="clearfix"></div>
+                        </div>                
+                        <ul class="">                                                 
+                            <li>
+                                <span class="name">Correlation Coefficient </span>                            
+                                <span class="value text-success">
+                                    <c:choose>
+                                        <c:when test="${metric.getRegression().getR() == Double.NaN}">
+                                            ${metric.getRegression().getR()}
+                                            <br />
+                                        </c:when>    
+                                        <c:otherwise>
+                                            <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${metric.getRegression().getR()}" />
+                                            <br />
+                                        </c:otherwise>
+                                    </c:choose>                                
+                                </span>                            
+                            </li>
+                            <li>
+                                <span class="name">SSE</span>
+                                <span class="value text-success">
+                                    <c:choose>
+                                        <c:when test="${metric.getRegression().getSumSquaredErrors() == Double.NaN}">
+                                            ${metric.getRegression().getSumSquaredErrors()}
+                                            <br />
+                                        </c:when>    
+                                        <c:otherwise>
+                                            <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${metric.getRegression().getSumSquaredErrors()}" />
+                                            <br />
+                                        </c:otherwise>
+                                    </c:choose>                                                                
+                                </span>
+                            </li>                         
+
+                            <li>
+                                <span class="name">Significance</span>
+                                <span class="value text-success">
+                                    <c:choose>
+                                        <c:when test="${metric.getRegression().getSignificance() == Double.NaN}">
+                                            ${metric.getRegression().getSignificance()}
+                                            <br />
+                                        </c:when>    
+                                        <c:otherwise>
+                                            <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${metric.getRegression().getSignificance()}" />
+                                            <br />
+                                        </c:otherwise>
+                                    </c:choose>                                
+                                </span>
+                            </li>
+                            <li>
+                                <span class="name">Counts</span>
+                                <span class="value text-success">${metric.getRegression().getN()}</span>
+                            </li>
+                        </ul>   
+                    </div>
+                </div>                 
+            </div>         
         </div>
     </div>
 </div>
