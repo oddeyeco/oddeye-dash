@@ -85,7 +85,8 @@ public class UserController {
             }
 
             JsonObject savedErrors = new JsonObject();
-
+            String message = null;
+            Long time = null;
             try {
                 ArrayList<ArrayList<KeyValue>> errors_list = ErrorsDao.getActiveErrors(userDetails);
                 for (ArrayList<KeyValue> err_row : errors_list) {
@@ -102,12 +103,11 @@ public class UserController {
                             item.addProperty("action", action);
                         }
                         if (Arrays.equals(cell.qualifier(), "time".getBytes())) {
-                            Long time = ByteBuffer.wrap(cell.value()).getLong();
+                            time = ByteBuffer.wrap(cell.value()).getLong();
                             item.addProperty("time", time);
-                        }
+                        }                        
                         if (Arrays.equals(cell.qualifier(), "message".getBytes())) {
-                            String message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
-                            item.addProperty("message", message);
+                            message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
                         }
                         if (Arrays.equals(cell.qualifier(), "sv".getBytes())) {
                             Double sv = ByteBuffer.wrap(cell.value()).getDouble();
@@ -122,9 +122,9 @@ public class UserController {
 //                               final byte[] level = Arrays.copyOfRange(starttimes, i, i + 1);
                                 byte level = Buffer.array()[i];
                                 i++;
-                                long time = Buffer.getLong(i);
+                                long timetmp = Buffer.getLong(i);
                                 i = i + 8;
-                                stTimes.addProperty(Byte.toString(level), time);
+                                stTimes.addProperty(Byte.toString(level), timetmp);
                             }
                             item.add("starttimes", stTimes);
 
@@ -155,6 +155,15 @@ public class UserController {
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
                         item.getAsJsonObject().addProperty("hash", metric.hashCode());
                         item.getAsJsonObject().addProperty("isspec", metric.isSpecial() ? 1 : 0);
+                        
+                        if (metric.isSpecial())
+                        {
+                            
+                            long DURATION = time - metric.getLasttime();
+                            message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");
+                            item.addProperty("message", message);                        
+                        }
+                        
                         item.getAsJsonObject().add("info", metajson);
                         savedErrors.add(Integer.toString(metric.hashCode()), item);
                     }

@@ -59,27 +59,34 @@ public class errorSubscribeController {
 //     */
 //
     @KafkaListener(topics = "errors")
-    public void listenErrors(ConsumerRecord<?, String> record) {        
+    public void listenErrors(ConsumerRecord<?, String> record) {
         String msg = record.value();
         if (log.isInfoEnabled()) {
             log.info("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
         }
-        if (System.currentTimeMillis() - record.timestamp() < 60000) {
 
+        if (System.currentTimeMillis() - record.timestamp() < 60000) {
+            String message = null;
             JsonElement jsonResult = PARSER.parse(msg);
             String Uuid = jsonResult.getAsJsonObject().get("UUID").getAsString();
             int level = jsonResult.getAsJsonObject().get("level").getAsInt();
             int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
-            if (jsonResult.getAsJsonObject().get("message") != null) {
-                String message = jsonResult.getAsJsonObject().get("message").getAsString();
-                jsonResult.getAsJsonObject().addProperty("message", message);
-            }
 
             jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
 
             OddeeyMetricMeta metricMeta = MetaDao.getFullmetalist().get(hash);
             if (metricMeta == null) {
                 try {
+                    if (metricMeta.isSpecial()) {
+                        if (jsonResult.getAsJsonObject().get("message") != null) {                            
+                            long time = jsonResult.getAsJsonObject().get("time").getAsLong();
+                            long DURATION = time - metricMeta.getLasttime();
+                            message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");                            
+                            message = jsonResult.getAsJsonObject().get("message").getAsString();
+                            jsonResult.getAsJsonObject().addProperty("message", message);
+                        }
+                    }
+
                     byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
                     metricMeta = MetaDao.getByKey(key);
                 } catch (Exception ex) {
@@ -93,17 +100,8 @@ public class errorSubscribeController {
                 metajson.getAsJsonObject().add("tags", gson.toJsonTree(metricMeta.getTags()));
                 metajson.getAsJsonObject().addProperty("name", metricMeta.getName());
                 jsonResult.getAsJsonObject().add("info", metajson);
-                jsonResult.getAsJsonObject().addProperty("isspec", metricMeta.isSpecial()?1:0);
+                jsonResult.getAsJsonObject().addProperty("isspec", metricMeta.isSpecial() ? 1 : 0);
             }
-//            if (jsonResult.getAsJsonObject().get("type").getAsString().equals("Regular"))
-//            {
-//                jsonResult.getAsJsonObject().addProperty("isspec", 0);
-//            }
-//            else
-//            {
-//                jsonResult.getAsJsonObject().addProperty("isspec", 1);
-//            }
-            
             this.template.convertAndSendToUser(Uuid, "/errors", jsonResult.toString());
         }
         countDownLatch1.countDown();
