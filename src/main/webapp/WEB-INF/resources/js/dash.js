@@ -41,31 +41,93 @@ function setdatabyQueryes(option, url, start, end, chart)
                             chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
                             delete dateval;
                         }
-                        series.data = chdata;
+                        series.data = chdata;                        
                         option.tmpoptions.series.push(series);
                     }
-
+                option.tmpoptions.tooltip.trigger = 'axis';
                 }
 
                 if (option.tmpoptions.xAxis[0].type == "category")
                 {
+//                    console.log(option.tmpoptions.xAxis[0]);
+                    var m_sample = option.tmpoptions.xAxis[0].m_sample;
+                    var tag = option.tmpoptions.xAxis[0].m_tags;
+                    var xdata = [];
+                    var loop = 0;
+                    var sdata = [];
                     for (index in data.chartsdata)
                     {
+                        var tagn = Object.keys(data.chartsdata[index].tags)[tag]
+                        xdata.push(data.chartsdata[index].tags[tagn]);
+
                         var chdata = [];
-                        var series = clone_obg(defserie);
-                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
-                        series.name = name;
-                        option.tmpoptions.legend.data.push({"name": name});
-                        var chdata = [];
-                        
-                        console.log(data.chartsdata[index].tags);
+//                        var series = clone_obg(defserie);
+//                        series.type = "bar";
+//                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+//                        series.name = name;
+//                        option.tmpoptions.legend.data.push({"name": name});
+
+
+//                        console.log(xdata);
+                        var val;
                         for (var time in data.chartsdata[index].data) {
                             chdata.push(data.chartsdata[index].data[time]);
+                            val = data.chartsdata[index].data[time];
                         }
-                        series.data = chdata;
-                        option.tmpoptions.series.push(series);
-                        option.tmpoptions.xAxis[0].data = [];
+
+
+//                        for (i = 0; i < loop; i++) { 
+//                            sdata.push(null);
+//                        }                   
+//                        loop++;
+
+                        if (m_sample == "avg")
+                        {
+                            val = numbers.statistic.mean(chdata);
+                        }
+                        if (m_sample == "min")
+                        {
+
+                            val = numbers.basic.min(chdata);
+
+                        }
+                        if (m_sample == "max")
+                        {
+                            val = numbers.basic.max(chdata);
+                        }
+                        if (m_sample == "total")
+                        {
+                            val = numbers.basic.sum(chdata);
+                        }
+                        if (m_sample == "product")
+                        {
+                            val = numbers.basic.product(chdata);
+                        }
+                        if (m_sample == "count")
+                        {
+                            val = chdata.length;
+                        }
+
+
+                        sdata.push(val);
+//                        series.data = sdata;
+//                        
+//                        option.tmpoptions.series.push(series);                        
                     }
+                    var series = clone_obg(defserie);
+                    series.data = sdata;
+                    series.type = "bar";
+                    option.tmpoptions.tooltip.trigger = 'item';
+
+                    series.itemStyle = {
+                        normal: {
+                            color: function (params) {
+                                return colorPalette[params.dataIndex]
+                            }
+                        }
+                    };
+                    option.tmpoptions.series.push(series);
+                    option.tmpoptions.xAxis[0].data = xdata;
                 }
             }
             chart.setOption(option.tmpoptions);

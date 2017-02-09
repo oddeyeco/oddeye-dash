@@ -5,6 +5,7 @@
 <script src="${cp}/resources/js/dash.js"></script>
 <script src="${cp}/resources/js/editchartform.js"></script>
 <script src="${cp}/resources/switchery/dist/switchery.min.js"></script>
+<script src="${cp}/resources/numbersjs/src/numbers.min.js"></script>
 
 
 <script>

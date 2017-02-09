@@ -653,17 +653,19 @@
                                                 <option value="total">Total</option>
                                                 <option value="count">Count</option>
                                                 <option value="current">Current</option>
+                                                <option value="product">Product</option>
+                                                
                                             </select>
                                         </div>
-                                        <div class="form-group form-group-custom only-Series">    
+<!--                                        <div class="form-group form-group-custom only-Series">    
                                             <label for="axes_value_x" class="control-label control-label-custom-legend" >
                                                 Tags
                                             </label>                                 
                                             <select id="axes_tags_x" name="axes_tags_x" axes="xAxis" index="0" chart_prop_key="m_tags" class="form-control axes_select ">
                                                 <option value="nan" selected>NaN</option>
-                                                <!--TODO FILL by data tags-->
+                                                TODO FILL by data tags
                                             </select>
-                                        </div>                                        
+                                        </div>                                        -->
                                     </div>
                                 </div>
                                 <!--                                <form class="form-horizontal form-label-left edit-legend pull-left">   -->                                
