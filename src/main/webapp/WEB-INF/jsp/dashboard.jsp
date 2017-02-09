@@ -325,13 +325,13 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="tab_axes" aria-labelledby="axes-tab">
                         <div class="row">
-                            <form class="form-horizontal form-label-left edit-legend pull-left">                                   
+                            <form class="form-horizontal form-label-left edit-axes pull-left">                                   
                                 <div class="form_main_block  pull-left">                                
                                     <h3><label class="control-label" >
                                             Left Y
                                         </label>
                                         <div class="checkbox" style="display: inline-block">
-                                            <input chart_prop_key="leftAxesShow" type="checkbox" class="js-switch-small" checked ="checked " id="left_axes_show" name="left_axes_show" /> 
+                                            <input chart_prop_key="show" axes="yAxis" axes="yAxis" index="0" type="checkbox" class="js-switch-small" checked ="checked " id="left_axes_show" name="left_axes_show" /> 
                                         </div>
                                     </h3>
 
@@ -340,7 +340,7 @@
                                             <label for="axes_unit_left_y" class="control-label control-label-custom-legend" >
                                                 Unit
                                             </label>                                 
-                                            <select id="axes_unit_left_y" name="axes_unit_left_y" chart_prop_key="leftUnit" class="select2_group form-control axes_select ">                                                
+                                            <select id="axes_unit_left_y" axes="yAxis" index="0" name="axes_unit_left_y" chart_prop_key="formatter" class="select2_group form-control axes_select ">                                                
                                                 <optgroup label="None">
                                                     <option value="">None</option>
                                                     <option value="{value}">Short</option>
@@ -448,7 +448,7 @@
                                                 </optgroup>
                                             </select>
                                         </div>
-                                        <div class="form-group form-group-custom">
+<!--                                        <div class="form-group form-group-custom">
                                             <label for="axes_scale_left_y" class="control-label control-label-custom-legend" >
                                                 Scale
                                             </label>                                 
@@ -459,22 +459,22 @@
                                                 <option value="{value}">Log (base 32)</option>
                                                 <option value="{value}">Log (base 1024)</option>
                                             </select>
-                                        </div>
+                                        </div>-->
                                         <div class="form-group form-group-custom">
                                             <label for="axes_min_left_y" class="control-label control-label-custom-legend" >
                                                 Y-Min
                                             </label>
-                                            <input id="axes_min_left_y" name="axes_min_left_y" chart_prop_key="leftYMin" type="number" placeholder="auto" class="form-control title_input_small" >
+                                            <input id="axes_min_left_y" name="axes_min_left_y" axes="yAxis" index="0" chart_prop_key="min" type="number" placeholder="auto" class="form-control title_input_small" >
                                             <label for="axes_max_left_y" class="control-label control-label-custom-axes" >
                                                 Y-Max
                                             </label>
-                                            <input id="axes_max_left_y" name="axes_max_left_y" chart_prop_key="leftYMax" type="number" placeholder="auto" class="form-control title_input_small" >
+                                            <input id="axes_max_left_y" name="axes_max_left_y" axes="yAxis" index="0" chart_prop_key="max" type="number" placeholder="auto" class="form-control title_input_small" >
                                         </div>
                                         <div class="form-group form-group-custom">
                                             <label for="axes_label_left_y" class="control-label control-label-custom-legend" >
                                                 Label
                                             </label>
-                                            <input id="axes_label_left_y" name="axes_label_left_y" chart_prop_key="leftLabel" type="text" class="form-control axes_select" >
+                                            <input id="axes_label_left_y" name="axes_label_left_y" axes="yAxis" index="0" chart_prop_key="name" type="text" class="form-control axes_select" >
                                         </div>
                                     </div>
                                 </div>
@@ -485,7 +485,7 @@
                                                     Right Y
                                                 </label>
                                                 <div class="checkbox" style="display: inline-block">
-                                                    <input chart_prop_key="rightAxesShow" type="checkbox" class="js-switch-small" checked ="checked " id="right_axes_show" name="right_axes_show" /> 
+                                                    <input chart_prop_key="show" type="checkbox"  axes="yAxis" index="1" class="js-switch-small" checked ="checked " id="right_axes_show" name="right_axes_show" /> 
                                                 </div>
                                             </h3>
                                         </div>
@@ -494,7 +494,7 @@
                                                 <label for="axes_unit_right_y" class="control-label control-label-custom-legend" >
                                                     Unit
                                                 </label>                                 
-                                                <select id="axes_unit_right_y" name="axes_unit_right_y" chart_prop_key="rightUnit" class="select2_group form-control axes_select ">                                                
+                                                <select id="axes_unit_right_y" name="axes_unit_right_y" axes="yAxis" index="1" chart_prop_key="formatter" class="select2_group form-control axes_select ">                                                
                                                     <optgroup label="None">
                                                         <option value="">None</option>
                                                         <option value="{value}">Short</option>
@@ -601,34 +601,22 @@
                                                         <option value="{value} m3">Cubic Metre</option>
                                                     </optgroup>
                                                 </select>
-                                            </div>
-                                            <div class="form-group form-group-custom">
-                                                <label for="axes_scale_right_y" class="control-label control-label-custom-legend" >
-                                                    Scale
-                                                </label>                                 
-                                                <select id="axes_scale_left_y" name="axes_scale_left_y" chart_prop_key="leftScale" class="select2_group form-control axes_select ">
-                                                    <option value="{value}" selected>Linear</option>
-                                                    <option value="{value}">Log (base 2)</option>
-                                                    <option value="{value}">Log (base 10)</option>
-                                                    <option value="{value}">Log (base 32)</option>
-                                                    <option value="{value}">Log (base 1024)</option>
-                                                </select>
-                                            </div>
+                                            </div>                                            
                                             <div class="form-group form-group-custom">
                                                 <label for="axes_min_right_y" class="control-label control-label-custom-legend" >
                                                     Y-Min
                                                 </label>
-                                                <input id="axes_min_left_y" name="axes_min_right_y" chart_prop_key="rightYMin" type="number" placeholder="auto" class="form-control title_input_small" >
+                                                <input id="axes_min_left_y" name="axes_min_right_y" axes="yAxis" index="1" chart_prop_key="min" type="number" placeholder="auto" class="form-control title_input_small" >
                                                 <label for="axes_max_left_y" class="control-label control-label-custom-axes" >
                                                     Y-Max
                                                 </label>
-                                                <input id="axes_max_left_y" name="axes_max_left_y" chart_prop_key="rightYMax" type="number" placeholder="auto" class="form-control title_input_small" >
+                                                <input id="axes_max_left_y" name="axes_max_left_y" axes="yAxis" index="1" chart_prop_key="max" type="number" placeholder="auto" class="form-control title_input_small" >
                                             </div>
                                             <div class="form-group form-group-custom">
                                                 <label for="axes_label_right_y" class="control-label control-label-custom-legend" >
                                                     Label
                                                 </label>
-                                                <input id="axes_label_right_y" name="axes_label_right_y" chart_prop_key="rightLabel" type="text" class="form-control axes_select" >
+                                                <input id="axes_label_right_y" name="axes_label_right_y" axes="yAxis" index="1" chart_prop_key="name" type="text" class="form-control axes_select" >
                                             </div>
                                         </div>
                                     </div>                                    
@@ -640,7 +628,7 @@
                                                     X-Axis
                                                 </label>
                                                 <div class="checkbox" style="display: inline-block">
-                                                    <input chart_prop_key="xAxesShow" type="checkbox" class="js-switch-small" checked ="checked " id="x_axes_show" name="x_axes_show" /> 
+                                                    <input chart_prop_key="show" axes="xAxis" index="0" type="checkbox" class="js-switch-small" checked ="checked " id="x_axes_show" name="x_axes_show" /> 
                                                 </div>
                                             </h3>
 
@@ -649,16 +637,16 @@
                                             <label for="axes_mode_x" class="control-label control-label-custom-legend" >
                                                 Scale
                                             </label>                                 
-                                            <select id="axes_mode_x" name="axes_mode_x" chart_prop_key="xMode" class="form-control axes_select ">
-                                                <option value="time" selected>Time</option>
-                                                <option value="series">Series</option>
+                                            <select id="axes_mode_x" name="axes_mode_x" chart_prop_key="type" axes="xAxis" index="0" class="form-control axes_select ">
+                                                <option value="time">Time</option>
+                                                <option value="category">Series</option>
                                             </select>
                                         </div>
                                         <div class="form-group form-group-custom only-Series">    
                                             <label for="axes_value_x" class="control-label control-label-custom-legend" >
                                                 Value
                                             </label>                                 
-                                            <select id="axes_value_x" name="axes_value_x" chart_prop_key="xModeValue" class="form-control axes_select ">
+                                            <select id="axes_value_x" name="axes_value_x" axes="xAxis" index="0" chart_prop_key="m_sample" class="form-control axes_select ">
                                                 <option value="avg" selected>Avg</option>
                                                 <option value="min">Min</option>
                                                 <option value="max">Max</option>
@@ -671,7 +659,7 @@
                                             <label for="axes_value_x" class="control-label control-label-custom-legend" >
                                                 Tags
                                             </label>                                 
-                                            <select id="axes_tags_x" name="axes_tags_x" chart_prop_key="xModeTags" class="form-control axes_select ">
+                                            <select id="axes_tags_x" name="axes_tags_x" axes="xAxis" index="0" chart_prop_key="m_tags" class="form-control axes_select ">
                                                 <option value="nan" selected>NaN</option>
                                                 <!--TODO FILL by data tags-->
                                             </select>

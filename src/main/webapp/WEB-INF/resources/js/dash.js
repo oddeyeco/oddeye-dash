@@ -27,25 +27,45 @@ function setdatabyQueryes(option, url, start, end, chart)
         $.getJSON(uri, null, function (data) {
             if (Object.keys(data.chartsdata).length > 0)
             {
-                for (index in data.chartsdata)
+                if (option.tmpoptions.xAxis[0].type == "time")
                 {
-
-                    var series = clone_obg(defserie);
-                    var chdata = [];
-                    for (var time in data.chartsdata[index].data) {
-                        var dateval = moment(time * 1);
-                        chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
-                        delete dateval;
+                    for (index in data.chartsdata)
+                    {
+                        var series = clone_obg(defserie);
+                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+                        series.name = name;
+                        option.tmpoptions.legend.data.push({"name": name});
+                        var chdata = [];
+                        for (var time in data.chartsdata[index].data) {
+                            var dateval = moment(time * 1);
+                            chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
+                            delete dateval;
+                        }
+                        series.data = chdata;
+                        option.tmpoptions.series.push(series);
                     }
-                    series.data = chdata;
-                    // TODO Change by alias
-                    var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
-//                    var name = data.chartsdata[index].tags.host;
-                    series.name = name;
-                    option.tmpoptions.legend.data.push({"name": name});
-//                    console.log(data.chartsdata[index]);
-                    option.tmpoptions.series.push(series);
 
+                }
+
+                if (option.tmpoptions.xAxis[0].type == "category")
+                {
+                    for (index in data.chartsdata)
+                    {
+                        var chdata = [];
+                        var series = clone_obg(defserie);
+                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+                        series.name = name;
+                        option.tmpoptions.legend.data.push({"name": name});
+                        var chdata = [];
+                        
+                        console.log(data.chartsdata[index].tags);
+                        for (var time in data.chartsdata[index].data) {
+                            chdata.push(data.chartsdata[index].data[time]);
+                        }
+                        series.data = chdata;
+                        option.tmpoptions.series.push(series);
+                        option.tmpoptions.xAxis[0].data = [];
+                    }
                 }
             }
             chart.setOption(option.tmpoptions);
@@ -313,7 +333,7 @@ $(document).ready(function () {
         }
 
     });
-    $('body').on("mouseleave", ".select2-container--default .menu-select", function () {        
+    $('body').on("mouseleave", ".select2-container--default .menu-select", function () {
         $(".select2-container--default .menu-select .select2-results__option[role=group] ul").hide();
     });
 
