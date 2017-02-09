@@ -127,6 +127,7 @@ class ChartEditForm {
             {
                 var inputs = this.formwraper.find("#tab_axes [axes='yAxis'][index='0'][chart_prop_key='" + key + "']");
                 inputs.each(function () {
+                    console.log(key);
                     formObj.fillinputs($(this), "yAxis", key, 0);
                 })
             }
@@ -489,7 +490,15 @@ class ChartEditForm {
             }
             if (input.attr("type").toLowerCase() == "text")
             {
-                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+                if (index == null)
+                {
+                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+                } else
+                {
+                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
+//                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
+                }                
+                
             }
             if (input.attr("type").toLowerCase() == "checkbox")
             {

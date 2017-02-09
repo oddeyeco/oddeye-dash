@@ -34,6 +34,14 @@
             var action = getParameterByName("action");
 
             showsingleChart(request_R_index, request_W_index, dashJSONvar, action !== "edit");
+            if ($('#axes_mode_x').val() === 'category') {
+                $('.only-Series').show();
+            } else {
+                $('.only-Series').hide();
+            }
+            $("select").select2({minimumResultsForSearch: 15});
+            $(".select2_group").select2({dropdownCssClass: "menu-select"});
+            
         } else
         {
             window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
@@ -209,6 +217,14 @@
         single_widgetindex = $(this).parents(".chartsection").first().attr("index");
         window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
         showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
+        if ($('#axes_mode_x').val() === 'category') {
+            $('.only-Series').show();
+        } else {
+            $('.only-Series').hide();
+        }
+        $("select").select2({minimumResultsForSearch: 15});
+        $(".select2_group").select2({dropdownCssClass: "menu-select"});
+        
     });
 
     $('body').on("click", ".view", function () {
@@ -392,8 +408,9 @@
                 } else {
                     $('.only-Series').hide();
                 }
-                $(".select2_group").select2({dropdownCssClass: "menu-select"});
                 $("select").select2({minimumResultsForSearch: 15});
+                $(".select2_group").select2({dropdownCssClass: "menu-select"});
+                
 
 
 //                showsingleChart(request_R_index, request_W_index, dashJSONvar);
