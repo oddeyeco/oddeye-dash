@@ -387,31 +387,43 @@
                                                     <option value="dataGiBmetric">Gigabytes</option>                                                   
                                                 </optgroup>
                                                 <optgroup label="Data Rate">
-                                                    <option value="{value} PpS">Packets/s</option>
-                                                    <option value="{value} bpS">Bits/s</option>
-                                                    <option value="{value} BpS">Bytes/s</option>
-                                                    <option value="{value} KbpS">Kilobits/s</option>
-                                                    <option value="{value} KBpS">Kilobytes/s</option>
-                                                    <option value="{value} MbpS">Megabits/s</option>
-                                                    <option value="{value} MBpS">Megabytes/s</option>
-                                                    <option value="{value} GBpS">Gigabytes/s</option>
-                                                    <option value="{value} BbpS">Gigabits/s</option>
+                                                    <option value="formatPpS">Packets/s</option>
+                                                    <option value="formatbpS">Bits/s</option>
+                                                    <option value="formatBpS">Bytes/s</option>
+                                                    <option value="formatKbpS">Kilobits/s</option>
+                                                    <option value="formatKBpS">Kilobytes/s</option>
+                                                    <option value="formatMbpS">Megabits/s</option>
+                                                    <option value="formatMBpS">Megabytes/s</option>
+                                                    <option value="formatGBbpS">Gigabits/s</option>
+                                                    <option value="formatGBpS">Gigabytes/s</option>
+                                                    
                                                 </optgroup>
                                                 <optgroup label="Throughput">
-                                                    <option value="{value} ops">Ops/sec (ops)</option>
-                                                    <option value="{value} rps">Reads/sec (rps)</option>
-                                                    <option value="{value} wps">Writes/sec (wps)</option>
-                                                    <option value="{value} iops">I/O Ops/sec (iops)</option>
-                                                    <option value="{value} opm">Ops/min (opm)</option>
-                                                    <option value="{value} rpm">Reads/min (rpm)</option>
-                                                    <option value="{value} wpm">Writes/min (wpm)</option>
-                                                </optgroup>
+                                                    <option value="formatops">Ops/sec (ops)</option>
+                                                    <option value="formatrps">Reads/sec (rps)</option>
+                                                    <option value="formatwps">Writes/sec (wps)</option>
+                                                    <option value="formatiops">I/O Ops/sec (iops)</option>
+                                                    <option value="formatopm">Ops/min (opm)</option>
+                                                    <option value="formatrpm">Reads/min (rpm)</option>
+                                                    <option value="formatwpm">Writes/min (wpm)</option>
+                                                </optgroup>                                                                                                
                                                 <optgroup label="Lenght">
-                                                    <option value="{value} mm">Millimeter (mm)</option>
-                                                    <option value="{value} m">Meter (m)</option>
-                                                    <option value="{value} km">Kilometer (km)</option>
+                                                    <option value="formatmm">Millimeter (mm)</option>
+                                                    <option value="formatm">Meter (m)</option>
+                                                    <option value="formatkm">Kilometer (km)</option>
                                                     <option value="{value} mi">Mile (mi)</option>
                                                 </optgroup>
+                                                <optgroup label="Velocity">
+                                                    <option value="{value} m/s">m/s</option>
+                                                    <option value="{value} km/h">km/h</option>
+                                                    <option value="{value} km/h">mtf</option>
+                                                    <option value="{value} knot">knot</option>
+                                                </optgroup>
+                                                <optgroup label="Volume">
+                                                    <option value="formatmL">Millilitre</option>
+                                                    <option value="formatL">Litre</option>
+                                                    <option value="formatm3">Cubic Metre</option>
+                                                </optgroup>                                                
                                                 <optgroup label="Energy">
                                                     <option value="{value} W">Watt (W)</option>
                                                     <option value="{value} KW">Kilowatt (KW)</option>
@@ -436,17 +448,6 @@
                                                     <option value="{value} hPa">Hectopascals</option>
                                                     <option value='{value} "Hg'>Inches of Mercury</option>
                                                     <option value="{value} psi">PSI</option>
-                                                </optgroup>
-                                                <optgroup Label="Velocity">
-                                                    <option value="{value} m/s">m/s</option>
-                                                    <option value="{value} km/h">km/h</option>
-                                                    <option value="{value} km/h">mtf</option>
-                                                    <option value="{value} knot">knot</option>
-                                                </optgroup>
-                                                <optgroup label="Volume">
-                                                    <option value="{value} mL">Millilitre</option>
-                                                    <option value="{value} L">Litre</option>
-                                                    <option value="{value} m3">Cubic Metre</option>
                                                 </optgroup>
                                             </select>
                                         </div>

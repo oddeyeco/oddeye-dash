@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+/* global moment */
+
 var merticdivator = 1000;
 
 var pickerstart;
@@ -19,8 +21,8 @@ var rangeslabels = {
     'Last 6 hour': "6h-ago",
     'Last 12 hour': "12h-ago",
     'Last 1 day': "24h-ago",
-    'Last 7 day': "7d-ago",
-}
+    'Last 7 day': "7d-ago"
+};
 
 var PicerOptionSet1 = {
     startDate: moment().subtract(5, 'minute'),
@@ -78,10 +80,10 @@ var cb = function (start, end, label) {
     }
 };
 //TODO DZRTEL
-var tmpday = ""
+var tmpday = "";
 var format_date = function (value) {
     date = moment(value);
-    if (tmpday != date.format("YY/MM/DD"))
+    if (tmpday !== date.format("YY/MM/DD"))
     {
         tmpday = date.format("YY/MM/DD");
         return (date.format("HH:mm:ss") + "\n" + date.format("YY/MM/DD"));
@@ -89,110 +91,35 @@ var format_date = function (value) {
     {
         return (date.format("HH:mm:ss"));
     }
-
-
-}
+};
 var dataBit = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (format_data(val)) + "b";
-}
+};
 
 var dataBytes = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (format_data(val)) + "B";
-}
+};
 
 var dataKiB = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (dataBytes(val * Math.pow(1024, 1)));
-}
+};
 
 var dataMiB = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (dataBytes(val * Math.pow(1024, 2)));
-}
+};
 var dataGiB = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (dataBytes(val * Math.pow(1024, 3)));
-}
+};
 
 var format_data = function (params) {
-    divatior = 1024;
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
-
-    var level = Math.floor(Math.log(val) / Math.log(divatior))
+    var divatior = 1024;
+    var val = paramtoval(params);
+    var level = Math.floor(Math.log(val) / Math.log(divatior));
     if (level > 0)
     {
         val = (val / Math.pow(divatior, level));
@@ -250,76 +177,28 @@ var format_data = function (params) {
 };
 
 var format100 = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return val * 100 + " %";
-}
+};
 
 var formathexadecimal0 = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return "0x" + val.toString(16).toUpperCase();
-}
+};
 
 var formathexadecimal = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return val.toString(16).toUpperCase();
-}
+};
 
 
 var formathertz = function (params) {
     return format_metric(params) + "Hz";
-}
+};
 var timens = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
-    divatior = 1000;
-    metric = "ns";
+    var val = paramtoval(params);
+    var divatior = 1000;
+    var metric = "ns";
     if (val > divatior + 1)
     {
         val = val / 1000;
@@ -338,26 +217,14 @@ var timens = function (params) {
     }
 
     return val + " " + metric;
-}
+};
 
 
 
 var timemicros = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
-    divatior = 1000;
-    metric = "µs";
+    var val = paramtoval(params);
+    var divatior = 1000;
+    var metric = "µs";
 
     if (val > divatior + 1)
     {
@@ -371,24 +238,12 @@ var timemicros = function (params) {
     }
 
     return val + " " + metric;
-}
+};
 
 var timems = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
-    divatior = 1000;
-    metric = "ms";
+    var val = paramtoval(params);
+    var divatior = 1000;
+    var metric = "ms";
 
     if (val > divatior + 1)
     {
@@ -396,82 +251,34 @@ var timems = function (params) {
     }
 
     return val + " " + metric;
-}
+};
 
 var timesec = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return format_time(moment.duration(val * 1000));
-}
+};
 
 var timemin = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return format_time(moment.duration(val * 1000 * 60));
-}
+};
 
 var timeh = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return format_time(moment.duration(val * 1000 * 60 * 60));
-}
+};
 
 var timed = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return format_time(moment.duration(val * 1000 * 60 * 60 * 24));
-}
+};
 
 
 
 
 var format_time = function (time, base = "s") {
-    val = time.asSeconds();
-    metric = base;
+    var val = time.asSeconds();
+    var metric = base;
     if (val > 60)
     {
         val = time.asMinutes();
@@ -506,162 +313,215 @@ var format_time = function (time, base = "s") {
     }
 
     return val.toFixed(1) + " " + metric;
-}
+};
 
 var dataBitmetric = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (format_metric(val)) + "b";
-}
+};
 
 var dataBytesmetric = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (format_metric(val)) + "B";
-}
+};
 
 var dataKiBmetric = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (dataBytesmetric(val * Math.pow(1000, 1)));
-}
+};
 
 var dataMiBmetric = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (dataBytesmetric(val * Math.pow(1000, 2)));
-}
+};
+
 var dataGiBmetric = function (params) {
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+    var val = paramtoval(params);
     return (dataBytesmetric(val * Math.pow(1000, 3)));
-}
+};
 
+var formatPpS = function (params) {
+    var val = paramtoval(params);
+    return (format_metric(val)) + "PpS";
+};
 
-var format_metric = function (params) {
-    divatior = 1000;
-    if (isNaN(params))
-    {
-        if (isNaN(params.value))
-        {
-            val = 0;
-        } else
-        {
-            val = params.value;
-        }
-    } else
-    {
-        val = params;
-    }
+var formatbpS = function (params) {
+    var val = paramtoval(params);
+    return (format_metric(val)) + "bpS";
+};
+var formatBpS = function (params) {
+    var val = paramtoval(params);
+    return (format_metric(val)) + "BpS";
+};
+var formatKbpS = function (params) {
+    var val = paramtoval(params);
+    return (formatbpS(val * Math.pow(1000, 1)));
+};
+var formatMbpS = function (params) {
+    var val = paramtoval(params);
+    return (formatbpS(val * Math.pow(1000, 2)));
+};
+var formatGBbpS = function (params) {
+    var val = paramtoval(params);
+    return (formatbpS(val * Math.pow(1000, 3)));
+};
+
+var formatKBpS = function (params) {
+    var val = paramtoval(params);
+    return (formatBpS(val * Math.pow(1000, 1)));
+};
+var formatMBpS = function (params) {
+    var val = paramtoval(params);
+    return (formatBpS(val * Math.pow(1000, 2)));
+};
+var formatGBpS = function (params) {
+    var val = paramtoval(params);
+    return (formatBpS(val * Math.pow(1000, 3)));
+};
+
+var formatops = function (params) {
+    return (format_metric(params)) + " ops";
+};
+var formatrps = function (params) {
+    return (format_metric(params)) + " rps";
+};
+var formatwps = function (params) {
+    return (format_metric(params)) + " wsp";
+};
+var formatiops = function (params) {
+    return (format_metric(params)) + " iops";
+};
+var formatopm = function (params) {
+    return (format_metric(params)) + " opm";
+};
+var formatrpm = function (params) {
+    return (format_metric(params)) + " rpm";
+};
+var formatwpm = function (params) {
+    return (format_metric(params)) + " wpm";
+};
+
+var formatm = function (params) {
+    return (format_metric(params)) + "m";
+};
+
+var formatkm = function (params) {
+    return (format_metric(paramtoval(params) * 1000)) + "m";
+};
+
+var formatmm = function (params) {
+    return (format_metric(paramtoval(params) * Math.pow(10, -3))) + "m";
+};
+var formatmL = function (params) {
+    return (format_metric(paramtoval(params) * Math.pow(10, -3))) + "L";
+//    return (formatL()) + "L";
+};
+var formatL = function (params) {
+    return (format_metric(params, "v")) + "L";
+};
+
+var formatm3 = function (params) {
+    return (format_metric(params, "v")) + "m3";
+};
+
+var format_metric = function (params, type = "m") {
+    divatior = 10;
+    var val = paramtoval(params);
     metric = " ";
-    if (val != 0)
+    if (val !== 0)
     {
-        var level = Math.floor(Math.log(val) / Math.log(divatior))
-        if (level > 0)
+        var level = Math.floor(Math.log(val) / Math.log(divatior));
+        if ((level > 2) || (level < 0))
         {
             val = (val / Math.pow(divatior, level));
+            if (type == "v")
+            {
+                level = level - 2;
+            }
         }
+
         switch (level)
         {
-            case 1:
+            case -1:
+            {
+                metric = " d";
+                break;
+            }
+            case -2:
+            {
+                metric = " c";
+                break;
+            }
+            case -3:
+            {
+                metric = " m";
+                break;
+            }
+            case -4:
+            {
+                metric = " μ";
+                break;
+            }
+            case -5:
+            {
+                metric = " n";
+                break;
+            }
+
+//            case 1:
+//            {
+//                metric = " da";
+//                break;
+//            }
+//            case 2:
+//            {
+//                metric = " h";
+//                break;
+//            }            
+            case 3:
             {
                 metric = " k";
                 break;
             }
-            case 2:
+            case 4:
             {
                 metric = " M";
                 break;
             }
-            case 3:
+            case 5:
             {
                 metric = " G";
                 break;
             }
-            case 4:
+            case 6:
             {
                 metric = " T";
                 break;
             }
-            case 5:
+            case 7:
             {
                 metric = " P";
                 break;
             }
-            case 6:
+            case 8:
             {
                 metric = " E";
 
                 break;
             }
-            case 7:
+            case 9:
             {
                 metric = " Z";
                 break;
             }
-            case 8:
+            case 10:
             {
                 metric = " Y";
                 break;
             }
             default:
             {
-                metric = "";
+                metric = " ";
                 break;
             }
         }
@@ -688,5 +548,24 @@ function clone_obg(obj) {
 
     return temp;
 }
+;
 
+function paramtoval(params)
+{
+    if (isNaN(params))
+    {
+        if (isNaN(params.value))
+        {
+            val = 0;
+        } else
+        {
+            val = params.value;
+        }
+    } else
+    {
+        val = params;
+    }
+    return val;
+}
+;
 
