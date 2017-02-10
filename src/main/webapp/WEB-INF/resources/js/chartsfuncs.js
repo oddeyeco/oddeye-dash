@@ -326,7 +326,7 @@ var dataBytesmetric = function (params) {
 };
 
 var dataKiBmetric = function (params) {
-    var val = paramtoval(params);
+    var val = paramtoval(params);    
     return (dataBytesmetric(val * Math.pow(1000, 1)));
 };
 
@@ -413,8 +413,7 @@ var formatmm = function (params) {
     return (format_metric(paramtoval(params) * Math.pow(10, -3))) + "m";
 };
 var formatmL = function (params) {
-    return (format_metric(paramtoval(params) * Math.pow(10, -3))) + "L";
-//    return (formatL()) + "L";
+    return (formatL(paramtoval(params) * Math.pow(10, -1)));
 };
 var formatL = function (params) {
     return (format_metric(params, "v")) + "L";
@@ -423,23 +422,75 @@ var formatL = function (params) {
 var formatm3 = function (params) {
     return (format_metric(params, "v")) + "m3";
 };
+var formatW = function (params) {
+    return (format_metric(params)) + "W";
+};
+var formatKW = function (params) {    
+    return (formatW(paramtoval(params) * 1000));
+};
+        
+var formatVA = function (params) {
+    return (format_metric(params)) + "VA";
+};        
+var formatKVA = function (params) {
+    return (formatVA(paramtoval(params) * 1000));
+};                
 
+var formatVAR = function (params) {
+    return (format_metric(params)) + "var";
+};        
+
+var formatVH = function (params) {
+    return (format_metric(params)) + "Wh";
+};        
+
+var formatKWH = function (params) {
+    return (formatVH(paramtoval(params) * 1000));
+};        
+
+var formatJ = function (params) {
+    return (format_metric(params)) + "J";
+};        
+
+var formatEV = function (params) {
+    return (format_metric(params)) + "eV";
+};        
+
+var formatA = function (params) {
+    return (format_metric(params)) + "A";
+};   
+
+var formatV = function (params) {
+    return (format_metric(params)) + "V";
+};   
+
+var formatpsi = function (params) {
+    return (format_metric(params)) + "psi";
+};   
+        
 var format_metric = function (params, type = "m") {
-    divatior = 10;
+    var divatior = 10;
     var val = paramtoval(params);
-    metric = " ";
+    var metric = " ";
     if (val !== 0)
-    {
-        var level = Math.floor(Math.log(val) / Math.log(divatior));
-        if ((level > 2) || (level < 0))
+    {                
+        var level = Math.round(Math.log(val) / Math.log(divatior));
+        if ((level > 1) || (level < 0))
         {
             val = (val / Math.pow(divatior, level));
-            if (type == "v")
+            if (type === "v")
             {
                 level = level - 2;
             }
         }
-
+        if (level<-9)
+        {
+            level = -9;
+        }
+        if (level>26)
+        {
+            level = 26;
+        }        
         switch (level)
         {
             case -1:
@@ -453,16 +504,20 @@ var format_metric = function (params, type = "m") {
                 break;
             }
             case -3:
+            case -4:
+            case -5:
             {
                 metric = " m";
                 break;
             }
-            case -4:
+            case -6:
+            case -7:
+            case -8:
             {
                 metric = " μ";
                 break;
             }
-            case -5:
+            case -9:
             {
                 metric = " n";
                 break;
@@ -479,42 +534,58 @@ var format_metric = function (params, type = "m") {
 //                break;
 //            }            
             case 3:
+            case 4:
+            case 5:
             {
                 metric = " k";
                 break;
             }
-            case 4:
+            case 6:
+            case 7:
+            case 8:            
             {
                 metric = " M";
                 break;
             }
-            case 5:
+            case 9:
+            case 10:
+            case 11:
             {
                 metric = " G";
                 break;
             }
-            case 6:
+            case 12:
+            case 13:
+            case 14:
             {
                 metric = " T";
                 break;
             }
-            case 7:
+            case 15:
+            case 16:
+            case 17:
             {
                 metric = " P";
                 break;
             }
-            case 8:
+            case 18:
+            case 19:
+            case 20:
             {
                 metric = " E";
 
                 break;
             }
-            case 9:
+            case 21:
+            case 22:
+            case 23:
             {
                 metric = " Z";
                 break;
             }
-            case 10:
+            case 24:
+            case 25:
+            case 26:
             {
                 metric = " Y";
                 break;
