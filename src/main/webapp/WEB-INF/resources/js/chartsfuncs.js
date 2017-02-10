@@ -199,6 +199,10 @@ var timens = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "ns";
+    if (val<0)
+    {
+      val= 0;  
+    }      
     if (val > divatior + 1)
     {
         val = val / 1000;
@@ -225,7 +229,10 @@ var timemicros = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "µs";
-
+    if (val<0)
+    {
+      val= 0;  
+    }  
     if (val > divatior + 1)
     {
         val = val / 1000;
@@ -244,7 +251,10 @@ var timems = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "ms";
-
+    if (val<0)
+    {
+      val= 0;  
+    }  
     if (val > divatior + 1)
     {
         return format_time(moment.duration(val));
@@ -278,6 +288,10 @@ var timed = function (params) {
 
 var format_time = function (time, base = "s") {
     var val = time.asSeconds();
+    if (val<0)
+    {
+      val= 0;  
+    }    
     var metric = base;
     var isday = false;
     if (val > 60)
