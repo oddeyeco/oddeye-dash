@@ -19,9 +19,9 @@
             data: [
                 {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle: {
                         normal: {
-                            label: {position: "top", formatter: format_func}
+                            label: {position: "top", formatter: format_data}
                         }}},
-                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top', formatter: format_func}}}},
+                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top', formatter: format_data}}}},
             ]
         },
         data: null
@@ -71,7 +71,7 @@
                 {name: 'Curentvalue', value: curentvalue, xAxis: prserie.data[0][0], yAxis: curentvalue}, // When xAxis is the category axis, value 1 will be understood as the index of the category axis. By xAxis: -1 | MAXNUMBER, markLine can reach the edge of the grid.
                 {name: 'Curentvalue', xAxis: prserie.data[prserie.data.length - 1][0], yAxis: curentvalue}, // When xAxis is the category axis, String 'Wednesday' will be understood as matching the category axis text.
             ],
-            itemStyle: {normal: {color: '#ff0000', label: {formatter: format_func}}}
+            itemStyle: {normal: {color: '#ff0000', label: {formatter: format_data}}}
         };
         serie.data = []
         series.push(serie);
@@ -118,7 +118,7 @@
             yAxis: [{
                     type: 'value',
                     axisLabel: {
-                        formatter: format_func
+                        formatter: format_data
                     }
                 }],
             dataZoom: {

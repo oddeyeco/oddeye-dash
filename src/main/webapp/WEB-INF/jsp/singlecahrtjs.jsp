@@ -122,7 +122,7 @@
                 yAxis: [{
                         type: 'value',
                         axisLabel: {
-                            formatter: format_func
+                            formatter: format_data
                         }
                     }],
                 dataZoom: {
@@ -146,11 +146,11 @@
                             data: [
                                 {type: 'max', name: 'max', itemStyle: {
                                         normal: {
-                                            label: {position: "top", formatter: format_func}
+                                            label: {position: "top", formatter: format_data}
                                         }}},
                                 {type: 'min', name: 'min', itemStyle: {
                                         normal: {
-                                            label: {position: "top", formatter: format_func}
+                                            label: {position: "top", formatter: format_data}
                                         }}}
                             ]
                         },
@@ -158,7 +158,7 @@
                             data: [
                                 {type: 'average', name: 'average', itemStyle: {
                                         normal: {
-                                            label: {formatter: format_func}
+                                            label: {formatter: format_data}
                                         }}}
                             ]
                         },
@@ -200,7 +200,7 @@
                             width: 100,
                             height: 40,
                             offsetCenter: ["50%", "140%"],
-                            formatter: format_func,
+                            formatter: format_data,
                             textStyle: {
                                 color: 'auto',
                                 fontSize: 30

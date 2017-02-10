@@ -12,44 +12,6 @@
     var dashJSONvar = ${dashInfo};
     var chartForm;
 
-    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-        var startdate = "5m-ago";
-        var enddate = "now";
-        if (pickerlabel == "Custom")
-        {
-            startdate = pickerstart;
-            enddate = pickerend;
-        } else
-        {
-            if (typeof (rangeslabels[pickerlabel]) !== "undefined")
-            {
-                startdate = rangeslabels[pickerlabel];
-            }
-
-        }
-
-        if ($(".editchartpanel").is(':visible'))
-        {
-            var request_W_index = getParameterByName("widget");
-            var request_R_index = getParameterByName("row");
-            var action = getParameterByName("action");
-
-            showsingleChart(request_R_index, request_W_index, dashJSONvar, action !== "edit");
-            if ($('#axes_mode_x').val() === 'category') {
-                $('.only-Series').show();
-            } else {
-                $('.only-Series').hide();
-            }
-            $("select").select2({minimumResultsForSearch: 15});
-            $(".select2_group").select2({dropdownCssClass: "menu-select"});
-            
-        } else
-        {
-            window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
-            redrawAllJSON(dashJSONvar);
-        }
-    });
-
     $("#addrow").on("click", function () {
         dashJSONvar[Object.keys(dashJSONvar).length] = {widgets: {}};
         redrawAllJSON(dashJSONvar);
@@ -223,7 +185,7 @@
         } else {
             $('.only-Series').hide();
         }
-        $("select").select2({minimumResultsForSearch: 15});
+        $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
         
     });
@@ -409,7 +371,8 @@
                 } else {
                     $('.only-Series').hide();
                 }
-                $("select").select2({minimumResultsForSearch: 15});
+                
+                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
                 $(".select2_group").select2({dropdownCssClass: "menu-select"});
                 
 

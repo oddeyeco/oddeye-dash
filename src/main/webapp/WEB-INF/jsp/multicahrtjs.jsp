@@ -128,7 +128,7 @@
                                 yAxis: [{
                                         type: 'value',
                                         axisLabel: {
-                                            formatter: format_func
+                                            formatter: format_data
                                         }
                                     }],
                                 dataZoom: {

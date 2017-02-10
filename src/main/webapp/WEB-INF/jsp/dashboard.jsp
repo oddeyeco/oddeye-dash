@@ -1,3 +1,4 @@
+<%@ page pageEncoding="UTF-8" %>
 <link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />        
 
 <div class="hidden" id="rowtemplate">
@@ -340,49 +341,50 @@
                                             <label for="axes_unit_left_y" class="control-label control-label-custom-legend" >
                                                 Unit
                                             </label>                                 
-                                            <select id="axes_unit_left_y" axes="yAxis" index="0" name="axes_unit_left_y" chart_prop_key="formatter" class="select2_group form-control axes_select ">                                                
+                                            <select id="axes_unit_left_y" axes="yAxis" index="0" name="axes_unit_left_y" chart_prop_key="unit" class="select2_group form-control axes_select ">                                                
                                                 <optgroup label="None">
-                                                    <option value="">None</option>
-                                                    <option value="{value}">Short</option>
+                                                    <option value= "none" >None</option>
+                                                    <option value= "format_metric" >Short</option>
                                                     <option value="{value} %">Percent(0-100)</option>
-                                                    <option value="{value}*100 %">Percent(0.0-1.0)</option>
+                                                    <option value= "format100">Percent(0.0-1.0)</option>
                                                     <option value="{value} %H">Humidity(%H)</option>
                                                     <option value="{value} ppm">PPM</option>
                                                     <option value="{value} dB">Decible</option>
-                                                    <option value="0x{value}">Hexadecimal(0x)</option>
-                                                    <option value="{value}">Hexadecimal</option>
+                                                    <option value = "formathexadecimal0">Hexadecimal(0x)</option>
+                                                    <option value = "formathexadecimal">Hexadecimal</option>
                                                 </optgroup>                                                
                                                 <optgroup label="Currency">
-                                                    <option value="$ {value}">Dollars</option>
-                                                    <option value="{value} £">Pounds</option>
-                                                    <option value="{value} ?">Euro</option>
-                                                    <option value="{value} ¥">Yen</option>
-                                                    <option value="{value} ?">Rubles</option>
+                                                    <option value="$ {value}">Dollars ($)</option>
+                                                    <option value="Â£ {value}">Pounds (Â£)</option>
+                                                    <option value="â‚¬ {value}">Euro (â‚¬)</option>
+                                                    <option value="Â¥ {value}">Yen (Â¥)</option>
+                                                    <option value="â‚½ {value}">Rubles (â‚½)</option>
                                                 </optgroup>                                
                                                 <optgroup label="Time">
-                                                    <option value="{value} hz">Hertz (1/s)</option>
-                                                    <option value="{value} ns">Nanoseconds (ns)</option>
-                                                    <option value="{value} ms">Milliseconds (ms)</option>
-                                                    <option value="{value} s">Seconds (s)</option>
-                                                    <option value="{value} m">Minutes (m)</option>
-                                                    <option value="{value} h">Hours (h)</option>
-                                                    <option value="{value} d">Days d</option>
-                                                    <option value="{value} ms">Duration (ms)</option>
-                                                    <option value="{value} s">Duration (s)</option>
+                                                    <option value = "formathertz">Hertz (1/s)</option>
+                                                    <option value="timens">Nanoseconds (ns)</option>
+                                                    <option value="timemicros">microseconds (Âµs)</option>
+                                                    <option value="timems">Milliseconds (ms)</option>
+                                                    <option value="timesec">Seconds (s)</option>
+                                                    <option value="timemin">Minutes (m)</option>
+                                                    <option value="timeh">Hours (h)</option>
+                                                    <option value="timed">Days d</option>
+<!--                                                    <option value="{value} ms">Duration (ms)</option>
+                                                    <option value="{value} s">Duration (s)</option>-->
                                                 </optgroup>                                                                                                                                
                                                 <optgroup label="Data IEC">
-                                                    <option value="{value} Bit">Bits</option>
-                                                    <option value="{value} B">Bytes</option>
-                                                    <option value="{value} KiB">Kibibytes</option>
-                                                    <option value="{value} MiB">Mebibytes</option>
-                                                    <option value="{value} GiB">Gibibytes</option>
+                                                    <option value="dataBit">Bits</option>
+                                                    <option value="dataBytes">Bytes</option>
+                                                    <option value="dataKiB">Kibibytes</option>
+                                                    <option value="dataMiB">Mebibytes</option>
+                                                    <option value="dataGiB">Gibibytes</option>
                                                 </optgroup>
                                                 <optgroup label="Data (Metric)">
-                                                    <option value="{value} Bit">Bits</option>
-                                                    <option value="{value} B">Bytes</option>
-                                                    <option value="{value} KB">Kilobytes</option>
-                                                    <option value="{value} MB">Megabytes</option>
-                                                    <option value="{value} GB">Gigabytes</option>
+                                                    <option value="dataBitmetric">Bits</option>
+                                                    <option value="dataBytesmetric">Bytes</option>
+                                                    <option value="dataKiBmetric">Kilobytes</option>
+                                                    <option value="dataMiBmetric">Megabytes</option>
+                                                    <option value="dataGiBmetric">Gigabytes</option>                                                   
                                                 </optgroup>
                                                 <optgroup label="Data Rate">
                                                     <option value="{value} PpS">Packets/s</option>
@@ -425,8 +427,8 @@
                                                     <option value="{value} DBM">Decibell-Milliwatt (DBM)</option>
                                                 </optgroup>
                                                 <optgroup label="Temperature">
-                                                    <option value="{value} °C">Celsius (°C)</option>
-                                                    <option value="{value} °F">Farenheit (°F)</option>
+                                                    <option value="{value} Â°C">Celsius (Â°C)</option>
+                                                    <option value="{value} Â°F">Farenheit (Â°F)</option>
                                                     <option value="{value} K">Kelvin (K)</option>
                                                 </optgroup>
                                                 <optgroup label="Pressure">
@@ -494,7 +496,7 @@
                                                 <label for="axes_unit_right_y" class="control-label control-label-custom-legend" >
                                                     Unit
                                                 </label>                                 
-                                                <select id="axes_unit_right_y" name="axes_unit_right_y" axes="yAxis" index="1" chart_prop_key="formatter" class="select2_group form-control axes_select ">                                                
+                                                <select id="axes_unit_right_y" name="axes_unit_right_y" axes="yAxis" index="1" chart_prop_key="unit" class="select2_group form-control axes_select ">                                                
                                                     <optgroup label="None">
                                                         <option value="">None</option>
                                                         <option value="{value}">Short</option>
@@ -508,9 +510,9 @@
                                                     </optgroup>                                                
                                                     <optgroup label="Currency">
                                                         <option value="$ {value}">Dollars</option>
-                                                        <option value="{value} £">Pounds</option>
+                                                        <option value="{value} Â£">Pounds</option>
                                                         <option value="{value} ?">Euro</option>
-                                                        <option value="{value} ¥">Yen</option>
+                                                        <option value="{value} Â¥">Yen</option>
                                                         <option value="{value} ?">Rubles</option>
                                                     </optgroup>                                
                                                     <optgroup label="Time">
@@ -579,8 +581,8 @@
                                                         <option value="{value} DBM">Decibell-Milliwatt (DBM)</option>
                                                     </optgroup>
                                                     <optgroup label="Temperature">
-                                                        <option value="{value} °C">Celsius (°C)</option>
-                                                        <option value="{value} °F">Farenheit (°F)</option>
+                                                        <option value="{value} Â°C">Celsius (Â°C)</option>
+                                                        <option value="{value} Â°F">Farenheit (Â°F)</option>
                                                         <option value="{value} K">Kelvin (K)</option>
                                                     </optgroup>
                                                     <optgroup label="Pressure">
