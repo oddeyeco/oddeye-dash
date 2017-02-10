@@ -279,39 +279,44 @@ var timed = function (params) {
 var format_time = function (time, base = "s") {
     var val = time.asSeconds();
     var metric = base;
+    var isday = false;
     if (val > 60)
     {
         val = time.asMinutes();
         metric = "min";
     }
+
     if (val > 60)
     {
         val = time.asHours();
         metric = "h";
     }
+    //TODO FOX week konvert
     if (val > 24)
     {
         val = time.asDays();
         metric = "day";
+        var isday = true;
     }
-
-    if (val > 7)
+    if (isday)
     {
-        val = time.asWeeks();
-        metric = "week";
-    }
-    if (val > 31)
-    {
-        val = time.asMonths();
-        metric = "month";
-    }
+        if (val > 7)
+        {
+            val = time.asWeeks();
+            metric = "week";
+        }
+        if (val > 31)
+        {
+            val = time.asMonths();
+            metric = "month";
+        }
 
-    if (val > 12)
-    {
-        val = time.asYears();
-        metric = "year";
+        if (val > 12)
+        {
+            val = time.asYears();
+            metric = "year";
+        }
     }
-
     return val.toFixed(1) + " " + metric;
 };
 
@@ -326,7 +331,7 @@ var dataBytesmetric = function (params) {
 };
 
 var dataKiBmetric = function (params) {
-    var val = paramtoval(params);    
+    var val = paramtoval(params);
     return (dataBytesmetric(val * Math.pow(1000, 1)));
 };
 
@@ -425,55 +430,55 @@ var formatm3 = function (params) {
 var formatW = function (params) {
     return (format_metric(params)) + "W";
 };
-var formatKW = function (params) {    
+var formatKW = function (params) {
     return (formatW(paramtoval(params) * 1000));
 };
-        
+
 var formatVA = function (params) {
     return (format_metric(params)) + "VA";
-};        
+};
 var formatKVA = function (params) {
     return (formatVA(paramtoval(params) * 1000));
-};                
+};
 
 var formatVAR = function (params) {
     return (format_metric(params)) + "var";
-};        
+};
 
 var formatVH = function (params) {
     return (format_metric(params)) + "Wh";
-};        
+};
 
 var formatKWH = function (params) {
     return (formatVH(paramtoval(params) * 1000));
-};        
+};
 
 var formatJ = function (params) {
     return (format_metric(params)) + "J";
-};        
+};
 
 var formatEV = function (params) {
     return (format_metric(params)) + "eV";
-};        
+};
 
 var formatA = function (params) {
     return (format_metric(params)) + "A";
-};   
+};
 
 var formatV = function (params) {
     return (format_metric(params)) + "V";
-};   
+};
 
 var formatpsi = function (params) {
     return (format_metric(params)) + "psi";
-};   
-        
+};
+
 var format_metric = function (params, type = "m") {
     var divatior = 10;
     var val = paramtoval(params);
     var metric = " ";
     if (val !== 0)
-    {                
+    {
         var level = Math.round(Math.log(val) / Math.log(divatior));
         if ((level > 1) || (level < 0))
         {
@@ -483,14 +488,14 @@ var format_metric = function (params, type = "m") {
                 level = level - 2;
             }
         }
-        if (level<-9)
+        if (level < -9)
         {
             level = -9;
         }
-        if (level>26)
+        if (level > 26)
         {
             level = 26;
-        }        
+        }
         switch (level)
         {
             case -1:
@@ -503,15 +508,15 @@ var format_metric = function (params, type = "m") {
                 metric = " c";
                 break;
             }
-            case -3:
-            case -4:
+            case - 3:
+            case - 4:
             case -5:
             {
                 metric = " m";
                 break;
             }
-            case -6:
-            case -7:
+            case - 6:
+            case - 7:
             case -8:
             {
                 metric = " μ";
@@ -542,7 +547,7 @@ var format_metric = function (params, type = "m") {
             }
             case 6:
             case 7:
-            case 8:            
+            case 8:
             {
                 metric = " M";
                 break;
