@@ -13,8 +13,6 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.LevelsValidator;
 import co.oddeye.concout.validator.UserValidator;
-import co.oddeye.core.AlertLevel;
-import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;

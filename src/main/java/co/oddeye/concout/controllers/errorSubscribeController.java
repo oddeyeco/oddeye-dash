@@ -80,6 +80,7 @@ public class errorSubscribeController {
                     if (metricMeta.isSpecial()) {
                         if (jsonResult.getAsJsonObject().get("message") != null) {                            
                             long time = jsonResult.getAsJsonObject().get("time").getAsLong();
+                             metricMeta = MetaDao.updateMeta(metricMeta);
                             long DURATION = time - metricMeta.getLasttime();
                             message = jsonResult.getAsJsonObject().get("message").getAsString();
                             message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");                            

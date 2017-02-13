@@ -238,4 +238,9 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return true;
     }
 
+    public OddeeyMetricMeta updateMeta(OddeeyMetricMeta metric) {
+        metric.update(table,BaseTsdbV.getTsdb().getClient());
+        return metric;
+    }
+
 }

@@ -157,8 +157,8 @@ public class UserController {
                         item.getAsJsonObject().addProperty("isspec", metric.isSpecial() ? 1 : 0);
                         
                         if (metric.isSpecial())
-                        {
-                            
+                        {                            
+                            metric = MetaDao.updateMeta(metric);
                             long DURATION = time - metric.getLasttime();
                             message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");
                             item.addProperty("message", message);                        
