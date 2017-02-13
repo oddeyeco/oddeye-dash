@@ -60,6 +60,8 @@ define(function (require) {
     var PRIORITY_VISUAL_GLOBAL = 2000;
     var PRIORITY_VISUAL_CHART = 3000;
     var PRIORITY_VISUAL_COMPONENT = 4000;
+    // FIXME
+    // necessary?
     var PRIORITY_VISUAL_BRUSH = 5000;
 
     // Main process have three entries: `setOption`, `dispatchAction` and `resize`,
@@ -200,6 +202,9 @@ define(function (require) {
         timsort(dataProcessorFuncs, prioritySortFunc);
 
         zr.animation.on('frame', this._onframe, this);
+
+        // ECharts instance can be used as value.
+        zrUtil.setAsPrimitive(this);
     }
 
     var echartsProto = ECharts.prototype;
@@ -207,6 +212,7 @@ define(function (require) {
     echartsProto._onframe = function () {
         // Lazy update
         if (this[OPTION_UPDATED]) {
+            var silent = this[OPTION_UPDATED].silent;
 
             this[IN_MAIN_PROCESS] = true;
 
@@ -215,6 +221,10 @@ define(function (require) {
             this[IN_MAIN_PROCESS] = false;
 
             this[OPTION_UPDATED] = false;
+
+            flushPendingActions.call(this, silent);
+
+            triggerUpdatedEvent.call(this, silent);
         }
     };
     /**
@@ -232,13 +242,29 @@ define(function (require) {
     };
 
     /**
+     * Usage:
+     * chart.setOption(option, notMerge, lazyUpdate);
+     * chart.setOption(option, {
+     *     notMerge: ...,
+     *     lazyUpdate: ...,
+     *     silent: ...
+     * });
+     *
      * @param {Object} option
-     * @param {boolean} notMerge
-     * @param {boolean} [lazyUpdate=false] Useful when setOption frequently.
+     * @param {Object|boolean} [opts] opts or notMerge.
+     * @param {boolean} [opts.notMerge=false]
+     * @param {boolean} [opts.lazyUpdate=false] Useful when setOption frequently.
      */
     echartsProto.setOption = function (option, notMerge, lazyUpdate) {
         if (__DEV__) {
             zrUtil.assert(!this[IN_MAIN_PROCESS], '`setOption` should not be called during main process.');
+        }
+
+        var silent;
+        if (zrUtil.isObject(notMerge)) {
+            lazyUpdate = notMerge.lazyUpdate;
+            silent = notMerge.silent;
+            notMerge = notMerge.notMerge;
         }
 
         this[IN_MAIN_PROCESS] = true;
@@ -260,19 +286,21 @@ define(function (require) {
         this._model.setOption(option, optionPreprocessorFuncs);
 
         if (lazyUpdate) {
-            this[OPTION_UPDATED] = true;
+            this[OPTION_UPDATED] = {silent: silent};
+            this[IN_MAIN_PROCESS] = false;
         }
         else {
             updateMethods.prepareAndUpdate.call(this);
             // Ensure zr refresh sychronously, and then pixel in canvas can be
             // fetched after `setOption`.
             this._zr.flush();
+
             this[OPTION_UPDATED] = false;
+            this[IN_MAIN_PROCESS] = false;
+
+            flushPendingActions.call(this, silent);
+            triggerUpdatedEvent.call(this, silent);
         }
-
-        this[IN_MAIN_PROCESS] = false;
-
-        flushPendingActions.call(this, false);
     };
 
     /**
@@ -308,6 +336,13 @@ define(function (require) {
      */
     echartsProto.getHeight = function () {
         return this._zr.getHeight();
+    };
+
+    /**
+     * @return {number}
+     */
+    echartsProto.getDevicePixelRatio = function () {
+        return this._zr.painter.dpr || window.devicePixelRatio || 1;
     };
 
     /**
@@ -513,7 +548,7 @@ define(function (require) {
      *            geoIndex / geoId / geoName,
      *            bmapIndex / bmapId / bmapName,
      *            xAxisIndex / xAxisId / xAxisName,
-     *            yAxisIndex / yAxisId / yAxisName
+     *            yAxisIndex / yAxisId / yAxisName,
      *            gridIndex / gridId / gridName,
      *            ... (can be extended)
      *        }
@@ -598,6 +633,24 @@ define(function (require) {
             : data.getVisual(visualType);
     };
 
+    /**
+     * Get view of corresponding component model
+     * @param  {module:echarts/model/Component} componentModel
+     * @return {module:echarts/view/Component}
+     */
+    echartsProto.getViewOfComponentModel = function (componentModel) {
+        return this._componentsMap[componentModel.__viewId];
+    };
+
+    /**
+     * Get view of corresponding series model
+     * @param  {module:echarts/model/Series} seriesModel
+     * @return {module:echarts/view/Chart}
+     */
+    echartsProto.getViewOfSeriesModel = function (seriesModel) {
+        return this._chartsMap[seriesModel.__viewId];
+    };
+
 
     var updateMethods = {
 
@@ -606,7 +659,7 @@ define(function (require) {
          * @private
          */
         update: function (payload) {
-            // console.time && console.time('update');
+            // console.profile && console.profile('update');
 
             var ecModel = this._model;
             var api = this._api;
@@ -679,7 +732,11 @@ define(function (require) {
                 }
             }
 
-            // console.time && console.timeEnd('update');
+            each(postUpdateFuncs, function (func) {
+                func(ecModel, api);
+            });
+
+            // console.profile && console.profileEnd('update');
         },
 
         /**
@@ -799,6 +856,7 @@ define(function (require) {
      * @param {Object} opts
      * @param {number} [opts.width] Can be 'auto' (the same as null/undefined)
      * @param {number} [opts.height] Can be 'auto' (the same as null/undefined)
+     * @param {boolean} [opts.silent=false]
      */
     echartsProto.resize = function (opts) {
         if (__DEV__) {
@@ -810,14 +868,20 @@ define(function (require) {
         this._zr.resize(opts);
 
         var optionChanged = this._model && this._model.resetOption('media');
-        updateMethods[optionChanged ? 'prepareAndUpdate' : 'update'].call(this);
+        var updateMethod = optionChanged ? 'prepareAndUpdate' : 'update';
+
+        updateMethods[updateMethod].call(this);
 
         // Resize loading effect
         this._loadingFX && this._loadingFX.resize();
 
         this[IN_MAIN_PROCESS] = false;
 
-        flushPendingActions.call(this);
+        var silent = opts && opts.silent;
+
+        flushPendingActions.call(this, silent);
+
+        triggerUpdatedEvent.call(this, silent);
     };
 
     /**
@@ -885,14 +949,6 @@ define(function (require) {
             return;
         }
 
-        // if (__DEV__) {
-        //     zrUtil.assert(
-        //         !this[IN_MAIN_PROCESS],
-        //         '`dispatchAction` should not be called during main process.'
-        //         + 'unless updateMathod is "none".'
-        //     );
-        // }
-
         // May dispatchAction in rendering procedure
         if (this[IN_MAIN_PROCESS]) {
             this._pendingActions.push(payload);
@@ -914,6 +970,8 @@ define(function (require) {
         }
 
         flushPendingActions.call(this, opt.silent);
+
+        triggerUpdatedEvent.call(this, opt.silent);
     };
 
     function doDispatchAction(payload, silent) {
@@ -999,6 +1057,10 @@ define(function (require) {
         }
     }
 
+    function triggerUpdatedEvent(silent) {
+        !silent && this.trigger('updated');
+    }
+
     /**
      * Register event
      * @method
@@ -1034,6 +1096,11 @@ define(function (require) {
 
         // If use hover layer
         updateHoverLayerStatus(this._zr, ecModel);
+
+        // Post render
+        each(postUpdateFuncs, function (func) {
+            func(ecModel, api);
+        });
     }
 
     /**
@@ -1395,6 +1462,12 @@ define(function (require) {
     var optionPreprocessorFuncs = [];
 
     /**
+     * @type {Array.<Function>}
+     * @inner
+     */
+    var postUpdateFuncs = [];
+
+    /**
      * Visual encoding functions of each stage
      * @type {Array.<Object.<string, Function>>}
      * @inner
@@ -1424,9 +1497,9 @@ define(function (require) {
         /**
          * @type {number}
          */
-        version: '3.3.2',
+        version: '3.4.0',
         dependencies: {
-            zrender: '3.2.2'
+            zrender: '3.3.0'
         }
     };
 
@@ -1603,6 +1676,14 @@ define(function (require) {
             prio: priority,
             func: processorFunc
         });
+    };
+
+    /**
+     * Register postUpdater
+     * @param {Function} postUpdateFunc
+     */
+    echarts.registerPostUpdate = function (postUpdateFunc) {
+        postUpdateFuncs.push(postUpdateFunc);
     };
 
     /**
@@ -1815,12 +1896,14 @@ define(function (require) {
     each([
             'map', 'each', 'filter', 'indexOf', 'inherits', 'reduce', 'filter',
             'bind', 'curry', 'isArray', 'isString', 'isObject', 'isFunction',
-            'extend', 'defaults', 'clone'
+            'extend', 'defaults', 'clone', 'merge'
         ],
         function (name) {
             echarts.util[name] = zrUtil[name];
         }
     );
+
+    echarts.helper = require('./helper');
 
     // PRIORITY
     echarts.PRIORITY = {

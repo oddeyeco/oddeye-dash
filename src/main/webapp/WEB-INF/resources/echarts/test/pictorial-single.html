@@ -142,7 +142,7 @@
                         normal: {
                             show: true,
                             position: 'top',
-                            formatter: '{c} km',
+                            formatter: '{c} m',
                             textStyle: {
                                 fontSize: 16,
                                 color: '#e54035'
@@ -167,7 +167,7 @@
                         symbol: 'image://./data/hill-Qomolangma.png',
                         symbolSize: ['200%', '105%'],
                         symbolPosition: 'end',
-                        z2: 10
+                        z: 10
                     }, {
                         value: 5895,
                         symbol: 'image://./data/hill-Kilimanjaro.png',
@@ -192,7 +192,6 @@
                 }, {
                     name: 'all',
                     type: 'pictorialBar',
-                    barGap: '-100%',
                     symbol: 'circle',
                     itemStyle: {
                         normal: {
@@ -402,7 +401,6 @@
                 }, {
                     name: 'glyph',
                     type: 'pictorialBar',
-                    barGap: '-100%',
                     symbolPosition: 'end',
                     symbolSize: [25, 25],
                     symbolOffset: [0, -35],
@@ -515,7 +513,6 @@
                 }, {
                     name: 'full',
                     type: 'pictorialBar',
-                    barGap: '-100%',
                     symbolBoundingData: bodyMax,
                     itemStyle: {
                         normal: {
@@ -633,8 +630,8 @@
                     }, {
                         name: 'line',
                         type: 'bar',
-                        barGap: '-100%',
                         barWidth: 10,
+                        barGap: '-100%',
                         itemStyle: {
                             normal: {
                                 color: new echarts.graphic.LinearGradient(

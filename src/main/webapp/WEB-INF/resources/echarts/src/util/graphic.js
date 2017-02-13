@@ -349,7 +349,8 @@ define(function(require) {
     }
 
     /**
-     * Set hover style of element
+     * Set hover style of element.
+     * This method can be called repeatly without side-effects.
      * @param {module:zrender/Element} el
      * @param {Object} [hoverStyle]
      * @param {Object} [opt]
@@ -392,12 +393,14 @@ define(function(require) {
      */
     graphic.setText = function (textStyle, labelModel, color) {
         var labelPosition = labelModel.getShallow('position') || 'inside';
+        var labelOffset = labelModel.getShallow('offset');
         var labelColor = labelPosition.indexOf('inside') >= 0 ? 'white' : color;
         var textStyleModel = labelModel.getModel('textStyle');
         zrUtil.extend(textStyle, {
             textDistance: labelModel.getShallow('distance') || 5,
             textFont: textStyleModel.getFont(),
             textPosition: labelPosition,
+            textOffset: labelOffset,
             textFill: textStyleModel.getTextColor() || labelColor
         });
     };

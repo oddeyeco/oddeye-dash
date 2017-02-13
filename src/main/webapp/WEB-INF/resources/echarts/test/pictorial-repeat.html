@@ -29,8 +29,10 @@
             }
         </style>
 
-        <h2>vertical | no clip | symbol w/h ratio and margin adjust</h2>
+        <h2>vertical | no clip | symbol w/h ratio and margin '40%!'</h2>
         <div class="chart" id="main1"></div>
+        <h2>vertical | no clip | symbol w/h ratio and margin '40%' (notice 0 value)</h2>
+        <div class="chart" id="main1.x"></div>
         <h2>vertical | clip | fixed repeatTimes</h2>
         <div class="chart" id="main1.1"></div>
         <h2>dataURI | symbolSize responsive (<strong>TRY RESIZE</strong>)</h2>
@@ -116,12 +118,13 @@
                     label: {
                         normal: {
                             show: true,
-                            position: 'outside'
+                            position: 'outside',
+                            offset: [40, 0]
                         }
                     },
                     symbol: pathSymbols.plane,
                     symbolRepeat: true,
-                    symbolMargin: '40%',
+                    symbolMargin: '40%!',
                     symbolSize: ['100%', '80%'],
                     z: 10,
                     data: [12, 60, 54, '-', 23, -16, 0, 25]
@@ -129,8 +132,9 @@
                     name: 'data2',
                     type: 'pictorialBar',
                     symbol: pathSymbols.plane,
+                    barGap: '20%',
                     symbolRepeat: true,
-                    symbolMargin: '40%',
+                    symbolMargin: '40%!',
                     symbolSize: ['100%', '80%'],
                     z: 10,
                     data: [33, 1, 41, -18, 23, -56, 0, 15]
@@ -149,6 +153,72 @@
         </script>
 
 
+
+
+
+
+
+
+
+        <script>
+            makeChart('main1.x', {
+                legend: {
+                    data: ['data', 'data2', 'bg', 'original bar', 'original bg'],
+                    selected: {
+                        'original bar': false,
+                        'original bg': false
+                    }
+                },
+                tooltip: {
+                },
+                yAxis: {
+                    data: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
+                    axisTick: {show: false}
+                },
+                xAxis: {
+                    splitLine: {show: false}
+                },
+                // animationDuration: 2000,
+                // animationDurationUpdate: 2000,
+                series: [{
+                    name: 'data',
+                    type: 'pictorialBar',
+                    label: {
+                        normal: {
+                            show: true,
+                            position: 'outside',
+                            offset: [40, 0]
+                        }
+                    },
+                    symbol: pathSymbols.plane,
+                    symbolRepeat: true,
+                    symbolMargin: '40%',
+                    symbolSize: ['100%', '80%'],
+                    z: 10,
+                    data: [12, 60, 54, '-', 23, -16, 0, 25]
+                }, {
+                    name: 'data2',
+                    type: 'pictorialBar',
+                    symbol: pathSymbols.plane,
+                    barGap: '20%',
+                    symbolRepeat: true,
+                    symbolMargin: '40%',
+                    symbolSize: ['100%', '80%'],
+                    z: 10,
+                    data: [33, 1, 41, -18, 23, -56, 0, 15]
+                }, {
+                    name: 'original bar',
+                    type: 'bar',
+                    color: ['rgba(0,0,0,0.5)'],
+                    data: [12, 60, 54, '-', 23, -16, 0, 25]
+                }, {
+                    name: 'original bg',
+                    type: 'bar',
+                    color: ['rgba(0,0,0,0.5)'],
+                    data: [60, 60, 60, '-', 60, -30, 60, 60]
+                }]
+            });
+        </script>
 
 
 
@@ -193,7 +263,6 @@
                     },
                     animation: false,
                     silent: true,
-                    barGap: '-100%',
                     data: [12, 60, 54, 25, 23, 16, 1, 25],
                     z: -1
                 }, {
@@ -248,7 +317,6 @@
                     name: 'glyph',
                     type: 'pictorialBar',
                     symbol: 'rect',
-                    barGap: '-100%',
                     symbolSize: ['20%', 24],
                     symbolPosition: 'center',
                     itemStyle: {
@@ -307,7 +375,6 @@
                 series: [{
                     name: 'data',
                     type: 'pictorialBar',
-                    barGap: '-100%',
                     symbol: pathSymbols.pumpkin,
                     symbolRotate: 30,
                     itemStyle: {
@@ -391,7 +458,6 @@
                 series: [{
                     name: 'bg',
                     type: 'pictorialBar',
-                    barGap: '-100%',
                     symbol: pathSymbols.pumpkin,
                     itemStyle: {
                         normal: {
@@ -596,7 +662,6 @@
                 }, {
                     name: 'shadow2',
                     type: 'bar',
-                    barGap: '-100%',
                     data: [29000, 29000, 29000, 29000, 29000, 29000, 29000, 29000, 29000, 19000, 19000, 19000, 19000, 19000, 19000, 19000, 19]
                 }]
             });
@@ -723,7 +788,6 @@
                 }, {
                     name: 'all',
                     type: 'pictorialBar',
-                    barGap: '-100%',
                     symbol: 'circle',
                     itemStyle: {
                         normal: {

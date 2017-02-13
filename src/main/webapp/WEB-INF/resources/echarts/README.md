@@ -6,6 +6,8 @@
 
 ECharts is a free, powerful charting and visualization library offering an easy way of adding intuitive, interactive, and highly customizable charts to your commercial products. It is written in pure JavaScript and based on <a href="https://github.com/ecomfe/zrender">zrender</a>, which is a whole new lightweight canvas library.
 
+**[中文官网](http://echarts.baidu.com)** | **[HOMEPAGE EN](http://ecomfe.github.io/echarts-doc/public/en/index.html)**
+
 ## Get ECharts
 
 + Download on [echarts.baidu.com](http://echarts.baidu.com/download.html)
@@ -27,13 +29,15 @@ ECharts is a free, powerful charting and visualization library offering an easy 
 
 ## Resources
 
-### Awesome ECharts 
+### Awesome ECharts
 
 [https://github.com/ecomfe/awesome-echarts](https://github.com/ecomfe/awesome-echarts)
 
 ### Extensions
 
 + [百度地图扩展](https://github.com/ecomfe/echarts/tree/master/extension/bmap)
+
++ [水球图 liquidfill](https://github.com/ecomfe/echarts-liquidfill)
 
 + [字符云 wordcloud](https://github.com/ecomfe/echarts-wordcloud)
 
@@ -52,13 +56,19 @@ ECharts is a free, powerful charting and visualization library offering an easy 
 
 + [vue-echarts](https://github.com/Justineo/vue-echarts) by Justineo
 + [vue-echarts](https://github.com/panteng/vue-echarts) by panteng
++ [vue-echarts-v3](https://github.com/xlsdg/vue-echarts-v3) by xlsdg
 
 #### React Component
 
 + [echarts-for-react](https://github.com/hustcc/echarts-for-react) by hustcc
 + [react-echarts](https://github.com/somonus/react-echarts) by somonus
 + [re-echarts](https://github.com/liekkas/re-echarts) by liekkas
++ [react-echarts-v3](https://github.com/xlsdg/react-echarts-v3) by xlsdg
++ [d2recharts](https://github.com/leungwensen/d2recharts) by leungwensen
 
+#### React Native Component
+
++ [react-native-echarts](https://github.com/somonus/react-native-echarts) by somonus
 
 ### Other Languages
 #### Python
