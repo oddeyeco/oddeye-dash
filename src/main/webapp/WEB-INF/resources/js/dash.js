@@ -43,7 +43,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                                 chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
                                 delete dateval;
                             }
-                            series.data = chdata;
+                            series.data = chdata;                            
                             series.symbol = option.points;
                             if (!series.itemStyle)
                             {
@@ -58,7 +58,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                                 if (!series.itemStyle.normal.areaStyle)
                                 {
                                     series.itemStyle.normal.areaStyle = {};
-                                }                                
+                                }
                                 series.itemStyle.normal.areaStyle.type = 'default';
                             } else
                             {

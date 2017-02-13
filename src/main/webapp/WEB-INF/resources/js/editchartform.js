@@ -28,6 +28,9 @@ class ChartEditForm {
             this.formwraper.find("#tab_metrics input#down-sample").val("");
         }
 
+      
+
+
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation) == "undefined")
         {
             var input = this.formwraper.find("#display_animation");
@@ -133,6 +136,18 @@ class ChartEditForm {
         var key;
         var formObj = this;
 
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid) !== "undefined")
+        {
+            for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid)
+            {
+                
+                var inputs = this.formwraper.find("#tab_display .grid [chart_prop_key='" + key + "']");                
+                inputs.each(function () {
+                    formObj.fillinputs($(this), "grid", key);
+                })                    
+            }
+
+        }
 
         for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0])
         {
@@ -328,6 +343,22 @@ class ChartEditForm {
             {
                 this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
             }
+
+            if (input.parents(".form_main_block").hasClass("grid"))
+            {
+                if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid)
+                {
+                    this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid = {};
+                }
+                if (input.val() != "")
+                {
+                    this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid[key] = input.val();
+                } else
+                {
+                    delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid[key];
+                }
+            }
+
 //this.dashJSON[this.row]["widgets"][this.index].type
         }
         if (input.parents("form").hasClass("edit-axes"))
