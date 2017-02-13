@@ -44,6 +44,20 @@ function setdatabyQueryes(option, url, start, end, chart)
                                 delete dateval;
                             }
                             series.data = chdata;
+                            series.symbol = option.points;
+//                            var zrColor = require('zrender/tool/color');
+//                            console.log(zrColor.getLinearGradient(
+//                                0, 200, 0, 400,
+//                                [[0, 'rgba(255,0,0,0.8)'],[0.8, 'rgba(255,255,255,0.1)']]
+//                            ));
+                            series.itemStyle = {
+                                normal: {
+                                    areaStyle: {
+                                        color: (function (index,colorPalette){console.log(index%colorPalette.length); return colorPalette[index%colorPalette.length]})(option.tmpoptions.series.length,colorPalette)
+
+                                    }
+                                }
+                            };
                             option.tmpoptions.series.push(series);
                         }
                     }
@@ -53,6 +67,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                 if (option.tmpoptions.xAxis[0].type == "category")
                 {
 //                    console.log(option.tmpoptions.xAxis[0]);
+                    option.tmpoptions.series = [];
                     var m_sample = option.tmpoptions.xAxis[0].m_sample;
                     var tag = option.tmpoptions.xAxis[0].m_tags;
                     var xdata = [];
@@ -110,7 +125,8 @@ function setdatabyQueryes(option, url, start, end, chart)
                     }
                     var series = clone_obg(defserie);
                     series.data = sdata;
-                    series.type = "bar";
+                    series.type = option.type;
+
                     option.tmpoptions.tooltip.trigger = 'item';
 
                     series.itemStyle = {
@@ -144,10 +160,6 @@ function setdatabyQueryes(option, url, start, end, chart)
                     }
                 }
             }
-
-
-
-
             chart.setOption(option.tmpoptions);
         });
     }
@@ -222,7 +234,8 @@ function redrawAllJSON(dashJSON)
         $("#rowtemplate .widgetraw").attr("id", "row");
         for (widgetindex in    dashJSON[rowindex]["widgets"])
         {
-            if (dashJSON[rowindex]["widgets"][widgetindex].type === "linechart")
+//            if (dashJSON[rowindex]["widgets"][widgetindex].type === "line")
+            if (true)
             {
                 var bkgclass = ""
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) == "undefined")
@@ -296,11 +309,6 @@ function redrawAllJSON(dashJSON)
                         dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].tmpoptions);
                     }
                 }
-//                } 
-//                else
-//                {
-//                    options = dashJSON[rowindex]["widgets"][widgetindex].echartLine.getOption();
-//                }
                 $("#charttemplate .chartsection").attr("id", "widget");
             }
         }

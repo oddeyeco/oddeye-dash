@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
+
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script src="${cp}/resources/js/dash.js"></script>
@@ -80,7 +81,7 @@
     $('body').on("click", ".addchart", function () {
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-        dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "linechart"};
+        dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
         //        $(this).parents(".x_content").first().find(".rowcontent").append($("#charttemplate").html());
 
         itemcount = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
@@ -162,7 +163,8 @@
                 success: function (data) {
                     if (data.sucsses)
                     {
-                        window.location = "${cp}/dashboard/" + senddata.name;
+//                        window.location = "${cp}/dashboard/" + senddata.name;
+                        window.location.reload();
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {

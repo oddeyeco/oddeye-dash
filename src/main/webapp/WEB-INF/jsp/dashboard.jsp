@@ -78,7 +78,7 @@
     <div class="x_title">
         <h1 class="col-md-3">Edit Chart</h1>              
         <div class="pull-right">
-            <!--<a class="btn btn-primary" type="button">Save </a>-->
+            <a class="btn btn-primary savedash" type="button">Save </a>
             <a class="btn btn-primary backtodush" type="button">Back to Dash </a>
         </div>
         <div class="clearfix"></div>
@@ -98,7 +98,7 @@
                     </li>
                     <li role="presentation" class=""><a href="#tab_legend" role="tab" id="legend-tab" data-toggle="tab" aria-expanded="false">Legend</a>
                     </li>                
-                    <li role="presentation" class=""><a href="#tab_desplay" role="tab" id="desplay-tab" data-toggle="tab" aria-expanded="false">Display</a>
+                    <li role="presentation" class=""><a href="#tab_display" role="tab" id="display-tab" data-toggle="tab" aria-expanded="false">Display</a>
                     </li>                                
                 </ul>
                 <div id="myTabContent" class="tab-content" >
@@ -787,20 +787,80 @@
                                         </label>
 
                                         <input id="legend_border_width" chart_prop_key="borderWidth" name="legend_border_width" type="number" value="" class="form-control title_input_small">
-
                                         <label class="control-label label-border-width-px" >
                                             px
                                         </label>
                                     </div>                                    
-
                                 </div>
-                                <!--</div>-->
-                                <!--</div>-->
                             </form>                        
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_desplay" aria-labelledby="desplay-tab">
-                        dododo
+                    <div role="tabpanel" class="tab-pane fade" id="tab_display" aria-labelledby="desplay-tab">
+                        <div class="row">
+                            <form class="form-horizontal form-label-left edit-display pull-left">   
+                                <div class="form_main_block pull-left">
+                                    <div class="form-group form-group-custom">
+                                        <label for="display_animation" class="control-label control-label-custom" >
+                                            Animation
+                                        </label>                                 
+                                        <div class="checkbox" style="display: inline-block">
+                                            <input chart_prop_key="animation" type="checkbox" class="js-switch-small" checked ="checked" id="display_animation" name="display_animation" /> 
+                                        </div>
+                                    </div>    
+                                    <div class="form-group form-group-custom">
+                                        <label for="display_datazoom" class="control-label control-label-custom" >
+                                            Data zoom
+                                        </label>                                 
+                                        <div class="checkbox" style="display: inline-block">
+                                            <input chart_prop_key="dataZoom" type="checkbox" class="js-switch-small" checked ="checked" id="display_datazoom" name="display_datazoom" /> 
+                                        </div>
+                                    </div>                                                                                                           
+                                </div>    
+                                <div class="form_main_block pull-left">
+                                    <div class="form-group form-group-custom">
+                                        <label for="display_charttype" class="control-label control-label-custom" >
+                                            Chart Type
+                                        </label>                                 
+                                        <select id="display_charttype" chart_prop_key="type" name="display_charttype" class="form-control title_select">
+                                            <option value="line" selected>Lines</option>
+                                            <option value="bar">Bars</option>
+                                            <option value="k">Candlestick</option>
+                                            <option value="pie">Pie</option>
+                                            <option value="radar">Radar</option>
+                                            <!--<option value="chord">chord</option>-->
+                                            <!--<option value="force">force</option>-->
+                                            <option value="map">Map</option>
+                                            <option value="heatmap">Heatmap</option>
+                                            <option value="gauge">Gauge</option>
+                                            <option value="funnel">Funnel</option>
+                                            <!--<option value="eventRiver">event River</option>-->
+                                            <option value="treemap">Treemap</option>
+                                            <!--<option value="tree">tree</option>-->
+                                            <!--<option value="venn">venn</option>-->
+                                        </select>
+                                    </div>      
+
+                                    <div class="form-group form-group-custom">
+                                        <label for="display_points" class="control-label control-label-custom" >
+                                            Points
+                                        </label>                                 
+                                        <div class="checkbox" style="display: inline-block">                                            
+                                            <select id="display_points" chart_prop_key="points" name="display_points" class="form-control title_select">
+                                                <option value="none">None</option>
+                                                <option value="circle" selected>Circle</option>
+                                                <option value="rectangle">Rectangle</option>
+                                                <option value="triangle">Triangle</option>
+                                                <option value="diamond">Diamond</option>                                                
+                                                <option value="emptyCircle">Empty Circle</option>
+                                                <option value="emptyRectangle">Empty Rectangle</option>
+                                                <option value="emptyTriangle">Empty Triangle</option>
+                                                <option value="emptyDiamond">Empty Diamond</option>
+                                            </select>                                            
+                                        </div>
+                                    </div>                                      
+                                </div>                               
+                            </form>                        
+                        </div>                        
                     </div>
                 </div>
             </div>

@@ -4,7 +4,6 @@
         '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
         '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
     ];
-
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -123,7 +122,7 @@
         line: {
             smooth : true,
             symbol: 'circle',
-            symbolSize: 3,
+            symbolSize: 8,
             
         },
 
