@@ -50,14 +50,14 @@ function setdatabyQueryes(option, url, start, end, chart)
 //                                0, 200, 0, 400,
 //                                [[0, 'rgba(255,0,0,0.8)'],[0.8, 'rgba(255,255,255,0.1)']]
 //                            ));
-                            series.itemStyle = {
-                                normal: {
-                                    areaStyle: {
-                                        color: (function (index,colorPalette){console.log(index%colorPalette.length); return colorPalette[index%colorPalette.length]})(option.tmpoptions.series.length,colorPalette)
-
-                                    }
-                                }
-                            };
+//                            series.itemStyle = {
+//                                normal: {
+//                                    areaStyle: {
+//                                        color: (function (index,colorPalette){console.log(index%colorPalette.length); return colorPalette[index%colorPalette.length]})(option.tmpoptions.series.length,colorPalette)
+//
+//                                    }
+//                                }
+//                            };
                             option.tmpoptions.series.push(series);
                         }
                     }
