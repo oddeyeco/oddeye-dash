@@ -28,7 +28,7 @@ class ChartEditForm {
             this.formwraper.find("#tab_metrics input#down-sample").val("");
         }
 
-      
+
 
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation) == "undefined")
@@ -140,11 +140,11 @@ class ChartEditForm {
         {
             for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid)
             {
-                
-                var inputs = this.formwraper.find("#tab_display .grid [chart_prop_key='" + key + "']");                
-                inputs.each(function () {
+
+                var inputs = this.formwraper.find("#tab_display .grid [chart_prop_key='" + key + "']");
+                inputs.each(function () {                    
                     formObj.fillinputs($(this), "grid", key);
-                })                    
+                })
             }
 
         }
@@ -558,12 +558,11 @@ class ChartEditForm {
         {
             input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
 //            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]+" "+key);
-        }
-
+        }        
         if (typeof (input.attr("type")) == "undefined")
         {
-            if (input.prop("tagName").toLowerCase() == "select")
-            {
+//            if (input.prop("tagName").toLowerCase() == "select")
+//            {
                 if (index == null)
                 {
                     input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
@@ -571,7 +570,9 @@ class ChartEditForm {
                 {
                     input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
                 }
-            }
+//            }
+            
+                
         } else
         {
             if (input.attr("type").toLowerCase() == "number")
@@ -581,8 +582,10 @@ class ChartEditForm {
                     input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
                 }
             }
+
             if (input.attr("type").toLowerCase() == "text")
             {
+
                 if (index == null)
                 {
                     input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);

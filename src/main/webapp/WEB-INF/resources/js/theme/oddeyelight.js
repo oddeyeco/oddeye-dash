@@ -1,10 +1,10 @@
-    var colorPalette = [
-        '#2ec7c9','#5ab1ef','#ffb980','#d87a80', '#b6a2de',
-        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
-        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
-        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
-    ];
-    
+var colorPalette = [
+    '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', '#b6a2de',
+    '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
+    '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
+    '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
+];
+
 //var colorPalette = ['#3f51b5','#03a9f4','#009688','#4caf50','#8bc34a',
 //'#3949ab','#039be5','#00897b','#43a047','#7cb342',
 //'#303f9f','#0288d1','#00796b','#388e3c','#689f38',
@@ -15,7 +15,7 @@
 //'#3d5afe','#00b0ff','#1de9b6','#00e676','#76ff03',
 //'#304ffe','#0091ea','#00bfa5','#00c853','#64dd17'];
 
-    
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -50,7 +50,7 @@
 
         visualMap: {
             itemWidth: 15,
-            color: ['#5ab1ef','#e0ffff']
+            color: ['#5ab1ef', '#e0ffff']
         },
 
         toolbox: {
@@ -63,15 +63,15 @@
 
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
-            axisPointer : {
-                type : 'line',
-                lineStyle : {
+            axisPointer: {
+                type: 'line',
+                lineStyle: {
                     color: '#008acd'
                 },
                 crossStyle: {
                     color: '#008acd'
                 },
-                shadowStyle : {
+                shadowStyle: {
                     color: 'rgba(200,200,200,0.2)'
                 }
             }
@@ -84,7 +84,9 @@
         },
 
         grid: {
-            borderColor: '#eee'
+            left: "5%",
+            right: "1%",
+            bottom: 80
         },
 
         categoryAxis: {
@@ -106,10 +108,10 @@
                     color: '#008acd'
                 }
             },
-            splitArea : {
-                show : true,
-                areaStyle : {
-                    color: ['rgba(250,250,250,0.5)','rgba(150,150,150,0.3)']
+            splitArea: {
+                show: true,
+                areaStyle: {
+                    color: ['rgba(250,250,250,0.5)', 'rgba(150,150,150,0.3)']
                 }
             },
             splitLine: {
@@ -119,22 +121,22 @@
             }
         },
 
-        timeline : {
-            lineStyle : {
-                color : '#008acd'
+        timeline: {
+            lineStyle: {
+                color: '#008acd'
             },
-            controlStyle : {
-                normal : { color : '#008acd'},
-                emphasis : { color : '#008acd'}
+            controlStyle: {
+                normal: {color: '#008acd'},
+                emphasis: {color: '#008acd'}
             },
-            symbol : 'emptyCircle',
-            symbolSize : 3
+            symbol: 'emptyCircle',
+            symbolSize: 3
         },
 
         line: {
-            smooth : true,
+            smooth: true,
             symbol: 'circle',
-            symbolSize: 8,                        
+            symbolSize: 8,
         },
 
         candlestick: {
@@ -178,28 +180,28 @@
             color: colorPalette
         },
 
-        gauge : {
+        gauge: {
             axisLine: {
                 lineStyle: {
-                    color: [[0.2, '#2ec7c9'],[0.8, '#5ab1ef'],[1, '#d87a80']],
+                    color: [[0.2, '#2ec7c9'], [0.8, '#5ab1ef'], [1, '#d87a80']],
                     width: 10
                 }
             },
             axisTick: {
                 splitNumber: 10,
-                length :15,
+                length: 15,
                 lineStyle: {
                     color: 'auto'
                 }
             },
             splitLine: {
-                length :22,
+                length: 22,
                 lineStyle: {
                     color: 'auto'
                 }
             },
-            pointer : {
-                width : 5
+            pointer: {
+                width: 5
             }
         }
     };

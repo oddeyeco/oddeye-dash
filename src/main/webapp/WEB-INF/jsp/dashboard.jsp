@@ -872,25 +872,25 @@
                                         <label for="padding_left" class="control-label control-label-custom">
                                             Left
                                         </label>
-                                        <input placeholder="auto" id="padding_left" chart_prop_key="x" name="padding_left" type="number" value="" class="form-control title_input_small">
+                                        <input placeholder="auto" id="padding_left" chart_prop_key="x" name="padding_left"  value="" class="form-control title_input_small">
                                     </div>
                                     <div class="form-group form-group-custom">
                                         <label for="padding_top" class="control-label control-label-custom">
                                             Top
                                         </label>
-                                        <input placeholder="auto" id="padding_top" chart_prop_key="y" name="padding_top" type="number" value="" class="form-control title_input_small">
+                                        <input placeholder="auto" id="padding_top" chart_prop_key="y" name="padding_top"  value="" class="form-control title_input_small">
                                     </div>                                    
                                     <div class="form-group form-group-custom">
                                         <label for="padding_right" class="control-label control-label-custom">
                                             Right
                                         </label>
-                                        <input placeholder="auto" id="padding_right" chart_prop_key="x2" name="padding_right" type="number" value="" class="form-control title_input_small">
+                                        <input placeholder="auto" id="padding_right" chart_prop_key="x2" name="padding_right"  value="" class="form-control title_input_small">
                                     </div>                                                                        
                                     <div class="form-group form-group-custom">
                                         <label for="padding_bottom" class="control-label control-label-custom">
                                             Bottom
                                         </label>
-                                        <input placeholder="auto" id="padding_bottom" chart_prop_key="y2" name="padding_bottom" type="number" value="" class="form-control title_input_small">
+                                        <input placeholder="auto" id="padding_bottom" chart_prop_key="y2" name="padding_bottom" value="" class="form-control title_input_small">
                                     </div>            
                                 </div>            
                                 <div class="form_main_block pull-left grid">
@@ -898,13 +898,13 @@
                                         <label for="padding_width" class="control-label control-label-custom">
                                             Width
                                         </label>
-                                        <input placeholder="auto" id="padding_width" chart_prop_key="width" name="padding_width" type="number" value="" class="form-control title_input_small">
+                                        <input placeholder="auto" id="padding_width" chart_prop_key="width" name="padding_width"  value="" class="form-control title_input_small">
                                     </div>                                                                                                                                                
                                     <div class="form-group form-group-custom">
                                         <label for="padding_height" class="control-label control-label-custom">
                                             Height
                                         </label>
-                                        <input placeholder="auto" id="padding_height" chart_prop_key="height" name="padding_height" type="number" value="" class="form-control title_input_small">
+                                        <input placeholder="auto" id="padding_height" chart_prop_key="height" name="padding_height" value="" class="form-control title_input_small">
                                     </div>                                    
                                 </div>
                             </form>                        

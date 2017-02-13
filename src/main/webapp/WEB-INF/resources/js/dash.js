@@ -68,7 +68,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                             option.tmpoptions.series.push(series);
                         }
                     }
-                    option.tmpoptions.tooltip.trigger = 'axis';
+                    option.tmpoptions.tooltip.trigger = 'axis';                    
                 }
 
                 if (option.tmpoptions.xAxis[0].type == "category")
@@ -167,7 +167,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     }
                 }
             }
-            chart.setOption(option.tmpoptions);
+            chart.setOption(option.tmpoptions);            
         });
     }
 
@@ -302,7 +302,7 @@ function redrawAllJSON(dashJSON)
 
                         }
 
-                        setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);
+                        setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);                        
                     } else
                     {
                         if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length == 1)
@@ -369,7 +369,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
             }
 
         }
-        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);
+        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);        
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
