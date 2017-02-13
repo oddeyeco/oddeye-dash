@@ -69,7 +69,7 @@
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
         var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-        dashJSONvar[rowindex]["widgets"][curentwidgetindex].tmpoptions = dashJSONvar[rowindex]["widgets"][curentwidgetindex].echartLine.getOption();
+//        dashJSONvar[rowindex]["widgets"][curentwidgetindex].tmpoptions = dashJSONvar[rowindex]["widgets"][curentwidgetindex].echartLine.getOption();
         delete  dashJSONvar[rowindex]["widgets"][curentwidgetindex].echartLine;
         dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
 
