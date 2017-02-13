@@ -4,6 +4,18 @@
         '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
         '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
     ];
+    
+//var colorPalette = ['#3f51b5','#03a9f4','#009688','#4caf50','#8bc34a',
+//'#3949ab','#039be5','#00897b','#43a047','#7cb342',
+//'#303f9f','#0288d1','#00796b','#388e3c','#689f38',
+//'#283593','#0277bd','#00695c','#2e7d32','#558b2f',
+//'#1a237e','#01579b','#004d40','#1b5e20','#33691e',
+//'#8c9eff','#80d8ff','#a7ffeb','#b9f6ca','#ccff90',
+//'#536dfe','#40c4ff','#64ffda','#69f0ae','#b2ff59',
+//'#3d5afe','#00b0ff','#1de9b6','#00e676','#76ff03',
+//'#304ffe','#0091ea','#00bfa5','#00c853','#64dd17'];
+
+    
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -122,8 +134,7 @@
         line: {
             smooth : true,
             symbol: 'circle',
-            symbolSize: 8,
-            
+            symbolSize: 8,                        
         },
 
         candlestick: {

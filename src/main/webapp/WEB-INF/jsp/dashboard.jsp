@@ -815,6 +815,14 @@
                                             <input chart_prop_key="dataZoom" type="checkbox" class="js-switch-small" checked ="checked" id="display_datazoom" name="display_datazoom" /> 
                                         </div>
                                     </div>                                                                                                           
+                                    <div class="form-group form-group-custom">
+                                        <label for="display_fillArea" class="control-label control-label-custom" >
+                                            Fill Area
+                                        </label>                                 
+                                        <div class="checkbox" style="display: inline-block">
+                                            <input chart_prop_key="fill" type="checkbox" class="js-switch-small" checked ="checked" id="display_fillArea" name="display_fillArea" /> 
+                                        </div>
+                                    </div>                                                                                                                                               
                                 </div>    
                                 <div class="form_main_block pull-left">
                                     <div class="form-group form-group-custom">

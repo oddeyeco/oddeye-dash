@@ -45,19 +45,26 @@ function setdatabyQueryes(option, url, start, end, chart)
                             }
                             series.data = chdata;
                             series.symbol = option.points;
-//                            var zrColor = require('zrender/tool/color');
-//                            console.log(zrColor.getLinearGradient(
-//                                0, 200, 0, 400,
-//                                [[0, 'rgba(255,0,0,0.8)'],[0.8, 'rgba(255,255,255,0.1)']]
-//                            ));
-//                            series.itemStyle = {
-//                                normal: {
-//                                    areaStyle: {
-//                                        color: (function (index,colorPalette){console.log(index%colorPalette.length); return colorPalette[index%colorPalette.length]})(option.tmpoptions.series.length,colorPalette)
-//
-//                                    }
-//                                }
-//                            };
+                            if (!series.itemStyle)
+                            {
+                                series.itemStyle = {normal: {}};
+                            }
+                            if (option.fill)
+                            {
+                                if (!series.itemStyle.normal)
+                                {
+                                    series.itemStyle.normal = {};
+                                }
+                                if (!series.itemStyle.normal.areaStyle)
+                                {
+                                    series.itemStyle.normal.areaStyle = {};
+                                }                                
+                                series.itemStyle.normal.areaStyle.type = 'default';
+                            } else
+                            {
+                                delete series.itemStyle.normal.areaStyle;
+                            }
+//                            series.itemStyle = {normal: {areaStyle: {type: 'default'}}};
                             option.tmpoptions.series.push(series);
                         }
                     }

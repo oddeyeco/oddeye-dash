@@ -45,7 +45,27 @@ class ChartEditForm {
             {
                 $(elem).trigger('click');
             }
-        }                
+        }
+
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].fill) == "undefined")
+        {
+            var input = this.formwraper.find("#display_fillArea");
+            var elem = document.getElementById(input.attr("id"));
+            if (elem.checked)
+            {
+                $(elem).trigger('click');
+            }
+
+        } else
+        {
+            var input = this.formwraper.find("#display_fillArea");
+            var elem = document.getElementById(input.attr("id"));
+            if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].fill)
+            {
+                $(elem).trigger('click');
+            }
+        }
+
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom) == "undefined")
         {
             var input = this.formwraper.find("#display_datazoom");
@@ -63,13 +83,13 @@ class ChartEditForm {
             {
                 $(elem).trigger('click');
             }
-        }        
-        
-            if (key == "dataZoom")
-            {
-                var elem = document.getElementById(input.attr("id"));
-                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = elem.checked;
-            }            
+        }
+
+        if (key == "dataZoom")
+        {
+            var elem = document.getElementById(input.attr("id"));
+            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = elem.checked;
+        }
 
 //        delete  this.dashJSON[this.row]["widgets"][this.index].type;
 
@@ -77,12 +97,11 @@ class ChartEditForm {
         {
             this.dashJSON[this.row]["widgets"][this.index].type = "line";
         }
-        
+
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].points) !== "undefined")
         {
             this.formwraper.find("#display_points").val(this.dashJSON[this.row]["widgets"][this.index].points);
-        }
-        else
+        } else
         {
             this.formwraper.find("#display_points").val("circle");
         }
@@ -279,7 +298,7 @@ class ChartEditForm {
 //        console.log("dfsdfsdfs");
 
 
-        
+
         if (input.parents("form").hasClass("edit-display"))
         {
             var key = input.attr("chart_prop_key");
@@ -287,12 +306,24 @@ class ChartEditForm {
             {
                 var elem = document.getElementById(input.attr("id"));
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation = elem.checked;
-            }             
+            }
             if (key == "dataZoom")
             {
                 var elem = document.getElementById(input.attr("id"));
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = elem.checked;
-            }                         
+            }
+
+            if (key == "fill")
+            {
+                var elem = document.getElementById(input.attr("id"));
+                if (elem.checked)
+                {
+                    this.dashJSON[this.row]["widgets"][this.index].fill = elem.checked;
+                } else
+                {
+                    delete this.dashJSON[this.row]["widgets"][this.index].fill;
+                }
+            }
             if (key == "type" || key == "points")
             {
                 this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
