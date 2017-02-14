@@ -59,6 +59,11 @@ and open the template in the editor.
     display: inline-block;    
 }
 
+.input-group .query_input,.query_input{
+    width: 215px;
+    display: inline-block;    
+}
+
 .titile_input_midle{    
     margin-bottom: -25px;
 }
@@ -286,3 +291,48 @@ select.form-control
     display: block;
     position: absolute;
 }*/
+.data-label{
+    display: inline-block;
+}
+
+.data-label .edit{
+    display: inline-block;
+}
+
+/*.data-label .edit .fa-remove{
+    margin-left: 5px;     
+}
+.data-label .edit .fa-check{
+    margin-left: -30px;     
+}*/
+
+.data-label .edit{
+    margin-right: 10px;  
+    
+}
+
+span.tagspan {
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    padding: 5px 9px;
+    text-decoration: none;
+    background: #1ABB9C;
+    color: #F1F6F7;
+    margin-right: 5px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-family: helvetica;
+}
+
+span.tagspan span.text {
+    padding: 0px 5px;
+}
+.query-label a,
+.data-label a {
+    cursor: pointer;
+}
+
+.query-label a:hover,
+.data-label a:hover {
+    color: red;
+}

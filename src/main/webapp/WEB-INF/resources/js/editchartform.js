@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+/* global getParameterByName */
+
 class ChartEditForm {
 
     constructor(chart, formwraper, row, index, dashJSON) {
@@ -16,16 +18,44 @@ class ChartEditForm {
         if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
         {
             var query = "?" + dashJSON[row]["widgets"][index].queryes[0];
-            this.formwraper.find("#tab_metrics input#tags").val(getParameterByName("tags", query));
-            this.formwraper.find("#tab_metrics input#metrics").val(getParameterByName("metrics", query));
-            this.formwraper.find("#tab_metrics input#aggregator").val(getParameterByName("aggregator", query));
-            this.formwraper.find("#tab_metrics input#down-sample").val(getParameterByName("downsample", query));
+            var tags = getParameterByName("tags", query).split(";");
+            this.formwraper.find("#tab_metrics div.tags").html("");
+            for (var tagindex in tags)
+            {
+                if (tags[tagindex] !== "")
+                {
+                    this.formwraper.find("#tab_metrics div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+                }
+            }
+            var metrics = getParameterByName("metrics", query).split(";");
+            this.formwraper.find("#tab_metrics div.metrics").html("")
+            for (var metricindex in metrics)
+            {
+                if (metrics[metricindex] !== "")
+                {
+                    this.formwraper.find("#tab_metrics div.metrics").append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'>" + metrics[metricindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+                }
+            }
+
+            var aggregator = getParameterByName("aggregator", query);
+            if (aggregator === "")
+            {
+                this.formwraper.find("#tab_metrics select#aggregator").val("none");
+            } else
+            {
+                this.formwraper.find("#tab_metrics select#aggregator").val(aggregator);
+            }
+
+//            this.formwraper.find("#tab_metrics input#tags").val(getParameterByName("tags", query));
+//            this.formwraper.find("#tab_metrics input#metrics").val(getParameterByName("metrics", query));
+//            this.formwraper.find("#tab_metrics input#aggregator").val(getParameterByName("aggregator", query));
+//            this.formwraper.find("#tab_metrics input#down-sample").val(getParameterByName("downsample", query));
         } else
         {
-            this.formwraper.find("#tab_metrics input#tags").val("");
-            this.formwraper.find("#tab_metrics input#aggregator").val("");
-            this.formwraper.find("#tab_metrics input#metrics").val("");
-            this.formwraper.find("#tab_metrics input#down-sample").val("");
+//            this.formwraper.find("#tab_metrics input#tags").val("");
+//            this.formwraper.find("#tab_metrics input#aggregator").val("");
+//            this.formwraper.find("#tab_metrics input#metrics").val("");
+//            this.formwraper.find("#tab_metrics input#down-sample").val("");
         }
 
 
@@ -142,7 +172,7 @@ class ChartEditForm {
             {
 
                 var inputs = this.formwraper.find("#tab_display .grid [chart_prop_key='" + key + "']");
-                inputs.each(function () {                    
+                inputs.each(function () {
                     formObj.fillinputs($(this), "grid", key);
                 })
             }
@@ -302,10 +332,26 @@ class ChartEditForm {
     chage(input) {
         if (input.parents("form").hasClass("edit-query"))
         {
-            this.formwraper.find("#tab_general input").val("");
+            console.log(input);
+            var metrics = "";
+            this.formwraper.find(".query_metric .text").each(function () {
+                metrics = metrics + $(this).text() + ";";
+            });
 
-            var query = "metrics=" + this.formwraper.find("#metrics").val() + "&tags=" + this.formwraper.find("#tags").val() +
-                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + this.formwraper.find("#down-sample").val();
+            var tags = "";
+            this.formwraper.find(".query_tag .text").each(function () {
+                tags = tags + $(this).text() + ";";
+            });
+            downsample = "";
+            if (this.formwraper.find("#down-sample-time").val() !== "")
+            {
+                var downsample = this.formwraper.find("#down-sample-time").val() + "-" + this.formwraper.find("#down-sample-aggregator").val()
+            }
+
+            var query = "metrics=" + metrics + "&tags=" + tags +
+                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + downsample;
+
+            
             this.dashJSON[this.row]["widgets"][this.index].queryes = [];
             this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
         }
@@ -558,21 +604,21 @@ class ChartEditForm {
         {
             input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
 //            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]+" "+key);
-        }        
+        }
         if (typeof (input.attr("type")) == "undefined")
         {
 //            if (input.prop("tagName").toLowerCase() == "select")
 //            {
-                if (index == null)
-                {
-                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
-                } else
-                {
-                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
-                }
+            if (index == null)
+            {
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+            } else
+            {
+                input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
+            }
 //            }
-            
-                
+
+
         } else
         {
             if (input.attr("type").toLowerCase() == "number")

@@ -1,3 +1,5 @@
+/* global numbers */
+
 function datafunc() {
     var d = [];
     var len = 0;
@@ -43,7 +45,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                                 chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
                                 delete dateval;
                             }
-                            series.data = chdata;                            
+                            series.data = chdata;
                             series.symbol = option.points;
                             if (!series.itemStyle)
                             {
@@ -68,7 +70,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                             option.tmpoptions.series.push(series);
                         }
                     }
-                    option.tmpoptions.tooltip.trigger = 'axis';                    
+                    option.tmpoptions.tooltip.trigger = 'axis';
                 }
 
                 if (option.tmpoptions.xAxis[0].type == "category")
@@ -79,7 +81,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     var tag = option.tmpoptions.xAxis[0].m_tags;
                     var xdata = [];
                     var sdata = [];
-                    for (index in data.chartsdata)
+                    for (var index in data.chartsdata)
                     {
                         var tagn = Object.keys(data.chartsdata[index].tags)[tag]
                         xdata.push(data.chartsdata[index].tags[tagn]);
@@ -90,12 +92,6 @@ function setdatabyQueryes(option, url, start, end, chart)
                             chdata.push(data.chartsdata[index].data[time]);
                             val = data.chartsdata[index].data[time];
                         }
-
-
-//                        for (i = 0; i < loop; i++) { 
-//                            sdata.push(null);
-//                        }                   
-//                        loop++;
 
                         if (m_sample == "avg")
                         {
@@ -123,12 +119,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                         {
                             val = chdata.length;
                         }
-
-
                         sdata.push(val);
-//                        series.data = sdata;
-//                        
-//                        option.tmpoptions.series.push(series);                        
                     }
                     var series = clone_obg(defserie);
                     series.data = sdata;
@@ -167,7 +158,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     }
                 }
             }
-            chart.setOption(option.tmpoptions);            
+            chart.setOption(option.tmpoptions);
         });
     }
 
@@ -302,7 +293,7 @@ function redrawAllJSON(dashJSON)
 
                         }
 
-                        setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);                        
+                        setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);
                     } else
                     {
                         if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length == 1)
@@ -369,7 +360,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
             }
 
         }
-        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);        
+        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
@@ -459,5 +450,89 @@ $(document).ready(function () {
     $('body').on("mouseleave", ".select2-container--default .menu-select", function () {
         $(".select2-container--default .menu-select .select2-results__option[role=group] ul").hide();
     });
+});
 
+$('body').on("click", "span.tag_label .fa-remove", function () {
+    var input = $(this).parents(".data-label");
+    $(this).parents(".tag_label").remove();
+    chartForm.chage(input);
+});
+
+$('body').on("click", "span.tagspan .fa-pencil", function () {
+    $(this).parents(".tagspan").hide();
+    if ($(this).parents(".tag_label").hasClass("query_metric"))
+    {
+        $(this).parents(".tagspan").after('<span class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><div class="autocomplete-container-metric" style="position: absolute; width: 400px; margin: 0px;"></div><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></span>');
+    }
+    var input = $(this).parents(".data-label");
+    var metricinput = $(this).parents(".tag_label").find("input");
+    makeMetricInput(metricinput, input)
+});
+
+function makeMetricInput(metricinput, wraper)
+{
+    var tags = "";
+    wraper.parents("form").find(".query_tag .text").each(function () {
+        tags = tags + $(this).text().replace("*", "(.*)") + ";";
+    });
+    var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=^(.*)$";
+        console.log(uri);
+    $.getJSON(uri, null, function (data) {
+//            console.log(data);
+        metricinput.autocomplete({
+            lookup: data.data,
+            appendTo: '.autocomplete-container-metric'
+        });
+    })
+}
+$('body').on("click", ".query-label .fa-plus", function () {
+
+    var input = $(this).parents(".form-group").find(".data-label");
+    if (input.hasClass("metrics"))
+    {
+        input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+        input.find(".tagspan").last().hide();
+        input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><div class="autocomplete-container-metric" style="position: absolute; width: 400px; margin: 0px;"></div> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+        var metricinput = input.find("input");
+        makeMetricInput(metricinput, input)
+    }
+});
+
+$('body').on("click", "span.tag_label .fa-check", function () {
+//    var input = $(this).parents(".data-label");
+    var input = $(this).parents(".form-group").find(".data-label");
+    if (input.hasClass("metrics"))
+    {
+        var metricinput = input.find("input");
+        if (metricinput.val() == "")
+        {
+            metricinput.parents(".tag_label").remove();
+        } else
+        {
+            metricinput.parents(".tag_label").find(".text").html(metricinput.val());
+            metricinput.parents(".tag_label").find(".tagspan").show();
+            metricinput.parent().remove();
+        }
+    }
+    chartForm.chage(input);
+});
+
+$('body').on("blur", ".edit-form input", function () {
+    if (!$(this).parent().hasClass("edit"))
+    {
+        chartForm.chage($(this));
+    }
+});
+
+$('body').on("change", ".edit-form select", function () {
+    chartForm.chage($(this));
+})
+
+$('body').on("change", ".edit-form select#axes_mode_x", function () {
+    if ($(this).val() === 'category') {
+        $('.only-Series').fadeIn();
+    } else {
+        $('.only-Series').fadeOut();
+
+    }
 });
