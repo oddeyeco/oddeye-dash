@@ -460,13 +460,21 @@ $('body').on("click", "span.tag_label .fa-remove", function () {
 
 $('body').on("click", "span.tagspan .fa-pencil", function () {
     $(this).parents(".tagspan").hide();
+    var input = $(this).parents(".data-label");
     if ($(this).parents(".tag_label").hasClass("query_metric"))
     {
-        $(this).parents(".tagspan").after('<span class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><div class="autocomplete-container-metric" style="position: absolute; width: 400px; margin: 0px;"></div><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></span>');
+        $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+        var metricinput = $(this).parents(".tag_label").find("input");
+        makeMetricInput(metricinput, input)
     }
-    var input = $(this).parents(".data-label");
-    var metricinput = $(this).parents(".tag_label").find("input");
-    makeMetricInput(metricinput, input)
+
+    if ($(this).parents(".tag_label").hasClass("query_tag"))
+    {
+        var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");        
+        $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="'+tag_arr[0]+'"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="'+tag_arr[1]+'"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+        var tagkinput = $(this).parents(".tag_label").find("input#tagk");                
+        maketagKInput(tagkinput, input)
+    }
 });
 
 function makeMetricInput(metricinput, wraper)
@@ -476,15 +484,37 @@ function makeMetricInput(metricinput, wraper)
         tags = tags + $(this).text().replace("*", "(.*)") + ";";
     });
     var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=^(.*)$";
-        console.log(uri);
+    console.log(uri);
     $.getJSON(uri, null, function (data) {
-//            console.log(data);
         metricinput.autocomplete({
             lookup: data.data,
-            appendTo: '.autocomplete-container-metric'
+            minChars: 0,
         });
     })
 }
+
+function maketagKInput(tagkinput, wraper) {
+    var uri = cp + "/gettagkey?filter=^(.*)$";
+    $.getJSON(uri, null, function (data) {
+        
+        var tagvinput = tagkinput.parent().next().find("#tagv");        
+        tagkinput.autocomplete({
+            lookup: data.data,
+            minChars: 0,
+            onSelect: function (suggestion) {
+                var uri = cp + "/gettagvalue?key=" + suggestion.value;
+                $.getJSON(uri, null, function (data) {
+                    tagvinput.autocomplete({
+                        lookup: data.data,
+                        minChars: 0,
+                    });
+                });
+
+            }
+        });
+    });
+}
+
 $('body').on("click", ".query-label .fa-plus", function () {
 
     var input = $(this).parents(".form-group").find(".data-label");
@@ -492,14 +522,21 @@ $('body').on("click", ".query-label .fa-plus", function () {
     {
         input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
         input.find(".tagspan").last().hide();
-        input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><div class="autocomplete-container-metric" style="position: absolute; width: 400px; margin: 0px;"></div> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+        input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
         var metricinput = input.find("input");
         makeMetricInput(metricinput, input)
     }
-});
 
+    if (input.hasClass("tags"))
+    {
+        input.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+        input.find(".tagspan").last().hide();
+        input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+        var tagkinput = input.find("input#tagk");
+        maketagKInput(tagkinput, input)
+    }
+});
 $('body').on("click", "span.tag_label .fa-check", function () {
-//    var input = $(this).parents(".data-label");
     var input = $(this).parents(".form-group").find(".data-label");
     if (input.hasClass("metrics"))
     {
@@ -514,16 +551,35 @@ $('body').on("click", "span.tag_label .fa-check", function () {
             metricinput.parent().remove();
         }
     }
+    if (input.hasClass("tags"))
+    {
+
+        var keyinput = input.find("#tagk");
+        var valinput = input.find("#tagv");
+        if (keyinput.val() == "")
+        {
+            keyinput.parents(".tag_label").remove();
+        } else
+        {
+            console.log(keyinput.val());
+            if (valinput.val() == "")
+            {
+                valinput.val("*")
+            }
+            keyinput.parents(".tag_label").find(".text").html(keyinput.val() + "=" + valinput.val());
+            keyinput.parents(".tag_label").find(".tagspan").show();
+            keyinput.parent().remove();
+            valinput.parent().remove();
+        }
+    }
     chartForm.chage(input);
 });
-
 $('body').on("blur", ".edit-form input", function () {
     if (!$(this).parent().hasClass("edit"))
     {
         chartForm.chage($(this));
     }
 });
-
 $('body').on("change", ".edit-form select", function () {
     chartForm.chage($(this));
 })
@@ -533,6 +589,5 @@ $('body').on("change", ".edit-form select#axes_mode_x", function () {
         $('.only-Series').fadeIn();
     } else {
         $('.only-Series').fadeOut();
-
     }
 });
