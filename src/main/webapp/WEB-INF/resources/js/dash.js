@@ -131,6 +131,8 @@ function setdatabyQueryes(option, url, start, end, chart)
                             }
                         }
                         xdata.push(name);
+                        option.tmpoptions.legend.data.push(name);
+                        
 
                         var chdata = [];
                         var val;
@@ -165,7 +167,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                         {
                             val = chdata.length;
                         }
-                        sdata.push(val);
+                        sdata.push({value:val, name:name});
                     }
                     var series = clone_obg(defserie);
                     series.data = sdata;
@@ -176,7 +178,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     series.itemStyle = {
                         normal: {
                             color: function (params) {
-                                return colorPalette[params.dataIndex];
+                                return colorPalette[params.dataIndex % colorPalette.length];
                             }
                         }
                     };

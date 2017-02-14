@@ -805,11 +805,11 @@
                                         <option value="bar">Bars</option>
                                         <option value="k">Candlestick</option>
                                         <option value="pie">Pie</option>
-                                        <option value="radar">Radar</option>
+                                        <!--<option value="radar">Radar</option>-->
                                         <!--<option value="chord">chord</option>-->
                                         <!--<option value="force">force</option>-->
-                                        <option value="map">Map</option>
-                                        <option value="heatmap">Heatmap</option>
+                                        <!--<option value="map">Map</option>-->
+                                        <!--<option value="heatmap">Heatmap</option>-->
                                         <option value="gauge">Gauge</option>
                                         <option value="funnel">Funnel</option>
                                         <!--<option value="eventRiver">event River</option>-->
