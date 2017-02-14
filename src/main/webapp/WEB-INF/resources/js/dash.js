@@ -117,8 +117,20 @@ function setdatabyQueryes(option, url, start, end, chart)
                     var sdata = [];
                     for (var index in data.chartsdata)
                     {
-//                        console.log(data.chartsdata[index]);                        
-                        xdata.push(data.chartsdata[index].metric + " " + JSON.stringify(data.chartsdata[index].tags));
+//                        console.log(data.chartsdata[index]);   
+
+                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                        if (typeof (option.queryes[k].info) !== "undefined")
+                        {
+                            if (option.queryes[k].info.alias !== "")
+                            {
+                                name = option.queryes[k].info.alias;
+                                name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                                name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                            }
+                        }
+                        xdata.push(name);
 
                         var chdata = [];
                         var val;
