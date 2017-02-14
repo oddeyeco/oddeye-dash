@@ -110,15 +110,24 @@ function setdatabyQueryes(option, url, start, end, chart)
 
                 if (option.tmpoptions.xAxis[0].type === "category")
                 {
-//                    console.log(option.tmpoptions.xAxis[0]);
                     option.tmpoptions.series = [];
                     var m_sample = option.tmpoptions.xAxis[0].m_sample;
                     var xdata = [];
                     var sdata = [];
+                    var tmpseries = {};
+                    if (option.type === "pie")
+                    {
+                        //TODO haskanal xi chi asxatum
+                        option.tmpoptions.toolbox.feature.magicType.type = ['pie', 'funnel'];
+                    } else
+                    {
+                        option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar'];
+                    }
+                    ;
+
+                    console.log(option.tmpoptions.toolbox.feature.magicType);
                     for (var index in data.chartsdata)
                     {
-//                        console.log(data.chartsdata[index]);   
-
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                         if (typeof (option.queryes[k].info) !== "undefined")
                         {
@@ -130,10 +139,15 @@ function setdatabyQueryes(option, url, start, end, chart)
                                 name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                             }
                         }
-                        xdata.push(name);
-                        option.tmpoptions.legend.data.push(name);
-                        
-
+//                        console.log(xdata.indexOf(name));
+                        if (xdata.indexOf(name) === -1)
+                        {
+                            xdata.push(name);
+                            if ((option.type === "pie") || (option.type === "funnel"))
+                            {
+                                option.tmpoptions.legend.data.push(name);
+                            }
+                        }
                         var chdata = [];
                         var val;
                         for (var time in data.chartsdata[index].data) {
@@ -167,22 +181,93 @@ function setdatabyQueryes(option, url, start, end, chart)
                         {
                             val = chdata.length;
                         }
-                        sdata.push({value:val, name:name});
-                    }
-                    var series = clone_obg(defserie);
-                    series.data = sdata;
-                    series.type = option.type;
-
-                    option.tmpoptions.tooltip.trigger = 'item';
-
-                    series.itemStyle = {
-                        normal: {
-                            color: function (params) {
-                                return colorPalette[params.dataIndex % colorPalette.length];
-                            }
+                        if (!tmpseries[data.chartsdata[index].metric])
+                        {
+                            tmpseries[data.chartsdata[index].metric] = [];
                         }
-                    };
-                    option.tmpoptions.series.push(series);
+                        tmpseries[data.chartsdata[index].metric].push({value: val, name: name});
+
+                        sdata.push({value: val, name: name});
+                    }
+                    var radius = (100 / Object.keys(tmpseries).length);
+                    if (radius < 25)
+                    {
+                        radius = 25;
+                    }
+                    var rows = (Object.keys(tmpseries).length % 4) + 1;
+                    var top = 50;
+                    if (rows > 1)
+                    {
+                        top = 25;
+                    }
+                    index = 1;
+                    var row = 0;
+                    for (var key in tmpseries)
+                    {
+                        if (index > 4)
+                        {
+                            index = 1;
+                            row++;
+                        }
+
+                        var series = clone_obg(defserie);
+                        series.name = key;
+                        if (option.type === "bar")
+                        {
+                            option.tmpoptions.legend.data.push(key);
+                        }
+                        series.data = tmpseries[key];
+                        series.type = option.type;
+                        if (option.type === "pie")
+                        {
+                            series.radius = radius + "%";
+                            series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                        }
+
+                        if (option.type === "funnel")
+                        {
+                            if (row !== 1)
+                            {
+                                series.sort = 'ascending';
+                            }
+                            series.itemStyle = {
+                                normal: {
+                                    label: {
+                                        position: 'right',
+                                    },
+                                    labelLine: {
+                                        show: true
+                                    }
+                                },
+                            };
+                            series.width = radius-5 + "%";
+                            series.height = 100 / rows -5+ "%";
+                            series.x = index * radius - radius + '%';
+                            series.y = (row * 50 + 5) + "%";
+                        }
+
+                        option.tmpoptions.tooltip.trigger = 'item';
+                        index++;
+
+
+                        option.tmpoptions.series.push(series);
+                    }
+
+//                    var series = clone_obg(defserie);
+//                    series.data = sdata;
+//                    series.type = option.type;
+//                    option.tmpoptions.tooltip.trigger = 'item';
+//
+//                    series.itemStyle = {
+//                        normal: {
+//                            color: function (params) {
+//                                return colorPalette[params.dataIndex % colorPalette.length];
+//                            }
+//                        }
+//                    };
+//                    option.tmpoptions.series.push(series);
+
+
                     option.tmpoptions.xAxis[0].data = xdata;
                 }
             }
@@ -306,10 +391,14 @@ function redrawAllJSON(dashJSON)
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + "col-xs-12 col-md-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
-//                console.log(dashJSON[rowindex]["widgets"][widgetindex].height);
-                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) === "undefined")
+//                console.log(typeof (dashJSON[rowindex]["widgets"][widgetindex].height));
+                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) !== "undefined")
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height);
+                    if (dashJSON[rowindex]["widgets"][widgetindex].height == "")
+                    {
+                        $("#charttemplate .chartsection").find(".echart_line").css("height", "300px");
+                    }
                 } else
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", "300px");
