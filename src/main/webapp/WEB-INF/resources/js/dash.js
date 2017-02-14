@@ -243,7 +243,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                             series.width = radius-5 + "%";
                             series.height = 100 / rows -5+ "%";
                             series.x = index * radius - radius + '%';
-                            series.y = (row * 50 + 5) + "%";
+                            series.y = (row * 50 + 2.5) + "%";
                         }
 
                         option.tmpoptions.tooltip.trigger = 'item';
