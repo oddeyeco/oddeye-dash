@@ -1,4 +1,4 @@
-/* global numbers */
+/* global numbers, cp, colorPalette, format_metric, echarts, pickerlabel, pickerstart, pickerend, rangeslabels, dashJSONvar */
 
 function datafunc() {
     var d = [];
@@ -28,14 +28,14 @@ function setdatabyQueryes(option, url, start, end, chart)
         $.getJSON(uri, null, function (data) {
             if (Object.keys(data.chartsdata).length > 0)
             {
-                if (option.tmpoptions.xAxis[0].type == "time")
+                if (option.tmpoptions.xAxis[0].type === "time")
                 {
                     for (index in data.chartsdata)
                     {
                         if (Object.keys(data.chartsdata[index].data).length > 0)
                         {
                             var series = clone_obg(defserie);
-                            var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags)
+                            var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                             series.name = name;
                             option.tmpoptions.legend.data.push({"name": name});
                             var chdata = [];
@@ -73,7 +73,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     option.tmpoptions.tooltip.trigger = 'axis';
                 }
 
-                if (option.tmpoptions.xAxis[0].type == "category")
+                if (option.tmpoptions.xAxis[0].type === "category")
                 {
 //                    console.log(option.tmpoptions.xAxis[0]);
                     option.tmpoptions.series = [];
@@ -83,7 +83,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     var sdata = [];
                     for (var index in data.chartsdata)
                     {
-                        var tagn = Object.keys(data.chartsdata[index].tags)[tag]
+                        var tagn = Object.keys(data.chartsdata[index].tags)[tag];
                         xdata.push(data.chartsdata[index].tags[tagn]);
 
                         var chdata = [];
@@ -93,29 +93,29 @@ function setdatabyQueryes(option, url, start, end, chart)
                             val = data.chartsdata[index].data[time];
                         }
 
-                        if (m_sample == "avg")
+                        if (m_sample === "avg")
                         {
                             val = numbers.statistic.mean(chdata);
                         }
-                        if (m_sample == "min")
+                        if (m_sample === "min")
                         {
 
                             val = numbers.basic.min(chdata);
 
                         }
-                        if (m_sample == "max")
+                        if (m_sample === "max")
                         {
                             val = numbers.basic.max(chdata);
                         }
-                        if (m_sample == "total")
+                        if (m_sample === "total")
                         {
                             val = numbers.basic.sum(chdata);
                         }
-                        if (m_sample == "product")
+                        if (m_sample === "product")
                         {
                             val = numbers.basic.product(chdata);
                         }
-                        if (m_sample == "count")
+                        if (m_sample === "count")
                         {
                             val = chdata.length;
                         }
@@ -130,7 +130,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     series.itemStyle = {
                         normal: {
                             color: function (params) {
-                                return colorPalette[params.dataIndex]
+                                return colorPalette[params.dataIndex];
                             }
                         }
                     };
@@ -190,7 +190,7 @@ defoption = {
                 show: true,
                 title: {
                     line: 'Line',
-                    bar: 'Bar',
+                    bar: 'Bar'
                 },
                 type: ['line', 'bar']
             },
@@ -235,8 +235,8 @@ function redrawAllJSON(dashJSON)
 //            if (dashJSON[rowindex]["widgets"][widgetindex].type === "line")
             if (true)
             {
-                var bkgclass = ""
-                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) == "undefined")
+                var bkgclass = "";
+                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) === "undefined")
                 {
                     bkgclass = "chartbkg";
 
@@ -261,10 +261,10 @@ function redrawAllJSON(dashJSON)
 //                console.log(dashJSON[rowindex]["widgets"][widgetindex].height);
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) === "undefined")
                 {
-                    $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height)
+                    $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height);
                 } else
                 {
-                    $("#charttemplate .chartsection").find(".echart_line").css("height", "300px")
+                    $("#charttemplate .chartsection").find(".echart_line").css("height", "300px");
                 }
                 $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
@@ -280,7 +280,7 @@ function redrawAllJSON(dashJSON)
                         dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
                         var startdate = "5m-ago";
                         var enddate = "now";
-                        if (pickerlabel == "Custom")
+                        if (pickerlabel === "Custom")
                         {
                             startdate = pickerstart;
                             enddate = pickerend;
@@ -296,7 +296,7 @@ function redrawAllJSON(dashJSON)
                         setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);
                     } else
                     {
-                        if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length == 1)
+                        if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length === 1)
                         {
                             if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data.length === 0)
                             {
@@ -326,9 +326,9 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
         $(".edit-form").show();
     }
 
-    if (typeof (dashJSON[row]["widgets"][index].transparent) == "undefined")
+    if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
     {
-        $(".editchartpanel #singlewidget").addClass("chartbkg")
+        $(".editchartpanel #singlewidget").addClass("chartbkg");
 
     } else
     {
@@ -348,7 +348,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 
         var startdate = "5m-ago";
         var enddate = "now";
-        if (pickerlabel == "Custom")
+        if (pickerlabel === "Custom")
         {
             startdate = pickerstart;
             enddate = pickerend;
@@ -395,7 +395,7 @@ function getParameterByName(name, url) {
 $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     var startdate = "5m-ago";
     var enddate = "now";
-    if (pickerlabel == "Custom")
+    if (pickerlabel === "Custom")
     {
         startdate = pickerstart;
         enddate = pickerend;
@@ -434,12 +434,12 @@ $(document).ready(function () {
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
         $(this).find("ul").css("top", $(this).position().top);
         var curent = $(this);
-        if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").length == 0)
+        if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").length === 0)
         {
             curent.find("ul:hidden").show();
         } else
         {
-            if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").parents(".select2-results__option[role=group]").attr("aria-label") != $(this).attr("aria-label"))
+            if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").parents(".select2-results__option[role=group]").attr("aria-label") !== $(this).attr("aria-label"))
             {
                 $(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").hide();
                 curent.find("ul:hidden").show();
@@ -465,7 +465,7 @@ $('body').on("click", "span.tagspan .fa-pencil", function () {
     {
         $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
         var metricinput = $(this).parents(".tag_label").find("input");
-        makeMetricInput(metricinput, input)
+        makeMetricInput(metricinput, input);
     }
 
     if ($(this).parents(".tag_label").hasClass("query_tag"))
@@ -473,7 +473,7 @@ $('body').on("click", "span.tagspan .fa-pencil", function () {
         var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");        
         $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="'+tag_arr[0]+'"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="'+tag_arr[1]+'"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
         var tagkinput = $(this).parents(".tag_label").find("input#tagk");                
-        maketagKInput(tagkinput, input)
+        maketagKInput(tagkinput, input);
     }
 });
 
@@ -488,9 +488,9 @@ function makeMetricInput(metricinput, wraper)
     $.getJSON(uri, null, function (data) {
         metricinput.autocomplete({
             lookup: data.data,
-            minChars: 0,
+            minChars: 0
         });
-    })
+    });
 }
 
 function maketagKInput(tagkinput, wraper) {
@@ -506,7 +506,7 @@ function maketagKInput(tagkinput, wraper) {
                 $.getJSON(uri, null, function (data) {
                     tagvinput.autocomplete({
                         lookup: data.data,
-                        minChars: 0,
+                        minChars: 0
                     });
                 });
 
@@ -520,20 +520,20 @@ $('body').on("click", ".query-label .fa-plus", function () {
     var input = $(this).parents(".form-group").find(".data-label");
     if (input.hasClass("metrics"))
     {
-        input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+        input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
         input.find(".tagspan").last().hide();
         input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
         var metricinput = input.find("input");
-        makeMetricInput(metricinput, input)
+        makeMetricInput(metricinput, input);
     }
 
     if (input.hasClass("tags"))
     {
-        input.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+        input.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
         input.find(".tagspan").last().hide();
         input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
         var tagkinput = input.find("input#tagk");
-        maketagKInput(tagkinput, input)
+        maketagKInput(tagkinput, input);
     }
 });
 $('body').on("click", "span.tag_label .fa-check", function () {
@@ -541,7 +541,7 @@ $('body').on("click", "span.tag_label .fa-check", function () {
     if (input.hasClass("metrics"))
     {
         var metricinput = input.find("input");
-        if (metricinput.val() == "")
+        if (metricinput.val() === "")
         {
             metricinput.parents(".tag_label").remove();
         } else
@@ -556,15 +556,15 @@ $('body').on("click", "span.tag_label .fa-check", function () {
 
         var keyinput = input.find("#tagk");
         var valinput = input.find("#tagv");
-        if (keyinput.val() == "")
+        if (keyinput.val() === "")
         {
             keyinput.parents(".tag_label").remove();
         } else
         {
             console.log(keyinput.val());
-            if (valinput.val() == "")
+            if (valinput.val() === "")
             {
-                valinput.val("*")
+                valinput.val("*");
             }
             keyinput.parents(".tag_label").find(".text").html(keyinput.val() + "=" + valinput.val());
             keyinput.parents(".tag_label").find(".tagspan").show();
