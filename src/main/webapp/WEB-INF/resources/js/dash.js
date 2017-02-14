@@ -15,6 +15,17 @@ function datafunc() {
     return d;
 }
 ;
+
+function replacer(tags) {
+    return function (str, p1, p2, offset, s) {
+        if (typeof tags[p1] === "undefined")
+        {
+            return "tag." + p1;
+        }
+        return tags[p1];
+    };
+}
+
 function setdatabyQueryes(option, url, start, end, chart)
 {
 //    console.log(option.queryes);
@@ -23,8 +34,22 @@ function setdatabyQueryes(option, url, start, end, chart)
     option.tmpoptions.legend.data = [];
     for (k in option.queryes)
     {
-        var query = option.queryes[k];
+        if ((typeof (option.queryes[k])) === "string")
+        {
+            var query = option.queryes[k];
+        } else
+        {
+            var query = "metrics=" + option.queryes[k].info.metrics + "&tags=" + option.queryes[k].info.tags +
+                    "&aggregator=" + option.queryes[k].info.aggregator;
+            if (!option.queryes[k].info.downsamplingstate)
+            {
+                query = query + "&downsample=" + option.queryes[k].info.downsample;
+            }
+        }
+
+
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
+//        console.log(uri);
         $.getJSON(uri, null, function (data) {
             if (Object.keys(data.chartsdata).length > 0)
             {
@@ -36,6 +61,16 @@ function setdatabyQueryes(option, url, start, end, chart)
                         {
                             var series = clone_obg(defserie);
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                            if (typeof (option.queryes[k].info) !== "undefined")
+                            {
+                                if (option.queryes[k].info.alias !== "")
+                                {
+                                    name = option.queryes[k].info.alias;
+                                    name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                                    name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                }
+                            }
                             series.name = name;
                             option.tmpoptions.legend.data.push({"name": name});
                             var chdata = [];
@@ -78,13 +113,12 @@ function setdatabyQueryes(option, url, start, end, chart)
 //                    console.log(option.tmpoptions.xAxis[0]);
                     option.tmpoptions.series = [];
                     var m_sample = option.tmpoptions.xAxis[0].m_sample;
-                    var tag = option.tmpoptions.xAxis[0].m_tags;
                     var xdata = [];
                     var sdata = [];
                     for (var index in data.chartsdata)
                     {
-                        var tagn = Object.keys(data.chartsdata[index].tags)[tag];
-                        xdata.push(data.chartsdata[index].tags[tagn]);
+//                        console.log(data.chartsdata[index]);                        
+                        xdata.push(data.chartsdata[index].metric + " " + JSON.stringify(data.chartsdata[index].tags));
 
                         var chdata = [];
                         var val;
@@ -470,9 +504,9 @@ $('body').on("click", "span.tagspan .fa-pencil", function () {
 
     if ($(this).parents(".tag_label").hasClass("query_tag"))
     {
-        var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");        
-        $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="'+tag_arr[0]+'"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="'+tag_arr[1]+'"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-        var tagkinput = $(this).parents(".tag_label").find("input#tagk");                
+        var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");
+        $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="' + tag_arr[0] + '"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="' + tag_arr[1] + '"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+        var tagkinput = $(this).parents(".tag_label").find("input#tagk");
         maketagKInput(tagkinput, input);
     }
 });
@@ -496,8 +530,8 @@ function makeMetricInput(metricinput, wraper)
 function maketagKInput(tagkinput, wraper) {
     var uri = cp + "/gettagkey?filter=^(.*)$";
     $.getJSON(uri, null, function (data) {
-        
-        var tagvinput = tagkinput.parent().next().find("#tagv");        
+
+        var tagvinput = tagkinput.parent().next().find("#tagv");
         tagkinput.autocomplete({
             lookup: data.data,
             minChars: 0,
@@ -561,7 +595,6 @@ $('body').on("click", "span.tag_label .fa-check", function () {
             keyinput.parents(".tag_label").remove();
         } else
         {
-            console.log(keyinput.val());
             if (valinput.val() === "")
             {
                 valinput.val("*");

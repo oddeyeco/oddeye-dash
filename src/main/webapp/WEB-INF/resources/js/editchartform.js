@@ -17,8 +17,22 @@ class ChartEditForm {
 
         if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
         {
-            var query = "?" + dashJSON[row]["widgets"][index].queryes[0];
-            var tags = getParameterByName("tags", query).split(";");
+//            var query = "?" + dashJSON[row]["widgets"][index].queryes[0].url;
+//            console.log(dashJSON[row]["widgets"][index].queryes[0]);
+            if ((typeof (dashJSON[row]["widgets"][index].queryes[0])) === "string")
+            {
+                var query = "?" + dashJSON[row]["widgets"][index].queryes[0];
+                var tags = getParameterByName("tags", query).split(";");
+                var metrics = getParameterByName("metrics", query).split(";");
+                var aggregator = getParameterByName("aggregator", query);
+            } else
+            {
+                var tags = dashJSON[row]["widgets"][index].queryes[0].info.tags.split(";");
+                var metrics = dashJSON[row]["widgets"][index].queryes[0].info.metrics.split(";");
+                var aggregator = dashJSON[row]["widgets"][index].queryes[0].info.aggregator;
+            }
+
+
             this.formwraper.find("#tab_metrics div.tags").html("");
             for (var tagindex in tags)
             {
@@ -27,7 +41,7 @@ class ChartEditForm {
                     this.formwraper.find("#tab_metrics div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
                 }
             }
-            var metrics = getParameterByName("metrics", query).split(";");
+
             this.formwraper.find("#tab_metrics div.metrics").html("")
             for (var metricindex in metrics)
             {
@@ -37,7 +51,7 @@ class ChartEditForm {
                 }
             }
 
-            var aggregator = getParameterByName("aggregator", query);
+
             if (aggregator === "")
             {
                 this.formwraper.find("#tab_metrics select#aggregator").val("none");
@@ -46,10 +60,29 @@ class ChartEditForm {
                 this.formwraper.find("#tab_metrics select#aggregator").val(aggregator);
             }
 
-//            this.formwraper.find("#tab_metrics input#tags").val(getParameterByName("tags", query));
-//            this.formwraper.find("#tab_metrics input#metrics").val(getParameterByName("metrics", query));
-//            this.formwraper.find("#tab_metrics input#aggregator").val(getParameterByName("aggregator", query));
-//            this.formwraper.find("#tab_metrics input#down-sample").val(getParameterByName("downsample", query));
+            if (typeof (dashJSON[row]["widgets"][index].queryes[0].info) !== "undefined")
+            {
+                this.formwraper.find("#tab_metrics input#alias").val(dashJSON[row]["widgets"][index].queryes[0].info.alias);
+                var ds = dashJSON[row]["widgets"][index].queryes[0].info.downsample;
+                if (ds === "")
+                {
+
+                } else
+                {
+                    var ds_ = ds.split("-");
+                    this.formwraper.find("#tab_metrics input#down-sample-time").val(ds_[0]);
+                    this.formwraper.find("#tab_metrics select#down-sample-aggregator").val(ds_[1]);
+                }
+
+                var elem = document.getElementById("disable_downsampling");
+                if (elem.checked != dashJSON[row]["widgets"][index].queryes[0].info.downsamplingstate)
+                {
+                    $(elem).trigger('click');
+                }
+
+            }
+
+
         } else
         {
 //            this.formwraper.find("#tab_metrics input#tags").val("");
@@ -332,7 +365,7 @@ class ChartEditForm {
     chage(input) {
         if (input.parents("form").hasClass("edit-query"))
         {
-            console.log(input);
+//            console.log(input);
             var metrics = "";
             this.formwraper.find(".query_metric .text").each(function () {
                 metrics = metrics + $(this).text() + ";";
@@ -351,9 +384,10 @@ class ChartEditForm {
             var query = "metrics=" + metrics + "&tags=" + tags +
                     "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + downsample;
 
-            
+
             this.dashJSON[this.row]["widgets"][this.index].queryes = [];
-            this.dashJSON[this.row]["widgets"][this.index].queryes.push(query);
+            this.dashJSON[this.row]["widgets"][this.index].queryes.push({"url": query, info: {"downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val()}});
+//            console.log(this.dashJSON[this.row]["widgets"][this.index].queryes);
         }
 
 //        console.log("dfsdfsdfs");
