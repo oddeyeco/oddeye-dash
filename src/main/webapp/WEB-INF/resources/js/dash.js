@@ -34,7 +34,13 @@ function setdatabyQueryes(option, url, start, end, chart)
     option.tmpoptions.legend.data = [];
 
 //    option.tmpoptions.toolbox.feature.magicType.show = true;
-
+    option.tmpoptions.toolbox.feature.magicType.title= {
+                    line: 'Line',
+                    bar: 'Bar',
+                    stack: 'Stacked',
+                    tiled: 'Tiled'
+                },
+    option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
     option.tmpoptions.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
 
     for (k in option.queryes)
