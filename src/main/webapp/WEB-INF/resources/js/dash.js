@@ -86,7 +86,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                             {
                                 series.stack = "0";
                             }
-
+                            series.type = option.type;
                             if (!series.itemStyle)
                             {
                                 series.itemStyle = {normal: {}};
@@ -200,7 +200,8 @@ function setdatabyQueryes(option, url, start, end, chart)
                     {
                         radius = 25;
                     }
-                    var rows = (Object.keys(tmpseries).length % 4) + 1;
+                    var rows = Math.floor((Object.keys(tmpseries).length / 5)) + 1;
+                    console.log(Object.keys(tmpseries).length);
                     var top = 50;
                     if (rows > 1)
                     {
@@ -228,8 +229,15 @@ function setdatabyQueryes(option, url, start, end, chart)
                         {
                             series.radius = radius + "%";
                             series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+//                            console.log(series.center);
+//                            console.log(row);
+//                            console.log(top);
+                            console.log(rows);
                         }
-
+                        if (option.stacked)
+                        {
+                            series.stack = "0";
+                        }
                         if (option.type === "funnel")
                         {
                             if (row !== 1)
