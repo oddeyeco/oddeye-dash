@@ -389,7 +389,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
 {        
     showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
     SingleRedrawtimer = setTimeout(function () {
-        AutoRefreshSingle(row, index, readonly, rebuildform, true);
+        AutoRefreshSingle(row, index, readonly, false, true);
     }, interval);
 }
 
