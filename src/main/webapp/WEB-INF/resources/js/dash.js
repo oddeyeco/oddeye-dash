@@ -375,7 +375,7 @@ defoption = {
     },
     series: [defserie]
 };
-var interval = 10000;
+var interval = 1000;
 
 function AutoRefresh(redraw = false)
 {    
