@@ -499,6 +499,10 @@ function redrawAllJSON(dashJSON, redraw = false)
 var echartLine;
 
 function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true) {
+    if (rebuildform)
+    {
+        chartForm = null;
+    }
     $(".editchartpanel").show();
     if (readonly)
     {
@@ -547,7 +551,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
-    }    
+    }
     if (rebuildform)
     {
         chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
