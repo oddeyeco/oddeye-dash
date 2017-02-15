@@ -82,6 +82,11 @@ function setdatabyQueryes(option, url, start, end, chart)
                             }
                             series.data = chdata;
                             series.symbol = option.points;
+                            if (option.stacked)
+                            {
+                                series.stack = "0";
+                            }
+
                             if (!series.itemStyle)
                             {
                                 series.itemStyle = {normal: {}};
@@ -115,17 +120,18 @@ function setdatabyQueryes(option, url, start, end, chart)
                     var xdata = [];
                     var sdata = [];
                     var tmpseries = {};
-                    if (option.type === "pie")
+                    if (option.type === "pie" || option.type === "funnel")
                     {
                         //TODO haskanal xi chi asxatum
                         option.tmpoptions.toolbox.feature.magicType.type = ['pie', 'funnel'];
+                        console.log(option.tmpoptions.toolbox.feature.magicType.type);
                     } else
                     {
                         option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar'];
                     }
                     ;
 
-                    console.log(option.tmpoptions.toolbox.feature.magicType);
+//                    console.log(option.tmpoptions.toolbox.feature.magicType);
                     for (var index in data.chartsdata)
                     {
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
@@ -233,15 +239,15 @@ function setdatabyQueryes(option, url, start, end, chart)
                             series.itemStyle = {
                                 normal: {
                                     label: {
-                                        position: 'right',
+                                        position: 'right'
                                     },
                                     labelLine: {
                                         show: true
                                     }
                                 },
                             };
-                            series.width = radius-5 + "%";
-                            series.height = 100 / rows -5+ "%";
+                            series.width = radius - 5 + "%";
+                            series.height = 100 / rows - 5 + "%";
                             series.x = index * radius - radius + '%';
                             series.y = (row * 50 + 2.5) + "%";
                         }

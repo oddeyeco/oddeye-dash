@@ -794,6 +794,14 @@
                                         <input chart_prop_key="fill" type="checkbox" class="js-switch-small" checked ="checked" id="display_fillArea" name="display_fillArea" /> 
                                     </div>
                                 </div>                                                                                                                                               
+                                <div class="form-group form-group-custom">
+                                    <label for="display_stacked" class="control-label control-label-custom" >
+                                        Stacked
+                                    </label>                                 
+                                    <div class="checkbox" style="display: inline-block">
+                                        <input chart_prop_key="stacked" type="checkbox" class="js-switch-small" checked ="checked" id="display_stacked" name="display_stacked" /> 
+                                    </div>
+                                </div>                                                                                                                                                                               
                             </div>    
                             <div class="form_main_block pull-left">
                                 <div class="form-group form-group-custom">

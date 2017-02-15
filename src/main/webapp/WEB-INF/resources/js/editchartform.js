@@ -131,6 +131,25 @@ class ChartEditForm {
                 $(elem).trigger('click');
             }
         }
+        
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].stacked) == "undefined")
+        {
+            var input = this.formwraper.find("#display_stacked");
+            var elem = document.getElementById(input.attr("id"));
+            if (elem.checked)
+            {
+                $(elem).trigger('click');
+            }
+
+        } else
+        {
+            var input = this.formwraper.find("#display_stacked");
+            var elem = document.getElementById(input.attr("id"));
+            if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].stacked)
+            {
+                $(elem).trigger('click');
+            }
+        }        
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom) == "undefined")
         {
@@ -408,15 +427,15 @@ class ChartEditForm {
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = elem.checked;
             }
 
-            if (key == "fill")
+            if (key == "fill"||key == "stacked")
             {
                 var elem = document.getElementById(input.attr("id"));
                 if (elem.checked)
                 {
-                    this.dashJSON[this.row]["widgets"][this.index].fill = elem.checked;
+                    this.dashJSON[this.row]["widgets"][this.index][key] = elem.checked;
                 } else
                 {
-                    delete this.dashJSON[this.row]["widgets"][this.index].fill;
+                    delete this.dashJSON[this.row]["widgets"][this.index][key];
                 }
             }
             if (key == "type" || key == "points")
