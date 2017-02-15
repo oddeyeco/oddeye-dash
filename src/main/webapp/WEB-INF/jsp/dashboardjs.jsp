@@ -180,7 +180,7 @@
         window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
 
 //        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
-        AutoRefreshSingle(single_rowindex, single_widgetindex, dashJSONvar);
+        AutoRefreshSingle(single_rowindex, single_widgetindex);
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
         clearTimeout(AllRedrawtimer);
@@ -192,7 +192,8 @@
         var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
         window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
 //        window.location.reload();
-        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar, true);
+//        showsingleChart(single_rowindex, single_widgetindex, true, true);
+        AutoRefreshSingle(single_rowindex, single_widgetindex,true,true);
         clearTimeout(AllRedrawtimer);
     });
 
