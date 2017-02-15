@@ -199,10 +199,10 @@ var timens = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "ns";
-    if (val<0)
+    if (val < 0)
     {
-      val= 0;  
-    }      
+        val = 0;
+    }
     if (val > divatior + 1)
     {
         val = val / 1000;
@@ -229,10 +229,10 @@ var timemicros = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "µs";
-    if (val<0)
+    if (val < 0)
     {
-      val= 0;  
-    }  
+        val = 0;
+    }
     if (val > divatior + 1)
     {
         val = val / 1000;
@@ -251,10 +251,10 @@ var timems = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "ms";
-    if (val<0)
+    if (val < 0)
     {
-      val= 0;  
-    }  
+        val = 0;
+    }
     if (val > divatior + 1)
     {
         return format_time(moment.duration(val));
@@ -288,10 +288,10 @@ var timed = function (params) {
 
 var format_time = function (time, base = "s") {
     var val = time.asSeconds();
-    if (val<0)
+    if (val < 0)
     {
-      val= 0;  
-    }    
+        val = 0;
+    }
     var metric = base;
     var isday = false;
     if (val > 60)
@@ -629,6 +629,10 @@ function clone_obg(obj) {
         var temp = obj.constructor();
 
     for (var key in obj) {
+        if (key == "echartLine")
+        {
+            continue;
+        }
         if (Object.prototype.hasOwnProperty.call(obj, key)) {
             obj['isActiveClone'] = null;
             temp[key] = clone_obg(obj[key]);

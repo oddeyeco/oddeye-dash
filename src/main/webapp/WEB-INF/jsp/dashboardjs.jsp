@@ -50,32 +50,28 @@
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var widgetindex = $(this).parents(".chartsection").first().attr("index");
         delete dashJSONvar[rowindex]["widgets"][widgetindex];
-        itemcount = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-        if (itemcount < 4)
-        {
-            size = Math.round(12 / itemcount);
-        } else
-        {
-            size = 3;
-        }
-
-        for (key in dashJSONvar[rowindex]["widgets"])
-        {
-            dashJSONvar[rowindex]["widgets"][key].size = size;
-        }
+//        itemcount = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
+//        if (itemcount < 4)
+//        {
+//            size = Math.round(12 / itemcount);
+//        } else
+//        {
+//            size = 3;
+//        }
+//
+//        for (key in dashJSONvar[rowindex]["widgets"])
+//        {
+//            dashJSONvar[rowindex]["widgets"][key].size = size;
+//        }
         redrawAllJSON(dashJSONvar);
     });
 
-    $('body').on("click", ".dublicate", function () {
-
+    $('body').on("click", ".dublicate", function () {        
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
         var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-//        dashJSONvar[rowindex]["widgets"][curentwidgetindex].tmpoptions = dashJSONvar[rowindex]["widgets"][curentwidgetindex].echartLine.getOption();
-        delete  dashJSONvar[rowindex]["widgets"][curentwidgetindex].echartLine;
         dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
-
-//        console.log(dashJSONvar);
+        delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;        
         redrawAllJSON(dashJSONvar);
     });
 
@@ -179,31 +175,29 @@
     var single_widgetindex = 0;
 
     $('body').on("click", ".editchart", function () {
-        single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-        single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
         window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
+        
         showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
-        if ($('#axes_mode_x').val() === 'category') {
-            $('.only-Series').show();
-        } else {
-            $('.only-Series').hide();
-        }
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
-        
+
     });
 
     $('body').on("click", ".view", function () {
-        single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-        single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
         window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
+//        window.location.reload();
         showsingleChart(single_rowindex, single_widgetindex, dashJSONvar, true);
     });
 
     $('body').on("click", ".backtodush", function () {
         $(".editchartpanel").hide();
         $(".fulldash").show();
-        window.history.pushState({}, "", window.location.pathname);
+        window.history.pushState({}, "", window.location.pathname);        
+//        window.location.reload();
         redrawAllJSON(dashJSONvar);
     });
 
@@ -328,7 +322,8 @@
         if ((request_W_index == null) && (request_R_index == null))
         {
             window.history.pushState({}, "", window.location.pathname);
-            redrawAllJSON(dashJSONvar);
+//            redrawAllJSON(dashJSONvar);
+            AutoRefresh();
         } else
         {
             var NoOpt = false;
@@ -358,10 +353,10 @@
                 } else {
                     $('.only-Series').hide();
                 }
-                
+
                 $(".editchartpanel select").select2({minimumResultsForSearch: 15});
                 $(".select2_group").select2({dropdownCssClass: "menu-select"});
-                
+
 
 
 //                showsingleChart(request_R_index, request_W_index, dashJSONvar);

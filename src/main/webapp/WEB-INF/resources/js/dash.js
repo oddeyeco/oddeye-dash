@@ -51,10 +51,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                 query = query + "&downsample=" + option.queryes[k].info.downsample;
             }
         }
-
-
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-//        console.log(uri);
         $.getJSON(uri, null, function (data) {
             if (Object.keys(data.chartsdata).length > 0)
             {
@@ -125,7 +122,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     var xdata = [];
                     var sdata = [];
                     var tmpseries = {};
-                    
+
                     for (var index in data.chartsdata)
                     {
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
@@ -211,10 +208,10 @@ function setdatabyQueryes(option, url, start, end, chart)
                             var cildren = [];
                             for (var ind in tmpseries[key])
                             {
-                                val=val+tmpseries[key][ind].value;                                
-                                cildren.push({value: tmpseries[key][ind].value, name: key+"."+tmpseries[key][ind].name});
+                                val = val + tmpseries[key][ind].value;
+                                cildren.push({value: tmpseries[key][ind].value, name: key + "." + tmpseries[key][ind].name});
                             }
-                            
+
                             data.push({value: val, name: key, children: cildren})
                         }
                         series.name = option.tmpoptions.title.text;
@@ -378,23 +375,38 @@ defoption = {
     },
     series: [defserie]
 };
+var interval = 10000;
 
-function redrawAllJSON(dashJSON)
+function AutoRefresh(redraw = false)
+{
+    redrawAllJSON(dashJSONvar, redraw);
+    timer = setTimeout(function () {
+        AutoRefresh(true);
+    }, interval);
+}
+
+function redrawAllJSON(dashJSON, redraw = false)
 {
     var rowindex;
     var widgetindex;
-    $("#dashcontent").html("");
+    if (!redraw)
+    {
+        $("#dashcontent").html("");
+    }
     for (rowindex in dashJSON)
     {
-        $("#rowtemplate .widgetraw").attr("index", rowindex);
-        $("#rowtemplate .widgetraw").attr("id", "row" + rowindex);
-        var html = $("#rowtemplate").html();
-        $("#dashcontent").append(html);
-        $("#rowtemplate .widgetraw").attr("id", "row");
+        if (!redraw)
+        {
+            $("#rowtemplate .widgetraw").attr("index", rowindex);
+            $("#rowtemplate .widgetraw").attr("id", "row" + rowindex);
+            var html = $("#rowtemplate").html();
+            $("#dashcontent").append(html);
+            $("#rowtemplate .widgetraw").attr("id", "row");
+        }
         for (widgetindex in    dashJSON[rowindex]["widgets"])
         {
-//            if (dashJSON[rowindex]["widgets"][widgetindex].type === "line")
-            if (true)
+//            console.log(widgetindex);
+            if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
             {
                 var bkgclass = "";
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) === "undefined")
@@ -412,14 +424,14 @@ function redrawAllJSON(dashJSON)
                     }
                 }
 
-//                console.log(dashJSON[rowindex]["widgets"][widgetindex].size);
+
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + "col-xs-12 col-md-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
-//                console.log(typeof (dashJSON[rowindex]["widgets"][widgetindex].height));
+
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) !== "undefined")
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height);
@@ -433,49 +445,54 @@ function redrawAllJSON(dashJSON)
                 }
                 $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
-                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions) === "undefined")
-                {
-                    dashJSON[rowindex]["widgets"][widgetindex].tmpoptions = defoption;
-                    dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
-                } else
-                {
+            }
+            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions) === "undefined")
+            {
+                dashJSON[rowindex]["widgets"][widgetindex].tmpoptions = defoption;
+                dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
+            } else
+            {
 
-                    if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
+                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
+                {
+                    if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
                     {
                         dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
-                        var startdate = "5m-ago";
-                        var enddate = "now";
-                        if (pickerlabel === "Custom")
-                        {
-                            startdate = pickerstart;
-                            enddate = pickerend;
-                        } else
-                        {
-                            if (typeof (rangeslabels[pickerlabel]) !== "undefined")
-                            {
-                                startdate = rangeslabels[pickerlabel];
-                            }
-
-                        }
-
-                        setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);
+                    }
+                    var startdate = "5m-ago";
+                    var enddate = "now";
+                    if (pickerlabel === "Custom")
+                    {
+                        startdate = pickerstart;
+                        enddate = pickerend;
                     } else
                     {
-                        if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length === 1)
+                        if (typeof (rangeslabels[pickerlabel]) !== "undefined")
                         {
-                            if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data.length === 0)
-                            {
-                                dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
-                            }
+                            startdate = rangeslabels[pickerlabel];
                         }
-                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
-                        dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].tmpoptions);
+
                     }
+
+                    setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);
+//                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
+                } else
+                {
+                    if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length === 1)
+                    {
+                        if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data.length === 0)
+                        {
+                            dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
+                        }
+                    }
+                    dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
+                    dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].tmpoptions);
                 }
-                $("#charttemplate .chartsection").attr("id", "widget");
             }
+            $("#charttemplate .chartsection").attr("id", "widget");
+
         }
-    }
+}
 }
 
 
@@ -525,13 +542,12 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
             }
 
         }
+
         setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
-    }
-
-//    console.log(dashJSON[row]["widgets"][index].tmpoptions.legend);
+    }    
     if (rebuildform)
     {
         chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
