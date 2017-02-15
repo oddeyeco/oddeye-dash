@@ -1,5 +1,8 @@
 /* global numbers, cp, colorPalette, format_metric, echarts, pickerlabel, pickerstart, pickerend, rangeslabels, dashJSONvar */
 
+var AllRedrawtimer;
+var SingleRedrawtimer;
+
 function datafunc() {
     var d = [];
     var len = 0;
@@ -26,7 +29,7 @@ function replacer(tags) {
     };
 }
 
-function setdatabyQueryes(option, url, start, end, chart)
+function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 {
 //    console.log(option.queryes);
     var k;
@@ -34,13 +37,13 @@ function setdatabyQueryes(option, url, start, end, chart)
     option.tmpoptions.legend.data = [];
 
 //    option.tmpoptions.toolbox.feature.magicType.show = true;
-    option.tmpoptions.toolbox.feature.magicType.title= {
-                    line: 'Line',
-                    bar: 'Bar',
-                    stack: 'Stacked',
-                    tiled: 'Tiled'
-                },
-    option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
+    option.tmpoptions.toolbox.feature.magicType.title = {
+        line: 'Line',
+        bar: 'Bar',
+        stack: 'Stacked',
+        tiled: 'Tiled'
+    },
+            option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
     option.tmpoptions.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
 
     for (k in option.queryes)
@@ -281,22 +284,6 @@ function setdatabyQueryes(option, url, start, end, chart)
                             option.tmpoptions.series.push(series);
                         }
                     }
-
-//                    var series = clone_obg(defserie);
-//                    series.data = sdata;
-//                    series.type = option.type;
-//                    option.tmpoptions.tooltip.trigger = 'item';
-//
-//                    series.itemStyle = {
-//                        normal: {
-//                            color: function (params) {
-//                                return colorPalette[params.dataIndex % colorPalette.length];
-//                            }
-//                        }
-//                    };
-//                    option.tmpoptions.series.push(series);
-
-
                     option.tmpoptions.xAxis[0].data = xdata;
                 }
             }
@@ -320,9 +307,16 @@ function setdatabyQueryes(option, url, start, end, chart)
                     }
                 }
             }
-            chart.setOption(option.tmpoptions);
+            if (redraw)
+            {
+                chart.setOption({series: option.tmpoptions.series});
+            } else
+            {
+                chart.setOption(option.tmpoptions);
+            }
+
         });
-    }
+}
 
 }
 
@@ -384,12 +378,21 @@ defoption = {
 var interval = 10000;
 
 function AutoRefresh(redraw = false)
-{
+{    
     redrawAllJSON(dashJSONvar, redraw);
-    timer = setTimeout(function () {
+    AllRedrawtimer = setTimeout(function () {
         AutoRefresh(true);
     }, interval);
 }
+
+function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
+{    
+    showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
+    SingleRedrawtimer = setTimeout(function () {
+        AutoRefreshSingle(row, index, readonly, rebuildform, true);
+    }, interval);
+}
+
 
 function redrawAllJSON(dashJSON, redraw = false)
 {
@@ -480,7 +483,7 @@ function redrawAllJSON(dashJSON, redraw = false)
 
                     }
 
-                    setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine);
+                    setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine, redraw);
 //                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
                 } else
                 {
@@ -504,7 +507,7 @@ function redrawAllJSON(dashJSON, redraw = false)
 
 var echartLine;
 
-function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true) {
+function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false) {
     if (rebuildform)
     {
         chartForm = null;
@@ -532,9 +535,10 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
             $(".editchartpanel #singlewidget").addClass("chartbkg");
         }
     }
-
-//    dashJSON[row]["widgets"][index].tmpoptions.legend.show = true;
-    echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
+    if (!redraw)
+    {
+        echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
+    }
     if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
     {
 
@@ -553,7 +557,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 
         }
 
-        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine);
+        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);

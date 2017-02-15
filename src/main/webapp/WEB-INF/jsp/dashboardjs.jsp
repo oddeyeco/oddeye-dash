@@ -66,12 +66,12 @@
         redrawAllJSON(dashJSONvar);
     });
 
-    $('body').on("click", ".dublicate", function () {        
+    $('body').on("click", ".dublicate", function () {
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
         var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
         dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
-        delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;        
+        delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
         redrawAllJSON(dashJSONvar);
     });
 
@@ -178,10 +178,12 @@
         var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
         var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
         window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
-        
-        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
+
+//        showsingleChart(single_rowindex, single_widgetindex, dashJSONvar);
+        AutoRefreshSingle(single_rowindex, single_widgetindex, dashJSONvar);
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
+        clearTimeout(AllRedrawtimer);
 
     });
 
@@ -191,14 +193,15 @@
         window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
 //        window.location.reload();
         showsingleChart(single_rowindex, single_widgetindex, dashJSONvar, true);
+        clearTimeout(AllRedrawtimer);
     });
 
     $('body').on("click", ".backtodush", function () {
         $(".editchartpanel").hide();
         $(".fulldash").show();
-        window.history.pushState({}, "", window.location.pathname);        
-//        window.location.reload();
-        redrawAllJSON(dashJSONvar);
+        window.history.pushState({}, "", window.location.pathname);
+        clearTimeout(SingleRedrawtimer);
+        AutoRefresh();
     });
 
 
@@ -343,11 +346,12 @@
             if (NoOpt)
             {
                 window.history.pushState({}, "", window.location.pathname);
-                redrawAllJSON(dashJSONvar);
+                AutoRefresh();
+//                redrawAllJSON(dashJSONvar);
             } else
             {
                 var action = getParameterByName("action");
-                showsingleChart(request_R_index, request_W_index, dashJSONvar, action !== "edit");
+                AutoRefreshSingle(request_R_index, request_W_index, action !== "edit");
                 if ($('#axes_mode_x').val() === 'category') {
                     $('.only-Series').show();
                 } else {
