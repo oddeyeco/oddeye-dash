@@ -17,8 +17,6 @@ class ChartEditForm {
 
         if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
         {
-//            var query = "?" + dashJSON[row]["widgets"][index].queryes[0].url;
-//            console.log(dashJSON[row]["widgets"][index].queryes[0]);
             if ((typeof (dashJSON[row]["widgets"][index].queryes[0])) === "string")
             {
                 var query = "?" + dashJSON[row]["widgets"][index].queryes[0];
@@ -85,6 +83,8 @@ class ChartEditForm {
 
         } else
         {
+            this.formwraper.find("#tab_metrics div.tags").html("");
+            this.formwraper.find("#tab_metrics div.metrics").html("")
 //            this.formwraper.find("#tab_metrics input#tags").val("");
 //            this.formwraper.find("#tab_metrics input#aggregator").val("");
 //            this.formwraper.find("#tab_metrics input#metrics").val("");

@@ -811,7 +811,7 @@
                                     <select id="display_charttype" chart_prop_key="type" name="display_charttype" class="form-control title_select">
                                         <option value="line" selected>Lines</option>
                                         <option value="bar">Bars</option>
-                                        <option value="k">Candlestick</option>
+                                        <!--<option value="k">Candlestick</option>-->
                                         <option value="pie">Pie</option>
                                         <!--<option value="radar">Radar</option>-->
                                         <!--<option value="chord">chord</option>-->

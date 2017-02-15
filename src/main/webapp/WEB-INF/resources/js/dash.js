@@ -32,6 +32,11 @@ function setdatabyQueryes(option, url, start, end, chart)
     var k;
     option.tmpoptions.series = [];
     option.tmpoptions.legend.data = [];
+
+//    option.tmpoptions.toolbox.feature.magicType.show = true;
+
+    option.tmpoptions.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
+
     for (k in option.queryes)
     {
         if ((typeof (option.queryes[k])) === "string")
@@ -120,18 +125,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                     var xdata = [];
                     var sdata = [];
                     var tmpseries = {};
-                    if (option.type === "pie" || option.type === "funnel")
-                    {
-                        //TODO haskanal xi chi asxatum
-                        option.tmpoptions.toolbox.feature.magicType.type = ['pie', 'funnel'];
-                        console.log(option.tmpoptions.toolbox.feature.magicType.type);
-                    } else
-                    {
-                        option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar'];
-                    }
-                    ;
-
-//                    console.log(option.tmpoptions.toolbox.feature.magicType);
+                    
                     for (var index in data.chartsdata)
                     {
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
@@ -167,9 +161,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                         }
                         if (m_sample === "min")
                         {
-
                             val = numbers.basic.min(chdata);
-
                         }
                         if (m_sample === "max")
                         {
@@ -191,6 +183,7 @@ function setdatabyQueryes(option, url, start, end, chart)
                         {
                             tmpseries[data.chartsdata[index].metric] = [];
                         }
+
                         tmpseries[data.chartsdata[index].metric].push({value: val, name: name});
 
                         sdata.push({value: val, name: name});
@@ -201,7 +194,6 @@ function setdatabyQueryes(option, url, start, end, chart)
                         radius = 25;
                     }
                     var rows = Math.floor((Object.keys(tmpseries).length / 5)) + 1;
-                    console.log(Object.keys(tmpseries).length);
                     var top = 50;
                     if (rows > 1)
                     {
@@ -209,62 +201,82 @@ function setdatabyQueryes(option, url, start, end, chart)
                     }
                     index = 1;
                     var row = 0;
-                    for (var key in tmpseries)
+                    if (option.type === "treemap")
                     {
-                        if (index > 4)
-                        {
-                            index = 1;
-                            row++;
-                        }
-
                         var series = clone_obg(defserie);
-                        series.name = key;
-                        if (option.type === "bar")
+                        data = [];
+                        for (var key in tmpseries)
                         {
-                            option.tmpoptions.legend.data.push(key);
-                        }
-                        series.data = tmpseries[key];
-                        series.type = option.type;
-                        if (option.type === "pie")
-                        {
-                            series.radius = radius + "%";
-                            series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
-//                            console.log(series.center);
-//                            console.log(row);
-//                            console.log(top);
-                            console.log(rows);
-                        }
-                        if (option.stacked)
-                        {
-                            series.stack = "0";
-                        }
-                        if (option.type === "funnel")
-                        {
-                            if (row !== 1)
+                            var val = 0;
+                            var cildren = [];
+                            for (var ind in tmpseries[key])
                             {
-                                series.sort = 'ascending';
+                                val=val+tmpseries[key][ind].value;                                
+                                cildren.push({value: tmpseries[key][ind].value, name: key+"."+tmpseries[key][ind].name});
                             }
-                            series.itemStyle = {
-                                normal: {
-                                    label: {
-                                        position: 'right'
-                                    },
-                                    labelLine: {
-                                        show: true
-                                    }
-                                },
-                            };
-                            series.width = radius - 5 + "%";
-                            series.height = 100 / rows - 5 + "%";
-                            series.x = index * radius - radius + '%';
-                            series.y = (row * 50 + 2.5) + "%";
+                            
+                            data.push({value: val, name: key, children: cildren})
                         }
-
+                        series.name = option.tmpoptions.title.text;
+                        series.type = option.type;
                         option.tmpoptions.tooltip.trigger = 'item';
-                        index++;
-
-
+                        series.data = data;
                         option.tmpoptions.series.push(series);
+                    } else
+                    {
+                        for (var key in tmpseries)
+                        {
+                            if (index > 4)
+                            {
+                                index = 1;
+                                row++;
+                            }
+
+                            var series = clone_obg(defserie);
+                            series.name = key;
+                            if (option.type === "bar")
+                            {
+                                option.tmpoptions.legend.data.push(key);
+                            }
+                            series.data = tmpseries[key];
+                            series.type = option.type;
+                            if (option.type === "pie")
+                            {
+                                series.radius = radius + "%";
+                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                            }
+                            if (option.stacked)
+                            {
+                                series.stack = "0";
+                            }
+                            if (option.type === "funnel")
+                            {
+                                if (row !== 1)
+                                {
+                                    series.sort = 'ascending';
+                                }
+                                series.itemStyle = {
+                                    normal: {
+                                        label: {
+                                            position: 'right'
+                                        },
+                                        labelLine: {
+                                            show: true
+                                        }
+                                    },
+                                };
+                                series.width = radius - 5 + "%";
+                                series.height = 100 / rows - 5 + "%";
+                                series.x = index * radius - radius + '%';
+                                series.y = (row * 50 + 2.5) + "%";
+                            }
+
+                            option.tmpoptions.tooltip.trigger = 'item';
+                            index++;
+
+
+                            option.tmpoptions.series.push(series);
+                        }
                     }
 
 //                    var series = clone_obg(defserie);
@@ -337,9 +349,11 @@ defoption = {
                 show: true,
                 title: {
                     line: 'Line',
-                    bar: 'Bar'
+                    bar: 'Bar',
+                    stack: 'Stacked',
+                    tiled: 'Tiled'
                 },
-                type: ['line', 'bar']
+                type: ['line', 'bar', 'stack', "tiled"]
             },
             saveAsImage: {
                 show: true,
