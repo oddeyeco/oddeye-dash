@@ -55,18 +55,18 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             }
         }
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-//        chart.showLoading("default", {
-//            text: '',
-//            color: colorPalette[0],
-//            textColor: '#000',
-//            maskColor: 'rgba(255, 255, 255, 0.2)',
-//            zlevel: 0
-//        });
+        chart.showLoading("default", {
+            text: '',
+            color: colorPalette[0],
+            textColor: '#000',
+            maskColor: 'rgba(255, 255, 255, 0.2)',
+            zlevel: 0
+        });
 //            console.log(option.tmpoptions.xAxis[0].type);
         var m_sample = option.tmpoptions.xAxis[0].m_sample;
 
         $.getJSON(uri, null, function (data) {
-//            chart.hideLoading();
+            chart.hideLoading();
             if (Object.keys(data.chartsdata).length > 0)
             {
                 if (option.tmpoptions.xAxis[0].type === "time")
@@ -333,6 +333,13 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                 chart.setOption(option.tmpoptions);
             }
 
+            if (dashJSONvar.times.intervall)
+            {
+                SingleRedrawtimer = setTimeout(function () {
+                    setdatabyQueryes(option, url, start, end, chart, redraw)
+                }, dashJSONvar.times.intervall);
+            }
+
         });
 }
 
@@ -407,23 +414,23 @@ $('body').on("change", "#refreshtime", function () {
 function AutoRefresh(redraw = false)
 {
     redrawAllJSON(dashJSONvar, redraw);
-    if (dashJSONvar.times.intervall)
-    {
-        AllRedrawtimer = setTimeout(function () {
-            AutoRefresh(true);
-        }, dashJSONvar.times.intervall);
-}
+//    if (dashJSONvar.times.intervall)
+//    {
+//        AllRedrawtimer = setTimeout(function () {
+//            AutoRefresh(true);
+//        }, dashJSONvar.times.intervall);
+//}
 }
 
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
 {
     showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
-    if (dashJSONvar.times.intervall)
-    {
-        SingleRedrawtimer = setTimeout(function () {
-            AutoRefreshSingle(row, index, readonly, false, true);
-        }, dashJSONvar.times.intervall);
-}
+//    if (dashJSONvar.times.intervall)
+//    {
+//        SingleRedrawtimer = setTimeout(function () {
+//            AutoRefreshSingle(row, index, readonly, false, true);
+//        }, dashJSONvar.times.intervall);
+//}
 }
 
 
