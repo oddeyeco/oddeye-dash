@@ -388,9 +388,9 @@ function AutoRefresh(redraw = false)
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
 {        
     showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
-    SingleRedrawtimer = setTimeout(function () {
-        AutoRefreshSingle(row, index, readonly, false, true);
-    }, interval);
+//    SingleRedrawtimer = setTimeout(function () {
+//        AutoRefreshSingle(row, index, readonly, false, true);
+//    }, interval);
 }
 
 

@@ -493,32 +493,37 @@ var format_metric = function (params, type = "m") {
     var metric = " ";
     if (val !== 0)
     {
-        var level = Math.round(Math.log(val) / Math.log(divatior));
+        var level = Math.floor(Math.log(val) / Math.log(divatior));
         if ((level > 1) || (level < 0))
-        {
-            val = (val / Math.pow(divatior, level));
-            if (type === "v")
-            {
-                level = level - 2;
-            }
+        {            
+//            if (type === "v")
+//            {
+//                level = level - 2;
+//            }
         }
+        
+        
         if (level < -9)
         {
+            val = (val / Math.pow(divatior, level));
             level = -9;
         }
         if (level > 26)
         {
+            val = (val / Math.pow(divatior, level));
             level = 26;
         }
         switch (level)
         {
             case -1:
             {
+                val = (val / Math.pow(divatior, level));
                 metric = " d";
                 break;
             }
             case -2:
             {
+                val = (val / Math.pow(divatior, level));
                 metric = " c";
                 break;
             }
@@ -526,6 +531,7 @@ var format_metric = function (params, type = "m") {
             case - 4:
             case -5:
             {
+                val = (val / Math.pow(divatior, -3));
                 metric = " m";
                 break;
             }
@@ -533,29 +539,21 @@ var format_metric = function (params, type = "m") {
             case - 7:
             case -8:
             {
+                val = (val / Math.pow(divatior, -6));
                 metric = " μ";
                 break;
             }
             case -9:
             {
+                val = (val / Math.pow(divatior, level));
                 metric = " n";
                 break;
-            }
-
-//            case 1:
-//            {
-//                metric = " da";
-//                break;
-//            }
-//            case 2:
-//            {
-//                metric = " h";
-//                break;
-//            }            
+            }           
             case 3:
             case 4:
             case 5:
             {
+                val = (val / Math.pow(divatior, 3));
                 metric = " k";
                 break;
             }
@@ -563,6 +561,7 @@ var format_metric = function (params, type = "m") {
             case 7:
             case 8:
             {
+                val = (val / Math.pow(divatior, 6));
                 metric = " M";
                 break;
             }
@@ -570,6 +569,7 @@ var format_metric = function (params, type = "m") {
             case 10:
             case 11:
             {
+                val = (val / Math.pow(divatior, 9));
                 metric = " G";
                 break;
             }
@@ -577,6 +577,7 @@ var format_metric = function (params, type = "m") {
             case 13:
             case 14:
             {
+                val = (val / Math.pow(divatior, 12));
                 metric = " T";
                 break;
             }
@@ -584,6 +585,7 @@ var format_metric = function (params, type = "m") {
             case 16:
             case 17:
             {
+                val = (val / Math.pow(divatior, 15));
                 metric = " P";
                 break;
             }
@@ -591,14 +593,15 @@ var format_metric = function (params, type = "m") {
             case 19:
             case 20:
             {
+                val = (val / Math.pow(divatior, 18));
                 metric = " E";
-
                 break;
             }
             case 21:
             case 22:
             case 23:
             {
+                val = (val / Math.pow(divatior, 21));
                 metric = " Z";
                 break;
             }
@@ -606,11 +609,13 @@ var format_metric = function (params, type = "m") {
             case 25:
             case 26:
             {
+                val = (val / Math.pow(divatior, 24));
                 metric = " Y";
                 break;
             }
             default:
             {
+                val = (val / Math.pow(divatior, level));
                 metric = " ";
                 break;
             }
