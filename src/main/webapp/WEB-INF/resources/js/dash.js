@@ -28,8 +28,7 @@ function replacer(tags) {
 
 function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 {
-    var k;
-    option.tmpoptions.series = [];
+    var k;    
     option.tmpoptions.legend.data = [];
     option.tmpoptions.toolbox.feature.magicType.title = {
         line: 'Line',
@@ -66,7 +65,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
         var m_sample = option.tmpoptions.xAxis[0].m_sample;
 
         $.getJSON(uri, null, function (data) {
-            chart.hideLoading();
+            option.tmpoptions.series = [];            
             if (Object.keys(data.chartsdata).length > 0)
             {
                 if (option.tmpoptions.xAxis[0].type === "time")
@@ -332,11 +331,11 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             {
                 chart.setOption(option.tmpoptions);
             }
-
+            chart.hideLoading();
             if (dashJSONvar.times.intervall)
             {
                 SingleRedrawtimer = setTimeout(function () {
-                    setdatabyQueryes(option, url, start, end, chart, redraw)
+                    setdatabyQueryes(option, url, start, end, chart, true)
                 }, dashJSONvar.times.intervall);
             }
 
