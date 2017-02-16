@@ -234,6 +234,26 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             }
                             series.data = tmpseries[key];
                             series.type = option.type;
+                            option.tmpoptions.tooltip.trigger = 'item';
+                            if (option.type === "line")
+                            {
+                                if (option.fill)
+                                {
+                                    if (option.fill !== "none")
+                                    {
+                                        series.areaStyle = {normal: {opacity: option.fill}};
+                                    }
+                                }
+                                if (option.step)
+                                {
+                                    if (option.step !== "")
+                                    {
+                                        series.step = option.step;
+                                    }
+                                }
+                                series.symbol = option.points;
+                                option.tmpoptions.tooltip.trigger = 'axis';
+                            }
                             if (option.type === "pie")
                             {
                                 series.radius = radius + "%";
@@ -265,7 +285,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 series.y = (row * 50 + 2.5) + "%";
                             }
 
-                            option.tmpoptions.tooltip.trigger = 'item';
+                            
                             index++;
 
 
