@@ -785,15 +785,7 @@
                                     <div class="checkbox" style="display: inline-block">
                                         <input chart_prop_key="dataZoom" type="checkbox" class="js-switch-small" checked ="checked" id="display_datazoom" name="display_datazoom" /> 
                                     </div>
-                                </div>                                                                                                           
-                                <div class="form-group form-group-custom">
-                                    <label for="display_fillArea" class="control-label control-label-custom" >
-                                        Fill Area
-                                    </label>                                 
-                                    <div class="checkbox" style="display: inline-block">
-                                        <input chart_prop_key="fill" type="checkbox" class="js-switch-small" checked ="checked" id="display_fillArea" name="display_fillArea" /> 
-                                    </div>
-                                </div>                                                                                                                                               
+                                </div>                                                                                                                                                                                                                                                        
                                 <div class="form-group form-group-custom">
                                     <label for="display_stacked" class="control-label control-label-custom" >
                                         Stacked
@@ -843,8 +835,37 @@
                                         <option value="emptyTriangle">Empty Triangle</option>
                                         <option value="emptyDiamond">Empty Diamond</option>
                                     </select>                                            
-
                                 </div>                                      
+                                <div class="form-group form-group-custom">
+                                    <label for="display_fillArea" class="control-label control-label-custom" >
+                                        Fill Area
+                                    </label>          
+                                    <select id="display_fillArea" chart_prop_key="fill" name="display_fillArea" class="form-control title_select">
+                                        <option value="none" selected>None</option>
+                                        <option value="0.1" >1</option>
+                                        <option value="0.2" >2</option>
+                                        <option value="0.3" >3</option>
+                                        <option value="0.4" >4</option>
+                                        <option value="0.5" >5</option>
+                                        <option value="0.6" >6</option>
+                                        <option value="0.7" >7</option>
+                                        <option value="0.8" >8</option>
+                                        <option value="0.9" >9</option>
+                                        <option value="1" >10</option>
+                                    </select>                                    
+                                </div>   
+                                <div class="form-group form-group-custom">
+                                    <label for="display_steped" class="control-label control-label-custom" >
+                                        Staircase
+                                    </label>          
+                                    <select id="display_steped" chart_prop_key="step" name="display_steped" class="form-control title_select">
+                                        <option value="" selected>None</option>
+                                        <option value="start" >start</option>
+                                        <option value="middle" >middle</option>
+                                        <option value="end" >end</option>
+                                    </select>                                    
+                                </div>                                
+                                
                             </div>   
                             <div class="form_main_block pull-left grid">
                                 <div class="form-group form-group-custom">

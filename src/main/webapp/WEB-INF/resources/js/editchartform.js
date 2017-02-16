@@ -85,10 +85,6 @@ class ChartEditForm {
         {
             this.formwraper.find("#tab_metrics div.tags").html("");
             this.formwraper.find("#tab_metrics div.metrics").html("")
-//            this.formwraper.find("#tab_metrics input#tags").val("");
-//            this.formwraper.find("#tab_metrics input#aggregator").val("");
-//            this.formwraper.find("#tab_metrics input#metrics").val("");
-//            this.formwraper.find("#tab_metrics input#down-sample").val("");
         }
 
 
@@ -115,23 +111,21 @@ class ChartEditForm {
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].fill) == "undefined")
         {
-            var input = this.formwraper.find("#display_fillArea");
-            var elem = document.getElementById(input.attr("id"));
-            if (elem.checked)
-            {
-                $(elem).trigger('click');
-            }
-
+            this.formwraper.find("#display_fillArea").val("none");
         } else
         {
-            var input = this.formwraper.find("#display_fillArea");
-            var elem = document.getElementById(input.attr("id"));
-            if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].fill)
-            {
-                $(elem).trigger('click');
-            }
+            this.formwraper.find("#display_fillArea").val(this.dashJSON[this.row]["widgets"][this.index].fill);
         }
+
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].step) == "undefined")
+        {
+            this.formwraper.find("#display_steped").val("false");
+        } else
+        {
+            this.formwraper.find("#display_steped").val(this.dashJSON[this.row]["widgets"][this.index].step);
+        }        
         
+
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].stacked) == "undefined")
         {
             var input = this.formwraper.find("#display_stacked");
@@ -149,7 +143,7 @@ class ChartEditForm {
             {
                 $(elem).trigger('click');
             }
-        }        
+        }
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom) == "undefined")
         {
@@ -221,8 +215,7 @@ class ChartEditForm {
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid) !== "undefined")
         {
             for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid)
-            {
-
+            {                
                 var inputs = this.formwraper.find("#tab_display .grid [chart_prop_key='" + key + "']");
                 inputs.each(function () {
                     formObj.fillinputs($(this), "grid", key);
@@ -427,7 +420,7 @@ class ChartEditForm {
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = elem.checked;
             }
 
-            if (key == "fill"||key == "stacked")
+            if (key == "stacked")
             {
                 var elem = document.getElementById(input.attr("id"));
                 if (elem.checked)
@@ -438,7 +431,7 @@ class ChartEditForm {
                     delete this.dashJSON[this.row]["widgets"][this.index][key];
                 }
             }
-            if (key == "type" || key == "points")
+            if (key == "type" || key == "points" || key == "fill" ||key == "step")
             {
                 this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
             }

@@ -98,26 +98,20 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 series.stack = "0";
                             }
                             series.type = option.type;
-                            if (!series.itemStyle)
-                            {
-                                series.itemStyle = {normal: {}};
-                            }
                             if (option.fill)
                             {
-                                if (!series.itemStyle.normal)
+                                if (option.fill !== "none")
                                 {
-                                    series.itemStyle.normal = {};
+                                    series.areaStyle = {normal: {opacity: option.fill}};
                                 }
-                                if (!series.itemStyle.normal.areaStyle)
-                                {
-                                    series.itemStyle.normal.areaStyle = {};
-                                }
-                                series.itemStyle.normal.areaStyle.type = 'default';
-                            } else
-                            {
-                                delete series.itemStyle.normal.areaStyle;
                             }
-//                            series.itemStyle = {normal: {areaStyle: {type: 'default'}}};
+                            if (option.step)
+                            {
+                                if (option.step != "")
+                                {
+                                    series.step = option.step;
+                                }                                
+                            }
                             option.tmpoptions.series.push(series);
                         }
                     }
@@ -375,10 +369,10 @@ defoption = {
     },
     series: [defserie]
 };
-var interval = 1000;
+var interval = 10000;
 
 function AutoRefresh(redraw = false)
-{    
+{
     redrawAllJSON(dashJSONvar, redraw);
     AllRedrawtimer = setTimeout(function () {
         AutoRefresh(true);
@@ -386,11 +380,11 @@ function AutoRefresh(redraw = false)
 }
 
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
-{        
+{
     showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
-//    SingleRedrawtimer = setTimeout(function () {
-//        AutoRefreshSingle(row, index, readonly, false, true);
-//    }, interval);
+    SingleRedrawtimer = setTimeout(function () {
+        AutoRefreshSingle(row, index, readonly, false, true);
+    }, interval);
 }
 
 
@@ -512,7 +506,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     {
         chartForm = null;
     }
-    $(".editchartpanel").show();    
+    $(".editchartpanel").show();
     if (readonly)
     {
         $(".edit-form").hide();
@@ -693,6 +687,17 @@ function maketagKInput(tagkinput, wraper) {
     $.getJSON(uri, null, function (data) {
 
         var tagvinput = tagkinput.parent().next().find("#tagv");
+
+        if (tagkinput.val() !== "")
+        {
+            var uri = cp + "/gettagvalue?key=" + tagkinput.val();
+            $.getJSON(uri, null, function (data) {
+                tagvinput.autocomplete({
+                    lookup: data.data,
+                    minChars: 0
+                });
+            });
+        }
         tagkinput.autocomplete({
             lookup: data.data,
             minChars: 0,
