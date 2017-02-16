@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel */
 
 var AllRedrawtimer;
 var SingleRedrawtimer;
