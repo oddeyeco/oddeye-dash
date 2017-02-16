@@ -1,3 +1,5 @@
+/* global define */
+
 var colorPalette = [
     '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', '#b6a2de',
     '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
@@ -136,7 +138,7 @@ var colorPalette = [
         line: {
             smooth: true,
             symbol: 'circle',
-            symbolSize: 8,
+            symbolSize: 8
         },
 
         candlestick: {
