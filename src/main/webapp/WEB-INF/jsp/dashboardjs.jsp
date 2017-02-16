@@ -50,19 +50,6 @@
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var widgetindex = $(this).parents(".chartsection").first().attr("index");
         delete dashJSONvar[rowindex]["widgets"][widgetindex];
-//        itemcount = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-//        if (itemcount < 4)
-//        {
-//            size = Math.round(12 / itemcount);
-//        } else
-//        {
-//            size = 3;
-//        }
-//
-//        for (key in dashJSONvar[rowindex]["widgets"])
-//        {
-//            dashJSONvar[rowindex]["widgets"][key].size = size;
-//        }
         redrawAllJSON(dashJSONvar);
     });
 
@@ -78,9 +65,7 @@
     $('body').on("click", ".addchart", function () {
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-        dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
-        //        $(this).parents(".x_content").first().find(".rowcontent").append($("#charttemplate").html());
-
+        dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};        
         itemcount = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
         if (itemcount < 4)
         {
@@ -127,14 +112,14 @@
     });
 
     $('body').on("click", ".savedash", function () {
-        url = "${cp}/dashboard/save";
-        to_senddata = {};
-        senddata = {};
+        var url = "${cp}/dashboard/save";
+        var to_senddata = {};
+        var senddata = {};
         if (Object.keys(dashJSONvar).length > 0)
         {
-            for (rowindex in dashJSONvar)
+            for (var rowindex in dashJSONvar)
             {
-                for (widgetindex in dashJSONvar[rowindex]["widgets"])
+                for (var widgetindex in dashJSONvar[rowindex]["widgets"])
                 {
 //                    dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.getOption();
                     delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
@@ -160,7 +145,6 @@
                 success: function (data) {
                     if (data.sucsses)
                     {
-//                        window.location = "${cp}/dashboard/" + senddata.name;
                         window.location.reload();
                     }
                 },
@@ -216,7 +200,7 @@
         for (var i = 0; i < elems.length; i++) {
             var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
             elems[i].onchange = function () {
-                if (chartForm != null)
+                if (chartForm !== null)
                 {
                     chartForm.chage($(this));
                 }
@@ -234,7 +218,7 @@
 
         $('#button_title_subtitle').on('click', function () {
             $('#title_subtitle').fadeToggle(500, function () {
-                if ($('#title_subtitle').css('display') == 'block')
+                if ($('#title_subtitle').css('display') === 'block')
                 {
                     $('#button_title_subtitle').removeClass("fa-chevron-circle-down");
                     $('#button_title_subtitle').addClass("fa-chevron-circle-up");
@@ -245,13 +229,11 @@
 
                 }
             });
-
-
-        })
+        });
 
         $('#button_title_description').on('click', function () {
             $('#title_subdescription').fadeToggle(500, function () {
-                if ($('#title_subdescription').css('display') == 'block')
+                if ($('#title_subdescription').css('display') === 'block')
                 {
                     $('#button_title_description').removeClass("fa-chevron-circle-down");
                     $('#button_title_description').addClass("fa-chevron-circle-up");
@@ -262,9 +244,7 @@
 
                 }
             });
-
-
-        })
+        });
 
         $('#button_title_position').on('click', function () {
             $('#position_block').fadeToggle(500, function () {
@@ -279,13 +259,11 @@
 
                 }
             });
-
-
-        })
+        });
 
         $('#button_title_color').on('click', function () {
             $('#color_block').fadeToggle(500, function () {
-                if ($('#color_block').css('display') == 'block')
+                if ($('#color_block').css('display') === 'block')
                 {
                     $('#button_title_color i').removeClass("fa-chevron-circle-down");
                     $('#button_title_color i').addClass("fa-chevron-circle-up");
@@ -296,13 +274,11 @@
 
                 }
             });
-
-
-        })
+        });
 
         $('#button_title_border').on('click', function () {
             $('#border_block').fadeToggle(500, function () {
-                if ($('#border_block').css('display') == 'block')
+                if ($('#border_block').css('display') === 'block')
                 {
                     $('#button_title_border i').removeClass("fa-chevron-circle-down");
                     $('#button_title_border i').addClass("fa-chevron-circle-up");
@@ -313,20 +289,12 @@
 
                 }
             });
-
-
-        })
-
-
-
-
+        });
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
-
-        if ((request_W_index == null) && (request_R_index == null))
+        if ((request_W_index === null) && (request_R_index === null))
         {
             window.history.pushState({}, "", window.location.pathname);
-//            redrawAllJSON(dashJSONvar);
             AutoRefresh();
         } else
         {
@@ -348,7 +316,6 @@
             {
                 window.history.pushState({}, "", window.location.pathname);
                 AutoRefresh();
-//                redrawAllJSON(dashJSONvar);
             } else
             {
                 var action = getParameterByName("action");
@@ -358,16 +325,9 @@
                 } else {
                     $('.only-Series').hide();
                 }
-
                 $(".editchartpanel select").select2({minimumResultsForSearch: 15});
                 $(".select2_group").select2({dropdownCssClass: "menu-select"});
-
-
-
-//                showsingleChart(request_R_index, request_W_index, dashJSONvar);
             }
         }
-        ;
-
-    })
+    });
 </script>

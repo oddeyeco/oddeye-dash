@@ -31,19 +31,16 @@ function replacer(tags) {
 
 function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 {
-//    console.log(option.queryes);
     var k;
     option.tmpoptions.series = [];
     option.tmpoptions.legend.data = [];
-
-//    option.tmpoptions.toolbox.feature.magicType.show = true;
     option.tmpoptions.toolbox.feature.magicType.title = {
         line: 'Line',
         bar: 'Bar',
         stack: 'Stacked',
         tiled: 'Tiled'
-    },
-            option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
+    };
+    option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
     option.tmpoptions.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
 
     for (k in option.queryes)
@@ -110,7 +107,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 if (option.step !== "")
                                 {
                                     series.step = option.step;
-                                }                                
+                                }
                             }
                             option.tmpoptions.series.push(series);
                         }
@@ -369,14 +366,14 @@ defoption = {
     },
     series: [defserie]
 };
-var interval = 10000;
+var definterval = 10000;
 
 function AutoRefresh(redraw = false)
 {
     redrawAllJSON(dashJSONvar, redraw);
     AllRedrawtimer = setTimeout(function () {
         AutoRefresh(true);
-    }, interval);
+    }, definterval);
 }
 
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
@@ -384,7 +381,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
     showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
     SingleRedrawtimer = setTimeout(function () {
         AutoRefreshSingle(row, index, readonly, false, true);
-    }, interval);
+    }, definterval);
 }
 
 
