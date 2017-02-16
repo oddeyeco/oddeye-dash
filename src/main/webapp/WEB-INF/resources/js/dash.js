@@ -285,7 +285,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 series.y = (row * 50 + 2.5) + "%";
                             }
 
-                            
+
                             index++;
 
 
@@ -385,20 +385,35 @@ defoption = {
 };
 var definterval = 10000;
 
+$('body').on("click", "#refresh", function () {    
+    repaint(true);
+});
+
+$('body').on("change", "#refreshtime", function () {
+    dashJSONvar.intervall = $(this).val();
+    repaint(true);
+});
+
 function AutoRefresh(redraw = false)
 {
-    redrawAllJSON(dashJSONvar, redraw);
-    AllRedrawtimer = setTimeout(function () {
-        AutoRefresh(true);
-    }, definterval);
+    redrawAllJSON(dashJSONvar, redraw);    
+    if (dashJSONvar.intervall)
+    {
+        AllRedrawtimer = setTimeout(function () {
+            AutoRefresh(true);
+        }, dashJSONvar.intervall);
+}
 }
 
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
 {
-    showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
-    SingleRedrawtimer = setTimeout(function () {
-        AutoRefreshSingle(row, index, readonly, false, true);
-    }, definterval);
+    showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);    
+    if (dashJSONvar.intervall)
+    {
+        SingleRedrawtimer = setTimeout(function () {
+            AutoRefreshSingle(row, index, readonly, false, true);
+        }, dashJSONvar.intervall);
+}
 }
 
 
@@ -639,8 +654,52 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         redrawAllJSON(dashJSONvar);
     }
 });
+function repaint(redraw = false) {
+    var request_W_index = getParameterByName("widget");
+    var request_R_index = getParameterByName("row");
+    if ((request_W_index === null) && (request_R_index === null))
+    {
+        window.history.pushState({}, "", window.location.pathname);
+        AutoRefresh(redraw);
+    } else
+    {
+        var NoOpt = false;
+        if (typeof (dashJSONvar[request_R_index]) === "undefined")
+        {
+            NoOpt = true;
+        }
 
+        if (!NoOpt)
+        {
+            if (typeof (dashJSONvar[request_R_index]["widgets"][request_W_index]) === "undefined")
+            {
+                NoOpt = true;
+            }
+        }
+
+        if (NoOpt)
+        {
+            window.history.pushState({}, "", window.location.pathname);
+            AutoRefresh(redraw);
+        } else
+        {
+            var action = getParameterByName("action");
+            AutoRefreshSingle(request_R_index, request_W_index, action !== "edit",true,redraw);
+            if ($('#axes_mode_x').val() === 'category') {
+                $('.only-Series').show();
+            } else {
+                $('.only-Series').hide();
+            }
+            $(".editchartpanel select").select2({minimumResultsForSearch: 15});
+            $(".select2_group").select2({dropdownCssClass: "menu-select"});
+        }
+    }
+}
 $(document).ready(function () {
+    $("#refreshtime").val(dashJSONvar.intervall);
+    $("#refreshtime").select2({minimumResultsForSearch: 15});
+    
+    
     if (dashJSONvar.times)
     {
         $('#reportrange span').html(dashJSONvar.times.pickerlabel);
@@ -742,45 +801,9 @@ $(document).ready(function () {
             }
         });
     });
-    var request_W_index = getParameterByName("widget");
-    var request_R_index = getParameterByName("row");
-    if ((request_W_index === null) && (request_R_index === null))
-    {
-        window.history.pushState({}, "", window.location.pathname);
-        AutoRefresh();
-    } else
-    {
-        var NoOpt = false;
-        if (typeof (dashJSONvar[request_R_index]) === "undefined")
-        {
-            NoOpt = true;
-        }
 
-        if (!NoOpt)
-        {
-            if (typeof (dashJSONvar[request_R_index]["widgets"][request_W_index]) === "undefined")
-            {
-                NoOpt = true;
-            }
-        }
+    repaint();
 
-        if (NoOpt)
-        {
-            window.history.pushState({}, "", window.location.pathname);
-            AutoRefresh();
-        } else
-        {
-            var action = getParameterByName("action");
-            AutoRefreshSingle(request_R_index, request_W_index, action !== "edit");
-            if ($('#axes_mode_x').val() === 'category') {
-                $('.only-Series').show();
-            } else {
-                $('.only-Series').hide();
-            }
-            $(".editchartpanel select").select2({minimumResultsForSearch: 15});
-            $(".select2_group").select2({dropdownCssClass: "menu-select"});
-        }
-    }
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
         $(this).find("ul").css("top", $(this).position().top);
         var curent = $(this);

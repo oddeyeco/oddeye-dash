@@ -336,3 +336,15 @@ span.tagspan span.text {
 .data-label a:hover {
     color: red;
 }
+
+#refresh_wrap .select2-container--default .select2-selection--single {
+    min-height: 31px;
+}
+
+#refresh_wrap .select2-container--default .select2-selection--single .select2-selection__rendered {    
+    padding-top: 2px;
+}
+
+#refresh_wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 30px;
+}

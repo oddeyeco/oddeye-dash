@@ -52,10 +52,29 @@
 
 <div class="x_panel">
     <div class="filter">
+        <div id="refresh" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
+            <i class="glyphicon glyphicon-refresh"></i>
+        </div>
+        <div id="refresh_wrap" class="pull-right" >
+            <select id="refreshtime" name="refreshtime" class="select2-hidden-accessible" style="width: 150px">
+                <option value="" selected>Refresh Off</option>
+                <option value="5000">Refresh every 5s</option>
+                <option value="10000">Refresh every 10s</option>
+                <option value="30000">Refresh every 30s</option>
+                <option value="60000">Refresh every 1m</option>
+                <option value="300000">Refresh every 5m</option>
+                <option value="900000">Refresh every 15m</option>
+                <option value="1800000">Refresh every 30m</option>
+                <option value="3600000">Refresh every 1h</option>
+                <option value="7200000">Refresh every 2h</option>
+                <option value="86400000">Refresh every 1d</option>                
+            </select>            
+        </div>
+
         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
             <span></span> <b class="caret"></b>
-        </div>
+        </div>     
     </div>  
 </div>
 
@@ -865,7 +884,7 @@
                                         <option value="end" >end</option>
                                     </select>                                    
                                 </div>                                
-                                
+
                             </div>   
                             <div class="form_main_block pull-left grid">
                                 <div class="form-group form-group-custom">
