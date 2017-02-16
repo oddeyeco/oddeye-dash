@@ -66,6 +66,27 @@ var PicerOptionSet1 = {
     }
 };
 
+var cbJson = function (JSON)
+{
+    return function (start, end, label) {
+        if (!JSON.times)  
+        {
+            JSON.times = {};
+        }   
+        JSON.times.pickerstart = start;
+        JSON.times.pickerend = end;
+        JSON.times.pickerlabel = label;
+
+        if (JSON.times.pickerlabel === "Custom")
+        {
+            $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
+        } else
+        {
+            $('#reportrange span').html(JSON.times.pickerlabel);
+        }
+    };
+}
+
 var cb = function (start, end, label) {
     pickerstart = start;
     pickerend = end;
@@ -495,14 +516,14 @@ var format_metric = function (params, type = "m") {
     {
         var level = Math.floor(Math.log(val) / Math.log(divatior));
         if ((level > 1) || (level < 0))
-        {            
+        {
 //            if (type === "v")
 //            {
 //                level = level - 2;
 //            }
         }
-        
-        
+
+
         if (level < -9)
         {
             val = (val / Math.pow(divatior, level));
@@ -548,7 +569,7 @@ var format_metric = function (params, type = "m") {
                 val = (val / Math.pow(divatior, level));
                 metric = " n";
                 break;
-            }           
+            }
             case 3:
             case 4:
             case 5:
