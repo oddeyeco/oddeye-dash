@@ -248,7 +248,7 @@
 
         $('#button_title_position').on('click', function () {
             $('#position_block').fadeToggle(500, function () {
-                if ($('#position_block').css('display') == 'block')
+                if ($('#position_block').css('display') === 'block')
                 {
                     $('#button_title_position i').removeClass("fa-chevron-circle-down");
                     $('#button_title_position i').addClass("fa-chevron-circle-up");
