@@ -107,7 +107,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             }
                             if (option.step)
                             {
-                                if (option.step != "")
+                                if (option.step !== "")
                                 {
                                     series.step = option.step;
                                 }                                
@@ -215,7 +215,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 cildren.push({value: tmpseries[key][ind].value, name: key + "." + tmpseries[key][ind].name});
                             }
 
-                            data.push({value: val, name: key, children: cildren})
+                            data.push({value: val, name: key, children: cildren});
                         }
                         series.name = option.tmpoptions.title.text;
                         series.type = option.type;
@@ -263,7 +263,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                         labelLine: {
                                             show: true
                                         }
-                                    },
+                                    }
                                 };
                                 series.width = radius - 5 + "%";
                                 series.height = 100 / rows - 5 + "%";
@@ -438,7 +438,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) !== "undefined")
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height);
-                    if (dashJSON[rowindex]["widgets"][widgetindex].height == "")
+                    if (dashJSON[rowindex]["widgets"][widgetindex].height === "")
                     {
                         $("#charttemplate .chartsection").find(".echart_line").css("height", "300px");
                     }
