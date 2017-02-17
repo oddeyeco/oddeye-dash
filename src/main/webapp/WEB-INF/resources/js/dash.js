@@ -1,6 +1,6 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL */
 
-var AllRedrawtimer;
+//var AllRedrawtimer;
 var SingleRedrawtimer;
 
 function datafunc() {
@@ -28,7 +28,19 @@ function replacer(tags) {
 
 function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 {
-    var k;    
+    option.visible = true;
+    if (chart._dom.getBoundingClientRect().bottom < 0)
+    {
+        option.visible = false;
+        return;
+    }
+    if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+    {
+        option.visible = false;
+        return;
+    }
+
+    var k;
     option.tmpoptions.legend.data = [];
     option.tmpoptions.toolbox.feature.magicType.title = {
         line: 'Line',
@@ -65,7 +77,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
         var m_sample = option.tmpoptions.xAxis[0].m_sample;
 
         $.getJSON(uri, null, function (data) {
-            option.tmpoptions.series = [];            
+            option.tmpoptions.series = [];
             if (Object.keys(data.chartsdata).length > 0)
             {
                 if (option.tmpoptions.xAxis[0].type === "time")
@@ -334,8 +346,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             chart.hideLoading();
             if (dashJSONvar.times.intervall)
             {
-                SingleRedrawtimer = setTimeout(function () {
-                    setdatabyQueryes(option, url, start, end, chart, true)
+                option.timer = setTimeout(function () {
+                    setdatabyQueryes(option, url, start, end, chart, true);
                 }, dashJSONvar.times.intervall);
             }
 
@@ -509,23 +521,23 @@ function redrawAllJSON(dashJSON, redraw = false)
                     }
                     var startdate = "5m-ago";
                     var enddate = "now";
-                    if (dashJSONvar.times)
+                    if (dashJSON.times)
                     {
-                        if (dashJSONvar.times.pickerlabel === "Custom")
+                        if (dashJSON.times.pickerlabel === "Custom")
                         {
-                            startdate = dashJSONvar.times.pickerstart;
-                            enddate = dashJSONvar.times.pickerend;
+                            startdate = dashJSON.times.pickerstart;
+                            enddate = dashJSON.times.pickerend;
                         } else
                         {
-                            if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+                            if (typeof (rangeslabels[dashJSON.times.pickerlabel]) !== "undefined")
                             {
-                                startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                                startdate = rangeslabels[dashJSON.times.pickerlabel];
                             }
 
                         }
                     }
-
-                    setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, dashJSON[rowindex]["widgets"][widgetindex].echartLine, redraw);
+                    var chart = dashJSON[rowindex]["widgets"][widgetindex].echartLine;
+                    setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, redraw);
 //                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
                 } else
                 {
@@ -1141,26 +1153,151 @@ $('body').on("click", ".editchart", function () {
     var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
     var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
     window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
+//    clearTimeout(AllRedrawtimer);
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer)
+            }
+        }
+    }
     AutoRefreshSingle(single_rowindex, single_widgetindex);
     $(".editchartpanel select").select2({minimumResultsForSearch: 15});
     $(".select2_group").select2({dropdownCssClass: "menu-select"});
-    clearTimeout(AllRedrawtimer);
-
+    $RIGHT_COL.css('min-height', $(window).height());
 });
 
 $('body').on("click", ".view", function () {
     var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
     var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
     window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }
     AutoRefreshSingle(single_rowindex, single_widgetindex, true, true);
-    clearTimeout(AllRedrawtimer);
+    $RIGHT_COL.css('min-height', $(window).height());
 });
 
 $('body').on("click", ".backtodush", function () {
     $(".editchartpanel").hide();
     $(".fulldash").show();
     window.history.pushState({}, "", window.location.pathname);
-    clearTimeout(SingleRedrawtimer);
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer)
+            }
+        }
+    }
     AutoRefresh();
+    $RIGHT_COL.css('min-height', $(window).height());
 });
 
+
+window.onscroll = function () {
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+
+
+                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible
+
+                dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
+                if (chart._dom.getBoundingClientRect().bottom < 0)
+                {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                }
+                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                }
+                if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
+                {
+                    var startdate = "5m-ago";
+                    var enddate = "now";
+                    if (dashJSONvar.times)
+                    {
+                        if (dashJSONvar.times.pickerlabel === "Custom")
+                        {
+                            startdate = dashJSONvar.times.pickerstart;
+                            enddate = dashJSONvar.times.pickerend;
+                        } else
+                        {
+                            if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+                            {
+                                startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                            }
+
+                        }
+                    }
+                    setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                }
+            }
+        }
+    }
+
+};
+
+window.onresize = function () {
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible
+                dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
+                if (chart._dom.getBoundingClientRect().bottom < 0)
+                {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                }
+                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                }
+                if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
+                {
+                    var startdate = "5m-ago";
+                    var enddate = "now";
+                    if (dashJSONvar.times)
+                    {
+                        if (dashJSONvar.times.pickerlabel === "Custom")
+                        {
+                            startdate = dashJSONvar.times.pickerstart;
+                            enddate = dashJSONvar.times.pickerend;
+                        } else
+                        {
+                            if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+                            {
+                                startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                            }
+
+                        }
+                    }
+                    setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                }
+                chart.resize();
+
+            }
+        }
+    }
+
+};
