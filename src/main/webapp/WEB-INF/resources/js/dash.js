@@ -28,17 +28,19 @@ function replacer(tags) {
 
 function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 {
-    
     option.visible = true;
-    if (chart._dom.getBoundingClientRect().bottom < 0)
+    if (chart._dom.className !== "echart_line_single")
     {
-        option.visible = false;
-        return;
-    }
-    if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-    {
-        option.visible = false;
-        return;
+        if (chart._dom.getBoundingClientRect().bottom < 0)
+        {
+            option.visible = false;
+            return;
+        }
+        if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+        {
+            option.visible = false;
+            return;
+        }
     }
 
     var k;
@@ -74,9 +76,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             maskColor: 'rgba(255, 255, 255, 0.2)',
             zlevel: 0
         });
-//            console.log(option.tmpoptions.xAxis[0].type);
         var m_sample = option.tmpoptions.xAxis[0].m_sample;
-
         $.getJSON(uri, null, function (data) {
             option.tmpoptions.series = [];
             if (Object.keys(data.chartsdata).length > 0)
@@ -448,6 +448,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
 
 function redrawAllJSON(dashJSON, redraw = false)
 {
+
     var rowindex;
     var widgetindex;
     if (!redraw)
@@ -456,10 +457,10 @@ function redrawAllJSON(dashJSON, redraw = false)
     }
     for (rowindex in dashJSON)
     {
-        if (rowindex==="times")
+        if (rowindex === "times")
         {
             continue;
-        }        
+        }
         if (!redraw)
         {
             $("#rowtemplate .widgetraw").attr("index", rowindex);
@@ -470,7 +471,6 @@ function redrawAllJSON(dashJSON, redraw = false)
         }
         for (widgetindex in    dashJSON[rowindex]["widgets"])
         {
-//            console.log(widgetindex);
             if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
             {
                 var bkgclass = "";
@@ -598,7 +598,8 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     if (!redraw)
     {
         echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
-    }    
+//        console.log(echartLine._dom);
+    }
     if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
     {
         var startdate = "5m-ago";
@@ -627,7 +628,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     if (rebuildform)
     {
         chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
-    }    
+}
 }
 ;
 
@@ -1306,7 +1307,7 @@ window.onresize = function () {
             }
         }
     }
-        if ($(".editchartpanel").is(':visible'))
+    if ($(".editchartpanel").is(':visible'))
     {
         echartLine.resize();
     }
