@@ -456,6 +456,10 @@ function redrawAllJSON(dashJSON, redraw = false)
     }
     for (rowindex in dashJSON)
     {
+        if (rowindex==="times")
+        {
+            continue;
+        }        
         if (!redraw)
         {
             $("#rowtemplate .widgetraw").attr("index", rowindex);
