@@ -28,6 +28,7 @@ function replacer(tags) {
 
 function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 {
+    
     option.visible = true;
     if (chart._dom.getBoundingClientRect().bottom < 0)
     {
@@ -562,6 +563,7 @@ function redrawAllJSON(dashJSON, redraw = false)
 var echartLine;
 
 function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false) {
+    $(".fulldash").hide();
     if (rebuildform)
     {
         chartForm = null;
@@ -592,24 +594,22 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     if (!redraw)
     {
         echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
-    }
+    }    
     if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
     {
-
         var startdate = "5m-ago";
         var enddate = "now";
-
-        if (dashJSONvar.times)
+        if (dashJSON.times)
         {
-            if (dashJSONvar.times.pickerlabel === "Custom")
+            if (dashJSON.times.pickerlabel === "Custom")
             {
-                startdate = dashJSONvar.times.pickerstart;
-                enddate = dashJSONvar.times.pickerend;
+                startdate = dashJSON.times.pickerstart;
+                enddate = dashJSON.times.pickerend;
             } else
             {
-                if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+                if (typeof (rangeslabels[dashJSON.times.pickerlabel]) !== "undefined")
                 {
-                    startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                    startdate = rangeslabels[dashJSON.times.pickerlabel];
                 }
 
             }
@@ -623,8 +623,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     if (rebuildform)
     {
         chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
-    }
-    $(".fulldash").hide();
+    }    
 }
 ;
 
@@ -1208,96 +1207,104 @@ $('body').on("click", ".backtodush", function () {
 
 
 window.onscroll = function () {
-    for (var rowindex in dashJSONvar)
+    if ($(".fulldash").is(':visible'))
     {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        for (var rowindex in dashJSONvar)
         {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
             {
-                var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
 
 
-                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
+                    var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
 
-                dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
-                if (chart._dom.getBoundingClientRect().bottom < 0)
-                {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
-                }
-                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-                {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
-                }
-                if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
-                {
-                    var startdate = "5m-ago";
-                    var enddate = "now";
-                    if (dashJSONvar.times)
+                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
+                    if (chart._dom.getBoundingClientRect().bottom < 0)
                     {
-                        if (dashJSONvar.times.pickerlabel === "Custom")
-                        {
-                            startdate = dashJSONvar.times.pickerstart;
-                            enddate = dashJSONvar.times.pickerend;
-                        } else
-                        {
-                            if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
-                            {
-                                startdate = rangeslabels[dashJSONvar.times.pickerlabel];
-                            }
-
-                        }
+                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
                     }
-                    setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                    if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                    {
+                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                    }
+                    if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
+                    {
+                        var startdate = "5m-ago";
+                        var enddate = "now";
+                        if (dashJSONvar.times)
+                        {
+                            if (dashJSONvar.times.pickerlabel === "Custom")
+                            {
+                                startdate = dashJSONvar.times.pickerstart;
+                                enddate = dashJSONvar.times.pickerend;
+                            } else
+                            {
+                                if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+                                {
+                                    startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                                }
+
+                            }
+                        }
+                        setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                    }
                 }
             }
         }
     }
-
 };
 
 window.onresize = function () {
-    for (var rowindex in dashJSONvar)
+    if ($(".fulldash").is(':visible'))
     {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        for (var rowindex in dashJSONvar)
         {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
             {
-                var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
-                dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
-                if (chart._dom.getBoundingClientRect().bottom < 0)
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
                 {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
-                }
-                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-                {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
-                }
-                if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
-                {
-                    var startdate = "5m-ago";
-                    var enddate = "now";
-                    if (dashJSONvar.times)
+                    var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+                    var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
+                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
+                    if (chart._dom.getBoundingClientRect().bottom < 0)
                     {
-                        if (dashJSONvar.times.pickerlabel === "Custom")
-                        {
-                            startdate = dashJSONvar.times.pickerstart;
-                            enddate = dashJSONvar.times.pickerend;
-                        } else
-                        {
-                            if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
-                            {
-                                startdate = rangeslabels[dashJSONvar.times.pickerlabel];
-                            }
-
-                        }
+                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
                     }
-                    setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
-                }
-                chart.resize();
+                    if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                    {
+                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                    }
+                    if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
+                    {
+                        var startdate = "5m-ago";
+                        var enddate = "now";
+                        if (dashJSONvar.times)
+                        {
+                            if (dashJSONvar.times.pickerlabel === "Custom")
+                            {
+                                startdate = dashJSONvar.times.pickerstart;
+                                enddate = dashJSONvar.times.pickerend;
+                            } else
+                            {
+                                if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+                                {
+                                    startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                                }
 
+                            }
+                        }
+                        setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                    }
+                    chart.resize();
+                }
             }
         }
+    }
+        if ($(".editchartpanel").is(':visible'))
+    {
+        echartLine.resize();
     }
 
 };
