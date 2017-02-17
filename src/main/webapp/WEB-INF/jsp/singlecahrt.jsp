@@ -2,12 +2,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="x_title">
                 <h1> ${metric.getDisplayName()} : ${metric.getTypeName()}</h1>
             </div>
             <div class="x_panel">
-                <div class="col-md-2 col-sm-2 col-xs-4">
+                <div class="col-xs-4 col-md-3">
                     <div class="x_content "> 
                         <div class="x_title">
                             <h2><i class="fa fa-asterisk"></i> Tags</h2>                                         
@@ -25,7 +25,7 @@
                         </ul>                
                     </div>                    
                 </div>
-                <div class="col-md-2 col-sm-2 col-xs-4">            
+                <div class="col-xs-4 col-md-3 ">            
                     <div class="x_content "> 
                         <div class="x_title">
                             <h2><i class="fa fa-line-chart"></i> Regression</h2>     

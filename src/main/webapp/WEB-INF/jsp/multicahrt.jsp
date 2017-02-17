@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div class="">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <div class="x_title">
                 <h1> Multi Chart</h1>
             </div>
