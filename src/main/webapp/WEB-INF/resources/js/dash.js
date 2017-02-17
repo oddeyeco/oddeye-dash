@@ -1160,7 +1160,7 @@ $('body').on("click", ".editchart", function () {
         {
             if (dashJSONvar[rowindex]["widgets"][widgetindex])
             {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer)
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
     }
@@ -1198,7 +1198,7 @@ $('body').on("click", ".backtodush", function () {
         {
             if (dashJSONvar[rowindex]["widgets"][widgetindex])
             {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer)
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
     }
@@ -1217,7 +1217,7 @@ window.onscroll = function () {
                 var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
 
 
-                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible
+                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
 
                 dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
                 if (chart._dom.getBoundingClientRect().bottom < 0)
@@ -1263,7 +1263,7 @@ window.onresize = function () {
             if (dashJSONvar[rowindex]["widgets"][widgetindex])
             {
                 var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible
+                var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
                 dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
                 if (chart._dom.getBoundingClientRect().bottom < 0)
                 {
