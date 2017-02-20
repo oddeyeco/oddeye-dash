@@ -263,8 +263,12 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             var series = clone_obg(defserie);
                             series.name = key;
                             if (option.type === "bar")
-                            {
+                            {                                
                                 option.tmpoptions.legend.data.push(key);
+                                if (Object.keys(tmpseries).length === 1)
+                                {
+                                    series.itemStyle={normal:{color:function(params){ return colorPalette[params.dataIndex]} }};
+                                }
                             }
                             series.data = tmpseries[key];
                             series.type = option.type;
