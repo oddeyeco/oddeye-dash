@@ -2,7 +2,19 @@
 
 //var AllRedrawtimer;
 var SingleRedrawtimer;
-
+var refreshtimes =
+        {
+            "5000": "Refresh every 5s",
+            "10000": "Refresh every 10s",
+            "30000": "Refresh every 30s",
+            "60000": "Refresh every 1m",
+            "300000": "Refresh every 5m",
+            "900000": "Refresh every 15m",
+            "1800000": "Refresh every 30m",
+            "3600000": "Refresh every 1h",
+            "7200000": "Refresh every 2h",
+            "86400000": "Refresh every 1d"
+        };
 function datafunc() {
     var d = [];
     var len = 0;
@@ -345,11 +357,28 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                 chart.setOption(option.tmpoptions);
             }
             chart.hideLoading();
-            if (dashJSONvar.times.intervall)
+            var GlobalRefresh = true;
+            if (option.times)
             {
-                option.timer = setTimeout(function () {
-                    setdatabyQueryes(option, url, start, end, chart, true);
-                }, dashJSONvar.times.intervall);
+                if (option.times.intervall)
+                {
+                    if (option.times.intervall !== "General")
+                    {
+                        GlobalRefresh = false;
+                        option.timer = setTimeout(function () {
+                            setdatabyQueryes(option, url, start, end, chart, true);
+                        }, option.times.intervall);
+                    }
+                }
+            }
+            if (GlobalRefresh)
+            {
+                if (dashJSONvar.times.intervall)
+                {
+                    option.timer = setTimeout(function () {
+                        setdatabyQueryes(option, url, start, end, chart, true);
+                    }, dashJSONvar.times.intervall);
+                }
             }
 
         });
@@ -499,6 +528,30 @@ function redrawAllJSON(dashJSON, redraw = false)
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
+                $("#charttemplate .chartsection .echart_time").html("");
+                if (dashJSON[rowindex]["widgets"][widgetindex].times)
+                {                 
+                    if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel)
+                    {                        
+                        if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel !== "Custom")
+                        {
+                            $("#charttemplate .chartsection .echart_time").append(dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel+" ");
+                        }
+                        else
+                        {
+                            $("#charttemplate .chartsection .echart_time").append("From "+moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart).format('MM/DD/YYYY H:m:s') +" to "+moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerend).format('MM/DD/YYYY H:m:s') +" ");
+                        }
+                    }                    
+                    if (dashJSON[rowindex]["widgets"][widgetindex].times.intervall)
+                    {                        
+                        if (dashJSON[rowindex]["widgets"][widgetindex].times.intervall !== "General")
+                        {
+                            $("#charttemplate .chartsection .echart_time").append(refreshtimes[dashJSON[rowindex]["widgets"][widgetindex].times.intervall]);
+                        }
+                    }
+
+                }
+
 
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) !== "undefined")
                 {
@@ -1057,11 +1110,11 @@ $("#addrow").on("click", function () {
     redrawAllJSON(dashJSONvar);
 });
 
-$('body').on("click", "#deleterowconfirm", function () {       
+$('body').on("click", "#deleterowconfirm", function () {
     var rowindex = $(this).attr("index");
     delete dashJSONvar[rowindex];
     redrawAllJSON(dashJSONvar);
-    $("#deleteConfirm").modal('hide');      
+    $("#deleteConfirm").modal('hide');
 });
 
 
@@ -1071,8 +1124,8 @@ $('body').on("click", ".deleterow", function () {
     $("#deleteConfirm").find('.btn-ok').attr('index', rowindex);
     $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
     $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Row?");
-    $("#deleteConfirm").find('.modal-body .text-warning').html("");   
-    $("#deleteConfirm").modal('show');            
+    $("#deleteConfirm").find('.modal-body .text-warning').html("");
+    $("#deleteConfirm").modal('show');
 });
 
 $('body').on("click", ".minus", function () {
@@ -1097,12 +1150,12 @@ $('body').on("click", ".plus", function () {
 });
 
 
-$('body').on("click", "#deletewidgetconfirm", function () {       
+$('body').on("click", "#deletewidgetconfirm", function () {
     var rowindex = $(this).attr("rowindex");
     var widgetindex = $(this).attr("widgetindex");
     delete dashJSONvar[rowindex]["widgets"][widgetindex];
     redrawAllJSON(dashJSONvar);
-    $("#deleteConfirm").modal('hide');      
+    $("#deleteConfirm").modal('hide');
 });
 
 
@@ -1114,8 +1167,8 @@ $('body').on("click", ".deletewidget", function () {
     $("#deleteConfirm").find('.btn-ok').attr('widgetindex', widgetindex);
     $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
     $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Panel?");
-    $("#deleteConfirm").find('.modal-body .text-warning').html("");   
-    $("#deleteConfirm").modal('show');            
+    $("#deleteConfirm").find('.modal-body .text-warning').html("");
+    $("#deleteConfirm").modal('show');
 });
 
 
@@ -1149,7 +1202,7 @@ $('body').on("click", ".addchart", function () {
 
 });
 
-$('body').on("click", "#deletedashconfirm", function () {       
+$('body').on("click", "#deletedashconfirm", function () {
     url = cp + "/dashboard/delete";
     senddata = {};
     senddata.name = $("#name").val();
@@ -1181,8 +1234,8 @@ $('body').on("click", ".deletedash", function () {
     $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
     $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
     $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this dashboard?");
-    $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());   
-    $("#deleteConfirm").modal('show');    
+    $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
+    $("#deleteConfirm").modal('show');
 });
 
 $('body').on("click", ".savedash", function () {

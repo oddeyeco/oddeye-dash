@@ -68,8 +68,8 @@ var PicerOptionSet1 = {
 
 
 var PicerOptionSet2 = {
-    startDate: moment().subtract(5, 'minute'),
-    endDate: moment(),
+//    startDate: moment().subtract(5, 'minute'),
+//    endDate: moment(),
     minDate: moment().subtract(1, 'year'),
     maxDate: moment().add(1, 'days'),
     drops: "up",
@@ -116,9 +116,9 @@ var cbJson = function (JSON, wraper)
         if (!JSON.times)
         {
             JSON.times = {};
-        }
-        JSON.times.pickerstart = start;
-        JSON.times.pickerend = end;
+        }        
+        JSON.times.pickerstart = start.valueOf();
+        JSON.times.pickerend = end.valueOf();
         JSON.times.pickerlabel = label;        
 
         if (JSON.times.pickerlabel === "Custom")

@@ -24,8 +24,14 @@ class ChartEditForm {
                 $("#refreshtime_private").val(dashJSON[row]["widgets"][index].times.intervall);
             }
             $('#reportrange_private span').html(dashJSON[row]["widgets"][index].times.pickerlabel);
-            PicerOptionSet2.startDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][0];
-            PicerOptionSet2.endDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][1];
+            if (dashJSON[row]["widgets"][index].times.pickerlabel)
+            {                
+                if (dashJSON[row]["widgets"][index].times.pickerlabel !== "Custom")
+                {
+                    PicerOptionSet2.startDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][0];
+                    PicerOptionSet2.endDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][1];
+                }
+            }
         }
         ;
 
@@ -478,9 +484,9 @@ class ChartEditForm {
                         for (var index in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis)
                         {
                             this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[index].show = false;
-                        }                        
+                        }
                     }
-                    
+
                 }
 
             }

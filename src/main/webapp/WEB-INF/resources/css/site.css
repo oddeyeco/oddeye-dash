@@ -349,3 +349,7 @@ span.tagspan span.text {
 #refresh_wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
     height: 30px;
 }
+
+.daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar, .daterangepicker.openscenter .ranges, .daterangepicker.openscenter .calendar {
+     float: left; 
+}

@@ -11,21 +11,13 @@
                     <span class="sr-only">Toggle Dropdown</span>
                 </a>
                 <ul class="dropdown-menu" role="menu">
-                    <li><a href="#" class="addchart">Add Line Chart</a>
+                    <li><a href="#" class="addchart">Add Chart</a>
                     <li class="divider"></li>
                     <li><a href="#" class="deleterow">Delete</a>    
                     </li>
-                    <!--                    <li><a href="#">Another action</a>
-                                        </li>
-                                        <li><a href="#">Something else here</a>
-                                        </li>
-                                        <li class="divider"></li>
-                                        <li><a href="#">Separated link</a>
-                                        </li>-->
                 </ul>
             </div>  
             <div class="x_content rowcontent raw">
-
             </div>        
         </div>
     </div>
@@ -34,7 +26,8 @@
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
         <div>
-            <div class="echart_line" id="echart_line" style="height:300px;"></div>                   
+            <div class="echart_time"></div>
+            <div class="echart_line" style="height:300px;"></div>                   
         </div>
         <div class="controls text-center">
             <div class="btn-group  btn-group-sm">
