@@ -56,7 +56,7 @@ class ChartEditForm {
                 }
             }
 
-            this.formwraper.find("#tab_metrics div.metrics").html("")
+            this.formwraper.find("#tab_metrics div.metrics").html("");
             for (var metricindex in metrics)
             {
                 if (metrics[metricindex] !== "")
@@ -100,7 +100,7 @@ class ChartEditForm {
         } else
         {
             this.formwraper.find("#tab_metrics div.tags").html("");
-            this.formwraper.find("#tab_metrics div.metrics").html("")
+            this.formwraper.find("#tab_metrics div.metrics").html("");
         }
 
 
@@ -206,23 +206,23 @@ class ChartEditForm {
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis) === "undefined")
         {
-            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'value', }];
+            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'value' }];
         } else
         {
             if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0]) === "undefined")
             {
-                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'time', }];
+                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'time' }];
             }
         }
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis) === "undefined")
         {
-            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis = [{type: 'time', }];
+            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis = [{type: 'time'}];
         } else
         {
             if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0]) === "undefined")
             {
-                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis = [{type: 'time', }];
+                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis = [{type: 'time'}];
             }
         }
         var key;
@@ -235,7 +235,7 @@ class ChartEditForm {
                 var inputs = this.formwraper.find("#tab_display .grid [chart_prop_key='" + key + "']");
                 inputs.each(function () {
                     formObj.fillinputs($(this), "grid", key);
-                })
+                });
             }
 
         }
@@ -264,7 +264,7 @@ class ChartEditForm {
                 var inputs = this.formwraper.find("#tab_axes [axes='yAxis'][index='0'][chart_prop_key='" + key + "']");
                 inputs.each(function () {
                     formObj.fillinputs($(this), "yAxis", key, 0);
-                })
+                });
             }
         }
 
@@ -301,7 +301,7 @@ class ChartEditForm {
                     var inputs = this.formwraper.find("#tab_axes [axes='yAxis'][index='1'][chart_prop_key='" + key + "']");
                     inputs.each(function () {
                         formObj.fillinputs($(this), "yAxis", key, 0);
-                    })
+                    });
                 }
             }
         }
@@ -330,7 +330,7 @@ class ChartEditForm {
                 var inputs = this.formwraper.find("#tab_axes [axes='xAxis'][index='0'][chart_prop_key='" + key + "']");
                 inputs.each(function () {
                     formObj.fillinputs($(this), "xAxis", key, 0);
-                })
+                });
             }
         }
 
@@ -340,7 +340,7 @@ class ChartEditForm {
             var inputs = this.formwraper.find("#tab_general [chart_prop_key='" + key + "']");
             inputs.each(function () {
                 formObj.fillinputs($(this), "title", key);
-            })
+            });
 
 
         }
@@ -418,7 +418,7 @@ class ChartEditForm {
             downsample = "";
             if (this.formwraper.find("#down-sample-time").val() !== "")
             {
-                var downsample = this.formwraper.find("#down-sample-time").val() + "-" + this.formwraper.find("#down-sample-aggregator").val()
+                var downsample = this.formwraper.find("#down-sample-time").val() + "-" + this.formwraper.find("#down-sample-aggregator").val();
             }
 
             var query = "metrics=" + metrics + "&tags=" + tags +
@@ -531,7 +531,7 @@ class ChartEditForm {
         {
             if (input.attr("id") === "dimensions_height")
             {
-                var points = ""
+                var points = "";
                 if ($.isNumeric(input.val()))
                 {
                     points = "px";
@@ -579,7 +579,7 @@ class ChartEditForm {
                     {
                         var empty = true;
                         inputs.each(function () {
-                            empty = empty & ($(this).val() === "")
+                            empty = empty & ($(this).val() === "");
                         });
                         if (empty)
                         {
@@ -587,15 +587,12 @@ class ChartEditForm {
                         }
                     }
 
-//                    if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key] || !input.val()) {
-
-//                    }
                     if (input.parent().hasClass("cl_picer"))
                     {
                         inputs.each(function () {
                             $(this).parent().colorpicker('setValue', 'transparent');
-                        })
-//                        input.parent().colorpicker('setValue', 'transparent');
+                        });
+
                     }
                 } else
                 {
