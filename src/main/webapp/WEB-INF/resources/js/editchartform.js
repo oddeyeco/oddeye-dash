@@ -25,7 +25,7 @@ class ChartEditForm {
             }
             $('#reportrange_private span').html(dashJSON[row]["widgets"][index].times.pickerlabel);
             if (dashJSON[row]["widgets"][index].times.pickerlabel)
-            {                
+            {
                 if (dashJSON[row]["widgets"][index].times.pickerlabel !== "Custom")
                 {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][0];
@@ -471,10 +471,8 @@ class ChartEditForm {
                 this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
                 if (key === "type")
                 {
-                    console.log(this.dashJSON[this.row]["widgets"][this.index].type);
                     if (this.dashJSON[this.row]["widgets"][this.index].type !== "line" && this.dashJSON[this.row]["widgets"][this.index].type !== "bar")
                     {
-                        console.log("valod");
                         this.dashJSON[this.row]["widgets"][this.index].stacked = false;
                         this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = false;
                         for (var index in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis)
@@ -723,10 +721,22 @@ class ChartEditForm {
         {
             if (input.attr("type").toLowerCase() === "number")
             {
-                if ($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]))
+                if (index === null)
                 {
-                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+                    if ($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]))
+                    {
+                        input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
+                    }
+                } else
+                {
+//                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
+                    if ($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]))
+                    {
+                        input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
+                    }
                 }
+
+
             }
 
             if (input.attr("type").toLowerCase() === "text")
@@ -738,7 +748,6 @@ class ChartEditForm {
                 } else
                 {
                     input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
-//                    input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][index][key]);
                 }
 
             }

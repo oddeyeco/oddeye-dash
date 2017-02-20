@@ -207,13 +207,19 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         {
                             val = chdata.length;
                         }
-                        if (!tmpseries[data.chartsdata[index].metric])
+
+                        if ((option.type === "gauge"))
                         {
-                            tmpseries[data.chartsdata[index].metric] = [];
+                            tmpseries[name] = {};
+                            tmpseries[name][data.chartsdata[index].metric] = {data: {value: val, name: name}, min: 0, max: numbers.basic.max(chdata)};
+                        } else
+                        {
+                            if (!tmpseries[data.chartsdata[index].metric])
+                            {
+                                tmpseries[data.chartsdata[index].metric] = [];
+                            }
+                            tmpseries[data.chartsdata[index].metric].push({value: val, name: name});
                         }
-
-                        tmpseries[data.chartsdata[index].metric].push({value: val, name: name});
-
                         sdata.push({value: val, name: name});
                     }
                     var radius = (100 / Object.keys(tmpseries).length);
@@ -262,15 +268,50 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 
                             var series = clone_obg(defserie);
                             series.name = key;
-                            if (option.type === "bar")
-                            {                                
+                            if (option.type === "bar" || option.type === "gauge")
+                            {
                                 option.tmpoptions.legend.data.push(key);
                                 if (Object.keys(tmpseries).length === 1)
                                 {
-                                    series.itemStyle={normal:{color:function(params){ return colorPalette[params.dataIndex]} }};
+                                    series.itemStyle = {normal: {color: function (params) {
+                                                return colorPalette[params.dataIndex]
+                                            }}};
                                 }
                             }
-                            series.data = tmpseries[key];
+                            if (option.type === "gauge")
+                            {
+                                for (var keyindex in tmpseries[key])
+                                {
+                                    if (!series.data)
+                                    {
+                                        series.data = [];
+                                    }
+                                    series.data.push(tmpseries[key][keyindex].data);
+                                    series.min = tmpseries[key][keyindex].min;
+                                    series.max = tmpseries[key][keyindex].max;
+                                    if (option.tmpoptions.yAxis[0].min)
+                                    {
+                                        series.min = option.tmpoptions.yAxis[0].min;
+                                    }
+                                    if (option.tmpoptions.yAxis[0].max)
+                                    {
+                                        series.max = option.tmpoptions.yAxis[0].max;
+                                    }
+                                    series.axisLine = {
+                                        lineStyle: {
+                                            color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
+                                            width: 3,
+                                            shadowColor: '#ccc', //默认透明
+                                            shadowBlur: 10
+                                        }
+                                    }
+
+                                }
+
+                            } else
+                            {
+                                series.data = tmpseries[key];
+                            }
                             series.type = option.type;
                             option.tmpoptions.tooltip.trigger = 'item';
                             if (option.type === "line")
@@ -295,6 +336,11 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             if (option.type === "pie")
                             {
                                 series.radius = radius + "%";
+                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                            }
+                            if (option.type === "gauge")
+                            {
+                                series.radius = (radius-2) * 2  + "%";
                                 series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
                             }
                             if (option.stacked)
@@ -322,12 +368,9 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 series.x = index * radius - radius + '%';
                                 series.y = (row * 50 + 2.5) + "%";
                             }
-
-
                             index++;
-
-
                             option.tmpoptions.series.push(series);
+
                         }
                     }
                     option.tmpoptions.xAxis[0].data = xdata;
@@ -534,20 +577,19 @@ function redrawAllJSON(dashJSON, redraw = false)
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection .echart_time").html("");
                 if (dashJSON[rowindex]["widgets"][widgetindex].times)
-                {                 
+                {
                     if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel)
-                    {                        
+                    {
                         if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel !== "Custom")
                         {
-                            $("#charttemplate .chartsection .echart_time").append(dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel+" ");
-                        }
-                        else
+                            $("#charttemplate .chartsection .echart_time").append(dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel + " ");
+                        } else
                         {
-                            $("#charttemplate .chartsection .echart_time").append("From "+moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart).format('MM/DD/YYYY H:m:s') +" to "+moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerend).format('MM/DD/YYYY H:m:s') +" ");
+                            $("#charttemplate .chartsection .echart_time").append("From " + moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
                         }
-                    }                    
+                    }
                     if (dashJSON[rowindex]["widgets"][widgetindex].times.intervall)
-                    {                        
+                    {
                         if (dashJSON[rowindex]["widgets"][widgetindex].times.intervall !== "General")
                         {
                             $("#charttemplate .chartsection .echart_time").append(refreshtimes[dashJSON[rowindex]["widgets"][widgetindex].times.intervall]);
