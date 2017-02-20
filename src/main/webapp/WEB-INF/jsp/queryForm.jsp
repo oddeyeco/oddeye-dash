@@ -16,8 +16,7 @@
     </div>
     <div class="form-group form-group-custom">
         <label class="control-label control-label-custom-legend" for="metrics">Aggregator: 
-        </label>
-        <!--<input id="aggregator" name="aggregator" class="form-control query_input" type="text" value="avg">-->        
+        </label>        
         <select id="aggregator" name="aggregator" class="form-control query_input">
             <option label="avg" value="avg">avg</option>
             <option label="count" value="count">count</option>

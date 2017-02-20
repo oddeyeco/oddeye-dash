@@ -967,5 +967,23 @@
         </div>
 
     </div>    
-
 </div>    
+                
+<div id="deleteConfirm" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete this dashboard?</p>
+                <p class="text-warning"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="deletedashconfirm" class="btn btn-ok">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>                

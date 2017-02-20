@@ -14,8 +14,8 @@ class ChartEditForm {
         this.row = row;
         this.index = index;
         this.dashJSON = dashJSON;
-        
-        
+
+
 //        console.log(dashJSON[row]["widgets"][index].times);
         if (dashJSON[row]["widgets"][index].times)
         {
@@ -26,10 +26,11 @@ class ChartEditForm {
             $('#reportrange_private span').html(dashJSON[row]["widgets"][index].times.pickerlabel);
             PicerOptionSet2.startDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][0];
             PicerOptionSet2.endDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][1];
-        };
-        
-        $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(dashJSON[row]["widgets"][index],$('#reportrange_private')));
-        
+        }
+        ;
+
+        $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(dashJSON[row]["widgets"][index], $('#reportrange_private')));
+
 
         if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
         {
@@ -206,12 +207,12 @@ class ChartEditForm {
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis) === "undefined")
         {
-            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'value' }];
+            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'value'}];
         } else
         {
             if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0]) === "undefined")
             {
-                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'time' }];
+                this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'time'}];
             }
         }
 
@@ -391,10 +392,10 @@ class ChartEditForm {
     }
 
     chage(input) {
-        
+
         if (input.parents("form").hasClass("edit-times"))
         {
-            if (input.attr('id')==="refreshtime_private")
+            if (input.attr('id') === "refreshtime_private")
             {
                 if (!this.dashJSON[this.row]["widgets"][this.index].times)
                 {
@@ -462,6 +463,26 @@ class ChartEditForm {
             if (key === "type" || key === "points" || key === "fill" || key === "step")
             {
                 this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
+                if (key === "type")
+                {
+                    console.log(this.dashJSON[this.row]["widgets"][this.index].type);
+                    if (this.dashJSON[this.row]["widgets"][this.index].type !== "line" && this.dashJSON[this.row]["widgets"][this.index].type !== "bar")
+                    {
+                        console.log("valod");
+                        this.dashJSON[this.row]["widgets"][this.index].stacked = false;
+                        this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = false;
+                        for (var index in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis)
+                        {
+                            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[index].show = false;
+                        }
+                        for (var index in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis)
+                        {
+                            this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[index].show = false;
+                        }                        
+                    }
+                    
+                }
+
             }
 
             if (input.parents(".form_main_block").hasClass("grid"))
@@ -505,16 +526,17 @@ class ChartEditForm {
                     delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index][key];
                 } else
                 {
+
                     this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index][key] = input.val();
                     if ((key === "type") && (input.val() === "category"))
                     {
-                        if (input.val() === "category")
-                        {
-                            this.dashJSON[this.row]["widgets"][this.index].type = "bar";
-                        } else
-                        {
-                            this.dashJSON[this.row]["widgets"][this.index].type = "line";
-                        }
+//                        if (input.val() === "category")
+//                        {
+//                            this.dashJSON[this.row]["widgets"][this.index].type = "bar";
+//                        } else
+//                        {
+//                            this.dashJSON[this.row]["widgets"][this.index].type = "line";
+//                        }
                         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_sample"]) === "undefined")
                         {
                             this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_sample"] = "avg";
@@ -523,6 +545,7 @@ class ChartEditForm {
                         {
                             this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_tags"] = 0;
                         }
+
                     }
                 }
             }

@@ -360,6 +360,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 var defserie = {
     name: null,
     type: 'line',
+    symbol: "none",
     sampling: 'average',
     data: null
 };
@@ -1056,10 +1057,22 @@ $("#addrow").on("click", function () {
     redrawAllJSON(dashJSONvar);
 });
 
-$('body').on("click", ".deleterow", function () {
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
+$('body').on("click", "#deleterowconfirm", function () {       
+    var rowindex = $(this).attr("index");
     delete dashJSONvar[rowindex];
     redrawAllJSON(dashJSONvar);
+    $("#deleteConfirm").modal('hide');      
+});
+
+
+$('body').on("click", ".deleterow", function () {
+    var rowindex = $(this).parents(".widgetraw").first().attr("index");
+    $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
+    $("#deleteConfirm").find('.btn-ok').attr('index', rowindex);
+    $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+    $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Row?");
+    $("#deleteConfirm").find('.modal-body .text-warning').html("");   
+    $("#deleteConfirm").modal('show');            
 });
 
 $('body').on("click", ".minus", function () {
@@ -1083,12 +1096,34 @@ $('body').on("click", ".plus", function () {
     redrawAllJSON(dashJSONvar);
 });
 
+//$('body').on("click", ".deletewidget", function () {
+//    var rowindex = $(this).parents(".widgetraw").first().attr("index");
+//    var widgetindex = $(this).parents(".chartsection").first().attr("index");
+//    delete dashJSONvar[rowindex]["widgets"][widgetindex];
+//    redrawAllJSON(dashJSONvar);
+//});
+
+$('body').on("click", "#deletewidgetconfirm", function () {       
+    var rowindex = $(this).attr("rowindex");
+    var widgetindex = $(this).attr("widgetindex");
+    delete dashJSONvar[rowindex]["widgets"][widgetindex];
+    redrawAllJSON(dashJSONvar);
+    $("#deleteConfirm").modal('hide');      
+});
+
+
 $('body').on("click", ".deletewidget", function () {
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var widgetindex = $(this).parents(".chartsection").first().attr("index");
-    delete dashJSONvar[rowindex]["widgets"][widgetindex];
-    redrawAllJSON(dashJSONvar);
+    $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
+    $("#deleteConfirm").find('.btn-ok').attr('rowindex', rowindex);
+    $("#deleteConfirm").find('.btn-ok').attr('widgetindex', widgetindex);
+    $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+    $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Panel?");
+    $("#deleteConfirm").find('.modal-body .text-warning').html("");   
+    $("#deleteConfirm").modal('show');            
 });
+
 
 $('body').on("click", ".dublicate", function () {
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
@@ -1120,7 +1155,7 @@ $('body').on("click", ".addchart", function () {
 
 });
 
-$('body').on("click", ".deletedash", function () {
+$('body').on("click", "#deletedashconfirm", function () {       
     url = cp + "/dashboard/delete";
     senddata = {};
     senddata.name = $("#name").val();
@@ -1148,6 +1183,14 @@ $('body').on("click", ".deletedash", function () {
 
 });
 
+$('body').on("click", ".deletedash", function () {
+    $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
+    $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+    $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this dashboard?");
+    $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());   
+    $("#deleteConfirm").modal('show');    
+});
+
 $('body').on("click", ".savedash", function () {
     var url = cp + "/dashboard/save";
     var to_senddata = {};
@@ -1158,7 +1201,6 @@ $('body').on("click", ".savedash", function () {
         {
             for (var widgetindex in dashJSONvar[rowindex]["widgets"])
             {
-//                    dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.getOption();
                 delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
                 for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions.series) {
                     dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions.series[k].data = [];
@@ -1168,7 +1210,6 @@ $('body').on("click", ".savedash", function () {
 
         senddata.info = JSON.stringify(dashJSONvar);
         senddata.name = $("#name").val();
-//            console.log(senddata);
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({
