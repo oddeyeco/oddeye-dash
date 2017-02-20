@@ -113,8 +113,10 @@
                 </li>                
                 <li role="presentation" class=""><a href="#tab_display" role="tab" id="display-tab" data-toggle="tab" aria-expanded="false">Display</a>
                 </li>                                
-                <li role="presentation" class=""><a href="#tab_times" role="tab" id="display-tab" data-toggle="tab" aria-expanded="false">Time Range</a>
+                <li role="presentation" class=""><a href="#tab_times" role="tab" id="time-tab" data-toggle="tab" aria-expanded="false">Time Range</a>
                 </li>                                                
+                <li role="presentation" class=""><a href="#tab_json" role="tab" id="json-tab" data-toggle="tab" aria-expanded="false">Json</a>
+                </li>                
             </ul>
             <div id="myTabContent" class="tab-content" >                
                 <div role="tabpanel" class="tab-pane fade active in" id="tab_general" aria-labelledby="general-tab">                        
@@ -956,12 +958,31 @@
                         </form>
                     </div>                        
                 </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab_json" aria-labelledby="json-tab">
+                    <div class="row">
+                        <form class="edit-ljson">
+                            <h3><label class="control-label" >
+                                    Json
+                                </label>                                    
+                            </h3>
+                            <div class="form-group">
+                                <textarea chart_prop_key="json" id="full_json" name="full_json"></textarea>
+                            </div>
+                            <div class="col-md-12 col-sm-12 col-xs-12 text-right">
+                                <button class="btn btn-primary" type="button" value="Default" id="jsonReset">Reset</button>        
+                                <button class="btn btn-success" type="button" value="Default" id="jsonApply">Apply</button>                                        
+                            </div>
+
+                        </form>                        
+                    </div>
+                </div> 
+
             </div>
         </div>
 
     </div>    
 </div>    
-                
+
 <div id="deleteConfirm" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">

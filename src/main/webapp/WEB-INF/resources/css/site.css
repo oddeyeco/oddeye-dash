@@ -353,3 +353,9 @@ span.tagspan span.text {
 .daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar, .daterangepicker.openscenter .ranges, .daterangepicker.openscenter .calendar {
      float: left; 
 }
+
+#full_json
+{
+    width: 100%;
+    min-height: 300px;
+}

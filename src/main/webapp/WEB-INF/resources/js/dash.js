@@ -40,6 +40,11 @@ function replacer(tags) {
 
 function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 {
+    if (option.tmpoptions)
+    {
+        option.options = clone_obg(option.tmpoptions);
+        delete option.tmpoptions;
+    }
     option.visible = true;
     if (chart._dom.className !== "echart_line_single")
     {
@@ -56,15 +61,15 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
     }
 
     var k;
-    option.tmpoptions.legend.data = [];
-    option.tmpoptions.toolbox.feature.magicType.title = {
+    option.options.legend.data = [];
+    option.options.toolbox.feature.magicType.title = {
         line: 'Line',
         bar: 'Bar',
         stack: 'Stacked',
         tiled: 'Tiled'
     };
-    option.tmpoptions.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
-    option.tmpoptions.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
+    option.options.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
+    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
 
     for (k in option.queryes)
     {
@@ -88,18 +93,39 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             maskColor: 'rgba(255, 255, 255, 0.2)',
             zlevel: 0
         });
-        var m_sample = option.tmpoptions.xAxis[0].m_sample;
+        var m_sample = option.options.xAxis[0].m_sample;
         $.getJSON(uri, null, function (data) {
-            option.tmpoptions.series = [];
+            console.log(option.options.series);
+            var oldseries = clone_obg(option.options.series);
+            option.options.series = [];
             if (Object.keys(data.chartsdata).length > 0)
             {
-                if (option.tmpoptions.xAxis[0].type === "time")
+                if (option.options.xAxis[0].type === "time")
                 {
                     for (index in data.chartsdata)
                     {
                         if (Object.keys(data.chartsdata[index].data).length > 0)
                         {
-                            var series = clone_obg(defserie);
+//                            console.log();
+                            var ser_index = option.options.series.length;
+                            if (oldseries[ser_index])
+                            {
+                                var series = clone_obg(oldseries[ser_index]);
+                                series.data = [];
+                            } else
+                            {
+                                var series = clone_obg(defserie);
+                            }
+                            if (!series.type)
+                            {
+                                series.type = option.type;
+                            }
+                            if (!series.symbol)
+                            {
+                                series.symbol = option.points;
+                            }
+
+
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                             if (typeof (option.queryes[k].info) !== "undefined")
                             {
@@ -112,7 +138,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 }
                             }
                             series.name = name;
-                            option.tmpoptions.legend.data.push({"name": name});
+                            option.options.legend.data.push({"name": name});
                             var chdata = [];
 
                             for (var time in data.chartsdata[index].data) {
@@ -121,12 +147,12 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 delete dateval;
                             }
                             series.data = chdata;
-                            series.symbol = option.points;
+
                             if (option.stacked)
                             {
                                 series.stack = "0";
                             }
-                            series.type = option.type;
+
                             if (option.fill)
                             {
                                 if (option.fill !== "none")
@@ -141,18 +167,19 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                     series.step = option.step;
                                 }
                             }
-                            option.tmpoptions.series.push(series);
+                            option.options.series.push(series);
                         }
                     }
-                    option.tmpoptions.tooltip.trigger = 'axis';
+                    option.options.tooltip.trigger = 'axis';
                 }
 
-                if (option.tmpoptions.xAxis[0].type === "category")
+                if (option.options.xAxis[0].type === "category")
                 {
-                    option.tmpoptions.series = [];
+                    option.options.series = [];
                     var xdata = [];
                     var sdata = [];
-                    var tmpseries = {};
+                    var tmp_series_1 = {};
+                    var tmp_series_3 = {};
 
                     for (var index in data.chartsdata)
                     {
@@ -173,7 +200,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             xdata.push(name);
                             if ((option.type === "pie") || (option.type === "funnel"))
                             {
-                                option.tmpoptions.legend.data.push(name);
+                                option.options.legend.data.push(name);
                             }
                         }
                         var chdata = [];
@@ -208,26 +235,26 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             val = chdata.length;
                         }
 
-                        if ((option.type === "gauge"))
+                        if (!tmp_series_1[data.chartsdata[index].metric])
                         {
-                            tmpseries[name] = {};
-                            tmpseries[name][data.chartsdata[index].metric] = {data: {value: val, name: name}, min: 0, max: numbers.basic.max(chdata)};
-                        } else
-                        {
-                            if (!tmpseries[data.chartsdata[index].metric])
-                            {
-                                tmpseries[data.chartsdata[index].metric] = [];
-                            }
-                            tmpseries[data.chartsdata[index].metric].push({value: val, name: name});
+                            tmp_series_1[data.chartsdata[index].metric] = [];
                         }
+                        tmp_series_1[data.chartsdata[index].metric].push({value: val, name: name});
+
+                        if (!tmp_series_3[data.chartsdata[index].metric])
+                        {
+                            tmp_series_3[data.chartsdata[index].metric] = {};
+                        }
+                        tmp_series_3[data.chartsdata[index].metric][name] = {data: {value: val, name: name}, min: 0, max: numbers.basic.max(chdata)};
+
                         sdata.push({value: val, name: name});
                     }
-                    var radius = (100 / Object.keys(tmpseries).length);
+                    var radius = (100 / Object.keys(tmp_series_1).length);
                     if (radius < 25)
                     {
                         radius = 25;
                     }
-                    var rows = Math.floor((Object.keys(tmpseries).length / 5)) + 1;
+                    var rows = Math.floor((Object.keys(tmp_series_1).length / 5)) + 1;
                     var top = 50;
                     if (rows > 1)
                     {
@@ -237,84 +264,144 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                     var row = 0;
                     if (option.type === "treemap")
                     {
-                        var series = clone_obg(defserie);
+
+                        var ser_index = option.options.series.length;
+                        if (oldseries[ser_index])
+                        {
+                            var series = clone_obg(oldseries[ser_index]);
+                            series.data = [];
+                        } else
+                        {
+                            var series = clone_obg(defserie);
+                        }
+
+                        if (!series.type)
+                        {
+                            series.type = option.type;
+                        }
+
+//                        var series = clone_obg(defserie);
                         data = [];
-                        for (var key in tmpseries)
+                        for (var key in tmp_series_1)
                         {
                             var val = 0;
                             var cildren = [];
-                            for (var ind in tmpseries[key])
+                            for (var ind in tmp_series_1[key])
                             {
-                                val = val + tmpseries[key][ind].value;
-                                cildren.push({value: tmpseries[key][ind].value, name: key + "." + tmpseries[key][ind].name});
+                                val = val + tmp_series_1[key][ind].value;
+                                cildren.push({value: tmp_series_1[key][ind].value, name: key + "." + tmp_series_1[key][ind].name});
                             }
 
                             data.push({value: val, name: key, children: cildren});
                         }
-                        series.name = option.tmpoptions.title.text;
-                        series.type = option.type;
-                        option.tmpoptions.tooltip.trigger = 'item';
+                        series.name = option.options.title.text;
+//                        series.type = option.type;
+                        option.options.tooltip.trigger = 'item';
                         series.data = data;
-                        option.tmpoptions.series.push(series);
+                        option.options.series.push(series);
                     } else
                     {
-                        for (var key in tmpseries)
+                        for (var key in tmp_series_1)
                         {
                             if (index > 4)
                             {
                                 index = 1;
                                 row++;
                             }
-
-                            var series = clone_obg(defserie);
-                            series.name = key;
-                            if (option.type === "bar" || option.type === "gauge")
+                            var ser_index = option.options.series.length;
+                            if (oldseries[ser_index])
                             {
-                                option.tmpoptions.legend.data.push(key);
-                                if (Object.keys(tmpseries).length === 1)
+                                var series = clone_obg(oldseries[ser_index]);
+                                series.data = [];
+                            } else
+                            {
+                                var series = clone_obg(defserie);
+                            }
+
+                            if (!series.type)
+                            {
+                                series.type = option.type;
+                            }
+
+
+                            series.name = key;
+                            if (series.type === "bar" || series.type === "gauge")
+                            {
+                                option.options.legend.data.push(key);
+                                if (Object.keys(tmp_series_1).length === 1)
                                 {
                                     series.itemStyle = {normal: {color: function (params) {
                                                 return colorPalette[params.dataIndex]
                                             }}};
                                 }
                             }
-                            if (option.type === "gauge")
+                            if (series.type === "gauge")
                             {
-                                for (var keyindex in tmpseries[key])
+                                var g_index = 0;
+                                for (var keyindex in tmp_series_3[key])
                                 {
+                                    if (g_index > 0)
+                                    {
+                                        if (oldseries[ser_index])
+                                        {
+                                            var series = clone_obg(oldseries[ser_index]);
+                                            series.data = [];
+                                        } else
+                                        {
+                                            var series = clone_obg(defserie);
+                                        }
+
+                                        if (!series.type)
+                                        {
+                                            series.type = option.type;
+                                        }
+                                    }
+                                    g_index++;
+                                    ser_index++;
+
                                     if (!series.data)
                                     {
                                         series.data = [];
                                     }
-                                    series.data.push(tmpseries[key][keyindex].data);
-                                    series.min = tmpseries[key][keyindex].min;
-                                    series.max = tmpseries[key][keyindex].max;
-                                    if (option.tmpoptions.yAxis[0].min)
+                                    series.data.push(tmp_series_3[key][keyindex].data);
+                                    series.min = tmp_series_3[key][keyindex].min;
+                                    series.max = tmp_series_3[key][keyindex].max;
+                                    if (option.options.yAxis[0].min)
                                     {
-                                        series.min = option.tmpoptions.yAxis[0].min;
+                                        series.min = option.options.yAxis[0].min;
                                     }
-                                    if (option.tmpoptions.yAxis[0].max)
+                                    if (option.options.yAxis[0].max)
                                     {
-                                        series.max = option.tmpoptions.yAxis[0].max;
+                                        series.max = option.options.yAxis[0].max;
                                     }
-                                    series.axisLine = {
-                                        lineStyle: {
-                                            color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
-                                            width: 3,
-                                            shadowColor: '#ccc', //默认透明
-                                            shadowBlur: 10
+                                    if (!series.axisLine)
+                                    {
+                                        series.axisLine = {
+                                            lineStyle: {
+                                                color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
+                                                width: 3,
+                                                shadowColor: '#ccc', //默认透明
+                                                shadowBlur: 10
+                                            }
                                         }
                                     }
-
+                                    series.radius = 25 + "%";
+//                                    series.center = [index * 25 - 25 / 2 + '%', (top + 1 * 50) + "%"];
+                                    if (g_index < Object.keys(tmp_series_3[key]).length)
+                                    {
+                                        option.options.series.push(series);
+                                    }
                                 }
-
+//                                console.log(series.name);
                             } else
                             {
-                                series.data = tmpseries[key];
+                                series.data = tmp_series_1[key];
+//                                console.log(series);
                             }
-                            series.type = option.type;
-                            option.tmpoptions.tooltip.trigger = 'item';
-                            if (option.type === "line")
+
+//                            series.type = option.type;
+                            option.options.tooltip.trigger = 'item';
+                            if (series.type === "line")
                             {
                                 if (option.fill)
                                 {
@@ -330,19 +417,28 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                         series.step = option.step;
                                     }
                                 }
-                                series.symbol = option.points;
-                                option.tmpoptions.tooltip.trigger = 'axis';
+                                if (!series.symbol)
+                                {
+                                    series.symbol = option.points;
+                                }
+                                if (option.options.tooltip.trigger)
+                                {
+                                    option.options.tooltip.trigger = 'axis';
+                                }
+
                             }
-                            if (option.type === "pie")
+
+                            if (series.type === "pie")
                             {
                                 series.radius = radius + "%";
                                 series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
                             }
-                            if (option.type === "gauge")
-                            {
-                                series.radius = (radius-2) * 2  + "%";
-                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
-                            }
+//                            if (series.type === "gauge")
+//                            {
+////                                console.log(tmp_series_3);
+//                                series.radius = 25 + "%";
+//                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+//                            }
                             if (option.stacked)
                             {
                                 series.stack = "0";
@@ -369,39 +465,39 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 series.y = (row * 50 + 2.5) + "%";
                             }
                             index++;
-                            option.tmpoptions.series.push(series);
-
+                            option.options.series.push(series);
                         }
                     }
-                    option.tmpoptions.xAxis[0].data = xdata;
+                    option.options.xAxis[0].data = xdata;
                 }
+
             }
 
-            for (var yindex in option.tmpoptions.yAxis)
+            for (var yindex in option.options.yAxis)
             {
-                var formatter = option.tmpoptions.yAxis[yindex].unit;
+                var formatter = option.options.yAxis[yindex].unit;
 
 //                function
                 if (formatter === "none")
                 {
-                    delete option.tmpoptions.yAxis[yindex].axisLabel.formatter;
+                    delete option.options.yAxis[yindex].axisLabel.formatter;
                 } else
                 {
                     if (typeof (window[formatter]) === "function")
                     {
-                        option.tmpoptions.yAxis[yindex].axisLabel.formatter = window[formatter];
+                        option.options.yAxis[yindex].axisLabel.formatter = window[formatter];
                     } else
                     {
-                        option.tmpoptions.yAxis[yindex].axisLabel.formatter = formatter;
+                        option.options.yAxis[yindex].axisLabel.formatter = formatter;
                     }
                 }
             }
             if (redraw)
             {
-                chart.setOption({series: option.tmpoptions.series});
+                chart.setOption({series: option.options.series});
             } else
             {
-                chart.setOption(option.tmpoptions);
+                chart.setOption(option.options);
             }
             chart.hideLoading();
             var GlobalRefresh = true;
@@ -435,7 +531,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 
 var defserie = {
     name: null,
-    type: 'line',
+//    type: 'line',
     symbol: "none",
     sampling: 'average',
     data: null
@@ -494,6 +590,15 @@ var definterval = 10000;
 $('body').on("click", "#refresh", function () {
     repaint(true);
 });
+$('body').on("click", "#jsonReset", function () {
+    chartForm.resetjson();
+});
+
+$('body').on("click", "#jsonApply", function () {
+    chartForm.applyjson();
+});
+
+
 
 $('body').on("change", "#refreshtime", function () {
     dashJSONvar.times.intervall = $(this).val();
@@ -613,10 +718,10 @@ function redrawAllJSON(dashJSON, redraw = false)
                 $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
             }
-            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions) === "undefined")
+            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].options) === "undefined")
             {
-                dashJSON[rowindex]["widgets"][widgetindex].tmpoptions = defoption;
-                dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
+                dashJSON[rowindex]["widgets"][widgetindex].options = defoption;
+                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             } else
             {
 
@@ -663,15 +768,15 @@ function redrawAllJSON(dashJSON, redraw = false)
 //                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
                 } else
                 {
-                    if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series.length === 1)
+                    if (dashJSON[rowindex]["widgets"][widgetindex].options.series.length === 1)
                     {
-                        if (dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data.length === 0)
+                        if (dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data.length === 0)
                         {
-                            dashJSON[rowindex]["widgets"][widgetindex].tmpoptions.series[0].data = datafunc();
+                            dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
                         }
                     }
                     dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
-                    dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].tmpoptions);
+                    dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].options);
                 }
             }
             $("#charttemplate .chartsection").attr("id", "widget");
@@ -754,7 +859,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
         setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw);
     } else
     {
-        echartLine.setOption(dashJSON[row]["widgets"][index].tmpoptions);
+        echartLine.setOption(dashJSON[row]["widgets"][index].options);
     }
     if (rebuildform)
     {
@@ -1295,8 +1400,14 @@ $('body').on("click", ".savedash", function () {
             for (var widgetindex in dashJSONvar[rowindex]["widgets"])
             {
                 delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions.series) {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions.series[k].data = [];
+                if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
+                {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
+                    delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
+                }
+
+                for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
                 }
             }
         }
@@ -1345,6 +1456,11 @@ $('body').on("click", ".editchart", function () {
         }
     }
     AutoRefreshSingle(single_rowindex, single_widgetindex);
+    if ($('#axes_mode_x').val() === 'category') {
+        $('.only-Series').show();
+    } else {
+        $('.only-Series').hide();
+    }
     $(".editchartpanel select").select2({minimumResultsForSearch: 15});
     $(".select2_group").select2({dropdownCssClass: "menu-select"});
     $RIGHT_COL.css('min-height', $(window).height());

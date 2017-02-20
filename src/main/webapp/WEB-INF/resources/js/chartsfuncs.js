@@ -12,6 +12,31 @@ var pickerstart;
 var pickerend;
 var pickerlabel = "Last 5 minutes";
 
+var jsonmaker = function (k, v)
+{
+    
+    if (k === "echartLine")
+    {
+        return undefined;
+    }        
+    if (k === "data")
+    {
+        return undefined;
+    }      
+    if (k === "url")
+    {
+        return undefined;
+    }    
+    if (k === "timer")
+    {
+        return undefined;
+    }
+    if (k === "times")
+    {
+        return undefined;
+    }    
+    return v
+}
 var rangeslabels = {
     'Last 5 minutes': "5m-ago",
     'Last 15 minutes': "15m-ago",
@@ -116,10 +141,10 @@ var cbJson = function (JSON, wraper)
         if (!JSON.times)
         {
             JSON.times = {};
-        }        
+        }
         JSON.times.pickerstart = start.valueOf();
         JSON.times.pickerend = end.valueOf();
-        JSON.times.pickerlabel = label;        
+        JSON.times.pickerlabel = label;
 
         if (JSON.times.pickerlabel === "Custom")
         {
@@ -624,7 +649,7 @@ var format_metric = function (params, type = "m") {
             }
             case 5:
             case 6:
-            case 7:            
+            case 7:
             {
                 val = (val / Math.pow(divatior, 6));
                 metric = " M";
@@ -632,7 +657,7 @@ var format_metric = function (params, type = "m") {
             }
             case 8:
             case 9:
-            case 10:            
+            case 10:
             {
                 val = (val / Math.pow(divatior, 9));
                 metric = " G";
@@ -641,7 +666,7 @@ var format_metric = function (params, type = "m") {
             case 11:
             case 12:
             case 13:
-            
+
             {
                 val = (val / Math.pow(divatior, 12));
                 metric = " T";
@@ -649,7 +674,7 @@ var format_metric = function (params, type = "m") {
             }
             case 14:
             case 15:
-            case 16:            
+            case 16:
             {
                 val = (val / Math.pow(divatior, 15));
                 metric = " P";
@@ -657,7 +682,7 @@ var format_metric = function (params, type = "m") {
             }
             case 17:
             case 18:
-            case 19:            
+            case 19:
             {
                 val = (val / Math.pow(divatior, 18));
                 metric = " E";
@@ -665,7 +690,7 @@ var format_metric = function (params, type = "m") {
             }
             case 20:
             case 21:
-            case 22:            
+            case 22:
             {
                 val = (val / Math.pow(divatior, 21));
                 metric = " Z";
@@ -673,7 +698,7 @@ var format_metric = function (params, type = "m") {
             }
             case 23:
             case 24:
-            case 25:            
+            case 25:
             case 26:
             {
                 val = (val / Math.pow(divatior, 24));
