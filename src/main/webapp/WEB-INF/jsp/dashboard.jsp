@@ -78,7 +78,7 @@
     </div>  
 </div>
 
-<div class="x_panel fulldash">
+<div class="x_panel fulldash" style="display: none">
     <div class="x_title">
         <h2 class="col-md-3" ><input type="text" name="name" id="name" value="${dashname}"></h2>        
         <div class="pull-right">            
@@ -120,8 +120,10 @@
                 </li>                
                 <li role="presentation" class=""><a href="#tab_display" role="tab" id="display-tab" data-toggle="tab" aria-expanded="false">Display</a>
                 </li>                                
+                <li role="presentation" class=""><a href="#tab_times" role="tab" id="display-tab" data-toggle="tab" aria-expanded="false">Time Range</a>
+                </li>                                                
             </ul>
-            <div id="myTabContent" class="tab-content" >
+            <div id="myTabContent" class="tab-content" >                
                 <div role="tabpanel" class="tab-pane fade active in" id="tab_general" aria-labelledby="general-tab">                        
                     <div class="row">
                         <form class="form-horizontal form-label-left edit-title pull-left" >                            
@@ -927,6 +929,38 @@
                                 </div>                                    
                             </div>
                         </form>                        
+                    </div>                        
+                </div>
+                <div role="tabpanel" class="tab-pane fade" id="tab_times" aria-labelledby="times-tab">
+                    <div class="row">
+                        <form class="form-horizontal form-label-left edit-times pull-left">   
+                            <div class="form_main_block pull-left">
+                                <label class="control-label" >
+                                    Times
+                                </label>                        
+                                <div class="filter">
+                                    <div id="reportrange_private" class="pull-left" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                        <span></span> <b class="caret"></b>
+                                    </div>                              
+                                    <div id="refresh_wrap_private" class="pull-left">
+                                        <select id="refreshtime_private" name="refreshtime" class="select2-hidden-accessible" style="width: 150px">                                            
+                                            <option value="General" selected>Refresh general</option>
+                                            <option value="5000">Refresh every 5s</option>
+                                            <option value="10000">Refresh every 10s</option>
+                                            <option value="30000">Refresh every 30s</option>
+                                            <option value="60000">Refresh every 1m</option>
+                                            <option value="300000">Refresh every 5m</option>
+                                            <option value="900000">Refresh every 15m</option>
+                                            <option value="1800000">Refresh every 30m</option>
+                                            <option value="3600000">Refresh every 1h</option>
+                                            <option value="7200000">Refresh every 2h</option>
+                                            <option value="86400000">Refresh every 1d</option>                
+                                        </select>            
+                                    </div>   
+                                </div>  
+                            </div>
+                        </form>
                     </div>                        
                 </div>
             </div>

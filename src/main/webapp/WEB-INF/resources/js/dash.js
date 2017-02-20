@@ -451,6 +451,8 @@ function redrawAllJSON(dashJSON, redraw = false)
 
     var rowindex;
     var widgetindex;
+    $(".editchartpanel").hide();
+    $(".fulldash").show();
     if (!redraw)
     {
         $("#dashcontent").html("");
@@ -541,6 +543,21 @@ function redrawAllJSON(dashJSON, redraw = false)
 
                         }
                     }
+                    if (dashJSON[rowindex]["widgets"][widgetindex].times)
+                    {
+                        if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel === "Custom")
+                        {
+                            startdate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart;
+                            enddate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerend;
+                        } else
+                        {
+                            if (typeof (rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel]) !== "undefined")
+                            {
+                                startdate = rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel];
+                            }
+
+                        }
+                    }
                     var chart = dashJSON[rowindex]["widgets"][widgetindex].echartLine;
                     setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, redraw);
 //                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
@@ -619,7 +636,21 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 
             }
         }
+        if (dashJSON[row]["widgets"][index].times)
+        {
+            if (dashJSON[row]["widgets"][index].times.pickerlabel === "Custom")
+            {
+                startdate = dashJSON[row]["widgets"][index].times.pickerstart;
+                enddate = dashJSON[row]["widgets"][index].times.pickerend;
+            } else
+            {
+                if (typeof (rangeslabels[dashJSON[row]["widgets"][index].times.pickerlabel]) !== "undefined")
+                {
+                    startdate = rangeslabels[dashJSON[row]["widgets"][index].times.pickerlabel];
+                }
 
+            }
+        }
         setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw);
     } else
     {
@@ -664,7 +695,16 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         }
 
     }
-
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }
     if ($(".editchartpanel").is(':visible'))
     {
         var request_W_index = getParameterByName("widget");
@@ -735,13 +775,15 @@ $(document).ready(function () {
             $("#refreshtime").val(dashJSONvar.times.intervall);
         }
         $('#reportrange span').html(dashJSONvar.times.pickerlabel);
+        PicerOptionSet1.startDate = PicerOptionSet1.ranges[dashJSONvar.times.pickerlabel][0];
+        PicerOptionSet1.endDate = PicerOptionSet1.ranges[dashJSONvar.times.pickerlabel][1];
     } else
     {
         dashJSONvar.times = {};
         $('#reportrange span').html(pickerlabel);
     }
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(dashJSONvar));
+    $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(dashJSONvar, $('#reportrange')));
     var elems = document.querySelectorAll('.js-switch-small');
     for (var i = 0; i < elems.length; i++) {
         var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});

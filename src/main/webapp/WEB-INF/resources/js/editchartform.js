@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global getParameterByName */
+/* global getParameterByName, pickerlabel, PicerOptionSet2 */
 
 class ChartEditForm {
 
@@ -14,6 +14,22 @@ class ChartEditForm {
         this.row = row;
         this.index = index;
         this.dashJSON = dashJSON;
+        
+        
+//        console.log(dashJSON[row]["widgets"][index].times);
+        if (dashJSON[row]["widgets"][index].times)
+        {
+            if (dashJSON[row]["widgets"][index].times.intervall)
+            {
+                $("#refreshtime_private").val(dashJSON[row]["widgets"][index].times.intervall);
+            }
+            $('#reportrange_private span').html(dashJSON[row]["widgets"][index].times.pickerlabel);
+            PicerOptionSet2.startDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][0];
+            PicerOptionSet2.endDate = PicerOptionSet2.ranges[dashJSON[row]["widgets"][index].times.pickerlabel][1];
+        };
+        
+        $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(dashJSON[row]["widgets"][index],$('#reportrange_private')));
+        
 
         if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
         {
@@ -123,8 +139,8 @@ class ChartEditForm {
         } else
         {
             this.formwraper.find("#display_steped").val(this.dashJSON[this.row]["widgets"][this.index].step);
-        }        
-        
+        }
+
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].stacked) == "undefined")
         {
@@ -215,7 +231,7 @@ class ChartEditForm {
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid) !== "undefined")
         {
             for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid)
-            {                
+            {
                 var inputs = this.formwraper.find("#tab_display .grid [chart_prop_key='" + key + "']");
                 inputs.each(function () {
                     formObj.fillinputs($(this), "grid", key);
@@ -375,6 +391,18 @@ class ChartEditForm {
     }
 
     chage(input) {
+        
+        if (input.parents("form").hasClass("edit-times"))
+        {
+            if (input.attr('id')==="refreshtime_private")
+            {
+                if (!this.dashJSON[this.row]["widgets"][this.index].times)
+                {
+                    this.dashJSON[this.row]["widgets"][this.index].times = {};
+                }
+                this.dashJSON[this.row]["widgets"][this.index].times.intervall = input.val();
+            }
+        }
         if (input.parents("form").hasClass("edit-query"))
         {
 //            console.log(input);
@@ -431,7 +459,7 @@ class ChartEditForm {
                     delete this.dashJSON[this.row]["widgets"][this.index][key];
                 }
             }
-            if (key == "type" || key == "points" || key == "fill" ||key == "step")
+            if (key == "type" || key == "points" || key == "fill" || key == "step")
             {
                 this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
             }

@@ -35,8 +35,8 @@ var PicerOptionSet1 = {
     showDropdowns: true,
     showWeekNumbers: true,
     timePicker: true,
+    timePicker24Hour: true,
     timePickerIncrement: 15,
-    timePicker12Hour: true,
     ranges: {
         'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
         'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
@@ -66,23 +66,67 @@ var PicerOptionSet1 = {
     }
 };
 
-var cbJson = function (JSON)
+
+var PicerOptionSet2 = {
+    startDate: moment().subtract(5, 'minute'),
+    endDate: moment(),
+    minDate: moment().subtract(1, 'year'),
+    maxDate: moment().add(1, 'days'),
+    drops: "up",
+    dateLimit: {
+        days: 60
+    },
+    showDropdowns: true,
+    showWeekNumbers: true,
+    timePicker: true,
+    timePicker24Hour: true,
+    timePickerIncrement: 15,
+    ranges: {
+        'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
+        'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
+        'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
+        'Last 1 hour': [moment().subtract(1, 'hour'), moment()],
+        'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
+        'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
+        'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
+        'Last 1 day': [moment().subtract(24, 'hour'), moment()],
+        'Last 7 day': [moment().subtract(7, 'day'), moment()]
+    },
+//    opens: 'left',
+//    drops: 'up',
+    buttonClasses: ['btn btn-default'],
+    applyClass: 'btn-small btn-primary',
+    cancelClass: 'btn-small',
+    format: 'MM/DD/YYYY H:m:s',
+    separator: ' to ',
+    locale: {
+        applyLabel: 'Submit',
+        cancelLabel: 'Clear',
+        fromLabel: 'From',
+        toLabel: 'To',
+        customRangeLabel: 'Custom',
+        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        firstDay: 1
+    }
+};
+var cbJson = function (JSON, wraper)
 {
     return function (start, end, label) {
-        if (!JSON.times)  
+        if (!JSON.times)
         {
             JSON.times = {};
-        }   
+        }
         JSON.times.pickerstart = start;
         JSON.times.pickerend = end;
-        JSON.times.pickerlabel = label;
+        JSON.times.pickerlabel = label;        
 
         if (JSON.times.pickerlabel === "Custom")
         {
-            $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
+            wraper.html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
         } else
         {
-            $('#reportrange span').html(JSON.times.pickerlabel);
+            wraper.find('span').html(JSON.times.pickerlabel);
         }
     };
 }

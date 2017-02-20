@@ -34,6 +34,8 @@
         <link href="${cp}/resources/cropper/dist/cropper.min.css" rel="stylesheet" /> 
         <!-- Select2 -->
         <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">
+        <!-- Bootstrap bootstrap-daterangepicker -->
+        <link href="${cp}/resources/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">                
         <!-- Custom Theme Style -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />        
         <link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />        
@@ -175,21 +177,18 @@
         <script src="${cp}/resources/fastclick/lib/fastclick.js"></script>
         <!-- NProgress -->
         <script src="${cp}/resources/nprogress/nprogress.js"></script>
-        <!-- Chart.js -->
-        <script src="${cp}/resources/js/moment/moment.min.js"></script>
-        <script src="${cp}/resources/Chart.js/dist/Chart.min.js"></script>
-        <!-- gauge.js -->
-        <script src="${cp}/resources/gauge.js/dist/gauge.min.js"></script>
+        <!-- moment.js -->
+        <script src="${cp}/resources/js/moment/moment.min.js"></script>        
         <!-- bootstrap-progressbar -->
         <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
         <!-- iCheck -->
         <script src="${cp}/resources/iCheck/icheck.min.js"></script>
         <!-- Skycons -->
         <script src="${cp}/resources/skycons/skycons.js"></script>
-        <!-- bootstrap-daterangepicker -->       
-        <script src="${cp}/resources/js/datepicker/daterangepicker.js"></script>
         <!-- Bootstrap Colorpicker -->
         <script src="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+        <!-- Bootstrap bootstrap-daterangepicker -->
+        <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js"></script>        
         <!-- Custom Theme Scripts -->
         <!-- Cropper -->
         <script src="${cp}/resources/cropper/dist/cropper.min.js"></script>        
