@@ -1096,12 +1096,6 @@ $('body').on("click", ".plus", function () {
     redrawAllJSON(dashJSONvar);
 });
 
-//$('body').on("click", ".deletewidget", function () {
-//    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-//    var widgetindex = $(this).parents(".chartsection").first().attr("index");
-//    delete dashJSONvar[rowindex]["widgets"][widgetindex];
-//    redrawAllJSON(dashJSONvar);
-//});
 
 $('body').on("click", "#deletewidgetconfirm", function () {       
     var rowindex = $(this).attr("rowindex");
