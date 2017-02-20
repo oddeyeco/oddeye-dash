@@ -52,7 +52,7 @@ class ChartEditForm {
             {
                 if (tags[tagindex] !== "")
                 {
-                    this.formwraper.find("#tab_metrics div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+                    this.formwraper.find("#tab_metrics div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                 }
             }
 
@@ -61,7 +61,7 @@ class ChartEditForm {
             {
                 if (metrics[metricindex] !== "")
                 {
-                    this.formwraper.find("#tab_metrics div.metrics").append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'>" + metrics[metricindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>")
+                    this.formwraper.find("#tab_metrics div.metrics").append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'>" + metrics[metricindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                 }
             }
 
@@ -89,7 +89,7 @@ class ChartEditForm {
                 }
 
                 var elem = document.getElementById("disable_downsampling");
-                if (elem.checked != dashJSON[row]["widgets"][index].queryes[0].info.downsamplingstate)
+                if (elem.checked !== dashJSON[row]["widgets"][index].queryes[0].info.downsamplingstate)
                 {
                     $(elem).trigger('click');
                 }
@@ -106,7 +106,7 @@ class ChartEditForm {
 
 
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation) === "undefined")
         {
             var input = this.formwraper.find("#display_animation");
             var elem = document.getElementById(input.attr("id"));
@@ -119,13 +119,13 @@ class ChartEditForm {
         {
             var input = this.formwraper.find("#display_animation");
             var elem = document.getElementById(input.attr("id"));
-            if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation)
+            if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation)
             {
                 $(elem).trigger('click');
             }
         }
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].fill) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].fill) === "undefined")
         {
             this.formwraper.find("#display_fillArea").val("none");
         } else
@@ -133,7 +133,7 @@ class ChartEditForm {
             this.formwraper.find("#display_fillArea").val(this.dashJSON[this.row]["widgets"][this.index].fill);
         }
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].step) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].step) === "undefined")
         {
             this.formwraper.find("#display_steped").val("false");
         } else
@@ -142,7 +142,7 @@ class ChartEditForm {
         }
 
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].stacked) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].stacked) === "undefined")
         {
             var input = this.formwraper.find("#display_stacked");
             var elem = document.getElementById(input.attr("id"));
@@ -155,13 +155,13 @@ class ChartEditForm {
         {
             var input = this.formwraper.find("#display_stacked");
             var elem = document.getElementById(input.attr("id"));
-            if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].stacked)
+            if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].stacked)
             {
                 $(elem).trigger('click');
             }
         }
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom) === "undefined")
         {
             var input = this.formwraper.find("#display_datazoom");
             var elem = document.getElementById(input.attr("id"));
@@ -174,13 +174,13 @@ class ChartEditForm {
         {
             var input = this.formwraper.find("#display_datazoom");
             var elem = document.getElementById(input.attr("id"));
-            if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show)
+            if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show)
             {
                 $(elem).trigger('click');
             }
         }
 
-        if (key == "dataZoom")
+        if (key === "dataZoom")
         {
             var elem = document.getElementById(input.attr("id"));
             this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = elem.checked;
@@ -188,7 +188,7 @@ class ChartEditForm {
 
 //        delete  this.dashJSON[this.row]["widgets"][this.index].type;
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].type) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].type) === "undefined")
         {
             this.dashJSON[this.row]["widgets"][this.index].type = "line";
         }
@@ -204,23 +204,23 @@ class ChartEditForm {
         this.formwraper.find("#display_charttype").val(this.dashJSON[this.row]["widgets"][this.index].type);
 
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis) === "undefined")
         {
             this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'value', }];
         } else
         {
-            if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0]) == "undefined")
+            if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0]) === "undefined")
             {
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis = [{type: 'time', }];
             }
         }
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis) === "undefined")
         {
             this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis = [{type: 'time', }];
         } else
         {
-            if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0]) == "undefined")
+            if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0]) === "undefined")
             {
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis = [{type: 'time', }];
             }
@@ -242,11 +242,11 @@ class ChartEditForm {
 
         for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0])
         {
-            if (key == "show")
+            if (key === "show")
             {
                 var input = this.formwraper.find("#tab_axes [axes='yAxis'][index='0'][chart_prop_key='" + key + "']");
                 var elem = document.getElementById(input.attr("id"));
-                if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0].show) == "undefined")
+                if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0].show) === "undefined")
                 {
                     if (!elem.checked)
                     {
@@ -254,7 +254,7 @@ class ChartEditForm {
                     }
                 } else
                 {
-                    if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0].show)
+                    if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[0].show)
                     {
                         $(elem).trigger('click');
                     }
@@ -268,7 +268,7 @@ class ChartEditForm {
             }
         }
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[1]) == "undefined")
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[1]) === "undefined")
         {
             var elem = document.getElementById("right_axes_show");
             if (elem.checked)
@@ -279,11 +279,11 @@ class ChartEditForm {
         {
             for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[1])
             {
-                if (key == "show")
+                if (key === "show")
                 {
                     var input = this.formwraper.find("#tab_axes [axes='yAxis'][index='1'][chart_prop_key='" + key + "']");
                     var elem = document.getElementById(input.attr("id"));
-                    if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[1].show) == "undefined")
+                    if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[1].show) === "undefined")
                     {
                         if (!elem.checked)
                         {
@@ -291,7 +291,7 @@ class ChartEditForm {
                         }
                     } else
                     {
-                        if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[1].show)
+                        if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].tmpoptions.yAxis[1].show)
                         {
                             $(elem).trigger('click');
                         }
@@ -308,11 +308,11 @@ class ChartEditForm {
 
         for (key in this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0])
         {
-            if (key == "show")
+            if (key === "show")
             {
                 var input = this.formwraper.find("#tab_axes [axes='xAxis'][index='0'][chart_prop_key='" + key + "']");
                 var elem = document.getElementById(input.attr("id"));
-                if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0].show) == "undefined")
+                if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0].show) === "undefined")
                 {
                     if (!elem.checked)
                     {
@@ -320,7 +320,7 @@ class ChartEditForm {
                     }
                 } else
                 {
-                    if (elem.checked != this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0].show)
+                    if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].tmpoptions.xAxis[0].show)
                     {
                         $(elem).trigger('click');
                     }
@@ -365,7 +365,7 @@ class ChartEditForm {
         if (typeof (dashJSON[this.row]["widgets"][this.index].transparent) !== "undefined")
         {
             var elem = document.getElementById("dimensions_transparent");
-            if (elem.checked != dashJSON[this.row]["widgets"][this.index].transparent)
+            if (elem.checked !== dashJSON[this.row]["widgets"][this.index].transparent)
             {
                 $(elem).trigger('click');
             }
@@ -437,18 +437,18 @@ class ChartEditForm {
         if (input.parents("form").hasClass("edit-display"))
         {
             var key = input.attr("chart_prop_key");
-            if (key == "animation")
+            if (key === "animation")
             {
                 var elem = document.getElementById(input.attr("id"));
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.animation = elem.checked;
             }
-            if (key == "dataZoom")
+            if (key === "dataZoom")
             {
                 var elem = document.getElementById(input.attr("id"));
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions.dataZoom.show = elem.checked;
             }
 
-            if (key == "stacked")
+            if (key === "stacked")
             {
                 var elem = document.getElementById(input.attr("id"));
                 if (elem.checked)
@@ -459,7 +459,7 @@ class ChartEditForm {
                     delete this.dashJSON[this.row]["widgets"][this.index][key];
                 }
             }
-            if (key == "type" || key == "points" || key == "fill" || key == "step")
+            if (key === "type" || key === "points" || key === "fill" || key === "step")
             {
                 this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
             }
@@ -470,7 +470,7 @@ class ChartEditForm {
                 {
                     this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid = {};
                 }
-                if (input.val() != "")
+                if (input.val() !== "")
                 {
                     this.dashJSON[this.row]["widgets"][this.index].tmpoptions.grid[key] = input.val();
                 } else
@@ -486,40 +486,40 @@ class ChartEditForm {
             var key = input.attr("chart_prop_key");
             var index = input.attr("index");
             var axes = input.attr("axes");
-            if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]) == "undefined")
+            if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]) === "undefined")
             {
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index] = {type: 'value', axisLabel: {}};
             }
 
-            if (key == "show")
+            if (key === "show")
             {
                 var elem = document.getElementById(input.attr("id"));
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index].show = elem.checked;
-            } else if (key == "unit")
+            } else if (key === "unit")
             {
                 this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index].unit = input.val();
             } else
             {
-                if (input.val() == "")
+                if (input.val() === "")
                 {
                     delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index][key];
                 } else
                 {
                     this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index][key] = input.val();
-                    if ((key == "type") && (input.val() == "category"))
+                    if ((key === "type") && (input.val() === "category"))
                     {
-                        if (input.val() == "category")
+                        if (input.val() === "category")
                         {
                             this.dashJSON[this.row]["widgets"][this.index].type = "bar";
                         } else
                         {
                             this.dashJSON[this.row]["widgets"][this.index].type = "line";
                         }
-                        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_sample"]) == "undefined")
+                        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_sample"]) === "undefined")
                         {
                             this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_sample"] = "avg";
                         }
-                        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_tags"]) == "undefined")
+                        if (typeof (this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_tags"]) === "undefined")
                         {
                             this.dashJSON[this.row]["widgets"][this.index].tmpoptions[axes][index]["m_tags"] = 0;
                         }
@@ -529,24 +529,24 @@ class ChartEditForm {
         }
         if (input.parents("form").hasClass("edit-dimensions"))
         {
-            if (input.attr("id") == "dimensions_height")
+            if (input.attr("id") === "dimensions_height")
             {
                 var points = ""
                 if ($.isNumeric(input.val()))
                 {
                     points = "px";
                 }
-                if (input.val() == "")
+                if (input.val() === "")
                 {
                     delete this.dashJSON[this.row]["widgets"][this.index].height;
                 }
                 this.dashJSON[this.row]["widgets"][this.index].height = input.val() + points;
             }
-            if (input.attr("id") == "dimensions_span")
+            if (input.attr("id") === "dimensions_span")
             {
                 this.dashJSON[this.row]["widgets"][this.index].size = input.val();
             }
-            if (input.attr("id") == "dimensions_transparent")
+            if (input.attr("id") === "dimensions_transparent")
             {
                 var elem = document.getElementById(input.attr("id"));
                 if (elem.checked)
@@ -566,12 +566,12 @@ class ChartEditForm {
 
             this.formwraper.find(".edit-title " + input.prop("tagName") + "[chart_prop_key='" + key + "']").val(input.val());
 
-            if (input.prop("tagName") == "INPUT" || "SELECT" || "DIV")
+            if (input.prop("tagName") === "INPUT" || "SELECT" || "DIV")
             {
-                if (input.val() == "")
+                if (input.val() === "")
                 {
                     var inputs = this.formwraper.find(".edit-title [chart_prop_key='" + key + "']");
-                    if (inputs.length == 1)
+                    if (inputs.length === 1)
                     {
                         delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.title[key];
                     }
@@ -579,7 +579,7 @@ class ChartEditForm {
                     {
                         var empty = true;
                         inputs.each(function () {
-                            empty = empty & ($(this).val() == "")
+                            empty = empty & ($(this).val() === "")
                         });
                         if (empty)
                         {
@@ -609,7 +609,7 @@ class ChartEditForm {
 
                 }
 
-                if (input.attr("type") == "checkbox")
+                if (input.attr("type") === "checkbox")
                 {
                     var elem = document.getElementById(input.attr("id"));
                     if (elem.checked)
@@ -630,9 +630,9 @@ class ChartEditForm {
         {
             var key = input.attr("chart_prop_key");
 
-            if (input.prop("tagName") == "INPUT" || "SELECT" || "DIV")
+            if (input.prop("tagName") === "INPUT" || "SELECT" || "DIV")
             {
-                if (input.val() == "")
+                if (input.val() === "")
                 {
                     if (!this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key] || !input.val()) {
                         delete this.dashJSON[this.row]["widgets"][this.index].tmpoptions.legend[key];
@@ -654,7 +654,7 @@ class ChartEditForm {
 
                 }
 
-                if (input.attr("type") == "checkbox")
+                if (input.attr("type") === "checkbox")
                 {
                     var elem = document.getElementById(input.attr("id"));
                     if (elem.checked)
@@ -679,11 +679,11 @@ class ChartEditForm {
             input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
 //            console.log(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]+" "+key);
         }
-        if (typeof (input.attr("type")) == "undefined")
+        if (typeof (input.attr("type")) === "undefined")
         {
-//            if (input.prop("tagName").toLowerCase() == "select")
+//            if (input.prop("tagName").toLowerCase() === "select")
 //            {
-            if (index == null)
+            if (index === null)
             {
                 input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
             } else
@@ -695,7 +695,7 @@ class ChartEditForm {
 
         } else
         {
-            if (input.attr("type").toLowerCase() == "number")
+            if (input.attr("type").toLowerCase() === "number")
             {
                 if ($.isNumeric(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]))
                 {
@@ -703,10 +703,10 @@ class ChartEditForm {
                 }
             }
 
-            if (input.attr("type").toLowerCase() == "text")
+            if (input.attr("type").toLowerCase() === "text")
             {
 
-                if (index == null)
+                if (index === null)
                 {
                     input.val(this.dashJSON[this.row]["widgets"][this.index].tmpoptions[item][key]);
                 } else
@@ -716,7 +716,7 @@ class ChartEditForm {
                 }
 
             }
-            if (input.attr("type").toLowerCase() == "checkbox")
+            if (input.attr("type").toLowerCase() === "checkbox")
             {
                 var elem = document.getElementById(input.attr("id"));
 
