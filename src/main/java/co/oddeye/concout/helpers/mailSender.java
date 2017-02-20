@@ -67,7 +67,7 @@ public class mailSender {
     }    
 
     public String getBaseurl(HttpServletRequest request) {
-        return String.format("%s://%s:%d"+request.getContextPath(),"https",  getServerName(request), request.getServerPort());
+        return String.format("%s://%s"+request.getContextPath(),"https",  getServerName(request));
     }
     
     private String getServerName(HttpServletRequest request)
