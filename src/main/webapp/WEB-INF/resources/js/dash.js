@@ -433,8 +433,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 
                                 if (!series.radius)
                                 {
-                                    series.radius = tmpradius - 3 + "%";
-                                    console.log(series.radius + "hr " + hr + " wr " + wr);
+                                    series.radius = tmpradius - 3 + "%";                                    
                                 }
 
                                 if (!series.center)
