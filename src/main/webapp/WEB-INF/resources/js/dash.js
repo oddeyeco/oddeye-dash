@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment */
 
 //var AllRedrawtimer;
 var SingleRedrawtimer;
@@ -95,7 +95,6 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
         });
         var m_sample = option.options.xAxis[0].m_sample;
         $.getJSON(uri, null, function (data) {
-            console.log(option.options.series);
             var oldseries = clone_obg(option.options.series);
             option.options.series = [];
             if (Object.keys(data.chartsdata).length > 0)
@@ -179,10 +178,9 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                     var xdata = [];
                     var sdata = [];
                     var tmp_series_1 = {};
-                    var tmp_series_3 = {};
-
                     for (var index in data.chartsdata)
                     {
+
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                         if (typeof (option.queryes[k].info) !== "undefined")
                         {
@@ -193,12 +191,24 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                 name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                             }
+                            if (option.queryes[k].info.alias2)
+                            {
+                                if (option.queryes[k].info.alias2 !== "")
+                                {
+                                    var name2 = option.queryes[k].info.alias2;
+                                    name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                                    name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                }
+                            }
                         }
+
+
 //                        console.log(xdata.indexOf(name));
                         if (xdata.indexOf(name) === -1)
                         {
                             xdata.push(name);
-                            if ((option.type === "pie") || (option.type === "funnel"))
+                            if ((option.type === "pie") || (option.type === "funnel") || (option.type === "gauge"))
                             {
                                 option.options.legend.data.push(name);
                             }
@@ -234,19 +244,17 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         {
                             val = chdata.length;
                         }
-
-                        if (!tmp_series_1[data.chartsdata[index].metric])
+                        var tmpname = name;
+                        if (name2)
                         {
-                            tmp_series_1[data.chartsdata[index].metric] = [];
+                            tmpname = name2;
                         }
-                        tmp_series_1[data.chartsdata[index].metric].push({value: val, name: name});
 
-                        if (!tmp_series_3[data.chartsdata[index].metric])
+                        if (!tmp_series_1[name])
                         {
-                            tmp_series_3[data.chartsdata[index].metric] = {};
+                            tmp_series_1[name] = [];
                         }
-                        tmp_series_3[data.chartsdata[index].metric][name] = {data: {value: val, name: name}, min: 0, max: numbers.basic.max(chdata)};
-
+                        tmp_series_1[name].push({value: val, name: tmpname});
                         sdata.push({value: val, name: name});
                     }
                     var radius = (100 / Object.keys(tmp_series_1).length);
@@ -322,84 +330,18 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 series.type = option.type;
                             }
-
-
                             series.name = key;
-                            if (series.type === "bar" || series.type === "gauge")
+                            if (series.type === "bar")
                             {
                                 option.options.legend.data.push(key);
                                 if (Object.keys(tmp_series_1).length === 1)
                                 {
                                     series.itemStyle = {normal: {color: function (params) {
-                                                return colorPalette[params.dataIndex]
+                                                return colorPalette[params.dataIndex];
                                             }}};
                                 }
                             }
-                            if (series.type === "gauge")
-                            {
-                                var g_index = 0;
-                                for (var keyindex in tmp_series_3[key])
-                                {
-                                    if (g_index > 0)
-                                    {
-                                        if (oldseries[ser_index])
-                                        {
-                                            var series = clone_obg(oldseries[ser_index]);
-                                            series.data = [];
-                                        } else
-                                        {
-                                            var series = clone_obg(defserie);
-                                        }
-
-                                        if (!series.type)
-                                        {
-                                            series.type = option.type;
-                                        }
-                                    }
-                                    g_index++;
-                                    ser_index++;
-
-                                    if (!series.data)
-                                    {
-                                        series.data = [];
-                                    }
-                                    series.data.push(tmp_series_3[key][keyindex].data);
-                                    series.min = tmp_series_3[key][keyindex].min;
-                                    series.max = tmp_series_3[key][keyindex].max;
-                                    if (option.options.yAxis[0].min)
-                                    {
-                                        series.min = option.options.yAxis[0].min;
-                                    }
-                                    if (option.options.yAxis[0].max)
-                                    {
-                                        series.max = option.options.yAxis[0].max;
-                                    }
-                                    if (!series.axisLine)
-                                    {
-                                        series.axisLine = {
-                                            lineStyle: {
-                                                color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
-                                                width: 3,
-                                                shadowColor: '#ccc', //默认透明
-                                                shadowBlur: 10
-                                            }
-                                        }
-                                    }
-                                    series.radius = 25 + "%";
-//                                    series.center = [index * 25 - 25 / 2 + '%', (top + 1 * 50) + "%"];
-                                    if (g_index < Object.keys(tmp_series_3[key]).length)
-                                    {
-                                        option.options.series.push(series);
-                                    }
-                                }
-//                                console.log(series.name);
-                            } else
-                            {
-                                series.data = tmp_series_1[key];
-//                                console.log(series);
-                            }
-
-//                            series.type = option.type;
+                            series.data = tmp_series_1[key];
                             option.options.tooltip.trigger = 'item';
                             if (series.type === "line")
                             {
@@ -427,6 +369,38 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 }
 
                             }
+                            if (series.type === "gauge")
+                            {
+                                if (!series.axisLine)
+                                {
+                                    series.axisLine = {
+                                        lineStyle: {
+                                            color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
+                                            shadowColor: '#000',
+                                            shadowBlur: 50
+                                        }
+                                    };
+                                }
+
+                                if (option.options.yAxis[0].min)
+                                {
+                                    if (!series.min)
+                                    {
+                                        series.min = option.options.yAxis[0].min;
+                                    }
+
+                                }
+                                if (option.options.yAxis[0].max)
+                                {
+                                    if (!series.max)
+                                    {
+                                        series.max = option.options.yAxis[0].max;
+                                    }
+                                }
+                                series.radius = (radius - 2) * 2 + "%";
+                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+
+                            }
 
                             if (series.type === "pie")
                             {
@@ -443,22 +417,35 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 series.stack = "0";
                             }
-                            if (option.type === "funnel")
-                            {
+                            if (series.type === "funnel")
+                            {                 
+                                delete series.axisLine;
+                                delete series.max;
+                                delete series.min;
+                                delete series.radius;
+                                delete series.center;
                                 if (row !== 1)
                                 {
-                                    series.sort = 'ascending';
-                                }
-                                series.itemStyle = {
-                                    normal: {
-                                        label: {
-                                            position: 'right'
-                                        },
-                                        labelLine: {
-                                            show: true
-                                        }
+                                    if (!series.sort)
+                                    {
+                                        series.sort = 'ascending';
                                     }
-                                };
+
+                                }
+                                
+                                if (!series.itemStyle)
+                                {
+                                    series.itemStyle = {
+                                        normal: {
+                                            label: {
+                                                position: 'right'
+                                            },
+                                            labelLine: {
+                                                show: true
+                                            }
+                                        }
+                                    };
+                                }                                
                                 series.width = radius - 5 + "%";
                                 series.height = 100 / rows - 5 + "%";
                                 series.x = index * radius - radius + '%';

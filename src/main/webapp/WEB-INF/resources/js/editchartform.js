@@ -86,6 +86,7 @@ class ChartEditForm {
             if (typeof (dashJSON[row]["widgets"][index].queryes[0].info) !== "undefined")
             {
                 this.formwraper.find("#tab_metrics input#alias").val(dashJSON[row]["widgets"][index].queryes[0].info.alias);
+                this.formwraper.find("#tab_metrics input#alias2").val(dashJSON[row]["widgets"][index].queryes[0].info.alias2);
                 var ds = dashJSON[row]["widgets"][index].queryes[0].info.downsample;
                 if (ds === "")
                 {
@@ -451,7 +452,7 @@ class ChartEditForm {
 
 
             this.dashJSON[this.row]["widgets"][this.index].queryes = [];
-            this.dashJSON[this.row]["widgets"][this.index].queryes.push({"url": query, info: {"downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val()}});
+            this.dashJSON[this.row]["widgets"][this.index].queryes.push({"url": query, info: {"downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(),"alias2": this.formwraper.find("#alias2").val() }});
 //            console.log(this.dashJSON[this.row]["widgets"][this.index].queryes);
         }
 

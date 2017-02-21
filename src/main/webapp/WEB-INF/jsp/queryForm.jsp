@@ -50,9 +50,12 @@
             <option label="sum" value="sum">sum</option>
             <option label="zimsum" value="zimsum">zimsum</option>
         </select>
-        <label class="control-label control-label-custom-legend" for="metrics">Alias: 
+        <label class="control-label control-label-custom-legend" for="alias">Alias: 
         </label>
         <input id="alias" name="alias" class="form-control query_input" type="text" value="">       
+        <label class="control-label" for="alias2">Alias secondary: 
+        </label>
+        <input id="alias2" name="alias2" class="form-control query_input" type="text" value="">       
 
 
     </div>                            
