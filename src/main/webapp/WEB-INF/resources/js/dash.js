@@ -59,7 +59,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             return;
         }
     }
-    
+
     var k;
     option.options.legend.data = [];
     option.options.toolbox.feature.magicType.title = {
@@ -70,7 +70,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
     };
     option.options.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
     option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
-    
+
     for (k in option.queryes)
     {
         if ((typeof (option.queryes[k])) === "string")
@@ -123,8 +123,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 series.symbol = option.points;
                             }
-                            
-                            
+
+
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                             if (typeof (option.queryes[k].info) !== "undefined")
                             {
@@ -139,19 +139,19 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             series.name = name;
                             option.options.legend.data.push({"name": name});
                             var chdata = [];
-                            
+
                             for (var time in data.chartsdata[index].data) {
                                 var dateval = moment(time * 1);
                                 chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
                                 delete dateval;
                             }
                             series.data = chdata;
-                            
+
                             if (option.stacked)
                             {
                                 series.stack = "0";
                             }
-                            
+
                             if (option.fill)
                             {
                                 if (option.fill !== "none")
@@ -171,17 +171,17 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                     }
                     option.options.tooltip.trigger = 'axis';
                 }
-                
+
                 if (option.options.xAxis[0].type === "category")
                 {
                     option.options.series = [];
                     var xdata = [];
                     var sdata = [];
                     var tmp_series_1 = {};
-                    
+
                     for (var index in data.chartsdata)
                     {
-                        
+
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                         var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                         if (typeof (option.queryes[k].info) !== "undefined")
@@ -204,7 +204,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 }
                             }
                         }
-                        
+
 //                        if ((option.type === "pie") || (option.type === "funnel") || (option.type === "gauge"))
 //                        {
 //                            if (option.options.legend.data.indexOf(name) === -1)
@@ -220,14 +220,14 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 //                                option.options.legend.data.push(name2);
 //                            }
 //                        }
-                        
+
                         var chdata = [];
                         var val;
                         for (var time in data.chartsdata[index].data) {
                             chdata.push(data.chartsdata[index].data[time]);
                             val = data.chartsdata[index].data[time];
                         }
-                        
+
                         if (m_sample === "avg")
                         {
                             val = numbers.statistic.mean(chdata);
@@ -257,7 +257,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         {
                             tmpname = name2;
                         }
-                        
+
                         if (!tmp_series_1[name])
                         {
                             tmp_series_1[name] = [];
@@ -267,7 +267,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         sdata.push({value: val, name: name});
                     }
                     var radius = (100 / Object.keys(tmp_series_1).length);
-                    
+
                     if (radius < 25)
                     {
                         radius = 25;
@@ -283,7 +283,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                     var row = 0;
                     if (option.type === "treemap")
                     {
-                        
+
                         var ser_index = option.options.series.length;
                         if (oldseries[ser_index])
                         {
@@ -293,12 +293,12 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         {
                             var series = clone_obg(defserie);
                         }
-                        
+
                         if (!series.type)
                         {
                             series.type = option.type;
                         }
-                        
+
 //                        var series = clone_obg(defserie);
                         data = [];
                         for (var key in tmp_series_1)
@@ -310,7 +310,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 val = val + tmp_series_1[key][ind].value;
                                 cildren.push({value: tmp_series_1[key][ind].value, name: key + "." + tmp_series_1[key][ind].name});
                             }
-                            
+
                             data.push({value: val, name: key, children: cildren});
                         }
                         series.name = option.options.title.text;
@@ -336,7 +336,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 var series = clone_obg(defserie);
                             }
-                            
+
                             if (!series.type)
                             {
                                 series.type = option.type;
@@ -345,11 +345,11 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 series.name = key;
                             }
-                            
-                            
+
+
                             if (series.type === "bar")
                             {
-                                
+
                                 if (Object.keys(tmp_series_1).length === 1)
                                 {
                                     series.itemStyle = {normal: {color: function (params) {
@@ -363,8 +363,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 series.data = tmp_series_1[key];
                             }
-                            
-                            
+
+
 //                            console.log(tmp_series_1[key]);
                             option.options.tooltip.trigger = 'item';
                             if (series.type === "line")
@@ -391,7 +391,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 {
                                     option.options.tooltip.trigger = 'axis';
                                 }
-                                
+
                             }
                             var wr = radius * chart._dom.getBoundingClientRect().width / 100;
                             var hr = radius * chart._dom.getBoundingClientRect().height / 100;
@@ -407,14 +407,14 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                         }
                                     };
                                 }
-                                
+
                                 if (option.options.yAxis[0].min)
                                 {
                                     if (!series.min)
                                     {
                                         series.min = option.options.yAxis[0].min;
                                     }
-                                    
+
                                 }
                                 if (option.options.yAxis[0].max)
                                 {
@@ -430,12 +430,12 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 }
                                 if (tmpradius > 100)
                                     tmpradius = 95;
-                                
+
                                 if (!series.radius)
                                 {
-                                    series.radius = tmpradius - 3 + "%";                                    
+                                    series.radius = tmpradius - 3 + "%";
                                 }
-                                
+
                                 if (!series.center)
                                 {
                                     if (hr < wr)
@@ -447,7 +447,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                     }
                                 }
                             }
-                            
+
                             if (series.type === "pie")
                             {
                                 if (!series.radius)
@@ -464,8 +464,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                         series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
                                     }
                                 }
-                                
-                                
+
+
                             }
                             if (option.stacked)
                             {
@@ -484,9 +484,9 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                     {
                                         series.sort = 'ascending';
                                     }
-                                    
+
                                 }
-                                
+
                                 if (!series.itemStyle)
                                 {
                                     series.itemStyle = {
@@ -504,7 +504,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 {
                                     series.width = radius - 5 + "%";
                                 }
-                                
+
                                 if (!series.height)
                                     series.height = 100 / rows - 5 + "%";
                                 if (!series.x)
@@ -515,26 +515,26 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             index++;
 //                            console.log(series);
                             option.options.series.push(series);
-                            
+
                         }
                     }
                     option.options.xAxis[0].data = [];
                     for (var ind in option.options.series)
                     {
                         option.options.legend.data.push(option.options.series[ind].name);
-                        
+
                         option.options.xAxis[0].data.push(option.options.series[ind].name);
                     }
-                    
+
 //                    option.options.xAxis[0].data = xdata;
                 }
-                
+
             }
-            
+
             for (var yindex in option.options.yAxis)
             {
                 var formatter = option.options.yAxis[yindex].unit;
-                
+
 //                function
                 if (formatter === "none")
                 {
@@ -582,7 +582,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                     }, dashJSONvar.times.intervall);
                 }
             }
-            
+
         });
 }
 
@@ -687,7 +687,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
 
 function redrawAllJSON(dashJSON, redraw = false)
 {
-    
+
     var rowindex;
     var widgetindex;
     $(".editchartpanel").hide();
@@ -718,7 +718,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) === "undefined")
                 {
                     bkgclass = "chartbkg";
-                    
+
                 } else
                 {
                     if (dashJSON[rowindex]["widgets"][widgetindex].transparent)
@@ -728,7 +728,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                     {
                         bkgclass = "chartbkg";
                     }
-                }                                
+                }
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
@@ -736,7 +736,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection .echart_time").html("");
-                
+
                 if (dashJSON[rowindex]["widgets"][widgetindex].times)
                 {
                     if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel)
@@ -756,10 +756,10 @@ function redrawAllJSON(dashJSON, redraw = false)
                             $("#charttemplate .chartsection .echart_time").append(refreshtimes[dashJSON[rowindex]["widgets"][widgetindex].times.intervall]);
                         }
                     }
-                    
+
                 }
-                
-                
+
+
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) !== "undefined")
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height);
@@ -779,8 +779,8 @@ function redrawAllJSON(dashJSON, redraw = false)
                 dashJSON[rowindex]["widgets"][widgetindex].options = defoption;
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             }
-            
-            
+
+
             if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
             {
                 if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
@@ -801,7 +801,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                         {
                             startdate = rangeslabels[dashJSON.times.pickerlabel];
                         }
-                        
+
                     }
                 }
                 if (dashJSON[rowindex]["widgets"][widgetindex].times)
@@ -816,7 +816,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                         {
                             startdate = rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel];
                         }
-                        
+
                     }
                 }
                 var chart = dashJSON[rowindex]["widgets"][widgetindex].echartLine;
@@ -841,12 +841,12 @@ function redrawAllJSON(dashJSON, redraw = false)
                     dashJSON[rowindex]["widgets"][widgetindex].options.series[0] = {};
                 }
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].type = "line";
-                
+
                 dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].options);
             }
-            
+
             $("#charttemplate .chartsection").attr("id", "widget");
-            
+
         }
 }
 }
@@ -876,11 +876,11 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
             $(".echart_line_single").css("height", dashJSON[row]["widgets"][index].height);
         }
     }
-    
+
     if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
     {
         $(".editchartpanel #singlewidget").addClass("chartbkg");
-        
+
     } else
     {
         if (dashJSON[row]["widgets"][index].transparent)
@@ -912,7 +912,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
                 {
                     startdate = rangeslabels[dashJSON.times.pickerlabel];
                 }
-                
+
             }
         }
         if (dashJSON[row]["widgets"][index].times)
@@ -927,7 +927,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
                 {
                     startdate = rangeslabels[dashJSON[row]["widgets"][index].times.pickerlabel];
                 }
-                
+
             }
         }
         setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw);
@@ -972,7 +972,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         {
             startdate = rangeslabels[dashJSONvar.times.pickerlabel];
         }
-        
+
     }
     for (var rowindex in dashJSONvar)
     {
@@ -989,7 +989,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
         var action = getParameterByName("action");
-        
+
         showsingleChart(request_R_index, request_W_index, dashJSONvar, action !== "edit", false);
         if ($('#axes_mode_x').val() === 'category') {
             $('.only-Series').show();
@@ -998,7 +998,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         }
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
-        
+
     } else
     {
         window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
@@ -1019,7 +1019,7 @@ function repaint(redraw = false) {
         {
             NoOpt = true;
         }
-        
+
         if (!NoOpt)
         {
             if (typeof (dashJSONvar[request_R_index]["widgets"][request_W_index]) === "undefined")
@@ -1027,7 +1027,7 @@ function repaint(redraw = false) {
                 NoOpt = true;
             }
         }
-        
+
         if (NoOpt)
         {
             window.history.pushState({}, "", window.location.pathname);
@@ -1058,7 +1058,7 @@ $(document).ready(function () {
         {
             label = dashJSONvar.times.pickerlabel;
         }
-        
+
         $('#reportrange span').html(label);
         PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
         PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
@@ -1079,15 +1079,15 @@ $(document).ready(function () {
             }
         };
     }
-    
+
     $('.cl_picer_input').colorpicker().on('hidePicker', function () {
         chartForm.chage($(this).find("input"));
     });
     $('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
         chartForm.chage($(this).find("input"));
     });
-    
-    
+
+
     $('#button_title_subtitle').on('click', function () {
         $('#title_subtitle').fadeToggle(500, function () {
             if ($('#title_subtitle').css('display') === 'block')
@@ -1098,11 +1098,11 @@ $(document).ready(function () {
             {
                 $('#button_title_subtitle').removeClass("fa-chevron-circle-up");
                 $('#button_title_subtitle').addClass("fa-chevron-circle-down");
-                
+
             }
         });
     });
-    
+
     $('#button_title_description').on('click', function () {
         $('#title_subdescription').fadeToggle(500, function () {
             if ($('#title_subdescription').css('display') === 'block')
@@ -1113,11 +1113,11 @@ $(document).ready(function () {
             {
                 $('#button_title_description').removeClass("fa-chevron-circle-up");
                 $('#button_title_description').addClass("fa-chevron-circle-down");
-                
+
             }
         });
     });
-    
+
     $('#button_title_position').on('click', function () {
         $('#position_block').fadeToggle(500, function () {
             if ($('#position_block').css('display') === 'block')
@@ -1128,11 +1128,11 @@ $(document).ready(function () {
             {
                 $('#button_title_position i').removeClass("fa-chevron-circle-up");
                 $('#button_title_position i').addClass("fa-chevron-circle-down");
-                
+
             }
         });
     });
-    
+
     $('#button_title_color').on('click', function () {
         $('#color_block').fadeToggle(500, function () {
             if ($('#color_block').css('display') === 'block')
@@ -1143,11 +1143,11 @@ $(document).ready(function () {
             {
                 $('#button_title_color i').removeClass("fa-chevron-circle-up");
                 $('#button_title_color i').addClass("fa-chevron-circle-down");
-                
+
             }
         });
     });
-    
+
     $('#button_title_border').on('click', function () {
         $('#border_block').fadeToggle(500, function () {
             if ($('#border_block').css('display') === 'block')
@@ -1158,13 +1158,13 @@ $(document).ready(function () {
             {
                 $('#button_title_border i').removeClass("fa-chevron-circle-up");
                 $('#button_title_border i').addClass("fa-chevron-circle-down");
-                
+
             }
         });
     });
-    
+
     repaint();
-    
+
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
         $(this).find("ul").css("top", $(this).position().top);
         var curent = $(this);
@@ -1179,7 +1179,7 @@ $(document).ready(function () {
                 curent.find("ul:hidden").show();
             }
         }
-        
+
     });
     $('body').on("mouseleave", ".select2-container--default .menu-select", function () {
         $(".select2-container--default .menu-select .select2-results__option[role=group] ul").hide();
@@ -1201,7 +1201,7 @@ $('body').on("click", "span.tagspan .fa-pencil", function () {
         var metricinput = $(this).parents(".tag_label").find("input");
         makeMetricInput(metricinput, input);
     }
-    
+
     if ($(this).parents(".tag_label").hasClass("query_tag"))
     {
         var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");
@@ -1229,9 +1229,9 @@ function makeMetricInput(metricinput, wraper)
 function maketagKInput(tagkinput, wraper) {
     var uri = cp + "/gettagkey?filter=^(.*)$";
     $.getJSON(uri, null, function (data) {
-        
+
         var tagvinput = tagkinput.parent().next().find("#tagv");
-        
+
         if (tagkinput.val() !== "")
         {
             var uri = cp + "/gettagvalue?key=" + tagkinput.val();
@@ -1253,14 +1253,14 @@ function maketagKInput(tagkinput, wraper) {
                         minChars: 0
                     });
                 });
-                
+
             }
         });
     });
 }
 
 $('body').on("click", ".query-label .fa-plus", function () {
-    
+
     var input = $(this).parents(".form-group").find(".data-label");
     if (input.hasClass("metrics"))
     {
@@ -1270,7 +1270,7 @@ $('body').on("click", ".query-label .fa-plus", function () {
         var metricinput = input.find("input");
         makeMetricInput(metricinput, input);
     }
-    
+
     if (input.hasClass("tags"))
     {
         input.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
@@ -1297,7 +1297,7 @@ $('body').on("click", "span.tag_label .fa-check", function () {
     }
     if (input.hasClass("tags"))
     {
-        
+
         var keyinput = input.find("#tagk");
         var valinput = input.find("#tagv");
         if (keyinput.val() === "")
@@ -1369,7 +1369,7 @@ $('body').on("click", ".minus", function () {
 });
 
 $('body').on("click", ".plus", function () {
-    
+
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var widgetindex = $(this).parents(".chartsection").first().attr("index");
     if (dashJSONvar[rowindex]["widgets"][widgetindex].size < 12)
@@ -1416,7 +1416,7 @@ $('body').on("click", ".addchart", function () {
     var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
     dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
-    
+
 //    size = 0;
 //    for (var key in dashJSONvar[rowindex]["widgets"])
 //    {        
@@ -1431,10 +1431,10 @@ $('body').on("click", ".addchart", function () {
 //    {
 //        size = 3;
 //    }
-    
-    
+
+
     redrawAllJSON(dashJSONvar);
-    
+
 });
 
 $('body').on("click", "#deletedashconfirm", function () {
@@ -1462,7 +1462,7 @@ $('body').on("click", "#deletedashconfirm", function () {
             console.log(xhr.status + ": " + thrownError);
         }
     });
-    
+
 });
 
 $('body').on("click", ".deletedash", function () {
@@ -1489,13 +1489,13 @@ $('body').on("click", ".savedash", function () {
                     dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
                     delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
                 }
-                
+
                 for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
                     dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
                 }
             }
         }
-        
+
         senddata.info = JSON.stringify(dashJSONvar);
         senddata.name = $("#name").val();
         var header = $("meta[name='_csrf_header']").attr("content");
@@ -1571,6 +1571,8 @@ $('body').on("click", ".view", function () {
 $('body').on("click", ".backtodush", function () {
     $(".editchartpanel").hide();
     $(".fulldash").show();
+    var request_W_index = getParameterByName("widget");
+    var request_R_index = getParameterByName("row");
     window.history.pushState({}, "", window.location.pathname);
     for (var rowindex in dashJSONvar)
     {
@@ -1583,6 +1585,10 @@ $('body').on("click", ".backtodush", function () {
         }
     }
     AutoRefresh();
+
+    $('html, body').animate({
+        scrollTop: dashJSONvar[request_R_index]["widgets"][request_W_index].echartLine._dom.getBoundingClientRect().top
+    }, 500);
     $RIGHT_COL.css('min-height', $(window).height());
 });
 
@@ -1623,7 +1629,7 @@ window.onscroll = function () {
                                 {
                                     startdate = rangeslabels[dashJSONvar.times.pickerlabel];
                                 }
-                                
+
                             }
                         }
                         setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
@@ -1670,7 +1676,7 @@ window.onresize = function () {
                                 {
                                     startdate = rangeslabels[dashJSONvar.times.pickerlabel];
                                 }
-                                
+
                             }
                         }
                         setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
@@ -1684,5 +1690,5 @@ window.onresize = function () {
     {
         echartLine.resize();
     }
-    
+
 };
