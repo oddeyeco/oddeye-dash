@@ -262,7 +262,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         {
                             tmp_series_1[name] = [];
                         }
-                        tmp_series_1[name].push({value: val, name: tmpname});
+                        tmp_series_1[name].push({value: Math.round(val * 100) / 100 , name: tmpname});
 //                        console.log(name);
                         sdata.push({value: val, name: name});
                     }
@@ -362,6 +362,11 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             } else
                             {
                                 series.data = tmp_series_1[key];
+                                (series.type === "gauge")
+                                {
+                                    series.data[series.data.length-1].name=key;
+                                }
+                                
                             }
 
 
@@ -395,8 +400,10 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             }
                             var wr = radius * chart._dom.getBoundingClientRect().width / 100;
                             var hr = radius * chart._dom.getBoundingClientRect().height / 100;
+
                             if (series.type === "gauge")
                             {
+
                                 if (!series.axisLine)
                                 {
                                     series.axisLine = {
@@ -777,7 +784,7 @@ function redrawAllJSON(dashJSON, redraw = false)
             if (typeof (dashJSON[rowindex]["widgets"][widgetindex].options) === "undefined")
             {
                 dashJSON[rowindex]["widgets"][widgetindex].options = defoption;
-                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";                
+                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             }
 
@@ -1433,10 +1440,10 @@ $('body').on("click", ".addchart", function () {
 //        size = 3;
 //    }
     redrawAllJSON(dashJSONvar);
-    
+
     $('html, body').animate({
         scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top
-    }, 500);    
+    }, 500);
 
 });
 

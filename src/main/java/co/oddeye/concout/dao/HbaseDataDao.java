@@ -20,6 +20,7 @@ import net.opentsdb.core.Internal;
 import net.opentsdb.core.TSQuery;
 import net.opentsdb.core.TSSubQuery;
 import net.opentsdb.query.filter.TagVFilter;
+import org.hbase.async.HBaseException;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +178,7 @@ public class HbaseDataDao extends HbaseBaseDao {
             }
 
             return results;
-        } catch (Exception ex) {
+        } catch (HBaseException ex) {
             Logger.getLogger(HbaseDataDao.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
