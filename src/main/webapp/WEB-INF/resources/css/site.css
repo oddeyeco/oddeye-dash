@@ -308,7 +308,7 @@ select.form-control
 
 .data-label .edit{
     margin-right: 10px;  
-    
+
 }
 
 span.tagspan {
@@ -351,11 +351,22 @@ span.tagspan span.text {
 }
 
 .daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar, .daterangepicker.openscenter .ranges, .daterangepicker.openscenter .calendar {
-     float: left; 
+    float: left; 
 }
 
 #full_json
 {
     width: 100%;
     min-height: 300px;
+}
+
+.rawButton
+{
+    position: absolute;
+    left: -20px;
+}
+
+.rawButton .btn
+{
+    padding: 0px 5px;
 }

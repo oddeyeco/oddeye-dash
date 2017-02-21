@@ -1431,9 +1431,11 @@ $('body').on("click", ".addchart", function () {
 //    {
 //        size = 3;
 //    }
-
-
     redrawAllJSON(dashJSONvar);
+    
+    $('html, body').animate({
+        scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top
+    }, 500);    
 
 });
 

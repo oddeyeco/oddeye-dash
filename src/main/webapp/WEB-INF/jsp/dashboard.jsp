@@ -2,24 +2,22 @@
 <link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />        
 
 <div class="hidden" id="rowtemplate">
-    <div class="raw widgetraw">
-        <div class="x_content">            
-            <div class="btn-group">
-                <a type="button" class="btn btn-danger">Actions</a>
-                <a type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#" class="addchart">Add Chart</a>
-                    <li class="divider"></li>
-                    <li><a href="#" class="deleterow">Delete</a>    
-                    </li>
-                </ul>
-            </div>  
-            <div class="x_content rowcontent raw">
-            </div>        
-        </div>
+    <div class="raw widgetraw x_content">
+        <div class="btn-group rawButton">
+            <!--<a type="button" class="btn btn-danger">Actions</a>-->
+            <a type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#" class="addchart">Add Chart</a>
+                <li class="divider"></li>
+                <li><a href="#" class="deleterow">Delete</a>    
+                </li>
+            </ul>
+        </div>  
+        <div class="rowcontent raw">
+        </div>        
     </div>
 </div>  
 
