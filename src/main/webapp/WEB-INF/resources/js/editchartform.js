@@ -417,7 +417,7 @@ class ChartEditForm {
     }    
 
     chage(input) {
-
+        this.dashJSON[this.row]["widgets"][this.index].options.series=[];
         if (input.parents("form").hasClass("edit-times"))
         {
             if (input.attr('id') === "refreshtime_private")
@@ -488,8 +488,7 @@ class ChartEditForm {
             }
             if (key === "type" || key === "points" || key === "fill" || key === "step")
             {
-                this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
-                this.dashJSON[this.row]["widgets"][this.index].options.series=[];
+                this.dashJSON[this.row]["widgets"][this.index][key] = input.val();                
                 if (key === "type")
                 {
                     if (this.dashJSON[this.row]["widgets"][this.index].type !== "line" && this.dashJSON[this.row]["widgets"][this.index].type !== "bar")

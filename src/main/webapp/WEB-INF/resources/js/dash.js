@@ -205,21 +205,21 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             }
                         }
 
-                        if ((option.type === "pie") || (option.type === "funnel") || (option.type === "gauge"))
-                        {
-                            if (option.options.legend.data.indexOf(name) === -1)
-                            {
-                                option.options.legend.data.push(name);
-                            }
-
-                        } else
-                        {
-                            if (xdata.indexOf(name2) === -1)
-                            {
-                                xdata.push(name2);
-                                option.options.legend.data.push(name2);
-                            }
-                        }
+//                        if ((option.type === "pie") || (option.type === "funnel") || (option.type === "gauge"))
+//                        {
+//                            if (option.options.legend.data.indexOf(name) === -1)
+//                            {
+//                                option.options.legend.data.push(name);
+//                            }
+//
+//                        } else
+//                        {
+//                            if (xdata.indexOf(name2) === -1)
+//                            {
+//                                xdata.push(name2);
+//                                option.options.legend.data.push(name2);
+//                            }
+//                        }
 
                         var chdata = [];
                         var val;
@@ -266,20 +266,21 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 //                        console.log(name);
                         sdata.push({value: val, name: name});
                     }
-//                    console.log(tmp_series_1);
-                    var radius = (90 / Object.keys(tmp_series_1).length);
+                    var radius = (100 / Object.keys(tmp_series_1).length);
+
                     if (radius < 25)
                     {
                         radius = 25;
                     }
-                    var rows = Math.floor((Object.keys(tmp_series_1).length / 5)) + 1;
+                    var rows = Math.floor((Object.keys(tmp_series_1).length / 4)) + 1;
+//                    console.log(rows);
 //                    var top = 50;
 //                    if (rows > 1)
 //                    {
 //                        top = 25;
 //                    }
                     index = 1;
-                    var row = 1;
+                    var row = 0;
                     if (option.type === "treemap")
                     {
 
@@ -340,7 +341,12 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 series.type = option.type;
                             }
-                            series.name = key;
+                            if (!series.name)
+                            {
+                                series.name = key;
+                            }
+
+
                             if (series.type === "bar")
                             {
 
@@ -387,6 +393,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 }
 
                             }
+                            var wr = radius * chart._dom.getBoundingClientRect().width / 100;
+                            var hr = radius * chart._dom.getBoundingClientRect().height / 100;
                             if (series.type === "gauge")
                             {
                                 if (!series.axisLine)
@@ -415,14 +423,29 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                         series.max = option.options.yAxis[0].max;
                                     }
                                 }
-                                var tmpradius = radius + 10;
+                                var tmpradius = radius;
+                                if (hr < wr)
+                                {
+                                    var tmpradius = radius + radius / 2;
+                                }
+                                if (tmpradius > 100)
+                                    tmpradius = 95;
+
                                 if (!series.radius)
                                 {
                                     series.radius = tmpradius - 3 + "%";
+                                    console.log(series.radius + "hr " + hr + " wr " + wr);
                                 }
+
                                 if (!series.center)
                                 {
-                                    series.center = [index * radius - radius / 2 + '%', (row * tmpradius) - tmpradius / 2 + "%"];
+                                    if (hr < wr)
+                                    {
+                                        series.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
+                                    } else
+                                    {
+                                        series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                                    }
                                 }
                             }
 
@@ -434,8 +457,15 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 }
                                 if (!series.center)
                                 {
-                                    series.center = [index * radius - radius / 2 + '%', (row * radius) + "%"];
+                                    if (hr < wr)
+                                    {
+                                        series.center = [index * radius - radius / 2 + '%', (row * radius) + radius / 2 + "%"];
+                                    } else
+                                    {
+                                        series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                                    }
                                 }
+
 
                             }
                             if (option.stacked)
@@ -489,7 +519,15 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 
                         }
                     }
-                    option.options.xAxis[0].data = xdata;
+                    option.options.xAxis[0].data = [];
+                    for (var ind in option.options.series)
+                    {
+                        option.options.legend.data.push(option.options.series[ind].name);
+
+                        option.options.xAxis[0].data.push(option.options.series[ind].name);
+                    }
+
+//                    option.options.xAxis[0].data = xdata;
                 }
 
             }
@@ -529,6 +567,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                     if (option.times.intervall !== "General")
                     {
                         GlobalRefresh = false;
+                        clearTimeout(option.timer);
                         option.timer = setTimeout(function () {
                             setdatabyQueryes(option, url, start, end, chart, true);
                         }, option.times.intervall);
@@ -1170,7 +1209,6 @@ function makeMetricInput(metricinput, wraper)
         tags = tags + $(this).text().replace("*", "(.*)") + ";";
     });
     var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=^(.*)$";
-    console.log(uri);
     $.getJSON(uri, null, function (data) {
         metricinput.autocomplete({
             lookup: data.data,
