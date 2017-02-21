@@ -431,7 +431,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             {
                                 if (!series.radius)
                                 {
-                                    series.radius = radius-5 + "%";
+                                    series.radius = radius - 5 + "%";
                                 }
                                 if (!series.center)
                                 {
@@ -805,6 +805,8 @@ function redrawAllJSON(dashJSON, redraw = false)
                     }
                 }
                 dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
+                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].type = "line";
+                
                 dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].options);
             }
 
@@ -1364,7 +1366,7 @@ $('body').on("click", ".dublicate", function () {
 $('body').on("click", ".addchart", function () {
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-    dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
+    dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "chart"};
     itemcount = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
     if (itemcount < 4)
     {
