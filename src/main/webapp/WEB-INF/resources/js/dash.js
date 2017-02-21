@@ -397,15 +397,29 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                         series.max = option.options.yAxis[0].max;
                                     }
                                 }
-                                series.radius = (radius - 2) * 2 + "%";
-                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                                if (!series.radius)
+                                {
+                                    series.radius = (radius - 2) * 2 + "%";
+                                }
+                                if (!series.center)
+                                {
+                                    series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                                }
+
 
                             }
 
                             if (series.type === "pie")
                             {
-                                series.radius = radius + "%";
-                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                                if (!series.radius)
+                                {
+                                    series.radius = radius + "%";
+                                }
+                                if (!series.center)
+                                {
+                                    series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                                }
+
                             }
 //                            if (series.type === "gauge")
 //                            {
@@ -418,7 +432,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 series.stack = "0";
                             }
                             if (series.type === "funnel")
-                            {                 
+                            {
                                 delete series.axisLine;
                                 delete series.max;
                                 delete series.min;
@@ -432,7 +446,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                     }
 
                                 }
-                                
+
                                 if (!series.itemStyle)
                                 {
                                     series.itemStyle = {
@@ -445,11 +459,18 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                             }
                                         }
                                     };
-                                }                                
-                                series.width = radius - 5 + "%";
-                                series.height = 100 / rows - 5 + "%";
-                                series.x = index * radius - radius + '%';
-                                series.y = (row * 50 + 2.5) + "%";
+                                }
+                                if (!series.width)
+                                {
+                                    series.width = radius - 5 + "%";
+                                }
+
+                                if (!series.height)
+                                    series.height = 100 / rows - 5 + "%";
+                                if (!series.x)
+                                    series.x = index * radius - radius + '%';
+                                if (!series.y)
+                                    series.y = (row * 50 + 2.5) + "%";
                             }
                             index++;
                             option.options.series.push(series);
@@ -668,6 +689,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection .echart_time").html("");
+
                 if (dashJSON[rowindex]["widgets"][widgetindex].times)
                 {
                     if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel)
@@ -709,63 +731,63 @@ function redrawAllJSON(dashJSON, redraw = false)
             {
                 dashJSON[rowindex]["widgets"][widgetindex].options = defoption;
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
+            }
+
+
+            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
+            {
+                if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
+                {
+                    dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
+                }
+                var startdate = "5m-ago";
+                var enddate = "now";
+                if (dashJSON.times)
+                {
+                    if (dashJSON.times.pickerlabel === "Custom")
+                    {
+                        startdate = dashJSON.times.pickerstart;
+                        enddate = dashJSON.times.pickerend;
+                    } else
+                    {
+                        if (typeof (rangeslabels[dashJSON.times.pickerlabel]) !== "undefined")
+                        {
+                            startdate = rangeslabels[dashJSON.times.pickerlabel];
+                        }
+
+                    }
+                }
+                if (dashJSON[rowindex]["widgets"][widgetindex].times)
+                {
+                    if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel === "Custom")
+                    {
+                        startdate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart;
+                        enddate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerend;
+                    } else
+                    {
+                        if (typeof (rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel]) !== "undefined")
+                        {
+                            startdate = rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel];
+                        }
+
+                    }
+                }
+                var chart = dashJSON[rowindex]["widgets"][widgetindex].echartLine;
+                setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, redraw);
+//                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
             } else
             {
-
-                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
+                if (dashJSON[rowindex]["widgets"][widgetindex].options.series.length === 1)
                 {
-                    if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
+                    if (dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data.length === 0)
                     {
-                        dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
+                        dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
                     }
-                    var startdate = "5m-ago";
-                    var enddate = "now";
-                    if (dashJSON.times)
-                    {
-                        if (dashJSON.times.pickerlabel === "Custom")
-                        {
-                            startdate = dashJSON.times.pickerstart;
-                            enddate = dashJSON.times.pickerend;
-                        } else
-                        {
-                            if (typeof (rangeslabels[dashJSON.times.pickerlabel]) !== "undefined")
-                            {
-                                startdate = rangeslabels[dashJSON.times.pickerlabel];
-                            }
-
-                        }
-                    }
-                    if (dashJSON[rowindex]["widgets"][widgetindex].times)
-                    {
-                        if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel === "Custom")
-                        {
-                            startdate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart;
-                            enddate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerend;
-                        } else
-                        {
-                            if (typeof (rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel]) !== "undefined")
-                            {
-                                startdate = rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel];
-                            }
-
-                        }
-                    }
-                    var chart = dashJSON[rowindex]["widgets"][widgetindex].echartLine;
-                    setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, redraw);
-//                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
-                } else
-                {
-                    if (dashJSON[rowindex]["widgets"][widgetindex].options.series.length === 1)
-                    {
-                        if (dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data.length === 0)
-                        {
-                            dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
-                        }
-                    }
-                    dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
-                    dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].options);
                 }
+                dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
+                dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].options);
             }
+
             $("#charttemplate .chartsection").attr("id", "widget");
 
         }
@@ -1500,10 +1522,7 @@ window.onscroll = function () {
                 if (dashJSONvar[rowindex]["widgets"][widgetindex])
                 {
                     var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-
-
                     var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
-
                     dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
                     if (chart._dom.getBoundingClientRect().bottom < 0)
                     {
