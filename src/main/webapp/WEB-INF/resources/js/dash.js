@@ -267,19 +267,19 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         sdata.push({value: val, name: name});
                     }
 //                    console.log(tmp_series_1);
-                    var radius = (100 / Object.keys(tmp_series_1).length);
+                    var radius = (90 / Object.keys(tmp_series_1).length);
                     if (radius < 25)
                     {
                         radius = 25;
                     }
                     var rows = Math.floor((Object.keys(tmp_series_1).length / 5)) + 1;
-                    var top = 50;
-                    if (rows > 1)
-                    {
-                        top = 25;
-                    }
+//                    var top = 50;
+//                    if (rows > 1)
+//                    {
+//                        top = 25;
+//                    }
                     index = 1;
-                    var row = 0;
+                    var row = 1;
                     if (option.type === "treemap")
                     {
 
@@ -415,36 +415,29 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                         series.max = option.options.yAxis[0].max;
                                     }
                                 }
+                                var tmpradius = radius + 10;
                                 if (!series.radius)
                                 {
-                                    series.radius = (radius - 2) * 2 + "%";
+                                    series.radius = tmpradius - 3 + "%";
                                 }
                                 if (!series.center)
                                 {
-                                    series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                                    series.center = [index * radius - radius / 2 + '%', (row * tmpradius) - tmpradius / 2 + "%"];
                                 }
-
-
                             }
 
                             if (series.type === "pie")
                             {
                                 if (!series.radius)
                                 {
-                                    series.radius = radius - 5 + "%";
+                                    series.radius = radius - 3 + "%";
                                 }
                                 if (!series.center)
                                 {
-                                    series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
+                                    series.center = [index * radius - radius / 2 + '%', (row * radius) + "%"];
                                 }
 
                             }
-//                            if (series.type === "gauge")
-//                            {
-////                                console.log(tmp_series_3);
-//                                series.radius = 25 + "%";
-//                                series.center = [index * radius - radius / 2 + '%', (top + row * 50) + "%"];
-//                            }
                             if (option.stacked)
                             {
                                 series.stack = "0";
@@ -806,7 +799,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                 }
                 dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].type = "line";
-                
+
                 dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].options);
             }
 
@@ -832,6 +825,14 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     } else
     {
         $(".edit-form").show();
+    }
+    $(".echart_line_single").css("height", "600px");
+    if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
+    {
+        if (parseInt(dashJSON[row]["widgets"][index].height) > 600)
+        {
+            $(".echart_line_single").css("height", dashJSON[row]["widgets"][index].height);
+        }
     }
 
     if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
