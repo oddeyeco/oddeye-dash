@@ -476,6 +476,7 @@ class ChartEditForm {
 
             if (key === "stacked")
             {
+                this.dashJSON[this.row]["widgets"][this.index].options.series=[];
                 var elem = document.getElementById(input.attr("id"));
                 if (elem.checked)
                 {

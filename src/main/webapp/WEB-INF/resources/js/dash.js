@@ -560,7 +560,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 var defserie = {
     name: null,
 //    type: 'line',
-    symbol: "none",
+//    symbol: "none",
     sampling: 'average',
     data: null
 };
