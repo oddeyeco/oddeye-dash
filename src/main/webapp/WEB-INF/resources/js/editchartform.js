@@ -431,7 +431,7 @@ class ChartEditForm {
         }
         if (input.parents("form").hasClass("edit-query"))
         {
-//            console.log(input);
+            this.dashJSON[this.row]["widgets"][this.index].options.series=[];
             var metrics = "";
             this.formwraper.find(".query_metric .text").each(function () {
                 metrics = metrics + $(this).text() + ";";
