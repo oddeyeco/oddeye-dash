@@ -777,6 +777,7 @@ function redrawAllJSON(dashJSON, redraw = false)
             if (typeof (dashJSON[rowindex]["widgets"][widgetindex].options) === "undefined")
             {
                 dashJSON[rowindex]["widgets"][widgetindex].options = defoption;
+                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";                
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             }
 
