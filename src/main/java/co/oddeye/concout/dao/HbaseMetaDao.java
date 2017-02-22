@@ -66,20 +66,18 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public OddeeyMetricMeta getByKey(byte[] key) throws Exception {
-
-//        final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "Special".getBytes(), "Regression".getBytes()};
         GetRequest request = new GetRequest(table, key, "d".getBytes());
         ArrayList<KeyValue> row = BaseTsdbV.getClient().get(request).joinUninterruptibly();
         if (row.size() > 0) {           
-            return new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
+            final OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
+            fullmetalist.put(meta.hashCode(), meta);
+            return fullmetalist.get(meta.hashCode());
         }
         else
         {
             LOGGER.warn("Key "+Hex.encodeHexString(key)+" Not Found in database");
-        }
-        
-        return null;
-        
+        }        
+        return null;        
 
     }
 
@@ -89,10 +87,6 @@ public class HbaseMetaDao extends HbaseBaseDao {
         scanner.setServerBlockCache(false);
         scanner.setMaxNumRows(1000);
         scanner.setFamily("d".getBytes());
-//        scanner.setQualifier("n".getBytes());
-//        byte[][] Qualifiers = new byte[2][];
-//        Qualifiers[0] = "n".getBytes();
-//        Qualifiers[1] = "timestamp".getBytes();
         final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "type".getBytes(), "Regression".getBytes()};
         scanner.setQualifiers(Qualifiers);
 
@@ -128,10 +122,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
             }
         }
-
         getFullmetalist().putAll(result);
         return result;
-
     }
 
     public OddeeyMetricMeta deleteMeta(Integer hash, User user) {

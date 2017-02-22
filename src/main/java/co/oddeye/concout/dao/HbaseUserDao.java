@@ -6,7 +6,6 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.User;
-import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -33,8 +32,6 @@ import org.hbase.async.ValueFilter;
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -51,7 +48,8 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     byte[] dashtable = "oddeyeDushboards".getBytes();
 
-    private final Map<UUID, User> users = new HashMap<>();
+    private final Map<UUID, User> usersbyUUID = new HashMap<>();
+    private final Map<String, User> usersbyEmail = new HashMap<>();
 
     public HbaseUserDao() {
         super("oddeyeusers");
@@ -110,7 +108,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public List<User> getAllUsers() {
-        return new ArrayList<>(users.values());
+        return new ArrayList<>(getUsers().values());
     }
 
     public Boolean checkUserByEmail(String email) throws Exception {
@@ -178,12 +176,19 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public User getUserByUUID(UUID uuid) {
+        return getUserByUUID(uuid,false);
+    }
 
+    public User getUserByUUID(UUID uuid, boolean reload) {
+        if (!reload && getUsers().containsKey(uuid))
+        {
+            return getUsers().get(uuid);
+        }
         try {
             GetRequest get = new GetRequest(table, uuid.toString().getBytes());
             final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
             User user = new User();
-
+            
 //            final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             byte[] TsdbID;
             user.inituser(userkvs);
@@ -195,10 +200,11 @@ public class HbaseUserDao extends HbaseBaseDao {
             }
 
             user.setTsdbID(TsdbID);
-
+            getUsers().put(user.getId(), user);
+            usersbyEmail.put(user.getEmail(), user);
 //            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             user.setDushList(getAllDush(uuid));
-            return user;
+            return getUsers().get(uuid);
 
         } catch (Exception ex) {
             Logger.getLogger(HbaseUserDao.class.getName()).log(Level.SEVERE, null, ex);
@@ -259,9 +265,16 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
-    public void saveAlertLevels(User curentuser,String levelsJSON) {
+    public void saveAlertLevels(User curentuser, String levelsJSON) {
         final PutRequest put = new PutRequest(table, curentuser.getId().toString().getBytes(), "technicalinfo".getBytes(), "AL".getBytes(), levelsJSON.getBytes());
         BaseTsdb.getClient().put(put);
+    }
+
+    /**
+     * @return the usersbyUUID
+     */
+    public Map<UUID, User> getUsers() {
+        return usersbyUUID;
     }
 
 }

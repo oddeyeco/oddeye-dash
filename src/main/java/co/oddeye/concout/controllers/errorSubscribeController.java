@@ -66,7 +66,7 @@ public class errorSubscribeController {
         }
 
         if (System.currentTimeMillis() - record.timestamp() < 60000) {
-            String message = null;
+            String message;
             JsonElement jsonResult = PARSER.parse(msg);
             String Uuid = jsonResult.getAsJsonObject().get("UUID").getAsString();
             int level = jsonResult.getAsJsonObject().get("level").getAsInt();
@@ -77,18 +77,6 @@ public class errorSubscribeController {
             OddeeyMetricMeta metricMeta = MetaDao.getFullmetalist().get(hash);
             if (metricMeta == null) {
                 try {
-                    if (metricMeta.isSpecial()) {
-                        if (jsonResult.getAsJsonObject().get("message") != null) {                            
-                            long time = jsonResult.getAsJsonObject().get("time").getAsLong();
-                             metricMeta = MetaDao.updateMeta(metricMeta);
-                            long DURATION = time - metricMeta.getLasttime();
-                            message = jsonResult.getAsJsonObject().get("message").getAsString();
-                            message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");                            
-                            
-                            jsonResult.getAsJsonObject().addProperty("message", message);
-                        }
-                    }
-
                     byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
                     metricMeta = MetaDao.getByKey(key);
                 } catch (Exception ex) {
@@ -98,6 +86,17 @@ public class errorSubscribeController {
 
 //            metric = MetaDao.getFullmetalist().get(hash);
             if (metricMeta != null) {
+                if (metricMeta.isSpecial()) {
+                    if (jsonResult.getAsJsonObject().get("message") != null) {
+                        long time = jsonResult.getAsJsonObject().get("time").getAsLong();
+                        metricMeta = MetaDao.updateMeta(metricMeta);
+                        long DURATION = time - metricMeta.getLasttime();
+                        message = jsonResult.getAsJsonObject().get("message").getAsString();
+                        message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION / 1000) + " sec.");
+                        jsonResult.getAsJsonObject().addProperty("message", message);
+                    }
+                }
+
                 JsonElement metajson = new JsonObject();
                 metajson.getAsJsonObject().add("tags", gson.toJsonTree(metricMeta.getTags()));
                 metajson.getAsJsonObject().addProperty("name", metricMeta.getName());
