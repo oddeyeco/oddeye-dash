@@ -262,7 +262,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         {
                             tmp_series_1[name] = [];
                         }
-                        tmp_series_1[name].push({value: Math.round(val * 100) / 100 , name: tmpname});
+                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname});
 //                        console.log(name);
                         sdata.push({value: val, name: name});
                     }
@@ -355,18 +355,18 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                     series.itemStyle = {normal: {color: function (params) {
                                                 return colorPalette[params.dataIndex];
                                             }}};
-                                    option.options.legend.data.push(tmp_series_1[key].name);
+//                                    option.options.legend.data.push(tmp_series_1[key].name);
                                 }
-                                option.options.legend.data.push(key);
+//                                option.options.legend.data.push(key);
                                 series.data = tmp_series_1[key];
                             } else
                             {
                                 series.data = tmp_series_1[key];
                                 (series.type === "gauge")
                                 {
-                                    series.data[series.data.length-1].name=key;
+                                    series.data[series.data.length - 1].name = key;
                                 }
-                                
+
                             }
 
 
@@ -465,7 +465,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 {
                                     if (hr < wr)
                                     {
-                                        series.center = [index * radius - radius / 2 + '%', (row * radius) + radius / 2 + "%"];
+                                        series.center = [index * radius - radius / 2 + '%', ((row+1) * radius) + "%"];
+                                        console.log(((row+1) * radius));
                                     } else
                                     {
                                         series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
@@ -525,15 +526,23 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 
                         }
                     }
-                    option.options.xAxis[0].data = [];
+                    option.options.xAxis[0].data = [];                    
                     for (var ind in option.options.series)
                     {
+                        if ((option.type === "bar") || (option.type === "line"))
+                        {
+                            for (var sind in option.options.series[ind].data)
+                            {
+                                if (option.options.xAxis[0].data.indexOf(option.options.series[ind].data[sind].name) === -1)
+                                {
+                                    option.options.xAxis[0].data.push(option.options.series[ind].data[sind].name);
+                                }
+                                
+                            }
+
+                        }
                         option.options.legend.data.push(option.options.series[ind].name);
-
-                        option.options.xAxis[0].data.push(option.options.series[ind].name);
                     }
-
-//                    option.options.xAxis[0].data = xdata;
                 }
 
             }
