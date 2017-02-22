@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/gettagvalue*").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/subscribe/**").permitAll()
-                .antMatchers("/userslist*").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/userslist*").hasAnyAuthority("ROLE_USERMANAGER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
@@ -36,6 +37,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
 
     public final static String ROLE_ADMIN = "ROLE_ADMIN";
+    public final static String ROLE_CONTENTMANAGER = "ROLE_CONTENTMANAGER";
+    public final static String ROLE_USERMANAGER = "ROLE_USERMANAGER";
     public final static String ROLE_USER = "ROLE_USER";
     public final static String ROLE_SUPERADMIN = "ROLE_SUPERADMIN";
     public final static String ROLE_READONLY_ADMIN = "ROLE_READONLY_ADMIN";
@@ -43,7 +46,7 @@ public class User implements UserDetails {
     public final static String ROLE_DELETE = "ROLE_DELETE";    
 
     @Id
-    private UUID id;
+    private UUID id;    
     private String lastname;
     private String name;
     private String email;
@@ -157,7 +160,11 @@ public class User implements UserDetails {
         }
         authorities.add(new SimpleGrantedAuthority(ROLE_USER));
         if (this.email.equals("vahan_a@mail.ru")) {
+            authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
             authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
+            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
+            
         }
     }
 
@@ -575,4 +582,38 @@ public class User implements UserDetails {
         }
         return getDefaultFilter();
     }    
+    
+    public String toHtml(String teg,String Separator) {
+         String Openteg = "";
+         String Closeteg = "";
+        if (!teg.isEmpty())
+        {
+            Openteg = "<"+teg+">";
+            Closeteg ="</"+teg+">";
+        }
+//        return Openteg+getName()+Separator+getEmail()+Closeteg;
+                return Openteg+getEmail()+Separator+getName()                
+                +Separator+getLastname()
+                +Separator+getCompany()
+                +Separator+getCountry()
+                +Separator+getTimezone()
+                +Separator+getAuthorities()
+                +Closeteg;
+    }        
+    public String toHtmlhead(String teg,String Separator) {
+         String Openteg = "";
+         String Closeteg = "";
+        if (!teg.isEmpty())
+        {
+            Openteg = "<"+teg+">";
+            Closeteg ="</"+teg+">";
+        }
+        return Openteg+"E-mail"+Separator+"First name"
+                +Separator+"Last name"
+                +Separator+"Company"
+                +Separator+"Country"
+                +Separator+"Timezone"
+                +Separator+"Authorities"                
+                +Closeteg;
+    }      
 }

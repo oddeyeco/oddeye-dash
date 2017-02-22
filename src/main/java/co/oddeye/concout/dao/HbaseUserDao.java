@@ -6,6 +6,7 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.model.User;
+import co.oddeye.core.globalFunctions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,8 +15,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.function.Function;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
@@ -28,6 +28,8 @@ import org.hbase.async.PutRequest;
 import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
 import org.hbase.async.ValueFilter;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,8 @@ public class HbaseUserDao extends HbaseBaseDao {
     private BaseTsdbConnect BaseTsdb;
     @Autowired
     HbaseMetaDao MetaDao;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(HbaseUserDao.class);
 
     byte[] dashtable = "oddeyeDushboards".getBytes();
 
@@ -108,6 +112,29 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public List<User> getAllUsers() {
+        return new ArrayList<>(getUsers().values());
+    }
+
+    public List<User> getAllUsers(boolean reload) {
+        if (reload) {
+            try {
+                final Scanner scanner = BaseTsdb.getClient().newScanner(table);
+                scanner.setQualifier("UUID");
+                ArrayList<ArrayList<KeyValue>> rows;
+                while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
+                    for (final ArrayList<KeyValue> row : rows) {
+                        for (KeyValue property : row) {
+                            if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
+                                getUserByUUID(UUID.fromString(new String(property.value())), reload);
+                            }
+                        }
+                    }
+                }
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+                return null;
+            }
+        }
         return new ArrayList<>(getUsers().values());
     }
 
@@ -176,19 +203,18 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public User getUserByUUID(UUID uuid) {
-        return getUserByUUID(uuid,false);
+        return getUserByUUID(uuid, false);
     }
 
     public User getUserByUUID(UUID uuid, boolean reload) {
-        if (!reload && getUsers().containsKey(uuid))
-        {
+        if (!reload && getUsers().containsKey(uuid)) {
             return getUsers().get(uuid);
         }
         try {
             GetRequest get = new GetRequest(table, uuid.toString().getBytes());
             final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
             User user = new User();
-            
+
 //            final List<GrantedAuthority> grantedAuths = new ArrayList<>();
             byte[] TsdbID;
             user.inituser(userkvs);
@@ -207,7 +233,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             return getUsers().get(uuid);
 
         } catch (Exception ex) {
-            Logger.getLogger(HbaseUserDao.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(globalFunctions.stackTrace(ex));
         }
         return null;
     }

@@ -61,7 +61,7 @@
                             </div>
                             <div class="profile_info">
                                 <span>Welcome,</span>
-                                <h2>${curentuser.getName()} ${curentuser.getLastname()}</h2>
+                                <h2>${curentuser.getName()} ${curentuser.getLastname()}</h2>                           
                             </div>
                         </div>
                         <!-- /menu profile quick info -->
@@ -91,6 +91,18 @@
 
                                         </ul>
                                     </li>
+                                    <sec:authorize access="hasRole('ADMIN')">
+                                        <li><a><i class="fa fa-edit"></i> Managment <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">                                                                                        
+                                                <sec:authorize access="hasRole('USERMANAGER')">
+                                                    <li><a href="<c:url value="/userslist"/>" id="newdush">Users</a></li>
+                                                    </sec:authorize>
+                                                    <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                                    <li><a href="<c:url value="/pages"/>" id="newdush">Content</a></li>
+                                                    </sec:authorize>
+                                            </ul>
+                                        </li>
+                                    </sec:authorize>                                         
                                 </ul>
                             </div>
                         </div>
@@ -155,8 +167,13 @@
                         <div class="alert alert-danger alert-dismissible fade in " role="alert">
                             You are not activate.
                         </div>
-                    </c:if>                     
-                    <jsp:include page="${body}.jsp" />
+                    </c:if>                                         
+                    <c:catch var="e">
+                        <c:import url="${body}.jsp" />
+                    </c:catch>
+                    <c:if test="${!empty e}">
+                        Error: You Can`t see this page.
+                    </c:if>                    
                 </div>
 
                 <!-- /page content -->
@@ -197,8 +214,10 @@
         <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
 
         <script src="${cp}/resources/js/global.js"></script>
+        <c:catch var="e">
+            <c:import url="${jspart}.jsp" />
+        </c:catch>
 
-        <jsp:include page="${jspart}.jsp" />
         <script>
             $(function () {
                 $MENU_TOGGLE.on('click', function () {

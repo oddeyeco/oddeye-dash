@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.controllers;
 
-import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.model.User;
