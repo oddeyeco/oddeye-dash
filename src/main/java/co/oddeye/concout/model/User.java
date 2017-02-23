@@ -96,7 +96,7 @@ public class User implements UserDetails {
         final Map<SimpleGrantedAuthority, String> roles = new LinkedHashMap<>();
         roles.put(new SimpleGrantedAuthority(User.ROLE_USER), "User");
         roles.put(new SimpleGrantedAuthority(User.ROLE_ADMIN), "Admin");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_CONTENTMANAGER), "Comtent manager");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_CONTENTMANAGER), "Content manager");
         roles.put(new SimpleGrantedAuthority(User.ROLE_USERMANAGER), "User manager");
         roles.put(new SimpleGrantedAuthority(User.ROLE_SUPERADMIN), "Root");
 //        roles.put(new SimpleGrantedAuthority(User.ROLE_READONLY_ADMIN) , "User");
