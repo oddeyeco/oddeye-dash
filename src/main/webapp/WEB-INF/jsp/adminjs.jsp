@@ -9,7 +9,10 @@
 
 <script>
     $('#datatable-responsive').DataTable({
-//          fixedHeader: true,
           "pageLength": 25
         });
+        
+        $(".select2_multiple").select2({
+          allowClear: true
+        });        
 </script>    

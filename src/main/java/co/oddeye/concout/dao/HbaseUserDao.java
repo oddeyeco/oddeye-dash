@@ -5,8 +5,15 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.globalFunctions;
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -123,11 +130,9 @@ public class HbaseUserDao extends HbaseBaseDao {
                 ArrayList<ArrayList<KeyValue>> rows;
                 while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
                     for (final ArrayList<KeyValue> row : rows) {
-                        for (KeyValue property : row) {
-                            if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
-                                getUserByUUID(UUID.fromString(new String(property.value())), reload);
-                            }
-                        }
+                        row.stream().filter((property) -> (Arrays.equals(property.qualifier(), "UUID".getBytes()))).forEachOrdered((property) -> {
+                            getUserByUUID(UUID.fromString(new String(property.value())), reload);
+                        });
                     }
                 }
             } catch (Exception ex) {
@@ -138,9 +143,9 @@ public class HbaseUserDao extends HbaseBaseDao {
         return new ArrayList<>(getUsers().values());
     }
 
-    public Boolean checkUserByEmail(String email) throws Exception {
+    public Boolean checkUserByEmail(User user) throws Exception {
 //        this.client.get(null);
-
+        String email = user.getEmail();
         final Scanner value_scanner = BaseTsdb.getClient().newScanner(table);
 
         final ArrayList<ScanFilter> filters = new ArrayList<>(2);
@@ -152,7 +157,10 @@ public class HbaseUserDao extends HbaseBaseDao {
         value_scanner.setFilter(new FilterList(filters));
 
         final ArrayList<ArrayList<KeyValue>> value_rows = value_scanner.nextRows().join();
-
+        if (value_rows.size() == 1) {
+            UUID uuid = UUID.fromString(new String(value_rows.get(0).get(0).key()));
+            return (!user.getId().equals(uuid));
+        }
         return value_rows.size() == 1;
     }
 
@@ -260,6 +268,107 @@ public class HbaseUserDao extends HbaseBaseDao {
             result.put(new String(dush.qualifier()), new String(dush.value()));
         });
         return result;
+    }
+
+    public void saveAll(User user, User newuser, Map<String, Object> editConfig) throws Exception {
+        Map<String, HashMap<String, Object>> changedata = new HashMap<>();
+        for (Map.Entry<String, Object> configEntry : editConfig.entrySet()) {
+            HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
+            String name = (String) config.get("path");
+            try {
+                Field field = user.getClass().getDeclaredField(name);
+                Annotation[] Annotations = field.getDeclaredAnnotations();
+                if (Annotations.length > 0) {
+//                    System.out.println(Arrays.toString(Annotations));
+                    for (Annotation annotation : Annotations) {
+                        if (annotation.annotationType().equals(HbaseColumn.class)) {
+                            try {
+                                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), User.class);
+                                Method getter = PDescriptor.getReadMethod();
+                                Object value = getter.invoke(user);
+                                Object newvalue = getter.invoke(newuser);
+                                //type="collection"
+                                boolean ischange = false;
+
+                                switch (((HbaseColumn) annotation).type()) {
+                                    case "password":
+                                        getter = user.getClass().getDeclaredMethod("getPasswordByte");
+                                        value = getter.invoke(user);
+                                        newvalue = getter.invoke(newuser);
+                                        if (!Arrays.equals((byte[]) newvalue, (byte[]) value)) {
+                                            ischange = true;
+                                        }
+                                        break;
+                                    case "collection":
+                                        if (!value.toString().equals(newvalue.toString())) {
+                                            ischange = true;
+                                        }
+                                        break;
+                                    default:
+                                        if (!value.equals(newvalue)) {
+                                            ischange = true;
+                                        }
+                                        break;
+                                }
+
+                                if (ischange) {
+
+                                    Method setter = PDescriptor.getWriteMethod();
+                                    String family = ((HbaseColumn) annotation).family();
+                                    if (!changedata.containsKey(family)) {
+                                        changedata.put(family, new HashMap<String, Object>());
+                                    }
+                                    if (((HbaseColumn) annotation).type().equals("password")) {
+                                        changedata.get(family).put("password", newuser.getPasswordByte());
+                                        changedata.get(family).put("solt", newuser.getSolt());
+                                    } else {
+                                        setter.invoke(user, newvalue);
+                                        changedata.get(family).put(((HbaseColumn) annotation).qualifier(), newvalue);
+                                    }
+
+                                }
+
+                            } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                            }
+                        }
+
+                    }
+                }
+            } catch (NoSuchFieldException | SecurityException e) {
+            }
+        }
+
+        if (changedata.size() > 0) {
+            for (Map.Entry<String, HashMap<String, Object>> data : changedata.entrySet()) {
+                byte[] family = data.getKey().getBytes();
+                if (data.getValue().size() > 0) {
+                    byte[][] qualifiers = new byte[data.getValue().size()][];
+                    byte[][] values = new byte[data.getValue().size()][];
+                    int index = 0;
+                    for (Map.Entry<String, Object> Hbasedata : data.getValue().entrySet()) {
+                        qualifiers[index] = Hbasedata.getKey().getBytes();
+                        Class<?> aclass = Hbasedata.getValue().getClass();
+                        if (Hbasedata.getValue() instanceof byte[])
+                        {
+                            values[index] = (byte[]) Hbasedata.getValue();
+                        }
+                        if (Hbasedata.getValue() instanceof String)
+                        {
+                            values[index] = ((String) Hbasedata.getValue()).getBytes();                            
+                        }
+                        if (Hbasedata.getValue() instanceof Boolean)
+                        {
+                            values[index] = (Bytes.fromInt((Boolean) Hbasedata.getValue() ? 1 : 0));
+                        }                        
+                        
+                        
+                        index++;
+                    }
+                    final PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), family, qualifiers, values);
+                    BaseTsdb.getClient().put(request);
+                }
+            }
+        }
     }
 
     public void saveUserPersonalinfo(User user, Map<String, Object> changedata) throws Exception {

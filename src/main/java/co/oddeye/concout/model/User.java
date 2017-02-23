@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.model;
 
+import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseUserDao;
@@ -18,10 +19,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.StringTokenizer;
 import java.util.UUID;
-import javax.persistence.Column;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
@@ -43,37 +45,66 @@ public class User implements UserDetails {
     public final static String ROLE_SUPERADMIN = "ROLE_SUPERADMIN";
     public final static String ROLE_READONLY_ADMIN = "ROLE_READONLY_ADMIN";
     public final static String ROLE_READONLY = "ROLE_READONLY";
-    public final static String ROLE_DELETE = "ROLE_DELETE";    
+    public final static String ROLE_DELETE = "ROLE_DELETE";
+    public final static String ROLE_EDIT = "ROLE_EDIT";
 
     @Id
-    private UUID id;    
+    private UUID id;
+    @HbaseColumn(qualifier = "lastname", family = "personalinfo")
     private String lastname;
+    @HbaseColumn(qualifier = "name", family = "personalinfo")
     private String name;
+    @HbaseColumn(qualifier = "email", family = "personalinfo")
     private String email;
+    @HbaseColumn(qualifier = "company", family = "personalinfo")
     private String company;
+    @HbaseColumn(qualifier = "password", family = "technicalinfo", type = "password")
     private byte[] password;
     private byte[] passwordsecond;
     private byte[] oldpassword;
+    @HbaseColumn(qualifier = "solt", family = "technicalinfo")
     private byte[] solt = null;
+    @HbaseColumn(qualifier = "country", family = "personalinfo")
     private String country;
+    @HbaseColumn(qualifier = "city", family = "personalinfo")
     private String city;
+    @HbaseColumn(qualifier = "region", family = "personalinfo")
     private String region;
+    @HbaseColumn(qualifier = "timezone", family = "personalinfo")
     private String timezone;
 
     private byte[] TsdbID;
     private String StTsdbID;
+    @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
-    private final Collection<GrantedAuthority> authorities;
+    @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
+    private Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
     private Map<String, String> DushList;
-    private Map<String, String> FiltertemplateList = new HashMap<>();    
-
+    @HbaseColumn(qualifier = "*", family = "filtertemplates")
+    private Map<String, String> FiltertemplateList = new HashMap<>();
+    @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
     public User() {
         this.id = UUID.randomUUID();
         this.authorities = new ArrayList<>();
         this.MetricsMetas = null;
+    }
+
+    public static Map<SimpleGrantedAuthority, String> getAllRoles() {
+        final Map<SimpleGrantedAuthority, String> roles = new LinkedHashMap<>();
+        roles.put(new SimpleGrantedAuthority(User.ROLE_USER), "User");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_ADMIN), "Admin");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_CONTENTMANAGER), "Comtent manager");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_USERMANAGER), "User manager");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_SUPERADMIN), "Root");
+//        roles.put(new SimpleGrantedAuthority(User.ROLE_READONLY_ADMIN) , "User");
+//        roles.put(new SimpleGrantedAuthority(User.ROLE_READONLY) , "User");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_DELETE), "Can delete");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_EDIT), "Can Edit");
+
+        return roles;
     }
 
     // Developet metods
@@ -119,6 +150,17 @@ public class User implements UserDetails {
             }
             return property;
         }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "authorities".getBytes())) {
+                String token;
+                StringTokenizer tokens = new StringTokenizer(new String(property.value()).replaceAll("\\[|\\]", ""), ",");
+                while (tokens.hasMoreTokens()) {
+                    token = tokens.nextToken();
+                    token = token.trim();
+                    authorities.add(new SimpleGrantedAuthority(token));
+                }
+            }
+            return property;
+        }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "region".getBytes())) {
                 this.region = new String(property.value());
             }
@@ -141,8 +183,8 @@ public class User implements UserDetails {
             return property;
         }).map((KeyValue property) -> {
             if (Arrays.equals(property.qualifier(), "AL".getBytes())) {
-                AlertLevel map = globalFunctions.getGson().fromJson(new String(property.value()) ,AlertLevel.class);                        
-                this.AlertLevels =map;
+                AlertLevel map = globalFunctions.getGson().fromJson(new String(property.value()), AlertLevel.class);
+                this.AlertLevels = map;
             }
             return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
@@ -154,18 +196,17 @@ public class User implements UserDetails {
             }
         });
 
-        if (AlertLevels == null)
-        {
+        if (AlertLevels == null) {
             AlertLevels = new AlertLevel(true);
         }
-        authorities.add(new SimpleGrantedAuthority(ROLE_USER));
-        if (this.email.equals("vahan_a@mail.ru")) {
-            authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
-            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
-            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-            
-        }
+//        if (this.email.equals("vahan_a@mail.ru")) {
+//            authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
+//        }
     }
 
     /**
@@ -205,10 +246,21 @@ public class User implements UserDetails {
         return pass;
     }
 
+    public void addAuthoritie(String role) {
+        authorities.add(new SimpleGrantedAuthority(role));
+    }
+
     // Override metods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
+    }
+
+    /**
+     * @param authorities the authorities to set
+     */
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
     }
 
     @Override
@@ -277,10 +329,16 @@ public class User implements UserDetails {
      * @param password the password to set
      */
     public void setPassword(String password) {
-        if (this.getSolt() == null) {
-            this.solt = getNextSalt();
+        if (!password.isEmpty()) {
+            if (this.getSolt() == null) {
+                this.solt = getNextSalt();
+            }
+            this.password = get_SHA_512_SecurePassword(password, this.getSolt());
         }
-        this.password = get_SHA_512_SecurePassword(password, this.getSolt());
+    }
+
+    public void setPasswordByte(byte[] password) {
+        this.password = password;
     }
 
     /**
@@ -303,10 +361,12 @@ public class User implements UserDetails {
      * @param passwordsecond the passwordsecond to set
      */
     public void setPasswordsecond(String passwordsecond) {
-        if (this.getSolt() == null) {
-            this.solt = getNextSalt();
+        if (!passwordsecond.isEmpty()) {
+            if (this.getSolt() == null) {
+                this.solt = getNextSalt();
+            }
+            this.passwordsecond = get_SHA_512_SecurePassword(passwordsecond, this.getSolt());
         }
-        this.passwordsecond = get_SHA_512_SecurePassword(passwordsecond, this.getSolt());
     }
 
     /**
@@ -322,6 +382,13 @@ public class User implements UserDetails {
      */
     public UUID getId() {
         return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     /**
@@ -535,13 +602,13 @@ public class User implements UserDetails {
     public AlertLevel getAlertLevels() {
         return AlertLevels;
     }
-    
+
     /**
      * @param AlertLevels the AlertLevels to set
      */
     public void setAlertLevels(AlertLevel AlertLevels) {
         this.AlertLevels = AlertLevels;
-    }    
+    }
 
     public void addFiltertemplate(String filtername, String filterinfo, HbaseUserDao Userdao) {
         FiltertemplateList.put(filtername, filterinfo);
@@ -568,52 +635,18 @@ public class User implements UserDetails {
     public void setFiltertemplateList(Map<String, String> FiltertemplateList) {
         this.FiltertemplateList = FiltertemplateList;
     }
-    
+
     public String getEmailFilter() {
         if (FiltertemplateList.get("oddeye_base_send_email") != null) {
             return FiltertemplateList.get("oddeye_base_send_email");
         }
         return getDefaultFilter();
     }
-    
+
     public String getTelegramFilter() {
         if (FiltertemplateList.get("oddeye_base_send_telegram") != null) {
             return FiltertemplateList.get("oddeye_base_send_telegram");
         }
         return getDefaultFilter();
-    }    
-    
-    public String toHtml(String teg,String Separator) {
-         String Openteg = "";
-         String Closeteg = "";
-        if (!teg.isEmpty())
-        {
-            Openteg = "<"+teg+">";
-            Closeteg ="</"+teg+">";
-        }
-//        return Openteg+getName()+Separator+getEmail()+Closeteg;
-                return Openteg+getEmail()+Separator+getName()                
-                +Separator+getLastname()
-                +Separator+getCompany()
-                +Separator+getCountry()
-                +Separator+getTimezone()
-                +Separator+getAuthorities()
-                +Closeteg;
-    }        
-    public String toHtmlhead(String teg,String Separator) {
-         String Openteg = "";
-         String Closeteg = "";
-        if (!teg.isEmpty())
-        {
-            Openteg = "<"+teg+">";
-            Closeteg ="</"+teg+">";
-        }
-        return Openteg+"E-mail"+Separator+"First name"
-                +Separator+"Last name"
-                +Separator+"Company"
-                +Separator+"Country"
-                +Separator+"Timezone"
-                +Separator+"Authorities"                
-                +Closeteg;
-    }      
+    }
 }

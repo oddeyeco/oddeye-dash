@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 /**
  *
@@ -184,6 +185,8 @@ public class DefaultController {
 //                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),"https",  request.getServerName(), request.getServerPort());
                 String baseUrl = Sender.getBaseurl(request);
                 newUser.SendConfirmMail(Sender,baseUrl);                
+//                newUser.getAuthorities().add(new SimpleGrantedAuthority(User.ROLE_USER));
+                newUser.addAuthoritie(User.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);                                
                 map.put("body", "homepage");

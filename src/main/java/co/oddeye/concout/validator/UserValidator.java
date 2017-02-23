@@ -48,7 +48,7 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "email.notValid", "Email address is not valid.");
         }
         try {
-            if (Userdao.checkUserByEmail(user.getEmail()))
+            if (Userdao.checkUserByEmail(user))
             {
                 errors.rejectValue("email", "email.Exist", "Email address is exist.");
             }
