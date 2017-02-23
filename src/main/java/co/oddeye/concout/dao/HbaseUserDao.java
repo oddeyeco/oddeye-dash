@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -356,6 +357,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                         {
                             values[index] = ((String) Hbasedata.getValue()).getBytes();                            
                         }
+                        if (Hbasedata.getValue() instanceof Collection)
+                        {
+                            values[index] = Hbasedata.getValue().toString().getBytes();                            
+                        }                        
                         if (Hbasedata.getValue() instanceof Boolean)
                         {
                             values[index] = (Bytes.fromInt((Boolean) Hbasedata.getValue() ? 1 : 0));

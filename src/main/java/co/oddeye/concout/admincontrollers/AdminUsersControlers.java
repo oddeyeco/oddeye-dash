@@ -262,7 +262,7 @@ public class AdminUsersControlers extends GRUDControler {
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
 
-            userValidator.validate(newUser, result);
+            userValidator.adminvalidate(newUser, result);
 
             if (result.hasErrors()) {
                 map.put("result", result);
