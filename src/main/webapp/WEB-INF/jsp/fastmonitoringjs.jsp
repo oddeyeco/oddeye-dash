@@ -226,8 +226,7 @@
         if (errorjson.isspec == 1)
         {
             message = errorjson.message;
-        }
-        else
+        } else
         {
             message = errorjson.startvalue;
         }
@@ -245,18 +244,23 @@
             arrowclass = "fa-arrow-down";
             color = "green";
         }
+        
+        var trclass = "level_" + errorjson.level;
+        if (errorjson.isspec !== 0)
+        {
+            trclass = "spec";
+        }
+
 //            console.log(errorjson.isspec);
         if (!update)
         {
             html = "";
-            html = html + '<tr id="' + errorjson.hash + '" level="' + errorjson.level + '">';
+            html = html + '<tr id="' + errorjson.hash + '" level="' + errorjson.level + '" class="' + trclass + '">';
             if (errorjson.isspec == 0)
             {
-                //<input type="checkbox" class="flat" name="table_records">
                 html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="${cp}/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
             } else
             {
-//                console.log(errorjson.isspec+" "+errorjson.info.name);
                 html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
             }
 
@@ -287,7 +291,7 @@
             });
         } else
         {
-
+            table.find("tbody tr#" + index).attr("class", trclass);
             table.find("tbody tr#" + index + " .level").html(errorjson.levelname);
             table.find("tbody tr#" + index + " .timech").html(starttime);
             table.find("tbody tr#" + index + " .message").html(message);

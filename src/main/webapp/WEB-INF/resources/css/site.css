@@ -378,3 +378,23 @@ span.tagspan span.text {
 {
     padding: 0px 5px;
 }
+
+.spec {
+    font-weight: bold; 
+    background-color: #FFC0C0
+}
+.level_5 
+{
+    background-color: #FFC0C0
+}
+
+.level_4
+{
+    background-color: #FFFFC0
+    
+}
+
+.level_3
+{    
+    font-weight: bold; 
+}
