@@ -57,6 +57,7 @@
                                             </ul>
                                         </div>                                        
                                     </th>
+                                    <th>Level</th>
                                     <th>Metric Name</th>
                                     <th id="ident_tag_head">
                                         <select class="form-control" name="ident_tag" id="ident_tag">
@@ -64,8 +65,7 @@
                                                 <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
                                             </c:forEach>
                                         </select>
-                                    </th>
-                                    <th>Level</th>
+                                    </th>                                    
                                     <th>Info</th>
                                     <th>Time</th>                                    
                                 </tr>

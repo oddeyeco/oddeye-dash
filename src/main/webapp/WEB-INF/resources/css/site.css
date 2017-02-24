@@ -379,23 +379,19 @@ span.tagspan span.text {
     padding: 0px 5px;
 }
 
-.spec {
-    font-weight: bold; 
-}
-
 .metrictable>tbody>tr>td
 {
     padding: 5px;    
 }
 
-.table>tbody>tr>td.level
+/*.table>tbody>tr>td.level
 {
     padding: 0px;  
-}
-.table>tbody>tr>td.level span {	
-    display: block;
+}*/
+.table>tbody>tr>td.level div {	
+    /*display: block;*/
     color: #666;        
-    width: 100%;
+    width: 70px;
     text-align: center;    
     font-size: 12px;
     padding: 0px 5px;
@@ -406,24 +402,32 @@ span.tagspan span.text {
     border-bottom-width: 3px;    
 }
 
-.table>tbody>tr:hover>td.level span {
+.table>tbody>tr:hover>td.level div {
     background-color: #e3e3e3;
     border-color: rgba(0,0,0,0.5);
+    border-bottom-width: 0px;    
+    border-top-width: 3px;    
 }
 
-.spec  .level span,
-.level_5  .level span
+.spec  .level div,
+.level_5  .level div
 {
     background-color: #FFC0C0
 }
 
-.level_4 .level span
+.level_4 .level div
 {
     background-color: #FFFFC0
 
 }
 
-.level_3
+.level_3 .level div
+{
+    background-color: #C0FFFF
+}
+
+.spec,
+.level_5
 {    
     font-weight: bold; 
 }

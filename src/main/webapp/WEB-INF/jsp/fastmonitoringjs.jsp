@@ -244,7 +244,7 @@
             arrowclass = "fa-arrow-down";
             color = "green";
         }
-        
+
         var trclass = "level_" + errorjson.level;
         if (errorjson.isspec !== 0)
         {
@@ -263,13 +263,14 @@
             {
                 html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
             }
-
+            html = html + '<td class="level"><div>' + errorjson.levelname + '</div></td>';
             html = html + '<td>' + errorjson.info.name + '</td>';
 
             html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
-            html = html + '<td class="level"><span>' + errorjson.levelname + '</span></td>';
+
             html = html + '<td class="message">' + message + '</td>';
             html = html + '<td class="timech">' + starttime + '</td>';
+
             html = html + '</tr>'
             if (index == null)
             {
