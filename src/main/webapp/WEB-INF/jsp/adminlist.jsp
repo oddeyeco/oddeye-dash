@@ -27,9 +27,6 @@
                                         <sec:authorize access="hasRole('EDIT')">
                                             <a href="<c:url value="/user/edit/${model.id}"/>" class="btn btn-info btn-xs" value="${model.id}"><i class="fa fa-pencil"></i> Edit </a>
                                         </sec:authorize>
-                                        <sec:authorize access="hasRole('DELETE')">
-                                            <a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="${model.id}"><i class="fa fa-trash-o"></i> Delete </a>                            
-                                        </sec:authorize>
                                     </c:when>    
                                     <c:when test="${config.getValue().type == 'String'}">
                                         ${model[config.getValue().path] }

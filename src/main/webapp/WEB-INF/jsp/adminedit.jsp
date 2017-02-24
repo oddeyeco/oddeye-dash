@@ -16,12 +16,12 @@
                 <c:when test="${config.getValue().type == 'actions'}">
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="reset" class="btn btn-primary">Cancel</button>
+                            <button type="reset" class="btn btn-primary" name="cancel">Cancel</button>
                             <sec:authorize access="hasRole('EDIT')">
-                                <button type="submit" class="btn btn-success">Save</button>
+                                <button type="submit" class="btn btn-success" name="act" value="Save">Save</button>
                             </sec:authorize>
                             <sec:authorize access="hasRole('DELETE')">
-                                <button type="submit" class="btn btn-danger" value="Delete">Delete</button>
+                                <button type="submit" class="btn btn-danger" name="act" value="Delete">Delete</button>
                             </sec:authorize>
                         </div>
                     </div>                

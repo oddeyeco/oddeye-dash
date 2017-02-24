@@ -11,7 +11,7 @@
         <div class="row wowload fadeInLeftBig">
             <!--<form method="post" action="/" novalidate="">--> 
 
-            <form:form method="post" commandName="newUser" modelAttribute="newUser" novalidate="true">
+            <form:form method="post" commandName="newUser" action="${cp}/signup/" modelAttribute="newUser" novalidate="true">
                 <h1>Create Account</h1>
                 <c:if test="${not empty message}" >
                     <div class="alert alert-danger alert-dismissible fade in" role="alert">

@@ -169,7 +169,7 @@ public class DefaultController {
 //        return "index";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/signup/", method = RequestMethod.POST)
     public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map,HttpServletRequest request) {
         userValidator.validate(newUser, result);
 

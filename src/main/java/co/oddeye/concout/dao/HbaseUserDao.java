@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
-import java.util.function.Function;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
@@ -113,6 +112,11 @@ public class HbaseUserDao extends HbaseBaseDao {
             final PutRequest putactive = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "active".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
             BaseTsdb.getClient().put(putactive);
         }
+        
+        if (user.getAuthorities()!= null) {
+            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
+            BaseTsdb.getClient().put(putAuthorities);
+        }        
         BaseTsdb.getClient().put(putUUID);
         BaseTsdb.getClient().put(putname);
         BaseTsdb.getClient().put(putemail);
@@ -349,24 +353,19 @@ public class HbaseUserDao extends HbaseBaseDao {
                     for (Map.Entry<String, Object> Hbasedata : data.getValue().entrySet()) {
                         qualifiers[index] = Hbasedata.getKey().getBytes();
                         Class<?> aclass = Hbasedata.getValue().getClass();
-                        if (Hbasedata.getValue() instanceof byte[])
-                        {
+                        if (Hbasedata.getValue() instanceof byte[]) {
                             values[index] = (byte[]) Hbasedata.getValue();
                         }
-                        if (Hbasedata.getValue() instanceof String)
-                        {
-                            values[index] = ((String) Hbasedata.getValue()).getBytes();                            
+                        if (Hbasedata.getValue() instanceof String) {
+                            values[index] = ((String) Hbasedata.getValue()).getBytes();
                         }
-                        if (Hbasedata.getValue() instanceof Collection)
-                        {
-                            values[index] = Hbasedata.getValue().toString().getBytes();                            
-                        }                        
-                        if (Hbasedata.getValue() instanceof Boolean)
-                        {
+                        if (Hbasedata.getValue() instanceof Collection) {
+                            values[index] = Hbasedata.getValue().toString().getBytes();
+                        }
+                        if (Hbasedata.getValue() instanceof Boolean) {
                             values[index] = (Bytes.fromInt((Boolean) Hbasedata.getValue() ? 1 : 0));
-                        }                        
-                        
-                        
+                        }
+
                         index++;
                     }
                     final PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), family, qualifiers, values);
@@ -415,6 +414,18 @@ public class HbaseUserDao extends HbaseBaseDao {
      */
     public Map<UUID, User> getUsers() {
         return usersbyUUID;
+    }
+
+    public void deleteUser(User newUser) {
+
+        try {
+            final DeleteRequest delete = new DeleteRequest(table, newUser.getId().toString().getBytes());
+            BaseTsdb.getClient().delete(delete).joinUninterruptibly();            
+            getUsers().remove(newUser.getId());
+            usersbyEmail.remove(newUser.getEmail());
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
     }
 
 }

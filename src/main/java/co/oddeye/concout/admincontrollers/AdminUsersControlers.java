@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -249,39 +250,51 @@ public class AdminUsersControlers extends GRUDControler {
     }
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("model") User newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
+    public String edit(@ModelAttribute("model") User newUser, BindingResult result, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
 
-//        @InitBinder
-//        public void initBinderAuthority (WebDataBinder binder) {
-//        binder.registerCustomEditor(SimpleGrantedAuthority.class, new GrantedAuthorityEditor());
-//        }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
-
-            userValidator.adminvalidate(newUser, result);
-
-            if (result.hasErrors()) {
-                map.put("result", result);
-            } else {
-                User updateuser = Userdao.getUserByUUID(newUser.getId());
-                try {
-                    Userdao.saveAll(updateuser, newUser, getEditConfig());
-                } catch (Exception e) {
-                    LOGGER.error(globalFunctions.stackTrace(e));
+            String act = request.getParameter("act");
+            if (act.equals("Delete")) {
+                if (newUser.getId().equals(userDetails.getId())) {
+                    map.put("model", newUser);
+                    map.put("configMap", getEditConfig());
+                    map.put("modelname", "User");
+                    map.put("body", "adminedit");
+                    map.put("jspart", "adminjs");
+                } else {
+                    Userdao.deleteUser(newUser);
+                    return "redirect:/userslist";
                 }
 
-//TODO Save User
             }
 
-            map.put("model", newUser);
-            map.put("configMap", getEditConfig());
-            map.put("modelname", "User");
-            map.put("body", "adminedit");
-            map.put("jspart", "adminjs");
+            if (act.equals("Save")) {
+                userValidator.adminvalidate(newUser, result);
+
+                if (result.hasErrors()) {
+                    map.put("result", result);
+                } else {
+                    User updateuser = Userdao.getUserByUUID(newUser.getId());
+                    try {
+                        Userdao.saveAll(updateuser, newUser, getEditConfig());
+                    } catch (Exception e) {
+                        LOGGER.error(globalFunctions.stackTrace(e));
+                    }
+
+//TODO Save User
+                }
+
+                map.put("model", newUser);
+                map.put("configMap", getEditConfig());
+                map.put("modelname", "User");
+                map.put("body", "adminedit");
+                map.put("jspart", "adminjs");
+            }
         } else {
             map.put("isAuthentication", false);
         }
