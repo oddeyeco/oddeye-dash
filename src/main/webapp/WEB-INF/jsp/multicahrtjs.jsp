@@ -13,6 +13,7 @@
     var defserie = {
         name: null,
         type: 'line',
+        symbol: 'none',
         sampling: 'average',
         data: null
     };

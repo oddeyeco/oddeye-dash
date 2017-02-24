@@ -6,7 +6,7 @@
 
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
-    var timer;    
+    var timer;
     var interval = 10000;
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
@@ -135,12 +135,9 @@
                         name: chartline.metric,
                         type: 'line',
                         sampling: 'average',
-                        itemStyle: {
-                            normal: {
-                                areaStyle: {
-                                    type: 'default'
-                                }
-                            }
+                        symbol: 'none',
+                        areaStyle: {
+                            normal: {opacity: 0.4}
                         },
                         markPoint: {
                             data: [
@@ -226,17 +223,16 @@
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
                     var dateval = moment(time * 1);
-                    chdata.push([dateval.toDate(), chartline.data[time]]);   
+                    chdata.push([dateval.toDate(), chartline.data[time]]);
                     chdataMath.push(chartline.data[time]);
                 }
             }
             var options = chart.getOption();
 
-            options.series[1].data[0].value = chdataMath[chdataMath.length - 1];            
+            options.series[1].data[0].value = chdataMath[chdataMath.length - 1];
             options.series[1].min = Math.min.apply(null, chdataMath),
-            options.series[1].max=Math.max.apply(null, chdataMath),            
-            
-            options.series[0].data = chdata;
+                    options.series[1].max = Math.max.apply(null, chdataMath),
+                    options.series[0].data = chdata;
             options.xAxis[0].data = date;
             chart.setOption(options);
         }
