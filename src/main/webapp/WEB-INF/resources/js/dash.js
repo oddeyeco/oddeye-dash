@@ -264,8 +264,11 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         }
                         tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname});
 //                        console.log(name);
+//                        console.log(tmpname);
+//                        console.log(tmp_series_1[name][tmp_series_1[name].length-1]);
                         sdata.push({value: val, name: name});
-                    }
+                    }                                            
+                    
                     var radius = (100 / Object.keys(tmp_series_1).length);
 
                     if (radius < 25)
@@ -319,7 +322,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         series.data = data;
                         option.options.series.push(series);
                     } else
-                    {
+                    {                        
                         for (var key in tmp_series_1)
                         {
                             if (index > 4)
@@ -358,15 +361,14 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 //                                    option.options.legend.data.push(tmp_series_1[key].name);
                                 }
 //                                option.options.legend.data.push(key);
-                                series.data = tmp_series_1[key];
+                                series.data = tmp_series_1[key];                                
                             } else
                             {
-                                series.data = tmp_series_1[key];
-                                (series.type === "gauge")
+                                series.data = tmp_series_1[key];                                
+                                if (series.type === "gauge")
                                 {
                                     series.data[series.data.length - 1].name = key;
                                 }
-
                             }
 
 
