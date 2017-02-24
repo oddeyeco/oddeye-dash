@@ -381,17 +381,46 @@ span.tagspan span.text {
 
 .spec {
     font-weight: bold; 
-    background-color: #FFC0C0
 }
-.level_5 
+
+.metrictable>tbody>tr>td
+{
+    padding: 5px;    
+}
+
+.table>tbody>tr>td.level
+{
+    padding: 0px;  
+}
+.table>tbody>tr>td.level span {	
+    display: block;
+    color: #666;        
+    width: 100%;
+    text-align: center;    
+    font-size: 12px;
+    padding: 0px 5px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-bottom-width: 3px;    
+}
+
+.table>tbody>tr:hover>td.level span {
+    background-color: #e3e3e3;
+    border-color: rgba(0,0,0,0.5);
+}
+
+.spec  .level span,
+.level_5  .level span
 {
     background-color: #FFC0C0
 }
 
-.level_4
+.level_4 .level span
 {
     background-color: #FFFFC0
-    
+
 }
 
 .level_3

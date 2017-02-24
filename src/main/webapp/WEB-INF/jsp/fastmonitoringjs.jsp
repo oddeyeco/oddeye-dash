@@ -267,7 +267,7 @@
             html = html + '<td>' + errorjson.info.name + '</td>';
 
             html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
-            html = html + '<td class="level">' + errorjson.levelname + '</td>';
+            html = html + '<td class="level"><span>' + errorjson.levelname + '</span></td>';
             html = html + '<td class="message">' + message + '</td>';
             html = html + '<td class="timech">' + starttime + '</td>';
             html = html + '</tr>'
@@ -292,7 +292,7 @@
         } else
         {
             table.find("tbody tr#" + index).attr("class", trclass);
-            table.find("tbody tr#" + index + " .level").html(errorjson.levelname);
+            table.find("tbody tr#" + index + " .level span").html(errorjson.levelname);
             table.find("tbody tr#" + index + " .timech").html(starttime);
             table.find("tbody tr#" + index + " .message").html(message);
             table.find("tbody tr#" + index + " .icons i.action").attr("class", "action fa " + arrowclass);
