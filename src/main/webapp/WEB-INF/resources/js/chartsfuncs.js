@@ -182,6 +182,23 @@ var format_date = function (value) {
         return (date.format("HH:mm:ss"));
     }
 };
+
+
+function legendFormater (series) {
+   return function (name)
+   {
+       for (var index in series)
+       {
+           if (series[index].name===name)
+           {
+               //TODO add format types
+               return name+" last:"+ series[index].data[series[index].data.length-1][1];
+           }
+       }
+        return name;
+   };
+};
+
 var dataBit = function (params) {
     var val = paramtoval(params);
     return (format_data(val)) + "b";

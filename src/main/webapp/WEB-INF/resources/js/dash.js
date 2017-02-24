@@ -205,22 +205,6 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                             }
                         }
 
-//                        if ((option.type === "pie") || (option.type === "funnel") || (option.type === "gauge"))
-//                        {
-//                            if (option.options.legend.data.indexOf(name) === -1)
-//                            {
-//                                option.options.legend.data.push(name);
-//                            }
-//
-//                        } else
-//                        {
-//                            if (xdata.indexOf(name2) === -1)
-//                            {
-//                                xdata.push(name2);
-//                                option.options.legend.data.push(name2);
-//                            }
-//                        }
-
                         var chdata = [];
                         var val;
                         for (var time in data.chartsdata[index].data) {
@@ -267,8 +251,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 //                        console.log(tmpname);
 //                        console.log(tmp_series_1[name][tmp_series_1[name].length-1]);
                         sdata.push({value: val, name: name});
-                    }                                            
-                    
+                    }
+
                     var radius = (100 / Object.keys(tmp_series_1).length);
 
                     if (radius < 25)
@@ -322,7 +306,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                         series.data = data;
                         option.options.series.push(series);
                     } else
-                    {                        
+                    {
                         for (var key in tmp_series_1)
                         {
                             if (index > 4)
@@ -358,13 +342,11 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                     series.itemStyle = {normal: {color: function (params) {
                                                 return colorPalette[params.dataIndex];
                                             }}};
-//                                    option.options.legend.data.push(tmp_series_1[key].name);
                                 }
-//                                option.options.legend.data.push(key);
-                                series.data = tmp_series_1[key];                                
+                                series.data = tmp_series_1[key];
                             } else
                             {
-                                series.data = tmp_series_1[key];                                
+                                series.data = tmp_series_1[key];
                                 if (series.type === "gauge")
                                 {
                                     series.data[series.data.length - 1].name = key;
@@ -467,8 +449,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 {
                                     if (hr < wr)
                                     {
-                                        series.center = [index * radius - radius / 2 + '%', ((row+1) * radius) + "%"];
-                                        console.log(((row+1) * radius));
+                                        series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
+                                        console.log(((row + 1) * radius));
                                     } else
                                     {
                                         series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
@@ -528,7 +510,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 
                         }
                     }
-                    option.options.xAxis[0].data = [];                    
+                    option.options.xAxis[0].data = [];
                     for (var ind in option.options.series)
                     {
                         if ((option.type === "bar") || (option.type === "line"))
@@ -539,7 +521,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 {
                                     option.options.xAxis[0].data.push(option.options.series[ind].data[sind].name);
                                 }
-                                
+
                             }
 
                         }
@@ -548,7 +530,9 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                 }
 
             }
-
+            
+//            option.options.legend.formatter = legendFormater(option.options.series);
+            
             for (var yindex in option.options.yAxis)
             {
                 var formatter = option.options.yAxis[yindex].unit;
