@@ -15,7 +15,15 @@ and open the template in the editor.
 {
     background-color: #F5F7FA
 }
+.chartsection
+{
+    margin-top: 5px;
+}
 
+.chartsection .controls
+{
+    margin: 5px;
+}
 
 .editchartpanel
 {

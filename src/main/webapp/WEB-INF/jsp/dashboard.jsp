@@ -26,7 +26,7 @@
         <div>            
             <div class="controls text-center">
                 <div class="echart_time pull-left"></div>
-                <div class="btn-group  btn-group-sm">
+                <div class="btn-group  btn-group-xs">
                     <a class="btn btn-default view" type="button">View</a>
                     <a class="btn btn-default editchart" type="button">Edit</a>
                     <a class="btn btn-default dublicate" type="button">Duplicate</a>               
