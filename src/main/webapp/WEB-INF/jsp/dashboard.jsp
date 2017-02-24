@@ -23,20 +23,21 @@
 
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
-        <div>
-            <div class="echart_time"></div>
+        <div>            
+            <div class="controls text-center">
+                <div class="echart_time pull-left"></div>
+                <div class="btn-group  btn-group-sm">
+                    <a class="btn btn-default view" type="button">View</a>
+                    <a class="btn btn-default editchart" type="button">Edit</a>
+                    <a class="btn btn-default dublicate" type="button">Duplicate</a>               
+                    <a class="btn btn-default plus" type="button"><i class="fa fa-plus"></i></a>
+                    <a class="btn btn-default minus" type="button"><i class="fa fa-minus"></i></a>
+                    <a class="btn btn-default deletewidget" type="button"><i class="fa fa-trash"></i></a>
+                </div> 
+            </div>             
             <div class="echart_line" style="height:300px;"></div>                   
         </div>
-        <div class="controls text-center">
-            <div class="btn-group  btn-group-sm">
-                <a class="btn btn-default view" type="button">View</a>
-                <a class="btn btn-default editchart" type="button">Edit</a>
-                <a class="btn btn-default dublicate" type="button">Duplicate</a>               
-                <a class="btn btn-default plus" type="button"><i class="fa fa-plus"></i></a>
-                <a class="btn btn-default minus" type="button"><i class="fa fa-minus"></i></a>
-                <a class="btn btn-default deletewidget" type="button"><i class="fa fa-trash"></i></a>
-            </div> 
-        </div>                            
+
     </div>   
 </div>  
 
