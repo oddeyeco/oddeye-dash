@@ -6,6 +6,7 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.exception.ResourceNotFoundException;
 import co.oddeye.concout.model.User;
 import com.google.gson.JsonObject;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -36,7 +39,7 @@ public class DashController {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DashController.class);
 
     @Autowired
-    private KafkaTemplate<Integer, String> conKafkaTemplate;    
+    private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Autowired
     private HbaseUserDao Userdao;
 
@@ -57,26 +60,41 @@ public class DashController {
         return "index";
     }
 
-    @RequestMapping(value = {"/dashboard/{dashname}"}, method = RequestMethod.GET)
+    @ExceptionHandler(ResourceNotFoundException.class)
+//	public String handleEmployeeNotFoundException(ModelMap map, HttpServletRequest request, HttpServletResponse response,Exception ex)
+    public ModelAndView handleDushNotFoundException(HttpServletRequest request, Exception ex) {
+
+        User userDetails = (User) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal();
+
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("curentuser", userDetails);
+//            modelAndView.addObject("dashname", dashname);        
+        modelAndView.addObject("exception", ex);
+        modelAndView.addObject("url", request.getRequestURL());
+        modelAndView.addObject("body", "errorjs/404error");
+        modelAndView.addObject("jspart", "errorjs/errorjs");
+        modelAndView.setViewName("index");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/dashboard/{dashname:.+}"}, method = RequestMethod.GET)
     public String ShowDash(@PathVariable(value = "dashname") String dashname, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            String chartid = request.getParameter("chart");
-            if (chartid != null) {
-                map.put("chart", chartid);
-            } else {
-                map.put("chart", -1);
-            }
             map.put("curentuser", userDetails);
             map.put("dashname", dashname);
             map.put("dashInfo", userDetails.getDush(dashname));
+            map.put("body", "dashboard");
+            map.put("jspart", "dashboardjs");
+            if (userDetails.getDush(dashname) == null) {
+                throw new ResourceNotFoundException(dashname+" not exists");
+            }
+
+            return "index";
         }
-
-        map.put("body", "dashboard");
-        map.put("jspart", "dashboardjs");
-
         return "index";
     }
 
