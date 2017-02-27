@@ -75,8 +75,8 @@
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> General <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">                                            
-                                            <li><a href="<c:url value="/fastmonitor"/>">Monitor</a></li>
-                                            <li><a href="<c:url value="/monitoring"/>">Advanced Monitoring</a></li>
+                                            <li><a href="<c:url value="/monitoring"/>">Monitor</a></li>
+                                            <li><a href="<c:url value="/errorsanalysis"/>">Advanced Monitoring</a></li>
 <!--                                            <li><a href="<c:url value="/hosts"/>">Hosts</a></li>
                                             <li><a href="<c:url value="/metrics"/>">Metrics</a></li>-->
                                             <!--<li><a href="<c:url value="/dashboard3/"/>">Dashboard3</a></li>-->

@@ -63,8 +63,66 @@ public class UserController {
     @Autowired
     private BaseTsdbConnect BaseTsdb;
 
-    @RequestMapping(value = "/fastmonitor", method = RequestMethod.GET)
-    public String fastmonitor(HttpServletRequest request, ModelMap map) {
+    @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
+    public String monitoring(HttpServletRequest request, ModelMap map) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+
+            String group_item = request.getParameter("group_item");
+            String ident_tag = request.getParameter("ident_tag");
+
+            if (userDetails.getMetricsMeta() == null) {
+                try {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+            }
+
+
+//            map.put("errorslist", savedErrors);
+            Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            while (iter.hasNext()) {
+                map.put("group_item", iter.next().getKey());
+                map.put("ident_tag", iter.next().getKey());
+                break;
+            }
+
+            if (group_item != null) {
+                map.put("group_item", group_item);
+            }
+            if (group_item != null) {
+                map.put("ident_tag", ident_tag);
+            }
+
+            String level_item = request.getParameter("level");
+
+            int int_level_item;
+            if (level_item == null) {
+                map.put("level_item", AlertLevel.ALERT_LEVEL_ELEVATED);
+            } else {
+                int_level_item = Integer.parseInt(level_item);
+                if (int_level_item > AlertLevel.ALERT_LEVELS.length - 1) {
+                    int_level_item = AlertLevel.ALERT_LEVEL_ELEVATED;
+                }
+                map.put("level_item", int_level_item);
+            }
+
+        }
+
+        map.put("body", "monitoring");
+        map.put("jspart", "monitoringjs");
+
+        return "index";
+    }    
+    
+    @RequestMapping(value = "/monitoring2", method = RequestMethod.GET)
+    public String monitoring2(HttpServletRequest request, ModelMap map) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -105,7 +163,7 @@ public class UserController {
                         if (Arrays.equals(cell.qualifier(), "time".getBytes())) {
                             time = ByteBuffer.wrap(cell.value()).getLong();
                             item.addProperty("time", time);
-                        }                        
+                        }
                         if (Arrays.equals(cell.qualifier(), "message".getBytes())) {
                             message = new String(cell.value());// ByteBuffer.wrap(cell.value()).toString() ;
                         }
@@ -155,15 +213,14 @@ public class UserController {
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
                         item.getAsJsonObject().addProperty("hash", metric.hashCode());
                         item.getAsJsonObject().addProperty("isspec", metric.isSpecial() ? 1 : 0);
-                        
-                        if (metric.isSpecial())
-                        {                            
+
+                        if (metric.isSpecial()) {
                             metric = MetaDao.updateMeta(metric);
                             long DURATION = time - metric.getLasttime();
-                            message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION/1000)+" sec.");
-                            item.addProperty("message", message);                        
+                            message = message.replaceAll("\\{DURATION\\}", Double.toString(DURATION / 1000) + " sec.");
+                            item.addProperty("message", message);
                         }
-                        
+
                         item.getAsJsonObject().add("info", metajson);
                         savedErrors.add(Integer.toString(metric.hashCode()), item);
                     }
@@ -208,14 +265,14 @@ public class UserController {
 
         }
 
-        map.put("body", "fastmonitoring");
-        map.put("jspart", "fastmonitoringjs");
+        map.put("body", "monitoring2");
+        map.put("jspart", "monitoringjs2");
 
         return "index";
     }
 
-    @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
-    public String monitoring(HttpServletRequest request, ModelMap map) {
+    @RequestMapping(value = "/errorsanalysis", method = RequestMethod.GET)
+    public String errorsanalysis(HttpServletRequest request, ModelMap map) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -314,8 +371,8 @@ public class UserController {
 
         }
 
-        map.put("body", "monitoring");
-        map.put("jspart", "monitoringjs");
+        map.put("body", "errorsanalysis");
+        map.put("jspart", "errorsanalysisjs");
 
         return "index";
     }
