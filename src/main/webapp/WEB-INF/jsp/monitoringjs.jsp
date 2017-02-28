@@ -27,7 +27,7 @@
     {
         var elems = document.getElementById("check_level_" + errorjson.level);
         filtred = false;
-        if (elems != null)
+        if (elems !== null)
         {
             if (elems.checked)
             {
@@ -39,7 +39,7 @@
                         var filter = $("#" + filterelems[i].value + "_input").val();
                         regex = new RegExp(filter, 'i');
 
-                        if (filterelems[i].value == "metric")
+                        if (filterelems[i].value === "metric")
                         {
                             filtred = regex.test(errorjson.info.name);
                         } else
@@ -57,12 +57,12 @@
                 ;
             }
         }
-        if (errorjson.isspec == 0)
+        if (errorjson.isspec === 0)
         {
             var index = findeByhash(errorjson, array_regular);
             if (filtred)
             {
-                if (index == -1)
+                if (index === -1)
                 {
                     array_regular.push(errorjson);
                     array_regular.sort(function (a, b) {
@@ -84,7 +84,7 @@
                 }
             } else
             {
-                if (index != -1)
+                if (index  !== -1)
                 {
                     array_regular[index] = errorjson;
                     table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
@@ -99,7 +99,7 @@
             if (filtred)
             {
 //                console.log(errorjson.info.name);
-                if (index == -1)
+                if (index === -1)
                 {
                     array_spec.push(errorjson);
                     array_spec.sort(function (a, b) {
@@ -111,7 +111,7 @@
                         drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
                     } else
                     {
-                        if (array_spec.length == 0)
+                        if (array_spec.length === 0)
                         {
                             drawRaw(array_spec[index2], table, 0);
                         } else
@@ -127,7 +127,7 @@
                 }
             } else
             {
-                if (index != -1)
+                if (index  !== -1)
                 {
 //                    console.log("spec Rem Row" + index);
                     array_spec[index] = errorjson;
@@ -152,7 +152,7 @@
             var errorjson = listJson[key];
             var elems = document.getElementById("check_level_" + errorjson.level);
             filtred = true;
-            if (elems != null)
+            if (elems  !== null)
             {
                 if (elems.checked)
                 {
@@ -163,7 +163,7 @@
                             var filter = $("#" + filterelems[i].value + "_input").val();
                             regex = new RegExp(filter, 'i');
 
-                            if (filterelems[i].value == "metric")
+                            if (filterelems[i].value === "metric")
                             {
                                 filtred = regex.test(errorjson.info.name);
                             } else
@@ -180,7 +180,7 @@
                     ;
                     if (filtred)
                     {
-                        if (errorjson.isspec == 0)
+                        if (errorjson.isspec === 0)
                         {
                             array_regular.push(errorjson);
                         } else
@@ -195,12 +195,9 @@
             }
 
         }
-
-// Now sort it:
         array_regular.sort(function (a, b) {
             return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
-        })
-
+        });
 
         for (key in array_spec)
         {
@@ -223,7 +220,7 @@
 
     function drawRaw(errorjson, table, index = null, update = false) {
         var message = "";
-        if (errorjson.isspec == 1)
+        if (errorjson.isspec === 1)
         {
             message = errorjson.message;
         } else
@@ -250,7 +247,7 @@
 
         }
         var starttime = "";
-        if (typeof (errorjson.time) != "undefined")
+        if (typeof (errorjson.time)  !== "undefined")
         {
             starttime = moment(errorjson.time * 1).format(timeformat);
         }
@@ -258,7 +255,7 @@
 
         var arrowclass = "fa-arrow-up";
         var color = "red";
-        if (errorjson.action == 2)
+        if (errorjson.action === 2)
         {
             arrowclass = "fa-arrow-down";
             color = "green";
@@ -275,7 +272,7 @@
         {
             html = "";
             html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
-            if (errorjson.isspec == 0)
+            if (errorjson.isspec === 0)
             {
                 html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="${cp}/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
             } else
@@ -291,18 +288,18 @@
             html = html + '<td class="message">' + message + '</td>';
             html = html + '<td class="timech">' + starttime + '</td>';
 
-            html = html + '</tr>'
-            if (index == null)
+            html = html + '</tr>';
+            if (index === null)
             {
                 table.find("tbody").append(html);
             } else
             {
-                if (index == 0)
+                if (index === 0)
                 {
-                    table.find("tbody tr").first().before(html)
+                    table.find("tbody tr").first().before(html);
                 } else
                 {
-                    table.find("tbody tr#" + index).before(html)
+                    table.find("tbody tr#" + index).before(html);
                 }
 
             }
@@ -338,18 +335,18 @@
             var sendData = {};
             sendData.levels = [];
 
-            console.log(formData);
+//            console.log(formData);
             jQuery.each(formData, function (i, field) {
 
-                if (field.value == "on")
+                if (field.value === "on")
                 {
-                    if (field.name.indexOf("check_level_") == 0)
+                    if (field.name.indexOf("check_level_") === 0)
                     {
                         sendData.levels.push(field.name.replace("check_level_", ""));
                     }
                 }
             });
-            console.log(sendData);
+//            console.log(sendData);
             $.ajax({
                 dataType: 'json',
                 type: 'POST',
@@ -359,7 +356,7 @@
                     xhr.setRequestHeader(header, token);
                 }
             }).done(function (msg) {
-                beginlisen = false
+                beginlisen = false;
                 for (var ind in switcherylist)
                 {
                     switcherylist[ind].enable();
@@ -384,7 +381,7 @@
                     lookup: data.data,
                     appendTo: '.autocomplete-container-metric'
                 });
-            })
+            });
         });
 
         $('.autocomplete-append').each(function () {
@@ -401,8 +398,8 @@
         var elems = document.querySelectorAll('.js-switch-small');
 
         for (var i = 0; i < elems.length; i++) {
-            if (typeof (filterJson[elems[i].id]) != "undefined")
-                if (filterJson[elems[i].id] != "")
+            if (typeof (filterJson[elems[i].id])  !== "undefined")
+                if (filterJson[elems[i].id]  !== "")
                 {
                     if (!elems[i].checked)
                         $(elems[i]).trigger('click');
@@ -423,10 +420,10 @@
             if (!first)
             {
                 startlisen();
-                first = false
+                first = false;
             } else
             {
-                first = true
+                first = true;
             }
 
 
@@ -434,7 +431,7 @@
 //        startlisen();
 //        console.log("kpav");
         $("body").on("blur", ".filter-input", function () {
-            DrawErrorList(errorlistJson, $(".metrictable"))
+            DrawErrorList(errorlistJson, $(".metrictable"));
         })
         $(".filter-input").each(function () {
             $(this).val(filterJson[$(this).attr("name")]);
@@ -453,7 +450,7 @@
         stompClient.connect(headers, function (frame) {
             stompClient.subscribe('/user/' + uuid + '/errors', function (error) {
                 var errorjson = JSON.parse(error.body);
-                if (errorjson.level == -1)
+                if (errorjson.level === -1)
                 {
 //                   console.log(errorlistJson[errorjson.hash]);                    
                     delete errorlistJson[errorjson.hash];
@@ -493,7 +490,7 @@
             var formData = $("form.form-filter").serializeArray();
             filterJson = {};
             jQuery.each(formData, function (i, field) {
-                if (field.value != "")
+                if (field.value  !== "")
                 {
                     filterJson[field.name] = field.value;
                 }
@@ -561,15 +558,15 @@
         });
         $('body').on("click", "#Show_chart", function () {
             hashes = "";
-            if ($(".bulk_action tbody input[name='table_records']:checked").length == 1)
+            if ($(".bulk_action tbody input[name='table_records']:checked").length === 1)
             {
-                hashes = "/" + $(".bulk_action tbody input[name='table_records']:checked").first().parents("tr").attr("id")
+                hashes = "/" + $(".bulk_action tbody input[name='table_records']:checked").first().parents("tr").attr("id");
             } else
             {
                 hashes = "?hashes="
                 $(".bulk_action tbody input[name='table_records']:checked").each(function () {
                     hashes = hashes + $(this).parents("tr").attr("id") + ";";
-                })
+                });
             }
             var win = window.open(cp + "/chart" + hashes, '_blank');
             win.focus();
