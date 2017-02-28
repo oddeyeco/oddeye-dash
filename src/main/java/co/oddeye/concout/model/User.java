@@ -91,8 +91,8 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
-    private ConcurrentMessageListenerContainer<Integer, String> listenerContainer ;
-    
+    private ConcurrentMessageListenerContainer<Integer, String> listenerContainer;
+
     public User() {
         this.id = UUID.randomUUID();
         this.authorities = new ArrayList<>();
@@ -669,22 +669,21 @@ public class User implements UserDetails {
         this.listenerContainer = listenerContainer;
     }
 
-    public void setListenerContainer(ConsumerFactory consumerFactory,SimpMessagingTemplate _template,String[] levels) {
-        if (this.listenerContainer !=null)
-        {
+    public void setListenerContainer(ConsumerFactory consumerFactory, SimpMessagingTemplate _template, String[] levels) {
+        if (this.listenerContainer != null) {
             this.listenerContainer.stop();
         }
-        
-        String[] topics = new String[levels.length];
-        for (int i = 0; i < levels.length; i++) {
-            topics[i]=this.getId().toString()+levels[i];
+        if (levels.length > 0) {
+            String[] topics = new String[levels.length];
+            for (int i = 0; i < levels.length; i++) {
+                topics[i] = this.getId().toString() + levels[i];
+            }
+            ContainerProperties properties = new ContainerProperties(topics);
+            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template));
+            this.listenerContainer = new ConcurrentMessageListenerContainer<>(consumerFactory, properties);
+            this.listenerContainer.setConcurrency(3);
+            this.listenerContainer.getContainerProperties().setPollTimeout(3000);
         }
-//        String[] topics2 = {this.getId().toString()+AlertLevel.ALERT_LEVEL_SEVERE, this.getId().toString()+AlertLevel.ALERT_LEVEL_HIGH,this.getId().toString()+AlertLevel.ALERT_LEVEL_ELEVATED};
-        ContainerProperties properties = new ContainerProperties(topics);        
-        properties.setMessageListener(new OddeyeKafkaDataListener(this,_template));
-        this.listenerContainer = new ConcurrentMessageListenerContainer<>(consumerFactory, properties);
-        this.listenerContainer.setConcurrency(3);
-        this.listenerContainer.getContainerProperties().setPollTimeout(3000);
-        
+
     }
 }

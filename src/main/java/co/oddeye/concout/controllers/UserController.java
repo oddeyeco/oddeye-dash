@@ -39,6 +39,7 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.function.Function;
 
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
@@ -82,10 +83,12 @@ public class UserController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            
-            String[] levels = request.getParameterValues("levels[]");            
-            userDetails.setListenerContainer(consumerFactory, this.template,levels);
-            userDetails.getListenerContainer().start();
+
+            String[] levels = request.getParameterValues("levels[]");
+            userDetails.setListenerContainer(consumerFactory, this.template, levels);
+            if (levels.length > 0) {
+                userDetails.getListenerContainer().start();
+            }
         }
         JsonObject jsonResult = new JsonObject();
         jsonResult.addProperty("sucsses", Boolean.TRUE);
@@ -448,62 +451,60 @@ public class UserController {
                 map.put("Rules", rules);
                 ArrayList<DataPoints[]> data = new ArrayList<>();
                 // Get rules chart data
-                for (Map.Entry<String, MetriccheckRule> rule : rules.entrySet()) {
-                    Calendar calobject = rule.getValue().getTime();
+                rules.entrySet().stream().map((rule) -> rule.getValue().getTime()).map((Calendar calobject) -> {
                     String startdate = Long.toString(calobject.getTimeInMillis());
                     calobject.add(Calendar.HOUR, 1);
                     calobject.add(Calendar.MILLISECOND, -1);
                     String enddate = Long.toString(calobject.getTimeInMillis());
                     data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), "none", Error.getFullFilter(), startdate, enddate, ""));
+                    return startdate;
+                }).map((String startdate) -> {
                     if (!data.isEmpty()) {
-                        for (DataPoints[] DataPointslist : data) {
+                        data.forEach((DataPointslist) -> {
                             for (DataPoints DataPoints : DataPointslist) {
                                 Tagmap = DataPoints.getTags();
                                 Tagmap.remove("UUID");
-                                Tagmap.remove("alert_level");
-
-                                JsonObject jsonMessage;
-
-                                String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
-
+                                Tagmap.remove("alert_level");                                
+                                JsonObject jsonMessage;                               
+                                String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());                                
                                 if (jsonMessages.get(jsonuindex) == null) {
                                     jsonMessage = new JsonObject();
                                 } else {
                                     jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                                 }
-
+                                
                                 jsonMessage.addProperty("index", Tagmap.hashCode());
                                 jsonMessage.addProperty("metric", DataPoints.metricName());
-
+                                
                                 final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
                                 jsonMessage.add("tags", TagsJSON);
                                 Tagmap.clear();
-
+                                
                                 final SeekableView Datalist = DataPoints.iterator();
-
+                                
                                 JsonObject DatapointsJSON;
-
+                                
                                 if (jsonMessage.get("data") == null) {
                                     DatapointsJSON = new JsonObject();
                                 } else {
                                     DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
                                 }
-
+                                
                                 while (Datalist.hasNext()) {
                                     final DataPoint Point = Datalist.next();
                                     DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                                 }
-
+                                
                                 jsonMessage.add("data", DatapointsJSON);
                                 jsonMessages.add(startdate, jsonMessage);
-
+                                
                             }
-
-                        }
+                        });
                     }
+                    return startdate;
+                }).forEachOrdered((_item) -> {
                     data.clear();
-                }
-                // Get Curent chart data
+                }); // Get Curent chart data
 
                 Calendar calobject = Calendar.getInstance();
                 calobject.setTimeInMillis(Long.parseLong(timestamp) * 1000);
@@ -517,7 +518,7 @@ public class UserController {
                 data.clear();
                 data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), "none", Error.getFullFilter(), startdate, enddate, ""));
                 if (!data.isEmpty()) {
-                    for (DataPoints[] DataPointslist : data) {
+                    data.forEach((DataPointslist) -> {
                         for (DataPoints DataPoints : DataPointslist) {
                             Tagmap = DataPoints.getTags();
                             Tagmap.remove("UUID");
@@ -559,8 +560,7 @@ public class UserController {
                             jsonMessages.add(startdate, jsonMessage);
 
                         }
-
-                    }
+                    });
                 }
 
                 // Predict for JSON

@@ -242,7 +242,7 @@ function drawRaw(errorjson, table, index = null, update = false) {
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
         if (errorjson.isspec === 0)
         {
-            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href='+cp+'"/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
+            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="'+cp+'/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
         } else
         {
             html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
@@ -304,7 +304,7 @@ function startlisen()
                     sendData.levels.push(field.name.replace("check_level_", ""));
                 }
             }
-        });
+        });        
         $.ajax({
             dataType: 'json',
             type: 'POST',
@@ -368,14 +368,14 @@ $(document).ready(function () {
         };
     }
     var first = true;
-    $("body").on("change", ".js-switch-small", function () {
+    $("body").on("change", ".js-switch-small", function () {        
         if (!first)
-        {
+        {            
             startlisen();
-            first = false;
+            first = true;
         } else
         {
-            first = true;
+            first = false;
         }
     });
     $("body").on("blur", ".filter-input", function () {
