@@ -130,6 +130,7 @@ public class ProfileController {
             map.put("curentuser", userDetails);
             map.put("newuserleveldata", userDetails);
             map.put("newuserdata", userDetails);
+            map.put("title", "Edit Profile");
             DefaultController.setLocaleInfo(map);
 
         } else {

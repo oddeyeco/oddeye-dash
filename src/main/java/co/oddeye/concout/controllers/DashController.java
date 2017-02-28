@@ -51,6 +51,7 @@ public class DashController {
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
+            map.put("title", "New Dashboard");
         }
 
         map.put("body", "dashboard");
@@ -86,6 +87,7 @@ public class DashController {
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("dashname", dashname);
+            map.put("title", dashname);
             map.put("dashInfo", userDetails.getDush(dashname));
             map.put("body", "dashboard");
             map.put("jspart", "dashboardjs");

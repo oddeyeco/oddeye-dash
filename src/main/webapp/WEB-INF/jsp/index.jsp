@@ -16,7 +16,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Oddeye Dashboard! | </title>
+        <title>${title}|oddeye.co</title>
 
         <!-- Bootstrap -->
         <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css" />      
@@ -26,9 +26,6 @@
         <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css" />        
         <!-- bootstrap-progressbar -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" />            
-        <!-- jVectorMap -->
-        <link href="${cp}/resources/css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
-
         <!-- Bootstrap Colorpicker -->
         <link href="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css" rel="stylesheet" />
         <link href="${cp}/resources/cropper/dist/cropper.min.css" rel="stylesheet" /> 

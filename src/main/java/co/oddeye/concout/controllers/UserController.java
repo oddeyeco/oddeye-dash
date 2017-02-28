@@ -126,7 +126,7 @@ public class UserController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
-
+            map.put("title", "Real Time monitoring");
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
