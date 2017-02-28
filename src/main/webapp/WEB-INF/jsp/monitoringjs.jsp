@@ -2,14 +2,14 @@
 <script src="${cp}/assets/js/socket/stomp.js"></script>
 <script src="${cp}/resources/switchery/dist/switchery.min.js"></script>
 <script src="${cp}/resources/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
-
+<script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     var stompClient = null;
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
     var uuid = "${curentuser.getId()}";
     var timeformat = "DD/MM HH:mm:ss";
-    var errorlistJson;
+    var errorlistJson = {};
     var filterJson = ${curentuser.getDefaultFilter()};
     var array_regular = [];
     var array_spec = [];
@@ -70,9 +70,6 @@
                     });
 
                     var index2 = findeByhash(errorjson, array_regular);
-//                    console.log(errorjson.levelname+" "+index2+" "+array_regular.length);
-//                    console.log(errorjson.info.tags.host)
-//                    console.log(array_regular[index2 + 1].info.tags.host);
                     if (index2 < array_regular.length - 1)
                     {
                         drawRaw(array_regular[index2], table, array_regular[index2 + 1].hash);
@@ -191,6 +188,9 @@
                             array_spec.push(errorjson);
                         }
                     }
+                } else
+                {
+                    delete listJson[key];
                 }
             }
 
@@ -228,7 +228,26 @@
             message = errorjson.message;
         } else
         {
-            message = errorjson.startvalue;
+            var val = 0;
+            var count = 0;
+            for (var key in errorjson.values)
+            {
+                val = val + errorjson.values[key].value;
+                count++;
+            }
+            val = val / count;
+
+            if (val > 1000)
+            {
+                val = format_metric(errorjson.values[key].value);
+            } else
+            {
+                val = val.toFixed(2);
+            }
+
+
+            message = message + "<span class='pull-left level' >" + val + "</span>";
+
         }
         var starttime = "";
         if (typeof (errorjson.time) != "undefined")
@@ -255,7 +274,7 @@
         if (!update)
         {
             html = "";
-            html = html + '<tr id="' + errorjson.hash + '" level="' + errorjson.level + '" class="' + trclass + '">';
+            html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
             if (errorjson.isspec == 0)
             {
                 html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="${cp}/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
@@ -267,6 +286,7 @@
             html = html + '<td>' + errorjson.info.name + '</td>';
 
             html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
+
 
             html = html + '<td class="message">' + message + '</td>';
             html = html + '<td class="timech">' + starttime + '</td>';
@@ -293,7 +313,7 @@
         } else
         {
             table.find("tbody tr#" + index).attr("class", trclass);
-            table.find("tbody tr#" + index + " .level span").html(errorjson.levelname);
+            table.find("tbody tr#" + index + " .level div").html(errorjson.levelname);
             table.find("tbody tr#" + index + " .timech").html(starttime);
             table.find("tbody tr#" + index + " .message").html(message);
             table.find("tbody tr#" + index + " .icons i.action").attr("class", "action fa " + arrowclass);
@@ -301,6 +321,54 @@
         }
         ;
     }
+    var beginlisen = false;
+    function startlisen()
+    {
+        if (!beginlisen)
+        {
+            beginlisen = true;
+            var formData = $("form.form-filter").serializeArray();
+            for (var ind in switcherylist)
+            {
+                switcherylist[ind].disable();
+            }
+            var url = cp + "/startlisener";
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            var sendData = {};
+            sendData.levels = [];
+
+            console.log(formData);
+            jQuery.each(formData, function (i, field) {
+
+                if (field.value == "on")
+                {
+                    if (field.name.indexOf("check_level_") == 0)
+                    {
+                        sendData.levels.push(field.name.replace("check_level_", ""));
+                    }
+                }
+            });
+            console.log(sendData);
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: url,
+                data: sendData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            }).done(function (msg) {
+                beginlisen = false
+                for (var ind in switcherylist)
+                {
+                    switcherylist[ind].enable();
+                }                
+            });
+        }
+    }
+
+    var switcherylist = [];
     $(document).ready(function () {
         $(".timech").each(function () {
             val = $(this).html();
@@ -345,10 +413,26 @@
 
                 }
             var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+            switcherylist.push(switchery);
             elems[i].onchange = function () {
                 DrawErrorList(errorlistJson, $(".metrictable"));
             };
         }
+        var first = true;
+        $("body").on("change", ".js-switch-small", function () {
+            if (!first)
+            {
+                startlisen();
+                first = false
+            } else
+            {
+                first = true
+            }
+
+
+        })
+//        startlisen();
+//        console.log("kpav");
         $("body").on("blur", ".filter-input", function () {
             DrawErrorList(errorlistJson, $(".metrictable"))
         })
@@ -369,22 +453,35 @@
         stompClient.connect(headers, function (frame) {
             stompClient.subscribe('/user/' + uuid + '/errors', function (error) {
                 var errorjson = JSON.parse(error.body);
-//                console.log(errorjson);
                 if (errorjson.level == -1)
                 {
-//                   console.log(errorlistJson[errorjson.hash]);
+//                   console.log(errorlistJson[errorjson.hash]);                    
                     delete errorlistJson[errorjson.hash];
 //                   console.log(errorlistJson[errorjson.hash]);
                 } else
                 {
                     errorlistJson[errorjson.hash] = errorjson;
                 }
+//                console.log(errorjson.level);
                 reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
 
             });
         });
 
-
+        startlisen();
+        $(window).bind('beforeunload', function () {
+            var url = cp + "/stoplisener";
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: url,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            });
+        });
 
         $('body').on("change", "#ident_tag", function () {
             DrawErrorList(errorlistJson, $(".metrictable"));

@@ -43,6 +43,8 @@ import java.util.Arrays;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
@@ -63,9 +65,58 @@ public class UserController {
     @Autowired
     private BaseTsdbConnect BaseTsdb;
 
+    @Autowired
+    ConsumerFactory consumerFactory;
+
+    private final SimpMessagingTemplate template;
+
+    @Autowired
+    public UserController(SimpMessagingTemplate template) {
+        this.template = template;
+    }
+
+    @RequestMapping(value = "/startlisener", method = RequestMethod.POST)
+    public String startlisener(HttpServletRequest request, ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            
+            String[] levels = request.getParameterValues("levels[]");            
+            userDetails.setListenerContainer(consumerFactory, this.template,levels);
+            userDetails.getListenerContainer().start();
+        }
+        JsonObject jsonResult = new JsonObject();
+        jsonResult.addProperty("sucsses", Boolean.TRUE);
+        map.put("jsonmodel", jsonResult);
+        return "ajax";
+    }
+
+    @RequestMapping(value = "/stoplisener", method = RequestMethod.POST)
+    public String stoplisener(HttpServletRequest request, ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            userDetails.getListenerContainer().stop();
+        }
+        JsonObject jsonResult = new JsonObject();
+        jsonResult.addProperty("sucsses", Boolean.TRUE);
+        map.put("jsonmodel", jsonResult);
+        return "ajax";
+    }
+
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
 
+//        ContainerProperties properties = new ContainerProperties(topics);
+//        properties.setMessageListener(new OddeyeKafkaDataListener());
+//        ConcurrentMessageListenerContainer<Integer, String> listenerContainer = new ConcurrentMessageListenerContainer<>(consumerFactory, properties);
+//        listenerContainer.setConcurrency(3);
+//        listenerContainer.getContainerProperties().setPollTimeout(3000);
+//        listenerContainer.start();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -84,8 +135,6 @@ public class UserController {
                 }
             }
 
-
-//            map.put("errorslist", savedErrors);
             Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
                 map.put("group_item", iter.next().getKey());
@@ -119,8 +168,8 @@ public class UserController {
         map.put("jspart", "monitoringjs");
 
         return "index";
-    }    
-    
+    }
+
     @RequestMapping(value = "/monitoring2", method = RequestMethod.GET)
     public String monitoring2(HttpServletRequest request, ModelMap map) {
 

@@ -619,7 +619,7 @@ var format_metric = function (params, type = "m") {
         {
             val = (val / Math.pow(divatior, level));
             level = 26;
-        }
+        }        
         switch (level)
         {
             case -1:
@@ -656,6 +656,14 @@ var format_metric = function (params, type = "m") {
                 metric = " n";
                 break;
             }
+            case 0:
+            case 1:
+            case 2:
+            {
+                val = val;
+                metric = "";
+                break;
+            }            
             case 3:
             case 4:
 //            case 5:

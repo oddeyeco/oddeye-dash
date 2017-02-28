@@ -10,6 +10,7 @@ import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
+import co.oddeye.concout.providers.OddeyeKafkaDataListener;
 import co.oddeye.core.globalFunctions;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -28,6 +29,10 @@ import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.config.ContainerProperties;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -86,6 +91,8 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
+    private ConcurrentMessageListenerContainer<Integer, String> listenerContainer ;
+    
     public User() {
         this.id = UUID.randomUUID();
         this.authorities = new ArrayList<>();
@@ -99,8 +106,6 @@ public class User implements UserDetails {
         roles.put(new SimpleGrantedAuthority(User.ROLE_CONTENTMANAGER), "Content manager");
         roles.put(new SimpleGrantedAuthority(User.ROLE_USERMANAGER), "User manager");
         roles.put(new SimpleGrantedAuthority(User.ROLE_SUPERADMIN), "Root");
-//        roles.put(new SimpleGrantedAuthority(User.ROLE_READONLY_ADMIN) , "User");
-//        roles.put(new SimpleGrantedAuthority(User.ROLE_READONLY) , "User");
         roles.put(new SimpleGrantedAuthority(User.ROLE_DELETE), "Can delete");
         roles.put(new SimpleGrantedAuthority(User.ROLE_EDIT), "Can Edit");
 
@@ -648,5 +653,38 @@ public class User implements UserDetails {
             return FiltertemplateList.get("oddeye_base_send_telegram");
         }
         return getDefaultFilter();
+    }
+
+    /**
+     * @return the listenerContainer
+     */
+    public ConcurrentMessageListenerContainer<Integer, String> getListenerContainer() {
+        return listenerContainer;
+    }
+
+    /**
+     * @param listenerContainer the listenerContainer to set
+     */
+    public void setListenerContainer(ConcurrentMessageListenerContainer<Integer, String> listenerContainer) {
+        this.listenerContainer = listenerContainer;
+    }
+
+    public void setListenerContainer(ConsumerFactory consumerFactory,SimpMessagingTemplate _template,String[] levels) {
+        if (this.listenerContainer !=null)
+        {
+            this.listenerContainer.stop();
+        }
+        
+        String[] topics = new String[levels.length];
+        for (int i = 0; i < levels.length; i++) {
+            topics[i]=this.getId().toString()+levels[i];
+        }
+//        String[] topics2 = {this.getId().toString()+AlertLevel.ALERT_LEVEL_SEVERE, this.getId().toString()+AlertLevel.ALERT_LEVEL_HIGH,this.getId().toString()+AlertLevel.ALERT_LEVEL_ELEVATED};
+        ContainerProperties properties = new ContainerProperties(topics);        
+        properties.setMessageListener(new OddeyeKafkaDataListener(this,_template));
+        this.listenerContainer = new ConcurrentMessageListenerContainer<>(consumerFactory, properties);
+        this.listenerContainer.setConcurrency(3);
+        this.listenerContainer.getContainerProperties().setPollTimeout(3000);
+        
     }
 }
