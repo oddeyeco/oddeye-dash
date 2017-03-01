@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -130,16 +131,35 @@ public class AdminContentControllers extends GRUDControler {
             map.put("model", new SitePage());
             map.put("configMap", getEditConfig());
             map.put("modelname", "User");
-            map.put("body", "adminedit");
+            map.put("body", "adminnew");
             map.put("jspart", "adminjs");
             map.put("configMap", getEditConfig());
         } else {
             map.put("isAuthentication", false);
         }
-
-        map.put("path", "page");
-
+        map.put("path", "pages");
         return "index";
-
     }
+    
+    @RequestMapping(value = "/pages/new/", method = RequestMethod.POST)
+    public String addpage(@ModelAttribute("model") SitePage sitePage,ModelMap map, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+            map.put("isAuthentication", true);
+
+            map.put("model", sitePage);
+            map.put("configMap", getEditConfig());
+            map.put("modelname", "User");
+            map.put("body", "adminnew");
+            map.put("jspart", "adminjs");
+            map.put("configMap", getEditConfig());
+        } else {
+            map.put("isAuthentication", false);
+        }
+        map.put("path", "pages");
+        return "index";
+    }    
 }

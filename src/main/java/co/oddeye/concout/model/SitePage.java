@@ -6,6 +6,7 @@
 package co.oddeye.concout.model;
 
 import co.oddeye.concout.annotation.HbaseColumn;
+import java.util.UUID;
 import javax.persistence.Column;
 
 /**
@@ -14,7 +15,7 @@ import javax.persistence.Column;
  */
 public class SitePage {
     @HbaseColumn(isKey = true)
-    private Integer id;    
+    private UUID id;    
     @HbaseColumn(qualifier = "title", family = "d")
     private String title;
     @HbaseColumn(qualifier = "fulltitle", family = "d")
@@ -57,6 +58,10 @@ public class SitePage {
     @HbaseColumn(qualifier = "parent", family = "d")
     private SitePage parent;
 
+     public SitePage()
+     {
+         id = UUID.randomUUID();
+     }
     /**
      * @return the title
      */
@@ -298,14 +303,14 @@ public class SitePage {
     /**
      * @return the id
      */
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
     /**
      * @param id    
      */
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
