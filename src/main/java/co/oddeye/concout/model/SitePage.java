@@ -7,7 +7,6 @@ package co.oddeye.concout.model;
 
 import co.oddeye.concout.annotation.HbaseColumn;
 import java.util.UUID;
-import javax.persistence.Column;
 
 /**
  *

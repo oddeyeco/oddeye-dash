@@ -16,9 +16,16 @@ class ChartEditForm {
         this.dashJSON = dashJSON;
         var jsonstr = JSON.stringify(dashJSON[row]["widgets"][index], jsonmaker, 5);
         $("#full_json").val(jsonstr);
-//        $("#full_json").val(JSON.stringify(dashJSON[row]["widgets"][index], null, 5 ));
 
-//        console.log(dashJSON[row]["widgets"][index].times);
+        var elem = document.getElementById("manual");
+        if (this.dashJSON[this.row]["widgets"][this.index].mahual)
+        {
+            if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].mahual)
+            {
+                $(elem).trigger('click');
+            }
+        }
+
         if (dashJSON[row]["widgets"][index].times)
         {
             if (dashJSON[row]["widgets"][index].times.intervall)
@@ -407,17 +414,34 @@ class ChartEditForm {
 
     applyjson()
     {
-//        console.log(this.dashJSON);
         var tmpJson = JSON.parse($("#full_json").val());
         for (var key in tmpJson)
         {
             this.dashJSON[this.row]["widgets"][this.index][key] = clone_obg(tmpJson[key]);
         }
+        this.dashJSON[this.row]["widgets"][this.index].mahual = true;
         showsingleChart(this.row, this.index, this.dashJSON);
-    }    
+    }
 
     chage(input) {
-        this.dashJSON[this.row]["widgets"][this.index].options.series=[];
+        if (input.attr('id') === "manual")
+        {
+            var elem = document.getElementById(input.attr("id"));
+            if (elem.checked)
+            {
+                this.dashJSON[this.row]["widgets"][this.index].mahual = true;
+            }
+            else
+            {
+                delete this.dashJSON[this.row]["widgets"][this.index].mahual;
+            }                        
+        }
+        if (!this.dashJSON[this.row]["widgets"][this.index].mahual)
+        {
+
+            this.dashJSON[this.row]["widgets"][this.index].options.series = [];
+        }
+//        
         if (input.parents("form").hasClass("edit-times"))
         {
             if (input.attr('id') === "refreshtime_private")
@@ -430,8 +454,7 @@ class ChartEditForm {
             }
         }
         if (input.parents("form").hasClass("edit-query"))
-        {
-            this.dashJSON[this.row]["widgets"][this.index].options.series=[];
+        {            
             var metrics = "";
             this.formwraper.find(".query_metric .text").each(function () {
                 metrics = metrics + $(this).text() + ";";
@@ -452,14 +475,8 @@ class ChartEditForm {
 
 
             this.dashJSON[this.row]["widgets"][this.index].queryes = [];
-            this.dashJSON[this.row]["widgets"][this.index].queryes.push({"url": query, info: {"downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(),"alias2": this.formwraper.find("#alias2").val() }});
-//            console.log(this.dashJSON[this.row]["widgets"][this.index].queryes);
+            this.dashJSON[this.row]["widgets"][this.index].queryes.push({"url": query, info: {"downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(), "alias2": this.formwraper.find("#alias2").val()}});
         }
-
-//        console.log("dfsdfsdfs");
-
-
-
         if (input.parents("form").hasClass("edit-display"))
         {
             var key = input.attr("chart_prop_key");
@@ -475,8 +492,7 @@ class ChartEditForm {
             }
 
             if (key === "stacked")
-            {
-                this.dashJSON[this.row]["widgets"][this.index].options.series=[];
+            {                
                 var elem = document.getElementById(input.attr("id"));
                 if (elem.checked)
                 {
@@ -488,7 +504,7 @@ class ChartEditForm {
             }
             if (key === "type" || key === "points" || key === "fill" || key === "step")
             {
-                this.dashJSON[this.row]["widgets"][this.index][key] = input.val();                
+                this.dashJSON[this.row]["widgets"][this.index][key] = input.val();
                 if (key === "type")
                 {
                     if (this.dashJSON[this.row]["widgets"][this.index].type !== "line" && this.dashJSON[this.row]["widgets"][this.index].type !== "bar")
@@ -564,8 +580,7 @@ class ChartEditForm {
                             {
                                 this.dashJSON[this.row]["widgets"][this.index].options[axes][index]["m_tags"] = 0;
                             }
-                        }
-                        else
+                        } else
                         {
                             this.dashJSON[this.row]["widgets"][this.index].options[axes][index]["data"] = [];
                         }

@@ -530,9 +530,9 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                 }
 
             }
-            
+
 //            option.options.legend.formatter = legendFormater(option.options.series);
-            
+
             for (var yindex in option.options.yAxis)
             {
                 var formatter = option.options.yAxis[yindex].unit;
@@ -559,7 +559,10 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             {
                 chart.setOption(option.options);
             }
-            chart.hideLoading();
+            chart.hideLoading();            
+            var jsonstr = JSON.stringify(option, jsonmaker, 5);
+            $("#full_json").val(jsonstr);
+            
             var GlobalRefresh = true;
             if (option.times)
             {

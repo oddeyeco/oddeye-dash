@@ -100,6 +100,15 @@
         </div>   
     </div>
     <div class="x_content edit-form">
+        <div class="pull-right tabcontrol">  
+            <label class="control-label" >
+                JSON Manual Edit:
+            </label>
+            <div class="checkbox" style="display: inline-block">
+                <input type="checkbox" class="js-switch-small"  chart_prop_key="manual" id="manual" name="manual" /> 
+            </div>            
+            <a class="btn btn-success savetemplate" type="button">Save as Template </a>
+        </div>
         <div class="" role="tabpanel" data-example-id="togglable-tabs">
             <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                 <li role="presentation" class="active"><a href="#tab_general" id="general-tab" role="tab" data-toggle="tab" aria-expanded="true">General</a>
@@ -978,7 +987,6 @@
 
             </div>
         </div>
-
     </div>    
 </div>    
 
