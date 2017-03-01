@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.model;
 
+import co.oddeye.concout.annotation.HbaseColumn;
 import javax.persistence.Column;
 
 /**
@@ -12,29 +13,48 @@ import javax.persistence.Column;
  * @author vahan
  */
 public class SitePage {
+    @HbaseColumn(isKey = true)
+    private Integer id;    
+    @HbaseColumn(qualifier = "title", family = "d")
     private String title;
+    @HbaseColumn(qualifier = "fulltitle", family = "d")
     private String fulltitle;
 //    private boolean isTActive;   
+    @HbaseColumn(qualifier = "description", family = "d")
     private String description;
+    @HbaseColumn(qualifier = "keywords", family = "d")
     private String keywords;
+    @HbaseColumn(qualifier = "pagecaption", family = "d")
     private String pagecaption;
-    @Column(unique = true)
+    @HbaseColumn(qualifier = "sysname", family = "d")
     private String sysname;
+    @HbaseColumn(qualifier = "controller", family = "d")
     private String controller;
-    private String function;
+    @HbaseColumn(qualifier = "function", family = "d")
+    private String function;    
+    @HbaseColumn(qualifier = "content", family = "d")
+    private String content;    
+    @HbaseColumn(qualifier = "exiernalurl", family = "d")
     private String exiernalurl;
-    @Column(unique = true)
+    @HbaseColumn(qualifier = "slug", family = "d")
     private String slug;
+    @HbaseColumn(qualifier = "h1image", family = "d")
     private String h1image;
+    @HbaseColumn(qualifier = "sortorder", family = "d")
     private int sortorder;
+    @HbaseColumn(qualifier = "external", family = "d")
     private boolean external;
+    @HbaseColumn(qualifier = "haspaging", family = "d")
     private boolean haspaging;
+    @HbaseColumn(qualifier = "isActive", family = "d")
     private boolean isActive;
+    @HbaseColumn(qualifier = "isinMenu", family = "d")
     private boolean isinMenu;
 //    private $isEditable;
 //    private $root;
 //    private $lvl;
 //    private $childrens;
+    @HbaseColumn(qualifier = "parent", family = "d")
     private SitePage parent;
 
     /**
@@ -273,5 +293,33 @@ public class SitePage {
      */
     public void setParent(SitePage parent) {
         this.parent = parent;
+    }
+
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id    
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * @param content the content to set
+     */
+    public void setContent(String content) {
+        this.content = content;
     }
 }

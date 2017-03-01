@@ -8,6 +8,7 @@
         <div class="clearfix"></div>
     </div>        
     <div class="x_content" id="dashcontent">     
+        <a href="<c:url value="/${path}/new/"/>" class="btn btn-info btn-sm pull-right"><i class="fa fa-navicon"></i> New </a>
         <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>                
                 <tr>
@@ -20,12 +21,11 @@
                 <c:forEach items="${modellist}" var="model">   
                     <tr>
                         <c:forEach items="${configMap}" var="config">   
-
                             <td>
                                 <c:choose>
                                     <c:when test="${config.getValue().type == \"actions\"}">
                                         <sec:authorize access="hasRole('EDIT')">
-                                            <a href="<c:url value="/user/edit/${model.id}"/>" class="btn btn-info btn-xs" value="${model.id}"><i class="fa fa-pencil"></i> Edit </a>
+                                            <a href="<c:url value="/${path}/edit/${model.id}"/>" class="btn btn-info btn-xs" value="${model.id}"><i class="fa fa-pencil"></i> Edit </a>
                                         </sec:authorize>
                                     </c:when>    
                                     <c:when test="${config.getValue().type == 'String'}">
@@ -38,7 +38,6 @@
                                         </c:forEach>                                                                
                                     </c:when>                                                                                                
                                     <c:otherwise>
-
                                     </c:otherwise>
                                 </c:choose>                                        
                             </td>
@@ -47,8 +46,7 @@
                     </tr>
                 </c:forEach>                
             </tbody>
-
-        </table>        
+        </table>                
     </div>
 </div>
 

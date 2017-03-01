@@ -45,7 +45,6 @@ public class AdminUsersControlers extends GRUDControler {
 
     @Autowired
     private HbaseUserDao Userdao;
-
     @Autowired
     private UserValidator userValidator;
 
@@ -211,6 +210,7 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("modellist", Userdao.getAllUsers(true));
         map.put("configMap", getViewConfig());
         map.put("body", "adminlist");
+        map.put("path", "user");
         map.put("jspart", "adminjs");
         return "index";
     }
@@ -230,6 +230,7 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("model", Userdao.getUserByUUID(UUID.fromString(id)));
         map.put("configMap", getEditConfig());
         map.put("modelname", "User");
+        map.put("path", "user");
         map.put("body", "adminedit");
         map.put("jspart", "adminjs");
         return "index";
@@ -264,7 +265,8 @@ public class AdminUsersControlers extends GRUDControler {
                     map.put("model", newUser);
                     map.put("configMap", getEditConfig());
                     map.put("modelname", "User");
-                    map.put("body", "adminedit");
+                    map.put("path", "user");
+                    map.put("body", "adminedit");                    
                     map.put("jspart", "adminjs");
                 } else {
                     Userdao.deleteUser(newUser);

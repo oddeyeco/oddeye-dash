@@ -393,6 +393,7 @@ $(document).ready(function () {
     stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/user/' + uuid + '/errors', function (error) {
             var errorjson = JSON.parse(error.body);
+//            console.log(errorjson);
             if (errorjson.level === -1)
             {
                 delete errorlistJson[errorjson.hash];
@@ -400,7 +401,6 @@ $(document).ready(function () {
             {
                 errorlistJson[errorjson.hash] = errorjson;
             }
-
             reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
         });
     });

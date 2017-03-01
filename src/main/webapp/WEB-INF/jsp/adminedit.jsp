@@ -7,9 +7,8 @@
     Created on : Feb 23, 2017, 9:31:26 AM
     Author     : vahan
 --%>
-<div class="x_content">
-    <br>                        
-    <form:form method="post" action="${cp}/user/edit/${model.id}" modelAttribute="model" novalidate="true" cssClass="form-horizontal form-label-left">                            
+<div class="x_panel">    
+    <form:form method="post" action="${cp}/${path}/edit/${model.id}" modelAttribute="model" novalidate="true" cssClass="form-horizontal form-label-left">                            
         <form:hidden path="id" />                            
         <c:forEach items="${configMap}" var="config">  
             <c:choose>
@@ -103,6 +102,19 @@
                         </div>
                     </div>  
                 </c:when>                
+                <c:when test="${config.getValue().type == 'Text'}">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="${config.getValue().path}">${config.getValue().title} 
+                            <c:if test="${config.getValue().required == true}"> 
+                                <span class="required">*</span>
+                            </c:if>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:textarea path="${config.getValue().path}" cssClass="form-control" placeholder="${config.getValue().title}" rows="${config.getValue().rows}"/>
+                            <form:errors path="${config.getValue().path}" />
+                        </div>
+                    </div>  
+                </c:when>                                
                 <c:otherwise>
 
                 </c:otherwise>
