@@ -14,19 +14,19 @@ var pickerlabel = "Last 5 minutes";
 
 var jsonmaker = function (k, v)
 {
-    
+
     if (k === "echartLine")
     {
         return undefined;
-    }        
+    }
     if (k === "data")
     {
         return undefined;
-    }      
+    }
     if (k === "url")
     {
         return undefined;
-    }    
+    }
     if (k === "timer")
     {
         return undefined;
@@ -34,7 +34,7 @@ var jsonmaker = function (k, v)
     if (k === "times")
     {
         return undefined;
-    }    
+    }
     return v
 }
 var rangeslabels = {
@@ -169,35 +169,41 @@ var cb = function (start, end, label) {
         $('#reportrange span').html(pickerlabel);
     }
 };
-//TODO DZRTEL
-var tmpday = "";
-var format_date = function (value) {
-    date = moment(value);
-    if (tmpday !== date.format("YY/MM/DD"))
+
+var s2d = function (str) {
+    return str < 10 ? ('0' + str) : str;
+};
+var format_date = function (value, b) {
+    var a = new Date(value);
+    var year = a.getFullYear();
+    var month = a.getMonth();
+    var date = a.getDate();
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    if (b === 1)
     {
-        tmpday = date.format("YY/MM/DD");
-        return (date.format("HH:mm:ss") + "\n" + date.format("YY/MM/DD"));
-    } else
-    {
-        return (date.format("HH:mm:ss"));
+        return s2d(hour) + ":" + s2d(min) + ":" + s2d(sec) + "\n" + year+"-" +s2d(month)+"-"+s2d(date);
     }
+    return s2d(hour) + ":" + s2d(min) + ":" + s2d(sec);
 };
 
 
-function legendFormater (series) {
-   return function (name)
-   {
-       for (var index in series)
-       {
-           if (series[index].name===name)
-           {
-               //TODO add format types
-               return name+" last:"+ series[index].data[series[index].data.length-1][1];
-           }
-       }
+function legendFormater(series) {
+    return function (name)
+    {
+        for (var index in series)
+        {
+            if (series[index].name === name)
+            {
+                //TODO add format types
+                return name + " last:" + series[index].data[series[index].data.length - 1][1];
+            }
+        }
         return name;
-   };
-};
+    };
+}
+;
 
 var dataBit = function (params) {
     var val = paramtoval(params);
@@ -619,7 +625,7 @@ var format_metric = function (params, type = "m") {
         {
             val = (val / Math.pow(divatior, level));
             level = 26;
-        }        
+        }
         switch (level)
         {
             case -1:
@@ -663,7 +669,7 @@ var format_metric = function (params, type = "m") {
                 val = val;
                 metric = "";
                 break;
-            }            
+            }
             case 3:
             case 4:
 //            case 5:

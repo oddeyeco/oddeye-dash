@@ -84,6 +84,7 @@ public class dataControlers {
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
                 
                 map.put("metric", meta);
+                map.put("title", meta.getDisplayName()+"|"+meta.getDisplayTags("|"));
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -109,25 +110,9 @@ public class dataControlers {
                     }
                 }
                 String hashes = request.getParameter("hashes");
-//                final String[] hashesList = hashes.split(";");
                 String hashesarr = "["+hashes.replaceAll(";",",")+"]";
                 map.put("hashes", hashesarr);
-//                OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(metricshash);
-//                GetRequest getRegression = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), metric.getKey(), "d".getBytes(), "Regression".getBytes());
-//                ArrayList<KeyValue> Regressiondata = BaseTsdb.getClient().get(getRegression).joinUninterruptibly();
-//                for (KeyValue Regression : Regressiondata) {
-//                    if (Arrays.equals(Regression.qualifier(), "Regression".getBytes())) {
-//                        try {
-//                            metric.setSerializedRegression(Regression.value());
-//                        } catch (IOException ex) {
-//                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
-//                        } catch (ClassNotFoundException ex) {
-//                            Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
-//                        }
-//                    }
-//                }
-//                metric.getRegression();
-//                map.put("metric", metric);
+                map.put("title", "Multi Chart");
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }

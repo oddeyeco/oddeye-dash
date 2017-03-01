@@ -122,9 +122,9 @@
                                 xAxis: [{
                                         type: 'time',
                                         splitNumber: 20,
-//                                        axisLabel: {
-//                                            formatter: format_date
-//                                        }
+                                        axisLabel: {
+                                            formatter: format_date
+                                        }
                                     }],
                                 yAxis: [{
                                         type: 'value',

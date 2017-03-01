@@ -333,7 +333,7 @@ public class UserController {
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("ErrorsDao", ErrorsDao);
-
+            map.put("title", "Analysis");
             String group_item = request.getParameter("group_item");
 
             String ident_tag = request.getParameter("ident_tag");

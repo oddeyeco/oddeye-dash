@@ -1,9 +1,8 @@
-<script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
+<script src="${cp}/resources/echarts/dist/echarts.js"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     pickerlabel = "Last 1 day";
-
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
     var timer;
@@ -11,7 +10,6 @@
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
-
 
         $('body').on("click", "#Clear_reg", function () {
             var sendData = {};
@@ -42,12 +40,12 @@
     });
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-        if (pickerlabel == "Custom")
+        if (pickerlabel === "Custom")
         {
             url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + pickerstart + "&enddate=" + pickerend;
         } else
         {
-            if (typeof (rangeslabels[pickerlabel]) == "undefined")
+            if (typeof (rangeslabels[pickerlabel]) === "undefined")
             {
                 url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
             } else
@@ -118,6 +116,9 @@
                 },
                 xAxis: [{
                         type: 'time',
+                        axisLabel: {
+                            formatter: format_date
+                        }                        
                     }],
                 yAxis: [{
                         type: 'value',

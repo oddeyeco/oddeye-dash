@@ -13,13 +13,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.io.Serializable;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.listener.KafkaDataListener;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -27,7 +26,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  *
  * @author vahan
  */
-public class OddeyeKafkaDataListener implements MessageListener<Object, Object>{
+public class OddeyeKafkaDataListener implements MessageListener<Object, Object>, Serializable{
     private final User user;
     private final Logger log = LoggerFactory.getLogger(OddeyeKafkaDataListener.class);
     

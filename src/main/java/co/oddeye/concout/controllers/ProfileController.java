@@ -73,6 +73,7 @@ public class ProfileController {
             userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 //            }
             map.put("curentuser", userDetails);
+            map.put("title", "MyProfile");
 
         } else {
             layaut = "indexPrime";
