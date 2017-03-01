@@ -107,7 +107,7 @@
             <div class="checkbox" style="display: inline-block">
                 <input type="checkbox" class="js-switch-small"  chart_prop_key="manual" id="manual" name="manual" /> 
             </div>            
-            <a class="btn btn-success savetemplate" type="button">Save as Template </a>
+            <!--<a class="btn btn-success savetemplate" type="button">Save as Template </a>-->
         </div>
         <div class="" role="tabpanel" data-example-id="togglable-tabs">
             <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">

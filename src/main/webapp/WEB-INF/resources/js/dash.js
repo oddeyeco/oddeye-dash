@@ -38,7 +38,7 @@ function replacer(tags) {
     };
 }
 
-function setdatabyQueryes(option, url, start, end, chart, redraw = false)
+function setdatabyQueryes(option, url, start, end, chart, redraw = false,callback=null)
 {
     if (option.tmpoptions)
     {
@@ -85,12 +85,12 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                 query = query + "&downsample=" + option.queryes[k].info.downsample;
             }
         }
-        var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
+        var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;       
         chart.showLoading("default", {
             text: '',
             color: colorPalette[0],
             textColor: '#000',
-            maskColor: 'rgba(255, 255, 255, 0.2)',
+            maskColor: 'rgba(255, 255, 255, 0)',
             zlevel: 0
         });
         var m_sample = option.options.xAxis[0].m_sample;
@@ -421,14 +421,10 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
                                 }
                                 if (tmpradius > 100)
                                     tmpradius = 95;
-
-                                if (!series.radius)
+                                if (!option.manual)
                                 {
                                     series.radius = tmpradius - 3 + "%";
-                                }
 
-                                if (!series.center)
-                                {
                                     if (hr < wr)
                                     {
                                         series.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
@@ -441,12 +437,10 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
 
                             if (series.type === "pie")
                             {
-                                if (!series.radius)
+                                if (!option.manual)
                                 {
                                     series.radius = radius - 3 + "%";
-                                }
-                                if (!series.center)
-                                {
+
                                     if (hr < wr)
                                     {
                                         series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
@@ -559,10 +553,13 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false)
             {
                 chart.setOption(option.options);
             }
-            chart.hideLoading();            
-            var jsonstr = JSON.stringify(option, jsonmaker, 5);
-            $("#full_json").val(jsonstr);
+            chart.hideLoading();
+            if (callback!==null)
+            {
+                callback();
+            }
             
+
             var GlobalRefresh = true;
             if (option.times)
             {
@@ -860,7 +857,7 @@ function redrawAllJSON(dashJSON, redraw = false)
 
 var echartLine;
 
-function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false) {
+function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback= null) {
     $(".fulldash").hide();
     if (rebuildform)
     {
@@ -936,7 +933,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 
             }
         }
-        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw);
+        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw,callback);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].options);

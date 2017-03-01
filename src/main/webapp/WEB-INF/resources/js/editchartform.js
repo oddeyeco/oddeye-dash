@@ -18,9 +18,9 @@ class ChartEditForm {
         $("#full_json").val(jsonstr);
 
         var elem = document.getElementById("manual");
-        if (this.dashJSON[this.row]["widgets"][this.index].mahual)
+        if (this.dashJSON[this.row]["widgets"][this.index].manual)
         {
-            if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].mahual)
+            if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].manual)
             {
                 $(elem).trigger('click');
             }
@@ -415,12 +415,17 @@ class ChartEditForm {
     applyjson()
     {
         var tmpJson = JSON.parse($("#full_json").val());
+        clearTimeout(this.dashJSON[this.row]["widgets"][this.index].timer);
         for (var key in tmpJson)
         {
             this.dashJSON[this.row]["widgets"][this.index][key] = clone_obg(tmpJson[key]);
         }
-        this.dashJSON[this.row]["widgets"][this.index].mahual = true;
-        showsingleChart(this.row, this.index, this.dashJSON);
+        this.dashJSON[this.row]["widgets"][this.index].manual = true;
+        var opt = this.dashJSON[this.row]["widgets"][this.index];
+        showsingleChart(this.row, this.index, this.dashJSON,false,true,false, function () {
+            var jsonstr = JSON.stringify(opt, jsonmaker, 5);
+            $("#full_json").val(jsonstr);            
+        });
     }
 
     chage(input) {
@@ -429,14 +434,13 @@ class ChartEditForm {
             var elem = document.getElementById(input.attr("id"));
             if (elem.checked)
             {
-                this.dashJSON[this.row]["widgets"][this.index].mahual = true;
-            }
-            else
+                this.dashJSON[this.row]["widgets"][this.index].manual = true;
+            } else
             {
-                delete this.dashJSON[this.row]["widgets"][this.index].mahual;
-            }                        
+                delete this.dashJSON[this.row]["widgets"][this.index].manual;
+            }
         }
-        if (!this.dashJSON[this.row]["widgets"][this.index].mahual)
+        if (!this.dashJSON[this.row]["widgets"][this.index].manual)
         {
 
             this.dashJSON[this.row]["widgets"][this.index].options.series = [];
@@ -454,7 +458,7 @@ class ChartEditForm {
             }
         }
         if (input.parents("form").hasClass("edit-query"))
-        {            
+        {
             var metrics = "";
             this.formwraper.find(".query_metric .text").each(function () {
                 metrics = metrics + $(this).text() + ";";
@@ -492,7 +496,7 @@ class ChartEditForm {
             }
 
             if (key === "stacked")
-            {                
+            {
                 var elem = document.getElementById(input.attr("id"));
                 if (elem.checked)
                 {
