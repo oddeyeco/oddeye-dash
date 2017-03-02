@@ -69,7 +69,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
         tiled: 'Tiled'
     };
     option.options.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
-    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel"));
+    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel" || option.type === "treemap"));
 
     for (k in option.queryes)
     {

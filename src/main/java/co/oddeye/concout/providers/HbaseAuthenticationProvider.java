@@ -38,7 +38,7 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
         UUID userid = Userdao.CheckUserAuthentication(authentication);
         if (userid != null) {
             //TODO Get user by UUID    
-            final User principal = Userdao.getUserByUUID(userid);            
+            final User principal = Userdao.getUserByUUID(userid, true);            
             final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
             return auth;
         } else {
