@@ -7,7 +7,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div>    
-    <div class="container contactform center col-lg-4 col-md-8 col-xs-12">
+    <div class="container col-lg-8 col-md-8 col-xs-12">
         <h2 class="text-center">Create Account.</h2>        
         <form:form method="post" commandName="newUser" action="${cp}/signup/" modelAttribute="newUser" novalidate="true">            
             <c:if test="${not empty message}" >
