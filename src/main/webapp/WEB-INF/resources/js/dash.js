@@ -38,8 +38,8 @@ function replacer(tags) {
     };
 }
 
-function setdatabyQueryes(option, url, start, end, chart, redraw = false,callback=null)
-{
+function setdatabyQueryes(option, url, start, end, chart, redraw = false, callback = null)
+{    
     if (option.tmpoptions)
     {
         option.options = clone_obg(option.tmpoptions);
@@ -85,7 +85,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false,callbac
                 query = query + "&downsample=" + option.queryes[k].info.downsample;
             }
         }
-        var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;       
+        var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
         chart.showLoading("default", {
             text: '',
             color: colorPalette[0],
@@ -94,6 +94,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false,callbac
             zlevel: 0
         });
         var m_sample = option.options.xAxis[0].m_sample;
+        
         $.getJSON(uri, null, function (data) {
             var oldseries = clone_obg(option.options.series);
             option.options.series = [];
@@ -548,18 +549,21 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false,callbac
             }
             if (redraw)
             {
+                for (var ind in option.options.series)
+                {
+                    delete option.options.series[ind].type;
+                    delete option.options.series[ind].stack;
+                }                
                 chart.setOption({series: option.options.series});
             } else
             {
                 chart.setOption(option.options);
             }
             chart.hideLoading();
-            if (callback!==null)
+            if (callback !== null)
             {
                 callback();
             }
-            
-
             var GlobalRefresh = true;
             if (option.times)
             {
@@ -857,7 +861,7 @@ function redrawAllJSON(dashJSON, redraw = false)
 
 var echartLine;
 
-function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback= null) {
+function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
     $(".fulldash").hide();
     if (rebuildform)
     {
@@ -933,7 +937,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 
             }
         }
-        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw,callback);
+        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw, callback);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].options);
