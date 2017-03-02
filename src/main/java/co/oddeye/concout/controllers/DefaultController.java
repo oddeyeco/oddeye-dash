@@ -52,10 +52,11 @@ public class DefaultController {
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(ModelMap map,HttpServletRequest request) {        
+    public String index(ModelMap map, HttpServletRequest request) {
         map.put("request", request);
+        map.put("title", "High speed monitoring &amp; analytics");
         map.put("body", "homepage");
-        map.put("jspart", "homepagejs");        
+        map.put("jspart", "homepagejs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
@@ -64,7 +65,7 @@ public class DefaultController {
             map.put("isAuthentication", true);
         } else {
             map.put("isAuthentication", false);
-        }        
+        }
 //        layaut = "indexPrime";
         return "indexPrime";
     }
@@ -99,41 +100,50 @@ public class DefaultController {
         return "redirect:/";
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/login/", "/login"}, method = RequestMethod.GET)
     public String loginDo(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             return redirecttodashboard();
         }
+        map.put("isAuthentication", false);
+        map.put("title", "Login");
+        map.put("slug", "login");
         map.put("body", "login");
         map.put("jspart", "loginjs");
         return "indexPrime";
     }
 
-    @RequestMapping(value = "/{templatename}", method = RequestMethod.GET)
-    public String bytemplate(@PathVariable(value = "templatename") String templatename, ModelMap map) {
+    @RequestMapping(value = "/{slug}/", method = RequestMethod.GET)
+    public String bytemplate(@PathVariable(value = "slug") String slug, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String layaut = "index";
-        if (templatename.equals("signup")) {
+        String layaut = "indexPrime";
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);
+            map.put("isAuthentication", true);
+        } else {
+            map.put("isAuthentication", false);
+        }
+        map.put("title", slug);
+        map.put("slug", slug);
+        map.put("body", "standartpage");
+        map.put("jspart", "standartpagejs");
+
+        if (slug.equals("signup")) {
             if (!(auth instanceof AnonymousAuthenticationToken)) {
                 return redirecttodashboard();
             }
             User newUser = new User();
             map.put("newUser", newUser);
+            map.put("title", slug);
+            map.put("slug", slug);
+            map.put("body", slug);
+            map.put("jspart", slug+"js");
+
             setLocaleInfo(map);
         }
-
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-            map.put("curentuser", userDetails);
-
-        } else {
-            layaut = "indexPrime";
-        }
-
-        map.put("body", templatename);
-        map.put("jspart", templatename + "js");
 
         return layaut;
     }
@@ -170,7 +180,7 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "/signup/", method = RequestMethod.POST)
-    public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map,HttpServletRequest request) {
+    public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
         userValidator.validate(newUser, result);
 
         if (result.hasErrors()) {
@@ -180,15 +190,15 @@ public class DefaultController {
             map.put("body", "signup");
             map.put("jspart", "signupjs");
         } else {
-            try {                
+            try {
                 //request.getScheme()
 //                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),"https",  request.getServerName(), request.getServerPort());
                 String baseUrl = Sender.getBaseurl(request);
-                newUser.SendConfirmMail(Sender,baseUrl);                
+                newUser.SendConfirmMail(Sender, baseUrl);
 //                newUser.getAuthorities().add(new SimpleGrantedAuthority(User.ROLE_USER));
                 newUser.addAuthoritie(User.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
-                Userdao.addUser(newUser);                                
+                Userdao.addUser(newUser);
                 map.put("body", "homepage");
                 map.put("jspart", "homepagejs");
             } catch (Exception ex) {
@@ -197,7 +207,7 @@ public class DefaultController {
                 map.put("result", result);
                 map.put("body", "signup");
                 map.put("jspart", "signupjs");
-                map.put("message", ex.toString());                
+                map.put("message", ex.toString());
             }
         }
         return "indexPrime";

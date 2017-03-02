@@ -38,12 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login").deleteCookies("JSESSIONID")
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout/"))
+                .logoutSuccessUrl("/login/").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**").permitAll()
+                .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**","/contact/**").permitAll()
                 .antMatchers("/getfiltredmetrics*").permitAll()
                 .antMatchers("/getdata*").permitAll()
                 .antMatchers("/gettagkey*").permitAll()
@@ -54,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
+                .loginPage("/login/")
                 .permitAll();
 
     }
