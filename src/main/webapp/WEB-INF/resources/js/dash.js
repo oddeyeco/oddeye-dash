@@ -45,7 +45,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
         option.options = clone_obg(option.tmpoptions);
         delete option.tmpoptions;
     }
-    option.visible = true;
+    option.visible = true;    
     if (chart._dom.className !== "echart_line_single")
     {
         if (chart._dom.getBoundingClientRect().bottom < 0)
@@ -556,7 +556,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                 }                
                 chart.setOption({series: option.options.series});
             } else
-            {
+            {                
                 chart.setOption(option.options);
             }
             chart.hideLoading();
@@ -612,8 +612,7 @@ defoption = {
     legend: {
         show: false,
         data: []
-    },
-    animation: false,
+    },    
     toolbox: {
         show: true,
         feature: {

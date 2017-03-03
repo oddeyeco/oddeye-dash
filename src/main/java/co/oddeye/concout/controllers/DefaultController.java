@@ -53,21 +53,22 @@ public class DefaultController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map, HttpServletRequest request) {
-        map.put("request", request);
-        map.put("title", "High speed monitoring &amp; analytics");
-        map.put("body", "homepage");
-        map.put("jspart", "homepagejs");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-            map.put("curentuser", userDetails);
-            map.put("isAuthentication", true);
-        } else {
-            map.put("isAuthentication", false);
-        }
-//        layaut = "indexPrime";
-        return "indexPrime";
+      return redirecttodashboard();
+//        map.put("request", request);
+//        map.put("title", "High speed monitoring &amp; analytics");
+//        map.put("body", "homepage");
+//        map.put("jspart", "homepagejs");
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            User userDetails = (User) SecurityContextHolder.getContext().
+//                    getAuthentication().getPrincipal();
+//            map.put("curentuser", userDetails);
+//            map.put("isAuthentication", true);
+//        } else {
+//            map.put("isAuthentication", false);
+//        }
+////        layaut = "indexPrime";
+//        return "indexPrime";
     }
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)

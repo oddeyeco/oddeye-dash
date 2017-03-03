@@ -3,7 +3,6 @@
     Created on : Jun 13, 2016, 4:58:05 PM
     Author     : vahan
 --%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div>    
     <div class="container contactform center col-lg-4 col-md-8 col-xs-12">
@@ -25,7 +24,7 @@
                    name="${_csrf.parameterName}"
                    value="${_csrf.token}"/>                           
             <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-in"></i> Log in </button>
-            <div class="pull-left">New to site?<a href="${sineupUrl}" class="to_register"> Create Account </a>                
+            <div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="to_register"> Create Account </a>                
             </div>              
         </form>
 

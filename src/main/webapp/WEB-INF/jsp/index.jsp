@@ -54,7 +54,7 @@
                         <!-- menu profile quick info -->
                         <div class="profile">
                             <div class="profile_pic">
-                                <img src="${cp}/assets/images/logo.jpg" alt="..." class="img-circle profile_img">
+                                <img src="" alt="..." class="img-circle profile_img">
                             </div>
                             <div class="profile_info">
                                 <span>Welcome,</span>
@@ -74,9 +74,6 @@
                                         <ul class="nav child_menu">                                            
                                             <li><a href="<c:url value="/monitoring"/>">Monitor</a></li>
                                             <li><a href="<c:url value="/errorsanalysis"/>">Advanced Monitoring</a></li>
-<!--                                            <li><a href="<c:url value="/hosts"/>">Hosts</a></li>
-                                            <li><a href="<c:url value="/metrics"/>">Metrics</a></li>-->
-                                            <!--<li><a href="<c:url value="/dashboard3/"/>">Dashboard3</a></li>-->
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-desktop"></i> Dashboards <span class="fa fa-chevron-down"></span></a>
@@ -135,7 +132,7 @@
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="">
                                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <img src="${cp}/resources/images/img.jpg" alt="">${curentuser.getEmail()}
+                                        <!--<img src="${cp}/resources/images/img.jpg" alt="">-->${curentuser.getEmail()}
                                         <span class=" fa fa-angle-down"></span>
                                     </a>
                                     <ul class="dropdown-menu dropdown-usermenu pull-right">
