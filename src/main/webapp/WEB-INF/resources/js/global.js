@@ -11,3 +11,12 @@ function compareStrings(a, b) {
     b = b.toLowerCase();
     return (a < b) ? -1 : (a > b) ? 1 : 0;
 }
+
+//$(document).ready(function () {
+//    $SIDEBAR_MENU.find('li.active-sm ul').show();
+//    $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
+//    $BODY.toggleClass('nav-md nav-sm');
+//});
+
+
+//setContentHeight();

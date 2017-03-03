@@ -46,16 +46,14 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="<c:url value="/"/>" class="site_title"><i class="fa fa-paw"></i> <span>Oddeye Dashboard!</span></a>
+                            <a href="<c:url value="/"/>" class="site_title"><i class="fa fa-home"></i> OddEye</a>
                         </div>
-
                         <div class="clearfix"></div>
-
                         <!-- menu profile quick info -->
                         <div class="profile">
-                            <div class="profile_pic">
+<!--                            <div class="profile_pic">
                                 <img src="" alt="..." class="img-circle profile_img">
-                            </div>
+                            </div>-->
                             <div class="profile_info">
                                 <span>Welcome,</span>
                                 <h2>${curentuser.getName()} ${curentuser.getLastname()}</h2>                           
@@ -63,12 +61,12 @@
                         </div>
                         <!-- /menu profile quick info -->
 
-                        <br />
+                        <div class="clearfix"></div>
 
                         <!-- sidebar menu -->
                         <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
                             <div class="menu_section">
-                                <h3>General</h3>
+                                <h3>Navigation</h3>
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> General <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">                                            
@@ -184,25 +182,25 @@
         <script src="${cp}/resources/jquery/dist/jquery.min.js"></script>
         <!-- Bootstrap -->
         <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js"></script>
-        <!-- FastClick -->
-        <script src="${cp}/resources/fastclick/lib/fastclick.js"></script>
-        <!-- NProgress -->
-        <script src="${cp}/resources/nprogress/nprogress.js"></script>
+<!--         FastClick 
+        <script src="${cp}/resources/fastclick/lib/fastclick.js"></script>-->
+<!--         NProgress 
+        <script src="${cp}/resources/nprogress/nprogress.js"></script>-->
         <!-- moment.js -->
         <script src="${cp}/resources/js/moment/moment.min.js"></script>        
-        <!-- bootstrap-progressbar -->
-        <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-        <!-- iCheck -->
+<!--         bootstrap-progressbar 
+        <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>-->
+         <!--iCheck--> 
         <script src="${cp}/resources/iCheck/icheck.min.js"></script>
-        <!-- Skycons -->
-        <script src="${cp}/resources/skycons/skycons.js"></script>
+<!--         Skycons 
+        <script src="${cp}/resources/skycons/skycons.js"></script>-->
         <!-- Bootstrap Colorpicker -->
         <script src="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
         <!-- Bootstrap bootstrap-daterangepicker -->
         <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js"></script>        
         <!-- Custom Theme Scripts -->
-        <!-- Cropper -->
-        <script src="${cp}/resources/cropper/dist/cropper.min.js"></script>        
+<!--         Cropper 
+        <script src="${cp}/resources/cropper/dist/cropper.min.js"></script>        -->
         <script src="${cp}/resources/build/js/custom.min.js"></script>
         <!-- Select2 -->
         <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
