@@ -215,7 +215,7 @@ class ChartEditForm {
             this.formwraper.find("#display_points").val(this.dashJSON[this.row]["widgets"][this.index].points);
         } else
         {
-            this.formwraper.find("#display_points").val("circle");
+            this.formwraper.find("#display_points").val("none");
         }
 
         this.formwraper.find("#display_charttype").val(this.dashJSON[this.row]["widgets"][this.index].type);
@@ -422,9 +422,9 @@ class ChartEditForm {
         }
         this.dashJSON[this.row]["widgets"][this.index].manual = true;
         var opt = this.dashJSON[this.row]["widgets"][this.index];
-        showsingleChart(this.row, this.index, this.dashJSON,false,true,false, function () {
+        showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
             var jsonstr = JSON.stringify(opt, jsonmaker, 5);
-            $("#full_json").val(jsonstr);            
+            $("#full_json").val(jsonstr);
         });
     }
 
@@ -492,6 +492,12 @@ class ChartEditForm {
             if (key === "dataZoom")
             {
                 var elem = document.getElementById(input.attr("id"));
+                if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
+                {
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = {show: true,
+                        start: 0,
+                        end: 100}
+                }
                 this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.show = elem.checked;
             }
 

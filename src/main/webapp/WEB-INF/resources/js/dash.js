@@ -45,7 +45,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
         option.options = clone_obg(option.tmpoptions);
         delete option.tmpoptions;
     }
-    option.visible = true;    
+    option.visible = !redraw;    
     if (chart._dom.className !== "echart_line_single")
     {
         if (chart._dom.getBoundingClientRect().bottom < 0)
@@ -642,11 +642,11 @@ defoption = {
                 formatter: format_metric
             }
         }],
-    dataZoom: {
-        show: true,
-        start: 0,
-        end: 100
-    },
+//    dataZoom: {
+//        show: true,
+//        start: 0,
+//        end: 100
+//    },
     series: [defserie]
 };
 var definterval = 10000;
