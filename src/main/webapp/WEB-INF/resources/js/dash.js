@@ -868,11 +868,16 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     $(".editchartpanel").show();
     if (readonly)
     {
+        
+        $(".editchartpanel .savedash").hide();
+        $(".editchartpanel h1").hide();
         $(".edit-form").hide();
         $(".echart_line_single").css("height", "");
     } else
     {
+        $(".editchartpanel .savedash").show();
         $(".edit-form").show();
+        $(".editchartpanel h1").show();
         if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
         {
             if (dashJSON[row]["widgets"][index].height === "")
