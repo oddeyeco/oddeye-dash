@@ -65,15 +65,22 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
     }
 
     var k;
-    option.options.legend.data = [];
-    option.options.toolbox.feature.magicType.title = {
-        line: 'Line',
-        bar: 'Bar',
-        stack: 'Stacked',
-        tiled: 'Tiled'
-    };
-    option.options.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
-    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel" || option.type === "treemap"));
+    if (!option.options.legend)
+    {
+        option.options.legend = {data: []};
+    } else
+    {
+        option.options.legend.data = [];
+    }
+
+//    option.options.toolbox.feature.magicType.title = {
+//        line: 'Line',
+//        bar: 'Bar',
+//        stack: 'Stacked',
+//        tiled: 'Tiled'
+//    };
+//    option.options.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
+//    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel" || option.type === "treemap"));
 
     for (k in option.queryes)
     {
@@ -86,8 +93,19 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                     "&aggregator=" + option.queryes[k].info.aggregator;
             if (!option.queryes[k].info.downsamplingstate)
             {
-                query = query + "&downsample=" + option.queryes[k].info.downsample;
+                if (option.queryes[k].info.downsample === "")
+                {
+//                    query = query + "&downsample=5s-avg";                    
+                } else
+                {
+                    query = query + "&downsample=" + option.queryes[k].info.downsample;
+                }
+
             }
+
+
+
+
         }
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
         chart.showLoading("default", {
@@ -100,6 +118,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
         var m_sample = option.options.xAxis[0].m_sample;
 
         $.getJSON(uri, null, function (data) {
+
             var oldseries = clone_obg(option.options.series);
             option.options.series = [];
             if (Object.keys(data.chartsdata).length > 0)
@@ -174,7 +193,8 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                             option.options.series.push(series);
                         }
                     }
-                    option.options.tooltip.trigger = 'axis';
+//                    option.options.xAxis[0].splitNumber = 10;
+//                    option.options.tooltip.trigger = 'axis';
                 }
 
                 if (option.options.xAxis[0].type === "category")
@@ -448,7 +468,6 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                                     if (hr < wr)
                                     {
                                         series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
-                                        console.log(((row + 1) * radius));
                                     } else
                                     {
                                         series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
@@ -541,6 +560,10 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                     delete option.options.yAxis[yindex].axisLabel.formatter;
                 } else
                 {
+                    if (!option.options.yAxis[yindex].axisLabel)
+                    {
+                        option.options.yAxis[yindex].axisLabel = {};
+                    }
                     if (typeof (window[formatter]) === "function")
                     {
                         option.options.yAxis[yindex].axisLabel.formatter = window[formatter];
@@ -599,51 +622,20 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
 var defserie = {
     name: null,
-//    type: 'line',
-//    symbol: "none",
-    sampling: 'average',
+    sampling: 'average',    
     data: null
 };
 
 defoption = {
-    title: {
-        text: "Line Chart"
-    },
     tooltip: {
         trigger: 'axis'
     },
-    legend: {
-        show: false,
-        data: []
-    },
-    toolbox: {
-        show: true,
-        feature: {
-            magicType: {
-                show: true,
-                title: {
-                    line: 'Line',
-                    bar: 'Bar',
-                    stack: 'Stacked',
-                    tiled: 'Tiled'
-                },
-                type: ['line', 'bar', 'stack', "tiled"]
-            },
-            saveAsImage: {
-                show: true,
-                title: "Save Image"
-            }
-        }
-    },
-    calculable: false,
+    toolbox: {},
     xAxis: [{
             type: 'time'
         }],
     yAxis: [{
             type: 'value',
-            axisLabel: {
-                formatter: format_metric
-            }
         }],
     dataZoom: [{
             type: 'inside',
@@ -1362,8 +1354,8 @@ $("#addrow").on("click", function () {
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
-    }    
-    
+    }
+
     redrawAllJSON(dashJSONvar);
 });
 
@@ -1377,8 +1369,8 @@ $('body').on("click", "#deleterowconfirm", function () {
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
-    }     
-    
+    }
+
     var rowindex = $(this).attr("index");
     delete dashJSONvar[rowindex];
     redrawAllJSON(dashJSONvar);
@@ -1397,8 +1389,8 @@ $('body').on("click", ".deleterow", function () {
 });
 
 $('body').on("click", ".minus", function () {
-    
-    
+
+
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var widgetindex = $(this).parents(".chartsection").first().attr("index");
     if (dashJSONvar[rowindex]["widgets"][widgetindex].size > 1)
@@ -1421,7 +1413,7 @@ $('body').on("click", ".plus", function () {
 
 
 $('body').on("click", "#deletewidgetconfirm", function () {
-    
+
     for (var rowindex in dashJSONvar)
     {
         for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
@@ -1431,7 +1423,7 @@ $('body').on("click", "#deletewidgetconfirm", function () {
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
-    }     
+    }
     var rowindex = $(this).attr("rowindex");
     var widgetindex = $(this).attr("widgetindex");
     delete dashJSONvar[rowindex]["widgets"][widgetindex];
@@ -1463,8 +1455,8 @@ $('body').on("click", ".dublicate", function () {
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
-    }     
-    
+    }
+
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
     var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
@@ -1483,10 +1475,10 @@ $('body').on("click", ".addchart", function () {
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
-    }     
+    }
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var widgetindex = numbers.basic.max(Object.keys(dashJSONvar[rowindex]["widgets"]))+1;
-    
+    var widgetindex = numbers.basic.max(Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
+
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
     dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
 
@@ -1494,7 +1486,6 @@ $('body').on("click", ".addchart", function () {
     $('html, body').animate({
         scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top
     }, 500);
-    console.log(dashJSONvar[rowindex]["widgets"]);
 });
 
 $('body').on("click", "#deletedashconfirm", function () {

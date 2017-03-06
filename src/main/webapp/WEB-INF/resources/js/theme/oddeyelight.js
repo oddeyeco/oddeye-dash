@@ -7,6 +7,18 @@ var colorPalette = [
     '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
 ];
 
+
+var encodeHTML = function (source) {
+    return String(source)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+};
+
+
+
 //var colorPalette = ['#3f51b5','#03a9f4','#009688','#4caf50','#8bc34a',
 //'#3949ab','#039be5','#00897b','#43a047','#7cb342',
 //'#303f9f','#0288d1','#00796b','#388e3c','#689f38',
@@ -54,8 +66,27 @@ var colorPalette = [
             itemWidth: 15,
             color: ['#5ab1ef', '#e0ffff']
         },
-
+        legend: {
+            show: true,
+        },
         toolbox: {
+            show: true,
+            feature: {
+                magicType: {
+                    show: true,
+                    title: {
+                        line: 'Line',
+                        bar: 'Bar',
+                        stack: 'Stacked',
+                        tiled: 'Tiled'
+                    },
+                    type: ['line', 'bar', 'stack', "tiled"]
+                },
+                saveAsImage: {
+                    show: true,
+                    title: "Save Image"
+                }
+            },
             iconStyle: {
                 normal: {
                     borderColor: colorPalette[0]
@@ -91,6 +122,26 @@ var colorPalette = [
             bottom: 30
         },
 
+        timeAxis: {
+            splitNumber: 10,
+            axisLabel:
+                    {
+                        formatter: format_date,
+                    },
+            axisLine: {
+                lineStyle: {
+                    color: '#008acd',
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    type: 'dashed',
+                    width: 2,
+                    color: ['#eee']
+                }
+            }
+        },
+
         categoryAxis: {
             axisLine: {
                 lineStyle: {
@@ -113,7 +164,7 @@ var colorPalette = [
             splitArea: {
                 show: true,
                 areaStyle: {
-                    color: ['rgba(250,250,250,0.5)', 'rgba(150,150,150,0.3)']
+                    color: ['rgba(250,250,250,0.2)', 'rgba(150,150,150,0.3)']
                 }
             },
             splitLine: {
@@ -136,9 +187,8 @@ var colorPalette = [
         },
 
         line: {
-            smooth: true,
-            symbol: 'circle',
-            symbolSize: 8
+            smooth: true,            
+            symbolSize: 5
         },
 
         candlestick: {

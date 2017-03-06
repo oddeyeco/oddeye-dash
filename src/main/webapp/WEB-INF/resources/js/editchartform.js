@@ -400,12 +400,21 @@ class ChartEditForm {
     }
 
     applyjson()
-    {
+    {        
         var tmpJson = JSON.parse($("#full_json").val());
         clearTimeout(this.dashJSON[this.row]["widgets"][this.index].timer);
         for (var key in tmpJson)
         {
             this.dashJSON[this.row]["widgets"][this.index][key] = clone_obg(tmpJson[key]);
+        }
+
+        for (var key in this.dashJSON[this.row]["widgets"][this.index])
+        {
+            if (!tmpJson[key])
+            {
+                delete this.dashJSON[this.row]["widgets"][this.index][key];
+            }
+
         }
         this.dashJSON[this.row]["widgets"][this.index].manual = true;
         var opt = this.dashJSON[this.row]["widgets"][this.index];
