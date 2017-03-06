@@ -39,27 +39,31 @@ function replacer(tags) {
 }
 
 function setdatabyQueryes(option, url, start, end, chart, redraw = false, callback = null)
-{    
+{
     if (option.tmpoptions)
     {
         option.options = clone_obg(option.tmpoptions);
         delete option.tmpoptions;
     }
-    option.visible = !redraw;    
+
+    option.visible = !redraw;
     if (chart._dom.className !== "echart_line_single")
-    {
-        if (chart._dom.getBoundingClientRect().bottom < 0)
+    {        
+        if (redraw)
         {
-            option.visible = false;
-            return;
-        }
-        if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-        {
-            option.visible = false;
-            return;
+            if (chart._dom.getBoundingClientRect().bottom < 0)
+            {
+                option.visible = false;
+                return;
+            }
+            if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+            {
+                option.visible = false;
+                return;
+            }
         }
     }
-
+    
     var k;
     option.options.legend.data = [];
     option.options.toolbox.feature.magicType.title = {
@@ -94,7 +98,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
             zlevel: 0
         });
         var m_sample = option.options.xAxis[0].m_sample;
-        
+
         $.getJSON(uri, null, function (data) {
             var oldseries = clone_obg(option.options.series);
             option.options.series = [];
@@ -424,8 +428,9 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                                     tmpradius = 95;
                                 if (!option.manual)
                                 {
+                                    console.log(hr);
+                                    console.log(wr)
                                     series.radius = tmpradius - 3 + "%";
-
                                     if (hr < wr)
                                     {
                                         series.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
@@ -553,10 +558,10 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                 {
                     delete option.options.series[ind].type;
                     delete option.options.series[ind].stack;
-                }                
+                }
                 chart.setOption({series: option.options.series});
             } else
-            {                
+            {
                 chart.setOption(option.options);
             }
             chart.hideLoading();
@@ -612,7 +617,7 @@ defoption = {
     legend: {
         show: false,
         data: []
-    },    
+    },
     toolbox: {
         show: true,
         feature: {
@@ -681,12 +686,6 @@ function AutoRefresh(redraw = false)
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
 {
     showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
-//    if (dashJSONvar.times.intervall)
-//    {
-//        SingleRedrawtimer = setTimeout(function () {
-//            AutoRefreshSingle(row, index, readonly, false, true);
-//        }, dashJSONvar.times.intervall);
-//}
 }
 
 
@@ -870,18 +869,24 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     if (readonly)
     {
         $(".edit-form").hide();
+        $(".echart_line_single").css("height", "");
     } else
     {
         $(".edit-form").show();
-    }
-    $(".echart_line_single").css("height", "600px");
-    if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
-    {
-        if (parseInt(dashJSON[row]["widgets"][index].height) > 600)
+        if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
         {
+            if (dashJSON[row]["widgets"][index].height === "")
+            {
+                dashJSON[row]["widgets"][index].height = "300px";
+            }
             $(".echart_line_single").css("height", dashJSON[row]["widgets"][index].height);
+        } else
+        {
+            $(".echart_line_single").css("height", "300px");
         }
     }
+//    
+
 
     if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
     {
@@ -1600,52 +1605,58 @@ $('body').on("click", ".backtodush", function () {
     $RIGHT_COL.css('min-height', $(window).height());
 });
 
-
+var scrolltimer;
 window.onscroll = function () {
-    if ($(".fulldash").is(':visible'))
-    {
-        for (var rowindex in dashJSONvar)
-        {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-            {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
-                {
-                    var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                    var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
-                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
-                    if (chart._dom.getBoundingClientRect().bottom < 0)
-                    {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
-                    }
-                    if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-                    {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
-                    }
-                    if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
-                    {
-                        var startdate = "5m-ago";
-                        var enddate = "now";
-                        if (dashJSONvar.times)
-                        {
-                            if (dashJSONvar.times.pickerlabel === "Custom")
-                            {
-                                startdate = dashJSONvar.times.pickerstart;
-                                enddate = dashJSONvar.times.pickerend;
-                            } else
-                            {
-                                if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
-                                {
-                                    startdate = rangeslabels[dashJSONvar.times.pickerlabel];
-                                }
 
-                            }
+    clearTimeout(scrolltimer);
+
+    scrolltimer = setTimeout(function () {
+        if ($(".fulldash").is(':visible'))
+        {            
+            for (var rowindex in dashJSONvar)
+            {
+                for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+                {
+                    if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                    {
+                        var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+                        var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
+                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
+                        if (chart._dom.getBoundingClientRect().bottom < 0)
+                        {
+                            dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
                         }
-                        setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                        if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                        {
+                            dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                        }
+                        if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
+                        {
+                            var startdate = "5m-ago";
+                            var enddate = "now";
+                            if (dashJSONvar.times)
+                            {
+                                if (dashJSONvar.times.pickerlabel === "Custom")
+                                {
+                                    startdate = dashJSONvar.times.pickerstart;
+                                    enddate = dashJSONvar.times.pickerend;
+                                } else
+                                {
+                                    if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+                                    {
+                                        startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                                    }
+
+                                }
+                            }
+                            setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                        }
                     }
                 }
             }
         }
-    }
+
+    }, 1000);
 };
 
 window.onresize = function () {
