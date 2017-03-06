@@ -240,7 +240,7 @@ class ChartEditForm {
                 var zoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[ind];
                 if ((zoom.xAxisIndex === 0) && (zoom.type === "inside"))
                 {
-                    Scrollzoom = true
+                    Scrollzoom = true;
                 }
 
                 if ((zoom.xAxisIndex === 0) && (zoom.type === "slider"))
@@ -252,22 +252,22 @@ class ChartEditForm {
                 {
                     yzoom = true;
                 }
-            }                        
+            }
             var elem = document.getElementById("display_datazoomX");
-            if (elem.checked!=xzoom)
+            if (elem.checked !== xzoom)
             {
                 $(elem).trigger('click');
             }
             var elem = document.getElementById("display_datazoomY");
-            if (elem.checked!=yzoom)
+            if (elem.checked !== yzoom)
             {
                 $(elem).trigger('click');
-            }            
+            }
             var elem = document.getElementById("display_datazoom");
-            if (elem.checked!=Scrollzoom)
+            if (elem.checked !== Scrollzoom)
             {
                 $(elem).trigger('click');
-            }                        
+            }
         }
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].options.grid) !== "undefined")
@@ -479,10 +479,18 @@ class ChartEditForm {
             if (key === "dataZoom")
             {
                 var elem = document.getElementById(input.attr("id"));
+                if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
+                {
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [{
+                            type: 'inside',
+                            xAxisIndex: 0,
+                            start: 0,
+                            end: 100
+                        }];
+                }
+
                 if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
                 {
-                    var dz = [];
-                    dz.push(this.dashJSON[this.row]["widgets"][this.index].options.dataZoom);
                     this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [{
                             type: 'inside',
                             xAxisIndex: 0,
@@ -501,7 +509,7 @@ class ChartEditForm {
                         xAxisIndex: 0,
                         start: 0,
                         end: 100
-                    })
+                    });
 
                 } else
                 {
@@ -578,8 +586,8 @@ class ChartEditForm {
             {
                 this.dashJSON[this.row]["widgets"][this.index].options[axes][index] = {type: 'value', axisLabel: {}};
             }
-            
-                        if (key === "dataZoomY")
+
+            if (key === "dataZoomY")
             {
                 var elem = document.getElementById(input.attr("id"));
                 if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
@@ -592,7 +600,8 @@ class ChartEditForm {
                             start: 0,
                             end: 100
                         }];
-                };                
+                }
+                ;
                 if (elem.checked)
                 {
                     if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
@@ -604,19 +613,19 @@ class ChartEditForm {
                         yAxisIndex: 0,
                         start: 0,
                         end: 100
-                    })
+                    });
 
                 } else
                 {
-                    dz = [];                    
+                    dz = [];
                     for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
                         var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
-                        
+
                         if ((zoomzoom.xAxisIndex !== 0) || (zoomzoom.type !== "slider"))
-                        {                            
+                        {
                             dz.push(zoomzoom);
                         }
-                    }                    
+                    }
                     this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = dz;
                 }
             } else if (key === "dataZoomX")
@@ -632,7 +641,8 @@ class ChartEditForm {
                             start: 0,
                             end: 100
                         }];
-                };                
+                }
+                ;
                 if (elem.checked)
                 {
                     if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
@@ -644,19 +654,19 @@ class ChartEditForm {
                         xAxisIndex: 0,
                         start: 0,
                         end: 100
-                    })
+                    });
 
                 } else
                 {
-                    dz = [];                    
+                    dz = [];
                     for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
                         var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
-                        
+
                         if ((zoomzoom.xAxisIndex !== 0) || (zoomzoom.type !== "slider"))
-                        {                            
+                        {
                             dz.push(zoomzoom);
                         }
-                    }                    
+                    }
                     this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = dz;
                 }
             } else if (key === "show")
@@ -689,7 +699,7 @@ class ChartEditForm {
                             }
                         } else
                         {
-                            this.dashJSON[this.row]["widgets"][this.index].options[axes][index]["data"] = [];
+                            this.dashJSON[this.row]["widgets"][this.index].options[axes][index].data = [];
                         }
                     }
 
