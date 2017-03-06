@@ -428,8 +428,6 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                                     tmpradius = 95;
                                 if (!option.manual)
                                 {
-                                    console.log(hr);
-                                    console.log(wr)
                                     series.radius = tmpradius - 3 + "%";
                                     if (hr < wr)
                                     {
