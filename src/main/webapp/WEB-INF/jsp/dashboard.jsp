@@ -333,6 +333,15 @@
 
                                 <div class="">
                                     <div class="form-group form-group-custom">
+                                        <label for="display_datazoomY" class="control-label control-label-custom-legend" >
+                                            Data zoom Y
+                                        </label>                                 
+                                        <div class="checkbox" style="display: inline-block">
+                                            <input chart_prop_key="dataZoomY" type="checkbox" axes="xAxis" index="0" class="js-switch-small" checked ="checked" id="display_datazoomY" name="display_datazoomY" /> 
+                                        </div>
+                                    </div>                                     
+
+                                    <div class="form-group form-group-custom">
                                         <label for="axes_unit_left_y" class="control-label control-label-custom-legend" >
                                             Unit
                                         </label>                                 
@@ -475,152 +484,7 @@
                                         <input id="axes_label_left_y" name="axes_label_left_y" axes="yAxis" index="0" chart_prop_key="name" type="text" class="form-control axes_select" >
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form_main_block  pull-left">     
-                                <div class="form-group form-group-custom">
-                                    <div class="form_main_block">                                
-                                        <h3><label class="control-label" >
-                                                Right Y
-                                            </label>
-                                            <div class="checkbox" style="display: inline-block">
-                                                <input chart_prop_key="show" type="checkbox"  axes="yAxis" index="1" class="js-switch-small" checked ="checked " id="right_axes_show" name="right_axes_show" /> 
-                                            </div>
-                                        </h3>
-                                    </div>
-                                    <div class="">
-                                        <div class="form-group form-group-custom">
-                                            <label for="axes_unit_right_y" class="control-label control-label-custom-legend" >
-                                                Unit
-                                            </label>                                 
-                                            <select id="axes_unit_right_y" name="axes_unit_right_y" axes="yAxis" index="1" chart_prop_key="unit" class="select2_group form-control axes_select ">                                                
-                                                <optgroup label="None">
-                                                    <option value= "none" >None</option>
-                                                    <option value= "format_metric" >Short</option>
-                                                    <option value="{value} %">Percent(0-100)</option>
-                                                    <option value= "format100">Percent(0.0-1.0)</option>
-                                                    <option value="{value} %H">Humidity(%H)</option>
-                                                    <option value="{value} ppm">PPM</option>
-                                                    <option value="{value} dB">Decible</option>
-                                                    <option value = "formathexadecimal0">Hexadecimal(0x)</option>
-                                                    <option value = "formathexadecimal">Hexadecimal</option>
-                                                </optgroup>                                                
-                                                <optgroup label="Currency">
-                                                    <option value="$ {value}">Dollars ($)</option>
-                                                    <option value="£ {value}">Pounds (£)</option>
-                                                    <option value="€ {value}">Euro (€)</option>
-                                                    <option value="¥ {value}">Yen (¥)</option>
-                                                    <option value="₽ {value}">Rubles (₽)</option>
-                                                </optgroup>                                
-                                                <optgroup label="Time">
-                                                    <option value = "formathertz">Hertz (1/s)</option>
-                                                    <option value="timens">Nanoseconds (ns)</option>
-                                                    <option value="timemicros">microseconds (µs)</option>
-                                                    <option value="timems">Milliseconds (ms)</option>
-                                                    <option value="timesec">Seconds (s)</option>
-                                                    <option value="timemin">Minutes (m)</option>
-                                                    <option value="timeh">Hours (h)</option>
-                                                    <option value="timed">Days d</option>
-                                                    <!--                                                    <option value="{value} ms">Duration (ms)</option>
-                                                                                                        <option value="{value} s">Duration (s)</option>-->
-                                                </optgroup>                                                                                                                                
-                                                <optgroup label="Data IEC">
-                                                    <option value="dataBit">Bits</option>
-                                                    <option value="dataBytes">Bytes</option>
-                                                    <option value="dataKiB">Kibibytes</option>
-                                                    <option value="dataMiB">Mebibytes</option>
-                                                    <option value="dataGiB">Gibibytes</option>
-                                                </optgroup>
-                                                <optgroup label="Data (Metric)">
-                                                    <option value="dataBitmetric">Bits</option>
-                                                    <option value="dataBytesmetric">Bytes</option>
-                                                    <option value="dataKiBmetric">Kilobytes</option>
-                                                    <option value="dataMiBmetric">Megabytes</option>
-                                                    <option value="dataGiBmetric">Gigabytes</option>                                                   
-                                                </optgroup>
-                                                <optgroup label="Data Rate">
-                                                    <option value="formatPpS">Packets/s</option>
-                                                    <option value="formatbpS">Bits/s</option>
-                                                    <option value="formatBpS">Bytes/s</option>
-                                                    <option value="formatKbpS">Kilobits/s</option>
-                                                    <option value="formatKBpS">Kilobytes/s</option>
-                                                    <option value="formatMbpS">Megabits/s</option>
-                                                    <option value="formatMBpS">Megabytes/s</option>
-                                                    <option value="formatGBbpS">Gigabits/s</option>
-                                                    <option value="formatGBpS">Gigabytes/s</option>
-
-                                                </optgroup>
-                                                <optgroup label="Throughput">
-                                                    <option value="formatops">Ops/sec (ops)</option>
-                                                    <option value="formatrps">Reads/sec (rps)</option>
-                                                    <option value="formatwps">Writes/sec (wps)</option>
-                                                    <option value="formatiops">I/O Ops/sec (iops)</option>
-                                                    <option value="formatopm">Ops/min (opm)</option>
-                                                    <option value="formatrpm">Reads/min (rpm)</option>
-                                                    <option value="formatwpm">Writes/min (wpm)</option>
-                                                </optgroup>                                                                                                
-                                                <optgroup label="Lenght">
-                                                    <option value="formatmm">Millimeter (mm)</option>
-                                                    <option value="formatm">Meter (m)</option>
-                                                    <option value="formatkm">Kilometer (km)</option>
-                                                    <option value="{value} mi">Mile (mi)</option>
-                                                </optgroup>
-                                                <optgroup label="Velocity">
-                                                    <option value="{value} m/s">m/s</option>
-                                                    <option value="{value} km/h">km/h</option>
-                                                    <option value="{value} km/h">mtf</option>
-                                                    <option value="{value} knot">knot</option>
-                                                </optgroup>
-                                                <optgroup label="Volume">
-                                                    <option value="formatmL">Millilitre</option>
-                                                    <option value="formatL">Litre</option>
-                                                    <option value="formatm3">Cubic Metre</option>
-                                                </optgroup>                                                
-                                                <optgroup label="Energy">
-                                                    <option value="formatW">Watt (W)</option>
-                                                    <option value="formatKW">Kilowatt (KW)</option>
-                                                    <option value="formatVA">Volt-Ampere (VA)</option>
-                                                    <option value="formatKVA">Kilovolt-Ampere (KVA)</option>
-                                                    <option value="formatVAR">Volt-Ampere Reactive (VAR)</option>
-                                                    <option value="formatVH">Watt-Hour (VH)</option>
-                                                    <option value="formatKWH">Kilowatt-Hour (KWH)</option>
-                                                    <option value="formatJ">Joule (J)</option>
-                                                    <option value="formatEV">Electron-Volt (EV)</option>
-                                                    <option value="formatA">Ampere (A)</option>
-                                                    <option value="formatV">Volt (V)</option>
-                                                    <option value="{value} dBm">Decibell-Milliwatt (DBM)</option>
-                                                </optgroup>
-                                                <optgroup label="Temperature">
-                                                    <option value="{value} °C">Celsius (°C)</option>
-                                                    <option value="{value} °F">Farenheit (°F)</option>
-                                                    <option value="{value} K">Kelvin (K)</option>
-                                                </optgroup>
-                                                <optgroup label="Pressure">
-                                                    <option value="{value} mbar">Millibars</option>
-                                                    <option value="{value} hPa">Hectopascals</option>
-                                                    <option value='{value} "Hg'>Inches of Mercury</option>
-                                                    <option value="formatpsi">PSI</option>
-                                                </optgroup>
-                                            </select>
-                                        </div>                                            
-                                        <div class="form-group form-group-custom">
-                                            <label for="axes_min_right_y" class="control-label control-label-custom-legend" >
-                                                Y-Min
-                                            </label>
-                                            <input id="axes_min_left_y" name="axes_min_right_y" axes="yAxis" index="1" chart_prop_key="min" type="number" placeholder="auto" class="form-control title_input_small" >
-                                            <label for="axes_max_left_y" class="control-label control-label-custom-axes" >
-                                                Y-Max
-                                            </label>
-                                            <input id="axes_max_left_y" name="axes_max_left_y" axes="yAxis" index="1" chart_prop_key="max" type="number" placeholder="auto" class="form-control title_input_small" >
-                                        </div>
-                                        <div class="form-group form-group-custom">
-                                            <label for="axes_label_right_y" class="control-label control-label-custom-legend" >
-                                                Label
-                                            </label>
-                                            <input id="axes_label_right_y" name="axes_label_right_y" axes="yAxis" index="1" chart_prop_key="name" type="text" class="form-control axes_select" >
-                                        </div>
-                                    </div>
-                                </div>                                    
-                            </div>
+                            </div>                                                        
                             <div class="form_main_block  pull-left">     
                                 <div class="form-group form-group-custom">
                                     <div class="form_main_block">                                
@@ -633,6 +497,15 @@
                                         </h3>
 
                                     </div>
+                                    <div class="form-group form-group-custom">
+                                        <label for="display_datazoomX" class="control-label control-label-custom-legend" >
+                                            Data zoom X
+                                        </label>                                 
+                                        <div class="checkbox" style="display: inline-block">
+                                            <input chart_prop_key="dataZoomX" type="checkbox" class="js-switch-small" axes="xAxis" index="0" checked ="checked" id="display_datazoomX" name="display_datazoomX" /> 
+                                        </div>
+                                    </div>                                      
+                                    
                                     <div class="form-group form-group-custom">
                                         <label for="axes_mode_x" class="control-label control-label-custom-legend" >
                                             Scale

@@ -48,7 +48,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
     option.visible = !redraw;
     if (chart._dom.className !== "echart_line_single")
-    {        
+    {
         if (redraw)
         {
             if (chart._dom.getBoundingClientRect().bottom < 0)
@@ -63,7 +63,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
             }
         }
     }
-    
+
     var k;
     option.options.legend.data = [];
     option.options.toolbox.feature.magicType.title = {
@@ -645,11 +645,13 @@ defoption = {
                 formatter: format_metric
             }
         }],
-//    dataZoom: {
-//        show: true,
-//        start: 0,
-//        end: 100
-//    },
+    dataZoom: [{
+            type: 'inside',
+            xAxisIndex: 0,
+            show: true,
+            start: 0,
+            end: 100
+        }],
     series: [defserie]
 };
 var definterval = 10000;
@@ -866,7 +868,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     $(".editchartpanel").show();
     if (readonly)
     {
-        
+
         $(".editchartpanel .savedash").hide();
         $(".editchartpanel h1").hide();
         $(".edit-form").hide();
@@ -1615,7 +1617,7 @@ window.onscroll = function () {
 
     scrolltimer = setTimeout(function () {
         if ($(".fulldash").is(':visible'))
-        {            
+        {
             for (var rowindex in dashJSONvar)
             {
                 for (var widgetindex in    dashJSONvar[rowindex]["widgets"])

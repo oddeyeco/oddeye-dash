@@ -178,33 +178,6 @@ class ChartEditForm {
             }
         }
 
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) === "undefined")
-        {
-            var input = this.formwraper.find("#display_datazoom");
-            var elem = document.getElementById(input.attr("id"));
-            if (elem.checked)
-            {
-                $(elem).trigger('click');
-            }
-
-        } else
-        {
-            var input = this.formwraper.find("#display_datazoom");
-            var elem = document.getElementById(input.attr("id"));
-            if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.show)
-            {
-                $(elem).trigger('click');
-            }
-        }
-
-        if (key === "dataZoom")
-        {
-            var elem = document.getElementById(input.attr("id"));
-            this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.show = elem.checked;
-        }
-
-//        delete  this.dashJSON[this.row]["widgets"][this.index].type;
-
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].type) === "undefined")
         {
             this.dashJSON[this.row]["widgets"][this.index].type = "line";
@@ -244,6 +217,58 @@ class ChartEditForm {
         }
         var key;
         var formObj = this;
+        if (typeof (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) !== "undefined")
+        {
+
+            if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
+            {
+                var dz = [];
+                dz.push(this.dashJSON[this.row]["widgets"][this.index].options.dataZoom);
+                this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [{
+                        type: 'inside',
+                        xAxisIndex: 0,
+                        start: 0,
+                        end: 100
+                    }];
+            }
+
+            var Scrollzoom = false;
+            var xzoom = false;
+            var yzoom = false;
+            for (var ind in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
+            {
+                var zoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[ind];
+                if ((zoom.xAxisIndex === 0) && (zoom.type === "inside"))
+                {
+                    Scrollzoom = true
+                }
+
+                if ((zoom.xAxisIndex === 0) && (zoom.type === "slider"))
+                {
+                    xzoom = true;
+                }
+
+                if ((zoom.yAxisIndex === 0) && (zoom.type === "slider"))
+                {
+                    yzoom = true;
+                }
+            }                        
+            var elem = document.getElementById("display_datazoomX");
+            if (elem.checked!=xzoom)
+            {
+                $(elem).trigger('click');
+            }
+            var elem = document.getElementById("display_datazoomY");
+            if (elem.checked!=yzoom)
+            {
+                $(elem).trigger('click');
+            }            
+            var elem = document.getElementById("display_datazoom");
+            if (elem.checked!=Scrollzoom)
+            {
+                $(elem).trigger('click');
+            }                        
+        }
 
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].options.grid) !== "undefined")
         {
@@ -282,44 +307,6 @@ class ChartEditForm {
                 inputs.each(function () {
                     formObj.fillinputs($(this), "yAxis", key, 0);
                 });
-            }
-        }
-
-        if (typeof (this.dashJSON[this.row]["widgets"][this.index].options.yAxis[1]) === "undefined")
-        {
-            var elem = document.getElementById("right_axes_show");
-            if (elem.checked)
-            {
-                $(elem).trigger('click');
-            }
-        } else
-        {
-            for (key in this.dashJSON[this.row]["widgets"][this.index].options.yAxis[1])
-            {
-                if (key === "show")
-                {
-                    var input = this.formwraper.find("#tab_axes [axes='yAxis'][index='1'][chart_prop_key='" + key + "']");
-                    var elem = document.getElementById(input.attr("id"));
-                    if (typeof (this.dashJSON[this.row]["widgets"][this.index].options.yAxis[1].show) === "undefined")
-                    {
-                        if (!elem.checked)
-                        {
-                            $(elem).trigger('click');
-                        }
-                    } else
-                    {
-                        if (elem.checked !== this.dashJSON[this.row]["widgets"][this.index].options.yAxis[1].show)
-                        {
-                            $(elem).trigger('click');
-                        }
-                    }
-                } else
-                {
-                    var inputs = this.formwraper.find("#tab_axes [axes='yAxis'][index='1'][chart_prop_key='" + key + "']");
-                    inputs.each(function () {
-                        formObj.fillinputs($(this), "yAxis", key, 0);
-                    });
-                }
             }
         }
 
@@ -492,13 +479,42 @@ class ChartEditForm {
             if (key === "dataZoom")
             {
                 var elem = document.getElementById(input.attr("id"));
-                if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
+                if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
                 {
-                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = {show: true,
-                        start: 0,
-                        end: 100}
+                    var dz = [];
+                    dz.push(this.dashJSON[this.row]["widgets"][this.index].options.dataZoom);
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [{
+                            type: 'inside',
+                            xAxisIndex: 0,
+                            start: 0,
+                            end: 100
+                        }];
                 }
-                this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.show = elem.checked;
+                if (elem.checked)
+                {
+                    if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [];
+                    }
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.push({
+                        type: 'inside',
+                        xAxisIndex: 0,
+                        start: 0,
+                        end: 100
+                    })
+
+                } else
+                {
+                    dz = [];
+                    for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
+                        var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
+                        if ((zoomzoom.xAxisIndex !== 0) || (zoomzoom.type !== "inside"))
+                        {
+                            dz.push(zoomzoom);
+                        }
+                    }
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = dz;
+                }
             }
 
             if (key === "stacked")
@@ -557,12 +573,93 @@ class ChartEditForm {
             var key = input.attr("chart_prop_key");
             var index = input.attr("index");
             var axes = input.attr("axes");
+
             if (typeof (this.dashJSON[this.row]["widgets"][this.index].options[axes][index]) === "undefined")
             {
                 this.dashJSON[this.row]["widgets"][this.index].options[axes][index] = {type: 'value', axisLabel: {}};
             }
+            
+                        if (key === "dataZoomY")
+            {
+                var elem = document.getElementById(input.attr("id"));
+                if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
+                {
+                    var dz = [];
+                    dz.push(this.dashJSON[this.row]["widgets"][this.index].options.dataZoom);
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [{
+                            type: 'slider',
+                            yAxisIndex: 0,
+                            start: 0,
+                            end: 100
+                        }];
+                };                
+                if (elem.checked)
+                {
+                    if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [];
+                    }
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.push({
+                        type: 'slider',
+                        yAxisIndex: 0,
+                        start: 0,
+                        end: 100
+                    })
 
-            if (key === "show")
+                } else
+                {
+                    dz = [];                    
+                    for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
+                        var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
+                        
+                        if ((zoomzoom.xAxisIndex !== 0) || (zoomzoom.type !== "slider"))
+                        {                            
+                            dz.push(zoomzoom);
+                        }
+                    }                    
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = dz;
+                }
+            } else if (key === "dataZoomX")
+            {
+                var elem = document.getElementById(input.attr("id"));
+                if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
+                {
+                    var dz = [];
+                    dz.push(this.dashJSON[this.row]["widgets"][this.index].options.dataZoom);
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [{
+                            type: 'slider',
+                            xAxisIndex: 0,
+                            start: 0,
+                            end: 100
+                        }];
+                };                
+                if (elem.checked)
+                {
+                    if (!this.dashJSON[this.row]["widgets"][this.index].options.dataZoom)
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [];
+                    }
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.push({
+                        type: 'slider',
+                        xAxisIndex: 0,
+                        start: 0,
+                        end: 100
+                    })
+
+                } else
+                {
+                    dz = [];                    
+                    for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
+                        var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
+                        
+                        if ((zoomzoom.xAxisIndex !== 0) || (zoomzoom.type !== "slider"))
+                        {                            
+                            dz.push(zoomzoom);
+                        }
+                    }                    
+                    this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = dz;
+                }
+            } else if (key === "show")
             {
                 var elem = document.getElementById(input.attr("id"));
                 this.dashJSON[this.row]["widgets"][this.index].options[axes][index].show = elem.checked;

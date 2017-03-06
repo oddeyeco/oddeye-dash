@@ -88,7 +88,7 @@ var colorPalette = [
         grid: {
             left: "5%",
             right: "1%",
-            bottom: 80
+            bottom: 30
         },
 
         categoryAxis: {
