@@ -1353,10 +1353,32 @@ $('body').on("change", ".edit-form select#axes_mode_x", function () {
 
 $("#addrow").on("click", function () {
     dashJSONvar[Object.keys(dashJSONvar).length] = {widgets: {}};
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }    
+    
     redrawAllJSON(dashJSONvar);
 });
 
 $('body').on("click", "#deleterowconfirm", function () {
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }     
+    
     var rowindex = $(this).attr("index");
     delete dashJSONvar[rowindex];
     redrawAllJSON(dashJSONvar);
@@ -1375,13 +1397,15 @@ $('body').on("click", ".deleterow", function () {
 });
 
 $('body').on("click", ".minus", function () {
+    
+    
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var widgetindex = $(this).parents(".chartsection").first().attr("index");
     if (dashJSONvar[rowindex]["widgets"][widgetindex].size > 1)
     {
         dashJSONvar[rowindex]["widgets"][widgetindex].size = dashJSONvar[rowindex]["widgets"][widgetindex].size - 1;
     }
-    redrawAllJSON(dashJSONvar);
+//    redrawAllJSON(dashJSONvar);
 });
 
 $('body').on("click", ".plus", function () {
@@ -1392,11 +1416,22 @@ $('body').on("click", ".plus", function () {
     {
         dashJSONvar[rowindex]["widgets"][widgetindex].size = dashJSONvar[rowindex]["widgets"][widgetindex].size + 1;
     }
-    redrawAllJSON(dashJSONvar);
+//    redrawAllJSON(dashJSONvar);
 });
 
 
 $('body').on("click", "#deletewidgetconfirm", function () {
+    
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }     
     var rowindex = $(this).attr("rowindex");
     var widgetindex = $(this).attr("widgetindex");
     delete dashJSONvar[rowindex]["widgets"][widgetindex];
@@ -1419,6 +1454,17 @@ $('body').on("click", ".deletewidget", function () {
 
 
 $('body').on("click", ".dublicate", function () {
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }     
+    
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
     var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
@@ -1428,31 +1474,27 @@ $('body').on("click", ".dublicate", function () {
 });
 
 $('body').on("click", ".addchart", function () {
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }     
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
+    var widgetindex = numbers.basic.max(Object.keys(dashJSONvar[rowindex]["widgets"]))+1;
+    
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
     dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
 
-//    size = 0;
-//    for (var key in dashJSONvar[rowindex]["widgets"])
-//    {        
-//        size = size + dashJSONvar[rowindex]["widgets"][key].size;
-//    }
-//    console.log(size % 12);
-//    itemcount = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-//    if (itemcount < 4)
-//    {
-//        size = Math.round(12 / itemcount);
-//    } else
-//    {
-//        size = 3;
-//    }
     redrawAllJSON(dashJSONvar);
-
     $('html, body').animate({
         scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top
     }, 500);
-
+    console.log(dashJSONvar[rowindex]["widgets"]);
 });
 
 $('body').on("click", "#deletedashconfirm", function () {
@@ -1529,7 +1571,7 @@ $('body').on("click", ".savedash", function () {
             success: function (data) {
                 if (data.sucsses)
                 {
-                    window.location.reload();
+//                    window.location.reload();
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
