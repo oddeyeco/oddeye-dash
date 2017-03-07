@@ -562,7 +562,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
                         }
                     }
-                    widget.options.xAxis[0].data = [];
+                    widget.options.xAxis[0].data = [];                    
                     for (var ind in widget.options.series)
                     {
                         widget.options.series[ind].unit = widget.options.yAxis[0].unit;
@@ -583,13 +583,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     }
                 }
 
-            }
-
+            }            
             for (var yindex in widget.options.yAxis)
             {
                 var formatter = widget.options.yAxis[yindex].unit;
-
-//                function
                 if (formatter === "none")
                 {
                     delete widget.options.yAxis[yindex].axisLabel.formatter;
