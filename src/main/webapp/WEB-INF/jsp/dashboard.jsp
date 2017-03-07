@@ -1,5 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-<link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />        
+<link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css" />        
 
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw x_content">
@@ -44,6 +44,56 @@
 
 <div class="x_panel">
     <div class="filter">
+        
+<div class="form-group-custom pull-left">
+        <label class="control-label control-label-custom-legend" for="global-down-sample">Down sample 
+        </label>
+        <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
+        <label class="control-label control-label-custom-legend" for="global-down-sample-ag">Aggregator: 
+        </label>        
+        <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input">
+            <option label="avg" value="avg">avg</option>
+            <option label="count" value="count">count</option>
+            <option label="dev" value="dev">dev</option>
+            <option label="ep50r3" value="ep50r3">ep50r3</option>
+            <option label="ep50r7" value="ep50r7">ep50r7</option>
+            <option label="ep75r3" value="ep75r3">ep75r3</option>
+            <option label="ep75r7" value="ep75r7">ep75r7</option>
+            <option label="ep90r3" value="ep90r3">ep90r3</option>
+            <option label="ep90r7" value="ep90r7">ep90r7</option>
+            <option label="ep95r3" value="ep95r3">ep95r3</option>
+            <option label="ep95r7" value="ep95r7">ep95r7</option>
+            <option label="ep999r3" value="ep999r3">ep999r3</option>
+            <option label="ep999r7" value="ep999r7">ep999r7</option>
+            <option label="ep99r3" value="ep99r3">ep99r3</option>
+            <option label="ep99r7" value="ep99r7">ep99r7</option>
+            <option label="first" value="first">first</option>
+            <option label="last" value="last">last</option>
+            <option label="max" value="max">max</option>
+            <option label="mimmax" value="mimmax">mimmax</option>
+            <option label="mimmin" value="mimmin">mimmin</option>
+            <option label="min" value="min">min</option>
+            <option label="mult" value="mult">mult</option>
+            <option label="none" value="none">none</option>
+            <option label="p50" value="p50">p50</option>
+            <option label="p75" value="p75">p75</option>
+            <option label="p90" value="p90">p90</option>
+            <option label="p95" value="p95">p95</option>
+            <option label="p99" value="p99">p99</option>
+            <option label="p999" value="p999">p999</option>
+            <option label="sum" value="sum">sum</option>
+            <option label="zimsum" value="zimsum">zimsum</option>
+        </select>        
+
+        <label class="control-label" for="global-downsampling-switsh">
+            Disable downsampling
+        </label>
+        <div class="checkbox" style="display: inline-block">
+            <input type="checkbox" class="js-switch-general" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh" /> 
+        </div>        
+    </div>          
+        
+        
         <div id="refresh" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
             <i class="glyphicon glyphicon-refresh"></i>
         </div>

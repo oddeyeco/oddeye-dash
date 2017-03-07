@@ -38,60 +38,83 @@ function replacer(tags) {
     };
 }
 
-function setdatabyQueryes(option, url, start, end, chart, redraw = false, callback = null)
+function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, callback = null)
 {
-    if (option.tmpoptions)
+    var widget = json[rowindex]["widgets"][widgetindex];
+    var chart = json[rowindex]["widgets"][widgetindex].echartLine;
+    if (widget.tmpoptions)
     {
-        option.options = clone_obg(option.tmpoptions);
-        delete option.tmpoptions;
+        widget.options = clone_obg(widget.tmpoptions);
+        delete widget.tmpoptions;
     }
 
-    option.visible = !redraw;
+    widget.visible = !redraw;
     if (chart._dom.className !== "echart_line_single")
     {
         if (redraw)
         {
             if (chart._dom.getBoundingClientRect().bottom < 0)
             {
-                option.visible = false;
+                widget.visible = false;
                 return;
             }
             if (chart._dom.getBoundingClientRect().top > window.innerHeight)
             {
-                option.visible = false;
+                widget.visible = false;
                 return;
             }
         }
     }
 
     var k;
-    if (!option.options.legend)
+    if (!widget.options.legend)
     {
-        option.options.legend = {data: []};
+        widget.options.legend = {data: []};
     } else
     {
-        option.options.legend.data = [];
+        widget.options.legend.data = [];
     }
 
-    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel" || option.type === "gauge" ||  option.type === "treemap"));
+    widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
 
-    for (k in option.queryes)
+    var start = "5m-ago";
+    var end = "now";
+    if (json.times)
     {
-        if ((typeof (option.queryes[k])) === "string")
+        if (json.times.pickerlabel === "Custom")
         {
-            var query = option.queryes[k];
+            start = json.times.pickerstart;
+            end = json.times.pickerend;
         } else
         {
-            var query = "metrics=" + option.queryes[k].info.metrics + "&tags=" + option.queryes[k].info.tags +
-                    "&aggregator=" + option.queryes[k].info.aggregator;
-            if (!option.queryes[k].info.downsamplingstate)
+            if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
             {
-                if (option.queryes[k].info.downsample === "")
+                start = rangeslabels[json.times.pickerlabel];
+            }
+
+        }
+    }
+
+    for (k in widget.queryes)
+    {
+        if ((typeof (widget.queryes[k])) === "string")
+        {
+            var query = widget.queryes[k];
+        } else
+        {
+            var query = "metrics=" + widget.queryes[k].info.metrics + "&tags=" + widget.queryes[k].info.tags +
+                    "&aggregator=" + widget.queryes[k].info.aggregator;
+            if (!widget.queryes[k].info.downsamplingstate)
+            {
+                if (widget.queryes[k].info.downsample === "")
                 {
-//                    query = query + "&downsample=5s-avg";                    
+                    if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
+                    {
+                        query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                    }
                 } else
                 {
-                    query = query + "&downsample=" + option.queryes[k].info.downsample;
+                    query = query + "&downsample=" + widget.queryes[k].info.downsample;
                 }
 
             }
@@ -108,22 +131,22 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
             maskColor: 'rgba(255, 255, 255, 0)',
             zlevel: 0
         });
-        var m_sample = option.options.xAxis[0].m_sample;
+        var m_sample = widget.options.xAxis[0].m_sample;
 
         $.getJSON(uri, null, function (data) {
 
-            var oldseries = clone_obg(option.options.series);
-            option.options.series = [];
+            var oldseries = clone_obg(widget.options.series);
+            widget.options.series = [];
             if (Object.keys(data.chartsdata).length > 0)
             {
-                if (option.options.xAxis[0].type === "time")
+                if (widget.options.xAxis[0].type === "time")
                 {
                     for (index in data.chartsdata)
                     {
                         if (Object.keys(data.chartsdata[index].data).length > 0)
                         {
 //                            console.log();
-                            var ser_index = option.options.series.length;
+                            var ser_index = widget.options.series.length;
                             if (oldseries[ser_index])
                             {
                                 var series = clone_obg(oldseries[ser_index]);
@@ -134,55 +157,55 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                             }
                             if (!series.type)
                             {
-                                series.type = option.type;
+                                series.type = widget.type;
                             }
                             if (!series.symbol)
                             {
-                                series.symbol = option.points;
+                                series.symbol = widget.points;
                             }
 
 
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                            if (typeof (option.queryes[k].info) !== "undefined")
+                            if (typeof (widget.queryes[k].info) !== "undefined")
                             {
-                                if (option.queryes[k].info.alias !== "")
+                                if (widget.queryes[k].info.alias !== "")
                                 {
-                                    name = option.queryes[k].info.alias;
+                                    name = widget.queryes[k].info.alias;
                                     name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                     name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                     name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                                 }
                             }
                             series.name = name;
-                            option.options.legend.data.push({"name": name});
+                            widget.options.legend.data.push({"name": name});
                             var chdata = data.chartsdata[index].data;
                             series.data = data.chartsdata[index].data;
-                            if (option.stacked)
+                            if (widget.stacked)
                             {
                                 series.stack = "0";
                             }
-                            if (option.fill)
+                            if (widget.fill)
                             {
-                                if (option.fill !== "none")
+                                if (widget.fill !== "none")
                                 {
-                                    series.areaStyle = {normal: {opacity: option.fill}};
+                                    series.areaStyle = {normal: {opacity: widget.fill}};
                                 }
                             }
-                            if (option.step)
+                            if (widget.step)
                             {
-                                if (option.step !== "")
+                                if (widget.step !== "")
                                 {
-                                    series.step = option.step;
+                                    series.step = widget.step;
                                 }
                             }
-                            option.options.series.push(series);
+                            widget.options.series.push(series);
                         }
                     }
                 }
 
-                if (option.options.xAxis[0].type === "category")
+                if (widget.options.xAxis[0].type === "category")
                 {
-                    option.options.series = [];
+                    widget.options.series = [];
                     var xdata = [];
                     var sdata = [];
                     var tmp_series_1 = {};
@@ -192,20 +215,20 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                         var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                        if (typeof (option.queryes[k].info) !== "undefined")
+                        if (typeof (widget.queryes[k].info) !== "undefined")
                         {
-                            if (option.queryes[k].info.alias !== "")
+                            if (widget.queryes[k].info.alias !== "")
                             {
-                                name = option.queryes[k].info.alias;
+                                name = widget.queryes[k].info.alias;
                                 name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                 name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                 name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                             }
-                            if (option.queryes[k].info.alias2)
+                            if (widget.queryes[k].info.alias2)
                             {
-                                if (option.queryes[k].info.alias2 !== "")
+                                if (widget.queryes[k].info.alias2 !== "")
                                 {
-                                    name2 = option.queryes[k].info.alias2;
+                                    name2 = widget.queryes[k].info.alias2;
                                     name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                     name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                     name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
@@ -215,7 +238,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
                         var chdata = [];
                         var val;
-                        for (var ind in data.chartsdata[index].data) {                            
+                        for (var ind in data.chartsdata[index].data) {
                             chdata.push(data.chartsdata[index].data[ind][1]);
                             val = data.chartsdata[index].data[ind][1];
                         }
@@ -267,10 +290,10 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                     var rows = Math.floor((Object.keys(tmp_series_1).length / 4)) + 1;
                     index = 1;
                     var row = 0;
-                    if (option.type === "treemap")
+                    if (widget.type === "treemap")
                     {
 
-                        var ser_index = option.options.series.length;
+                        var ser_index = widget.options.series.length;
                         if (oldseries[ser_index])
                         {
                             var series = clone_obg(oldseries[ser_index]);
@@ -282,7 +305,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
                         if (!series.type)
                         {
-                            series.type = option.type;
+                            series.type = widget.type;
                         }
 
 //                        var series = clone_obg(defserie);
@@ -299,11 +322,11 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
                             data.push({value: val, name: key, children: cildren});
                         }
-                        series.name = option.options.title.text;
+                        series.name = widget.options.title.text;
 //                        series.type = option.type;
-                        option.options.tooltip.trigger = 'item';
+                        widget.options.tooltip.trigger = 'item';
                         series.data = data;
-                        option.options.series.push(series);
+                        widget.options.series.push(series);
                     } else
                     {
                         for (var key in tmp_series_1)
@@ -313,7 +336,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                                 index = 1;
                                 row++;
                             }
-                            var ser_index = option.options.series.length;
+                            var ser_index = widget.options.series.length;
                             if (oldseries[ser_index])
                             {
                                 var series = clone_obg(oldseries[ser_index]);
@@ -325,7 +348,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
                             if (!series.type)
                             {
-                                series.type = option.type;
+                                series.type = widget.type;
                             }
                             if (!series.name)
                             {
@@ -351,33 +374,30 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                                     series.data[series.data.length - 1].name = key;
                                 }
                             }
-
-
-//                            console.log(tmp_series_1[key]);
-                            option.options.tooltip.trigger = 'item';
+                            widget.options.tooltip.trigger = 'item';
                             if (series.type === "line")
                             {
-                                if (option.fill)
+                                if (widget.fill)
                                 {
-                                    if (option.fill !== "none")
+                                    if (widget.fill !== "none")
                                     {
-                                        series.areaStyle = {normal: {opacity: option.fill}};
+                                        series.areaStyle = {normal: {opacity: widget.fill}};
                                     }
                                 }
-                                if (option.step)
+                                if (widget.step)
                                 {
-                                    if (option.step !== "")
+                                    if (widget.step !== "")
                                     {
-                                        series.step = option.step;
+                                        series.step = widget.step;
                                     }
                                 }
                                 if (!series.symbol)
                                 {
-                                    series.symbol = option.points;
+                                    series.symbol = widget.points;
                                 }
-                                if (option.options.tooltip.trigger)
+                                if (widget.options.tooltip.trigger)
                                 {
-                                    option.options.tooltip.trigger = 'axis';
+                                    widget.options.tooltip.trigger = 'axis';
                                 }
 
                             }
@@ -398,19 +418,19 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                                     };
                                 }
 
-                                if (option.options.yAxis[0].min)
+                                if (widget.options.yAxis[0].min)
                                 {
                                     if (!series.min)
                                     {
-                                        series.min = option.options.yAxis[0].min;
+                                        series.min = widget.options.yAxis[0].min;
                                     }
 
                                 }
-                                if (option.options.yAxis[0].max)
+                                if (widget.options.yAxis[0].max)
                                 {
                                     if (!series.max)
                                     {
-                                        series.max = option.options.yAxis[0].max;
+                                        series.max = widget.options.yAxis[0].max;
                                     }
                                 }
                                 var tmpradius = radius;
@@ -420,7 +440,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                                 }
                                 if (tmpradius > 100)
                                     tmpradius = 95;
-                                if (!option.manual)
+                                if (!widget.manual)
                                 {
                                     series.radius = tmpradius - 3 + "%";
                                     if (hr < wr)
@@ -435,7 +455,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
                             if (series.type === "pie")
                             {
-                                if (!option.manual)
+                                if (!widget.manual)
                                 {
                                     series.radius = radius - 3 + "%";
 
@@ -450,7 +470,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
 
                             }
-                            if (option.stacked)
+                            if (widget.stacked)
                             {
                                 series.stack = "0";
                             }
@@ -497,26 +517,26 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                             }
                             index++;
 //                            console.log(series);
-                            option.options.series.push(series);
+                            widget.options.series.push(series);
 
                         }
                     }
-                    option.options.xAxis[0].data = [];
-                    for (var ind in option.options.series)
+                    widget.options.xAxis[0].data = [];
+                    for (var ind in widget.options.series)
                     {
-                        if ((option.type === "bar") || (option.type === "line"))
+                        if ((widget.type === "bar") || (widget.type === "line"))
                         {
-                            for (var sind in option.options.series[ind].data)
+                            for (var sind in widget.options.series[ind].data)
                             {
-                                if (option.options.xAxis[0].data.indexOf(option.options.series[ind].data[sind].name) === -1)
+                                if (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name) === -1)
                                 {
-                                    option.options.xAxis[0].data.push(option.options.series[ind].data[sind].name);
+                                    widget.options.xAxis[0].data.push(widget.options.series[ind].data[sind].name);
                                 }
 
                             }
 
                         }
-                        option.options.legend.data.push(option.options.series[ind].name);
+                        widget.options.legend.data.push(widget.options.series[ind].name);
                     }
                 }
 
@@ -524,40 +544,40 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
 //            option.options.legend.formatter = legendFormater(option.options.series);
 
-            for (var yindex in option.options.yAxis)
+            for (var yindex in widget.options.yAxis)
             {
-                var formatter = option.options.yAxis[yindex].unit;
+                var formatter = widget.options.yAxis[yindex].unit;
 
 //                function
                 if (formatter === "none")
                 {
-                    delete option.options.yAxis[yindex].axisLabel.formatter;
+                    delete widget.options.yAxis[yindex].axisLabel.formatter;
                 } else
                 {
-                    if (!option.options.yAxis[yindex].axisLabel)
+                    if (!widget.options.yAxis[yindex].axisLabel)
                     {
-                        option.options.yAxis[yindex].axisLabel = {};
+                        widget.options.yAxis[yindex].axisLabel = {};
                     }
                     if (typeof (window[formatter]) === "function")
                     {
-                        option.options.yAxis[yindex].axisLabel.formatter = window[formatter];
+                        widget.options.yAxis[yindex].axisLabel.formatter = window[formatter];
                     } else
                     {
-                        option.options.yAxis[yindex].axisLabel.formatter = formatter;
+                        widget.options.yAxis[yindex].axisLabel.formatter = formatter;
                     }
                 }
             }
             if (redraw)
             {
-                for (var ind in option.options.series)
+                for (var ind in widget.options.series)
                 {
-                    delete option.options.series[ind].type;
-                    delete option.options.series[ind].stack;
+                    delete widget.options.series[ind].type;
+                    delete widget.options.series[ind].stack;
                 }
-                chart.setOption({series: option.options.series});
+                chart.setOption({series: widget.options.series});
             } else
             {
-                chart.setOption(option.options);
+                chart.setOption(widget.options);
             }
             chart.hideLoading();
             if (callback !== null)
@@ -565,27 +585,27 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                 callback();
             }
             var GlobalRefresh = true;
-            if (option.times)
+            if (widget.times)
             {
-                if (option.times.intervall)
+                if (widget.times.intervall)
                 {
-                    if (option.times.intervall !== "General")
+                    if (widget.times.intervall !== "General")
                     {
                         GlobalRefresh = false;
-                        clearTimeout(option.timer);
-                        option.timer = setTimeout(function () {
-                            setdatabyQueryes(option, url, start, end, chart, true);
-                        }, option.times.intervall);
+                        clearTimeout(widget.timer);
+                        widget.timer = setTimeout(function () {
+                            setdatabyQueryes(json, rowindex, widgetindex, url, true);
+                        }, widget.times.intervall);
                     }
                 }
             }
             if (GlobalRefresh)
             {
-                if (dashJSONvar.times.intervall)
+                if (json.times.intervall)
                 {
-                    option.timer = setTimeout(function () {
-                        setdatabyQueryes(option, url, start, end, chart, true);
-                    }, dashJSONvar.times.intervall);
+                    widget.timer = setTimeout(function () {
+                        setdatabyQueryes(json, rowindex, widgetindex, url, true);
+                    }, json.times.intervall);
                 }
             }
 
@@ -596,7 +616,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
 var defserie = {
     name: null,
-    sampling: 'average',    
+    sampling: 'average',
     data: null
 };
 
@@ -791,7 +811,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                     }
                 }
                 var chart = dashJSON[rowindex]["widgets"][widgetindex].echartLine;
-                setdatabyQueryes(dashJSON[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, redraw);
+                setdatabyQueryes(dashJSON, rowindex, widgetindex, "getdata", redraw);
 //                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
             } else
             {
@@ -912,7 +932,8 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 
             }
         }
-        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw, callback);
+        setdatabyQueryes(dashJSON, row, index, "getdata", redraw, callback);
+//        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw, callback);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].options);
@@ -924,9 +945,6 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 }
 ;
 
-
-
-// TODO To some global js    
 function getParameterByName(name, url) {
     if (!url)
         url = window.location.href;
@@ -966,6 +984,13 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
             }
         }
     }
+    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+    var check = document.getElementById('global-downsampling-switsh')
+    if (check.checked !== dashJSONvar.times.generalds[2])
+    {
+        $(check).trigger('click');
+    }
     if ($(".editchartpanel").is(':visible'))
     {
         var request_W_index = getParameterByName("widget");
@@ -988,6 +1013,14 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     }
 });
 function repaint(redraw = false) {
+
+    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+    var check = document.getElementById('global-downsampling-switsh')
+    if (check.checked !== dashJSONvar.times.generalds[2])
+    {
+        $(check).trigger('click');
+    }
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");
     if ((request_W_index === null) && (request_R_index === null))
@@ -1042,8 +1075,18 @@ $(document).ready(function () {
         }
 
         $('#reportrange span').html(label);
-        PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
-        PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+        if (label === "Custom")
+        {
+            PicerOptionSet1.startDate = moment(dashJSONvar.times.pickerstart);
+            PicerOptionSet1.endDate = moment(dashJSONvar.times.pickerend);
+            $('#reportrange span').html(PicerOptionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + PicerOptionSet1.endDate.format('MM/DD/YYYY H:m:s'));
+
+        } else
+        {
+            PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
+            PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+        }
+
     } else
     {
         dashJSONvar.times = {};
@@ -1146,6 +1189,26 @@ $(document).ready(function () {
     });
 
     repaint();
+
+    var elems = document.querySelectorAll('.js-switch-general');
+    for (var i = 0; i < elems.length; i++) {
+        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+        elems[i].onchange = function () {
+            dashJSONvar.times.generalds[2] = this.checked;
+            repaint();
+        };
+    }
+    ;
+
+    $('body').on("change", "#global-down-sample-ag", function () {
+        dashJSONvar.times.generalds[1] = $(this).val();
+        repaint();
+    });
+    
+    $('body').on("blur", "#global-down-sample", function () {
+        dashJSONvar.times.generalds[0] = $(this).val();
+        repaint();
+    });    
 
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
         $(this).find("ul").css("top", $(this).position().top);
@@ -1644,24 +1707,7 @@ window.onscroll = function () {
                         }
                         if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
                         {
-                            var startdate = "5m-ago";
-                            var enddate = "now";
-                            if (dashJSONvar.times)
-                            {
-                                if (dashJSONvar.times.pickerlabel === "Custom")
-                                {
-                                    startdate = dashJSONvar.times.pickerstart;
-                                    enddate = dashJSONvar.times.pickerend;
-                                } else
-                                {
-                                    if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
-                                    {
-                                        startdate = rangeslabels[dashJSONvar.times.pickerlabel];
-                                    }
-
-                                }
-                            }
-                            setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                            setdatabyQueryes(dashJSONvar, rowindex, widgetindex, "getdata", false);
                         }
                     }
                 }
@@ -1693,24 +1739,7 @@ window.onresize = function () {
                     }
                     if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
                     {
-                        var startdate = "5m-ago";
-                        var enddate = "now";
-                        if (dashJSONvar.times)
-                        {
-                            if (dashJSONvar.times.pickerlabel === "Custom")
-                            {
-                                startdate = dashJSONvar.times.pickerstart;
-                                enddate = dashJSONvar.times.pickerend;
-                            } else
-                            {
-                                if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
-                                {
-                                    startdate = rangeslabels[dashJSONvar.times.pickerlabel];
-                                }
-
-                            }
-                        }
-                        setdatabyQueryes(dashJSONvar[rowindex]["widgets"][widgetindex], "getdata", startdate, enddate, chart, false);
+                        setdatabyQueryes(dashJSONvar, rowindex, widgetindex, "getdata", false);
                     }
                     chart.resize();
                 }

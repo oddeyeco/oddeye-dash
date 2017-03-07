@@ -135,6 +135,29 @@ var PicerOptionSet2 = {
         firstDay: 1
     }
 };
+
+
+var rangeslabelsds = {
+    'Last 5 minutes': [],
+    'Last 15 minutes': [],
+    'Last 30 minutes': [],
+    'Last 1 hour': ["1m", "avg", true],
+    'Last 3 hour': ["1m", "avg", true],
+    'Last 6 hour': ["2m", "avg", true],
+    'Last 12 hour': ["4m", "avg", true],
+    'Last 1 day': ["30m", "avg", true],
+    'Last 7 day': ["4h", "avg", true]
+};
+
+var rangescustomds = {
+    0: [],
+    1: ["1m", "avg", true],
+    6: ["2m", "avg", true],
+    12: ["4m", "avg", true],
+    24: ["30m", "avg", true],
+    168: ["1h", "avg", true],
+    720: ["1d", "avg", true],
+};
 var cbJson = function (JSON, wraper)
 {
     return function (start, end, label) {
@@ -142,16 +165,43 @@ var cbJson = function (JSON, wraper)
         {
             JSON.times = {};
         }
+
         JSON.times.pickerstart = start.valueOf();
         JSON.times.pickerend = end.valueOf();
         JSON.times.pickerlabel = label;
-
         if (JSON.times.pickerlabel === "Custom")
         {
-            wraper.html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
+            wraper.find('span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
+            var interval = (end - start) / 1000 / 60 / 60;
+            JSON.times.generalds = rangescustomds[0];
+
+            if ((end - start) > 720)
+            {
+                JSON.times.generalds = rangescustomds[720]
+            } else if ((end - start) > 168)
+            {
+                JSON.times.generalds = rangescustomds[168]
+            } else if ((end - start) > 24)
+            {
+                JSON.times.generalds = rangescustomds[24]
+            } else
+            if ((end - start) > 12)
+            {
+                JSON.times.generalds = rangescustomds[12]
+            } else if ((end - start) > 6)
+            {
+                JSON.times.generalds = rangescustomds[6]
+            } else if (interval > 1)
+            {
+                JSON.times.generalds = rangescustomds[1]
+            }
+
+            console.log(end - start);
         } else
         {
             wraper.find('span').html(JSON.times.pickerlabel);
+            JSON.times.generalds = rangeslabelsds[JSON.times.pickerlabel]
+
         }
     };
 }
@@ -183,7 +233,7 @@ var format_date = function (value, b) {
     var sec = a.getSeconds();
     if (b === 1)
     {
-        return s2d(hour) + ":" + s2d(min) + ":" + s2d(sec) + "\n" + year+"-" +s2d(month)+"-"+s2d(date);
+        return s2d(hour) + ":" + s2d(min) + ":" + s2d(sec) + "\n" + year + "-" + s2d(month) + "-" + s2d(date);
     }
     return s2d(hour) + ":" + s2d(min) + ":" + s2d(sec);
 };
