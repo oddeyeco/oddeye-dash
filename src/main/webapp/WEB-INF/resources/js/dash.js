@@ -42,7 +42,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 {
     var widget = json[rowindex]["widgets"][widgetindex];
     var chart;
-    if (customchart == null)
+    if (customchart === null)
     {
         chart = json[rowindex]["widgets"][widgetindex].echartLine;
     } else
@@ -203,7 +203,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 {
                                     series.step = widget.step;
                                 }
-                            }
+                            }                            
                             widget.options.series.push(series);
                         }
                     }
@@ -1608,6 +1608,7 @@ $('body').on("click", ".savedash", function () {
                 if (data.sucsses)
                 {
 //                    window.location.reload();
+                    alert("Data saved")
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
