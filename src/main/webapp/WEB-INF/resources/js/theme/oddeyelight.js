@@ -96,6 +96,9 @@ var encodeHTML = function (source) {
 
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
+//            formatter: function (params) {
+//                return 'aaaaa';
+//            },
             axisPointer: {
                 type: 'line',
                 lineStyle: {
@@ -187,7 +190,7 @@ var encodeHTML = function (source) {
         },
 
         line: {
-            smooth: true,            
+            smooth: true,
             symbolSize: 5
         },
 
@@ -233,10 +236,24 @@ var encodeHTML = function (source) {
         },
 
         gauge: {
+            tooltip: {
+                formatter: function (params) {
+                    var value = params.data.value;
+                    if (typeof (window[params.data.unit]) === "function")
+                    {
+                        value = window[params.data.unit](value);
+                    }
+
+                    return '<span style="font-size:16px;color:#fff">' + params.seriesName + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
+                },
+            },
             axisLine: {
                 lineStyle: {
+                    color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
+                    width: 5,
                     color: [[0.2, '#2ec7c9'], [0.8, '#5ab1ef'], [1, '#d87a80']],
-                    width: 10
+                    shadowColor: '#1e90ff',
+                    shadowBlur: 10
                 }
             },
             axisTick: {

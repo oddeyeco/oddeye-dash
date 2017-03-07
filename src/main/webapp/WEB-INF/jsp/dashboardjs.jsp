@@ -1,4 +1,4 @@
-<script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
+<script src="${cp}/resources/echarts/dist/echarts.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script src="${cp}/resources/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
 <script src="${cp}/resources/js/dash.js"></script>

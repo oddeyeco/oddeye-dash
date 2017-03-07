@@ -203,7 +203,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 {
                                     series.step = widget.step;
                                 }
-                            }                            
+                            }
                             widget.options.series.push(series);
                         }
                     }
@@ -374,10 +374,17 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 series.data = tmp_series_1[key];
                             } else
                             {
+//                                console.log(widget.options);
                                 series.data = tmp_series_1[key];
                                 if (series.type === "gauge")
                                 {
-                                    series.data[series.data.length - 1].name = key;
+                                    for (i = 0; i < series.data.length; i++)
+                                    {
+                                        series.data[i].unit = widget.options.yAxis[0].unit;
+                                        series.data[i].subname = series.data[i].name;
+                                        series.data[i].name = key;
+                                    }
+
                                 }
                             }
                             widget.options.tooltip.trigger = 'item';
@@ -413,15 +420,27 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             if (series.type === "gauge")
                             {
 
-                                if (!series.axisLine)
+                                if (!series.axisLabel)
                                 {
-                                    series.axisLine = {
-                                        lineStyle: {
-                                            color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
-                                            shadowColor: '#000',
-                                            shadowBlur: 50
-                                        }
-                                    };
+                                    series.axisLabel = {};
+                                }
+                                series.axisLabel.formatter = '{value} kg';
+                                var formatter = widget.options.yAxis[0].unit;
+
+//                function
+                                if (formatter === "none")
+                                {
+                                    delete series.axisLabel.formatter;
+                                } else
+                                {
+
+                                    if (typeof (window[formatter]) === "function")
+                                    {
+                                        series.axisLabel.formatter = window[formatter];
+                                    } else
+                                    {
+                                        series.axisLabel.formatter = formatter;
+                                    }
                                 }
 
                                 if (widget.options.yAxis[0].min)
@@ -547,8 +566,6 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                 }
 
             }
-
-//            option.options.legend.formatter = legendFormater(option.options.series);
 
             for (var yindex in widget.options.yAxis)
             {
@@ -1529,7 +1546,7 @@ $('body').on("click", ".addchart", function () {
 
     redrawAllJSON(dashJSONvar);
     $('html, body').animate({
-        scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.parent.getBoundingClientRect().top-30
+        scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.parent.getBoundingClientRect().top - 30
     }, 5);
 });
 

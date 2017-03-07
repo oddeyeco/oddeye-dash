@@ -104,7 +104,7 @@
         <label class="control-label" >
             Disable downsampling
         </label>
-        <div class="checkbox" style="display: inline-block">
+        <div class="checkbox" style="display: inline-block;">
             <input type="checkbox" class="js-switch-small" chart_prop_key="show" id="disable_downsampling" name="disable_downsampling" /> 
         </div>        
     </div>                        
