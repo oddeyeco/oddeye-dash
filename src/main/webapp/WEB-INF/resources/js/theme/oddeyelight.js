@@ -98,8 +98,6 @@ var encodeHTML = function (source) {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
                 var out = "";
-
-                // 11:05 03-07<br /><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#2ec7c9"></span>bytes_rx_eth0{&quot;type&quot;:&quot;system&quot;,&quot;cluster&quot;:&quot;OddEye&quot;} : 1,402,868.2811447815<br /><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#5ab1ef"></span>bytes_tx_eth0{&quot;type&quot;:&quot;system&quot;,&quot;cluster&quot;:&quot;OddEye&quot;} : 1,419,526.42003367                
                 if (params.constructor === Array)
                 {
                     out = params[0].name;
