@@ -1,4 +1,4 @@
-/* global define */
+/* global define, format_date */
 
 var colorPalette = [
     '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', '#b6a2de',
@@ -96,9 +96,44 @@ var encodeHTML = function (source) {
 
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
-//            formatter: function (params) {
-//                return 'aaaaa';
-//            },
+            formatter: function (params) {
+                var out = "";
+
+                // 11:05 03-07<br /><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#2ec7c9"></span>bytes_rx_eth0{&quot;type&quot;:&quot;system&quot;,&quot;cluster&quot;:&quot;OddEye&quot;} : 1,402,868.2811447815<br /><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:#5ab1ef"></span>bytes_tx_eth0{&quot;type&quot;:&quot;system&quot;,&quot;cluster&quot;:&quot;OddEye&quot;} : 1,419,526.42003367                
+                if (params.constructor === Array)
+                {
+                    out = params[0].name;
+                    for (var ind in params)
+                    {
+                        param = params[ind];
+                        console.log(params[ind]);
+                        var value = param.value[1];
+                        if (typeof (window[param.data.unit]) === "function")
+                        {
+                            value = window[param.data.unit](value);
+                        }
+                        else
+                        {
+                            value = value.toFixed(2);
+                        }
+                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + format_date(param.value[0],0) + " " + param.seriesName + ' : ' + value
+                    }
+                } else
+                {
+                    var value = params.data.value;
+                    if (typeof (window[params.data.unit]) === "function")
+                    {
+                        value = window[params.data.unit](value);
+                    }
+                    else
+                    {
+                        value = value.toFixed(2);
+                    }
+                    out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
+                }
+
+                return out;
+            },
             axisPointer: {
                 type: 'line',
                 lineStyle: {
@@ -129,11 +164,11 @@ var encodeHTML = function (source) {
             splitNumber: 10,
             axisLabel:
                     {
-                        formatter: format_date,
+                        formatter: format_date
                     },
             axisLine: {
                 lineStyle: {
-                    color: '#008acd',
+                    color: '#008acd'
                 }
             },
             splitLine: {
@@ -188,7 +223,6 @@ var encodeHTML = function (source) {
             symbol: 'emptyCircle',
             symbolSize: 3
         },
-
         line: {
             smooth: true,
             symbolSize: 5

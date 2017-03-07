@@ -423,7 +423,7 @@ var timems = function (params) {
         return format_time(moment.duration(val));
     }
 
-    return val + " " + metric;
+    return val.toFixed(2) + " " + metric;
 };
 
 var timesec = function (params) {

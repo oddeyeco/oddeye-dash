@@ -172,6 +172,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
 
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                            var name2 = widget.options.title.text;
                             if (typeof (widget.queryes[k].info) !== "undefined")
                             {
                                 if (widget.queryes[k].info.alias !== "")
@@ -181,11 +182,27 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                     name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                     name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                                 }
+                                if (widget.queryes[k].info.alias2)
+                                {
+                                    if (widget.queryes[k].info.alias2 !== "")
+                                    {
+                                        name2 = widget.queryes[k].info.alias2;
+                                        name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                                        name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                        name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    }
+                                }
                             }
+
                             series.name = name;
                             widget.options.legend.data.push({"name": name});
                             var chdata = data.chartsdata[index].data;
-                            series.data = data.chartsdata[index].data;
+                            series.data = [];
+                            for (var ind in chdata)
+                            {
+//                                series.data[ind].push(widget.options.yAxis[0].unit);
+                                series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2})
+                            }
                             if (widget.stacked)
                             {
                                 series.stack = "0";
@@ -380,7 +397,6 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 {
                                     for (i = 0; i < series.data.length; i++)
                                     {
-                                        series.data[i].unit = widget.options.yAxis[0].unit;
                                         series.data[i].subname = series.data[i].name;
                                         series.data[i].name = key;
                                     }
@@ -549,10 +565,12 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     widget.options.xAxis[0].data = [];
                     for (var ind in widget.options.series)
                     {
+                        widget.options.series[ind].unit = widget.options.yAxis[0].unit;
                         if ((widget.type === "bar") || (widget.type === "line"))
                         {
                             for (var sind in widget.options.series[ind].data)
                             {
+                                widget.options.series[ind].data[sind].unit = widget.options.yAxis[0].unit;
                                 if (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name) === -1)
                                 {
                                     widget.options.xAxis[0].data.push(widget.options.series[ind].data[sind].name);
