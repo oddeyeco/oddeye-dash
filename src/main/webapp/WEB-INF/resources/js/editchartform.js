@@ -253,6 +253,7 @@ class ChartEditForm {
                     yzoom = true;
                 }
             }
+//            console.log(yzoom);
             var elem = document.getElementById("display_datazoomX");
             if (elem.checked !== xzoom)
             {
@@ -598,6 +599,7 @@ class ChartEditForm {
 
             if (key === "dataZoomY")
             {
+                console.log("sss");
                 var elem = document.getElementById(input.attr("id"));
                 if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
                 {
@@ -630,7 +632,7 @@ class ChartEditForm {
                     for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
                         var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
 
-                        if ((zoomzoom.xAxisIndex !== 0) || (zoomzoom.type !== "slider"))
+                        if ((zoomzoom.yAxisIndex !== 0) || (zoomzoom.type !== "slider"))
                         {
                             dz.push(zoomzoom);
                         }
