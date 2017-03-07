@@ -105,8 +105,7 @@ var encodeHTML = function (source) {
                     out = params[0].name;
                     for (var ind in params)
                     {
-                        param = params[ind];
-                        console.log(params[ind]);
+                        param = params[ind];                        
                         var value = param.value[1];
                         if (typeof (window[param.data.unit]) === "function")
                         {
