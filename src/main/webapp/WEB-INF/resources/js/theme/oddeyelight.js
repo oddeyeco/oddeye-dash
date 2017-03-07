@@ -97,6 +97,7 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
+//                console.log(params);
                 var out = "";
                 if (params.constructor === Array)
                 {

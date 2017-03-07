@@ -340,12 +340,12 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             for (var ind in tmp_series_1[key])
                             {
                                 val = val + tmp_series_1[key][ind].value;
-                                cildren.push({value: tmp_series_1[key][ind].value, name: key + "." + tmp_series_1[key][ind].name});
+                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name});
                             }
 
                             data.push({value: val, name: key, children: cildren});
                         }
-                        series.name = widget.options.title.text;
+                        series.name = key;
 //                        series.type = option.type;
                         widget.options.tooltip.trigger = 'item';
                         series.data = data;
@@ -635,7 +635,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                         GlobalRefresh = false;
                         clearTimeout(widget.timer);
                         widget.timer = setTimeout(function () {
-                            setdatabyQueryes(json, rowindex, widgetindex, url, true);
+                            setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
                         }, widget.times.intervall);
                     }
                 }
@@ -645,7 +645,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                 if (json.times.intervall)
                 {
                     widget.timer = setTimeout(function () {
-                        setdatabyQueryes(json, rowindex, widgetindex, url, true);
+                        setdatabyQueryes(json, rowindex, widgetindex, url, true,null, customchart);
                     }, json.times.intervall);
                 }
             }
