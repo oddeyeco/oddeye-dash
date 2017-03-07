@@ -712,6 +712,7 @@ var format_metric = function (params, type = "m") {
                 metric = " n";
                 break;
             }
+            
             case 0:
             case 1:
             case 2:
