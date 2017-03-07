@@ -149,12 +149,12 @@ public class AjaxControlers {
 
                         final SeekableView Datalist = DataPoints.iterator();
 
-                        JsonObject DatapointsJSON;
+                        JsonArray DatapointsJSON;
 
                         if (jsonMessage.get("data") == null) {
-                            DatapointsJSON = new JsonObject();
+                            DatapointsJSON = new JsonArray();
                         } else {
-                            DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
+                            DatapointsJSON = jsonMessage.get("data").getAsJsonArray();
                         }
 
                         while (Datalist.hasNext()) {
@@ -165,8 +165,10 @@ public class AjaxControlers {
                             if (Point.timestamp() > end_time) {
                                 continue;
                             }
-
-                            DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
+                            JsonArray pointsJSON = new JsonArray();
+                            pointsJSON.add(Point.timestamp());
+                            pointsJSON.add(Point.doubleValue());
+                            DatapointsJSON.add(pointsJSON);
                         }
 
                         jsonMessage.add("data", DatapointsJSON);

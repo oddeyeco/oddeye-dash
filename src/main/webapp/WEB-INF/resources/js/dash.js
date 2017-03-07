@@ -73,14 +73,7 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
         option.options.legend.data = [];
     }
 
-//    option.options.toolbox.feature.magicType.title = {
-//        line: 'Line',
-//        bar: 'Bar',
-//        stack: 'Stacked',
-//        tiled: 'Tiled'
-//    };
-//    option.options.toolbox.feature.magicType.type = ['line', 'bar', 'stack', "tiled"];
-//    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel" || option.type === "treemap"));
+    option.options.toolbox.feature.magicType.show = (!(option.type === "pie" || option.type === "funnel" || option.type === "gauge" ||  option.type === "treemap"));
 
     for (k in option.queryes)
     {
@@ -162,20 +155,12 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                             }
                             series.name = name;
                             option.options.legend.data.push({"name": name});
-                            var chdata = [];
-
-                            for (var time in data.chartsdata[index].data) {
-                                var dateval = moment(time * 1);
-                                chdata.push([dateval.toDate(), data.chartsdata[index].data[time]]);
-                                delete dateval;
-                            }
-                            series.data = chdata;
-
+                            var chdata = data.chartsdata[index].data;
+                            series.data = data.chartsdata[index].data;
                             if (option.stacked)
                             {
                                 series.stack = "0";
                             }
-
                             if (option.fill)
                             {
                                 if (option.fill !== "none")
@@ -193,8 +178,6 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                             option.options.series.push(series);
                         }
                     }
-//                    option.options.xAxis[0].splitNumber = 10;
-//                    option.options.tooltip.trigger = 'axis';
                 }
 
                 if (option.options.xAxis[0].type === "category")
@@ -232,9 +215,9 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
 
                         var chdata = [];
                         var val;
-                        for (var time in data.chartsdata[index].data) {
-                            chdata.push(data.chartsdata[index].data[time]);
-                            val = data.chartsdata[index].data[time];
+                        for (var ind in data.chartsdata[index].data) {                            
+                            chdata.push(data.chartsdata[index].data[ind][1]);
+                            val = data.chartsdata[index].data[ind][1];
                         }
 
                         if (m_sample === "avg")
@@ -272,9 +255,6 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                             tmp_series_1[name] = [];
                         }
                         tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname});
-//                        console.log(name);
-//                        console.log(tmpname);
-//                        console.log(tmp_series_1[name][tmp_series_1[name].length-1]);
                         sdata.push({value: val, name: name});
                     }
 
@@ -285,12 +265,6 @@ function setdatabyQueryes(option, url, start, end, chart, redraw = false, callba
                         radius = 25;
                     }
                     var rows = Math.floor((Object.keys(tmp_series_1).length / 4)) + 1;
-//                    console.log(rows);
-//                    var top = 50;
-//                    if (rows > 1)
-//                    {
-//                        top = 25;
-//                    }
                     index = 1;
                     var row = 0;
                     if (option.type === "treemap")
@@ -635,7 +609,7 @@ defoption = {
             type: 'time'
         }],
     yAxis: [{
-            type: 'value',
+            type: 'value'
         }],
     dataZoom: [{
             type: 'inside',
