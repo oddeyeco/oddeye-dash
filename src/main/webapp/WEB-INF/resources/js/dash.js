@@ -38,10 +38,17 @@ function replacer(tags) {
     };
 }
 
-function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, callback = null)
+function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, callback = null, customchart = null)
 {
     var widget = json[rowindex]["widgets"][widgetindex];
-    var chart = json[rowindex]["widgets"][widgetindex].echartLine;
+    var chart;
+    if (customchart == null)
+    {
+        chart = json[rowindex]["widgets"][widgetindex].echartLine;
+    } else
+    {
+        chart = customchart;
+    }
     if (widget.tmpoptions)
     {
         widget.options = clone_obg(widget.tmpoptions);
@@ -108,9 +115,12 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             {
                 if (widget.queryes[k].info.downsample === "")
                 {
-                    if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
+                    if (dashJSONvar.times.generalds)
                     {
-                        query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                        if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
+                        {
+                            query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                        }
                     }
                 } else
                 {
@@ -118,10 +128,6 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                 }
 
             }
-
-
-
-
         }
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
         chart.showLoading("default", {
@@ -932,7 +938,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
 
             }
         }
-        setdatabyQueryes(dashJSON, row, index, "getdata", redraw, callback);
+        setdatabyQueryes(dashJSON, row, index, "getdata", redraw, callback, echartLine);
 //        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw, callback);
     } else
     {
@@ -1013,13 +1019,15 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     }
 });
 function repaint(redraw = false) {
-
-    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-    var check = document.getElementById('global-downsampling-switsh')
-    if (check.checked !== dashJSONvar.times.generalds[2])
+    if (dashJSONvar.times.generalds)
     {
-        $(check).trigger('click');
+        $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+        var check = document.getElementById('global-downsampling-switsh')
+        if (check.checked !== dashJSONvar.times.generalds[2])
+        {
+            $(check).trigger('click');
+        }
     }
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");
@@ -1204,11 +1212,11 @@ $(document).ready(function () {
         dashJSONvar.times.generalds[1] = $(this).val();
         repaint();
     });
-    
+
     $('body').on("blur", "#global-down-sample", function () {
         dashJSONvar.times.generalds[0] = $(this).val();
         repaint();
-    });    
+    });
 
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
         $(this).find("ul").css("top", $(this).position().top);
@@ -1521,8 +1529,8 @@ $('body').on("click", ".addchart", function () {
 
     redrawAllJSON(dashJSONvar);
     $('html, body').animate({
-        scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top
-    }, 500);
+        scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.parent.getBoundingClientRect().top-30
+    }, 5);
 });
 
 $('body').on("click", "#deletedashconfirm", function () {
