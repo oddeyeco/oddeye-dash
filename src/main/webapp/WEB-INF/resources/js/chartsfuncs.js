@@ -175,25 +175,25 @@ var cbJson = function (JSON, wraper)
             var interval = (end - start) / 1000 / 60 / 60;
             JSON.times.generalds = rangescustomds[0];
 
-            if ((end - start) > 720)
+            if (interval > 720)
             {
-                JSON.times.generalds = rangescustomds[720]
-            } else if ((end - start) > 168)
+                JSON.times.generalds = rangescustomds[720];
+            } else if (interval > 168)
             {
-                JSON.times.generalds = rangescustomds[168]
-            } else if ((end - start) > 24)
+                JSON.times.generalds = rangescustomds[168];
+            } else if (interval > 24)
             {
-                JSON.times.generalds = rangescustomds[24]
+                JSON.times.generalds = rangescustomds[24];
             } else
-            if ((end - start) > 12)
+            if (interval > 12)
             {
-                JSON.times.generalds = rangescustomds[12]
+                JSON.times.generalds = rangescustomds[12];
             } else if ((end - start) > 6)
             {
-                JSON.times.generalds = rangescustomds[6]
+                JSON.times.generalds = rangescustomds[6];
             } else if (interval > 1)
             {
-                JSON.times.generalds = rangescustomds[1]
+                JSON.times.generalds = rangescustomds[1];
             }
 
             console.log(end - start);
@@ -808,7 +808,7 @@ function clone_obg(obj) {
         var temp = obj.constructor();
 
     for (var key in obj) {
-        if (key == "echartLine")
+        if (key === "echartLine")
         {
             continue;
         }
