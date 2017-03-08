@@ -195,8 +195,6 @@ var cbJson = function (JSON, wraper)
             {
                 JSON.times.generalds = rangescustomds[1];
             }
-
-            console.log(end - start);
         } else
         {
             wraper.find('span').html(JSON.times.pickerlabel);
