@@ -651,17 +651,23 @@ var formatpsi = function (params) {
 var format_metric = function (params, type = "m") {
     var divatior = 10;
     var val = paramtoval(params);
+    var neg = 1;
+    if (val !== 0)
+    {
+        var neg = val / Math.abs(val);
+    }
+    var val = Math.abs(val);
     var metric = " ";
     if (val !== 0)
     {
         var level = Math.floor(Math.log(val) / Math.log(divatior));
-        if ((level > 1) || (level < 0))
-        {
+//        if ((level > 1) || (level < 0))
+//        {
 //            if (type === "v")
 //            {
 //                level = level - 2;
 //            }
-        }
+//        }
 
 
         if (level < -9)
@@ -710,7 +716,7 @@ var format_metric = function (params, type = "m") {
                 metric = " n";
                 break;
             }
-            
+
             case 0:
             case 1:
             case 2:
@@ -793,7 +799,7 @@ var format_metric = function (params, type = "m") {
             }
         }
     }
-    return val.toFixed(2) + "" + metric;
+    return (val * neg).toFixed(2) + "" + metric;
 };
 
 function clone_obg(obj) {

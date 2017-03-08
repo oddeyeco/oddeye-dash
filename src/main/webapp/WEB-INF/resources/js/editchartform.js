@@ -599,7 +599,6 @@ class ChartEditForm {
 
             if (key === "dataZoomY")
             {
-                console.log("sss");
                 var elem = document.getElementById(input.attr("id"));
                 if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
                 {
@@ -695,7 +694,18 @@ class ChartEditForm {
                 } else
                 {
 
-                    this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] = input.val();
+//                    (value == null || isNaN(value))
+//                    console.log(isNaN(10));
+//                    console.log(input.val()); 
+                    if ($.isNumeric(input.val()))
+                    {
+                       this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] =parseFloat(input.val()) ;     
+                    }
+                    else
+                    {
+                       this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] = input.val();    
+                    }
+                    
                     if (key === "type")
                     {
                         if (input.val() === "category")

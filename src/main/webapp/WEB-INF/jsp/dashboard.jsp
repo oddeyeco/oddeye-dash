@@ -10,8 +10,10 @@
                 <span class="sr-only">Toggle Dropdown</span>
             </a>
             <ul class="dropdown-menu" role="menu">
-                <li><a href="#" class="addchart">Add Chart</a>
+                <li><a href="#" class="addchart">Add chart widget</a>
                 <li class="divider"></li>
+<!--                <li><a href="#" class="showrowjson">Show JSON</a>
+                <li class="divider"></li>                -->
                 <li><a href="#" class="deleterow">Delete</a>    
                 </li>
             </ul>

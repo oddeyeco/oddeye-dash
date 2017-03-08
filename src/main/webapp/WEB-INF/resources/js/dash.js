@@ -82,7 +82,11 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
         widget.options.legend.data = [];
     }
 
-    widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+    if (widget.options.toolbox.feature)
+    {
+        widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+    }
+
 
     var start = "5m-ago";
     var end = "now";
@@ -562,7 +566,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
                         }
                     }
-                    widget.options.xAxis[0].data = [];                    
+                    widget.options.xAxis[0].data = [];
                     for (var ind in widget.options.series)
                     {
                         widget.options.series[ind].unit = widget.options.yAxis[0].unit;
@@ -583,7 +587,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     }
                 }
 
-            }            
+            }
             for (var yindex in widget.options.yAxis)
             {
                 var formatter = widget.options.yAxis[yindex].unit;
@@ -642,7 +646,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                 if (json.times.intervall)
                 {
                     widget.timer = setTimeout(function () {
-                        setdatabyQueryes(json, rowindex, widgetindex, url, true,null, customchart);
+                        setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
                     }, json.times.intervall);
                 }
             }
