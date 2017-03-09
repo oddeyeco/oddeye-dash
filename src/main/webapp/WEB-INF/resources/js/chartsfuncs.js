@@ -19,6 +19,11 @@ var jsonmaker = function (k, v)
     {
         return undefined;
     }
+    if (k === "visible")
+    {
+        return undefined;
+    }    
+    
     if (k === "echartLine")
     {
         return undefined;
