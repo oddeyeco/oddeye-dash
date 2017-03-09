@@ -201,7 +201,7 @@ var cbJson = function (JSON, wraper)
             JSON.times.generalds = rangeslabelsds[JSON.times.pickerlabel];
         }
     };
-}
+};
 
 var cb = function (start, end, label) {
     pickerstart = start;
