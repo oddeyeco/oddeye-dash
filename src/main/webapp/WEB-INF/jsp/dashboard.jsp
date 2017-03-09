@@ -894,13 +894,8 @@
                 <div role="tabpanel" class="tab-pane fade" id="tab_json" aria-labelledby="json-tab">
                     <div class="row">
                         <form class="edit-ljson">
-                            <h3><label class="control-label" >
-                                    Json
-                                </label>                                    
-                            </h3>
-                            <div class="form-group">
-                                <textarea chart_prop_key="json" id="full_json" name="full_json"></textarea>
-                            </div>
+                            <h3><label class="control-label" >Json Editor</label></h3>
+                            <div id="jsoneditor"></div>
                             <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                                 <button class="btn btn-primary" type="button" value="Default" id="jsonReset">Reset</button>        
                                 <button class="btn btn-success" type="button" value="Default" id="jsonApply">Apply</button>                                        

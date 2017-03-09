@@ -367,11 +367,7 @@ span.tagspan span.text {
     float: left; 
 }
 
-#full_json
-{
-    width: 100%;
-    min-height: 300px;
-}
+
 
 .rawButton
 {
@@ -457,3 +453,16 @@ span.tagspan span.text {
     z-index: 10;
 }
 
+.jsoneditor-poweredBy
+{
+    display: none;
+}
+
+#jsoneditor{
+    height: 400px;
+    margin-bottom: 10px
+}
+
+div.jsoneditor {
+    border: 1px solid #ccc;
+}

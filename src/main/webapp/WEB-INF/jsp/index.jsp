@@ -32,7 +32,9 @@
         <!-- Select2 -->
         <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">
         <!-- Bootstrap bootstrap-daterangepicker -->
-        <link href="${cp}/resources/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">                
+        <link href="${cp}/resources/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet"> 
+        <!-- Jsoneditor -->
+        <link href="${cp}/resources/jsoneditor/dist/jsoneditor.min.css" rel="stylesheet" type="text/css">
         <!-- Custom Theme Style -->
         <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />        
         <link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />        

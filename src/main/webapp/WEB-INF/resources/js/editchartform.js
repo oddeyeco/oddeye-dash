@@ -14,8 +14,9 @@ class ChartEditForm {
         this.row = row;
         this.index = index;
         this.dashJSON = dashJSON;
-        var jsonstr = JSON.stringify(dashJSON[row]["widgets"][index], jsonmaker, 5);
-        $("#full_json").val(jsonstr);
+        var jsonstr = JSON.stringify(dashJSON[row]["widgets"][index], jsonmaker);
+//        $("#full_json").val(jsonstr);
+        editor.set(JSON.parse(jsonstr) );
 
         var elem = document.getElementById("manual");
         if (this.dashJSON[this.row]["widgets"][this.index].manual)
@@ -396,13 +397,15 @@ class ChartEditForm {
     }
 
     resetjson()
-    {
-        $("#full_json").val(JSON.stringify(this.dashJSON[this.row]["widgets"][this.index], jsonmaker, 5));
+    {        
+        var jsonstr = JSON.stringify(this.dashJSON[this.row]["widgets"][this.index], jsonmaker);
+//        $("#full_json").val(jsonstr);
+        editor.set(JSON.parse(jsonstr));        
     }
 
     applyjson()
     {        
-        var tmpJson = JSON.parse($("#full_json").val());
+        var tmpJson = editor.get();
         clearTimeout(this.dashJSON[this.row]["widgets"][this.index].timer);
         for (var key in tmpJson)
         {
@@ -420,8 +423,9 @@ class ChartEditForm {
         this.dashJSON[this.row]["widgets"][this.index].manual = true;
         var opt = this.dashJSON[this.row]["widgets"][this.index];
         showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
-            var jsonstr = JSON.stringify(opt, jsonmaker, 5);
-            $("#full_json").val(jsonstr);
+            var jsonstr = JSON.stringify(opt, jsonmaker);
+            editor.set(JSON.parse(jsonstr));        
+//            $("#full_json").val(jsonstr);
         });
     }
 
