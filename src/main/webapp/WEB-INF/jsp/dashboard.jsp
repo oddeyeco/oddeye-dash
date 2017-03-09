@@ -126,6 +126,7 @@
     <div class="x_title">
         <h2 class="col-md-3" ><input type="text" name="name" id="name" value="${dashname}"></h2>        
         <div class="pull-right">            
+            <a class="btn btn-primary" type="button" id="showasjson">Show as JSON</a>
             <a class="btn btn-primary" type="button" id="addrow">Add Row</a>
             <a class="btn btn-primary savedash" type="button">Save </a>
             <a class="btn btn-danger deletedash" type="button">Delete </a>
@@ -928,8 +929,6 @@
         </div>
     </div>
 </div>                
-
-
 <div id="showjson" class="modal  fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

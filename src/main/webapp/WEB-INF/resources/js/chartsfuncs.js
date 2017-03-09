@@ -15,10 +15,10 @@ var pickerlabel = "Last 5 minutes";
 var jsonmaker = function (k, v)
 {
 
-    if (k === "manual")
-    {
-        return undefined;
-    }
+//    if (k === "manual")
+//    {
+//        return undefined;
+//    }
     if (k === "visible")
     {
         return undefined;
@@ -40,10 +40,10 @@ var jsonmaker = function (k, v)
     {
         return undefined;
     }
-    if (k === "times")
-    {
-        return undefined;
-    }
+//    if (k === "times")
+//    {
+//        return undefined;
+//    }
     return v;
 };
 var rangeslabels = {

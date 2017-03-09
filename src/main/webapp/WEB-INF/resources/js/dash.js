@@ -1473,10 +1473,66 @@ $('body').on("click", ".deleterow", function () {
     $("#deleteConfirm").modal('show');
 });
 
+
+$('body').on("click", "#showasjson", function () {
+    $("#showjson").find('.btn-ok').attr('id', "applydashjson");
+    var jsonstr = JSON.stringify(dashJSONvar, jsonmaker);
+    dasheditor.set(JSON.parse(jsonstr));
+    $("#showjson").modal('show');
+});
+
+$('body').on("click", "#applydashjson", function () {
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }
+
+
+    dashJSONvar = dasheditor.get();
+
+    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+    var check = document.getElementById('global-downsampling-switsh')
+    if (check.checked !== dashJSONvar.times.generalds[2])
+    {
+        $(check).trigger('click');
+    }
+    if (dashJSONvar.times.intervall)
+    {
+        $("#refreshtime").val(dashJSONvar.times.intervall);
+    }
+    var label = pickerlabel;
+    if (dashJSONvar.times.pickerlabel)
+    {
+        label = dashJSONvar.times.pickerlabel;
+    }
+
+    $('#reportrange span').html(label);
+    if (label === "Custom")
+    {
+        PicerOptionSet1.startDate = moment(dashJSONvar.times.pickerstart);
+        PicerOptionSet1.endDate = moment(dashJSONvar.times.pickerend);
+        $('#reportrange span').html(PicerOptionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + PicerOptionSet1.endDate.format('MM/DD/YYYY H:m:s'));
+
+    } else
+    {
+        PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
+        PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+    }
+    redrawAllJSON(dashJSONvar);
+    $("#showjson").modal('hide');
+});
+
 $('body').on("click", ".showrowjson", function () {
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
-    $("#showjson").find('.btn-ok').attr('index', rowindex);    
+    $("#showjson").find('.btn-ok').attr('index', rowindex);
     var jsonstr = JSON.stringify(dashJSONvar[rowindex], jsonmaker);
     dasheditor.set(JSON.parse(jsonstr));
     $("#showjson").modal('show');
@@ -1495,7 +1551,7 @@ $('body').on("click", "#applyrowjson", function () {
     }
 
     var rowindex = $(this).attr("index");
-    dashJSONvar[rowindex]=dasheditor.get();
+    dashJSONvar[rowindex] = dasheditor.get();
     redrawAllJSON(dashJSONvar);
     $("#showjson").modal('hide');
 });
