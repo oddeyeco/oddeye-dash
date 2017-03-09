@@ -15,6 +15,10 @@ var pickerlabel = "Last 5 minutes";
 var jsonmaker = function (k, v)
 {
 
+    if (k === "manual")
+    {
+        return undefined;
+    }
     if (k === "echartLine")
     {
         return undefined;
