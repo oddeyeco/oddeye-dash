@@ -13,11 +13,9 @@ class ChartEditForm {
         this.formwraper = formwraper;
         this.row = row;
         this.index = index;
-        this.dashJSON = dashJSON;
-        var jsonstr = JSON.stringify(dashJSON[row]["widgets"][index], jsonmaker);
-//        $("#full_json").val(jsonstr);
-        editor.set(JSON.parse(jsonstr) );
-
+        this.dashJSON = dashJSON;        
+//        var jsonstr = JSON.stringify(dashJSON[row]["widgets"][index], jsonmaker);        
+//        editor.set(JSON.parse(jsonstr) );       
         var elem = document.getElementById("manual");
         if (this.dashJSON[this.row]["widgets"][this.index].manual)
         {
@@ -421,10 +419,9 @@ class ChartEditForm {
         }
         this.dashJSON[this.row]["widgets"][this.index].manual = true;
         var opt = this.dashJSON[this.row]["widgets"][this.index];
-        showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
+        showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {            
             var jsonstr = JSON.stringify(opt, jsonmaker);
             editor.set(JSON.parse(jsonstr));        
-//            $("#full_json").val(jsonstr);
         });
     }
 

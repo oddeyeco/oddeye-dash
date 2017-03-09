@@ -105,7 +105,9 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
         }
     }
-
+    var count = widget.queryes.length;
+    var oldseries = clone_obg(widget.options.series);
+    widget.options.series = [];
     for (k in widget.queryes)
     {
         if ((typeof (widget.queryes[k])) === "string")
@@ -142,11 +144,8 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             zlevel: 0
         });
         var m_sample = widget.options.xAxis[0].m_sample;
-
         $.getJSON(uri, null, function (data) {
 
-            var oldseries = clone_obg(widget.options.series);
-            widget.options.series = [];
             if (Object.keys(data.chartsdata).length > 0)
             {
                 if (widget.options.xAxis[0].type === "time")
@@ -236,7 +235,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
                 if (widget.options.xAxis[0].type === "category")
                 {
-                    widget.options.series = [];
+//                    widget.options.series = [];
                     var xdata = [];
                     var sdata = [];
                     var tmp_series_1 = {};
@@ -592,68 +591,74 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                 }
 
             }
-            for (var yindex in widget.options.yAxis)
+            count--;
+            if (count === 0)
             {
-                var formatter = widget.options.yAxis[yindex].unit;
-                if (formatter === "none")
+
+                for (var yindex in widget.options.yAxis)
                 {
-                    delete widget.options.yAxis[yindex].axisLabel.formatter;
-                } else
-                {
-                    if (!widget.options.yAxis[yindex].axisLabel)
+                    var formatter = widget.options.yAxis[yindex].unit;
+                    if (formatter === "none")
                     {
-                        widget.options.yAxis[yindex].axisLabel = {};
-                    }
-                    if (typeof (window[formatter]) === "function")
-                    {
-                        widget.options.yAxis[yindex].axisLabel.formatter = window[formatter];
+                        delete widget.options.yAxis[yindex].axisLabel.formatter;
                     } else
                     {
-                        widget.options.yAxis[yindex].axisLabel.formatter = formatter;
+                        if (!widget.options.yAxis[yindex].axisLabel)
+                        {
+                            widget.options.yAxis[yindex].axisLabel = {};
+                        }
+                        if (typeof (window[formatter]) === "function")
+                        {
+                            widget.options.yAxis[yindex].axisLabel.formatter = window[formatter];
+                        } else
+                        {
+                            widget.options.yAxis[yindex].axisLabel.formatter = formatter;
+                        }
                     }
                 }
-            }
-            if (redraw)
-            {
-                for (var ind in widget.options.series)
+                if (redraw)
                 {
-                    delete widget.options.series[ind].type;
-                    delete widget.options.series[ind].stack;
-                }
-                chart.setOption({series: widget.options.series});
-            } else
-            {
-                chart.setOption(widget.options);
-            }
-            chart.hideLoading();
-            if (callback !== null)
-            {
-                callback();
-            }
-            var GlobalRefresh = true;
-            if (widget.times)
-            {
-                if (widget.times.intervall)
-                {
-                    if (widget.times.intervall !== "General")
+                    for (var ind in widget.options.series)
                     {
-                        GlobalRefresh = false;
-                        clearTimeout(widget.timer);
+                        delete widget.options.series[ind].type;
+                        delete widget.options.series[ind].stack;
+                    }
+                    chart.setOption({series: widget.options.series});
+                } else
+                {
+                    chart.setOption(widget.options);
+                }
+                chart.hideLoading();
+                if (callback !== null)
+                {
+                    callback();
+                }
+                var GlobalRefresh = true;
+                if (widget.times)
+                {
+                    if (widget.times.intervall)
+                    {
+                        if (widget.times.intervall !== "General")
+                        {
+                            GlobalRefresh = false;
+                            clearTimeout(widget.timer);
+                            widget.timer = setTimeout(function () {
+                                setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
+                            }, widget.times.intervall);
+                        }
+                    }
+                }
+                if (GlobalRefresh)
+                {
+                    if (json.times.intervall)
+                    {
                         widget.timer = setTimeout(function () {
                             setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
-                        }, widget.times.intervall);
+                        }, json.times.intervall);
                     }
                 }
             }
-            if (GlobalRefresh)
-            {
-                if (json.times.intervall)
-                {
-                    widget.timer = setTimeout(function () {
-                        setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
-                    }, json.times.intervall);
-                }
-            }
+
 
         });
 }
@@ -717,7 +722,11 @@ function AutoRefresh(redraw = false)
 
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
 {
-    showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw);
+    var opt = dashJSONvar[row]["widgets"][index];
+    showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw, function () {
+        var jsonstr = JSON.stringify(opt, jsonmaker);
+        editor.set(JSON.parse(jsonstr));
+    });
 }
 
 
@@ -1032,11 +1041,16 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     }
     $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
     $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-    var check = document.getElementById('global-downsampling-switsh')
-    if (check.checked !== dashJSONvar.times.generalds[2])
+    //TODO Fix redraw
+    var check = document.getElementById('global-downsampling-switsh');
+    if (dashJSONvar.times.generalds[2])
     {
-        $(check).trigger('click');
+        if (check.checked !== dashJSONvar.times.generalds[2])
+        {
+            $(check).trigger('click');
+        }
     }
+
     if ($(".editchartpanel").is(':visible'))
     {
         var request_W_index = getParameterByName("widget");
@@ -1243,19 +1257,19 @@ $(document).ready(function () {
         var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
         elems[i].onchange = function () {
             dashJSONvar.times.generalds[2] = this.checked;
-            repaint();
+            repaint(true);
         };
     }
     ;
 
     $('body').on("change", "#global-down-sample-ag", function () {
         dashJSONvar.times.generalds[1] = $(this).val();
-        repaint();
+        repaint(true);
     });
 
     $('body').on("blur", "#global-down-sample", function () {
         dashJSONvar.times.generalds[0] = $(this).val();
-        repaint();
+        repaint(true);
     });
 
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
@@ -1413,7 +1427,10 @@ $('body').on("click", "span.tag_label .fa-check", function () {
 $('body').on("blur", ".edit-form input", function () {
     if (!$(this).parent().hasClass("edit"))
     {
-        chartForm.chage($(this));
+        if (!$(this).hasClass("ace_search_field"))
+        {
+            chartForm.chage($(this));
+        }
     }
 });
 $('body').on("change", ".edit-form select", function () {
