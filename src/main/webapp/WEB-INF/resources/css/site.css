@@ -463,6 +463,11 @@ span.tagspan span.text {
     margin-bottom: 10px
 }
 
+#dasheditor
+{
+    height: 600px;    
+    margin-bottom: 10px
+}
 div.jsoneditor {
     border: 1px solid #ccc;
 }

@@ -399,7 +399,6 @@ class ChartEditForm {
     resetjson()
     {        
         var jsonstr = JSON.stringify(this.dashJSON[this.row]["widgets"][this.index], jsonmaker);
-//        $("#full_json").val(jsonstr);
         editor.set(JSON.parse(jsonstr));        
     }
 

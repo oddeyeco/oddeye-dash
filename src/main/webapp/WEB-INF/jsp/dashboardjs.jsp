@@ -13,20 +13,12 @@
     var dashJSONvar = ${dashInfo};
     var chartForm;
 
-    var container = document.getElementById("jsoneditor");
+    
     var options = {modes :['form','tree','code'],mode:'code' };
-    var editor = new JSONEditor(container, options);
-//
-//    var json = {
-//        "Array": [1, 2, 3],
-//        "Boolean": true,
-//        "Null": null,
-//        "Number": 123,
-//        "Object": {"a": "b", "c": "d"},
-//        "String": "Hello World"
-//    };
-//    editor.set(json);
+    var editor = new JSONEditor(document.getElementById("jsoneditor"), options);
 
-    // get json
-//    var json = editor.get();
+
+    var dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
+    
+    
 </script>

@@ -176,7 +176,11 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
 
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                            var name2 = widget.options.title.text;
+                            if (widget.options.title)
+                            {
+                                var name2 = widget.options.title.text;
+                            }
+
                             if (typeof (widget.queryes[k].info) !== "undefined")
                             {
                                 if (widget.queryes[k].info.alias !== "")
@@ -1467,6 +1471,33 @@ $('body').on("click", ".deleterow", function () {
     $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Row?");
     $("#deleteConfirm").find('.modal-body .text-warning').html("");
     $("#deleteConfirm").modal('show');
+});
+
+$('body').on("click", ".showrowjson", function () {
+    var rowindex = $(this).parents(".widgetraw").first().attr("index");
+    $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
+    $("#showjson").find('.btn-ok').attr('index', rowindex);    
+    var jsonstr = JSON.stringify(dashJSONvar[rowindex], jsonmaker);
+    dasheditor.set(JSON.parse(jsonstr));
+    $("#showjson").modal('show');
+});
+
+$('body').on("click", "#applyrowjson", function () {
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }
+
+    var rowindex = $(this).attr("index");
+    dashJSONvar[rowindex]=dasheditor.get();
+    redrawAllJSON(dashJSONvar);
+    $("#showjson").modal('hide');
 });
 
 $('body').on("click", ".minus", function () {
