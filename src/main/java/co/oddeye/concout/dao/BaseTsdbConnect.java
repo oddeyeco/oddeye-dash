@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package co.oddeye.concout.dao;
+
 import co.oddeye.core.globalFunctions;
 import java.io.IOException;
 import javax.annotation.PreDestroy;
@@ -27,11 +28,14 @@ public final class BaseTsdbConnect {
 
     /*
      */
-
     public BaseTsdbConnect() {
 
-        String quorum = "192.168.10.50";
-        this.client = new org.hbase.async.HBaseClient(quorum);
+        String quorum = "nn1.netangels.net:2181,nn2.netangels.net:2181,rm1.netangels.net:2181";
+        org.hbase.async.Config clientconf = new org.hbase.async.Config();
+        clientconf.overrideConfig("hbase.zookeeper.quorum", quorum);
+        clientconf.overrideConfig("hbase.rpcs.batch.size", "2048");
+
+        this.client = new org.hbase.async.HBaseClient(clientconf);
         try {
             Config openTsdbConfig = new net.opentsdb.utils.Config(false);
             openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", String.valueOf(false));
@@ -42,8 +46,8 @@ public final class BaseTsdbConnect {
                     this.getClient(),
                     openTsdbConfig);
         } catch (IOException ex) {
-            LOGGER.error("TSDB CONNECT ERROR "+globalFunctions.stackTrace(ex));
-        } 
+            LOGGER.error("TSDB CONNECT ERROR " + globalFunctions.stackTrace(ex));
+        }
     }
 
     /**
@@ -59,7 +63,7 @@ public final class BaseTsdbConnect {
     public TSDB getTsdb() {
         return tsdb;
     }
-    
+
     @PreDestroy
     public void PreDestroy() {
         try {
@@ -68,5 +72,5 @@ public final class BaseTsdbConnect {
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-    }    
+    }
 }
