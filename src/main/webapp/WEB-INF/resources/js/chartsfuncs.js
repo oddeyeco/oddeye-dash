@@ -35,8 +35,8 @@ var jsonmaker = function (k, v)
     {
         return undefined;
     }
-    return v
-}
+    return v;
+};
 var rangeslabels = {
     'Last 5 minutes': "5m-ago",
     'Last 15 minutes': "15m-ago",
@@ -156,7 +156,7 @@ var rangescustomds = {
     12: ["4m", "avg", true],
     24: ["30m", "avg", true],
     168: ["1h", "avg", true],
-    720: ["1d", "avg", true],
+    720: ["1d", "avg", true]
 };
 var cbJson = function (JSON, wraper)
 {
@@ -198,8 +198,7 @@ var cbJson = function (JSON, wraper)
         } else
         {
             wraper.find('span').html(JSON.times.pickerlabel);
-            JSON.times.generalds = rangeslabelsds[JSON.times.pickerlabel]
-
+            JSON.times.generalds = rangeslabelsds[JSON.times.pickerlabel];
         }
     };
 }
@@ -221,7 +220,7 @@ var cb = function (start, end, label) {
 var s2d = function (str) {
     return str < 10 ? ('0' + str) : str;
 };
-var format_date = function (value, b) {
+var format_date = function (value, b) {    
     var a = new Date(value);
     var year = a.getFullYear();
     var month = a.getMonth();
@@ -721,7 +720,7 @@ var format_metric = function (params, type = "m") {
             case 1:
             case 2:
             {
-                val = val;
+//                val = val;
                 metric = "";
                 break;
             }
