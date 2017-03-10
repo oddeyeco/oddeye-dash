@@ -6,7 +6,7 @@
 
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
-    var timer;    
+    var timer;
     var interval = 10000;
     series = [];
 
@@ -21,19 +21,11 @@
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
-//        clearTimeout(timer);
         drawEchart(hashes, echartLine);
-//        timer = setInterval(function () {
-//            drawEchart(hashes, echartLine);
-//        }, interval);
     });
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-//        clearTimeout(timer);
         drawEchart(hashes, echartLine);
-//        timer = setInterval(function () {
-//            drawEchart(hashes, echartLine);
-//        }, interval);
     });
 
 
@@ -62,24 +54,20 @@
             $.getJSON(url, null, function (data) {
                 var chdata = [];
                 requestcount--;
-                
+
                 for (key in data.chartsdata)
                 {
                     var chartline = data.chartsdata[key];
-
-                    for (var time in chartline.data) {
-                        var dateval = moment(time * 1);
-                        chdata.push([dateval.toDate(), chartline.data[time]]);
-                    }
+                    chdata = chartline.data;
                     var serie = clone_obg(defserie);
 
                     serie.data = chdata;
                     var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
                     serie.name = name;
                     series.push(serie);
-                    legend.push(name);                                                            
-                    if (requestcount==0)
-                    {                        
+                    legend.push(name);
+                    if (requestcount == 0)
+                    {
                         series.sort(function (a, b) {
                             return compareStrings(a.name, b.name);
                         });
@@ -87,62 +75,30 @@
                         {
                             echartLine.setOption({
                                 title: {
-                                    show: false,
+                                    text: ""
                                 },
                                 tooltip: {
                                     trigger: 'axis'
                                 },
-                                legend: {
-                                    data: legend
-                                },
-//                                animation: false,
-                                toolbox: {
-                                    show: true,
-                                    feature: {
-                                        magicType: {
-                                            show: true,
-                                            title: {
-                                                line: 'Line',
-                                                bar: 'Bar',
-                                            },
-                                            type: ['line', 'bar']
-                                        },
-                                        saveAsImage: {
-                                            show: true,
-                                            title: "Save Image"
-                                        }
-                                    }
-                                },
-                                grid: {
-                                    x: 90,
-                                    y: 40,
-                                    x2: 20,
-                                    y2: 80
-                                },
+                                toolbox: {},
                                 xAxis: [{
                                         type: 'time',
-                                        splitNumber: 20,
-                                        axisLabel: {
-                                            formatter: format_date
-                                        }
                                     }],
                                 yAxis: [{
                                         type: 'value',
-                                        axisLabel: {
-                                            formatter: format_data
-                                        }
                                     }],
-                                dataZoom: {
-                                    show: true,
-                                    start: 0,
-                                    end: 100
-                                },
+                                dataZoom: [{
+                                        type: 'inside',
+                                        xAxisIndex: 0,
+                                        show: true,
+                                        start: 0,
+                                        end: 100
+                                    }],
                                 series: series
                             });
                         } else
                         {
                             echartLine.setOption({series: series});
-//                           echartLine.setSeries(series); 
                             echartLine.resize();
                         }
                         timer = setTimeout(function () {
@@ -152,7 +108,6 @@
                 }
             })
                     .done(function () {
-//                        console.log('getJSON request succeeded!');
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
                         console.log('getJSON request failed! ' + textStatus);

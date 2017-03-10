@@ -79,10 +79,9 @@
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
-                    var dateval = moment(time * 1);
-                    chdata.push([dateval.toDate(), chartline.data[time]]);
-                    chdataMath.push(chartline.data[time]);
-                }
+                    chdataMath.push(chartline.data[time][1]);
+                }                
+                chdata = chartline.data;
             }
             chart.setOption({
                 title: {
@@ -91,47 +90,24 @@
                 tooltip: {
                     trigger: 'axis'
                 },
-                toolbox: {
-                    show: true,
-                    feature: {
-                        magicType: {
-                            show: true,
-                            title: {
-                                line: 'Line',
-                                bar: 'Bar'
-                            },
-                            type: ['line', 'bar']
-                        },
-                        saveAsImage: {
-                            show: true,
-                            title: "Save Image"
-                        }
-                    }
-                },
+                toolbox: {},
                 grid: {
-                    x: 90,
-                    y: 40,
                     x2: 200,
                     y2: 80
                 },
                 xAxis: [{
                         type: 'time',
-                        axisLabel: {
-                            formatter: format_date
-                        }                        
                     }],
                 yAxis: [{
                         type: 'value',
-                        axisLabel: {
-                            formatter: format_data
-                        }
                     }],
-                dataZoom: {
-                    show: true,
-                    realtime: true,
-                    start: 0,
-                    end: 100
-                },
+                dataZoom: [{
+                        type: 'inside',
+                        xAxisIndex: 0,
+                        show: true,
+                        start: 0,
+                        end: 100
+                    }],
                 series: [{
                         name: chartline.metric,
                         type: 'line',
@@ -178,10 +154,6 @@
                                 width: 10
                             }
                         },
-                        pointer: {
-                            width: 4,
-                            length: '100%'
-                        },
                         title: {
                             show: true,
                             offsetCenter: ["30%", -160],
@@ -191,18 +163,8 @@
                             }
                         },
                         detail: {
-                            show: true,
-                            backgroundColor: 'rgba(0,0,0,0)',
-                            borderWidth: 0,
-                            borderColor: '#ccc',
-                            width: 100,
-                            height: 40,
                             offsetCenter: ["50%", "140%"],
                             formatter: format_data,
-                            textStyle: {
-                                color: 'auto',
-                                fontSize: 30
-                            }
                         },
                         data: [{value: chdataMath[chdataMath.length - 1], name: 'Last Value'}]
                     }]
@@ -215,7 +177,6 @@
     function ReDrawEchart(url, chart)
     {
         $.getJSON(url, null, function (data) {
-//            console.log(data);
             var date = [];
             var chdata = [];
             var chdataMath = [];
@@ -223,10 +184,9 @@
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
-                    var dateval = moment(time * 1);
-                    chdata.push([dateval.toDate(), chartline.data[time]]);
-                    chdataMath.push(chartline.data[time]);
+                    chdataMath.push(chartline.data[time][1]);
                 }
+                chdata = chartline.data;
             }
             var options = chart.getOption();
 
