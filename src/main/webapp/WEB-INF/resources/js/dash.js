@@ -1219,7 +1219,6 @@ $(document).ready(function () {
                     dashJSONvar.times.generalds = [];
                 }
                 dashJSONvar.times.generalds[2] = this.checked;
-                console.log(dashJSONvar.times.generalds);
                 repaint(true);
             }
 
@@ -1631,12 +1630,14 @@ $('body').on("click", ".addchart", function () {
         }
     }
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var widgetindex = numbers.basic.max(Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
+    console.log((dashJSONvar[rowindex]));
+    var widgetindex = Math.max(Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
 
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
     dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
 
     //TODO DRAW 1 chart
+    
     redrawAllJSON(dashJSONvar);
     $('html, body').animate({
         scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.parent.getBoundingClientRect().top - 30
