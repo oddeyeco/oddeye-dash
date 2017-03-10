@@ -712,12 +712,6 @@ $('body').on("change", "#refreshtime", function () {
 function AutoRefresh(redraw = false)
 {
     redrawAllJSON(dashJSONvar, redraw);
-//    if (dashJSONvar.times.intervall)
-//    {
-//        AllRedrawtimer = setTimeout(function () {
-//            AutoRefresh(true);
-//        }, dashJSONvar.times.intervall);
-//}
 }
 
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
@@ -760,6 +754,7 @@ function redrawAllJSON(dashJSON, redraw = false)
             if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
             {
                 var bkgclass = "";
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) === "undefined")
                 {
                     bkgclass = "chartbkg";
@@ -833,41 +828,7 @@ function redrawAllJSON(dashJSON, redraw = false)
                 {
                     dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
                 }
-                var startdate = "5m-ago";
-                var enddate = "now";
-                if (dashJSON.times)
-                {
-                    if (dashJSON.times.pickerlabel === "Custom")
-                    {
-                        startdate = dashJSON.times.pickerstart;
-                        enddate = dashJSON.times.pickerend;
-                    } else
-                    {
-                        if (typeof (rangeslabels[dashJSON.times.pickerlabel]) !== "undefined")
-                        {
-                            startdate = rangeslabels[dashJSON.times.pickerlabel];
-                        }
-
-                    }
-                }
-                if (dashJSON[rowindex]["widgets"][widgetindex].times)
-                {
-                    if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel === "Custom")
-                    {
-                        startdate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart;
-                        enddate = dashJSON[rowindex]["widgets"][widgetindex].times.pickerend;
-                    } else
-                    {
-                        if (typeof (rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel]) !== "undefined")
-                        {
-                            startdate = rangeslabels[dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel];
-                        }
-
-                    }
-                }
-                var chart = dashJSON[rowindex]["widgets"][widgetindex].echartLine;
                 setdatabyQueryes(dashJSON, rowindex, widgetindex, "getdata", redraw);
-//                        console.log(dashJSON[rowindex]["widgets"][widgetindex].echartLine);
             } else
             {
                 if (dashJSON[rowindex]["widgets"][widgetindex].options.series.length === 1)
@@ -951,44 +912,11 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     if (!redraw)
     {
         echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
-//        console.log(echartLine._dom);
     }
     if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
     {
-        var startdate = "5m-ago";
-        var enddate = "now";
-        if (dashJSON.times)
-        {
-            if (dashJSON.times.pickerlabel === "Custom")
-            {
-                startdate = dashJSON.times.pickerstart;
-                enddate = dashJSON.times.pickerend;
-            } else
-            {
-                if (typeof (rangeslabels[dashJSON.times.pickerlabel]) !== "undefined")
-                {
-                    startdate = rangeslabels[dashJSON.times.pickerlabel];
-                }
 
-            }
-        }
-        if (dashJSON[row]["widgets"][index].times)
-        {
-            if (dashJSON[row]["widgets"][index].times.pickerlabel === "Custom")
-            {
-                startdate = dashJSON[row]["widgets"][index].times.pickerstart;
-                enddate = dashJSON[row]["widgets"][index].times.pickerend;
-            } else
-            {
-                if (typeof (rangeslabels[dashJSON[row]["widgets"][index].times.pickerlabel]) !== "undefined")
-                {
-                    startdate = rangeslabels[dashJSON[row]["widgets"][index].times.pickerlabel];
-                }
-
-            }
-        }
         setdatabyQueryes(dashJSON, row, index, "getdata", redraw, callback, echartLine);
-//        setdatabyQueryes(dashJSON[row]["widgets"][index], "getdata", startdate, enddate, echartLine, redraw, callback);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].options);
@@ -1047,7 +975,9 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     {
         if (check.checked !== dashJSONvar.times.generalds[2])
         {
+            $(check).attr('autoedit', true);
             $(check).trigger('click');
+            $(check).removeAttr('autoedit');
         }
     }
 
@@ -1111,6 +1041,7 @@ function repaint(redraw = false) {
             AutoRefresh(redraw);
         } else
         {
+            clearTimeout(dashJSONvar[request_R_index]["widgets"][request_W_index].timer);
             var action = getParameterByName("action");
             AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", true, redraw);
             if ($('#axes_mode_x').val() === 'category') {
@@ -1256,13 +1187,22 @@ $(document).ready(function () {
     for (var i = 0; i < elems.length; i++) {
         var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
         elems[i].onchange = function () {
-            dashJSONvar.times.generalds[2] = this.checked;
-            repaint(true);
+            if (!$(this).attr('autoedit'))
+            {
+                if (!dashJSONvar.times.generalds)
+                {
+                    dashJSONvar.times.generalds = [];
+                }
+                dashJSONvar.times.generalds[2] = this.checked;
+                console.log(dashJSONvar.times.generalds);
+                repaint(true);
+            }
+
         };
-    }
-    ;
+    }    
 
     $('body').on("change", "#global-down-sample-ag", function () {
+        
         dashJSONvar.times.generalds[1] = $(this).val();
         repaint(true);
     });
