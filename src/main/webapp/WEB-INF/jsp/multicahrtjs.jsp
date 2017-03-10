@@ -51,6 +51,13 @@
             series = [];
             legend = [];
             requestcount++;
+            chart.showLoading("default", {
+                text: '',
+                color: colorPalette[0],
+                textColor: '#000',
+                maskColor: 'rgba(255, 255, 255, 0)',
+                zlevel: 0
+            });
             $.getJSON(url, null, function (data) {
                 var chdata = [];
                 requestcount--;
@@ -65,9 +72,10 @@
                     var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
                     serie.name = name;
                     series.push(serie);
-                    legend.push(name);
+                    legend.push(name);                    
                     if (requestcount == 0)
                     {
+                        chart.hideLoading();
                         series.sort(function (a, b) {
                             return compareStrings(a.name, b.name);
                         });

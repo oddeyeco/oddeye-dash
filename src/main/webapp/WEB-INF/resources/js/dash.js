@@ -84,10 +84,15 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
     {
         widget.options.legend.data = [];
     }
-
-    if (widget.options.toolbox.feature)
+    if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
     {
-        widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+        if (widget.options.toolbox.feature)
+        {
+            widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+        } else
+        {
+            widget.options.toolbox.feature = {magicType: {show: false}}
+        }
     }
 
 
@@ -589,7 +594,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
                         }
 
-                        if ((widget.options.series[ind].type === "pie")|| (widget.options.series[ind].type === "funnel"))
+                        if ((widget.options.series[ind].type === "pie") || (widget.options.series[ind].type === "funnel"))
                         {
                             for (var sind in widget.options.series[ind].data)
                             {
@@ -611,6 +616,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             count--;
             if (count === 0)
             {
+
+                widget.options.series.sort(function (a, b) {
+                    return compareStrings(a.name, b.name);
+                });
 
                 for (var yindex in widget.options.yAxis)
                 {
