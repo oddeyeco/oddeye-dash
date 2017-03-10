@@ -71,11 +71,16 @@
 
     function drawEchart(url, chart)
     {
-        $.getJSON(url, null, function (data) {
-            var date = [];
+        chart.showLoading("default", {
+            text: '',
+            color: colorPalette[0],
+            textColor: '#000',
+            maskColor: 'rgba(255, 255, 255, 0)',
+            zlevel: 0
+        });        
+        $.getJSON(url, null, function (data) {            
             var chdata = [];
-            var chdataMath = [];
-            var dateval = moment();
+            var chdataMath = [];            
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
@@ -83,6 +88,7 @@
                 }                
                 chdata = chartline.data;
             }
+            chart.hideLoading();
             chart.setOption({
                 title: {
                     text: chartline.metric

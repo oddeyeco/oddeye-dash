@@ -162,7 +162,7 @@ var encodeHTML = function (source) {
         },
 
         timeAxis: {
-            splitNumber: 10,
+            splitNumber: 5,
 //            axisLabel:
 //                    {
 //                        formatter: format_date
@@ -194,6 +194,7 @@ var encodeHTML = function (source) {
             }
         },
         animation: true,
+        animationEasing: 'bounceOut',
         valueAxis: {
             axisLine: {
                 lineStyle: {
