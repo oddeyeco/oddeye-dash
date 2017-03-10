@@ -1,7 +1,9 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker */
 
 //var AllRedrawtimer;
 var SingleRedrawtimer;
+var editor;
+var dasheditor;
 var refreshtimes =
         {
             "5000": "Refresh every 5s",
@@ -207,8 +209,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             series.data = [];
                             for (var ind in chdata)
                             {
-//                                series.data[ind].push(widget.options.yAxis[0].unit);
-                                series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2})
+                                series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2});
                             }
                             if (widget.stacked)
                             {
@@ -1007,7 +1008,7 @@ function repaint(redraw = false) {
     {
         $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
         $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-        var check = document.getElementById('global-downsampling-switsh')
+        var check = document.getElementById('global-downsampling-switsh');
         if (check.checked !== dashJSONvar.times.generalds[2])
         {
             $(check).trigger('click');
@@ -1199,10 +1200,10 @@ $(document).ready(function () {
             }
 
         };
-    }    
+    }
 
     $('body').on("change", "#global-down-sample-ag", function () {
-        
+
         dashJSONvar.times.generalds[1] = $(this).val();
         repaint(true);
     });
@@ -1231,6 +1232,10 @@ $(document).ready(function () {
     $('body').on("mouseleave", ".select2-container--default .menu-select", function () {
         $(".select2-container--default .menu-select .select2-results__option[role=group] ul").hide();
     });
+
+    var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
+    editor = new JSONEditor(document.getElementById("jsoneditor"), options);
+    dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
 });
 
 $('body').on("click", "span.tag_label .fa-remove", function () {
@@ -1455,7 +1460,7 @@ $('body').on("click", "#applydashjson", function () {
 
     $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
     $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-    var check = document.getElementById('global-downsampling-switsh')
+    var check = document.getElementById('global-downsampling-switsh');
     if (check.checked !== dashJSONvar.times.generalds[2])
     {
         $(check).trigger('click');
@@ -1688,7 +1693,7 @@ $('body').on("click", ".savedash", function () {
                 if (data.sucsses)
                 {
 //                    window.location.reload();
-                    alert("Data saved")
+                    alert("Data saved");
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {

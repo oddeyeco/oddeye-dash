@@ -11,14 +11,5 @@
 
 <script>
     var dashJSONvar = ${dashInfo};
-    var chartForm;
-
-    
-    var options = {modes :['form','tree','code'],mode:'code' };
-    var editor = new JSONEditor(document.getElementById("jsoneditor"), options);
-
-
-    var dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
-    
-    
+    var chartForm;    
 </script>
