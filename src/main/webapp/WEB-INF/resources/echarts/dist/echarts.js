@@ -21412,7 +21412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    function compatLayoutProperties(option) {
-	        each(LAYOUT_PROPERTIES, function (prop) {
+	        each(LAYOUT_PROPERTIES, function (prop) {                    
 	            if (prop[0] in option && !(prop[1] in option)) {
 	                option[prop[1]] = option[prop[0]];
 	            }

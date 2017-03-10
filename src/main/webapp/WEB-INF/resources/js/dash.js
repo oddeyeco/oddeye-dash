@@ -43,6 +43,7 @@ function replacer(tags) {
 function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, callback = null, customchart = null)
 {
     var widget = json[rowindex]["widgets"][widgetindex];
+    clearTimeout(widget.timer);
     var chart;
     if (customchart === null)
     {
@@ -592,7 +593,8 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                 }
 
             }
-            count--;
+            
+            count--;            
             if (count === 0)
             {
 
@@ -623,10 +625,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     {
                         delete widget.options.series[ind].type;
                         delete widget.options.series[ind].stack;
-                    }
+                    }                    
                     chart.setOption({series: widget.options.series});
                 } else
-                {
+                {                       
                     chart.setOption(widget.options);
                 }
                 chart.hideLoading();
@@ -641,8 +643,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     {
                         if (widget.times.intervall !== "General")
                         {
-                            GlobalRefresh = false;
-                            clearTimeout(widget.timer);
+                            GlobalRefresh = false;                            
                             widget.timer = setTimeout(function () {
                                 setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
                             }, widget.times.intervall);
@@ -1612,6 +1613,7 @@ $('body').on("click", ".addchart", function () {
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
     dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
 
+    //TODO DRAW 1 chart
     redrawAllJSON(dashJSONvar);
     $('html, body').animate({
         scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.parent.getBoundingClientRect().top - 30
@@ -1692,7 +1694,6 @@ $('body').on("click", ".savedash", function () {
             success: function (data) {
                 if (data.sucsses)
                 {
-//                    window.location.reload();
                     alert("Data saved");
                 }
             },

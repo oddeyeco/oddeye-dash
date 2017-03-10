@@ -91,17 +91,34 @@ var encodeHTML = function (source) {
                     out = params[0].name;
                     for (var ind in params)
                     {
-                        param = params[ind];                        
-                        var value = param.value[1];
-                        if (typeof (window[param.data.unit]) === "function")
+                        param = params[ind];
+                        if (typeof (param.value) === 'undefined')
                         {
-                            value = window[param.data.unit](value);
+                            return "";
+                        }
+                        
+                        var value;
+                        var firstparam = "";
+                        if (param.value instanceof Array)
+                        {
+                            value = param.value[1];
+                            firstparam = format_date(param.value[0], 0)
                         }
                         else
                         {
-                            value = value.toFixed(2);
+                            value = param.value;
                         }
-                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + format_date(param.value[0],0) + " " + param.seriesName + ' : ' + value
+
+                        if (typeof (window[param.data.unit]) === "function")
+                        {
+                            value = window[param.data.unit](value);
+                        } else
+                        {
+                            value = value.toFixed(2);
+                        
+                       }
+                       
+                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value
                     }
                 } else
                 {
@@ -109,8 +126,7 @@ var encodeHTML = function (source) {
                     if (typeof (window[params.data.unit]) === "function")
                     {
                         value = window[params.data.unit](value);
-                    }
-                    else
+                    } else
                     {
                         value = value.toFixed(2);
                     }
@@ -177,7 +193,7 @@ var encodeHTML = function (source) {
                 }
             }
         },
-        animation: false,
+        animation: true,
         valueAxis: {
             axisLine: {
                 lineStyle: {

@@ -693,10 +693,6 @@ class ChartEditForm {
                     delete this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key];
                 } else
                 {
-
-//                    (value == null || isNaN(value))
-//                    console.log(isNaN(10));
-//                    console.log(input.val()); 
                     if ($.isNumeric(input.val()))
                     {
                        this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] =parseFloat(input.val()) ;     
@@ -816,7 +812,6 @@ class ChartEditForm {
                     {
                         this.dashJSON[this.row]["widgets"][this.index].options.title[key] = false;
                     }
-//                    console.log(this.dashJSON[this.row]["widgets"][this.index].options.title[key]);
                 }
 
 
