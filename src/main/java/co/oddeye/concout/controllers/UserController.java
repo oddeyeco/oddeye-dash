@@ -85,10 +85,13 @@ public class UserController {
                     getAuthentication().getPrincipal();
 
             String[] levels = request.getParameterValues("levels[]");
-            userDetails.setListenerContainer(consumerFactory, this.template, levels);
-            if (levels.length > 0) {
-                userDetails.getListenerContainer().start();
+            userDetails.setListenerContainer(consumerFactory, this.template);
+            if (!userDetails.getListenerContainer().isRunning())
+            {
+                    userDetails.getListenerContainer().start();
             }
+            
+            
         }
         JsonObject jsonResult = new JsonObject();
         jsonResult.addProperty("sucsses", Boolean.TRUE);

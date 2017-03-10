@@ -669,20 +669,19 @@ public class User implements UserDetails {
         this.listenerContainer = listenerContainer;
     }
 
-    public void setListenerContainer(ConsumerFactory consumerFactory, SimpMessagingTemplate _template, String[] levels) {
-        if (this.listenerContainer != null) {
-            this.listenerContainer.stop();
-        }
-        if (levels.length > 0) {
-            String[] topics = new String[levels.length];
-            for (int i = 0; i < levels.length; i++) {
-                topics[i] = this.getId().toString() + levels[i];
+    public void setListenerContainer(ConsumerFactory consumerFactory, SimpMessagingTemplate _template) {
+        if (this.listenerContainer == null) {
+
+            String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];
+            for (int i = 0; i < AlertLevel.ALERT_LEVELS_INDEX.length; i++) {
+                topics[i] = this.getId().toString() + AlertLevel.ALERT_LEVELS_INDEX[i];
             }
             ContainerProperties properties = new ContainerProperties(topics);
             properties.setMessageListener(new OddeyeKafkaDataListener(this, _template));
             this.listenerContainer = new ConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setConcurrency(3);
             this.listenerContainer.getContainerProperties().setPollTimeout(3000);
+
         }
 
     }
