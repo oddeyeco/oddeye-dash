@@ -588,13 +588,27 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             }
 
                         }
+
+                        if ((widget.options.series[ind].type === "pie")|| (widget.options.series[ind].type === "funnel"))
+                        {
+                            for (var sind in widget.options.series[ind].data)
+                            {
+                                if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
+                                {
+                                    widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
+                                }
+
+                            }
+                        }
                         widget.options.legend.data.push(widget.options.series[ind].name);
+
+
                     }
                 }
 
             }
-            
-            count--;            
+
+            count--;
             if (count === 0)
             {
 
@@ -625,10 +639,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     {
                         delete widget.options.series[ind].type;
                         delete widget.options.series[ind].stack;
-                    }                    
+                    }
                     chart.setOption({series: widget.options.series});
                 } else
-                {                       
+                {
                     chart.setOption(widget.options);
                 }
                 chart.hideLoading();
@@ -643,7 +657,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     {
                         if (widget.times.intervall !== "General")
                         {
-                            GlobalRefresh = false;                            
+                            GlobalRefresh = false;
                             widget.timer = setTimeout(function () {
                                 setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
                             }, widget.times.intervall);
