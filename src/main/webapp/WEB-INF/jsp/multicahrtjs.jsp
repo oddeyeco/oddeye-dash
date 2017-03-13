@@ -2,6 +2,7 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
+
     pickerlabel = "Last 1 hour";
 
     var hashes =${hashes};
@@ -32,7 +33,10 @@
     function drawEchart(hashes, echartLine, reload = false)
     {
         var requestcount = 0;
+        var series = [];
+        var legend = [];
         hashes.forEach(function (item, i, arr) {
+
             var url;
             if (pickerlabel == "Custom")
             {
@@ -48,16 +52,15 @@
                 }
 
             }
-            series = [];
-            legend = [];
             requestcount++;
-            chart.showLoading("default", {
+            echartLine.showLoading("default", {
                 text: '',
                 color: colorPalette[0],
                 textColor: '#000',
                 maskColor: 'rgba(255, 255, 255, 0)',
                 zlevel: 0
             });
+
             $.getJSON(url, null, function (data) {
                 var chdata = [];
                 requestcount--;
@@ -72,10 +75,10 @@
                     var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
                     serie.name = name;
                     series.push(serie);
-                    legend.push(name);                    
+                    legend.push(name);
                     if (requestcount == 0)
                     {
-                        chart.hideLoading();
+                        echartLine.hideLoading();
                         series.sort(function (a, b) {
                             return compareStrings(a.name, b.name);
                         });

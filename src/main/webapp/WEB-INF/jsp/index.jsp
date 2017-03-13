@@ -190,8 +190,8 @@
         <script src="${cp}/resources/nprogress/nprogress.js"></script>-->
         <!-- moment.js -->
         <script src="${cp}/resources/js/moment/moment.min.js"></script>        
-<!--         bootstrap-progressbar 
-        <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>-->
+         <!--bootstrap-progressbar--> 
+        <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
          <!--iCheck--> 
         <script src="${cp}/resources/iCheck/icheck.min.js"></script>
 <!--         Skycons 
