@@ -52,7 +52,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
     {
         chart = customchart;
     }
-    if (chart == null)
+    if (chart === null)
     {
         return;
     }
@@ -95,7 +95,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
         } else
         {
-            widget.options.toolbox.feature = {magicType: {show: false}}
+            widget.options.toolbox.feature = {magicType: {show: false}};
         }
     }
 
