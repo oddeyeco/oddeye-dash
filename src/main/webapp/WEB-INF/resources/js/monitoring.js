@@ -157,7 +157,11 @@ function DrawErrorList(listJson, table)
                             filtred = regex.test(errorjson.info.name);
                         } else
                         {
-                            filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                            if (errorjson.info.tags[filterelems[i].value])
+                            {
+                                filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                            }
+
                         }
                         if (!filtred)
                         {
