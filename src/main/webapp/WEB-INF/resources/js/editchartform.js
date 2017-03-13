@@ -109,6 +109,11 @@ class ChartEditForm {
                 {
                     $(elem).trigger('click');
                 }
+                var elem = document.getElementById("enable_rate");
+                if (elem.checked !== dashJSON[row]["widgets"][index].queryes[0].info.rate)
+                {
+                    $(elem).trigger('click');
+                }                
 
             }
 
@@ -469,14 +474,14 @@ class ChartEditForm {
             if (this.formwraper.find("#down-sample-time").val() !== "")
             {
                 var downsample = this.formwraper.find("#down-sample-time").val() + "-" + this.formwraper.find("#down-sample-aggregator").val();
-            }
+            }         
 
-            var query = "metrics=" + metrics + "&tags=" + tags +
-                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + downsample;
+//            var query = "metrics=" + metrics + "&tags=" + tags +
+//                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + downsample;
 
 
             this.dashJSON[this.row]["widgets"][this.index].queryes = [];
-            this.dashJSON[this.row]["widgets"][this.index].queryes.push({"url": query, info: {"downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(), "alias2": this.formwraper.find("#alias2").val()}});
+            this.dashJSON[this.row]["widgets"][this.index].queryes.push({info: {"rate": document.getElementById("enable_rate").checked, "downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(), "alias2": this.formwraper.find("#alias2").val()}});
         }
         if (input.parents("form").hasClass("edit-display"))
         {

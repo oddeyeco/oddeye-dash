@@ -73,6 +73,7 @@ public class AjaxControlers {
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
             @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,
+            @RequestParam(value = "rate", required = false, defaultValue = "false") Boolean rate,
             @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -113,7 +114,7 @@ public class AjaxControlers {
             Long start_time = DateTime.parseDateTimeString(startdate, null);
             Long end_time = DateTime.parseDateTimeString(enddate, null);
             Long starttime = System.currentTimeMillis();
-            ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample);
+            ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample,rate);
             Long getinterval = System.currentTimeMillis() - starttime;
             starttime = System.currentTimeMillis();
             if (data != null) {

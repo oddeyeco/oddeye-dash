@@ -129,6 +129,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
         {
             var query = "metrics=" + widget.queryes[k].info.metrics + "&tags=" + widget.queryes[k].info.tags +
                     "&aggregator=" + widget.queryes[k].info.aggregator;
+            if (widget.queryes[k].info.rate)
+            {
+                query = query + "&rate=true";
+            }
             if (!widget.queryes[k].info.downsamplingstate)
             {
                 if (widget.queryes[k].info.downsample === "")
@@ -179,8 +183,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             {
                                 series.type = widget.type;
                             }
+                            
                             if (!series.symbol)
-                            {
+                            {                                
+                                series.showSymbol = (widget.points !== "none")&&(typeof(widget.points)!=="undefined" );
                                 series.symbol = widget.points;
                             }
 

@@ -109,10 +109,10 @@ public class HbaseDataDao extends HbaseBaseDao {
     public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery) {
         String Startdate = "5m-ago";
         String Enddate = "now";
-        return getDatabyQuery(user, metrics, "none", tagsquery, Startdate, Enddate, "");
+        return getDatabyQuery(user, metrics, "none", tagsquery, Startdate, Enddate, "",false);
     }
 
-    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String aggregator, String tagsquery, String Startdate, String Enddate, String Downsample) {
+    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String aggregator, String tagsquery, String Startdate, String Enddate, String Downsample, Boolean rate) {
 
         try {
             final TSQuery tsquery = new TSQuery();
@@ -134,6 +134,10 @@ public class HbaseDataDao extends HbaseBaseDao {
                 final TSSubQuery sub_query = new TSSubQuery();
                 sub_query.setMetric(metric);
                 sub_query.setAggregator(aggregator);
+                if (rate)
+                {
+                    sub_query.setRate(true);
+                }
 
                 if (!Downsample.equals("")) {
                     sub_query.setDownsample(Downsample);

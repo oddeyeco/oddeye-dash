@@ -227,6 +227,8 @@ var encodeHTML = function (source) {
         },
         line: {
             smooth: true,
+            showSymbol: false,
+            symbol: 'pin',
             symbolSize: 5
         },
 

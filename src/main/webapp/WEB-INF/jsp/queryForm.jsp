@@ -105,7 +105,15 @@
             Disable downsampling
         </label>
         <div class="checkbox" style="display: inline-block;">
-            <input type="checkbox" class="js-switch-small" chart_prop_key="show" id="disable_downsampling" name="disable_downsampling" /> 
+            <input type="checkbox" class="js-switch-small" chart_prop_key="downsampling" id="disable_downsampling" name="disable_downsampling" /> 
         </div>        
     </div>                        
+    <div class="form-group form-group-custom">
+        <label class="control-label control-label-custom-legend" >
+            Rate
+        </label>
+        <div class="checkbox" style="display: inline-block;">
+            <input type="checkbox" class="js-switch-small" chart_prop_key="rate" id="enable_rate" name="enable_rate" /> 
+        </div>
+    </div>
 </form>                    
