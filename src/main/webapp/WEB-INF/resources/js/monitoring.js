@@ -20,6 +20,7 @@ function findeByhash(element, array) {
 }
 function reDrawErrorList(listJson, table, errorjson)
 {
+
     var elems = document.getElementById("check_level_" + errorjson.level);
     filtred = false;
     if (elems !== null)
@@ -49,6 +50,7 @@ function reDrawErrorList(listJson, table, errorjson)
             ;
         }
     }
+
     if (errorjson.isspec === 0)
     {
         var index = findeByhash(errorjson, array_regular);
@@ -61,6 +63,7 @@ function reDrawErrorList(listJson, table, errorjson)
                     return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
                 });
                 var index2 = findeByhash(errorjson, array_regular);
+//                console.log(index2);
                 if (index2 < array_regular.length - 1)
                 {
                     drawRaw(array_regular[index2], table, array_regular[index2 + 1].hash);
@@ -86,9 +89,11 @@ function reDrawErrorList(listJson, table, errorjson)
         }
     } else
     {
+
         var index = findeByhash(errorjson, array_spec);
+
         if (filtred)
-        {
+        {            
             if (index === -1)
             {
                 array_spec.push(errorjson);
@@ -96,18 +101,13 @@ function reDrawErrorList(listJson, table, errorjson)
                     return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
                 });
                 var index2 = findeByhash(errorjson, array_spec);
+//                console.log(index2);
                 if (index2 < array_spec.length - 1)
                 {
                     drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
                 } else
                 {
-                    if (array_spec.length === 0)
-                    {
-                        drawRaw(array_spec[index2], table, 0);
-                    } else
-                    {
-                        drawRaw(array_spec[index2], table, array_spec[array_spec.length - 1].hash);
-                    }
+                    drawRaw(array_spec[index2], table, 0);
                 }
             } else
             {
@@ -196,6 +196,7 @@ function DrawErrorList(listJson, table)
     $("select").attr('disabled', false);
 }
 function drawRaw(errorjson, table, index = null, update = false) {
+//    alert("ddd");
     var message = "";
     if (errorjson.isspec === 1)
     {
@@ -236,13 +237,15 @@ function drawRaw(errorjson, table, index = null, update = false) {
     {
         trclass = "spec";
     }
+
     if (!update)
     {
+
         html = "";
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
         if (errorjson.isspec === 0)
         {
-            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="'+cp+'/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
+            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
         } else
         {
             html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
@@ -253,6 +256,7 @@ function drawRaw(errorjson, table, index = null, update = false) {
         html = html + '<td class="message">' + message + '</td>';
         html = html + '<td class="timech">' + starttime + '</td>';
         html = html + '</tr>';
+//        console.log(index);
         if (index === null)
         {
             table.find("tbody").append(html);
@@ -260,7 +264,14 @@ function drawRaw(errorjson, table, index = null, update = false) {
         {
             if (index === 0)
             {
-                table.find("tbody tr").first().before(html);
+                if (table.find("tbody tr").first().length === 0)
+                {
+                    table.find("tbody").append(html);
+                } else
+                {
+                    table.find("tbody tr").first().before(html);
+                }
+
             } else
             {
                 table.find("tbody tr#" + index).before(html);
@@ -280,6 +291,7 @@ function drawRaw(errorjson, table, index = null, update = false) {
         table.find("tbody tr#" + index + " .icons i.action").css("color", color);
 }
 }
+
 var beginlisen = false;
 function startlisen()
 {
@@ -304,7 +316,8 @@ function startlisen()
                     sendData.levels.push(field.name.replace("check_level_", ""));
                 }
             }
-        });        
+        });
+        sendData.sotoken = sotoken;
         $.ajax({
             dataType: 'json',
             type: 'POST',
@@ -368,9 +381,9 @@ $(document).ready(function () {
         };
     }
     var first = true;
-    $("body").on("change", ".js-switch-small", function () {        
+    $("body").on("change", ".js-switch-small", function () {
         if (!first)
-        {            
+        {
             startlisen();
             first = true;
         } else
@@ -385,13 +398,14 @@ $(document).ready(function () {
         $(this).val(filterJson[$(this).attr("name")]);
     });
     DrawErrorList(errorlistJson, $(".metrictable"));
-    var socket = new SockJS(cp+'/subscribe');
+
+    var socket = new SockJS(cp + '/subscribe');
     stompClient = Stomp.over(socket);
     stompClient.debug = null;
     var headers = {};
     headers[headerName] = token;
     stompClient.connect(headers, function (frame) {
-        stompClient.subscribe('/user/' + uuid + '/errors', function (error) {
+        stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
             var errorjson = JSON.parse(error.body);
 //            console.log(errorjson);
             if (errorjson.level === -1)
@@ -409,10 +423,13 @@ $(document).ready(function () {
         var url = cp + "/stoplisener";
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
+        var sendData = {};
+        sendData.sotoken = sotoken;
         $.ajax({
             dataType: 'json',
             type: 'POST',
             url: url,
+            data: sendData,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             }

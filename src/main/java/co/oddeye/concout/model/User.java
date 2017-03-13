@@ -11,6 +11,7 @@ import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.providers.OddeyeKafkaDataListener;
+import co.oddeye.concout.providers.UserConcurrentMessageListenerContainer;
 import co.oddeye.core.globalFunctions;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -91,7 +92,7 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
-    private ConcurrentMessageListenerContainer<Integer, String> listenerContainer;
+    private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
 
     public User() {
         this.id = UUID.randomUUID();
@@ -665,24 +666,46 @@ public class User implements UserDetails {
     /**
      * @param listenerContainer the listenerContainer to set
      */
-    public void setListenerContainer(ConcurrentMessageListenerContainer<Integer, String> listenerContainer) {
+    public void setListenerContainer(UserConcurrentMessageListenerContainer<Integer, String> listenerContainer) {
         this.listenerContainer = listenerContainer;
     }
 
-    public void setListenerContainer(ConsumerFactory consumerFactory, SimpMessagingTemplate _template) {
+    public void setListenerContainer(ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
         if (this.listenerContainer == null) {
-
             String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];
             for (int i = 0; i < AlertLevel.ALERT_LEVELS_INDEX.length; i++) {
                 topics[i] = this.getId().toString() + AlertLevel.ALERT_LEVELS_INDEX[i];
             }
             ContainerProperties properties = new ContainerProperties(topics);
-            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template));
-            this.listenerContainer = new ConcurrentMessageListenerContainer<>(consumerFactory, properties);
+            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, sotoken));
+            this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setConcurrency(3);
             this.listenerContainer.getContainerProperties().setPollTimeout(3000);
+            this.listenerContainer.start();
+        } else {
+            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
+            lisener.getSotokenlist().putAll(sotoken);
+            if (!lisener.getSotokenlist().isEmpty()) {
+                if (!this.listenerContainer.isRunning()) {
+                    this.listenerContainer.start();
+                }
+
+            }
 
         }
+//        this.listenerContainer.getContainerProperties().getMessageListener()
 
+    }
+
+    public void stopListenerContainer(String sotoken) {
+        if (this.listenerContainer != null) {
+            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
+            if (lisener.getSotokenlist().containsKey(sotoken)) {
+                lisener.getSotokenlist().remove(sotoken);
+                if (lisener.getSotokenlist().isEmpty()) {
+                    this.listenerContainer.stop();
+                }
+            }
+        }
     }
 }

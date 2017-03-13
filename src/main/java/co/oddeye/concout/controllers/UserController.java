@@ -35,10 +35,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.oddeye.core.AlertLevel;
+import static co.oddeye.core.AlertLevel.ALERT_PARAM_PECENT;
+import static co.oddeye.core.AlertLevel.ALERT_PARAM_PREDICTPERSENT;
+import static co.oddeye.core.AlertLevel.ALERT_PARAM_RECCOUNT;
+import static co.oddeye.core.AlertLevel.ALERT_PARAM_VALUE;
+import static co.oddeye.core.AlertLevel.ALERT_PARAM_WEIGTH;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.function.Function;
 
 import org.hbase.async.KeyValue;
@@ -85,13 +92,17 @@ public class UserController {
                     getAuthentication().getPrincipal();
 
             String[] levels = request.getParameterValues("levels[]");
-            userDetails.setListenerContainer(consumerFactory, this.template);
-            if (!userDetails.getListenerContainer().isRunning())
-            {
-                    userDetails.getListenerContainer().start();
-            }
-            
-            
+            String sotoken = request.getParameter("sotoken");
+            userDetails.setListenerContainer(consumerFactory, this.template, new HashMap<String, String[]>() {
+                {
+                    put(sotoken, levels);
+                }
+            });
+//            if (!userDetails.getListenerContainer().isRunning())
+//            {
+//                    userDetails.getListenerContainer().start();
+//            }
+
         }
         JsonObject jsonResult = new JsonObject();
         jsonResult.addProperty("sucsses", Boolean.TRUE);
@@ -106,7 +117,9 @@ public class UserController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            userDetails.getListenerContainer().stop();
+            String sotoken = request.getParameter("sotoken");
+            userDetails.stopListenerContainer(sotoken);
+//            userDetails.getListenerContainer().stop();
         }
         JsonObject jsonResult = new JsonObject();
         jsonResult.addProperty("sucsses", Boolean.TRUE);
@@ -169,7 +182,8 @@ public class UserController {
             }
 
         }
-
+        Random rand = new Random();
+        map.put("_sotoken", rand.nextInt(90000) + 10000);
         map.put("body", "monitoring");
         map.put("jspart", "monitoringjs");
 
@@ -459,7 +473,7 @@ public class UserController {
                     calobject.add(Calendar.HOUR, 1);
                     calobject.add(Calendar.MILLISECOND, -1);
                     String enddate = Long.toString(calobject.getTimeInMillis());
-                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), "none", Error.getFullFilter(), startdate, enddate, "",false));
+                    data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), "none", Error.getFullFilter(), startdate, enddate, "", false));
                     return startdate;
                 }).map((String startdate) -> {
                     if (!data.isEmpty()) {
@@ -467,40 +481,40 @@ public class UserController {
                             for (DataPoints DataPoints : DataPointslist) {
                                 Tagmap = DataPoints.getTags();
                                 Tagmap.remove("UUID");
-                                Tagmap.remove("alert_level");                                
-                                JsonObject jsonMessage;                               
-                                String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());                                
+                                Tagmap.remove("alert_level");
+                                JsonObject jsonMessage;
+                                String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
                                 if (jsonMessages.get(jsonuindex) == null) {
                                     jsonMessage = new JsonObject();
                                 } else {
                                     jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                                 }
-                                
+
                                 jsonMessage.addProperty("index", Tagmap.hashCode());
                                 jsonMessage.addProperty("metric", DataPoints.metricName());
-                                
+
                                 final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
                                 jsonMessage.add("tags", TagsJSON);
                                 Tagmap.clear();
-                                
+
                                 final SeekableView Datalist = DataPoints.iterator();
-                                
+
                                 JsonObject DatapointsJSON;
-                                
+
                                 if (jsonMessage.get("data") == null) {
                                     DatapointsJSON = new JsonObject();
                                 } else {
                                     DatapointsJSON = jsonMessage.get("data").getAsJsonObject();
                                 }
-                                
+
                                 while (Datalist.hasNext()) {
                                     final DataPoint Point = Datalist.next();
                                     DatapointsJSON.addProperty(Long.toString(Point.timestamp()), Point.doubleValue());
                                 }
-                                
+
                                 jsonMessage.add("data", DatapointsJSON);
                                 jsonMessages.add(startdate, jsonMessage);
-                                
+
                             }
                         });
                     }
@@ -519,7 +533,7 @@ public class UserController {
                 calobject.add(Calendar.MILLISECOND, -1);
                 String enddate = Long.toString(calobject.getTimeInMillis());
                 data.clear();
-                data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), "none", Error.getFullFilter(), startdate, enddate, "",false));
+                data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), "none", Error.getFullFilter(), startdate, enddate, "", false));
                 if (!data.isEmpty()) {
                     data.forEach((DataPointslist) -> {
                         for (DataPoints DataPoints : DataPointslist) {

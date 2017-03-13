@@ -14,6 +14,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -26,26 +29,30 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  *
  * @author vahan
  */
-public class OddeyeKafkaDataListener implements MessageListener<Object, Object>, Serializable{
+public class OddeyeKafkaDataListener implements MessageListener<Object, Object>, Serializable {
+
     private final User user;
     private final Logger log = LoggerFactory.getLogger(OddeyeKafkaDataListener.class);
-    
+
     private static final JsonParser PARSER = new JsonParser();
     private final Gson gson = new Gson();
-    
+
     public final CountDownLatch countDownLatch1 = new CountDownLatch(1);
 
     private final SimpMessagingTemplate template;
-    
-    public OddeyeKafkaDataListener(User _user,SimpMessagingTemplate _template) {
+    private final Map<String, String[]> sotokenlist = new HashMap<>();
+
+    public OddeyeKafkaDataListener(User _user, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
         user = _user;
-        template = _template;        
+        template = _template;
+        sotokenlist.putAll(sotoken);
     }
 
     @Override
     public void onMessage(ConsumerRecord<Object, Object> record) {
 //        System.out.println(data);
         String msg = (String) record.value();
+        String t_level = record.topic().replace(user.getId().toString(), "");
         if (log.isInfoEnabled()) {
             log.info("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
         }
@@ -88,16 +95,28 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                 metajson.getAsJsonObject().addProperty("name", metricMeta.getName());
                 jsonResult.getAsJsonObject().add("info", metajson);
                 jsonResult.getAsJsonObject().addProperty("isspec", metricMeta.isSpecial() ? 1 : 0);
-                this.template.convertAndSendToUser(user.getId().toString(), "/errors", jsonResult.toString());
+
+                for (Map.Entry<String, String[]> sotokenlevel : getSotokenlist().entrySet()) {
+                    if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
+                        this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+                    }
+
+                }
+
             }
-            
-        }
-        else
-        {
+
+        } else {
             System.out.println("valod");
         }
-        countDownLatch1.countDown();        
-        
+        countDownLatch1.countDown();
+
     }
-    
+
+    /**
+     * @return the sotokenlist
+     */
+    public Map<String, String[]> getSotokenlist() {
+        return sotokenlist;
+    }
+
 }

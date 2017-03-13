@@ -1,6 +1,7 @@
 <script>
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
+    var sotoken = ${_sotoken};
     var uuid = "${curentuser.getId()}";
     var filterJson = ${curentuser.getDefaultFilter()};
 </script> 
