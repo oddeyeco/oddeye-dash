@@ -77,15 +77,15 @@
             textColor: '#000',
             maskColor: 'rgba(255, 255, 255, 0)',
             zlevel: 0
-        });        
-        $.getJSON(url, null, function (data) {            
+        });
+        $.getJSON(url, null, function (data) {
             var chdata = [];
-            var chdataMath = [];            
+            var chdataMath = [];
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var time in chartline.data) {
                     chdataMath.push(chartline.data[time][1]);
-                }                
+                }
                 chdata = chartline.data;
             }
             chart.hideLoading();
@@ -106,6 +106,11 @@
                     }],
                 yAxis: [{
                         type: 'value',
+                        axisLabel:
+                                {
+                                    formatter: format_metric
+                                },
+
                     }],
                 dataZoom: [{
                         type: 'inside',
@@ -126,11 +131,11 @@
                             data: [
                                 {type: 'max', name: 'max', itemStyle: {
                                         normal: {
-                                            label: {position: "top", formatter: format_data}
+                                            label: {position: "top", formatter: format_metric}
                                         }}},
                                 {type: 'min', name: 'min', itemStyle: {
                                         normal: {
-                                            label: {position: "top", formatter: format_data}
+                                            label: {position: "top", formatter: format_metric}
                                         }}}
                             ]
                         },
@@ -138,7 +143,7 @@
                             data: [
                                 {type: 'average', name: 'average', itemStyle: {
                                         normal: {
-                                            label: {formatter: format_data}
+                                            label: {formatter: format_metric}
                                         }}}
                             ]
                         },
@@ -170,7 +175,7 @@
                         },
                         detail: {
                             offsetCenter: ["50%", "140%"],
-                            formatter: format_data,
+                            formatter: format_metric,
                         },
                         data: [{value: chdataMath[chdataMath.length - 1], name: 'Last Value'}]
                     }]

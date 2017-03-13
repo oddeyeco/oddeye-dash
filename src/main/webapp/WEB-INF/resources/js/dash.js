@@ -465,15 +465,18 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 if (formatter === "none")
                                 {
                                     delete series.axisLabel.formatter;
+                                    delete series.detail.formatter;
                                 } else
                                 {
 
                                     if (typeof (window[formatter]) === "function")
                                     {
                                         series.axisLabel.formatter = window[formatter];
+                                        series.detail.formatter = window[formatter];
                                     } else
                                     {
                                         series.axisLabel.formatter = formatter;
+                                        series.detail.formatter = formatter;
                                     }
                                 }
 
