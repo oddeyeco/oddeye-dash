@@ -67,7 +67,8 @@
                                         </select>
                                     </th>                                    
                                     <th>Info</th>
-                                    <th>Time</th>                                    
+                                    <th>Start Time</th>
+                                    <th>Last Time</th>                                    
                                 </tr>
                             </thead>
                             <tbody>

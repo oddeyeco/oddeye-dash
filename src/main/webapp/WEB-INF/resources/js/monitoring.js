@@ -39,7 +39,11 @@ function reDrawErrorList(listJson, table, errorjson)
                         filtred = regex.test(errorjson.info.name);
                     } else
                     {
-                        filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                        if (errorjson.info.tags[filterelems[i].value])
+                        {
+                            filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
+                        }
+
                     }
                     if (!filtred)
                     {
@@ -93,7 +97,7 @@ function reDrawErrorList(listJson, table, errorjson)
         var index = findeByhash(errorjson, array_spec);
 
         if (filtred)
-        {            
+        {
             if (index === -1)
             {
                 array_spec.push(errorjson);
@@ -254,9 +258,10 @@ function drawRaw(errorjson, table, index = null, update = false) {
         html = html + '<td>' + errorjson.info.name + '</td>';
         html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
         html = html + '<td class="message">' + message + '</td>';
+        html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat);
+        +'</td>';
         html = html + '<td class="timech">' + starttime + '</td>';
         html = html + '</tr>';
-//        console.log(index);
         if (index === null)
         {
             table.find("tbody").append(html);
