@@ -202,7 +202,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             var series = clone_obg(defserie);
                             for (var skey in oldseries)
                             {
-                                if (oldseries[skey].name == name)
+                                if (oldseries[skey].name === name)
                                 {
                                     series = clone_obg(oldseries[skey]);
                                     break;
@@ -350,7 +350,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                         var series = clone_obg(defserie);
                         for (var skey in oldseries)
                         {
-                            if (oldseries[skey].name == name)
+                            if (oldseries[skey].name === name)
                             {
                                 series = clone_obg(oldseries[skey]);
                                 break;
@@ -393,7 +393,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             var series = clone_obg(defserie);
                             for (var skey in oldseries)
                             {
-                                if (oldseries[skey].name == name)
+                                if (oldseries[skey].name === name)
                                 {
                                     series = clone_obg(oldseries[skey]);
                                     break;
@@ -1657,8 +1657,17 @@ $('body').on("click", ".addchart", function () {
         }
     }
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
+    
+    var widgetindex = 0;
+    if (dashJSONvar[rowindex]["widgets"])
+    {
+        widgetindex = Math.max(Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
+    }
+    else
+    {
+        dashJSONvar[rowindex].widgets = [];
+    }
 
-    var widgetindex = Math.max(Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
 
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
     dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
@@ -1853,7 +1862,7 @@ window.onscroll = function () {
                         var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
                         var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
                         dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
-                        if (chart != null)
+                        if (chart !== null)
                         {
                             if (chart._dom.getBoundingClientRect().bottom < 0)
                             {
