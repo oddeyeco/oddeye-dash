@@ -209,11 +209,13 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 }
                             }
                             series.data = [];
+                            if (!series.type)
+                            {
+                                series.type = widget.type;
+                            }
 
                             if (!widget.manual)
                             {
-                                series.type = widget.type;
-
                                 if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                 {
                                     series.showSymbol = true;
@@ -224,6 +226,9 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                     delete series.showSymbol;
                                 }
 
+                            } else
+                            {
+                                series.showSymbol = ((series.symbol !== "none") && (typeof (series.symbol) !== "undefined"));
                             }
                             series.name = name;
 
@@ -393,13 +398,12 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             var series = clone_obg(defserie);
                             for (var skey in oldseries)
                             {
-                                if (oldseries[skey].name === name)
+                                if (oldseries[skey].name === key)
                                 {
                                     series = clone_obg(oldseries[skey]);
                                     break;
                                 }
                             }
-
                             series.data = [];
 
                             if (!series.type)
@@ -552,6 +556,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             {
                                 series.stack = "0";
                             }
+
                             if (series.type === "funnel")
                             {
                                 delete series.axisLine;
@@ -581,13 +586,16 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                         }
                                     };
                                 }
+
                                 if (!widget.manual)
                                 {
                                     series.width = radius - 5 + "%";
                                     series.height = 100 / rows - 5 + "%";
                                     series.x = index * radius - radius + '%';
                                     series.y = (row * 50 + 2.5) + "%";
+
                                 }
+
                             }
                             index++;
 //                            console.log(series);
@@ -1657,13 +1665,12 @@ $('body').on("click", ".addchart", function () {
         }
     }
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    
+
     var widgetindex = 0;
     if (dashJSONvar[rowindex]["widgets"])
     {
         widgetindex = Math.max(Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
-    }
-    else
+    } else
     {
         dashJSONvar[rowindex].widgets = [];
     }
