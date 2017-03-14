@@ -396,7 +396,6 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 if (oldseries[skey].name == name)
                                 {
                                     series = clone_obg(oldseries[skey]);
-                                    console.log(series);
                                     break;
                                 }
                             }
