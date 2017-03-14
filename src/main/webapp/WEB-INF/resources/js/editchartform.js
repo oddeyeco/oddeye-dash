@@ -13,7 +13,7 @@ class ChartEditForm {
         this.formwraper = formwraper;
         this.row = row;
         this.index = index;
-        this.dashJSON = dashJSON;        
+        this.dashJSON = dashJSON;
 //        var jsonstr = JSON.stringify(dashJSON[row]["widgets"][index], jsonmaker);        
 //        editor.set(JSON.parse(jsonstr) );       
         var elem = document.getElementById("manual");
@@ -113,7 +113,7 @@ class ChartEditForm {
                 if (elem.checked !== dashJSON[row]["widgets"][index].queryes[0].info.rate)
                 {
                     $(elem).trigger('click');
-                }                
+                }
 
             }
 
@@ -400,13 +400,13 @@ class ChartEditForm {
     }
 
     resetjson()
-    {        
+    {
         var jsonstr = JSON.stringify(this.dashJSON[this.row]["widgets"][this.index], jsonmaker);
-        editor.set(JSON.parse(jsonstr));        
+        editor.set(JSON.parse(jsonstr));
     }
 
     applyjson()
-    {        
+    {
         var tmpJson = editor.get();
         clearTimeout(this.dashJSON[this.row]["widgets"][this.index].timer);
         for (var key in tmpJson)
@@ -424,9 +424,9 @@ class ChartEditForm {
         }
         this.dashJSON[this.row]["widgets"][this.index].manual = true;
         var opt = this.dashJSON[this.row]["widgets"][this.index];
-        showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {            
+        showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
             var jsonstr = JSON.stringify(opt, jsonmaker);
-            editor.set(JSON.parse(jsonstr));        
+            editor.set(JSON.parse(jsonstr));
         });
     }
 
@@ -474,7 +474,7 @@ class ChartEditForm {
             if (this.formwraper.find("#down-sample-time").val() !== "")
             {
                 var downsample = this.formwraper.find("#down-sample-time").val() + "-" + this.formwraper.find("#down-sample-aggregator").val();
-            }         
+            }
 
 //            var query = "metrics=" + metrics + "&tags=" + tags +
 //                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + downsample;
@@ -700,13 +700,12 @@ class ChartEditForm {
                 {
                     if ($.isNumeric(input.val()))
                     {
-                       this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] =parseFloat(input.val()) ;     
-                    }
-                    else
+                        this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] = parseFloat(input.val());
+                    } else
                     {
-                       this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] = input.val();    
+                        this.dashJSON[this.row]["widgets"][this.index].options[axes][index][key] = input.val();
                     }
-                    
+
                     if (key === "type")
                     {
                         if (input.val() === "category")
@@ -774,7 +773,11 @@ class ChartEditForm {
                     var inputs = this.formwraper.find(".edit-title [chart_prop_key='" + key + "']");
                     if (inputs.length === 1)
                     {
-                        delete this.dashJSON[this.row]["widgets"][this.index].options.title[key];
+                        if (this.dashJSON[this.row]["widgets"][this.index].options.title)
+                        {
+                            delete this.dashJSON[this.row]["widgets"][this.index].options.title[key];
+                        }
+
                     }
                     if (inputs.length > 1)
                     {
@@ -797,6 +800,10 @@ class ChartEditForm {
                     }
                 } else
                 {
+                    if (!this.dashJSON[this.row]["widgets"][this.index].options.title)
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].options.title = {};
+                    }
                     if ($.isNumeric(input.val()))
                     {
                         this.dashJSON[this.row]["widgets"][this.index].options.title[key] = parseInt(input.val());

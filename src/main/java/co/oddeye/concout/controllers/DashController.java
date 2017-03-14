@@ -73,8 +73,8 @@ public class DashController {
 //            modelAndView.addObject("dashname", dashname);        
         modelAndView.addObject("exception", ex);
         modelAndView.addObject("url", request.getRequestURL());
-        modelAndView.addObject("body", "errorjs/404error");
-        modelAndView.addObject("jspart", "errorjs/errorjs");
+        modelAndView.addObject("body", "errors/404error");
+        modelAndView.addObject("jspart", "errors/errorjs");
         modelAndView.setViewName("index");
         return modelAndView;
     }
@@ -108,8 +108,8 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            String DushName = request.getParameter("name");
-            String DushInfo = request.getParameter("info");
+            String DushName = request.getParameter("name").trim();
+            String DushInfo = request.getParameter("info").trim();
             if (DushName != null) {
                 userDetails.addDush(DushName, DushInfo, Userdao);
                 jsonResult.addProperty("sucsses", true);
@@ -131,7 +131,7 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            String DushName = request.getParameter("name");
+            String DushName = request.getParameter("name").trim();
             if (DushName != null) {
                 userDetails.removeDush(DushName, Userdao);
                 jsonResult.addProperty("sucsses", true);

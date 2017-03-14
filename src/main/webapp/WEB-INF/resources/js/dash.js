@@ -468,6 +468,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                     delete series.detail.formatter;
                                 } else
                                 {
+                                    if (!series.detail)
+                                    {
+                                        series.detail = {};
+                                    }
 
                                     if (typeof (window[formatter]) === "function")
                                     {
