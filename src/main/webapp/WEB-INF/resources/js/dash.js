@@ -434,7 +434,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 if (Object.keys(tmp_series_1).length === 1)
                                 {
                                     series.itemStyle = {normal: {color: function (params) {
-                                                return colorPalette[params.dataIndex];
+                                                return colorPalette[params.dataIndex % colorPalette.length];
                                             }}};
                                 }
                                 series.data = tmp_series_1[key];
