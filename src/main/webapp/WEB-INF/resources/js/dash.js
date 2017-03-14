@@ -183,10 +183,10 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             {
                                 series.type = widget.type;
                             }
-                            
+
                             if (!series.symbol)
-                            {                                
-                                series.showSymbol = (widget.points !== "none")&&(typeof(widget.points)!=="undefined" );
+                            {
+                                series.showSymbol = (widget.points !== "none") && (typeof (widget.points) !== "undefined");
                                 series.symbol = widget.points;
                             }
 
@@ -1729,7 +1729,16 @@ $('body').on("click", ".savedash", function () {
             success: function (data) {
                 if (data.sucsses)
                 {
-                    alert("Data saved");
+                    var uri = cp + "/dashboard/" + senddata.name;
+                    if (window.location.href !== uri)
+                    {
+                        window.location.href =uri;
+                    } else
+                    {
+                        alert("Data saved");
+                    }
+
+
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
