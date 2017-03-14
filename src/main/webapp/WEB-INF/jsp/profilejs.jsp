@@ -20,7 +20,7 @@
             $.getJSON("getmetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (value) {
                 for (var k in value.data) {
                     metric = value.data[k];
-                    console.log(metric);
+//                    console.log(metric);
                     input = html.replace("[metricname]", metric.name);
                     if (metric.type != 0)
                     {
