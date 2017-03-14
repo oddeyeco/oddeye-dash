@@ -119,6 +119,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
     }
     var count = widget.queryes.length;
     var oldseries = clone_obg(widget.options.series);
+
     widget.options.series = [];
     for (k in widget.queryes)
     {
@@ -170,26 +171,6 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     {
                         if (Object.keys(data.chartsdata[index].data).length > 0)
                         {
-                            var ser_index = widget.options.series.length;
-                            if (oldseries[ser_index])
-                            {
-                                var series = clone_obg(oldseries[ser_index]);
-                                series.data = [];
-                            } else
-                            {
-                                var series = clone_obg(defserie);
-                            }
-                            if (!series.type)
-                            {
-                                series.type = widget.type;
-                            }
-
-                            if (!series.symbol)
-                            {
-                                series.showSymbol = (widget.points !== "none") && (typeof (widget.points) !== "undefined");
-                                series.symbol = widget.points;
-                            }
-
 
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                             if (widget.options.title)
@@ -218,8 +199,35 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 }
                             }
 
+                            var series = clone_obg(defserie);
+                            for (var skey in oldseries)
+                            {
+                                if (oldseries[skey].name == name)
+                                {
+                                    series = clone_obg(oldseries[skey]);
+                                    break;
+                                }
+                            }
+                            series.data = [];
+
+                            if (!widget.manual)
+                            {
+                                series.type = widget.type;
+
+                                if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
+                                {
+                                    series.showSymbol = true;
+                                    series.symbol = widget.points;
+                                } else
+                                {
+                                    delete series.symbol;
+                                    delete series.showSymbol;
+                                }
+
+                            }
                             series.name = name;
-                            widget.options.legend.data.push({"name": name});
+
+//                            widget.options.legend.data.push({"name": name});
                             var chdata = data.chartsdata[index].data;
                             series.data = [];
                             for (var ind in chdata)
@@ -245,6 +253,9 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 }
                             }
                             widget.options.series.push(series);
+//                            console.log(widget.type);
+//                            console.log(series.type);
+
                         }
                     }
                 }
@@ -336,17 +347,16 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                     var row = 0;
                     if (widget.type === "treemap")
                     {
-
-                        var ser_index = widget.options.series.length;
-                        if (oldseries[ser_index])
+                        var series = clone_obg(defserie);
+                        for (var skey in oldseries)
                         {
-                            var series = clone_obg(oldseries[ser_index]);
-                            series.data = [];
-                        } else
-                        {
-                            var series = clone_obg(defserie);
+                            if (oldseries[skey].name == name)
+                            {
+                                series = clone_obg(oldseries[skey]);
+                                break;
+                            }
                         }
-
+                        series.data = [];
                         if (!series.type)
                         {
                             series.type = widget.type;
@@ -379,15 +389,17 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 index = 1;
                                 row++;
                             }
-                            var ser_index = widget.options.series.length;
-                            if (oldseries[ser_index])
+
+                            var series = clone_obg(defserie);
+                            for (var skey in oldseries)
                             {
-                                var series = clone_obg(oldseries[ser_index]);
-                                series.data = [];
-                            } else
-                            {
-                                var series = clone_obg(defserie);
+                                if (oldseries[skey].name == name)
+                                {
+                                    series = clone_obg(oldseries[skey]);
+                                    break;
+                                }
                             }
+                            series.data = [];
 
                             if (!series.type)
                             {
@@ -569,17 +581,13 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                         }
                                     };
                                 }
-                                if (!series.width)
+                                if (!widget.manual)
                                 {
                                     series.width = radius - 5 + "%";
-                                }
-
-                                if (!series.height)
                                     series.height = 100 / rows - 5 + "%";
-                                if (!series.x)
                                     series.x = index * radius - radius + '%';
-                                if (!series.y)
                                     series.y = (row * 50 + 2.5) + "%";
+                                }
                             }
                             index++;
 //                            console.log(series);
@@ -588,7 +596,22 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                         }
                     }
                     widget.options.xAxis[0].data = [];
-                    for (var ind in widget.options.series)
+                }
+
+            }
+
+            count--;
+            if (count === 0)
+            {
+
+                widget.options.series.sort(function (a, b) {
+                    return compareStrings(a.name, b.name);
+                });
+
+
+                for (var ind in widget.options.series)
+                {
+                    if (widget.options.xAxis[0].type === "category")
                     {
                         widget.options.series[ind].unit = widget.options.yAxis[0].unit;
                         if ((widget.type === "bar") || (widget.type === "line"))
@@ -616,21 +639,13 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
                             }
                         }
-                        widget.options.legend.data.push(widget.options.series[ind].name);
-
-
                     }
+                    widget.options.legend.data.push(widget.options.series[ind].name);
                 }
 
-            }
 
-            count--;
-            if (count === 0)
-            {
 
-                widget.options.series.sort(function (a, b) {
-                    return compareStrings(a.name, b.name);
-                });
+
 
                 for (var yindex in widget.options.yAxis)
                 {
@@ -656,11 +671,11 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 //                console.log(widget.options.series);
                 if (redraw)
                 {
-                    for (var ind in widget.options.series)
-                    {
-                        delete widget.options.series[ind].type;
-                        delete widget.options.series[ind].stack;
-                    }
+//                    for (var ind in widget.options.series)
+//                    {
+//                        delete widget.options.series[ind].type;
+//                        delete widget.options.series[ind].stack;
+//                    }
                     chart.setOption({series: widget.options.series});
                 } else
                 {
@@ -1730,15 +1745,17 @@ $('body').on("click", ".savedash", function () {
                 if (data.sucsses)
                 {
                     var uri = cp + "/dashboard/" + senddata.name;
-                    if (window.location.href !== uri)
+                    var request_W_index = getParameterByName("widget");
+                    if (request_W_index === null)
                     {
-                        window.location.href =uri;
-                    } else
-                    {
-                        alert("Data saved");
+                        if (window.location.href !== uri)
+                        {
+                            window.location.href = uri;
+                        } else
+                        {
+                            alert("Data saved");
+                        }
                     }
-
-
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {

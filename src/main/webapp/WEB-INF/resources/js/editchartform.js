@@ -872,7 +872,12 @@ class ChartEditForm {
                 }
             }
         }
-        showsingleChart(this.row, this.index, this.dashJSON);
+//        showsingleChart(this.row, this.index, this.dashJSON);
+        var opt = this.dashJSON[this.row]["widgets"][this.index];
+        showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
+            var jsonstr = JSON.stringify(opt, jsonmaker);
+            editor.set(JSON.parse(jsonstr));
+        });        
     }
 
     fillinputs(input, item, key, index = null)
