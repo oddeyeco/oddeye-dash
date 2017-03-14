@@ -396,19 +396,20 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                                 if (oldseries[skey].name == name)
                                 {
                                     series = clone_obg(oldseries[skey]);
+                                    console.log(series);
                                     break;
                                 }
                             }
+
                             series.data = [];
 
                             if (!series.type)
                             {
                                 series.type = widget.type;
                             }
-                            if (!series.name)
-                            {
-                                series.name = key;
-                            }
+
+                            series.name = key;
+
 
 
                             if (series.type === "bar")
