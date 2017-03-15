@@ -19,8 +19,7 @@ function findeByhash(element, array) {
     return -1;
 }
 function reDrawErrorList(listJson, table, errorjson)
-{
-
+{    
     var elems = document.getElementById("check_level_" + errorjson.level);
     filtred = false;
     if (elems !== null)
