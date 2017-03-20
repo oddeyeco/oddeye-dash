@@ -14,8 +14,6 @@
     var defserie = {
         name: null,
         type: 'line',
-        symbol: 'none',
-        sampling: 'average',
         data: null
     };
     window.onresize = echartLine.resize;
@@ -97,6 +95,10 @@
                                     }],
                                 yAxis: [{
                                         type: 'value',
+                                        axisLabel:
+                                                {
+                                                    formatter: format_metric
+                                                },
                                     }],
                                 dataZoom: [{
                                         type: 'inside',

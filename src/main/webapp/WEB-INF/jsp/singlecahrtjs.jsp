@@ -4,10 +4,16 @@
 <script>
     pickerlabel = "Last 1 day";
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
-    var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
     var timer;
     var interval = 10000;
     $(document).ready(function () {
+
+        var uri = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
+        drawEchart(uri, echartLine);
+        timer = setInterval(function () {
+            ReDrawEchart(uri, echartLine);
+        }, interval);
+
         $('#reportrange span').html(pickerlabel);
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
 
@@ -42,7 +48,7 @@
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         if (pickerlabel === "Custom")
         {
-            url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + pickerstart + "&enddate=" + pickerend;
+            var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + pickerstart + "&enddate=" + pickerend;
         } else
         {
             if (typeof (rangeslabels[pickerlabel]) === "undefined")
@@ -55,6 +61,7 @@
 
         }
         clearTimeout(timer);
+
         drawEchart(url, echartLine);
         timer = setInterval(function () {
             ReDrawEchart(url, echartLine);
@@ -63,13 +70,7 @@
 
     });
 
-    drawEchart(url, echartLine);
-    timer = setInterval(function () {
-        ReDrawEchart(url, echartLine);
-    }, interval);
-
-
-    function drawEchart(url, chart)
+    function drawEchart(uri, chart)
     {
         chart.showLoading("default", {
             text: '',
@@ -78,7 +79,7 @@
             maskColor: 'rgba(255, 255, 255, 0)',
             zlevel: 0
         });
-        $.getJSON(url, null, function (data) {
+        $.getJSON(uri, null, function (data) {
             var chdata = [];
             var chdataMath = [];
             for (var k in data.chartsdata) {
@@ -97,10 +98,6 @@
                     trigger: 'axis'
                 },
                 toolbox: {},
-                grid: {
-                    x2: 200,
-                    y2: 80
-                },
                 xAxis: [{
                         type: 'time',
                     }],
@@ -110,7 +107,6 @@
                                 {
                                     formatter: format_metric
                                 },
-
                     }],
                 dataZoom: [{
                         type: 'inside',
@@ -119,11 +115,13 @@
                         start: 0,
                         end: 100
                     }],
+                grid: {
+                    x2: 200,
+                    y2: 80
+                },
                 series: [{
                         name: chartline.metric,
                         type: 'line',
-                        sampling: 'average',
-                        symbol: 'none',
                         areaStyle: {
                             normal: {opacity: 0.4}
                         },
@@ -185,9 +183,9 @@
     ;
 
 
-    function ReDrawEchart(url, chart)
+    function ReDrawEchart(uri, chart)
     {
-        $.getJSON(url, null, function (data) {
+        $.getJSON(uri, null, function (data) {
             var date = [];
             var chdata = [];
             var chdataMath = [];
@@ -202,11 +200,12 @@
             var options = chart.getOption();
 
             options.series[1].data[0].value = chdataMath[chdataMath.length - 1];
-            options.series[1].min = Math.min.apply(null, chdataMath),
-                    options.series[1].max = Math.max.apply(null, chdataMath),
-                    options.series[0].data = chdata;
+            options.series[1].min = Math.min.apply(null, chdataMath);
+            options.series[1].max = Math.max.apply(null, chdataMath);
+            options.series[0].data = chdata;
             options.xAxis[0].data = date;
             chart.setOption(options);
+
         }
         );
     }
