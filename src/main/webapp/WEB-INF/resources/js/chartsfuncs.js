@@ -116,6 +116,7 @@ var PicerOptionSet2 = {
     timePicker24Hour: true,
     timePickerIncrement: 15,
     ranges: {
+        'General': [],
         'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
         'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
         'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
@@ -204,7 +205,15 @@ var cbJson = function (JSON, wraper)
             {
                 JSON.times.generalds = rangescustomds[1];
             }
-        } else
+        } else if (JSON.times.pickerlabel === "General")
+        {
+            delete JSON.times.generalds;
+            delete JSON.times.pickerstart;
+            delete JSON.times.pickerend;
+            delete JSON.times.pickerlabel;
+        }
+        
+        else
         {
             wraper.find('span').html(JSON.times.pickerlabel);
             JSON.times.generalds = rangeslabelsds[JSON.times.pickerlabel];

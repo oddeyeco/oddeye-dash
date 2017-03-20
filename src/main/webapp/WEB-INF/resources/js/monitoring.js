@@ -22,18 +22,18 @@ function findeByhash(element, array) {
 function reDrawErrorList(listJson, table, errorjson)
 {    
     var elems = document.getElementById("check_level_" + errorjson.level);
-    filtred = false;
+    var filtred = false;
     if (elems !== null)
     {
         if (elems.checked)
         {
             filtred = true;
-            filterelems = document.querySelectorAll('.filter-switch');
+            var filterelems = document.querySelectorAll('.filter-switch');
             for (var i = 0; i < filterelems.length; i++) {
                 if (filterelems[i].checked)
                 {
                     var filter = $("#" + filterelems[i].value + "_input").val();
-                    regex = new RegExp(filter, 'i');
+                    var regex = new RegExp(filter, 'i');
                     if (filterelems[i].value === "metric")
                     {
                         filtred = regex.test(errorjson.info.name);
@@ -57,6 +57,7 @@ function reDrawErrorList(listJson, table, errorjson)
 
     if (errorjson.isspec === 0)
     {
+//        console.log(errorjson.info.name+" "+filtred);
         var index = findeByhash(errorjson, array_regular);
         if (filtred)
         {
@@ -203,8 +204,7 @@ function DrawErrorList(listJson, table)
     });
     $("select").attr('disabled', false);
 }
-function drawRaw(errorjson, table, index = null, update = false) {
-//    alert("ddd");
+function drawRaw(errorjson, table, index = null, update = false) {    
     var message = "";
     if (errorjson.isspec === 1)
     {
@@ -406,7 +406,7 @@ $(document).ready(function () {
     $(".filter-input").each(function () {
         $(this).val(filterJson[$(this).attr("name")]);
     });
-    DrawErrorList(errorlistJson, $(".metrictable"));
+//    DrawErrorList(errorlistJson, $(".metrictable"));
 
     var socket = new SockJS(cp + '/subscribe');
     stompClient = Stomp.over(socket);

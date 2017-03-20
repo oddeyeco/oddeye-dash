@@ -124,6 +124,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
     }
     var start = "5m-ago";
     var end = "now";
+    
     if (json.times)
     {
         if (json.times.pickerlabel === "Custom")
@@ -138,7 +139,25 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             }
 
         }
-    }
+    }    
+    
+    if (widget.times)
+    {
+        if (widget.times.pickerlabel === "Custom")
+        {
+            start = widget.times.pickerstart;
+            end = widget.times.pickerend;
+        } else
+        {
+            if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
+            {
+                start = rangeslabels[widget.times.pickerlabel];
+            }
+
+        }        
+    }    
+    
+    
     var count = widget.queryes.length;
     var oldseries = clone_obg(widget.options.series);
 
