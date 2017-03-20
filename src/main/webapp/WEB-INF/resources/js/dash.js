@@ -1618,7 +1618,7 @@ $('body').on("click", ".addchart", function () {
     var widgetindex = 0;
     if (dashJSONvar[rowindex]["widgets"])
     {
-        widgetindex = Math.max(Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
+        widgetindex = Math.max.apply(null, Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
     } else
     {
         dashJSONvar[rowindex].widgets = [];
