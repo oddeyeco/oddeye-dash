@@ -19,8 +19,8 @@
                 </li>
                 <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Notifier</a>
                 </li>
-                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Security</a>
-                </li>
+<!--                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Security</a>
+                </li>-->
 
             </ul>
             <div id="myTabContent" class="tab-content">

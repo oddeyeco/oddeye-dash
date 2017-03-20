@@ -7,6 +7,7 @@
 
 var stompClient = null;
 var timeformat = "DD/MM HH:mm:ss";
+var timeformatsmall = "HH:mm:ss";
 var errorlistJson = {};
 var array_regular = [];
 var array_spec = [];
@@ -230,7 +231,7 @@ function drawRaw(errorjson, table, index = null, update = false) {
     var starttime = "";
     if (typeof (errorjson.time) !== "undefined")
     {
-        starttime = moment(errorjson.time * 1).format(timeformat);
+        starttime = moment(errorjson.time * 1).format(timeformatsmall);
     }
     var arrowclass = "fa-arrow-up";
     var color = "red";
