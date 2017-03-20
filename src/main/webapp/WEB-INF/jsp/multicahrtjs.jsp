@@ -69,7 +69,12 @@
                     chdata = chartline.data;
                     var serie = clone_obg(defserie);
 
-                    serie.data = chdata;
+//                    serie.data = chdata;
+                    serie.data = [];
+                    for (var ind in chdata)
+                    {
+                        serie.data.push({value: chdata[ind], 'unit': "format_metric"});
+                    }
                     var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
                     serie.name = name;
                     series.push(serie);

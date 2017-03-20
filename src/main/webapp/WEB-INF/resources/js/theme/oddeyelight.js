@@ -102,13 +102,12 @@ var encodeHTML = function (source) {
                         if (param.value instanceof Array)
                         {
                             value = param.value[1];
-                            firstparam = format_date(param.value[0], 0)
+                            firstparam = format_date(param.value[0], 0);
                         }
                         else
                         {
                             value = param.value;
-                        }
-
+                        }                        
                         if (typeof (window[param.data.unit]) === "function")
                         {
                             value = window[param.data.unit](value);
