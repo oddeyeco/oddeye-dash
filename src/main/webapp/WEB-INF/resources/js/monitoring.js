@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global moment, cp, headerName, token, uuid */
+/* global moment, cp, headerName, token, uuid, sotoken */
 
 var stompClient = null;
 var timeformat = "DD/MM HH:mm:ss";
@@ -67,7 +67,6 @@ function reDrawErrorList(listJson, table, errorjson)
                     return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
                 });
                 var index2 = findeByhash(errorjson, array_regular);
-//                console.log(index2);
                 if (index2 < array_regular.length - 1)
                 {
                     drawRaw(array_regular[index2], table, array_regular[index2 + 1].hash);
@@ -87,6 +86,7 @@ function reDrawErrorList(listJson, table, errorjson)
                 array_regular[index] = errorjson;
                 table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
                     table.find("tbody tr#" + errorjson.hash).remove();
+                    errorjson.index = 0;
                     array_regular.splice(index, 1);
                 });
             }
@@ -125,6 +125,7 @@ function reDrawErrorList(listJson, table, errorjson)
                 array_spec[index] = errorjson;
                 table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
                     table.find("tbody tr#" + errorjson.hash).remove();
+                    errorjson.index = 0;
                     array_spec.splice(index, 1);
                 });
             }
@@ -232,12 +233,17 @@ function drawRaw(errorjson, table, index = null, update = false) {
     {
         starttime = moment(errorjson.time * 1).format(timeformatsmall);
     }
-    var arrowclass = "fa-arrow-up";
+    var arrowclass = "";
     var color = "red";
     if (errorjson.action === 2)
     {
-        arrowclass = "fa-arrow-down";
+        arrowclass = "fa-long-arrow-down";
         color = "green";
+    }
+    if (errorjson.action === 3)
+    {
+        arrowclass = "fa-long-arrow-up";
+        color = "red";
     }
     var trclass = "level_" + errorjson.level;
     if (errorjson.isspec !== 0)
@@ -247,12 +253,16 @@ function drawRaw(errorjson, table, index = null, update = false) {
 
     if (!update)
     {
-
+//        if (arrowclass === "")
+//        {
+//            arrowclass = "fa-long-arrow-up";
+//            color = "red";
+//        }
         html = "";
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
         if (errorjson.isspec === 0)
         {
-            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><i class="action fa ' + arrowclass + '" style="color:' + color + '; font-size: 18px;"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a></td>';
+            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
         } else
         {
             html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
@@ -294,12 +304,16 @@ function drawRaw(errorjson, table, index = null, update = false) {
         table.find("tbody tr#" + index).attr("class", trclass);
         table.find("tbody tr#" + index + " .level div").html(errorjson.levelname);
 //        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
-        table.find("tbody tr#" + index + " .timech").html(starttime+" ("+(errorjson.time-table.find("tbody tr#" + index + " .timech").attr('time'))/1000+" Sec. Repeat "+ errorjson.index+")");
+        table.find("tbody tr#" + index + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " Sec. Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
         table.find("tbody tr#" + index + " .timech").attr('time', errorjson.time);
         table.find("tbody tr#" + index + " .message").html(message);
-        table.find("tbody tr#" + index + " .icons i.action").attr("class", "action fa " + arrowclass);
-        table.find("tbody tr#" + index + " .icons i.action").css("color", color);
+        if (arrowclass !== "")
+        {
+            table.find("tbody tr#" + index + " .icons i.action").attr("class", "action fa " + arrowclass);
+            table.find("tbody tr#" + index + " .icons i.action").css("color", color);
+        }
+        
 }
 }
 
@@ -411,7 +425,7 @@ $(document).ready(function () {
 //    DrawErrorList(errorlistJson, $(".metrictable"));
 
     var socket = new SockJS(cp + '/subscribe');
-    stompClient = Stomp.over(socket);
+    var stompClient = Stomp.over(socket);
     stompClient.debug = null;
     var headers = {};
     headers[headerName] = token;
@@ -422,14 +436,13 @@ $(document).ready(function () {
             {
                 errorjson.index = errorlistJson[errorjson.hash].index;
             }
-            
-            if (typeof(errorjson.index)!=="undefined"  )
+
+            if (typeof (errorjson.index) !== "undefined")
             {
-                console.log(errorjson.index);
-                errorjson.index = errorjson.index+1
+                errorjson.index = errorjson.index + 1;
             } else
             {
-                errorjson.index = 0
+                errorjson.index = 0;
             }
 
             if (errorjson.level === -1)
