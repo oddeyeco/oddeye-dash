@@ -207,6 +207,7 @@ var cbJson = function (JSON, wraper)
             }
         } else if (JSON.times.pickerlabel === "General")
         {
+            wraper.find('span').html("");
             delete JSON.times.generalds;
             delete JSON.times.pickerstart;
             delete JSON.times.pickerend;

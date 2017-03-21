@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker */
+/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor */
 
 class ChartEditForm {
 
@@ -14,8 +14,6 @@ class ChartEditForm {
         this.row = row;
         this.index = index;
         this.dashJSON = dashJSON;
-//        var jsonstr = JSON.stringify(dashJSON[row]["widgets"][index], jsonmaker);        
-//        editor.set(JSON.parse(jsonstr) );       
         var elem = document.getElementById("manual");
         if (this.dashJSON[this.row]["widgets"][this.index].manual)
         {
@@ -30,7 +28,7 @@ class ChartEditForm {
             if (dashJSON[row]["widgets"][index].times.intervall)
             {
                 $("#refreshtime_private").val(dashJSON[row]["widgets"][index].times.intervall);
-            }
+            }            
             $('#reportrange_private span').html(dashJSON[row]["widgets"][index].times.pickerlabel);
             if (dashJSON[row]["widgets"][index].times.pickerlabel)
             {
@@ -447,7 +445,7 @@ class ChartEditForm {
 
             this.dashJSON[this.row]["widgets"][this.index].options.series = [];
         }
-//        
+
         if (input.parents("form").hasClass("edit-times"))
         {
             if (input.attr('id') === "refreshtime_private")
@@ -528,7 +526,7 @@ class ChartEditForm {
 
                 } else
                 {
-                    dz = [];
+                    var dz = [];
                     for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
                         var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
                         if ((zoomzoom.xAxisIndex !== 0) || (zoomzoom.type !== "inside"))
@@ -632,7 +630,7 @@ class ChartEditForm {
 
                 } else
                 {
-                    dz = [];
+                    var dz = [];
                     for (var k in this.dashJSON[this.row]["widgets"][this.index].options.dataZoom) {
                         var zoomzoom = this.dashJSON[this.row]["widgets"][this.index].options.dataZoom[k];
 
@@ -872,7 +870,6 @@ class ChartEditForm {
                 }
             }
         }
-//        showsingleChart(this.row, this.index, this.dashJSON);
         var opt = this.dashJSON[this.row]["widgets"][this.index];
         showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
             var jsonstr = JSON.stringify(opt, jsonmaker);

@@ -972,6 +972,11 @@ function getParameterByName(name, url) {
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+$('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
+    var input = $('#reportrange_private');
+    chartForm.chage(input); 
+});
+
 $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     var startdate = "5m-ago";
     var enddate = "now";
