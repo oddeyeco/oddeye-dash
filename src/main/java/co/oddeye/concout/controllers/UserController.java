@@ -98,11 +98,6 @@ public class UserController {
                     put(sotoken, levels);
                 }
             });
-//            if (!userDetails.getListenerContainer().isRunning())
-//            {
-//                    userDetails.getListenerContainer().start();
-//            }
-
         }
         JsonObject jsonResult = new JsonObject();
         jsonResult.addProperty("sucsses", Boolean.TRUE);

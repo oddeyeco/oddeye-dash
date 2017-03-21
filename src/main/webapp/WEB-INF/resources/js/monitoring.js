@@ -20,7 +20,7 @@ function findeByhash(element, array) {
     return -1;
 }
 function reDrawErrorList(listJson, table, errorjson)
-{    
+{
     var elems = document.getElementById("check_level_" + errorjson.level);
     var filtred = false;
     if (elems !== null)
@@ -57,7 +57,6 @@ function reDrawErrorList(listJson, table, errorjson)
 
     if (errorjson.isspec === 0)
     {
-//        console.log(errorjson.info.name+" "+filtred);
         var index = findeByhash(errorjson, array_regular);
         if (filtred)
         {
@@ -204,7 +203,7 @@ function DrawErrorList(listJson, table)
     });
     $("select").attr('disabled', false);
 }
-function drawRaw(errorjson, table, index = null, update = false) {    
+function drawRaw(errorjson, table, index = null, update = false) {
     var message = "";
     if (errorjson.isspec === 1)
     {
@@ -264,7 +263,7 @@ function drawRaw(errorjson, table, index = null, update = false) {
         html = html + '<td class="message">' + message + '</td>';
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat);
         +'</td>';
-        html = html + '<td class="timech">' + starttime + '</td>';
+        html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
         html = html + '</tr>';
         if (index === null)
         {
@@ -294,7 +293,10 @@ function drawRaw(errorjson, table, index = null, update = false) {
     {
         table.find("tbody tr#" + index).attr("class", trclass);
         table.find("tbody tr#" + index + " .level div").html(errorjson.levelname);
-        table.find("tbody tr#" + index + " .timech").html(starttime);
+//        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
+        table.find("tbody tr#" + index + " .timech").html(starttime+" ("+(errorjson.time-table.find("tbody tr#" + index + " .timech").attr('time'))/1000+" Sec. Repeat "+ errorjson.index+")");
+//        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
+        table.find("tbody tr#" + index + " .timech").attr('time', errorjson.time);
         table.find("tbody tr#" + index + " .message").html(message);
         table.find("tbody tr#" + index + " .icons i.action").attr("class", "action fa " + arrowclass);
         table.find("tbody tr#" + index + " .icons i.action").css("color", color);
@@ -416,7 +418,20 @@ $(document).ready(function () {
     stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
             var errorjson = JSON.parse(error.body);
-//            console.log(errorjson);
+            if (errorlistJson[errorjson.hash])
+            {
+                errorjson.index = errorlistJson[errorjson.hash].index;
+            }
+            
+            if (typeof(errorjson.index)!=="undefined"  )
+            {
+                console.log(errorjson.index);
+                errorjson.index = errorjson.index+1
+            } else
+            {
+                errorjson.index = 0
+            }
+
             if (errorjson.level === -1)
             {
                 delete errorlistJson[errorjson.hash];

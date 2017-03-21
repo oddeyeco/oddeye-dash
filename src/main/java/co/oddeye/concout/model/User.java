@@ -679,7 +679,7 @@ public class User implements UserDetails {
             ContainerProperties properties = new ContainerProperties(topics);
             properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, sotoken));
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
-            this.listenerContainer.setConcurrency(3);
+            this.listenerContainer.setConcurrency(1);
             this.listenerContainer.getContainerProperties().setPollTimeout(3000);
             this.listenerContainer.start();
         } else {
