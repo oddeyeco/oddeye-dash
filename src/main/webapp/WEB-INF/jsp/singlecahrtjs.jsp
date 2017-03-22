@@ -193,10 +193,11 @@
             var dateval = moment();
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
-                for (var time in chartline.data) {
-                    chdataMath.push(chartline.data[time][1]);
+                for (var ind in chartline.data) {
+                    chdataMath.push(chartline.data[ind][1]);
+                    chdata.push({value: chartline.data[ind], 'unit': "format_metric"});
                 }
-                chdata = chartline.data;
+                
             }
             var options = chart.getOption();
 
