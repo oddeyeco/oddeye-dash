@@ -142,8 +142,7 @@ class ChartEditForm {
             {
                 $(elem).trigger('click');
             }
-        }
-
+        }        
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].fill) === "undefined")
         {
             this.formwraper.find("#display_fillArea").val("none");
@@ -878,8 +877,7 @@ class ChartEditForm {
     }
 
     fillinputs(input, item, key, index = null)
-    {
-
+    {        
         if (input.parent().hasClass("cl_picer"))
         {
             input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].options[item][key]);
