@@ -120,6 +120,7 @@ function reDrawErrorList(listJson, table, errorjson)
             }
         } else
         {
+            
             if (index !== -1)
             {
                 array_spec[index] = errorjson;
@@ -127,8 +128,9 @@ function reDrawErrorList(listJson, table, errorjson)
                     table.find("tbody tr#" + errorjson.hash).remove();
                     errorjson.index = 0;
                     array_spec.splice(index, 1);
-                });
+                });                                
             }
+            
         }
     }
 }
