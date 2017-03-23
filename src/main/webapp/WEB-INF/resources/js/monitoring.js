@@ -21,12 +21,6 @@ function findeByhash(element, array) {
 }
 function reDrawErrorList(listJson, table, errorjson)
 {
-    if (errorjson.isspec === 0)
-    {
-    } else
-    {
-        console.log("bugaga");
-    }
     var elems = document.getElementById("check_level_" + errorjson.level);
     var filtred = false;
     if (elems !== null)
@@ -59,13 +53,6 @@ function reDrawErrorList(listJson, table, errorjson)
             }
             ;
         }
-    }
-
-    if (errorjson.isspec === 0)
-    {
-    } else
-    {
-        console.log("bugaga2");
     }
     if (errorjson.isspec === 0)
     {
@@ -106,10 +93,8 @@ function reDrawErrorList(listJson, table, errorjson)
             }
         }
     } else
-    {
-        console.log("lalalal2");
+    {        
         var index = findeByhash(errorjson, array_spec);
-
         if (filtred)
         {
             if (index === -1)
@@ -472,15 +457,6 @@ $(document).ready(function () {
             {
                 errorlistJson[errorjson.hash] = errorjson;
             }
-
-            if (errorjson.isspec === 0)
-            {
-
-            } else
-            {
-                console.log(errorjson);
-            }
-
             reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
         });
     });
