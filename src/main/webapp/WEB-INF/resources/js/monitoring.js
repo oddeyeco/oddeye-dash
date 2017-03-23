@@ -317,9 +317,9 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
         }
 
     }
-//    $('.summary .Tablecount').html(table.find("tbody tr").length);
-//    $('.summary .regcount').html(array_regular.length);
-//    $('.summary .Speccount').html(array_spec.length);
+    $('.summary .Tablecount').html(table.find("tbody tr").length);
+    $('.summary .regcount').html(array_regular.length);
+    $('.summary .Speccount').html(array_spec.length);
 }
 
 var beginlisen = false;
