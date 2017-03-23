@@ -459,7 +459,7 @@ $(document).ready(function () {
 
             if (errorjson.level === -1)
             {
-                console.log(errorjson);
+//                console.log(errorjson);
                 delete errorlistJson[errorjson.hash];
             } else
             {
