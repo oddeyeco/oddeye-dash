@@ -81,7 +81,7 @@ function reDrawErrorList(listJson, table, errorjson)
                 drawRaw(array_regular[index], table, array_regular[index].hash, true);
             }
         } else
-        {            
+        {
             if (index !== -1)
             {
                 array_regular[index] = errorjson;
@@ -93,7 +93,7 @@ function reDrawErrorList(listJson, table, errorjson)
             }
         }
     } else
-    {        
+    {
         var index = findeByhash(errorjson, array_spec);
         if (filtred)
         {
@@ -190,9 +190,14 @@ function DrawErrorList(listJson, table)
             }
         }
     }
-    array_regular.sort(function (a, b) {
-        return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
+    array_spec.sort(function (a, b) {
+        var tagident = $("select#ident_tag").val();
+        return compareMetric(a, b, tagident);
     });
+    array_regular.sort(function (a, b) {
+        var tagident = $("select#ident_tag").val();
+        return compareMetric(a, b, tagident);
+    });    
     for (key in array_spec)
     {
         drawRaw(array_spec[key], table);
