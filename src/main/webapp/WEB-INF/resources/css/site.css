@@ -506,8 +506,17 @@ div.jsoneditor {
 
 .metrictable td.timech
 {
-    width: 13%;
+    width: 13%; 
+}
+
+.metrictable td
+{    
     white-space: nowrap;
+}
+
+.metrictable td.message
+{    
+    white-space: normal;
 }
 .summary span
 {

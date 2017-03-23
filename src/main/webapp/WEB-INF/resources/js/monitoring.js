@@ -56,10 +56,10 @@ function reDrawErrorList(listJson, table, errorjson)
     }
     if (errorjson.isspec === 0)
     {
-        var index = findeByhash(errorjson, array_regular);
+        var indexregular = findeByhash(errorjson, array_regular);
         if (filtred)
         {
-            if (index === -1)
+            if (indexregular === -1)
             {
                 array_regular.push(errorjson);
                 array_regular.sort(function (a, b) {
@@ -77,36 +77,35 @@ function reDrawErrorList(listJson, table, errorjson)
                 }
             } else
             {
-                array_regular[index] = errorjson;
-                drawRaw(array_regular[index], table, array_regular[index].hash, true);
+                array_regular[indexregular] = errorjson;
+                drawRaw(array_regular[indexregular], table, array_regular[indexregular].hash, true);
             }
         } else
         {
-            if (index !== -1)
+            if (indexregular !== -1)
             {
-                array_regular[index] = errorjson;
-                table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
-                    table.find("tbody tr#" + errorjson.hash).remove();
-                    errorjson.index = 0;
-                    array_regular.splice(index, 1);
+                array_regular[indexregular] = errorjson;
+                errorjson.index = 0;
+                var hash_r = errorjson.hash;
+                array_regular.splice(indexregular, 1);
+                table.find("tbody tr#" + hash_r).fadeOut(400, function () {
+                    table.find("tbody tr#" + hash_r).remove();
                 });
             }
         }
     } else
     {
-        var index = findeByhash(errorjson, array_spec);
+        var indexspec = findeByhash(errorjson, array_spec);
         if (filtred)
         {
-            if (index === -1)
+            if (indexspec === -1)
             {
                 array_spec.push(errorjson);
                 array_spec.sort(function (a, b) {
-//                    return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
                     var tagident = $("select#ident_tag").val();
                     return compareMetric(a, b, tagident);
                 });
                 var index2 = findeByhash(errorjson, array_spec);
-//                console.log(index2);
                 if (index2 < array_spec.length - 1)
                 {
                     drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
@@ -116,19 +115,21 @@ function reDrawErrorList(listJson, table, errorjson)
                 }
             } else
             {
-                array_spec[index] = errorjson;
-                drawRaw(array_spec[index], table, array_spec[index].hash, true);
+                array_spec[indexspec] = errorjson;
+                drawRaw(array_spec[indexspec], table, array_spec[indexspec].hash, true);
             }
         } else
         {
-
-            if (index !== -1)
+//            console.log(indexspec);
+//            console.log(errorjson);
+            if (indexspec !== -1)
             {
-                array_spec[index] = errorjson;
-                table.find("tbody tr#" + errorjson.hash).fadeOut(400, function () {
-                    table.find("tbody tr#" + errorjson.hash).remove();
-                    errorjson.index = 0;
-                    array_spec.splice(index, 1);
+                array_spec[indexspec] = errorjson;
+                errorjson.index = 0;
+                var hash_s = errorjson.hash;
+                array_spec.splice(indexspec, 1);
+                table.find("tbody tr#" + hash_s).fadeOut(400, function () {
+                    table.find("tbody tr#" + hash_s).remove();
                 });
             }
 
@@ -197,7 +198,7 @@ function DrawErrorList(listJson, table)
     array_regular.sort(function (a, b) {
         var tagident = $("select#ident_tag").val();
         return compareMetric(a, b, tagident);
-    });    
+    });
     for (key in array_spec)
     {
         drawRaw(array_spec[key], table);
@@ -276,6 +277,7 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
             html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
         }
         html = html + '<td class="level"><div>' + errorjson.levelname + '</div></td>';
+//        html = html + '<td>' + errorjson.hash + " " + errorjson.info.name + '</td>';
         html = html + '<td>' + errorjson.info.name + '</td>';
         html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
         html = html + '<td class="message">' + message + '</td>';
@@ -457,6 +459,7 @@ $(document).ready(function () {
 
             if (errorjson.level === -1)
             {
+                console.log(errorjson);
                 delete errorlistJson[errorjson.hash];
             } else
             {
