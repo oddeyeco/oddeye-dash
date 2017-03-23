@@ -102,7 +102,7 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
             }
 
         } else {
-            System.out.println("valod");
+//            System.out.println("valod");
         }
         countDownLatch1.countDown();
 
