@@ -12,11 +12,17 @@ function compareStrings(a, b) {
     return (a < b) ? -1 : (a > b) ? 1 : 0;
 }
 
-//$(document).ready(function () {
-//    $SIDEBAR_MENU.find('li.active-sm ul').show();
-//    $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
-//    $BODY.toggleClass('nav-md nav-sm');
-//});
-
-
-//setContentHeight();
+function compareMetric(a, b, tagident) {
+    var _aname = a.info.name.toLowerCase();
+    var _bname = b.info.name.toLowerCase();
+    var _atag = a.info.tags[tagident].value.toLowerCase();
+    var _btag = b.info.tags[tagident].value.toLowerCase();
+    var _atime = a.time;
+    var _btime = b.time;    
+//    return ((_aname < _bname) && (_atag < _btag) && (_atime < _btime)) ? -1 : ((_aname > _bname) && (_atag > _btag) && (_atime > _btime)) ? 1 : 0;
+//    if (_atag == _btag)
+//    {
+//        console.log;
+//    }
+    return ((_atag < _btag)) ? -1 : ((_atag > _btag)) ? 1 : (((_aname < _bname)) ? -1 : ((_aname > _bname)) ? 1 : 0);
+}

@@ -509,3 +509,7 @@ div.jsoneditor {
     width: 13%;
     white-space: nowrap;
 }
+.summary span
+{
+    margin: 5px
+}

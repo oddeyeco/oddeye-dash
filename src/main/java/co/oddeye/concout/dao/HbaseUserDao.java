@@ -226,14 +226,19 @@ public class HbaseUserDao extends HbaseBaseDao {
         try {
             GetRequest get = new GetRequest(table, uuid.toString().getBytes());
             final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
-            User user = new User();
-
-//            final List<GrantedAuthority> grantedAuths = new ArrayList<>();
+            User user;
+            if (getUsers().containsKey(uuid))
+            {
+                user= getUsers().get(uuid);
+            }
+            else
+            {
+                user = new User();
+            }
             byte[] TsdbID;
             user.inituser(userkvs);
             try {
                 TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
-//                    nameTSDBUID = tsdb.getUID(UniqueId.UniqueIdType.METRIC, name);
             } catch (NoSuchUniqueName e) {
                 TsdbID = BaseTsdb.getTsdb().assignUid("tagv", user.getId().toString());
             }
@@ -241,7 +246,6 @@ public class HbaseUserDao extends HbaseBaseDao {
             user.setTsdbID(TsdbID);
             getUsers().put(user.getId(), user);
             usersbyEmail.put(user.getEmail(), user);
-//            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             user.setDushList(getAllDush(uuid));
             return getUsers().get(uuid);
 

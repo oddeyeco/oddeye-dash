@@ -28,6 +28,9 @@
                     </form>
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_left">
+                    <div class="summary">
+                        <span class="Tablecount">0</span><span class="regcount">0</span><span class="Speccount">0 </span>
+                    </div>                    
                     <div class="x_content" style="display: block;">
                         <!-- start List -->
                         <table class="table metrictable table-striped bulk_action">

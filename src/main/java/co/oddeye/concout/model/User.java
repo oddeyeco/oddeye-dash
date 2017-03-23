@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
@@ -32,6 +33,7 @@ import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.GrantedAuthority;
@@ -93,6 +95,7 @@ public class User implements UserDetails {
     private AlertLevel AlertLevels;
 
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
+    private final Map<String, String[]> sotokenlist = new HashMap<>();
 
     public User() {
         this.id = UUID.randomUUID();
@@ -677,15 +680,18 @@ public class User implements UserDetails {
                 topics[i] = this.getId().toString() + AlertLevel.ALERT_LEVELS_INDEX[i];
             }
             ContainerProperties properties = new ContainerProperties(topics);
-            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, sotoken));
+            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template));
+            this.sotokenlist.putAll(sotoken);
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setConcurrency(1);
             this.listenerContainer.getContainerProperties().setPollTimeout(3000);
             this.listenerContainer.start();
         } else {
-            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
-            lisener.getSotokenlist().putAll(sotoken);
-            if (!lisener.getSotokenlist().isEmpty()) {
+//            List<KafkaMessageListenerContainer<Integer, String>> liseners = this.listenerContainer.getContainers();
+//            System.out.println(liseners.size());
+//            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
+            this.sotokenlist.putAll(sotoken);
+            if (!this.sotokenlist.isEmpty()) {
                 if (!this.listenerContainer.isRunning()) {
                     this.listenerContainer.start();
                 }
@@ -700,12 +706,19 @@ public class User implements UserDetails {
     public void stopListenerContainer(String sotoken) {
         if (this.listenerContainer != null) {
             OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
-            if (lisener.getSotokenlist().containsKey(sotoken)) {
-                lisener.getSotokenlist().remove(sotoken);
-                if (lisener.getSotokenlist().isEmpty()) {
+            if (this.sotokenlist.containsKey(sotoken)) {
+                this.sotokenlist.remove(sotoken);
+                if (this.sotokenlist.isEmpty()) {
                     this.listenerContainer.stop();
                 }
             }
         }
+    }
+
+    /**
+     * @return the sotokenlist
+     */
+    public Map<String, String[]> getSotokenlist() {
+        return sotokenlist;
     }
 }

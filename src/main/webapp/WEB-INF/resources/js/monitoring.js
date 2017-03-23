@@ -21,6 +21,12 @@ function findeByhash(element, array) {
 }
 function reDrawErrorList(listJson, table, errorjson)
 {
+    if (errorjson.isspec === 0)
+    {
+    } else
+    {
+        console.log("bugaga");
+    }
     var elems = document.getElementById("check_level_" + errorjson.level);
     var filtred = false;
     if (elems !== null)
@@ -57,6 +63,12 @@ function reDrawErrorList(listJson, table, errorjson)
 
     if (errorjson.isspec === 0)
     {
+    } else
+    {
+        console.log("bugaga2");
+    }
+    if (errorjson.isspec === 0)
+    {
         var index = findeByhash(errorjson, array_regular);
         if (filtred)
         {
@@ -64,9 +76,11 @@ function reDrawErrorList(listJson, table, errorjson)
             {
                 array_regular.push(errorjson);
                 array_regular.sort(function (a, b) {
-                    return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
+                    var tagident = $("select#ident_tag").val();
+                    return compareMetric(a, b, tagident);
                 });
                 var index2 = findeByhash(errorjson, array_regular);
+//                console.log(array_regular);
                 if (index2 < array_regular.length - 1)
                 {
                     drawRaw(array_regular[index2], table, array_regular[index2 + 1].hash);
@@ -80,7 +94,7 @@ function reDrawErrorList(listJson, table, errorjson)
                 drawRaw(array_regular[index], table, array_regular[index].hash, true);
             }
         } else
-        {
+        {            
             if (index !== -1)
             {
                 array_regular[index] = errorjson;
@@ -93,7 +107,7 @@ function reDrawErrorList(listJson, table, errorjson)
         }
     } else
     {
-
+        console.log("lalalal2");
         var index = findeByhash(errorjson, array_spec);
 
         if (filtred)
@@ -102,7 +116,9 @@ function reDrawErrorList(listJson, table, errorjson)
             {
                 array_spec.push(errorjson);
                 array_spec.sort(function (a, b) {
-                    return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
+//                    return compareStrings(a.info.tags[$("select#ident_tag").val()].value, b.info.tags[$("select#ident_tag").val()].value);
+                    var tagident = $("select#ident_tag").val();
+                    return compareMetric(a, b, tagident);
                 });
                 var index2 = findeByhash(errorjson, array_spec);
 //                console.log(index2);
@@ -120,7 +136,7 @@ function reDrawErrorList(listJson, table, errorjson)
             }
         } else
         {
-            
+
             if (index !== -1)
             {
                 array_spec[index] = errorjson;
@@ -128,9 +144,9 @@ function reDrawErrorList(listJson, table, errorjson)
                     table.find("tbody tr#" + errorjson.hash).remove();
                     errorjson.index = 0;
                     array_spec.splice(index, 1);
-                });                                
+                });
             }
-            
+
         }
     }
 }
@@ -206,7 +222,7 @@ function DrawErrorList(listJson, table)
     });
     $("select").attr('disabled', false);
 }
-function drawRaw(errorjson, table, index = null, update = false) {
+function drawRaw(errorjson, table, hashindex = null, update = false) {
     var message = "";
     if (errorjson.isspec === 1)
     {
@@ -260,7 +276,7 @@ function drawRaw(errorjson, table, index = null, update = false) {
 //            arrowclass = "fa-long-arrow-up";
 //            color = "red";
 //        }
-        html = "";
+        var html = "";
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
         if (errorjson.isspec === 0)
         {
@@ -273,15 +289,15 @@ function drawRaw(errorjson, table, index = null, update = false) {
         html = html + '<td>' + errorjson.info.name + '</td>';
         html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
         html = html + '<td class="message">' + message + '</td>';
-        html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat)+'</td>';
+        html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
         html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
         html = html + '</tr>';
-        if (index === null)
+        if (hashindex === null)
         {
             table.find("tbody").append(html);
         } else
         {
-            if (index === 0)
+            if (hashindex === 0)
             {
                 if (table.find("tbody tr").first().length === 0)
                 {
@@ -293,7 +309,7 @@ function drawRaw(errorjson, table, index = null, update = false) {
 
             } else
             {
-                table.find("tbody tr#" + index).before(html);
+                table.find("tbody tr#" + hashindex).before(html);
             }
         }
         table.find("tbody tr#" + errorjson.hash + " input.rawflat").iCheck({
@@ -302,20 +318,23 @@ function drawRaw(errorjson, table, index = null, update = false) {
         });
     } else
     {
-        table.find("tbody tr#" + index).attr("class", trclass);
-        table.find("tbody tr#" + index + " .level div").html(errorjson.levelname);
+        table.find("tbody tr#" + hashindex).attr("class", trclass);
+        table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
 //        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
-        table.find("tbody tr#" + index + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " Sec. Repeat " + errorjson.index + ")");
+        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) / 1000 + " Sec. Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
-        table.find("tbody tr#" + index + " .timech").attr('time', errorjson.time);
-        table.find("tbody tr#" + index + " .message").html(message);
+        table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
+        table.find("tbody tr#" + hashindex + " .message").html(message);
         if (arrowclass !== "")
         {
-            table.find("tbody tr#" + index + " .icons i.action").attr("class", "action fa " + arrowclass);
-            table.find("tbody tr#" + index + " .icons i.action").css("color", color);
+            table.find("tbody tr#" + hashindex + " .icons i.action").attr("class", "action fa " + arrowclass);
+            table.find("tbody tr#" + hashindex + " .icons i.action").css("color", color);
         }
-        
-}
+
+    }
+    $('.summary .Tablecount').html(table.find("tbody tr").length);
+    $('.summary .regcount').html(array_regular.length);
+    $('.summary .Speccount').html(array_spec.length);
 }
 
 var beginlisen = false;
@@ -453,6 +472,15 @@ $(document).ready(function () {
             {
                 errorlistJson[errorjson.hash] = errorjson;
             }
+
+            if (errorjson.isspec === 0)
+            {
+
+            } else
+            {
+                console.log(errorjson);
+            }
+
             reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
         });
     });
