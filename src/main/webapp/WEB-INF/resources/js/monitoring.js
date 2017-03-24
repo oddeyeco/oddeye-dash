@@ -84,8 +84,8 @@ function reDrawErrorList(listJson, table, errorjson)
         {
             if (indexregular !== -1)
             {
-                array_regular[indexregular] = errorjson;
-                errorjson.index = 0;
+//                array_regular[indexregular] = errorjson;
+//                errorjson.index = 0;
                 var hash_r = errorjson.hash;
                 array_regular.splice(indexregular, 1);
                 table.find("tbody tr#" + hash_r).fadeOut(400, function () {
@@ -120,12 +120,10 @@ function reDrawErrorList(listJson, table, errorjson)
             }
         } else
         {
-//            console.log(indexspec);
-//            console.log(errorjson);
             if (indexspec !== -1)
             {
-                array_spec[indexspec] = errorjson;
-                errorjson.index = 0;
+//                array_spec[indexspec] = errorjson;
+//                errorjson.index = 0;
                 var hash_s = errorjson.hash;
                 array_spec.splice(indexspec, 1);
                 table.find("tbody tr#" + hash_s).fadeOut(400, function () {
@@ -443,7 +441,7 @@ $(document).ready(function () {
     headers[headerName] = token;
     stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
-            var errorjson = JSON.parse(error.body);
+            var errorjson = JSON.parse(error.body);            
             if (errorlistJson[errorjson.hash])
             {
                 errorjson.index = errorlistJson[errorjson.hash].index;
@@ -459,7 +457,6 @@ $(document).ready(function () {
 
             if (errorjson.level === -1)
             {
-//                console.log(errorjson);
                 delete errorlistJson[errorjson.hash];
             } else
             {
