@@ -16,7 +16,7 @@
         $('body').on("click", ".view", function () {
             var id = $(this).attr("key") + "_" + $(this).attr("idvalue");
             var re = new RegExp("[//.|///]", 'g');
-            id = id.replace(re,"_")            
+            id = id.replace(re,"_");            
             $(".metricinfo").hide();
             var html = maetricrawHTML;
             $("#" + id).find("tbody").html("");            
@@ -58,18 +58,12 @@
                 //TODO Chage in js
                 location.reload();
             });
-
-
         });
-
         $('body').on("click", ".deletemetrics", function () {
             $.getJSON("deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
                 //TODO Chage in js
                 location.reload();
             });
-
-
         });
-
-    })
+    });
 </script>    
