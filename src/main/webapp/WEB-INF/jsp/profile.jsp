@@ -40,14 +40,19 @@
                         </li>
                     </ul>
 
-                        <a class="btn btn-success" href="${cp}/profile/edit"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                    <a class="btn btn-success" href="${cp}/profile/edit"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                     <br />
 
                 </div>        
                 <div class="col-md-9 col-sm-9 col-xs-12 profile_left">
                     <div class="row tile_count">
                         <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                            <span class="count_top"><i class="fa fa-user"></i> Total Tags Type</span>
+                            <span class="count_top"><i class="fa fa-list"></i> Total Metric Names</span>
+                            <div class="count">${curentuser.getMetricsMeta().GetNames().size()}</div>
+                            <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List </a></span>
+                        </div>                                                
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-folder"></i> Total Tags Type</span>
                             <div class="count">${curentuser.getMetricsMeta().getTagsList().size()}</div>
                             <!--<span class="count_bottom"><i class="green">4% </i> From last Week</span>-->
                         </div>                                                
@@ -55,7 +60,7 @@
                     <div class="row tile_count">
                         <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
                             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                                <span class="count_top"><i class="fa fa-user"></i> Total ${tagitem.key}</span>
+                                <span class="count_top"><i class="fa fa-th-list"></i> Total ${tagitem.key}</span>
                                 <div class="count">${tagitem.value.size()}</div>
                                 <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="${tagitem.key}">Show List </a></span>
                             </div>      
@@ -63,6 +68,67 @@
                         </c:forEach>
                     </div>
                     <div class="row list" style="position: relative; overflow: hidden " >
+                        <div class="item_list" style="position: relative; top: 0px;" id="name">
+                            <table class="table table-striped projects">
+                                <thead>
+                                    <tr>
+                                        <th>Metric Name</th>
+                                        <th>Count</th>                                            
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${curentuser.getMetricsMeta().GetNames()}" var="tagitemvalue">                                        
+                                        <tr>
+
+                                            <td>
+                                                <a>${tagitemvalue} </a>
+                                            </td>   
+                                            <td>#${curentuser.getMetricsMeta().getbyName(tagitemvalue).size()}</td>
+                                                <td class="text-right">
+                                                    <a href="javascript:void(0)" class="btn btn-primary btn-xs view" key="name" value="${tagitemvalue}" idvalue="${fn:replace(tagitemvalue, '.', '_')}"><i class="fa fa-folder"></i> View </a>
+                                                    <!--<a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>-->
+                                                    <a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetrics" key="name" value="${tagitemvalue}"><i class="fa fa-trash-o"></i> Delete All</a>
+                                                </td>                                            
+                                        </tr>                                        
+                                        <tr class="metricinfo" id="name_${fn:replace(fn:replace(tagitemvalue, '.', '_'),"/","_")}" style="display: none">
+                                            <td colspan="3">
+                                                <table class="table table-striped projects">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Metric name</th>
+                                                            <th>Tags</th>
+                                                            <th>Last Time</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>                                                
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>#</td>
+                                                            <td>
+                                                                <a> [metricname]</a>
+                                                            </td>
+                                                            <td>
+                                                                <a> [tags]</a>
+                                                            </td>
+                                                            <td>
+                                                                <a>[lasttime]</a>
+                                                            </td>                                                                
+
+                                                            <td class="text-nowrap">
+                                                                <a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a>
+                                                            </td>
+                                                        </tr>                                                 
+                                                    </tbody>
+                                                </table>                                                     
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>                                
+                        </div>                          
+
                         <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">     
                             <div class="item_list" style="position: relative; top: 0px; display: none" id="${tagitem.key}">
                                 <table class="table table-striped projects">
@@ -76,7 +142,7 @@
                                     <tbody>
                                         <c:forEach items="${tagitem.value}" var="tagitemvalue">                                        
                                             <tr>
-                                                
+
                                                 <td>
                                                     <a>${tagitemvalue} </a>
                                                 </td>
@@ -111,10 +177,8 @@
                                                                 <td>
                                                                     <a>[lasttime]</a>
                                                                 </td>                                                                
-                                                                
+
                                                                 <td class="text-nowrap">
-                                                                    <!--<a href="${cp}/metriq/[hash]" class="btn btn-primary btn-xs"><i class="fa fa-folder"></i> View</a>-->
-                                                                    <!--<a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a>-->
                                                                     <a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a>
                                                                 </td>
                                                             </tr>                                                 
@@ -127,8 +191,6 @@
                                         </c:forEach>
                                     </tbody>
                                 </table>                                
-
-
                             </div>                             
                         </c:forEach>
                     </div>        

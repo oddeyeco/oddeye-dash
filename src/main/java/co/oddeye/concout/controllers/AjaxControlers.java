@@ -114,7 +114,7 @@ public class AjaxControlers {
             Long start_time = DateTime.parseDateTimeString(startdate, null);
             Long end_time = DateTime.parseDateTimeString(enddate, null);
             Long starttime = System.currentTimeMillis();
-            ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample,rate);
+            ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
             Long getinterval = System.currentTimeMillis() - starttime;
             starttime = System.currentTimeMillis();
             if (data != null) {
@@ -231,18 +231,17 @@ public class AjaxControlers {
                     filter = "^(.*)$";
                 }
                 ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
-                jsonResult.addProperty("sucsses", true);                
+                jsonResult.addProperty("sucsses", true);
                 for (final OddeeyMetricMeta metric : Metriclist) {
-                    if (!metric.isSpecial()) {                        
-                        if (!data.contains(metric.getName()))
-                        {
+                    if (!metric.isSpecial()) {
+                        if (!data.contains(metric.getName())) {
                             data.add(metric.getName());
                         }
                     }
                 }
                 Collections.sort(data);
                 Gson gson = new Gson();
-                
+
                 jsondata.addAll(gson.toJsonTree(data).getAsJsonArray());
 //                        if (!jsondata.contains(metricjson)) {
 //                            jsondata.add(metricjson);
@@ -345,7 +344,14 @@ public class AjaxControlers {
                         getAuthentication().getPrincipal();
 
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
+                ArrayList<OddeeyMetricMeta> Metriclist;
+                if (key.equals("name")) {
+                    Metriclist = userDetails.getMetricsMeta().getbyName(value);
+                } else {
+                    Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
+                }
+                
+
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
                 for (final OddeeyMetricMeta metric : Metriclist) {
@@ -402,7 +408,15 @@ public class AjaxControlers {
                 }
 
                 if ((key != null) && (value != null)) {
-                    MetaDao.deleteMetaByTag(key, value, userDetails);
+                    if (key.equals("name"))
+                    {
+                        MetaDao.deleteMetaByName(value, userDetails);
+                    }
+                    else
+                    {
+                        MetaDao.deleteMetaByTag(key, value, userDetails);
+                    }
+                    
                     jsonResult.addProperty("sucsses", true);
                 } else {
                     jsonResult.addProperty("sucsses", false);

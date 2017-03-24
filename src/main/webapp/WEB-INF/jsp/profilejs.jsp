@@ -15,17 +15,20 @@
 
         $('body').on("click", ".view", function () {
             var id = $(this).attr("key") + "_" + $(this).attr("idvalue");
+            var re = new RegExp("[//.|///]", 'g');
+            id = id.replace(re,"_")            
             $(".metricinfo").hide();
             var html = maetricrawHTML;
-            $("#" + id).find("tbody").html("");
-            $.getJSON("getmetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (value) {
-                for (var k in value.data) {
-                    metric = value.data[k];
+            $("#" + id).find("tbody").html("");            
+            var url ="getmetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value");            
+            $.getJSON(url, function (value) {
+                for (var k in value.data) {                    
+                    var metric = value.data[k];
 //                    console.log(metric);
-                    input = html.replace("[metricname]", metric.name);
-                    if (metric.type != 0)
+                    var input = html.replace("[metricname]", metric.name);
+                    if (metric.type !== 0)
                     {
-                        icons = chartLinck.replace("[hash]", JSON.stringify(metric.hash));
+                        var icons = chartLinck.replace("[hash]", JSON.stringify(metric.hash));
                         input = input.replace("[icons]", icons);
                     }
                     else
@@ -60,7 +63,6 @@
         });
 
         $('body').on("click", ".deletemetrics", function () {
-//            alert($(this).attr("value"));
             $.getJSON("deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
                 //TODO Chage in js
                 location.reload();

@@ -9,7 +9,9 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeeyMetricMetaList;
 import co.oddeye.core.OddeyeTag;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -27,6 +29,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
     private final Map<String, Set<String>> TagsList = new HashMap<>();
     static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
+    private final List<String> Namelist = new ArrayList<>();
 
     public ConcoutMetricMetaList() {
         super();
@@ -51,6 +54,10 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             }
         });
 
+        if (!Namelist.contains(e.getName())) {
+            Namelist.add(e.getName());
+        }
+
         if (this.containsKey(e.hashCode())) {
             ConcoutMetricMetaList.LOGGER.warn("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
         }
@@ -64,6 +71,11 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         return this.put(e.hashCode(), e);
     }
 
+    public List<String> GetNames() {
+        Collections.sort(Namelist);
+        return Namelist;
+    }
+
     public ArrayList<OddeeyMetricMeta> getbyTag(String tagK, String tagV) throws Exception {
         ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
@@ -73,7 +85,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 }
             }
         }
-        SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));
+        SortbyName.sort(OddeeyMetricMeta::compareTo);
         return SortbyName;
     }
 
@@ -120,7 +132,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             }
 
         }
-        SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));
+        SortbyName.sort(OddeeyMetricMeta::compareTo);
         return SortbyName;
     }
 
