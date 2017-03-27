@@ -817,7 +817,13 @@ function redrawAllJSON(dashJSON, redraw = false)
             $("#rowtemplate .widgetraw").attr("id", "row");
         }
         for (widgetindex in    dashJSON[rowindex]["widgets"])
-        {
+        {            
+            if (dashJSON[rowindex]["widgets"][widgetindex] == null)
+            {
+                
+                delete(dashJSON[rowindex]["widgets"][widgetindex])
+                continue;
+            }
             if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
             {
                 var bkgclass = "";
