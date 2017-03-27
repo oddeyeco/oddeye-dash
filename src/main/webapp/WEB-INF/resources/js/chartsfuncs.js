@@ -55,6 +55,7 @@ var rangeslabels = {
     'Last 6 hour': "6h-ago",
     'Last 12 hour': "12h-ago",
     'Last 1 day': "24h-ago",
+    'Last 3 day': "3d-ago",
     'Last 7 day': "7d-ago"
 };
 
@@ -80,7 +81,7 @@ var PicerOptionSet1 = {
         'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
         'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
         'Last 1 day': [moment().subtract(24, 'hour'), moment()],
-        'Last 7 day': [moment().subtract(7, 'day'), moment()]
+        'Last 3 day': [moment().subtract(3, 'day'), moment()]
     },
     opens: 'left',
     buttonClasses: ['btn btn-default'],
@@ -125,7 +126,7 @@ var PicerOptionSet2 = {
         'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
         'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
         'Last 1 day': [moment().subtract(24, 'hour'), moment()],
-        'Last 7 day': [moment().subtract(7, 'day'), moment()]
+        'Last 3 day': [moment().subtract(3, 'day'), moment()]
     },
 //    opens: 'left',
 //    drops: 'up',
@@ -156,6 +157,7 @@ var rangeslabelsds = {
     'Last 6 hour': ["2m", "avg", true],
     'Last 12 hour': ["4m", "avg", true],
     'Last 1 day': ["30m", "avg", true],
+    'Last 3 day': ["1h", "avg", true],
     'Last 7 day': ["4h", "avg", true]
 };
 
