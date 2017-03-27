@@ -438,7 +438,7 @@ var timems = function (params) {
     }
     if (val > divatior + 1)
     {
-        return format_time(moment.duration(val));
+        return format_time(moment.duration(val/divatior));
     }
 
     return val.toFixed(2) + " " + metric;

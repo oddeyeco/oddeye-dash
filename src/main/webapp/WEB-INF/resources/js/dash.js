@@ -1933,13 +1933,10 @@ window.onresize = function () {
 };
 
 $('body').on("click", ".csv", function () {
-
     var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
     var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
     var csvarray = [];
     csvarray.push([dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text]);
-
-
     if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "time")
     {
         for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
@@ -1952,7 +1949,6 @@ $('body').on("click", ".csv", function () {
             }
         }
     }
-
     if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "category")
     {
         for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
