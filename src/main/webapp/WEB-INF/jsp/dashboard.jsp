@@ -32,6 +32,7 @@
                     <a class="btn btn-default view" type="button">View</a>
                     <a class="btn btn-default editchart" type="button">Edit</a>
                     <a class="btn btn-default dublicate" type="button">Duplicate</a>               
+                    <a class="btn btn-default csv" type="button">asCsv</a>
                     <a class="btn btn-default plus" type="button"><i class="fa fa-plus"></i></a>
                     <a class="btn btn-default minus" type="button"><i class="fa fa-minus"></i></a>
                     <a class="btn btn-default deletewidget" type="button"><i class="fa fa-trash"></i></a>
