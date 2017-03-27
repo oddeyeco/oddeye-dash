@@ -44,19 +44,19 @@ class ChartEditForm {
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(dashJSON[row]["widgets"][index], $('#reportrange_private')));
 
 
-        if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
+        if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
         {
-            if ((typeof (dashJSON[row]["widgets"][index].queryes[0])) === "string")
+            if ((typeof (dashJSON[row]["widgets"][index].q[0])) === "string")
             {
-                var query = "?" + dashJSON[row]["widgets"][index].queryes[0];
+                var query = "?" + dashJSON[row]["widgets"][index].q[0];
                 var tags = getParameterByName("tags", query).split(";");
                 var metrics = getParameterByName("metrics", query).split(";");
                 var aggregator = getParameterByName("aggregator", query);
             } else
             {
-                var tags = dashJSON[row]["widgets"][index].queryes[0].info.tags.split(";");
-                var metrics = dashJSON[row]["widgets"][index].queryes[0].info.metrics.split(";");
-                var aggregator = dashJSON[row]["widgets"][index].queryes[0].info.aggregator;
+                var tags = dashJSON[row]["widgets"][index].q[0].info.tags.split(";");
+                var metrics = dashJSON[row]["widgets"][index].q[0].info.metrics.split(";");
+                var aggregator = dashJSON[row]["widgets"][index].q[0].info.aggregator;
             }
 
 
@@ -87,11 +87,11 @@ class ChartEditForm {
                 this.formwraper.find("#tab_metrics select#aggregator").val(aggregator);
             }
 
-            if (typeof (dashJSON[row]["widgets"][index].queryes[0].info) !== "undefined")
+            if (typeof (dashJSON[row]["widgets"][index].q[0].info) !== "undefined")
             {
-                this.formwraper.find("#tab_metrics input#alias").val(dashJSON[row]["widgets"][index].queryes[0].info.alias);
-                this.formwraper.find("#tab_metrics input#alias2").val(dashJSON[row]["widgets"][index].queryes[0].info.alias2);
-                var ds = dashJSON[row]["widgets"][index].queryes[0].info.downsample;
+                this.formwraper.find("#tab_metrics input#alias").val(dashJSON[row]["widgets"][index].q[0].info.alias);
+                this.formwraper.find("#tab_metrics input#alias2").val(dashJSON[row]["widgets"][index].q[0].info.alias2);
+                var ds = dashJSON[row]["widgets"][index].q[0].info.downsample;
                 if (ds === "")
                 {
 
@@ -103,12 +103,12 @@ class ChartEditForm {
                 }
 
                 var elem = document.getElementById("disable_downsampling");
-                if (elem.checked !== dashJSON[row]["widgets"][index].queryes[0].info.downsamplingstate)
+                if (elem.checked !== dashJSON[row]["widgets"][index].q[0].info.downsamplingstate)
                 {
                     $(elem).trigger('click');
                 }
                 var elem = document.getElementById("enable_rate");
-                if (elem.checked !== dashJSON[row]["widgets"][index].queryes[0].info.rate)
+                if (elem.checked !== dashJSON[row]["widgets"][index].q[0].info.rate)
                 {
                     $(elem).trigger('click');
                 }
@@ -477,8 +477,8 @@ class ChartEditForm {
 //                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + downsample;
 
 
-            this.dashJSON[this.row]["widgets"][this.index].queryes = [];
-            this.dashJSON[this.row]["widgets"][this.index].queryes.push({info: {"rate": document.getElementById("enable_rate").checked, "downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(), "alias2": this.formwraper.find("#alias2").val()}});
+            this.dashJSON[this.row]["widgets"][this.index].q = [];
+            this.dashJSON[this.row]["widgets"][this.index].q.push({info: {"rate": document.getElementById("enable_rate").checked, "downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(), "alias2": this.formwraper.find("#alias2").val()}});
         }
         if (input.parents("form").hasClass("edit-display"))
         {

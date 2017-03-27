@@ -66,7 +66,7 @@ function replacer(tags) {
         return tags[p1];
     };
 }
-function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, callback = null, customchart = null)
+function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback = null, customchart = null)
 {
     var widget = json[rowindex]["widgets"][widgetindex];
     clearTimeout(widget.timer);
@@ -158,30 +158,28 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
 
         }
     }
-
-
-    var count = {"value": widget.queryes.length};
+    var count = {"value": widget.q.length};
     var oldseries = clone_obg(widget.options.series);
 
     widget.options.series = [];
-    for (k in widget.queryes)
+    for (k in widget.q)
     {
-        if ((typeof (widget.queryes[k])) === "string")
+        if ((typeof (widget.q[k])) === "string")
         {
-            var query = widget.queryes[k];
+            var query = widget.q[k];
         } else
         {
-            var query = "metrics=" + widget.queryes[k].info.metrics + "&tags=" + widget.queryes[k].info.tags +
-                    "&aggregator=" + widget.queryes[k].info.aggregator;
-            if (widget.queryes[k].info.rate)
+            var query = "metrics=" + widget.q[k].info.metrics + "&tags=" + widget.q[k].info.tags +
+                    "&aggregator=" + widget.q[k].info.aggregator;
+            if (widget.q[k].info.rate)
             {
                 query = query + "&rate=true";
             }
-            if (!widget.queryes[k].info.downsamplingstate)
+            if (!widget.q[k].info.downsamplingstate)
             {
                 if (!usePersonalTime)
                 {
-                    if (widget.queryes[k].info.downsample === "")
+                    if (widget.q[k].info.downsample === "")
                     {
                         if (json.times.generalds)
                         {
@@ -192,7 +190,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                         }
                     } else
                     {
-                        query = query + "&downsample=" + widget.queryes[k].info.downsample;
+                        query = query + "&downsample=" + widget.q[k].info.downsample;
                     }
                 }
 
@@ -229,20 +227,20 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             var name2 = widget.options.title.text;
                         }
 
-                        if (typeof (widget.queryes[q_index].info) !== "undefined")
+                        if (typeof (widget.q[q_index].info) !== "undefined")
                         {
-                            if (widget.queryes[q_index].info.alias !== "")
+                            if (widget.q[q_index].info.alias !== "")
                             {
-                                name = widget.queryes[q_index].info.alias;
+                                name = widget.q[q_index].info.alias;
                                 name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                 name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                 name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                             }
-                            if (widget.queryes[q_index].info.alias2)
+                            if (widget.q[q_index].info.alias2)
                             {
-                                if (widget.queryes[q_index].info.alias2 !== "")
+                                if (widget.q[q_index].info.alias2 !== "")
                                 {
-                                    name2 = widget.queryes[q_index].info.alias2;
+                                    name2 = widget.q[q_index].info.alias2;
                                     name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                     name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                     name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
@@ -321,20 +319,20 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                     var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                     var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                    if (typeof (widget.queryes[q_index].info) !== "undefined")
+                    if (typeof (widget.q[q_index].info) !== "undefined")
                     {
-                        if (widget.queryes[q_index].info.alias !== "")
+                        if (widget.q[q_index].info.alias !== "")
                         {
-                            name = widget.queryes[q_index].info.alias;
+                            name = widget.q[q_index].info.alias;
                             name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                             name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                             name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                         }
-                        if (widget.queryes[q_index].info.alias2)
+                        if (widget.q[q_index].info.alias2)
                         {
-                            if (widget.queryes[q_index].info.alias2 !== "")
+                            if (widget.q[q_index].info.alias2 !== "")
                             {
-                                name2 = widget.queryes[q_index].info.alias2;
+                                name2 = widget.q[q_index].info.alias2;
                                 name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                 name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                 name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
@@ -644,7 +642,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             if (widget.options.series[s_index].name === series.name)
                             {
                                 dublicatename = true;
-                                widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data)
+                                widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data);
                                 widget.options.series[s_index].data.sort(function (a, b) {
                                     return compareStrings(a.name, b.name);
                                 });
@@ -747,7 +745,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         GlobalRefresh = false;
                         widget.timer = setTimeout(function () {
-                            setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
+                            setdatabyQ(json, rowindex, widgetindex, url, true, null, customchart);
                         }, widget.times.intervall);
                     }
                 }
@@ -757,7 +755,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 if (json.times.intervall)
                 {
                     widget.timer = setTimeout(function () {
-                        setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
+                        setdatabyQ(json, rowindex, widgetindex, url, true, null, customchart);
                     }, json.times.intervall);
                 }
             }
@@ -889,15 +887,16 @@ function redrawAllJSON(dashJSON, redraw = false)
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             }
+            dashJSON[rowindex]["widgets"][widgetindex].q = clone_obg(dashJSON[rowindex]["widgets"][widgetindex].queryes);
+            delete dashJSON[rowindex]["widgets"][widgetindex].queryes;
 
-
-            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
+            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].q) !== "undefined")
             {
                 if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
                 {
                     dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
                 }
-                setdatabyQueryes(dashJSON, rowindex, widgetindex, "getdata", redraw);
+                setdatabyQ(dashJSON, rowindex, widgetindex, "getdata", redraw);
             } else
             {
                 if (dashJSON[rowindex]["widgets"][widgetindex].options.series.length === 1)
@@ -977,9 +976,12 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     {
         echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
     }
-    if (typeof (dashJSON[row]["widgets"][index].queryes) !== "undefined")
+
+    dashJSON[row]["widgets"][index].q = clone_obg(dashJSON[row]["widgets"][index].queryes);
+    delete dashJSON[row]["widgets"][index].queryes;
+    if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
     {
-        setdatabyQueryes(dashJSON, row, index, "getdata", redraw, callback, echartLine);
+        setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].options);
@@ -1727,6 +1729,7 @@ $('body').on("click", ".deletedash", function () {
 $('body').on("click", ".savedash", function () {
     var url = cp + "/dashboard/save";
     var senddata = {};
+    
     if (Object.keys(dashJSONvar).length > 0)
     {
         for (var rowindex in dashJSONvar)
@@ -1746,7 +1749,7 @@ $('body').on("click", ".savedash", function () {
             }
         }
 
-        senddata.info = JSON.stringify(dashJSONvar);
+        senddata.info = JSON.stringify(dashJSONvar);        
         senddata.name = $("#name").val();
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
@@ -1879,9 +1882,9 @@ window.onscroll = function () {
                             }
                             if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
                             {
-                                if (typeof (dashJSONvar[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
+                                if (typeof (dashJSONvar[rowindex]["widgets"][widgetindex].q) !== "undefined")
                                 {
-                                    setdatabyQueryes(dashJSONvar, rowindex, widgetindex, "getdata", false);
+                                    setdatabyQ(dashJSONvar, rowindex, widgetindex, "getdata", false);
                                 }
                             }
                         }
@@ -1915,9 +1918,9 @@ window.onresize = function () {
                     }
                     if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
                     {
-                        if (typeof (dashJSONvar[rowindex]["widgets"][widgetindex].queryes) !== "undefined")
+                        if (typeof (dashJSONvar[rowindex]["widgets"][widgetindex].q) !== "undefined")
                         {
-                            setdatabyQueryes(dashJSONvar, rowindex, widgetindex, "getdata", false);
+                            setdatabyQ(dashJSONvar, rowindex, widgetindex, "getdata", false);
                         }
                     }
                     chart.resize();
@@ -1945,7 +1948,7 @@ $('body').on("click", ".csv", function () {
             csvarray.push([Ser.name]);
             for (var dataind in Ser.data)
             {
-                csvarray.push([Ser.name,new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+                csvarray.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
             }
         }
     }
