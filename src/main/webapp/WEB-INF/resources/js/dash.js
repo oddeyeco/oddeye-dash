@@ -887,8 +887,12 @@ function redrawAllJSON(dashJSON, redraw = false)
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             }
-            dashJSON[rowindex]["widgets"][widgetindex].q = clone_obg(dashJSON[rowindex]["widgets"][widgetindex].queryes);
-            delete dashJSON[rowindex]["widgets"][widgetindex].queryes;
+            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].q) === "undefined")
+            {
+                dashJSON[rowindex]["widgets"][widgetindex].q = clone_obg(dashJSON[rowindex]["widgets"][widgetindex].queryes);
+                delete dashJSON[rowindex]["widgets"][widgetindex].queryes;
+            }
+
 
             if (typeof (dashJSON[rowindex]["widgets"][widgetindex].q) !== "undefined")
             {
@@ -976,9 +980,13 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     {
         echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
     }
+    if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
+    {
+        dashJSON[row]["widgets"][index].q = clone_obg(dashJSON[row]["widgets"][index].queryes);
+        delete dashJSON[row]["widgets"][index].queryes;
+    }
 
-    dashJSON[row]["widgets"][index].q = clone_obg(dashJSON[row]["widgets"][index].queryes);
-    delete dashJSON[row]["widgets"][index].queryes;
+
     if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
     {
         setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
@@ -1729,7 +1737,7 @@ $('body').on("click", ".deletedash", function () {
 $('body').on("click", ".savedash", function () {
     var url = cp + "/dashboard/save";
     var senddata = {};
-    
+
     if (Object.keys(dashJSONvar).length > 0)
     {
         for (var rowindex in dashJSONvar)
@@ -1749,7 +1757,7 @@ $('body').on("click", ".savedash", function () {
             }
         }
 
-        senddata.info = JSON.stringify(dashJSONvar);        
+        senddata.info = JSON.stringify(dashJSONvar);
         senddata.name = $("#name").val();
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
