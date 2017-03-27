@@ -986,12 +986,13 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     {
         echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
     }
-    if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
+    
+    
+    if (typeof (dashJSON[row]["widgets"][index].q) === "undefined")
     {
         dashJSON[row]["widgets"][index].q = clone_obg(dashJSON[row]["widgets"][index].queryes);
         delete dashJSON[row]["widgets"][index].queryes;
     }
-
 
     if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
     {
