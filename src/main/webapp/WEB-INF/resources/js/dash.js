@@ -124,7 +124,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
     }
     var start = "5m-ago";
     var end = "now";
-    
+
     if (json.times)
     {
         if (json.times.pickerlabel === "Custom")
@@ -139,25 +139,27 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             }
 
         }
-    }    
-    
+    }
+    var usePersonalTime = false;
     if (widget.times)
     {
         if (widget.times.pickerlabel === "Custom")
         {
             start = widget.times.pickerstart;
             end = widget.times.pickerend;
+            usePersonalTime = true;
         } else
         {
             if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
             {
                 start = rangeslabels[widget.times.pickerlabel];
+                usePersonalTime = true;
             }
 
-        }        
-    }    
-    
-    
+        }
+    }
+
+
     var count = widget.queryes.length;
     var oldseries = clone_obg(widget.options.series);
 
@@ -177,18 +179,21 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             }
             if (!widget.queryes[k].info.downsamplingstate)
             {
-                if (widget.queryes[k].info.downsample === "")
+                if (!usePersonalTime)
                 {
-                    if (dashJSONvar.times.generalds)
+                    if (widget.queryes[k].info.downsample === "")
                     {
-                        if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
+                        if (json.times.generalds)
                         {
-                            query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                            if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
+                            {
+                                query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                            }
                         }
+                    } else
+                    {
+                        query = query + "&downsample=" + widget.queryes[k].info.downsample;
                     }
-                } else
-                {
-                    query = query + "&downsample=" + widget.queryes[k].info.downsample;
                 }
 
             }
@@ -974,7 +979,7 @@ function getParameterByName(name, url) {
 }
 $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
     var input = $('#reportrange_private');
-    chartForm.chage(input); 
+    chartForm.chage(input);
 });
 
 $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
@@ -1004,7 +1009,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     }
     $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
     $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-    
+
     //TODO Fix redraw
     var check = document.getElementById('global-downsampling-switsh');
     if (dashJSONvar.times.generalds[2])
@@ -1696,7 +1701,7 @@ $('body').on("click", ".deletedash", function () {
 });
 
 $('body').on("click", ".savedash", function () {
-    var url = cp + "/dashboard/save";   
+    var url = cp + "/dashboard/save";
     var senddata = {};
     if (Object.keys(dashJSONvar).length > 0)
     {
