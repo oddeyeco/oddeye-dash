@@ -160,7 +160,7 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
     }
 
 
-    var count = widget.queryes.length;
+    var count = {"value": widget.queryes.length};
     var oldseries = clone_obg(widget.options.series);
 
     widget.options.series = [];
@@ -206,128 +206,43 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
             maskColor: 'rgba(255, 255, 255, 0)',
             zlevel: 0
         });
+
+        $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+}
+}
+
+var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart)
+{
+    return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
-        $.getJSON(uri, null, function (data) {
-            if (Object.keys(data.chartsdata).length > 0)
+        if (Object.keys(data.chartsdata).length > 0)
+        {
+            if (widget.options.xAxis[0].type === "time")
             {
-                if (widget.options.xAxis[0].type === "time")
+                for (index in data.chartsdata)
                 {
-                    for (index in data.chartsdata)
+                    if (Object.keys(data.chartsdata[index].data).length > 0)
                     {
-                        if (Object.keys(data.chartsdata[index].data).length > 0)
-                        {
-                            var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                            if (widget.options.title)
-                            {
-                                var name2 = widget.options.title.text;
-                            }
-
-                            if (typeof (widget.queryes[k].info) !== "undefined")
-                            {
-                                if (widget.queryes[k].info.alias !== "")
-                                {
-                                    name = widget.queryes[k].info.alias;
-                                    name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                    name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                    name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                }
-                                if (widget.queryes[k].info.alias2)
-                                {
-                                    if (widget.queryes[k].info.alias2 !== "")
-                                    {
-                                        name2 = widget.queryes[k].info.alias2;
-                                        name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                        name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                        name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                    }
-                                }
-                            }
-
-                            var series = clone_obg(defserie);
-                            for (var skey in oldseries)
-                            {
-                                if (oldseries[skey].name === name)
-                                {
-                                    series = clone_obg(oldseries[skey]);
-                                    break;
-                                }
-                            }
-                            series.data = [];
-                            if (!series.type)
-                            {
-                                series.type = widget.type;
-                            }
-
-                            if (!widget.manual)
-                            {
-                                if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
-                                {
-                                    series.showSymbol = true;
-                                    series.symbol = widget.points;
-                                } else
-                                {
-                                    delete series.symbol;
-                                    delete series.showSymbol;
-                                }
-
-                            } else
-                            {
-                                series.showSymbol = ((series.symbol !== "none") && (typeof (series.symbol) !== "undefined"));
-                            }
-                            series.name = name;
-                            var chdata = data.chartsdata[index].data;
-                            series.data = [];
-                            for (var ind in chdata)
-                            {
-                                series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2});
-                            }
-                            if (widget.stacked)
-                            {
-                                series.stack = "0";
-                            }
-                            if (widget.fill)
-                            {
-                                if (widget.fill !== "none")
-                                {
-                                    series.areaStyle = {normal: {opacity: widget.fill}};
-                                }
-                            }
-                            if (widget.step)
-                            {
-                                if (widget.step !== "")
-                                {
-                                    series.step = widget.step;
-                                }
-                            }
-                            widget.options.series.push(series);
-                        }
-                    }
-                }
-
-                if (widget.options.xAxis[0].type === "category")
-                {
-                    var sdata = [];
-                    var tmp_series_1 = {};
-
-                    for (var index in data.chartsdata)
-                    {
-
                         var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                        var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                        if (typeof (widget.queryes[k].info) !== "undefined")
+                        if (widget.options.title)
                         {
-                            if (widget.queryes[k].info.alias !== "")
+                            var name2 = widget.options.title.text;
+                        }
+
+                        if (typeof (widget.queryes[q_index].info) !== "undefined")
+                        {
+                            if (widget.queryes[q_index].info.alias !== "")
                             {
-                                name = widget.queryes[k].info.alias;
+                                name = widget.queryes[q_index].info.alias;
                                 name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                 name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                 name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
                             }
-                            if (widget.queryes[k].info.alias2)
+                            if (widget.queryes[q_index].info.alias2)
                             {
-                                if (widget.queryes[k].info.alias2 !== "")
+                                if (widget.queryes[q_index].info.alias2 !== "")
                                 {
-                                    name2 = widget.queryes[k].info.alias2;
+                                    name2 = widget.queryes[q_index].info.alias2;
                                     name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
                                     name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
                                     name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
@@ -335,62 +250,6 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                             }
                         }
 
-                        var chdata = [];
-                        var val;
-                        for (var ind in data.chartsdata[index].data) {
-                            chdata.push(data.chartsdata[index].data[ind][1]);
-                            val = data.chartsdata[index].data[ind][1];
-                        }
-
-                        if (m_sample === "avg")
-                        {
-                            val = numbers.statistic.mean(chdata);
-                        }
-                        if (m_sample === "min")
-                        {
-                            val = numbers.basic.min(chdata);
-                        }
-                        if (m_sample === "max")
-                        {
-                            val = numbers.basic.max(chdata);
-                        }
-                        if (m_sample === "total")
-                        {
-                            val = numbers.basic.sum(chdata);
-                        }
-                        if (m_sample === "product")
-                        {
-                            val = numbers.basic.product(chdata);
-                        }
-                        if (m_sample === "count")
-                        {
-                            val = chdata.length;
-                        }
-                        var tmpname = name;
-                        if (name2)
-                        {
-                            tmpname = name2;
-                        }
-
-                        if (!tmp_series_1[name])
-                        {
-                            tmp_series_1[name] = [];
-                        }
-                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname});
-                        sdata.push({value: val, name: name});
-                    }
-
-                    var radius = (100 / Object.keys(tmp_series_1).length);
-
-                    if (radius < 25)
-                    {
-                        radius = 25;
-                    }
-                    var rows = Math.floor((Object.keys(tmp_series_1).length / 4)) + 1;
-                    index = 1;
-                    var row = 0;
-                    if (widget.type === "treemap")
-                    {
                         var series = clone_obg(defserie);
                         for (var skey in oldseries)
                         {
@@ -405,341 +264,506 @@ function setdatabyQueryes(json, rowindex, widgetindex, url, redraw = false, call
                         {
                             series.type = widget.type;
                         }
-                        data = [];
-                        for (var key in tmp_series_1)
+
+                        if (!widget.manual)
                         {
-                            var val = 0;
-                            var cildren = [];
-                            for (var ind in tmp_series_1[key])
+                            if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                             {
-                                val = val + tmp_series_1[key][ind].value;
-                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name});
-                            }
-
-                            data.push({value: val, name: key, children: cildren});
-                        }
-                        series.name = key;
-                        widget.options.tooltip.trigger = 'item';
-                        series.data = data;
-                        widget.options.series.push(series);
-                    } else
-                    {
-                        for (var key in tmp_series_1)
-                        {
-                            if (index > 4)
-                            {
-                                index = 1;
-                                row++;
-                            }
-
-                            var series = clone_obg(defserie);
-                            for (var skey in oldseries)
-                            {
-                                if (oldseries[skey].name === key)
-                                {
-                                    series = clone_obg(oldseries[skey]);
-                                    break;
-                                }
-                            }
-                            series.data = [];
-
-                            if (!series.type)
-                            {
-                                series.type = widget.type;
-                            }
-
-                            series.name = key;
-
-
-
-                            if (series.type === "bar")
-                            {
-
-                                if (Object.keys(tmp_series_1).length === 1)
-                                {
-                                    series.itemStyle = {normal: {color: function (params) {
-                                                return colorPalette[params.dataIndex % colorPalette.length];
-                                            }}};
-                                }
-                                series.data = tmp_series_1[key];
+                                series.showSymbol = true;
+                                series.symbol = widget.points;
                             } else
                             {
-                                series.data = tmp_series_1[key];
-                                if (series.type === "gauge")
-                                {
-                                    for (i = 0; i < series.data.length; i++)
-                                    {
-                                        series.data[i].subname = series.data[i].name;
-                                        series.data[i].name = key;
-                                    }
-
-                                }
-                            }
-                            widget.options.tooltip.trigger = 'item';
-                            if (series.type === "line")
-                            {
-                                if (widget.fill)
-                                {
-                                    if (widget.fill !== "none")
-                                    {
-                                        series.areaStyle = {normal: {opacity: widget.fill}};
-                                    }
-                                }
-                                if (widget.step)
-                                {
-                                    if (widget.step !== "")
-                                    {
-                                        series.step = widget.step;
-                                    }
-                                }
-                                if (!series.symbol)
-                                {
-                                    series.symbol = widget.points;
-                                }
-                                if (widget.options.tooltip.trigger)
-                                {
-                                    widget.options.tooltip.trigger = 'axis';
-                                }
-
-                            }
-                            var wr = radius * chart._dom.getBoundingClientRect().width / 100;
-                            var hr = radius * chart._dom.getBoundingClientRect().height / 100;
-
-                            if (series.type === "gauge")
-                            {
-
-                                if (!series.axisLabel)
-                                {
-                                    series.axisLabel = {};
-                                }
-                                var formatter = widget.options.yAxis[0].unit;
-                                if (formatter === "none")
-                                {
-                                    delete series.axisLabel.formatter;
-                                    delete series.detail.formatter;
-                                } else
-                                {
-                                    if (!series.detail)
-                                    {
-                                        series.detail = {};
-                                    }
-
-                                    if (typeof (window[formatter]) === "function")
-                                    {
-                                        series.axisLabel.formatter = window[formatter];
-                                        series.detail.formatter = window[formatter];
-                                    } else
-                                    {
-                                        series.axisLabel.formatter = formatter;
-                                        series.detail.formatter = formatter;
-                                    }
-                                }
-
-                                if (widget.options.yAxis[0].min)
-                                {
-                                    if (!series.min)
-                                    {
-                                        series.min = widget.options.yAxis[0].min;
-                                    }
-
-                                }
-                                if (widget.options.yAxis[0].max)
-                                {
-                                    if (!series.max)
-                                    {
-                                        series.max = widget.options.yAxis[0].max;
-                                    }
-                                }
-                                var tmpradius = radius;
-                                if (hr < wr)
-                                {
-                                    var tmpradius = radius + radius / 2;
-                                }
-                                if (tmpradius > 100)
-                                    tmpradius = 95;
-                                if (!widget.manual)
-                                {
-                                    series.radius = tmpradius - 3 + "%";
-                                    if (hr < wr)
-                                    {
-                                        series.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
-                                    } else
-                                    {
-                                        series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
-                                    }
-                                }
+                                delete series.symbol;
+                                delete series.showSymbol;
                             }
 
-                            if (series.type === "pie")
-                            {
-                                if (!widget.manual)
-                                {
-                                    series.radius = radius - 3 + "%";
-
-                                    if (hr < wr)
-                                    {
-                                        series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
-                                    } else
-                                    {
-                                        series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
-                                    }
-                                }
-
-
-                            }
-                            if (widget.stacked)
-                            {
-                                series.stack = "0";
-                            }
-
-                            if (series.type === "funnel")
-                            {
-                                delete series.axisLine;
-                                delete series.max;
-                                delete series.min;
-                                delete series.radius;
-                                delete series.center;
-                                if (row !== 1)
-                                {
-                                    if (!series.sort)
-                                    {
-                                        series.sort = 'ascending';
-                                    }
-
-                                }
-
-                                if (!series.itemStyle)
-                                {
-                                    series.itemStyle = {
-                                        normal: {
-                                            label: {
-                                                position: 'right'
-                                            },
-                                            labelLine: {
-                                                show: true
-                                            }
-                                        }
-                                    };
-                                }
-
-                                if (!widget.manual)
-                                {
-                                    series.width = radius - 5 + "%";
-                                    series.height = 100 / rows - 5 + "%";
-                                    series.x = index * radius - radius + '%';
-                                    series.y = (row * 50 + 2.5) + "%";
-
-                                }
-
-                            }
-                            index++;
-                            widget.options.series.push(series);
-
-                        }
-                    }
-                    widget.options.xAxis[0].data = [];
-                }
-
-            }
-            count--;
-            if (count === 0)
-            {
-                widget.options.series.sort(function (a, b) {
-                    return compareStrings(a.name, b.name);
-                });
-                for (var ind in widget.options.series)
-                {
-                    if (widget.options.xAxis[0].type === "category")
-                    {
-                        widget.options.series[ind].unit = widget.options.yAxis[0].unit;
-                        if ((widget.type === "bar") || (widget.type === "line"))
-                        {
-                            for (var sind in widget.options.series[ind].data)
-                            {
-                                widget.options.series[ind].data[sind].unit = widget.options.yAxis[0].unit;
-                                if (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name) === -1)
-                                {
-                                    widget.options.xAxis[0].data.push(widget.options.series[ind].data[sind].name);
-                                }
-
-                            }
-
-                        }
-
-                        if ((widget.options.series[ind].type === "pie") || (widget.options.series[ind].type === "funnel"))
-                        {
-                            for (var sind in widget.options.series[ind].data)
-                            {
-                                if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
-                                {
-                                    widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
-                                }
-
-                            }
-                        }
-                    }
-                    widget.options.legend.data.push(widget.options.series[ind].name);
-                }
-                for (var yindex in widget.options.yAxis)
-                {
-                    var formatter = widget.options.yAxis[yindex].unit;
-                    if (formatter === "none")
-                    {
-                        delete widget.options.yAxis[yindex].axisLabel.formatter;
-                    } else
-                    {
-                        if (!widget.options.yAxis[yindex].axisLabel)
-                        {
-                            widget.options.yAxis[yindex].axisLabel = {};
-                        }
-                        if (typeof (window[formatter]) === "function")
-                        {
-                            widget.options.yAxis[yindex].axisLabel.formatter = window[formatter];
                         } else
                         {
-                            widget.options.yAxis[yindex].axisLabel.formatter = formatter;
+                            series.showSymbol = ((series.symbol !== "none") && (typeof (series.symbol) !== "undefined"));
                         }
-                    }
-                }
-                if (redraw)
-                {
-                    chart.setOption({series: widget.options.series});
-                } else
-                {
-                    chart.setOption(widget.options);
-                }
-                chart.hideLoading();
-                if (callback !== null)
-                {
-                    callback();
-                }
-                var GlobalRefresh = true;
-                if (widget.times)
-                {
-                    if (widget.times.intervall)
-                    {
-                        if (widget.times.intervall !== "General")
+                        series.name = name;
+                        var chdata = data.chartsdata[index].data;
+                        series.data = [];
+                        for (var ind in chdata)
                         {
-                            GlobalRefresh = false;
-                            widget.timer = setTimeout(function () {
-                                setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
-                            }, widget.times.intervall);
+                            series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2});
                         }
-                    }
-                }
-                if (GlobalRefresh)
-                {
-                    if (json.times.intervall)
-                    {
-                        widget.timer = setTimeout(function () {
-                            setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
-                        }, json.times.intervall);
+                        if (widget.stacked)
+                        {
+                            series.stack = "0";
+                        }
+                        if (widget.fill)
+                        {
+                            if (widget.fill !== "none")
+                            {
+                                series.areaStyle = {normal: {opacity: widget.fill}};
+                            }
+                        }
+                        if (widget.step)
+                        {
+                            if (widget.step !== "")
+                            {
+                                series.step = widget.step;
+                            }
+                        }
+                        widget.options.series.push(series);
                     }
                 }
             }
-        });
-}
-}
+
+            if (widget.options.xAxis[0].type === "category")
+            {
+                var sdata = [];
+                var tmp_series_1 = {};
+
+                for (var index in data.chartsdata)
+                {
+
+                    var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                    var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                    if (typeof (widget.queryes[q_index].info) !== "undefined")
+                    {
+                        if (widget.queryes[q_index].info.alias !== "")
+                        {
+                            name = widget.queryes[q_index].info.alias;
+                            name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                            name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                            name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                        }
+                        if (widget.queryes[q_index].info.alias2)
+                        {
+                            if (widget.queryes[q_index].info.alias2 !== "")
+                            {
+                                name2 = widget.queryes[q_index].info.alias2;
+                                name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                                name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                            }
+                        }
+                    }
+
+                    var chdata = [];
+                    var val;
+                    for (var ind in data.chartsdata[index].data) {
+                        chdata.push(data.chartsdata[index].data[ind][1]);
+                        val = data.chartsdata[index].data[ind][1];
+                    }
+
+                    if (m_sample === "avg")
+                    {
+                        val = numbers.statistic.mean(chdata);
+                    }
+                    if (m_sample === "min")
+                    {
+                        val = numbers.basic.min(chdata);
+                    }
+                    if (m_sample === "max")
+                    {
+                        val = numbers.basic.max(chdata);
+                    }
+                    if (m_sample === "total")
+                    {
+                        val = numbers.basic.sum(chdata);
+                    }
+                    if (m_sample === "product")
+                    {
+                        val = numbers.basic.product(chdata);
+                    }
+                    if (m_sample === "count")
+                    {
+                        val = chdata.length;
+                    }
+                    var tmpname = name;
+                    if (name2)
+                    {
+                        tmpname = name2;
+                    }
+
+                    if (!tmp_series_1[name])
+                    {
+                        tmp_series_1[name] = [];
+                    }
+                    tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname});
+                    sdata.push({value: val, name: name});
+                }
+
+                var radius = (100 / Object.keys(tmp_series_1).length);
+
+                if (radius < 25)
+                {
+                    radius = 25;
+                }
+                var rows = Math.floor((Object.keys(tmp_series_1).length / 4)) + 1;
+                index = 1;
+                var row = 0;
+                if (widget.type === "treemap")
+                {
+                    var series = clone_obg(defserie);
+                    for (var skey in oldseries)
+                    {
+                        if (oldseries[skey].name === name)
+                        {
+                            series = clone_obg(oldseries[skey]);
+                            break;
+                        }
+                    }
+                    series.data = [];
+                    if (!series.type)
+                    {
+                        series.type = widget.type;
+                    }
+                    data = [];
+                    for (var key in tmp_series_1)
+                    {
+                        var val = 0;
+                        var cildren = [];
+                        for (var ind in tmp_series_1[key])
+                        {
+                            val = val + tmp_series_1[key][ind].value;
+                            cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name});
+                        }
+
+                        data.push({value: val, name: key, children: cildren});
+                    }
+                    series.name = key;
+                    widget.options.tooltip.trigger = 'item';
+                    series.data = data;
+                    widget.options.series.push(series);
+                } else
+                {
+                    for (var key in tmp_series_1)
+                    {
+                        if (index > 4)
+                        {
+                            index = 1;
+                            row++;
+                        }
+
+                        var series = clone_obg(defserie);
+                        for (var skey in oldseries)
+                        {
+                            if (oldseries[skey].name === key)
+                            {
+                                series = clone_obg(oldseries[skey]);
+                                break;
+                            }
+                        }
+                        series.data = [];
+
+                        if (!series.type)
+                        {
+                            series.type = widget.type;
+                        }
+
+                        series.name = key;
+//                        console.log(key);
+                        if (series.type === "bar")
+                        {
+
+                            if (Object.keys(tmp_series_1).length === 1)
+                            {
+                                series.itemStyle = {normal: {color: function (params) {
+                                            return colorPalette[params.dataIndex % colorPalette.length];
+                                        }}};
+                            }
+                            series.data = tmp_series_1[key];
+                        } else
+                        {
+                            series.data = tmp_series_1[key];
+                            if (series.type === "gauge")
+                            {
+                                for (i = 0; i < series.data.length; i++)
+                                {
+                                    series.data[i].subname = series.data[i].name;
+                                    series.data[i].name = key;
+                                }
+
+                            }
+                        }
+                        widget.options.tooltip.trigger = 'item';
+                        if (series.type === "line")
+                        {
+                            if (widget.fill)
+                            {
+                                if (widget.fill !== "none")
+                                {
+                                    series.areaStyle = {normal: {opacity: widget.fill}};
+                                }
+                            }
+                            if (widget.step)
+                            {
+                                if (widget.step !== "")
+                                {
+                                    series.step = widget.step;
+                                }
+                            }
+                            if (!series.symbol)
+                            {
+                                series.symbol = widget.points;
+                            }
+                            if (widget.options.tooltip.trigger)
+                            {
+                                widget.options.tooltip.trigger = 'axis';
+                            }
+
+                        }
+                        var wr = radius * chart._dom.getBoundingClientRect().width / 100;
+                        var hr = radius * chart._dom.getBoundingClientRect().height / 100;
+
+                        if (series.type === "gauge")
+                        {
+
+                            if (!series.axisLabel)
+                            {
+                                series.axisLabel = {};
+                            }
+                            var formatter = widget.options.yAxis[0].unit;
+                            if (formatter === "none")
+                            {
+                                delete series.axisLabel.formatter;
+                                delete series.detail.formatter;
+                            } else
+                            {
+                                if (!series.detail)
+                                {
+                                    series.detail = {};
+                                }
+
+                                if (typeof (window[formatter]) === "function")
+                                {
+                                    series.axisLabel.formatter = window[formatter];
+                                    series.detail.formatter = window[formatter];
+                                } else
+                                {
+                                    series.axisLabel.formatter = formatter;
+                                    series.detail.formatter = formatter;
+                                }
+                            }
+
+                            if (widget.options.yAxis[0].min)
+                            {
+                                if (!series.min)
+                                {
+                                    series.min = widget.options.yAxis[0].min;
+                                }
+
+                            }
+                            if (widget.options.yAxis[0].max)
+                            {
+                                if (!series.max)
+                                {
+                                    series.max = widget.options.yAxis[0].max;
+                                }
+                            }
+                            var tmpradius = radius;
+                            if (hr < wr)
+                            {
+                                var tmpradius = radius + radius / 2;
+                            }
+                            if (tmpradius > 100)
+                                tmpradius = 95;
+                            if (!widget.manual)
+                            {
+                                series.radius = tmpradius - 3 + "%";
+                                if (hr < wr)
+                                {
+                                    series.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
+                                } else
+                                {
+                                    series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                                }
+                            }
+                        }
+
+                        if (series.type === "pie")
+                        {
+                            if (!widget.manual)
+                            {
+                                series.radius = radius - 3 + "%";
+
+                                if (hr < wr)
+                                {
+                                    series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
+                                } else
+                                {
+                                    series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                                }
+                            }
+
+
+                        }
+                        if (widget.stacked)
+                        {
+                            series.stack = "0";
+                        }
+
+                        if (series.type === "funnel")
+                        {
+                            delete series.axisLine;
+                            delete series.max;
+                            delete series.min;
+                            delete series.radius;
+                            delete series.center;
+                            if (row !== 1)
+                            {
+                                if (!series.sort)
+                                {
+                                    series.sort = 'ascending';
+                                }
+
+                            }
+
+                            if (!series.itemStyle)
+                            {
+                                series.itemStyle = {
+                                    normal: {
+                                        label: {
+                                            position: 'right'
+                                        },
+                                        labelLine: {
+                                            show: true
+                                        }
+                                    }
+                                };
+                            }
+
+                            if (!widget.manual)
+                            {
+                                series.width = radius - 5 + "%";
+                                series.height = 100 / rows - 5 + "%";
+                                series.x = index * radius - radius + '%';
+                                series.y = (row * 50 + 2.5) + "%";
+
+                            }
+
+                        }
+                        index++;
+                        var dublicatename = false;
+                        for (var s_index in widget.options.series)
+                        {
+                            if (widget.options.series[s_index].name === series.name)
+                            {
+                                dublicatename = true;
+                                widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data)
+                                widget.options.series[s_index].data.sort(function (a, b) {
+                                    return compareStrings(a.name, b.name);
+                                });
+                                break;
+                            }
+                        }
+                        if (!dublicatename)
+                        {
+                            widget.options.series.push(series);
+                        }
+                    }
+                }
+                widget.options.xAxis[0].data = [];
+            }
+
+        }
+        count.value--;
+        if (count.value === 0)
+        {
+            widget.options.series.sort(function (a, b) {
+                return compareStrings(a.name, b.name);
+            });
+            for (var ind in widget.options.series)
+            {
+                if (widget.options.xAxis[0].type === "category")
+                {
+                    widget.options.series[ind].unit = widget.options.yAxis[0].unit;
+                    if ((widget.type === "bar") || (widget.type === "line"))
+                    {
+                        for (var sind in widget.options.series[ind].data)
+                        {
+                            widget.options.series[ind].data[sind].unit = widget.options.yAxis[0].unit;
+//                                console.log(widget.options.series[ind].data[sind].name);
+                            if (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name) === -1)
+                            {
+                                widget.options.xAxis[0].data.push(widget.options.series[ind].data[sind].name);
+                            }
+//                                console.log("length " + widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name));
+//                                console.log(widget.options.series[ind]);                                    
+//                                if (sind < (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name)))
+//                                {
+//                                    widget.options.series[ind].data.unshift(null);
+//                                }
+                        }
+                    }
+
+                    if ((widget.options.series[ind].type === "pie") || (widget.options.series[ind].type === "funnel"))
+                    {
+                        for (var sind in widget.options.series[ind].data)
+                        {
+                            if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
+                            {
+                                widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
+                            }
+
+                        }
+                    }
+                }
+                widget.options.legend.data.push(widget.options.series[ind].name);
+            }
+            for (var yindex in widget.options.yAxis)
+            {
+                var formatter = widget.options.yAxis[yindex].unit;
+                if (formatter === "none")
+                {
+                    delete widget.options.yAxis[yindex].axisLabel.formatter;
+                } else
+                {
+                    if (!widget.options.yAxis[yindex].axisLabel)
+                    {
+                        widget.options.yAxis[yindex].axisLabel = {};
+                    }
+                    if (typeof (window[formatter]) === "function")
+                    {
+                        widget.options.yAxis[yindex].axisLabel.formatter = window[formatter];
+                    } else
+                    {
+                        widget.options.yAxis[yindex].axisLabel.formatter = formatter;
+                    }
+                }
+            }
+            if (redraw)
+            {
+                chart.setOption({series: widget.options.series});
+            } else
+            {
+                chart.setOption(widget.options);
+            }
+            chart.hideLoading();
+            if (callback !== null)
+            {
+                callback();
+            }
+            var GlobalRefresh = true;
+            if (widget.times)
+            {
+                if (widget.times.intervall)
+                {
+                    if (widget.times.intervall !== "General")
+                    {
+                        GlobalRefresh = false;
+                        widget.timer = setTimeout(function () {
+                            setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
+                        }, widget.times.intervall);
+                    }
+                }
+            }
+            if (GlobalRefresh)
+            {
+                if (json.times.intervall)
+                {
+                    widget.timer = setTimeout(function () {
+                        setdatabyQueryes(json, rowindex, widgetindex, url, true, null, customchart);
+                    }, json.times.intervall);
+                }
+            }
+        }
+    };
+};
 
 $('body').on("click", "#refresh", function () {
     repaint(true);
@@ -1924,11 +1948,11 @@ $('body').on("click", ".csv", function () {
             csvarray.push([Ser.name]);
             for (var dataind in Ser.data)
             {
-                csvarray.push([new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+                csvarray.push([Ser.name,new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
             }
         }
     }
-    
+
     if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "category")
     {
         for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
@@ -1940,7 +1964,7 @@ $('body').on("click", ".csv", function () {
                 csvarray.push([Ser.data[dataind].name, Ser.data[dataind].value]);
             }
         }
-    }    
+    }
 
     exportToCsv(dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text + ".csv", csvarray);
 
