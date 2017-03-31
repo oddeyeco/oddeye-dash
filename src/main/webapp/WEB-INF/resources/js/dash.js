@@ -1597,14 +1597,18 @@ $('body').on("click", "#applyrowjson", function () {
 });
 
 $('body').on("click", ".minus", function () {
-
-
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var widgetindex = $(this).parents(".chartsection").first().attr("index");
     if (dashJSONvar[rowindex]["widgets"][widgetindex].size > 1)
     {
-        dashJSONvar[rowindex]["widgets"][widgetindex].size = dashJSONvar[rowindex]["widgets"][widgetindex].size - 1;
+        var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
+        dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size) - 1;
+        $(this).parents(".chartsection").attr("size",dashJSONvar[rowindex]["widgets"][widgetindex].size);        
+        $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
+        dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();
+        
     }
+    
 });
 
 $('body').on("click", ".plus", function () {
@@ -1613,7 +1617,12 @@ $('body').on("click", ".plus", function () {
     var widgetindex = $(this).parents(".chartsection").first().attr("index");
     if (dashJSONvar[rowindex]["widgets"][widgetindex].size < 12)
     {
-        dashJSONvar[rowindex]["widgets"][widgetindex].size = dashJSONvar[rowindex]["widgets"][widgetindex].size + 1;
+        
+        var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
+        dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size)  + 1;
+        $(this).parents(".chartsection").attr("size",dashJSONvar[rowindex]["widgets"][widgetindex].size);        
+        $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
+        dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();        
     }
 //    redrawAllJSON(dashJSONvar);
 });
