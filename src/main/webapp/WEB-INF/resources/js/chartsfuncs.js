@@ -432,13 +432,14 @@ var timems = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "ms";
+    
     if (val < 0)
     {
         val = 0;
     }
     if (val > divatior + 1)
-    {
-        return format_time(moment.duration(val/divatior));
+    {        
+        return format_time(moment.duration(val));
     }
 
     return val.toFixed(2) + " " + metric;
@@ -468,26 +469,27 @@ var timed = function (params) {
 
 
 var format_time = function (time, base = "s") {
-    var val = time.asSeconds();
+    var val = time.asSeconds();    
     if (val < 0)
     {
         val = 0;
     }
     var metric = base;
     var isday = false;
+    
     if (val > 60)
     {
         val = time.asMinutes();
         metric = "min";
     }
 
-    if (val > 60)
+    if (time.asMinutes() > 60)
     {
         val = time.asHours();
         metric = "h";
     }
     //TODO FOX week konvert
-    if (val > 24)
+    if (time.asHours() > 24)
     {
         val = time.asDays();
         metric = "day";

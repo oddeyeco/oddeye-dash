@@ -122,6 +122,10 @@ var encodeHTML = function (source) {
                 } else
                 {
                     var value = params.data.value;
+                    if (value.constructor === Array)
+                    {
+                        value = value[1];
+                    }                    
                     if (typeof (window[params.data.unit]) === "function")
                     {
                         value = window[params.data.unit](value);
