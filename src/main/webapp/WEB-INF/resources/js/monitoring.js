@@ -72,10 +72,13 @@ function reDrawErrorList(errorjson)
             var data = row.data();
             rowNode = row.node();
             data.index++;
-            datatable.cell("#" + errorjson.hash, ".level").data(rawItem.level);
-            datatable.cell("#" + errorjson.hash, ".message").data(rawItem.info);
-            datatable.cell("#" + errorjson.hash, ".starttime").data(rawItem.starttime);
-            datatable.cell("#" + errorjson.hash, ".lasttime").data(rawItem.lasttime + " (" + timems(rawItem.lastTS - data.lastTS) + " Repeat " + data.index + ")");
+            data.level=rawItem.level;
+            data.info=rawItem.info;
+            data.starttime=rawItem.starttime;
+            data.lasttime=rawItem.lasttime + " (" + timems(rawItem.lastTS - data.lastTS) + " Repeat " + data.index + ")";
+            data.lastTS = rawItem.lastTS;
+            row.invalidate();
+            row.draw();            
             $(rowNode).removeClass(data.class);
         } else
         {
