@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global moment, cp, headerName, token, uuid, sotoken */
+/* global moment, cp, headerName, token, uuid, sotoken, datatable */
 
 var stompClient = null;
 var timeformat = "DD/MM HH:mm:ss";
@@ -19,7 +19,8 @@ function findeByhash(element, array) {
     }
     return -1;
 }
-function reDrawErrorList(listJson, table, errorjson)
+
+function filtredcheck(errorjson)
 {
     var elems = document.getElementById("check_level_" + errorjson.level);
     var filtred = false;
@@ -54,277 +55,42 @@ function reDrawErrorList(listJson, table, errorjson)
             ;
         }
     }
-    if (errorjson.isspec === 0)
-    {
-        var indexregular = findeByhash(errorjson, array_regular);
-        if (filtred)
-        {
-            if (indexregular === -1)
-            {
-                array_regular.push(errorjson);
-                array_regular.sort(function (a, b) {
-                    var tagident = $("select#ident_tag").val();
-                    return compareMetric(a, b, tagident);
-                });
-                var index2 = findeByhash(errorjson, array_regular);
-//                console.log(array_regular);
-                if (index2 < array_regular.length - 1)
-                {
-                    drawRaw(array_regular[index2], table, array_regular[index2 + 1].hash);
-                } else
-                {
-                    drawRaw(array_regular[index2], table);
-                }
-            } else
-            {
-                array_regular[indexregular] = errorjson;
-                drawRaw(array_regular[indexregular], table, array_regular[indexregular].hash, true);
-            }
-        } else
-        {
-            if (indexregular !== -1)
-            {
-//                array_regular[indexregular] = errorjson;
-//                errorjson.index = 0;
-                var hash_r = errorjson.hash;
-                array_regular.splice(indexregular, 1);
-                table.find("tbody tr#" + hash_r).fadeOut(400, function () {
-                    table.find("tbody tr#" + hash_r).remove();
-                });
-            }
-        }
-    } else
-    {
-        var indexspec = findeByhash(errorjson, array_spec);
-        if (filtred)
-        {
-            if (indexspec === -1)
-            {
-                array_spec.push(errorjson);
-                array_spec.sort(function (a, b) {
-                    var tagident = $("select#ident_tag").val();
-                    return compareMetric(a, b, tagident);
-                });
-                var index2 = findeByhash(errorjson, array_spec);
-                if (index2 < array_spec.length - 1)
-                {
-                    drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
-                } else
-                {
-                    drawRaw(array_spec[index2], table, 0);
-                }
-            } else
-            {
-                array_spec[indexspec] = errorjson;
-                drawRaw(array_spec[indexspec], table, array_spec[indexspec].hash, true);
-            }
-        } else
-        {
-            if (indexspec !== -1)
-            {
-//                array_spec[indexspec] = errorjson;
-//                errorjson.index = 0;
-                var hash_s = errorjson.hash;
-                array_spec.splice(indexspec, 1);
-                table.find("tbody tr#" + hash_s).fadeOut(400, function () {
-                    table.find("tbody tr#" + hash_s).remove();
-                });
-            }
-
-        }
-    }
+    return filtred;
 }
-function DrawErrorList(listJson, table)
+
+function reDrawErrorList(errorjson)
 {
-// console.log(Object.keys(listJson).length);
-    $("select").attr('disabled', true);
-    table.find("tbody").html("");
-    array_regular = [];
-    array_spec = [];
-    for (var key in listJson) {
-        var errorjson = listJson[key];
-        var elems = document.getElementById("check_level_" + errorjson.level);
-        filtred = true;
-        if (elems !== null)
-        {
-            if (elems.checked)
-            {
-                filterelems = document.querySelectorAll('.filter-switch');
-                for (var i = 0; i < filterelems.length; i++) {
-                    if (filterelems[i].checked)
-                    {
-                        var filter = $("#" + filterelems[i].value + "_input").val();
-                        regex = new RegExp(filter, 'i');
-                        if (filterelems[i].value === "metric")
-                        {
-                            filtred = regex.test(errorjson.info.name);
-                        } else
-                        {
-                            if (errorjson.info.tags[filterelems[i].value])
-                            {
-                                filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
-                            }
+//    console.log(errorjson.level);
 
-                        }
-                        if (!filtred)
-                        {
-                            break;
-                        }
-                    }
-                }
-                ;
-                if (filtred)
-                {
-                    if (errorjson.isspec === 0)
-                    {
-                        array_regular.push(errorjson);
-                    } else
-                    {
-                        array_spec.push(errorjson);
-                    }
-                }
-            } else
-            {
-                delete listJson[key];
-            }
+    if (filtredcheck(errorjson))
+    {
+        var rowNode = null;
+        var rawItem = new Jsontoraw(errorjson);
+        if ($("#" + errorjson.hash).length > 0)
+        {
+            var row = datatable.row($("#" + errorjson.hash));
+            var data = row.data();
+            rowNode = row.node();
+            data.index++;
+            datatable.cell("#" + errorjson.hash, ".level").data(rawItem.level);
+            datatable.cell("#" + errorjson.hash, ".message").data(rawItem.info);
+            datatable.cell("#" + errorjson.hash, ".starttime").data(rawItem.starttime);
+            datatable.cell("#" + errorjson.hash, ".lasttime").data(rawItem.lasttime + " (" + timems(rawItem.lastTS - data.lastTS) + " Repeat " + data.index + ")");
+            $(rowNode).removeClass(data.class);
+        } else
+        {
+            rowNode = datatable.row.add(rawItem).draw().node();
+//            $(rowNode).find("input.rawflat").iCheck({
+//                checkboxClass: 'icheckbox_flat-green',
+//                radioClass: 'iradio_flat-green'
+//            });
         }
-    }
-    array_spec.sort(function (a, b) {
-        var tagident = $("select#ident_tag").val();
-        return compareMetric(a, b, tagident);
-    });
-    array_regular.sort(function (a, b) {
-        var tagident = $("select#ident_tag").val();
-        return compareMetric(a, b, tagident);
-    });
-    for (key in array_spec)
-    {
-        drawRaw(array_spec[key], table);
-    }
-    for (key in array_regular)
-    {
-        drawRaw(array_regular[key], table);
-    }
-    table.find('tbody input.rawflat').iCheck({
-        checkboxClass: 'icheckbox_flat-green',
-        radioClass: 'iradio_flat-green'
-    });
-    $("select").attr('disabled', false);
-}
-function drawRaw(errorjson, table, hashindex = null, update = false) {
-    var message = "";
-    if (errorjson.isspec === 1)
-    {
-        message = errorjson.message;
+        $(rowNode).addClass(rawItem.class);
+        $(rowNode).attr('id', errorjson.hash);
     } else
     {
-        var val = 0;
-        var count = 0;
-        for (var key in errorjson.values)
-        {
-            val = val + errorjson.values[key].value;
-            count++;
-        }
-        val = val / count;
-        if (val > 1000)
-        {
-            val = format_metric(errorjson.values[key].value);
-        } else
-        {
-            val = val.toFixed(2);
-        }
-        message = message + "<span class='pull-left level' >" + val + "</span>";
+        datatable.row($("#" + errorjson.hash)).remove().draw();
     }
-    var starttime = "";
-    if (typeof (errorjson.time) !== "undefined")
-    {
-        starttime = moment(errorjson.time * 1).format(timeformatsmall);
-    }
-    var arrowclass = "";
-    var color = "red";
-    if (errorjson.action === 2)
-    {
-        arrowclass = "fa-long-arrow-down";
-        color = "green";
-    }
-    if (errorjson.action === 3)
-    {
-        arrowclass = "fa-long-arrow-up";
-        color = "red";
-    }
-    var trclass = "level_" + errorjson.level;
-    if (errorjson.isspec !== 0)
-    {
-        trclass = "spec";
-    }
-
-    if (!update)
-    {
-//        if (arrowclass === "")
-//        {
-//            arrowclass = "fa-long-arrow-up";
-//            color = "red";
-//        }
-        var html = "";
-        html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
-        if (errorjson.isspec === 0)
-        {
-            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
-        } else
-        {
-            html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
-        }
-        html = html + '<td class="level"><div>' + errorjson.levelname + '</div></td>';
-//        html = html + '<td>' + errorjson.hash + " " + errorjson.info.name + '</td>';
-        html = html + '<td>' + errorjson.info.name + '</td>';
-        html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
-        html = html + '<td class="message">' + message + '</td>';
-        html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
-        html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
-        html = html + '</tr>';
-        if (hashindex === null)
-        {
-            table.find("tbody").append(html);
-        } else
-        {
-            if (hashindex === 0)
-            {
-                if (table.find("tbody tr").first().length === 0)
-                {
-                    table.find("tbody").append(html);
-                } else
-                {
-                    table.find("tbody tr").first().before(html);
-                }
-
-            } else
-            {
-                table.find("tbody tr#" + hashindex).before(html);
-            }
-        }
-        table.find("tbody tr#" + errorjson.hash + " input.rawflat").iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
-        });
-    } else
-    {
-        table.find("tbody tr#" + hashindex).attr("class", trclass);
-        table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
-//        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
-        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) / 1000 + " Sec. Repeat " + errorjson.index + ")");
-//        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
-        table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
-        table.find("tbody tr#" + hashindex + " .message").html(message);
-        if (arrowclass !== "")
-        {
-            table.find("tbody tr#" + hashindex + " .icons i.action").attr("class", "action fa " + arrowclass);
-            table.find("tbody tr#" + hashindex + " .icons i.action").css("color", color);
-        }
-
-    }
-    $('.summary .Tablecount').html(table.find("tbody tr").length);
-    $('.summary .regcount').html(array_regular.length);
-    $('.summary .Speccount').html(array_spec.length);
 }
 
 var beginlisen = false;
@@ -397,6 +163,7 @@ $(document).ready(function () {
             });
         });
     });
+    var checttimer;
     var elems = document.querySelectorAll('.js-switch-small');
     for (var i = 0; i < elems.length; i++) {
         if (typeof (filterJson[elems[i].id]) !== "undefined")
@@ -412,7 +179,21 @@ $(document).ready(function () {
         var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
         switcherylist.push(switchery);
         elems[i].onchange = function () {
-            DrawErrorList(errorlistJson, $(".metrictable"));
+            var elem = this;
+            clearTimeout(checttimer);
+            checttimer = setTimeout(function () {
+                datatable.rows().every(
+                        function (rowIdx, tableLoop, rowLoop) {
+                            var row = this;
+                            var data = row.data();
+                            if (!filtredcheck(data.json))
+                            {
+                                $(row.node()).addClass("remove");
+                            }
+                        }
+                );
+                datatable.rows('.remove').remove().draw();
+            }, 1);
         };
     }
     var first = true;
@@ -427,7 +208,19 @@ $(document).ready(function () {
         }
     });
     $("body").on("blur", ".filter-input", function () {
-        DrawErrorList(errorlistJson, $(".metrictable"));
+        {
+            datatable.rows().every(
+                    function (rowIdx, tableLoop, rowLoop) {
+                        var row = this;
+                        var data = row.data();
+                        if (!filtredcheck(data.json))
+                        {
+                            $(row.node()).addClass("remove");
+                        }
+                    }
+            );
+            datatable.rows('.remove').remove().draw();
+        }
     });
     $(".filter-input").each(function () {
         $(this).val(filterJson[$(this).attr("name")]);
@@ -441,28 +234,28 @@ $(document).ready(function () {
     headers[headerName] = token;
     stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
-            var errorjson = JSON.parse(error.body);            
-            if (errorlistJson[errorjson.hash])
-            {
-                errorjson.index = errorlistJson[errorjson.hash].index;
-            }
-
-            if (typeof (errorjson.index) !== "undefined")
-            {
-                errorjson.index = errorjson.index + 1;
-            } else
-            {
-                errorjson.index = 0;
-            }
-
-            if (errorjson.level === -1)
-            {
-                delete errorlistJson[errorjson.hash];
-            } else
-            {
-                errorlistJson[errorjson.hash] = errorjson;
-            }
-            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+            var errorjson = JSON.parse(error.body);
+//            if (errorlistJson[errorjson.hash])
+//            {
+//                errorjson.index = errorlistJson[errorjson.hash].index;
+//            }
+//
+//            if (typeof (errorjson.index) !== "undefined")
+//            {
+//                errorjson.index = errorjson.index + 1;
+//            } else
+//            {
+//                errorjson.index = 0;
+//            }
+//
+//            if (errorjson.level === -1)
+//            {
+//                delete errorlistJson[errorjson.hash];
+//            } else
+//            {
+//                errorlistJson[errorjson.hash] = errorjson;
+//            }
+            reDrawErrorList(errorjson);
         });
     });
     startlisen();
@@ -482,9 +275,19 @@ $(document).ready(function () {
             }
         });
     });
+
     $('body').on("change", "#ident_tag", function () {
-        DrawErrorList(errorlistJson, $(".metrictable"));
+        datatable.rows().every(
+                function (rowIdx, tableLoop, rowLoop) {
+                    var row = this;
+                    var data = row.data();
+                    data.showtags = data.json.info.tags[$("select#ident_tag").val()].value
+                    this.invalidate();
+                }
+        );
+        datatable.draw();
     });
+
     $('body').on("click", "#Default", function () {
         var formData = $("form.form-filter").serializeArray();
         filterJson = {};

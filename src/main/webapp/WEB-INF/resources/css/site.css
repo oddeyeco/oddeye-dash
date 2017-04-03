@@ -522,3 +522,9 @@ div.jsoneditor {
 {
     margin: 5px
 }
+
+
+tr.group,
+tr.group:hover {
+    background-color: #ddd !important;
+}
