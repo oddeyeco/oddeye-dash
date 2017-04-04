@@ -110,7 +110,7 @@ public class DefaultController {
         map.put("title", "Login");
         map.put("slug", "login");
         map.put("body", "login");
-        map.put("jspart", "globaljs");
+        map.put("jspart", "loginjs");
         return "indexPrime";
     }
 

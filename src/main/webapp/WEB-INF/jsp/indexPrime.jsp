@@ -21,8 +21,8 @@
     <body>        
         <!--<header class="">-->
         <div >
-            <header class="container" style="text-align: center">         
-                <a href="${cp}/"><img src="${cp}/assets/images/logo.png" alt="logo"></a>                
+            <header class="container" style="text-align: center">                       
+                <!--<a href="${cp}/"><img src="${cp}/assets/images/logo.png" alt="logo"></a>-->                
             </header>    
             <main>            
                 <c:catch var="e">
