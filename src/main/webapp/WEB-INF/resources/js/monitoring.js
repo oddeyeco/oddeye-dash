@@ -58,43 +58,67 @@ function filtredcheck(errorjson)
     return filtred;
 }
 
+var newrowcounter = 0;
+
 function reDrawErrorList(errorjson)
 {
 //    console.log(errorjson.level);
 
     if (filtredcheck(errorjson))
     {
-        var rowNode = null;
         var rawItem = new Jsontoraw(errorjson);
         if ($("#" + errorjson.hash).length > 0)
         {
             var row = datatable.row($("#" + errorjson.hash));
             var data = row.data();
-            rowNode = row.node();
             data.index++;
-            data.level=rawItem.level;
-            data.info=rawItem.info;
-            data.starttime=rawItem.starttime;
-            data.lasttime=rawItem.lasttime + " (" + timems(rawItem.lastTS - data.lastTS) + " Repeat " + data.index + ")";
+            if (data.level !== rawItem.level)
+            {
+                data.level = rawItem.level;
+                datatable.cell("#" + errorjson.hash, ".level").invalidate();
+            }
+
+            if (data.info !== rawItem.info)
+            {
+                data.info = rawItem.info;
+                datatable.cell("#" + errorjson.hash, ".message").invalidate();
+            }
+
+            if (data.starttime !== rawItem.starttime)
+            {
+                data.starttime = rawItem.starttime;
+                datatable.cell("#" + errorjson.hash, ".starttime").invalidate();
+            }
+            data.lasttime = rawItem.lasttime + " (" + timems(rawItem.lastTS - data.lastTS) + " Repeat " + data.index + ")";
             data.lastTS = rawItem.lastTS;
-            row.invalidate();
-            row.draw();            
-            $(rowNode).removeClass(data.class);
+            datatable.cell("#" + errorjson.hash, ".lasttime").invalidate();
         } else
         {
-            rowNode = datatable.row.add(rawItem).draw().node();
-//            $(rowNode).find("input.rawflat").iCheck({
-//                checkboxClass: 'icheckbox_flat-green',
-//                radioClass: 'iradio_flat-green'
-//            });
+            newrowcounter++;
+            datatable.row.add(rawItem);
         }
-        $(rowNode).addClass(rawItem.class);
-        $(rowNode).attr('id', errorjson.hash);
     } else
     {
+//        console.log("rem");
         datatable.row($("#" + errorjson.hash)).remove().draw();
     }
 }
+
+setInterval(function () {
+    if (datatable.rows()[0].length > 150)
+    {
+        $('#manyalert').fadeIn();
+    } else
+    {
+        $('#manyalert').fadeOut();
+    }
+    if (newrowcounter > 0)
+    {
+        datatable.draw(false)
+        newrowcounter = 0;
+    }
+
+}, 1000);
 
 var beginlisen = false;
 function startlisen()
@@ -251,13 +275,13 @@ $(document).ready(function () {
 //                errorjson.index = 0;
 //            }
 //
-//            if (errorjson.level === -1)
-//            {
-//                delete errorlistJson[errorjson.hash];
-//            } else
-//            {
+            if (errorjson.level === -1)
+            {
+                console.log("-1");
+            } else
+            {
 //                errorlistJson[errorjson.hash] = errorjson;
-//            }
+            }            
             reDrawErrorList(errorjson);
         });
     });

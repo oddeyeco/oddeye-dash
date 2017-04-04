@@ -25,19 +25,22 @@
                             <button class="btn btn-success" type="button" value="Default" id="Default">Set as Default</button>        
                         </div>
                     </div>                        
-                </form>
+                </form>                    
+                <div class="alert alert-danger alert-dismissible collapse " id="manyalert" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>                    
+                    Vatem ape. mard Exi.
+                </div>                    
             </div>
             <div class="col-md-10 col-sm-9 col-xs-12 profile_left">
-                <div class="summary">
-                    <b>Total:</b><span class="Tablecount">0</span><b>Machine Learned:</b><span class="regcount">0</span><b>Manually Defined:</b><span class="Speccount">0 </span>
-                </div>                    
                 <div class="x_content" style="display: block;">
                     <!-- start List -->
-                    <table id="example" class="table metrictable table-striped bulk_action">
+                    <table id="monitoring" class="table metrictable table-striped bulk_action">
                         <thead>
                             <tr>
                                 <!--<th>#</th>-->
-                                <th>
+                                <th aria-label="Type" style="width: 20px">
                                     <input type="checkbox" id="check-all" class="flat">
                                     <div class="btn-group">
                                         <!--<button type="button" class="btn btn-success btn-sm">Action</button>-->
@@ -63,7 +66,7 @@
                                         </c:forEach>
                                     </select>
                                 </th>                                    
-                                <th>Info</th>
+                                <th style="width: 300px" >Info</th>
                                 <th>Start Time</th>
                                 <th>Last Time</th>                                    
                             </tr>

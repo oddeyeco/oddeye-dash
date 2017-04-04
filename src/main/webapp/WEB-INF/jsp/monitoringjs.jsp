@@ -20,12 +20,13 @@
     function Jsontoraw(json)
     {
         this.json = json;
+        this.hash = json.hash;        
         this.index = 0;
         this.class = "level_" + json.level;
         var html;
         if (json.isspec === 0)
         {
-            html = '<input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + json.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a></div>';
+            html = '<input type="checkbox" class="rawflat"><div class="fa-div"> <a href="' + cp + '/chart/' + json.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a></div>';
         } else
         {
             html = '<i class="fa fa-bell" style="color:red; font-size: 18px;"></i>';
@@ -55,7 +56,8 @@
             {
                 val = val.toFixed(2);
             }
-            message = message + "<span class='pull-left level' >" + val + "</span>";
+//            message = message + "<span class='pull-left' >" + val + "</span>";
+            message = message + val;
         }
 
         this.info = message;
@@ -70,11 +72,11 @@
 
     }
     $(document).ready(function () {
-        datatable = $('#example').DataTable({
+        datatable = $('#monitoring').DataTable({
             "order": [[0, "asc"], [3, "asc"], [2, "asc"], [6, "asc"]],
-            "displayLength": 50,
+            "displayLength": 25,
             columns: [
-                {data: 'type', className: 'icons'},
+                {data: 'type', className: 'icons', "aria-label": 'type'},
                 {data: 'level', className: 'level'},
                 {data: 'name', className: 'name'},
                 {data: 'showtags', className: 'showtags'},
@@ -84,14 +86,18 @@
             ],
             "drawCallback": function (settings) {
                 var api = this.api();
-                var rows = api.rows({page: 'current'}).nodes();
-                var last = null;
+                var rows = api.rows({page: 'current'}).nodes();               
                 $(rows).find("input.rawflat").iCheck({
                     checkboxClass: 'icheckbox_flat-green',
                     radioClass: 'iradio_flat-green'
                 });
+            },
+            "rowCallback": function (row, data, index) {
+                $(row).addClass(data.class);
+                $(row).attr('id', data.hash);
             }
         });
-    });
+    }
+    );
 </script>
 

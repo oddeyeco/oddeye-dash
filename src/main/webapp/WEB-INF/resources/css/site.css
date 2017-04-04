@@ -504,12 +504,13 @@ div.jsoneditor {
 
 }
 
-.metrictable td.timech
+.metrictable td.lasttime
 {
     width: 13%; 
 }
 
-.metrictable td
+.metrictable td,
+.metrictable th
 {    
     white-space: nowrap;
 }

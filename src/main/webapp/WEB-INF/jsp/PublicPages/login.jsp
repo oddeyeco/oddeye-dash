@@ -6,7 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div>    
     <div class="container contactform center col-lg-4 col-md-8 col-xs-12">
-        <h2 class="text-center">Login.</h2>
+        
         <form action="<c:url value="/login/"/>" method="post">
             <c:if test="${param.error != null}">
                 <div class="alert alert-danger" role="alert">
