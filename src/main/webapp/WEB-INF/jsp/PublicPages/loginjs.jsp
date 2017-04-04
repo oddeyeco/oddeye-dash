@@ -5,16 +5,15 @@
 --%>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js'></script>
 <script>
+    var xRows = 40;
+    var zRows = 40;
+    var cubeSize = 600;
+    var cubeGap = 50;
+    var cubeRow = cubeSize + cubeGap;
     var stageWidth = $(window).width();
     var stageHeight = $(window).height();
-    var xRows = 40;
-    var zRows = 25;
-    var cubeSize = 450;
-    var cubeGap = 150;
-    var cubeRow = cubeSize + cubeGap;
-
     var container = document.createElement('div');
-    document.body.appendChild(container);
+    document.body.prepend(container);
 
     var camera = new THREE.PerspectiveCamera(55, stageWidth / stageHeight, 1, 20000);
     camera.position.y = 5000;
@@ -23,17 +22,12 @@
     var scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 5000, 10000);
 
-    var pointLight = new THREE.PointLight(0x0275d8);
+    var pointLight = new THREE.PointLight(0xffffff);
+//    var pointLight = new THREE.PointLight(0x0275d8);
     pointLight.position.x = 0;
     pointLight.position.y = 1800;
     pointLight.position.z = -1800;
     scene.add(pointLight);
-
-    /*var pointLight =  new THREE.PointLight(0xc0c0f0);
-     pointLight.position.x = 0;
-     pointLight.position.y = 800;
-     pointLight.position.z = 1000;
-     scene.add(pointLight);*/
 
     group = new THREE.Object3D();
     scene.add(group);
@@ -43,50 +37,54 @@
     var halfXRows = (cubeRow * -xRows / 2);
     var halfZRows = (cubeRow * -zRows / 2);
 
-    for (var x = 0; x < xRows; x++) {
-        cubes[x] = []
-        for (var z = 0; z < zRows; z++) {
-            var cubeHeight = 100 + Math.random() * 700;
-            cubeHeight = 10 + (Math.sin(x / xRows * Math.PI) + Math.sin(z / zRows * Math.PI)) * 200 + Math.random() * 150;
-
-            var geometry = new THREE.BoxGeometry(cubeSize, cubeHeight, cubeSize);
-
-            var colours = [
-                0xffffff, 0xffffff, 0xffffff, 0xffffff
-            ];
-
-            var material = new THREE.MeshPhongMaterial({
-                ambient: 0xffffff,
-                color: 0xffffff,
-                specular: 0xffffff,
-                shininess: 10, //~~(Math.random() * 200),
-                shading: THREE.SmoothShading
-            })
-
-            var cube = new THREE.Mesh(geometry, material);
-            cube.position.x = halfXRows + x * cubeRow;
-            cube.position.y = cubeHeight / 2;
-            cube.position.z = (cubeRow * -zRows / 2) + z * cubeRow;
-
-            cube.height = cubeHeight;
-            group.add(cube);
-
-            cubes[x][z] = cube;
-
-        }
-    }
-
-
-
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize(stageWidth, stageHeight);
+//    renderer.setClearColor (0x0275d8, 10);
+//    renderer.setSize(stageWidth, stageHeight);
     container.appendChild(renderer.domElement);
-
-    var out = document.createElement("div")
-    container.appendChild(out);
 
     var grid = {x: 0, z: 0};
     var position = {x: 0, y: 0, z: 0};
+    init();
+
+    function init() {
+        cubes = []
+        stageWidth = $(window).width();
+        stageHeight = $(window).height();
+        camera = new THREE.PerspectiveCamera(55, stageWidth / stageHeight, 1, 20000);
+        renderer.setSize(stageWidth, stageHeight-7);
+        for (var x = 0; x < xRows; x++) {
+            cubes[x] = []
+            for (var z = 0; z < zRows; z++) {
+                var cubeHeight = 100 + Math.random() * 700;
+                cubeHeight = 10 + (Math.sin(x / xRows * Math.PI) + Math.sin(z / zRows * Math.PI)) * 200 + Math.random() * 150;
+                var color = 0x0275d8;
+                var _cubeSize = cubeSize;
+                var geometry = new THREE.BoxGeometry(_cubeSize, cubeHeight, _cubeSize);
+                if (cubeHeight > 530)
+                {
+                    color = 0xff0000;
+                    _cubeSize = cubeSize+100;                                        
+                }
+                var material = new THREE.MeshPhongMaterial({
+                    ambient: color,
+                    color: color,
+                    specular: color,
+                    shininess: 10, //~~(Math.random() * 200),
+                    shading: THREE.SmoothShading
+                })
+                var cube = new THREE.Mesh(geometry, material);
+                cube.position.x = halfXRows + x * cubeRow;
+                cube.position.y = cubeHeight / 2;
+                cube.position.z = (cubeRow * -zRows / 2) + z * cubeRow;
+
+                cube.height = cubeHeight;
+                group.add(cube);
+
+                cubes[x][z] = cube;
+
+            }
+        }
+    }
 
     function checkRow() {
 
@@ -135,8 +133,8 @@
         if (isRunning)
             requestAnimationFrame(render);
 
-        position.x += (Math.sin(t * 0.001)) * 5;
-        position.z += (Math.cos(t * 0.0008) + 5) * 10;
+        position.x += (Math.sin(t * 0.001)) * 3;
+        position.z += (Math.cos(t * 0.0008) + 5) * 3;
         group.position.x = -position.x;
         group.position.z = -position.z;
 
@@ -171,5 +169,9 @@
     })
     window.addEventListener("mousemove", function (event) {
         mouse = event;
+    })
+    window.addEventListener("resize", function (event) {
+        init();
+        render(0);
     })
 </script>    
