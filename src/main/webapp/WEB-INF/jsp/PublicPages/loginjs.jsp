@@ -3,7 +3,7 @@
     Created on : Apr 4, 2017, 4:31:01 PM
     Author     : vahan
 --%>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/three.js/r68/three.min.js'></script>
 <script>
     var stageWidth = $(window).width();
     var stageHeight = $(window).height();
