@@ -169,7 +169,7 @@
                         <c:import url="${body}.jsp" />
                     </c:catch>
                     <c:if test="${!empty e}">
-                        <c:import url="errors/pageerror.jsp" />
+                        <c:import url="pageerror.jsp" />
                     </c:if>                    
                 </div>
 

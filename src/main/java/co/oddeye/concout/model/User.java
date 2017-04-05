@@ -705,7 +705,7 @@ public class User implements UserDetails {
 
     public void stopListenerContainer(String sotoken) {
         if (this.listenerContainer != null) {
-            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
+//            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
             if (this.sotokenlist.containsKey(sotoken)) {
                 this.sotokenlist.remove(sotoken);
                 if (this.sotokenlist.isEmpty()) {

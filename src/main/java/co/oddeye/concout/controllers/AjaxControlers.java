@@ -350,7 +350,7 @@ public class AjaxControlers {
                 } else {
                     Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
                 }
-                
+
 
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
@@ -408,15 +408,12 @@ public class AjaxControlers {
                 }
 
                 if ((key != null) && (value != null)) {
-                    if (key.equals("name"))
-                    {
+                    if (key.equals("name")) {
                         MetaDao.deleteMetaByName(value, userDetails);
-                    }
-                    else
-                    {
+                    } else {
                         MetaDao.deleteMetaByTag(key, value, userDetails);
                     }
-                    
+
                     jsonResult.addProperty("sucsses", true);
                 } else {
                     jsonResult.addProperty("sucsses", false);
@@ -523,18 +520,20 @@ public class AjaxControlers {
                 JsonArray jsondata = new JsonArray();
 
                 if (filter.equals("") || filter.equals("*")) {
-                    for (String tag : tags) {
+                    tags.forEach((tag) -> {
                         jsondata.add(tag);
-                    }
+                    });
                 } else {
                     Pattern r = Pattern.compile(filter);
-
-                    for (String tag : tags) {
-                        Matcher m = r.matcher(tag);
-                        if (m.find()) {
-                            jsondata.add(tag);
-                        }
+                    if (tags != null) {
+                        tags.forEach((tag) -> {
+                            Matcher m = r.matcher(tag);
+                            if (m.find()) {
+                                jsondata.add(tag);
+                            }
+                        });
                     }
+
                 }
 
                 jsonResult.add("data", jsondata);

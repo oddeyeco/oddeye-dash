@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 /**
  *
@@ -53,7 +52,7 @@ public class DefaultController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(ModelMap map, HttpServletRequest request) {
-      return redirecttodashboard();
+        return redirecttodashboard();
 //        map.put("request", request);
 //        map.put("title", "High speed monitoring &amp; analytics");
 //        map.put("body", "homepage");
@@ -111,7 +110,7 @@ public class DefaultController {
         map.put("title", "Login");
         map.put("slug", "login");
         map.put("body", "login");
-        map.put("jspart", "globaljs");
+        map.put("jspart", "loginjs");
         return "indexPrime";
     }
 
@@ -124,13 +123,17 @@ public class DefaultController {
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
+            layaut = "index";
+            map.put("body", slug);
+            map.put("jspart", slug+"js");            
         } else {
             map.put("isAuthentication", false);
+            map.put("body", "standartpage");
+            map.put("jspart", "standartpagejs");
+
         }
         map.put("title", slug);
         map.put("slug", slug);
-        map.put("body", "standartpage");
-        map.put("jspart", "standartpagejs");
 
         if (slug.equals("signup")) {
             if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -141,7 +144,7 @@ public class DefaultController {
             map.put("title", slug);
             map.put("slug", slug);
             map.put("body", slug);
-            map.put("jspart", slug+"js");
+            map.put("jspart", slug + "js");
 
             setLocaleInfo(map);
         }
