@@ -280,7 +280,9 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
         html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
         html = html + '<td class="message">' + message + '</td>';
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
+        html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
         html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
+        
         html = html + '</tr>';
         if (hashindex === null)
         {
@@ -311,7 +313,8 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
         table.find("tbody tr#" + hashindex).attr("class", trclass);
         table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
 //        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
-        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) / 1000 + " Sec. Repeat " + errorjson.index + ")");
+        table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
+        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" +timems(errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) + " Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
         table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
         table.find("tbody tr#" + hashindex + " .message").html(message);
