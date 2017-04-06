@@ -14,7 +14,7 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>                    
-    Vatem ape. mard Exi.
+    Too many data points, please change display filter.
 </div> 
     
 <div id="lostconnection" class="modal fade">
@@ -24,7 +24,7 @@
                 <h4 class="modal-title">Connection Lost</h4>
             </div>
             <div class="modal-body">
-                <p>Reload page</p>
+                <p>Websocket connection interrupted, please refresh your browser</p>
                 <p class="text-warning"></p>
             </div>
         </div>
