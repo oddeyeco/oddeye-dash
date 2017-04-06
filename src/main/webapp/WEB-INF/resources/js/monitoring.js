@@ -282,7 +282,7 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
         html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
         html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
-        
+
         html = html + '</tr>';
         if (hashindex === null)
         {
@@ -314,7 +314,7 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
         table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
 //        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
-        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" +timems(errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) + " Repeat " + errorjson.index + ")");
+        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + timems(errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) + " Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
         table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
         table.find("tbody tr#" + hashindex + " .message").html(message);
@@ -435,8 +435,7 @@ $(document).ready(function () {
     $(".filter-input").each(function () {
         $(this).val(filterJson[$(this).attr("name")]);
     });
-//    DrawErrorList(errorlistJson, $(".metrictable"));
-
+//    DrawErrorList(errorlistJson, $(".metrictable"));    
     var socket = new SockJS(cp + '/subscribe');
     var stompClient = Stomp.over(socket);
     stompClient.debug = null;
@@ -444,7 +443,7 @@ $(document).ready(function () {
     headers[headerName] = token;
     stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
-            var errorjson = JSON.parse(error.body);            
+            var errorjson = JSON.parse(error.body);
             if (errorlistJson[errorjson.hash])
             {
                 errorjson.index = errorlistJson[errorjson.hash].index;
@@ -466,8 +465,18 @@ $(document).ready(function () {
                 errorlistJson[errorjson.hash] = errorjson;
             }
             reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+            if (Object.keys(errorlistJson).length > 200)
+            {
+                $('#manyalert').fadeIn();
+            } else
+            {
+                $('#manyalert').fadeOut();
+            }            
         });
-    });
+    }, function (message) {            
+            $("#lostconnection").modal('show');
+        });
+
     startlisen();
     $(window).bind('beforeunload', function () {
         var url = cp + "/stoplisener";
