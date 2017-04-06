@@ -22,11 +22,12 @@
     var scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0x000000, 5000, 10000);
 
-    var pointLight = new THREE.PointLight(0xffffff);
+    var pointLight = new THREE.PointLight(0x8ad29c);
 //    var pointLight = new THREE.PointLight(0x0275d8);
-    pointLight.position.x = 0;
-    pointLight.position.y = 1800;
-    pointLight.position.z = -1800;
+    pointLight.intensity = 2;
+    pointLight.position.x = 3000;
+    pointLight.position.y = 2500;
+    pointLight.position.z = 1000;
     scene.add(pointLight);
 
     group = new THREE.Object3D();
@@ -47,20 +48,21 @@
     init();
 
     function init() {
-        cubes = []
+        cubes = [];
         stageWidth = $(window).width();
         stageHeight = $(window).height();
         camera = new THREE.PerspectiveCamera(55, stageWidth / stageHeight, 1, 20000);
         renderer.setSize(stageWidth, stageHeight-7);
         for (var x = 0; x < xRows; x++) {
-            cubes[x] = []
+            cubes[x] = [];
             for (var z = 0; z < zRows; z++) {
                 var cubeHeight = 100 + Math.random() * 700;
-                cubeHeight = 10 + (Math.sin(x / xRows * Math.PI) + Math.sin(z / zRows * Math.PI)) * 200 + Math.random() * 150;
+                cubeHeight = 10 + (Math.sin(x / xRows * Math.PI) + Math.sin(z / zRows * Math.PI)) * 200 + Math.random() * 1000;
                 var color = 0x0275d8;
                 var _cubeSize = cubeSize;
                 var geometry = new THREE.BoxGeometry(_cubeSize, cubeHeight, _cubeSize);
-                if (cubeHeight > 530)
+                
+                if (cubeHeight > 1320)
                 {
                     color = 0xff0000;
                     _cubeSize = cubeSize+100;                                        
@@ -69,9 +71,9 @@
                     ambient: color,
                     color: color,
                     specular: color,
-                    shininess: 10, //~~(Math.random() * 200),
-                    shading: THREE.SmoothShading
-                })
+                    shininess: 10,
+                    shading: THREE.SmoothShading,
+                });
                 var cube = new THREE.Mesh(geometry, material);
                 cube.position.x = halfXRows + x * cubeRow;
                 cube.position.y = cubeHeight / 2;
@@ -101,17 +103,17 @@
                 if (x >= xIndex - xLoops * xRows) {
                     dx = xRows * (1 - xLoops);
                 } else {
-                    dx = xRows * (0 - xLoops)
+                    dx = xRows * (0 - xLoops);
                 }
                 if (z >= zIndex - zLoops * zRows) {
                     dz = zRows * (1 - zLoops);
                 } else {
-                    dz = zRows * (0 - zLoops)
+                    dz = zRows * (0 - zLoops);
                 }
 
 
                 cubes[x][z].position.x = (x - dx) * cubeRow - halfXRows;
-                cubes[x][z].position.z = (z - dz) * cubeRow - halfZRows
+                cubes[x][z].position.z = (z - dz) * cubeRow - halfZRows;
 
                 var scale = (cubes[x][z].position.z + group.position.z) / 1500;
                 if (scale < 1)
@@ -127,7 +129,7 @@
 
     }
     var camPos = new THREE.Vector3(0, 0, 0);
-    var mouse = {x: 0, y: 0}
+    var mouse = {x: 0, y: 0};
     var isRunning = true;
     function render(t) {
         if (isRunning)
@@ -141,9 +143,9 @@
 
         checkRow();
 
-        camera.position.x = Math.sin(t * 0.0003) * 1000;// + mouse.y;
+        camera.position.x = Math.sin(t * 0.0003) * 1000;
         camera.position.z = -4000;
-        camera.position.y = (Math.cos(t * 0.0004) + 1.3) * 3000;
+        camera.position.y = (Math.cos(Math.sin(t * 0.0009))+2) * 2000;                     
         camera.lookAt(camPos);
 
         renderer.render(scene, camera);
@@ -157,7 +159,7 @@
         {
             render(0);
         }
-    })
+    });
 
     $(document).ready(function ()
     {
@@ -165,13 +167,13 @@
             e.stopPropagation();
             e.preventDefault();
             isRunning = false;
-        })
-    })
+        });
+    });
     window.addEventListener("mousemove", function (event) {
         mouse = event;
-    })
+    });
     window.addEventListener("resize", function (event) {
         init();
         render(0);
-    })
+    });
 </script>    
