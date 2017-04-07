@@ -233,7 +233,8 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
         {
             val = val.toFixed(2);
         }
-        message = message + "<span class='pull-left level' >" + val + "</span>";
+        
+        message = message + val;
     }
     var starttime = "";
     if (typeof (errorjson.time) !== "undefined")

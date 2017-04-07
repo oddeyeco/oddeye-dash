@@ -434,14 +434,14 @@ class ChartEditForm {
 
         }
         this.dashJSON[this.row]["widgets"][this.index].manual = true;
-        var opt = this.dashJSON[this.row]["widgets"][this.index];
+        var opt = this.dashJSON[this.row]["widgets"][this.index];        
         showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
             var jsonstr = JSON.stringify(opt, jsonmaker);
             editor.set(JSON.parse(jsonstr));
         });
     }
 
-    chage(input) {
+    chage(input) {        
         if (input.hasClass('Addq'))
         {
             if (!this.dashJSON[this.row]["widgets"][this.index].q)

@@ -677,17 +677,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         for (var sind in widget.options.series[ind].data)
                         {
                             widget.options.series[ind].data[sind].unit = widget.options.yAxis[0].unit;
-//                                console.log(widget.options.series[ind].data[sind].name);
                             if (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name) === -1)
                             {
                                 widget.options.xAxis[0].data.push(widget.options.series[ind].data[sind].name);
                             }
-//                                console.log("length " + widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name));
-//                                console.log(widget.options.series[ind]);                                    
-//                                if (sind < (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name)))
-//                                {
-//                                    widget.options.series[ind].data.unshift(null);
-//                                }
                         }
                     }
 
@@ -1465,7 +1458,7 @@ $('body').on("change", ".edit-form select", function () {
     chartForm.chage($(this));
 });
 
-$('body').on("click", ".edit-form .btn", function () {
+$('body').on("click", ".edit-form #tab_metrics .btn", function () {
     chartForm.chage($(this));
 });
 
