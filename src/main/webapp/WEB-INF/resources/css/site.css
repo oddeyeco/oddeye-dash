@@ -225,8 +225,7 @@ and open the template in the editor.
 }
 
 .echart_line_single{
-    height: 800px;
-    overflow: hidden;
+    height: 800px;    
 }
 
 .input-group.cl_picer_noinput input{
