@@ -138,7 +138,7 @@
 
     </div>
 </div>
-
+<jsp:include page="queryForm.jsp" />
 <div class="x_panel editchartpanel" style="display: none">
     <div class="x_title">
         <h1 class="col-md-3">Edit Chart</h1>              
@@ -371,7 +371,9 @@
                     </div>
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab_metrics" aria-labelledby="metrics-tab">
-                    <jsp:include page="queryForm.jsp" />
+                    <div id="forms">
+                    </div>        
+                    <button class="btn btn-success Addq btn-xs">Add</button>                    
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab_axes" aria-labelledby="axes-tab">
                     <div class="row">
@@ -939,7 +941,7 @@
             </div>
             <div class="modal-body">
                 <div id="dasheditor"></div>
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

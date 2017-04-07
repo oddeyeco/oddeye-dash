@@ -28,7 +28,7 @@ class ChartEditForm {
             if (dashJSON[row]["widgets"][index].times.intervall)
             {
                 $("#refreshtime_private").val(dashJSON[row]["widgets"][index].times.intervall);
-            }            
+            }
             $('#reportrange_private span').html(dashJSON[row]["widgets"][index].times.pickerlabel);
             if (dashJSON[row]["widgets"][index].times.pickerlabel)
             {
@@ -43,79 +43,93 @@ class ChartEditForm {
 
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(dashJSON[row]["widgets"][index], $('#reportrange_private')));
 
-
+        var formhtml = $("#form_template").html();
+        this.formwraper.find("#tab_metrics #forms").html("");
         if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
         {
-            if ((typeof (dashJSON[row]["widgets"][index].q[0])) === "string")
-            {
-                var query = "?" + dashJSON[row]["widgets"][index].q[0];
-                var tags = getParameterByName("tags", query).split(";");
-                var metrics = getParameterByName("metrics", query).split(";");
-                var aggregator = getParameterByName("aggregator", query);
-            } else
-            {
-                var tags = dashJSON[row]["widgets"][index].q[0].info.tags.split(";");
-                var metrics = dashJSON[row]["widgets"][index].q[0].info.metrics.split(";");
-                var aggregator = dashJSON[row]["widgets"][index].q[0].info.aggregator;
-            }
 
-
-            this.formwraper.find("#tab_metrics div.tags").html("");
-            for (var tagindex in tags)
+            for (var qindex in dashJSON[row]["widgets"][index].q)
             {
-                if (tags[tagindex] !== "")
+                var query = "";
+                var tags = [];
+                var metrics = [];
+                var aggregator = "";
+                var form = $(formhtml);
+                form.attr("id", qindex + "_query");
+                form.attr("qindex", qindex);
+                form.find("#baze_disable_downsampling").attr("id", qindex + "_disable_downsampling");
+                form.find("#baze_enable_rate").attr("id", qindex + "_enable_rate");
+                this.formwraper.find("#tab_metrics #forms").append(form);
+                if ((typeof (dashJSON[row]["widgets"][index].q[qindex])) === "string")
                 {
-                    this.formwraper.find("#tab_metrics div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
-                }
-            }
-
-            this.formwraper.find("#tab_metrics div.metrics").html("");
-            for (var metricindex in metrics)
-            {
-                if (metrics[metricindex] !== "")
-                {
-                    this.formwraper.find("#tab_metrics div.metrics").append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'>" + metrics[metricindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
-                }
-            }
-
-
-            if (aggregator === "")
-            {
-                this.formwraper.find("#tab_metrics select#aggregator").val("none");
-            } else
-            {
-                this.formwraper.find("#tab_metrics select#aggregator").val(aggregator);
-            }
-
-            if (typeof (dashJSON[row]["widgets"][index].q[0].info) !== "undefined")
-            {
-                this.formwraper.find("#tab_metrics input#alias").val(dashJSON[row]["widgets"][index].q[0].info.alias);
-                this.formwraper.find("#tab_metrics input#alias2").val(dashJSON[row]["widgets"][index].q[0].info.alias2);
-                var ds = dashJSON[row]["widgets"][index].q[0].info.downsample;
-                if (ds === "")
-                {
-
+                    query = "?" + dashJSON[row]["widgets"][index].q[qindex];
+                    tags = getParameterByName("tags", query).split(";");
+                    metrics = getParameterByName("metrics", query).split(";");
+                    aggregator = getParameterByName("aggregator", query);
                 } else
                 {
-                    var ds_ = ds.split("-");
-                    this.formwraper.find("#tab_metrics input#down-sample-time").val(ds_[0]);
-                    this.formwraper.find("#tab_metrics select#down-sample-aggregator").val(ds_[1]);
+                    if (dashJSON[row]["widgets"][index].q[qindex].info)
+                    {
+                        tags = dashJSON[row]["widgets"][index].q[qindex].info.tags.split(";");
+                        metrics = dashJSON[row]["widgets"][index].q[qindex].info.metrics.split(";");
+                        aggregator = dashJSON[row]["widgets"][index].q[qindex].info.aggregator;
+                    }
+
+                }
+                this.formwraper.find("#tab_metrics form#" + qindex + "_query div.tags").html("");
+                for (var tagindex in tags)
+                {
+                    if (tags[tagindex] !== "")
+                    {
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                    }
                 }
 
-                var elem = document.getElementById("disable_downsampling");
-                if (elem.checked !== dashJSON[row]["widgets"][index].q[0].info.downsamplingstate)
+                this.formwraper.find("#tab_metrics form#" + qindex + "_query div.metrics").html("");
+                for (var metricindex in metrics)
                 {
-                    $(elem).trigger('click');
+                    if (metrics[metricindex] !== "")
+                    {
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query div.metrics").append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'>" + metrics[metricindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                    }
                 }
-                var elem = document.getElementById("enable_rate");
-                if (elem.checked !== dashJSON[row]["widgets"][index].q[0].info.rate)
+                if (aggregator === "")
                 {
-                    $(elem).trigger('click');
+                    this.formwraper.find("#tab_metrics form#" + qindex + "_query select.aggregator").val("none");
+                } else
+                {
+                    this.formwraper.find("#tab_metrics form#" + qindex + "_query select.aggregator").val(aggregator);
                 }
 
+                if (typeof (dashJSON[row]["widgets"][index].q[qindex].info) !== "undefined")
+                {
+                    this.formwraper.find("#tab_metrics form#" + qindex + "_query input.alias").val(dashJSON[row]["widgets"][index].q[qindex].info.alias);
+                    this.formwraper.find("#tab_metrics form#" + qindex + "_query input.alias2").val(dashJSON[row]["widgets"][index].q[qindex].info.alias2);
+                    var ds = dashJSON[row]["widgets"][index].q[qindex].info.downsample;
+                    if (ds === "")
+                    {
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query select.down-sample-time").val("");
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query select.down-sample-aggregator").val("none");
+                    } else
+                    {
+                        var ds_ = ds.split("-");
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query input.down-sample-time").val(ds_[0]);
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query select.down-sample-aggregator").val(ds_[1]);
+                    }
+
+                    var elem = document.getElementById(qindex + "_disable_downsampling");
+                    if (elem.checked !== dashJSON[row]["widgets"][index].q[qindex].info.downsamplingstate)
+                    {
+                        $(elem).trigger('click');
+                    }
+                    var elem = document.getElementById(qindex + "_enable_rate");
+                    if (elem.checked !== dashJSON[row]["widgets"][index].q[qindex].info.rate)
+                    {
+                        $(elem).trigger('click');
+                    }
+
+                }
             }
-
-
         } else
         {
             this.formwraper.find("#tab_metrics div.tags").html("");
@@ -142,7 +156,7 @@ class ChartEditForm {
             {
                 $(elem).trigger('click');
             }
-        }        
+        }
         if (typeof (this.dashJSON[this.row]["widgets"][this.index].fill) === "undefined")
         {
             this.formwraper.find("#display_fillArea").val("none");
@@ -428,6 +442,14 @@ class ChartEditForm {
     }
 
     chage(input) {
+        if (input.hasClass('Addq'))
+        {
+            if (!this.dashJSON[this.row]["widgets"][this.index].q)
+            {
+                this.dashJSON[this.row]["widgets"][this.index].q = []
+            }
+            this.dashJSON[this.row]["widgets"][this.index].q.push({});
+        }
         if (input.attr('id') === "manual")
         {
             var elem = document.getElementById(input.attr("id"));
@@ -458,28 +480,35 @@ class ChartEditForm {
         }
         if (input.parents("form").hasClass("edit-query"))
         {
+            if (input.hasClass('Removeq'))
+            {                
+                this.dashJSON[this.row]["widgets"][this.index].q.splice(input.parents("form").attr("qindex"), 1);
+            } else if (input.hasClass('Duplicateq'))
+            {                
+               this.dashJSON[this.row]["widgets"][this.index].q.push(clone_obg(this.dashJSON[this.row]["widgets"][this.index].q[input.parents("form").attr("qindex")])) ;
+            } else
+            {
+                var qindex = input.parents("form").attr("qindex");
             var metrics = "";
-            this.formwraper.find(".query_metric .text").each(function () {
+            this.formwraper.find("form#"+qindex+"_query  .query_metric .text").each(function () {
                 metrics = metrics + $(this).text() + ";";
             });
 
             var tags = "";
-            this.formwraper.find(".query_tag .text").each(function () {
+            this.formwraper.find("form#"+qindex+"_query  .query_tag .text").each(function () {
                 tags = tags + $(this).text() + ";";
             });
             downsample = "";
-            if (this.formwraper.find("#down-sample-time").val() !== "")
+            if (this.formwraper.find("form#"+qindex+"_query  .down-sample-time").val() !== "")
             {
-                var downsample = this.formwraper.find("#down-sample-time").val() + "-" + this.formwraper.find("#down-sample-aggregator").val();
+                var downsample = this.formwraper.find("form#"+qindex+"_query  .down-sample-time").val() + "-" + this.formwraper.find("form#"+qindex+"_query  .down-sample-aggregator").val();
+            }
+//            this.dashJSON[this.row]["widgets"][this.index].q = [];
+            this.dashJSON[this.row]["widgets"][this.index].q[qindex]={info: {"rate": document.getElementById(qindex+"_enable_rate").checked, "downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("form#"+qindex+"_query  .aggregator").val(), "downsamplingstate": document.getElementById(qindex+"_disable_downsampling").checked, "alias": this.formwraper.find("form#"+qindex+"_query  .alias").val(), "alias2": this.formwraper.find("form#"+qindex+"_query  .alias2").val()}};                                
             }
 
-//            var query = "metrics=" + metrics + "&tags=" + tags +
-//                    "&aggregator=" + this.formwraper.find("#aggregator").val() + "&downsample=" + downsample;
-
-
-            this.dashJSON[this.row]["widgets"][this.index].q = [];
-            this.dashJSON[this.row]["widgets"][this.index].q.push({info: {"rate": document.getElementById("enable_rate").checked, "downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("#aggregator").val(), "downsamplingstate": document.getElementById("disable_downsampling").checked, "alias": this.formwraper.find("#alias").val(), "alias2": this.formwraper.find("#alias2").val()}});
         }
+
         if (input.parents("form").hasClass("edit-display"))
         {
             var key = input.attr("chart_prop_key");
@@ -873,11 +902,11 @@ class ChartEditForm {
         showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
             var jsonstr = JSON.stringify(opt, jsonmaker);
             editor.set(JSON.parse(jsonstr));
-        });        
+        });
     }
 
     fillinputs(input, item, key, index = null)
-    {        
+    {
         if (input.parent().hasClass("cl_picer"))
         {
             input.parent().colorpicker('setValue', this.dashJSON[this.row]["widgets"][this.index].options[item][key]);
