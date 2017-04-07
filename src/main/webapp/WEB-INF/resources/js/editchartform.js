@@ -446,7 +446,7 @@ class ChartEditForm {
         {
             if (!this.dashJSON[this.row]["widgets"][this.index].q)
             {
-                this.dashJSON[this.row]["widgets"][this.index].q = []
+                this.dashJSON[this.row]["widgets"][this.index].q = [];
             }
             this.dashJSON[this.row]["widgets"][this.index].q.push({});
         }
