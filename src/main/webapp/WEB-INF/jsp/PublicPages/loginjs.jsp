@@ -49,8 +49,8 @@
 
     function init() {
         cubes = [];
-        stageWidth = $(window).width();
-        stageHeight = $(window).height();
+        stageWidth = $(document).width();
+        stageHeight = $(document).height();
         camera = new THREE.PerspectiveCamera(55, stageWidth / stageHeight, 1, 20000);
         renderer.setSize(stageWidth, stageHeight-7);
         for (var x = 0; x < xRows; x++) {

@@ -113,6 +113,56 @@ a.btn-href:hover
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
+@media (min-width: 576px)
+{
+    .logincontener
+    {    
+        position: absolute;  
+        top: 3%; 
+        width: 100%
+    }    
+
+    .col-xs-12.logo
+    {
+        text-align: center;
+    }
+
+    .col-xs-12.login
+    {
+        text-align: center;
+    }
+
+    .col-xs-12.login form
+    {
+        text-align: center;    
+    }
+
+}
+
+@media (min-width: 768px)
+{
+    .col-xs-12.logo
+    {
+        text-align: right;
+    }
+
+    .col-xs-12.login
+    {
+        text-align: left;
+    }
+
+    .col-xs-12.login form
+    {
+        width: 250px;
+    }
+
+    .logincontener
+    {
+        position: absolute;  
+        top: 30%; 
+        width: 100%
+    }    
+}
 
 @media (min-width: 40em) {
     /* Bump up size of carousel content */
