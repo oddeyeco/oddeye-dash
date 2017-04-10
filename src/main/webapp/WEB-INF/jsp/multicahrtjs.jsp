@@ -2,15 +2,12 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
-
     pickerlabel = "Last 1 hour";
-
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var timer;
     var interval = 10000;
     series = [];
-
     var defserie = {
         name: null,
         type: 'line',
@@ -26,22 +23,25 @@
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         drawEchart(hashes, echartLine);
     });
-
-
-    function drawEchart(hashes, echartLine, reload = false)
-    {
+    
+    function drawEchart(hashes, echartLine, reload)
+    {        
+        if (typeof(reload)==="undefined")
+        {
+            reload = false;
+        }
         var requestcount = 0;
         var series = [];
         var legend = [];
         hashes.forEach(function (item, i, arr) {
 
             var url;
-            if (pickerlabel == "Custom")
+            if (pickerlabel === "Custom")
             {
                 url = "${cp}/getdata?hash=" + item + "&startdate=" + pickerstart + "&enddate=" + pickerend;
             } else
             {
-                if (typeof (rangeslabels[pickerlabel]) == "undefined")
+                if (typeof (rangeslabels[pickerlabel]) === "undefined")
                 {
                     url = "${cp}/getdata?hash=" + item + "&startdate=1d-ago";
                 } else
@@ -75,11 +75,11 @@
                     {
                         serie.data.push({value: chdata[ind], 'unit': "format_metric"});
                     }
-                    var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags)
+                    var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags);
                     serie.name = name;
                     series.push(serie);
                     legend.push(name);
-                    if (requestcount == 0)
+                    if (requestcount === 0)
                     {
                         echartLine.hideLoading();
                         series.sort(function (a, b) {
@@ -96,14 +96,14 @@
                                 },
                                 toolbox: {},
                                 xAxis: [{
-                                        type: 'time',
+                                        type: 'time'
                                     }],
                                 yAxis: [{
                                         type: 'value',
                                         axisLabel:
                                                 {
                                                     formatter: format_metric
-                                                },
+                                                }
                                     }],
                                 dataZoom: [{
                                         type: 'inside',
