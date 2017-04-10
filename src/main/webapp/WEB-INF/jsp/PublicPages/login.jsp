@@ -7,7 +7,7 @@
 <div class="container center" style="position: absolute;  top: 30%; width: 100%">    
     <div class="row">
         <div class="col-lg-4 col-xs-12 text-right">
-            <a href="${cp}/" ><img src="${cp}/assets/images/logo.png" alt="logo" width="250px"></a>                
+            <a href="${cp}/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
         </div>    
         <div class=" contactform col-lg-4 col-xs-12">        
             <form action="<c:url value="/login/"/>" method="post">

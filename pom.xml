@@ -209,10 +209,10 @@
                     <outputDirectory>${project.build.directory}/${project.build.finalName}/WEB-INF/assets/css</outputDirectory>
                     <compress>true</compress>                    
                     <includes>
-                        <include>bootstrap/bootstrap.less</include>
-                        <include>font-awesome/font-awesome.less</include>
+                        <include>css/general.less</include>
+<!--                        <include>font-awesome/font-awesome.less</include>
                         <include>main.less</include>
-                        <include>maindash.less</include>
+                        <include>maindash.less</include>-->
                         
                     </includes>
                 </configuration>

@@ -51,7 +51,9 @@
                 <div class="col-md-3 left_col">
                     <div class="left_col scroll-view">
                         <div class="navbar nav_title" style="border: 0;">
-                            <a href="<c:url value="/"/>" class="site_title"><i class="fa fa-home"></i> OddEye</a>
+                            <a href="<c:url value="/"/>" >
+                                <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
+                                <span class="site_title" style="width: auto">Home</span> </a>
                         </div>
                         <div class="clearfix"></div>
                         <!-- menu profile quick info -->

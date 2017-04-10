@@ -11,8 +11,7 @@ and open the template in the editor.
 .scrolled
 {
     position: fixed;
-    z-index: 1500;
-    /*background-color: #ccc*/
+    z-index: 1500;    
     background-color: rgba(255, 255, 255, 0.6);
 }
 .scrolled .navbar-brand
@@ -25,10 +24,30 @@ and open the template in the editor.
 /* Padding below the footer and lighter body text */
 
 body {  
-  color: #5a5a5a;
+  /*color: #5a5a5a;*/
+  background-color: #0275d8;
+  color: #fff
 }
 
+.btn-primary
+{
+    background-color: #0e5a9a;
+    border-color: #0e5a9a;         
+}
 
+a {
+    color: #013042;    
+}
+
+a:focus, a:hover {
+    color: #1f598a;    
+}
+
+.btn-primary:hover
+{
+    background-color: #1f598a;
+    border-color: #1f598a;         
+}
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
 
