@@ -75,7 +75,7 @@
                 </div>
                 <div class="clearfix"></div>
                 <div class="separator">
-                    <p class="change_link">Already a member?<a class="to_register" href="<c:url value="/login/" />"> Log in </a>
+                    <p class="change_link">Already a member?<a class="btn btn-href btn-sm" href="<c:url value="/login/" />" > Log in </a>
                     </p>
                 </div>
             </form:form>           
