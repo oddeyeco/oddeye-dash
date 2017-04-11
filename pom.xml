@@ -216,6 +216,46 @@
                 </configuration>
             </plugin>            
             <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <version>1.7.6</version>
+                <executions>
+                    <execution>
+                        <id>custom-minify</id>
+                        <configuration>
+                            <webappSourceDir>${basedir}/src/main/webapp/WEB-INF/resources/</webappSourceDir>
+                            <webappTargetDir>${basedir}/src/main/webapp/WEB-INF/assets/</webappTargetDir>                            
+                            <skipMerge>true</skipMerge>
+                            <jsSourceDir>js</jsSourceDir>
+                            <jsSourceFiles>                                               
+                                <jsSourceFile>login.js</jsSourceFile>
+                                <jsSourceFile>general.js</jsSourceFile>                                                                
+                            </jsSourceFiles>
+                        </configuration>                        
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>jquery-minify</id>
+                        <configuration>
+                            <webappSourceDir>${basedir}/src/main/webapp/WEB-INF/resources/jquery/dist/</webappSourceDir>
+                            <webappTargetDir>${basedir}/src/main/webapp/WEB-INF/assets/</webappTargetDir>                            
+                            <skipMerge>true</skipMerge>
+                            <skipMinify>true</skipMinify>                            
+                            <jsSourceDir>/</jsSourceDir>                            
+                            <jsSourceFiles>                                               
+                                <jsSourceFile>jquery.min.js</jsSourceFile>
+                            </jsSourceFiles>
+                        </configuration>                        
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>                    
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.lesscss</groupId>
                 <artifactId>lesscss-maven-plugin</artifactId>
                 <version>1.7.0.1.1</version>
