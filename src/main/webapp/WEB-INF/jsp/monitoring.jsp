@@ -2,9 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />
-<link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-
 <div class="page-title">
     <div class="title_left">
         <h2>Real Time monitor (UUID = ${curentuser.getId().toString()})</h2>

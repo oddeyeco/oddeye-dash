@@ -1,7 +1,4 @@
 <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
-<script src="${cp}/resources/switchery/dist/switchery.min.js"></script>
-<script src="${cp}/resources/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
-
 <script>
     var emailfilterJson = ${curentuser.getEmailFilter()};
     var telegramfilterJson = ${curentuser.getTelegramFilter()};

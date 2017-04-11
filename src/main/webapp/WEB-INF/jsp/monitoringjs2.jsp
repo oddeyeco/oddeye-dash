@@ -1,7 +1,5 @@
 <script src="${cp}/assets/js/socket/dist/sockjs-1.1.1.js"></script>    
 <script src="${cp}/assets/js/socket/stomp.js"></script>
-<script src="${cp}/resources/switchery/dist/switchery.min.js"></script>
-<script src="${cp}/resources/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
 
 <script>
     var stompClient = null;

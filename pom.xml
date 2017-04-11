@@ -230,28 +230,30 @@
                             <jsSourceFiles>                                               
                                 <jsSourceFile>login.js</jsSourceFile>
                                 <jsSourceFile>general.js</jsSourceFile>                                                                
+                                <jsSourceFile>chartsfuncs.js</jsSourceFile>                                                                
+                                <jsSourceFile>monitoring.js</jsSourceFile>                                                                
+                                <jsSourceFile>stomp.js</jsSourceFile>                                                                
                             </jsSourceFiles>
                         </configuration>                        
                         <goals>
                             <goal>minify</goal>
                         </goals>
                     </execution>
-                    <execution>
+<!--                    <execution>
                         <id>jquery-minify</id>
                         <configuration>
-                            <webappSourceDir>${basedir}/src/main/webapp/WEB-INF/resources/jquery/dist/</webappSourceDir>
+                            <webappSourceDir>${basedir}/src/main/webapp/WEB-INF/resources/socket/dist/</webappSourceDir>
                             <webappTargetDir>${basedir}/src/main/webapp/WEB-INF/assets/</webappTargetDir>                            
-                            <skipMerge>true</skipMerge>
-                            <skipMinify>true</skipMinify>                            
+                            <skipMerge>true</skipMerge>                            
                             <jsSourceDir>/</jsSourceDir>                            
                             <jsSourceFiles>                                               
-                                <jsSourceFile>jquery.min.js</jsSourceFile>
+                                <jsSourceFile>sockjs-1.1.1.js</jsSourceFile>
                             </jsSourceFiles>
                         </configuration>                        
                         <goals>
                             <goal>minify</goal>
                         </goals>
-                    </execution>                    
+                    </execution>                    -->
                 </executions>
             </plugin>
 

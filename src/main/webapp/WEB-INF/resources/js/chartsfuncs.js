@@ -468,7 +468,11 @@ var timed = function (params) {
 
 
 
-var format_time = function (time, base = "s") {
+var format_time = function (time, base) {
+    if (typeof(base) === "undefined" )
+    {
+        base = "s";
+    }
     var val = time.asSeconds();    
     if (val < 0)
     {
@@ -670,7 +674,11 @@ var formatpsi = function (params) {
     return (format_metric(params)) + "psi";
 };
 
-var format_metric = function (params, type = "m") {
+var format_metric = function (params, type) {
+    if (typeof(type) === "undefined" )
+    {
+        type = "m";
+    }    
     var divatior = 10;
     var val = paramtoval(params);
     var neg = 1;

@@ -211,7 +211,16 @@ function DrawErrorList(listJson, table)
     });
     $("select").attr('disabled', false);
 }
-function drawRaw(errorjson, table, hashindex = null, update = false) {
+function drawRaw(errorjson, table, hashindex, update) {
+    if (typeof(hashindex) === "undefined" )
+    {
+        hashindex = null;
+    }  
+    if (typeof(update) === update )
+    {
+        type = false;
+    }      
+    
     var message = "";
     if (errorjson.isspec === 1)
     {
