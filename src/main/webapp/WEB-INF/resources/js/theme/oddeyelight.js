@@ -159,8 +159,8 @@ var encodeHTML = function (source) {
         },
 
         grid: {
-            left: "5%",
-            right: "1%",
+            left: "90",
+            right: "2%",
             bottom: 30
         },
 
