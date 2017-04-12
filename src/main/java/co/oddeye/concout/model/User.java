@@ -22,10 +22,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.UUID;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
@@ -33,7 +33,6 @@ import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.GrantedAuthority;
@@ -721,4 +720,11 @@ public class User implements UserDetails {
     public Map<String, String[]> getSotokenlist() {
         return sotokenlist;
     }
+    
+    public Map<String, String> getRecomendDushList() {
+        Map<String, String> Result = new HashMap<>();
+        Result.put("Systems State", "");
+        return Result;
+    }
+    
 }

@@ -809,7 +809,7 @@ function redrawAllJSON(dashJSON, redraw = false)
             $("#rowtemplate .widgetraw").attr("id", "row" + rowindex);
             var html = $("#rowtemplate").html();
             $("#dashcontent").append(html);
-            $("#rowtemplate .widgetraw").attr("id", "row");
+            $("#rowtemplate .widgetraw").attr("id", "row");            
         }
         for (widgetindex in    dashJSON[rowindex]["widgets"])
         {
@@ -1796,15 +1796,33 @@ $('body').on("click", ".savedash", function () {
                 {
                     var uri = cp + "/dashboard/" + senddata.name;
                     var request_W_index = getParameterByName("widget");
+                    var request_R_index = getParameterByName("row");
                     if (request_W_index === null)
                     {
-                        if (window.location.href !== uri)
+                        if (window.location.pathname !== uri)
                         {
                             window.location.href = uri;
                         } else
                         {
                             alert("Data saved");
                         }
+                    } else
+                    {
+                        if (request_R_index !== null)
+                        {
+                            uri = uri + "?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit";
+                            console.log(window.location.pathname+"?"+window.location.search);
+                            console.log(uri);
+                            if (window.location.pathname+window.location.search !== uri)
+                            {
+                                window.location.href = uri;
+                            }
+                            else
+                            {
+                                alert("Data saved");
+                            }
+                        }
+                        
                     }
                 }
             },

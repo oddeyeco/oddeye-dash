@@ -46,11 +46,11 @@
 <div class="x_panel">
     <div class="filter">
 
-        <div class="form-group-custom pull-left">
-            <label class="control-label control-label-custom-legend" for="global-down-sample">Down sample 
+        <div class="form-group-custom pull-left form-horizontal">
+            <label class="control-label control-label-top" for="global-down-sample">Down sample 
             </label>
             <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
-            <label class="control-label control-label-custom-legend" for="global-down-sample-ag">Aggregator: 
+            <label class="control-label control-label-top" for="global-down-sample-ag">Aggregator: 
             </label>        
             <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input">
                 <option label="avg" value="avg">avg</option>
@@ -86,7 +86,7 @@
                 <option label="zimsum" value="zimsum">zimsum</option>
             </select>        
 
-            <label class="control-label" for="global-downsampling-switsh">
+            <label class="control-label control-label-top" for="global-downsampling-switsh">
                 Disable downsampling
             </label>
             <div class="checkbox" style="display: inline-block">
