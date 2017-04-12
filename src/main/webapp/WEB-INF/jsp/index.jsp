@@ -41,8 +41,10 @@
             <!-- Custom Theme Style -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css" />   
             <link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />
-            <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">            
-                        <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />-->      
+            <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">     
+
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css" />        
+            <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />-->      
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css" />
 
 
@@ -88,7 +90,7 @@
                                             <ul class="nav child_menu">                                                                                        
                                                 <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
                                                     <c:forEach items="${curentuser.getDushList()}" var="Dush">
-                                                    <li><a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" id="newdush">${Dush.key}</a></li>
+                                                    <li><a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>">${Dush.key}</a></li>
                                                     </c:forEach>
 
                                             </ul>
@@ -97,10 +99,10 @@
                                             <li><a><i class="fa fa-edit"></i> Managment <span class="fa fa-chevron-down"></span></a>
                                                 <ul class="nav child_menu">                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
-                                                        <li><a href="<c:url value="/userslist"/>" id="newdush">Users</a></li>
+                                                        <li><a href="<c:url value="/userslist"/>" >Users</a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                                        <li><a href="<c:url value="/pages"/>" id="newdush">Content</a></li>
+                                                        <li><a href="<c:url value="/pages"/>" >Content</a></li>
                                                         </sec:authorize>
                                                 </ul>
                                             </li>
@@ -146,8 +148,8 @@
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
                                             <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                             <li>
-                                                <a href="<c:url value="/dashboard/new"/>">
-                                                    <span>New Dashboard</span>
+                                                <a href="<c:url value="/dashboard/"/>">
+                                                    <span>Dashboards</span>
                                                 </a>
                                             </li>
                                             <li><a href="javascript:;">Help</a></li>
@@ -190,10 +192,10 @@
 
             <!-- jQuery -->
             <script src="<c:url value="/assets/dist/jquery.min.js"/>"></script>    
-            
+
             <script src="${cp}/assets/dist/switchery.min.js"></script>
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js"></script>        
-            
+
             <!-- Bootstrap -->
             <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js"></script>
             <!-- moment.js -->

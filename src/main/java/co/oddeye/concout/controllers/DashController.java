@@ -43,6 +43,21 @@ public class DashController {
     @Autowired
     private HbaseUserDao Userdao;
 
+    @RequestMapping(value = {"/dashboard/"}, method = RequestMethod.GET)
+    public String getDashboards(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            map.put("curentuser", userDetails);            
+            map.put("title", "My Dashboards");
+        }
+
+        map.put("body", "dashboards");
+        map.put("jspart", "dashboardsjs");        
+        return "index";
+    }    
+    
     @RequestMapping(value = {"/dashboard/new"}, method = RequestMethod.GET)
     public String NewDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

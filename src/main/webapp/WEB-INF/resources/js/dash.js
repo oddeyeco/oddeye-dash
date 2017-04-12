@@ -1737,7 +1737,7 @@ $('body').on("click", "#deletedashconfirm", function () {
         success: function (data) {
             if (data.sucsses)
             {
-                window.location = cp + "/profile";
+                window.location = cp + "/dashboard/";
             }
             ;
         },

@@ -1,0 +1,550 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 5, 2016, 11:27:20 AM
+    Author     : vahan
+*/
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 20, 2016, 10:22:24 AM
+    Author     : vahan
+*/
+
+.profile_info {
+    padding: 0px 10px 10px;
+}
+
+.form-control[type="number"]
+{
+    padding-right: 0px;
+}
+.chartbkg
+{
+    background-color: #F5F7FA
+}
+.chartsection
+{
+    margin-top: 5px;
+}
+
+.chartsection .controls
+{
+    margin: 5px;
+}
+
+.editchartpanel
+{
+    /*background-color: #ff0000;*/
+}
+
+@media (max-width: 600px) {
+    .editchartpanel
+    {
+        width: auto;
+    }
+}
+
+.dataTables_filter {
+    float: right;
+    text-align: right;
+    width: 100%;
+}
+
+.radio label,
+.checkbox label {
+    font-weight: bold;
+}
+
+.noMargin {
+    margin: 0px;
+}
+
+.noPadding {
+    padding: 0px;
+}
+
+.title_input{
+    width: 350px;
+    display: inline-block;
+    /*height: 34px;*/
+}
+
+.input-group .titile_input_midle,.titile_input_midle{
+    width: 215px;
+    display: inline-block;    
+}
+
+.input-group .query_input,.query_input{
+    width: 215px;
+    display: inline-block;    
+}
+
+.titile_input_midle{    
+    margin-bottom: -25px;
+}
+.color-button
+{
+    display: inline-block;
+    margin-bottom: -20px;
+}
+
+.form-horizontal .control-label-custom-legend2
+{
+    padding: 2px;    
+    text-align: right;    
+    width: 86px;
+}
+.form-horizontal .control-label-custom-legend3
+{
+    padding: 2px;    
+    text-align: right;        
+    width: 138px;
+}
+.titile_input_midle2{
+
+    width: 50px;
+    display: inline-block;
+    margin-bottom: -25px;    
+}
+
+.title_input_large
+{
+    width: 510px;
+    display: inline-block;
+}
+
+.dimensions_input
+{
+    width: 100px;
+    display: inline-block;
+}
+
+.title_input_small{
+    width: 73px;
+    display: inline-block;
+}    
+
+.title_select{
+    width: 95px;
+    display: inline-block;
+    /*float: right;*/
+}
+
+.form_main_block{
+    display: block;
+    /*width: 655px;*/
+    height: auto;
+    margin: 10px;
+}
+
+#color_block{
+    height: 33px;
+}
+
+.form-horizontal .control-label-custom{
+    padding: 2px;
+    width: 75px;
+    text-align: right;
+}
+
+
+.form-horizontal .control-label-custom-legend{
+    padding: 2px;
+    width: 90px;
+    text-align: right;
+}
+
+.float-left
+{
+    float: left;
+}
+.control-label-custom2
+{
+    width: 57px;
+}
+
+.control-label_Y
+{
+    margin-left: 67px;
+}
+.control-label-custom3{
+    /*margin-left: 10px;*/
+}
+
+.control-label-custom4
+{
+    width: 20px;
+}
+
+.control-label-custom5
+{
+    margin-left: 39px;
+}
+
+.control-label2{
+    margin-left: 38px;
+}
+
+.form-horizontal .form-group-custom
+{
+    margin: 2px 0px; 
+}
+
+#buttons_div{
+    text-align: right;    
+}
+
+.dropdown_button{
+    font-size: 19px; 
+    color: #26B99A;
+}
+
+.legend_title{
+    margin-right: 15px;
+    margin-left: 7px;
+}
+
+.legend_orient{
+    width: 110px;
+}
+
+.legend_border{
+    margin-top: 7px;
+}
+
+.legend-shape-width{
+    margin-top: 7px;
+    margin-left: 253px;
+}
+
+.legend-shape-height{
+    margin-top: 7px;
+}
+
+.legend_select{
+    margin-top: 10px;
+    margin-left: -4px;
+}
+
+.echart_line_single{
+    height: 800px;    
+}
+
+.input-group.cl_picer_noinput input{
+    display: none;    
+}
+.input-group.cl_picer_noinput .input-group-addon
+{
+    border-radius: 4px ;
+    border: 1px solid #ccc ;     
+    width: auto;
+}
+
+.form-horizontal .control-label-custom-axes{
+    padding: 2px;
+    width: auto;
+    text-align: right;
+}
+
+.axes_select{
+    width: 196px;
+    display: inline-block;
+}
+
+
+.select2-container--default .menu-select .select2-results__group:after
+{
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;    
+}
+
+.select2-container--default .menu-select .select2-results__option[role=group] ul
+{
+    display: none;
+    background-color: white;
+    border: 1px solid #aaa;
+    border-radius: 4px 4px 4px 4px;
+    box-sizing: border-box;    
+    position: absolute;
+    left: 100%;
+    top: 0;
+}
+
+.select2-container--default .menu-select .select2-results__option[role=group] ul li
+{
+    white-space: nowrap;
+}
+
+select.form-control
+{
+    color: #73879C;
+    padding-left: 5px;
+}
+
+.data-label{
+    display: inline-block;
+}
+
+.data-label .edit{
+    display: inline-block;
+}
+
+.data-label .edit{
+    margin-right: 10px;  
+
+}
+
+span.tagspan {
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    padding: 5px 9px;
+    text-decoration: none;
+    background: #1ABB9C;
+    color: #F1F6F7;
+    margin-right: 5px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    font-family: helvetica;
+}
+
+span.tagspan span.text {
+    padding: 0px 5px;
+}
+.query-label a,
+.data-label a {
+    cursor: pointer;
+}
+
+.query-label a:hover,
+.data-label a:hover {
+    color: red;
+}
+#refresh_wrap_private .select2-container--default .select2-selection--single,
+#refresh_wrap .select2-container--default .select2-selection--single {
+    min-height: 31px;
+}
+
+#refresh_wrap_private .select2-container--default .select2-selection--single .select2-selection__rendered,
+#refresh_wrap .select2-container--default .select2-selection--single .select2-selection__rendered {    
+    padding-top: 2px;
+}
+#refresh_wrap_private .select2-container--default .select2-selection--single .select2-selection__arrow, 
+#refresh_wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 30px;
+}
+
+.daterangepicker.opensright .ranges, .daterangepicker.opensright .calendar, .daterangepicker.openscenter .ranges, .daterangepicker.openscenter .calendar {
+    float: left; 
+}
+
+
+
+.rawButton
+{
+    position: absolute;
+    left: -20px;
+}
+
+.rawButton .btn
+{
+    padding: 0px 5px;
+}
+
+.metrictable>tbody>tr>td
+{
+    padding: 5px;    
+}
+
+/*.table>tbody>tr>td.level
+{
+    padding: 0px;  
+}*/
+.table>tbody>tr>td.level div {	
+    /*display: block;*/
+    color: #666;        
+    width: 70px;
+    text-align: center;    
+    font-size: 12px;
+    padding: 0px 5px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.3);
+    border-bottom-width: 3px;    
+}
+
+.table>tbody>tr:hover>td.level div {
+    background-color: #e3e3e3;
+    border-color: rgba(0,0,0,0.5);
+    border-bottom-width: 0px;    
+    border-top-width: 3px;    
+}
+
+.spec  .level div,
+.level_5  .level div
+{
+    background-color: #FFC0C0
+}
+
+.level_4 .level div
+{
+    background-color: #FFFFC0
+
+}
+
+.level_3 .level div
+{
+    background-color: #C0FFFF
+}
+
+.spec,
+.level_5
+{    
+    font-weight: bold; 
+}
+
+.message .level
+{
+    padding-right: 7px;
+}
+.tabcontrol{
+    position: relative;
+    z-index: 1100;
+}
+
+#editchartpanel .modal-dialog
+{
+    width: 90%;
+}
+
+
+.nav-md .container.body .col-md-3.left_col 
+{
+    z-index: 10;
+}
+
+.jsoneditor-poweredBy
+{
+    display: none;
+}
+
+#jsoneditor{
+    height: 400px;
+    margin-bottom: 10px
+}
+
+#dasheditor
+{
+    height: 600px;    
+    margin-bottom: 10px
+}
+div.jsoneditor {
+    border: 1px solid #ccc;
+}
+
+.table-form-control {
+    display: block;
+    width: 80%;
+    height: 26px;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;  
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+.fa-div
+{
+    display: inline-block;
+    *display: inline;
+    font-size: 16px;
+}
+
+.fa-div .fa
+{
+    margin: 2px
+}
+
+.metrictable td .icheckbox_flat-green,
+.metrictable td .iradio_flat-green {
+    margin-right: 3px;
+    vertical-align: inherit;
+
+}
+
+.metrictable td.timech
+{
+    width: 13%; 
+}
+
+.metrictable td
+{    
+    white-space: nowrap;
+}
+
+.metrictable td.message
+{    
+    white-space: normal;
+}
+.summary span
+{
+    margin: 5px
+}
+
+#manyalert
+{
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    display: block;
+    z-index: 5000;
+    width: 100%;
+    display: none;
+    font-size: 20px;    
+}
+
+/*Adds dash page*/
+ul.gotodash {
+    padding: 0;
+    margin: 0;
+}
+
+.gotodash li
+{
+    position: relative;
+    padding: 3px;
+    list-style: none;    
+}
+.gotodash li:hover
+{
+    background-color: #f5f5f5;
+    border-radius: 4px;    
+    -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.1)    
+}
+a.gotodash
+{
+    margin-left: 5px;
+    padding: 7px;
+    display: block;
+    background: #f3f3f3;
+    border-radius: 3px;    
+}

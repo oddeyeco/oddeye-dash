@@ -1,6 +1,4 @@
 <%@ page pageEncoding="UTF-8" %>
-<link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css" />        
-
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw x_content">
         <div class="btn-group rawButton">
