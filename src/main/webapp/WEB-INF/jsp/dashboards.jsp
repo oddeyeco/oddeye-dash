@@ -40,6 +40,18 @@
                 <h2>Using recommends</h2>
                 <div class="clearfix"></div>
             </div>
+            <div class="x_content">
+                <div>
+                    <ul class="gotodash">
+                        <c:forEach items="${templates}" var="Dush" varStatus="loop">                                
+                            <li class="col-lg-12">
+                                <!--<input type="checkbox" class="flat">-->
+                                <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash">${Dush.getName()}</a> 
+                            </li>                                
+                        </c:forEach>
+                    </ul>
+                </div>
+            </div>             
         </div>    
     </div> 
 </div>

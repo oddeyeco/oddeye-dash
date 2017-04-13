@@ -257,7 +257,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     series = clone_obg(oldseries[skey]);
                                     break;
                                 }
+//                                if (!oldseries[skey].name)
+//                                {
+//                                    oldseries[skey].name = name
+//                                    series = clone_obg(oldseries[skey]);
+//                                    break;
+//                                }                                
+
                             }
+//                            console.log(series);
                             series.data = [];
                             if (!series.type)
                             {
@@ -405,7 +413,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 series = clone_obg(oldseries[skey]);
                                 break;
                             }
+//                            if (!oldseries[skey].name)
+//                            {
+//                                oldseries[skey].name = name
+//                                series = clone_obg(oldseries[skey]);
+//                                break;
+//                            }
                         }
+
                         series.data = [];
                         if (!series.type)
                         {
@@ -439,6 +454,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
 
                             var series = clone_obg(defserie);
+
                             for (var skey in oldseries)
                             {
                                 if (oldseries[skey].name === key)
@@ -446,7 +462,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     series = clone_obg(oldseries[skey]);
                                     break;
                                 }
+                                if (!oldseries[skey].name)
+                                {
+
+                                    oldseries[skey].name = key
+                                    series = clone_obg(oldseries[skey]);
+                                    break;
+                                }
                             }
+
                             series.data = [];
 
                             if (!series.type)
@@ -809,7 +833,7 @@ function redrawAllJSON(dashJSON, redraw = false)
             $("#rowtemplate .widgetraw").attr("id", "row" + rowindex);
             var html = $("#rowtemplate").html();
             $("#dashcontent").append(html);
-            $("#rowtemplate .widgetraw").attr("id", "row");            
+            $("#rowtemplate .widgetraw").attr("id", "row");
         }
         for (widgetindex in    dashJSON[rowindex]["widgets"])
         {
@@ -1811,18 +1835,17 @@ $('body').on("click", ".savedash", function () {
                         if (request_R_index !== null)
                         {
                             uri = uri + "?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit";
-                            console.log(window.location.pathname+"?"+window.location.search);
-                            console.log(uri);
-                            if (window.location.pathname+window.location.search !== uri)
+//                            console.log(window.location.pathname + "?" + window.location.search);
+//                            console.log(uri);
+                            if (window.location.pathname + window.location.search !== uri)
                             {
                                 window.location.href = uri;
-                            }
-                            else
+                            } else
                             {
                                 alert("Data saved");
                             }
                         }
-                        
+
                     }
                 }
             },

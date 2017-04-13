@@ -21,6 +21,7 @@ public @interface HbaseColumn {
     public String qualifier() default "";
     public String family() default "";
     public String type() default "";
+    public String identfield() default "";
     public boolean isKey() default false;
     
 }

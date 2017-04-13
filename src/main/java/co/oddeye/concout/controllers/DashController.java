@@ -5,12 +5,19 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.core.TemplateType;
+import co.oddeye.concout.dao.HbaseDushboardTemplateDAO;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.exception.ResourceNotFoundException;
+import co.oddeye.concout.model.DashboardTemplate;
 import co.oddeye.concout.model.User;
+import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -42,6 +49,8 @@ public class DashController {
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Autowired
     private HbaseUserDao Userdao;
+    @Autowired
+    private HbaseDushboardTemplateDAO TemplateDAO;
 
     @RequestMapping(value = {"/dashboard/"}, method = RequestMethod.GET)
     public String getDashboards(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
@@ -49,15 +58,41 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            map.put("curentuser", userDetails);            
+            map.put("curentuser", userDetails);
             map.put("title", "My Dashboards");
+            map.put("templates", TemplateDAO.getAlltemplates(10));
         }
 
         map.put("body", "dashboards");
-        map.put("jspart", "dashboardsjs");        
+        map.put("jspart", "dashboardsjs");
         return "index";
-    }    
-    
+    }
+
+    @RequestMapping(value = {"/template/{dashkey}"}, method = RequestMethod.GET)
+    public String ShowDashTemplate(@PathVariable(value = "dashkey") String dashkey, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+                map.put("curentuser", userDetails);
+                map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
+                DashboardTemplate Dash = TemplateDAO.getbyKey(Hex.decodeHex(dashkey.toCharArray()));
+                map.put("title", Dash.getName());
+                map.put("dashInfo", Dash.getInfojson().toString());
+                map.put("body", "dashboard");
+                map.put("jspart", "dashboardjs");
+
+//            DashboardTemplate template = new DashboardTemplate(dashname,userDetails.getDush(dashname), userDetails, TemplateType.Dushboard);
+//            TemplateDAO.add(template);
+                return "index";
+            } catch (DecoderException ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        }
+        return "index";
+    }
+
     @RequestMapping(value = {"/dashboard/new"}, method = RequestMethod.GET)
     public String NewDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -107,9 +142,11 @@ public class DashController {
             map.put("body", "dashboard");
             map.put("jspart", "dashboardjs");
             if (userDetails.getDush(dashname) == null) {
-                throw new ResourceNotFoundException(dashname+" not exists");
+                throw new ResourceNotFoundException(dashname + " not exists");
             }
 
+//            DashboardTemplate template = new DashboardTemplate(dashname,userDetails.getDush(dashname), userDetails, TemplateType.Dushboard);            
+//            TemplateDAO.add(template);
             return "index";
         }
         return "index";

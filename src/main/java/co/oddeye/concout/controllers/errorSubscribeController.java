@@ -6,23 +6,15 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseMetaDao;
-import co.oddeye.core.AlertLevel;
-import co.oddeye.core.OddeeyMetricMeta;
-import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.concurrent.CountDownLatch;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.kafka.annotation.KafkaListener;
 
 ;
 

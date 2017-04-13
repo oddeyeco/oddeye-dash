@@ -106,7 +106,7 @@
                 Disable downsampling
             </label>
             <div class="checkbox" style="display: inline-block;">
-                <input type="checkbox" class="js-switch-small" chart_prop_key="downsampling" id="baze_disable_downsampling" name="disable_downsampling" /> 
+                <input type="checkbox" class="" chart_prop_key="downsampling" id="baze_disable_downsampling" name="disable_downsampling" /> 
             </div>        
         </div>                        
         <div class="form-group form-group-custom">
@@ -114,7 +114,7 @@
                 Rate
             </label>
             <div class="checkbox" style="display: inline-block;">
-                <input type="checkbox" class="js-switch-small" chart_prop_key="rate" id="baze_enable_rate" name="enable_rate" /> 
+                <input type="checkbox" class="" chart_prop_key="rate" id="baze_enable_rate" name="enable_rate" /> 
             </div>
         </div>
         <div class="btn btn-success Duplicateq btn-xs" role="button">Duplicate</div>

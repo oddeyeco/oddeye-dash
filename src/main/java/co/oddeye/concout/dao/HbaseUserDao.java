@@ -47,11 +47,9 @@ import org.springframework.stereotype.Repository;
  *
  * @author vahan
  */
+//TODO REFACTOR
 @Repository
 public class HbaseUserDao extends HbaseBaseDao {
-
-    @Autowired
-    private BaseTsdbConnect BaseTsdb;
     @Autowired
     HbaseMetaDao MetaDao;
 

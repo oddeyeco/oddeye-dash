@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor */
+/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor, chartForm */
 
 class ChartEditForm {
 
@@ -59,6 +59,9 @@ class ChartEditForm {
                 form.attr("qindex", qindex);
                 form.find("#baze_disable_downsampling").attr("id", qindex + "_disable_downsampling");
                 form.find("#baze_enable_rate").attr("id", qindex + "_enable_rate");
+                form.find("#" + qindex + "_disable_downsampling").addClass("js-switch-small");
+                form.find("#" + qindex + "_enable_rate").addClass("js-switch-small");
+
                 this.formwraper.find("#tab_metrics #forms").append(form);
                 if ((typeof (dashJSON[row]["widgets"][index].q[qindex])) === "string")
                 {
@@ -123,12 +126,23 @@ class ChartEditForm {
                         $(elem).trigger('click');
                     }
                     var elem = document.getElementById(qindex + "_enable_rate");
+
                     if (elem.checked !== dashJSON[row]["widgets"][index].q[qindex].info.rate)
                     {
                         $(elem).trigger('click');
                     }
 
                 }
+            }
+            var elems = document.querySelectorAll('#tab_metrics #forms .js-switch-small');
+            for (var i = 0; i < elems.length; i++) {
+                var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+                elems[i].onchange = function () {
+                    if (chartForm !== null)
+                    {
+                        chartForm.chage($(this));
+                    }
+                };
             }
         } else
         {
@@ -434,14 +448,14 @@ class ChartEditForm {
 
         }
         this.dashJSON[this.row]["widgets"][this.index].manual = true;
-        var opt = this.dashJSON[this.row]["widgets"][this.index];        
+        var opt = this.dashJSON[this.row]["widgets"][this.index];
         showsingleChart(this.row, this.index, this.dashJSON, false, true, false, function () {
             var jsonstr = JSON.stringify(opt, jsonmaker);
             editor.set(JSON.parse(jsonstr));
         });
     }
 
-    chage(input) {        
+    chage(input) {
         if (input.hasClass('Addq'))
         {
             if (!this.dashJSON[this.row]["widgets"][this.index].q)
@@ -481,30 +495,30 @@ class ChartEditForm {
         if (input.parents("form").hasClass("edit-query"))
         {
             if (input.hasClass('Removeq'))
-            {                
+            {
                 this.dashJSON[this.row]["widgets"][this.index].q.splice(input.parents("form").attr("qindex"), 1);
             } else if (input.hasClass('Duplicateq'))
-            {                
-               this.dashJSON[this.row]["widgets"][this.index].q.push(clone_obg(this.dashJSON[this.row]["widgets"][this.index].q[input.parents("form").attr("qindex")])) ;
+            {
+                this.dashJSON[this.row]["widgets"][this.index].q.push(clone_obg(this.dashJSON[this.row]["widgets"][this.index].q[input.parents("form").attr("qindex")]));
             } else
             {
                 var qindex = input.parents("form").attr("qindex");
-            var metrics = "";
-            this.formwraper.find("form#"+qindex+"_query  .query_metric .text").each(function () {
-                metrics = metrics + $(this).text() + ";";
-            });
+                var metrics = "";
+                this.formwraper.find("form#" + qindex + "_query  .query_metric .text").each(function () {
+                    metrics = metrics + $(this).text() + ";";
+                });
 
-            var tags = "";
-            this.formwraper.find("form#"+qindex+"_query  .query_tag .text").each(function () {
-                tags = tags + $(this).text() + ";";
-            });
-            downsample = "";
-            if (this.formwraper.find("form#"+qindex+"_query  .down-sample-time").val() !== "")
-            {
-                var downsample = this.formwraper.find("form#"+qindex+"_query  .down-sample-time").val() + "-" + this.formwraper.find("form#"+qindex+"_query  .down-sample-aggregator").val();
-            }
+                var tags = "";
+                this.formwraper.find("form#" + qindex + "_query  .query_tag .text").each(function () {
+                    tags = tags + $(this).text() + ";";
+                });
+                downsample = "";
+                if (this.formwraper.find("form#" + qindex + "_query  .down-sample-time").val() !== "")
+                {
+                    var downsample = this.formwraper.find("form#" + qindex + "_query  .down-sample-time").val() + "-" + this.formwraper.find("form#" + qindex + "_query  .down-sample-aggregator").val();
+                }
 //            this.dashJSON[this.row]["widgets"][this.index].q = [];
-            this.dashJSON[this.row]["widgets"][this.index].q[qindex]={info: {"rate": document.getElementById(qindex+"_enable_rate").checked, "downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("form#"+qindex+"_query  .aggregator").val(), "downsamplingstate": document.getElementById(qindex+"_disable_downsampling").checked, "alias": this.formwraper.find("form#"+qindex+"_query  .alias").val(), "alias2": this.formwraper.find("form#"+qindex+"_query  .alias2").val()}};                                
+                this.dashJSON[this.row]["widgets"][this.index].q[qindex] = {info: {"rate": document.getElementById(qindex + "_enable_rate").checked, "downsample": downsample, "tags": tags, "metrics": metrics, "aggregator": this.formwraper.find("form#" + qindex + "_query  .aggregator").val(), "downsamplingstate": document.getElementById(qindex + "_disable_downsampling").checked, "alias": this.formwraper.find("form#" + qindex + "_query  .alias").val(), "alias2": this.formwraper.find("form#" + qindex + "_query  .alias2").val()}};
             }
 
         }
