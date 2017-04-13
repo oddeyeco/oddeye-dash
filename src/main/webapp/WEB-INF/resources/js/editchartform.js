@@ -129,7 +129,7 @@ class ChartEditForm {
                     console.log(dashJSON[row]["widgets"][index].q[qindex].info.rate);
                     if (!dashJSON[row]["widgets"][index].q[qindex].info.rate)
                     {
-                        dashJSON[row]["widgets"][index].q[qindex].info.rate = false
+                        dashJSON[row]["widgets"][index].q[qindex].info.rate = false;
                     }
                     if (elem.checked !== dashJSON[row]["widgets"][index].q[qindex].info.rate)
                     {
