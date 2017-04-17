@@ -60,7 +60,7 @@ public class DashController {
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("title", "My Dashboards");
-            map.put("templates", TemplateDAO.getAlltemplates(5));
+            map.put("templates", TemplateDAO.getAlltemplates(10));
         }
 
         map.put("body", "dashboards");
