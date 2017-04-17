@@ -17,11 +17,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
-import java.util.logging.Level;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
@@ -80,13 +77,16 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
             scanner.setMaxNumRows(limit);
+            scanner.setMaxVersions(10);
+            scanner.setReversed(true);
             ArrayList<ArrayList<KeyValue>> rows;
-            while ((rows = scanner.nextRows(limit).joinUninterruptibly()) != null) {
+//            BaseTsdb.getClient().
+            rows = scanner.nextRows(limit).joinUninterruptibly();
                 for (final ArrayList<KeyValue> row : rows) {
+                    
                      result.add(new DashboardTemplate(row));
                 }
-            }
-
+            
         } catch (Exception ex) {
             globalFunctions.stackTrace(ex);
         }

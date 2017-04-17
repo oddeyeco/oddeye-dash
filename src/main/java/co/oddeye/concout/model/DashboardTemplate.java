@@ -12,6 +12,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 import org.apache.commons.codec.binary.Hex;
@@ -42,12 +43,15 @@ public class DashboardTemplate {
     private boolean Recomended;
     @HbaseColumn(qualifier = "version", family = "d")
     private String version;
+    
+    private long timestamp;
 
     public DashboardTemplate(ArrayList<KeyValue> row) {
         key = row.get(0).key();
         
         for (KeyValue property:row)
         {
+            timestamp = property.timestamp();
             if (Arrays.equals(property.qualifier(), "name".getBytes())) {
                 this.name = new String(property.value());
             }            
@@ -238,5 +242,16 @@ public class DashboardTemplate {
     public void setVersion(String version) {
         this.version = version;
     }
+
+    /**
+     * @return the timestamp
+     */
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public Date getTime() {
+        return new java.util.Date(timestamp) ;
+    }    
 
 }

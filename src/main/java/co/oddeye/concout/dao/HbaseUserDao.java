@@ -182,12 +182,12 @@ public class HbaseUserDao extends HbaseBaseDao {
         filters.add(
                 new ValueFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
                         new org.hbase.async.BinaryComparator(email.getBytes())));
-//        filters.add(new ColumnRangeFilter("email"));
-
         value_scanner.setFilter(new FilterList(filters));
 
         try {
-            final ArrayList<ArrayList<KeyValue>> value_rows = value_scanner.nextRows().join();
+            
+            final ArrayList<ArrayList<KeyValue>> value_rows = value_scanner.nextRows().joinUninterruptibly();
+            
             if (value_rows.size() > 0) {
                 boolean isvalidpass = false;
                 byte[] bUUID = value_rows.get(0).get(0).key();
@@ -208,6 +208,8 @@ public class HbaseUserDao extends HbaseBaseDao {
             }
 //            scanner1.close();
         } catch (Exception e) {
+            value_scanner.close();
+            LOGGER.error(globalFunctions.stackTrace(e));
         }
 
         return null;
