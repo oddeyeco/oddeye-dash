@@ -88,123 +88,127 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
         delete widget.tmpoptions;
     }
     widget.visible = !redraw;
-    if (chart._dom.className !== "echart_line_single")
+    if (chart)
     {
-        if (redraw)
+        if (chart._dom.className !== "echart_line_single")
         {
-            if (chart._dom.getBoundingClientRect().bottom < 0)
+            if (redraw)
             {
-                widget.visible = false;
-                return;
-            }
-            if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-            {
-                widget.visible = false;
-                return;
-            }
-        }
-    }
-    var k;
-    if (!widget.options.legend)
-    {
-        widget.options.legend = {data: []};
-    } else
-    {
-        widget.options.legend.data = [];
-    }
-    if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
-    {
-        if (widget.options.toolbox.feature)
-        {
-            widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
-        } else
-        {
-            widget.options.toolbox.feature = {magicType: {show: false}};
-        }
-    }
-    var start = "5m-ago";
-    var end = "now";
-
-    if (json.times)
-    {
-        if (json.times.pickerlabel === "Custom")
-        {
-            start = json.times.pickerstart;
-            end = json.times.pickerend;
-        } else
-        {
-            if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
-            {
-                start = rangeslabels[json.times.pickerlabel];
-            }
-
-        }
-    }
-    var usePersonalTime = false;
-    if (widget.times)
-    {
-        if (widget.times.pickerlabel === "Custom")
-        {
-            start = widget.times.pickerstart;
-            end = widget.times.pickerend;
-            usePersonalTime = true;
-        } else
-        {
-            if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
-            {
-                start = rangeslabels[widget.times.pickerlabel];
-                usePersonalTime = true;
-            }
-
-        }
-    }
-    var count = {"value": widget.q.length};
-    var oldseries = clone_obg(widget.options.series);
-    widget.options.series = [];
-    for (k in widget.q)
-    {
-        if ((typeof (widget.q[k])) === "string")
-        {
-            var query = widget.q[k];
-        } else if (widget.q[k].info)
-        {
-            var query = "metrics=" + widget.q[k].info.metrics + "&tags=" + widget.q[k].info.tags +
-                    "&aggregator=" + widget.q[k].info.aggregator;
-            if (widget.q[k].info.rate)
-            {
-                query = query + "&rate=true";
-            }
-            if (!widget.q[k].info.downsamplingstate)
-            {
-                if (!usePersonalTime)
+                if (chart._dom.getBoundingClientRect().bottom < 0)
                 {
-                    if (widget.q[k].info.downsample === "")
-                    {
-                        if (json.times.generalds)
-                        {
-                            if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
-                            {
-                                query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
-                            }
-                        }
-                    } else
-                    {
-                        query = query + "&downsample=" + widget.q[k].info.downsample;
-                    }
+                    widget.visible = false;
+                    return;
+                }
+                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                {
+                    widget.visible = false;
+                    return;
+                }
+            }
+        }
+
+        var k;
+        if (!widget.options.legend)
+        {
+            widget.options.legend = {data: []};
+        } else
+        {
+            widget.options.legend.data = [];
+        }
+        if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
+        {
+            if (widget.options.toolbox.feature)
+            {
+                widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+            } else
+            {
+                widget.options.toolbox.feature = {magicType: {show: false}};
+            }
+        }
+        var start = "5m-ago";
+        var end = "now";
+
+        if (json.times)
+        {
+            if (json.times.pickerlabel === "Custom")
+            {
+                start = json.times.pickerstart;
+                end = json.times.pickerend;
+            } else
+            {
+                if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
+                {
+                    start = rangeslabels[json.times.pickerlabel];
                 }
 
             }
         }
-        var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-        chart.showLoading("default", {
-            text: '',
-            color: colorPalette[0],
-            textColor: '#000',
-            maskColor: 'rgba(255, 255, 255, 0)',
-            zlevel: 0
-        });
+        var usePersonalTime = false;
+        if (widget.times)
+        {
+            if (widget.times.pickerlabel === "Custom")
+            {
+                start = widget.times.pickerstart;
+                end = widget.times.pickerend;
+                usePersonalTime = true;
+            } else
+            {
+                if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
+                {
+                    start = rangeslabels[widget.times.pickerlabel];
+                    usePersonalTime = true;
+                }
 
-        $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+            }
+        }
+        var count = {"value": widget.q.length};
+        var oldseries = clone_obg(widget.options.series);
+        widget.options.series = [];
+        for (k in widget.q)
+        {
+            if ((typeof (widget.q[k])) === "string")
+            {
+                var query = widget.q[k];
+            } else if (widget.q[k].info)
+            {
+                var query = "metrics=" + widget.q[k].info.metrics + "&tags=" + widget.q[k].info.tags +
+                        "&aggregator=" + widget.q[k].info.aggregator;
+                if (widget.q[k].info.rate)
+                {
+                    query = query + "&rate=true";
+                }
+                if (!widget.q[k].info.downsamplingstate)
+                {
+                    if (!usePersonalTime)
+                    {
+                        if (widget.q[k].info.downsample === "")
+                        {
+                            if (json.times.generalds)
+                            {
+                                if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
+                                {
+                                    query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                                }
+                            }
+                        } else
+                        {
+                            query = query + "&downsample=" + widget.q[k].info.downsample;
+                        }
+                    }
+
+                }
+            }
+            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
+            chart.showLoading("default", {
+                text: '',
+                color: colorPalette[0],
+                textColor: '#000',
+                maskColor: 'rgba(255, 255, 255, 0)',
+                zlevel: 0
+            });
+
+            $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+        }
 }
 }
 
@@ -1847,6 +1851,55 @@ $('body').on("click", ".savedash", function () {
                         }
 
                     }
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status + ": " + thrownError);
+            }
+        });
+    }
+});
+
+
+$('body').on("click", ".savedashasTemplate", function () {
+    var url = cp + "/dashboard/savetemplate";
+    var senddata = {};
+
+    if (Object.keys(dashJSONvar).length > 0)
+    {
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in dashJSONvar[rowindex]["widgets"])
+            {
+                delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+                if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
+                {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
+                    delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
+                }
+
+                for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
+                    dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
+                }
+            }
+        }
+
+        senddata.info = JSON.stringify(dashJSONvar);
+        senddata.name = $("#name").val();
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            url: url,
+            data: senddata,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                if (data.sucsses)
+                {
+
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {

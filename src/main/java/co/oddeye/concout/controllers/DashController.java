@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.core.TemplateType;
 import co.oddeye.concout.dao.HbaseDushboardTemplateDAO;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.exception.ResourceNotFoundException;
@@ -58,9 +59,9 @@ public class DashController {
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("title", "My Dashboards");
-            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails,10));
-            map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails,10));
-            map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails,10));
+            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails,50));
+            map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails,50));
+            map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails,50));
         }
 
         map.put("body", "dashboards");
@@ -174,6 +175,31 @@ public class DashController {
 
         return "ajax";
     }
+    
+    @RequestMapping(value = {"/dashboard/savetemplate"})
+    public String SaveDashTeplate(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            String DushName = request.getParameter("name").trim();
+            String DushInfo = request.getParameter("info").trim();
+            if (DushName != null) {
+                userDetails.addDush(DushName, DushInfo, Userdao);
+                DashboardTemplate template = new DashboardTemplate(DushName, DushInfo, userDetails, TemplateType.Dushboard);                
+                TemplateDAO.add(template);
+                jsonResult.addProperty("sucsses", true);
+            } else {
+                jsonResult.addProperty("sucsses", false);
+            }
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }    
 
     @RequestMapping(value = {"/dashboard/delete"})
     public String DeleteDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {

@@ -124,11 +124,36 @@
 <div class="x_panel fulldash" style="display: none">
     <div class="x_title">
         <h2 class="col-md-3" ><input type="text" name="name" id="name" value="${dashname}"></h2>        
-        <div class="pull-right">            
-            <a class="btn btn-default" type="button" id="showasjson">Show as JSON</a>
-            <a class="btn btn-primary" type="button" id="addrow">Add Row</a>
-            <a class="btn btn-primary savedash" type="button">Save </a>
-            <a class="btn btn-danger deletedash" type="button">Delete </a>
+        <div class="pull-right"> 
+            <div class="btn-toolbar"> 
+
+                <div class="btn-group">
+                    <a class="btn btn-default" type="button" id="showasjson">Show as JSON</a>
+                </div>
+                <div class="btn-group">
+
+                    <a class="btn btn-primary" type="button" id="addrow">Add Row</a>
+                </div>
+                <!--            <div class="btn-group">
+                
+                                <a class="btn btn-primary savedash" type="button">Save</a>
+                            </div>-->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary savedash">Save</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a class="savedashasTemplate">Save As Template </a>
+                        </li>
+                    </ul>
+                </div>            
+
+                <div class="btn-group">
+                    <a class="btn btn-danger deletedash" type="button">Delete </a>
+                </div>
+            </div>
         </div>
         <div class="clearfix"></div>
     </div>        

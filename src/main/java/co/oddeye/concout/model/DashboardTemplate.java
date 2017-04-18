@@ -8,9 +8,11 @@ package co.oddeye.concout.model;
 import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.core.TemplateType;
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.core.OddeeyMetric;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -29,7 +31,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author vahan
  */
-public class DashboardTemplate {
+public class DashboardTemplate implements Comparable<DashboardTemplate> {
 
     @HbaseColumn(isKey = true)
     private byte[] key;
@@ -302,6 +304,17 @@ public class DashboardTemplate {
         user = o.getUser();
         type = o.getType();
         timestamp = o.getTimestamp();
+        infojson = o.getInfojson();
+    }
+
+    @Override
+    public int compareTo(DashboardTemplate o) {
+        int result = (timestamp < o.getTimestamp() ? -1 : (timestamp == o.getTimestamp() ? 0 : 1));
+        if (result == 0)
+        {
+            result = getName().compareTo(o.getName());
+        }
+        return result;
     }
 
 }

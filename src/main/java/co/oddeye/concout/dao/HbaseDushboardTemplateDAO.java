@@ -21,6 +21,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -119,7 +120,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         } catch (Exception ex) {
             globalFunctions.stackTrace(ex);
         }
-
+        Collections.reverse(result);
         return result;
     }
 
@@ -127,10 +128,9 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
-            scanner.setMaxNumRows(limit);
-            scanner.setMaxVersions(10);
+            scanner.setMaxNumRows(limit);            
             scanner.setReversed(true);
-            final ArrayList<ScanFilter> filters = new ArrayList<>(2);            
+            final ArrayList<ScanFilter> filters = new ArrayList<>();            
             filters.add(new RowFilter(CompareFilter.CompareOp.NOT_EQUAL, new BinaryPrefixComparator(user.getId().toString().getBytes())));
             scanner.setFilter(new FilterList(filters));            
             
@@ -143,6 +143,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         } catch (Exception ex) {
             globalFunctions.stackTrace(ex);
         }
+        Collections.reverse(result);
         return result;
     }
 
@@ -150,10 +151,9 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
-            scanner.setMaxNumRows(limit);
-            scanner.setMaxVersions(10);
+            scanner.setMaxNumRows(limit);            
             scanner.setReversed(true);
-            final ArrayList<ScanFilter> filters = new ArrayList<>(2);            
+            final ArrayList<ScanFilter> filters = new ArrayList<>();            
             filters.add(new RowFilter(CompareFilter.CompareOp.EQUAL, new BinaryPrefixComparator(user.getId().toString().getBytes())));
             scanner.setFilter(new FilterList(filters));            
             
@@ -166,6 +166,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         } catch (Exception ex) {
             globalFunctions.stackTrace(ex);
         }
+        Collections.reverse(result);
         return result;
     }    
     
