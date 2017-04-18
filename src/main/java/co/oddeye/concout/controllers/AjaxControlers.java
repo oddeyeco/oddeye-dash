@@ -197,12 +197,14 @@ public class AjaxControlers {
     public String GetMetricsLargeNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
+            @RequestParam(value = "all", required = false, defaultValue = "false") String s_all,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
         List<String> data = new ArrayList<>();
         User userDetails;
+        boolean all = Boolean.valueOf(s_all);
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
@@ -233,7 +235,7 @@ public class AjaxControlers {
                 ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
                 jsonResult.addProperty("sucsses", true);
                 for (final OddeeyMetricMeta metric : Metriclist) {
-                    if (!metric.isSpecial()) {
+                    if ((!metric.isSpecial())||(all)) {
                         if (!data.contains(metric.getName())) {
                             data.add(metric.getName());
                         }

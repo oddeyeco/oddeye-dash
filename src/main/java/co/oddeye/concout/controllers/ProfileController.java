@@ -70,7 +70,7 @@ public class ProfileController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
 //            if (userDetails.getMetricsMeta() == null) {
-            userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//            userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 //            }
             map.put("curentuser", userDetails);
             map.put("title", "MyProfile");

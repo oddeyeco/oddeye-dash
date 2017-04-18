@@ -104,7 +104,7 @@
             </div>                         
 
             <div class="x_title">
-                <h2>My last templates</h2>
+                <h2>My latest templates</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
