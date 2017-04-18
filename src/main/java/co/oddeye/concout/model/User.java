@@ -120,7 +120,7 @@ public class User implements UserDetails {
     }
 
     public void inituser(ArrayList<KeyValue> userkvs) {
-
+        authorities.clear();
         userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
                 this.id = UUID.fromString(new String(property.value()));

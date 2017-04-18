@@ -198,6 +198,7 @@
 
             <script src="${cp}/assets/dist/switchery.min.js"></script>
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js"></script>        
+            <script src="${cp}/assets/dist/jquery.spincrement.min.js"></script>        
 
             <!-- Bootstrap -->
             <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js"></script>

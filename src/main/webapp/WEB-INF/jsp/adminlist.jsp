@@ -46,7 +46,7 @@
                                     <c:when test="${config.getValue().type == 'Collection'}">                                        
                                         <c:forEach items="${model[config.getValue().path] }" var="item">   
                                             <span class="label label-success">${config.getValue().items[item]}</span><br>
-                                        </c:forEach>                                                                
+                                        </c:forEach>                                                                                                            
                                     </c:when>                                                                                                
                                     <c:otherwise>
                                     </c:otherwise>

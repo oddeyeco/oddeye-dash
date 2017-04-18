@@ -34,6 +34,28 @@
             </div>                
 
         </div>    
+        <div class="x_panel">    
+            <div class="x_title">
+                <h2>Statistic</h2>                
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row tile_count">
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-list"></i> Total Metric Names</span>
+                        <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
+                    </div>                                                
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-folder"></i> Total Tags Type</span>
+                        <div class="count" id="tags"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
+                        <!--<span class="count_bottom"><i class="green">4% </i> From last Week</span>-->
+                    </div>                                                
+                </div>
+                <div class="row tile_count" id="tagslist">                                        
+                </div>
+            </div>                
+        </div>                 
+
     </div>    
     <div class="col-md-4">
         <div class="x_panel">          
@@ -80,8 +102,8 @@
                     </ul>
                 </div>
             </div>                         
-            
-<div class="x_title">
+
+            <div class="x_title">
                 <h2>My last templates</h2>
                 <div class="clearfix"></div>
             </div>
@@ -106,7 +128,7 @@
                     </ul>
                 </div>
             </div>                                     
-            
+
         </div>    
     </div> 
 </div>

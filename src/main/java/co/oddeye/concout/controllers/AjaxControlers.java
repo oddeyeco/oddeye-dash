@@ -351,7 +351,6 @@ public class AjaxControlers {
                     Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
                 }
 
-
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
                 for (final OddeeyMetricMeta metric : Metriclist) {
@@ -590,6 +589,43 @@ public class AjaxControlers {
                     }
                 });
 
+                jsonResult.addProperty("sucsses", true);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
+    @RequestMapping(value = {"/getmetastat"})
+    public String getmetastat(ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User userDetails;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        } else {
+            userDetails = UserDao.getUserByUUID(UUID.fromString("b46898ea-8eb2-4281-bd2c-93c37ba0d8ea"));
+        }
+
+        if (userDetails != null) {
+            try {
+                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
+                jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
+                JsonObject tagaslist = new JsonObject();
+                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
+                    tagaslist.addProperty(item.getKey(), item.getValue().size());
+                }
+                jsonResult.add("tags", tagaslist);
                 jsonResult.addProperty("sucsses", true);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
