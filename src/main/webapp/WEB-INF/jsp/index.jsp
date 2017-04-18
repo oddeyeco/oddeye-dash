@@ -44,8 +44,8 @@
             <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">     
 
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css" />        
-            <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />-->      
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css" />
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />      
+            <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css" />-->
 
 
         </head>
@@ -104,6 +104,9 @@
                                                         <sec:authorize access="hasRole('CONTENTMANAGER')">
                                                         <li><a href="<c:url value="/pages"/>" >Content</a></li>
                                                         </sec:authorize>
+                                                        <sec:authorize access="hasRole('USERMANAGER')">
+                                                        <li><a href="<c:url value="/templatelist"/>" >Templates</a></li>
+                                                        </sec:authorize>                                                        
                                                 </ul>
                                             </li>
                                         </sec:authorize>                                         

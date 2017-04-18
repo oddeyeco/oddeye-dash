@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 
 <div class="x_panel">
@@ -25,13 +26,23 @@
                                 <c:choose>
                                     <c:when test="${config.getValue().type == \"actions\"}">
                                         <sec:authorize access="hasRole('EDIT')">
-                                            <a href="<c:url value="/${path}/edit/${model.id}"/>" class="btn btn-info btn-xs" value="${model.id}"><i class="fa fa-pencil"></i> Edit </a>
+                                            <a href="<c:url value="/${path}/edit/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fa-pencil"></i> Edit </a>
                                         </sec:authorize>
                                     </c:when>    
                                     <c:when test="${config.getValue().type == 'String'}">
                                         ${model[config.getValue().path] }
-                                    </c:when>                                                
-
+                                    </c:when>                                            
+                                    <c:when test="${config.getValue().type == 'Enum'}">                                        
+                                        ${model[config.getValue().path]}
+                                    </c:when>  
+                                            
+                                    <c:when test="${config.getValue().type == 'Object'}">                                                                                
+                                        ${model[config.getValue().path][config.getValue().display]}
+                                    </c:when>  
+                                            
+                                    <c:when test="${config.getValue().type == 'Date'}">    
+                                        <fmt:formatDate value="${model[config.getValue().path]}" pattern="MM/dd/yyyy HH:mm:ss"/>                                        
+                                    </c:when>                                            
                                     <c:when test="${config.getValue().type == 'Collection'}">                                        
                                         <c:forEach items="${model[config.getValue().path] }" var="item">   
                                             <span class="label label-success">${config.getValue().items[item]}</span><br>

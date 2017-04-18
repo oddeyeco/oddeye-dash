@@ -7,6 +7,7 @@ package co.oddeye.concout.model;
 
 import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.core.TemplateType;
+import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -15,9 +16,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
+import java.util.logging.Logger;
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
+import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -43,26 +49,48 @@ public class DashboardTemplate {
     private boolean Recomended;
     @HbaseColumn(qualifier = "version", family = "d")
     private String version;
-    
+
     private long timestamp;
 
-    public DashboardTemplate(ArrayList<KeyValue> row) {
+    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(DashboardTemplate.class);
+
+    public DashboardTemplate() {
+
+    }
+
+    public DashboardTemplate(ArrayList<KeyValue> row, HbaseUserDao Userdao) {
         key = row.get(0).key();
-        
-        for (KeyValue property:row)
-        {
+
+        for (KeyValue property : row) {
             timestamp = property.timestamp();
             if (Arrays.equals(property.qualifier(), "name".getBytes())) {
                 this.name = new String(property.value());
-            }            
+            }
             if (Arrays.equals(property.qualifier(), "description".getBytes())) {
                 this.description = new String(property.value());
-            }   
+            }
             if (Arrays.equals(property.qualifier(), "infojson".getBytes())) {
-                this.infojson = (JsonObject) globalFunctions.getJsonParser().parse(new String(property.value())) ;
-            }            
+                this.infojson = (JsonObject) globalFunctions.getJsonParser().parse(new String(property.value()));
+            }
+
+            if (Arrays.equals(property.qualifier(), "Recomended".getBytes())) {
+                if (property.value().length == 1) {
+                    this.Recomended = property.value()[0] != (byte) 0;
+                }
+                if (property.value().length == 4) {
+                    this.Recomended = Bytes.getInt(property.value()) != 0;
+                }
+            }
+
+            if (Arrays.equals(property.qualifier(), "type".getBytes())) {
+                this.type = TemplateType.valueOf(new String(property.value()));
+            }
+
+            if (Arrays.equals(property.qualifier(), "user".getBytes())) {
+                this.user = Userdao.getUserByUUID(UUID.fromString(new String(property.value())));
+            }
         }
-       
+
     }
 
     private JsonObject clearjson(JsonObject json) {
@@ -117,14 +145,26 @@ public class DashboardTemplate {
     }
 
     public String getStKey() {
-        return Hex.encodeHexString(key) ;
-    }    
-    
+        return Hex.encodeHexString(key);
+    }
+
+    public String getId() {
+        return Hex.encodeHexString(key);
+    }
+
     /**
      * @param key the key to set
      */
     public void setKey(byte[] key) {
         this.key = key;
+    }
+
+    public void setId(String id) {
+        try {
+            this.key = Hex.decodeHex(id.toCharArray());
+        } catch (DecoderException ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
     }
 
     /**
@@ -251,7 +291,17 @@ public class DashboardTemplate {
     }
 
     public Date getTime() {
-        return new java.util.Date(timestamp) ;
-    }    
+        return new java.util.Date(timestamp);
+    }
+
+    public void updateKey() {
+        key = ArrayUtils.addAll(user.getId().toString().getBytes(), name.getBytes());
+    }
+
+    public void FillCompare(DashboardTemplate o) {
+        user = o.getUser();
+        type = o.getType();
+        timestamp = o.getTimestamp();
+    }
 
 }

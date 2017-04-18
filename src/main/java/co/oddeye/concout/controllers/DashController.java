@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.controllers;
 
-import co.oddeye.concout.core.TemplateType;
 import co.oddeye.concout.dao.HbaseDushboardTemplateDAO;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.exception.ResourceNotFoundException;
@@ -13,7 +12,6 @@ import co.oddeye.concout.model.DashboardTemplate;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -60,7 +58,9 @@ public class DashController {
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("title", "My Dashboards");
-            map.put("templates", TemplateDAO.getAlltemplates(10));
+            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails,10));
+            map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails,10));
+            map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails,10));
         }
 
         map.put("body", "dashboards");

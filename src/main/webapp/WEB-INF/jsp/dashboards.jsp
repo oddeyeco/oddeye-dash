@@ -19,7 +19,7 @@
                 <a class="btn btn-success btn-sm pull-right" href="<spring:url value="/dashboard/new"  htmlEscape="true"/>" >New Dashboard </a>
                 <div class="clearfix"></div>
             </div>
-            
+
             <div class="x_content">
                 <div>
                     <ul class="gotodash">
@@ -38,24 +38,75 @@
     <div class="col-md-4">
         <div class="x_panel">          
             <div class="x_title">
-                <h2>Using recommends</h2>
+                <h2>Recommended templates</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
                 <div>
                     <ul class="gotodash">
-                        <c:forEach items="${templates}" var="Dush" varStatus="loop">                                
+                        <c:forEach items="${recomend}" var="Dush" varStatus="loop">                                
                             <li class="col-lg-12">
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span>${Dush.getName()}</span>
-                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss"/> </span>
-                                    <%--<fmt:formatDate value="${Dush.getTimestamp()}" pattern="hh.mm,S"/>--%>
+                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss"/> </span>                                    
                                 </a> 
                             </li>                                
                         </c:forEach>
                     </ul>
                 </div>
             </div>             
+            <div class="x_title">
+                <h2>Last templates</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div>
+                    <ul class="gotodash lastdash">
+                        <c:forEach items="${lasttemplates}" var="Dush" varStatus="loop">                                
+                            <li class="col-lg-12">
+                                <!--<input type="checkbox" class="flat">-->
+                                <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash">                                    
+                                    <c:if test="${Dush.isRecomended()}">
+                                        <i class="fa fa-check-circle green"></i>
+                                    </c:if>                                      
+                                    <c:if test="${!Dush.isRecomended()}">
+                                        <i class="fa fa-dot-circle-o blue"></i>
+                                    </c:if>                                         
+                                    <span>${Dush.getName()}</span>
+                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss"/> </span>                                    
+                                </a> 
+                            </li>                                
+                        </c:forEach>
+                    </ul>
+                </div>
+            </div>                         
+            
+<div class="x_title">
+                <h2>My last templates</h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div>
+                    <ul class="gotodash lastdash">
+                        <c:forEach items="${mylasttemplates}" var="Dush" varStatus="loop">                                
+                            <li class="col-lg-12">
+                                <!--<input type="checkbox" class="flat">-->
+                                <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash">                                    
+                                    <c:if test="${Dush.isRecomended()}">
+                                        <i class="fa fa-check-circle green"></i>
+                                    </c:if>                                      
+                                    <c:if test="${!Dush.isRecomended()}">
+                                        <i class="fa fa-dot-circle-o blue"></i>
+                                    </c:if>                                         
+                                    <span>${Dush.getName()}</span>
+                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss"/> </span>                                    
+                                </a> 
+                            </li>                                
+                        </c:forEach>
+                    </ul>
+                </div>
+            </div>                                     
+            
         </div>    
     </div> 
 </div>

@@ -548,3 +548,9 @@ a.gotodash
     background: #f3f3f3;
     border-radius: 3px;    
 }
+
+ul.lastdash li .fa
+{
+   margin-right: 5px;  
+   font-size: 16px;
+}
