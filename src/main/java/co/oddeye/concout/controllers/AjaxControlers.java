@@ -12,10 +12,12 @@ import co.oddeye.concout.model.User;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
+import co.oddeye.concout.core.SendToKafka;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.stumbleupon.async.Deferred;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -235,7 +237,7 @@ public class AjaxControlers {
                 ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
                 jsonResult.addProperty("sucsses", true);
                 for (final OddeeyMetricMeta metric : Metriclist) {
-                    if ((!metric.isSpecial())||(all)) {
+                    if ((!metric.isSpecial()) || (all)) {
                         if (!data.contains(metric.getName())) {
                             data.add(metric.getName());
                         }
@@ -392,7 +394,30 @@ public class AjaxControlers {
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "hash", required = false) Integer hash,
             @RequestParam(value = "name", required = false) String name,
-            ModelMap map) {
+            ModelMap map
+    ) {
+
+        SendToKafka KafkaLocalSender = (User user, String action, Object hash1) -> {
+            JsonObject Jsonchangedata = new JsonObject();
+            Jsonchangedata.addProperty("UUID", user.getId().toString());
+            Jsonchangedata.addProperty("action", action);
+            Jsonchangedata.addProperty("hash", (Integer) hash1);
+            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+            messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                @Override
+                public void onSuccess(SendResult<Integer, String> result) {
+                    if (LOGGER.isInfoEnabled()) {
+                        LOGGER.info("Kafka KafkaLocalSender onSuccess");
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable ex) {
+                    LOGGER.error("Kafka KafkaLocalSender onFailure:" + ex);
+                }
+            });
+        };
+
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -402,29 +427,42 @@ public class AjaxControlers {
                         getAuthentication().getPrincipal();
 
                 if (hash != null) {
-                    MetaDao.deleteMeta(hash, userDetails);
-                    jsonResult.addProperty("sucsses", true);
+                    if (MetaDao.deleteMeta(hash, userDetails) != null) {
+                        KafkaLocalSender.run(userDetails, "deletemetricbyhash", hash);
+                        jsonResult.addProperty("sucsses", true);
+                    } else {
+                        jsonResult.addProperty("sucsses", false);
+                    }
+
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }
 
                 if ((key != null) && (value != null)) {
-                    if (key.equals("name")) {
-                        MetaDao.deleteMetaByName(value, userDetails);
-                    } else {
-                        MetaDao.deleteMetaByTag(key, value, userDetails);
-                    }
+                    ArrayList<OddeeyMetricMeta> MtrList;
+                    try {
 
-                    jsonResult.addProperty("sucsses", true);
+                        if (key.equals("name")) {
+                            MtrList = userDetails.getMetricsMeta().getbyName(value);
+                        } else {
+                            MtrList = userDetails.getMetricsMeta().getbyTag(key, value);
+                        }                                               
+                        ArrayList<Deferred<Object>> list = MetaDao.deleteMetaByList(MtrList, userDetails,KafkaLocalSender);
+                        Deferred.groupInOrder(list).join();
+                    } catch (Exception ex) {
+                        jsonResult.addProperty("sucsses", false);
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }                    
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }
-                if (name != null) {
-                    MetaDao.deleteMetaByName(name, userDetails);
-                    jsonResult.addProperty("sucsses", true);
-                } else {
-                    jsonResult.addProperty("sucsses", false);
-                }
+                
+//                if (name != null) {
+//                    MetaDao.deleteMetaByName(name, userDetails);
+//                    jsonResult.addProperty("sucsses", true);
+//                } else {
+//                    jsonResult.addProperty("sucsses", false);
+//                }
 
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
             } catch (Exception ex) {
@@ -435,7 +473,8 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
+        map.put(
+                "jsonmodel", jsonResult);
 
         return "ajax";
     }

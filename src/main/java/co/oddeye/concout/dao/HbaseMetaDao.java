@@ -7,11 +7,13 @@ package co.oddeye.concout.dao;
 
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.concout.core.SendToKafka;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.InvalidKeyException;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
+import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -68,16 +70,14 @@ public class HbaseMetaDao extends HbaseBaseDao {
     public OddeeyMetricMeta getByKey(byte[] key) throws Exception {
         GetRequest request = new GetRequest(table, key, "d".getBytes());
         ArrayList<KeyValue> row = BaseTsdbV.getClient().get(request).joinUninterruptibly();
-        if (row.size() > 0) {           
+        if (row.size() > 0) {
             final OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
             fullmetalist.put(meta.hashCode(), meta);
             return fullmetalist.get(meta.hashCode());
+        } else {
+            LOGGER.warn("Key " + Hex.encodeHexString(key) + " Not Found in database");
         }
-        else
-        {
-            LOGGER.warn("Key "+Hex.encodeHexString(key)+" Not Found in database");
-        }        
-        return null;        
+        return null;
 
     }
 
@@ -91,7 +91,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         scanner.setQualifiers(Qualifiers);
 
         byte[] key = new byte[0];
-      
+
         key = ArrayUtils.addAll(key, BaseTsdbV.getTsdb().getUID(UniqueId.UniqueIdType.TAGK, "UUID"));
         key = ArrayUtils.addAll(key, BaseTsdbV.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, userid.toString()));
 
@@ -99,7 +99,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         buffer.append("\\Q");
         QueryUtil.addId(buffer, key, true);
         scanner.setKeyRegexp(buffer.toString(), Charset.forName("ISO-8859-1"));
-    
+
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
         ArrayList<ArrayList<KeyValue>> rows;
         while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
@@ -109,7 +109,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                     if (meta.getTags().get("UUID").getValue().equals(userid.toString())) {
                         OddeeyMetricMeta add = result.add(meta);
                     } else {
-                        LOGGER.info("Oter User ID"); 
+                        LOGGER.info("Oter User ID");
                     }
                 } catch (InvalidKeyException e) {
                     LOGGER.warn("InvalidKeyException " + row + " Is deleted");
@@ -230,8 +230,45 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return true;
     }
 
+    public ArrayList<Deferred<Object>> deleteMetaByList(ArrayList<OddeeyMetricMeta> MtrList, User user, SendToKafka sk) {
+        final HBaseClient client = BaseTsdbV.getTsdb().getClient();
+        final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
+        for (OddeeyMetricMeta meta : MtrList) {
+            if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
+                continue;
+            }
+
+            final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
+            try {
+                Callback<Object, Object> cb = new Callback<Object, Object> ()
+                {
+                    @Override
+                    public Object call
+                    (Object t) throws Exception {                        
+                        sk.run(user, "deletemetricbyhash", meta.hashCode());
+                        return t;
+                    }
+                };
+                result.add(client.delete(req).addCallback(cb));
+            } catch (Exception ex) {
+                Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+            }
+            getFullmetalist().remove(meta.hashCode());
+            user.getMetricsMeta().remove(meta.hashCode());
+        }
+        return result;
+//        try {
+//            Deferred.groupInOrder(result).joinUninterruptibly();
+//        } catch (Exception ex) {
+//            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+//            return false;
+//        }
+//        return null;
+    }
+
     public OddeeyMetricMeta updateMeta(OddeeyMetricMeta metric) {
-        metric.update(table,BaseTsdbV.getTsdb().getClient());
+        metric.update(table, BaseTsdbV.getTsdb().getClient());
         return metric;
     }
 
