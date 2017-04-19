@@ -41,8 +41,8 @@
 
 
 
-    function getmetatags(key) {        
-        var url = cp + "/gettagvalue?key="+key;
+    function getmetatags(key) {
+        var url = cp + "/gettagvalue?key=" + key;
         $.ajax({
             url: url,
             dataType: 'json',
@@ -53,10 +53,10 @@
             success: function (data) {
                 $("#listtablediv").html('<table id="listtable" class="table projects"></table>');
                 if (data.sucsses)
-                {                    
+                {
                     jQuery.each(data.data, function (i, val) {
-                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + "><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='"+key+"' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
-                        var id = key+"_" + val;
+                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + "><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        var id = key + "_" + val;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
                         $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
@@ -72,8 +72,16 @@
         });
     }
 
-    function getmetanames() {
-        var url = cp + "/getfiltredmetricsnames?all=true";
+    function getmetanames(tablename, tags) {
+        if (!tags)
+        {
+            var url = cp + "/getfiltredmetricsnames?all=true";
+        } else
+        {
+            var url = cp + "/getfiltredmetricsnames?all=true&tags=" + tags;
+        }
+        
+        
         $.ajax({
             url: url,
             dataType: 'json',
@@ -84,16 +92,19 @@
             success: function (data) {
                 $("#listtablediv").html('<table id="listtable" class="table projects"></table>');
                 if (data.sucsses)
-                {                    
+                {
                     jQuery.each(data.data, function (i, val) {
-                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + "><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        var table = $(tablename)
+                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + "><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = "name_" + val;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
-                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
+                        table.append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
                         getmetrics("name", val, i);
                     });
-                    $("#listtable").treetable({expandable: true});
+
+
+                    $(tablename).treetable({expandable: true});
                 }
                 ;
             },
@@ -102,6 +113,7 @@
             }
         });
     }
+
     //getfiltredmetricsnames?all=all
     function getmetainfo(tagkey) {
         $("#listtablediv").html("<img src='${cp}/assets/images/loading.gif' height='50px'> ");
@@ -132,7 +144,7 @@
                         });
 
                         $('.count').spincrement({duration: 5000});
-                        getmetanames();
+                        getmetanames("#listtable");
                     } else
                     {
                         $('#metrics').html(data.names)
@@ -147,7 +159,7 @@
                         });
                         if (tagkey === "name")
                         {
-                            getmetanames();
+                            getmetanames("#listtable");
                         } else
                         {
                             getmetatags(tagkey);
