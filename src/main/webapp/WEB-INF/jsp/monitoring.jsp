@@ -56,8 +56,7 @@
                                 <!--<th>#</th>-->
                                 <th>
                                     <input type="checkbox" id="check-all" class="flat">
-                                    <div class="btn-group">
-                                        <!--<button type="button" class="btn btn-success btn-sm">Action</button>-->
+                                    <div class="btn-group">                                        
                                         <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <span class="caret"></span>
                                             <span class="sr-only">Toggle Dropdown</span>

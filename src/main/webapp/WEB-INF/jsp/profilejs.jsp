@@ -1,7 +1,7 @@
 <script src="${cp}/resources/ludo-jquery-treetable/jquery.treetable.js"></script>
 <script>
 //    var maetricrawHTML = '<tr><td>[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td><a>[tags]</a></td><td><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
-    var maetricrawHTML = '<tr><td>[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td><a>[tags]</a></td><td><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
+    var maetricrawHTML = '<tr id=[hash]><td class="icons">[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td><a>[tags]</a></td><td><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
     var chartLinck = '<a href="${cp}/chart/[hash]" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a>';
     var header = $("meta[name='_csrf_header']").attr("content");
     var token = $("meta[name='_csrf']").attr("content");
@@ -11,7 +11,7 @@
         id = id.replace(re, "_");
         var html = maetricrawHTML;
         var url = "getmetrics?key=" + key + "&value=" + idvalue;
-        $.getJSON(url, function (value) {            
+        $.getJSON(url, function (value) {
             $("#parent_" + i).find(".count").html("#" + value.data.length);
             for (var k in value.data) {
                 var metric = value.data[k];
@@ -26,6 +26,7 @@
                 }
 
                 input = input.replace("[tags]", JSON.stringify(metric.tags));
+                input = input.replace("[hash]", JSON.stringify(metric.hash));
                 input = input.replace("[hash]", JSON.stringify(metric.hash));
                 input = input.replace("[hash]", JSON.stringify(metric.hash));
                 input = input.replace("[hash]", JSON.stringify(metric.hash));
@@ -58,10 +59,12 @@
                         var id = key + "_" + val;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
-                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
+//                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
+                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
                         getmetrics(key, val, i);
                     });
-                    $("#listtable").treetable({expandable: true});
+//                    $("#listtable").treetable({expandable: true});
+                    $("#listtable").treetable({expandable: true, onNodeCollapse: NodeCollapse, onNodeExpand: NodeExpand});
                 }
                 ;
             },
@@ -99,12 +102,13 @@
                         var id = "name_" + val;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
-                        table.append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
+//                        table.append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
+                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
                         getmetrics("name", val, i);
                     });
 
 
-                    $(tablename).treetable({expandable: true});
+                    $(tablename).treetable({expandable: true, onNodeCollapse: NodeCollapse, onNodeExpand: NodeExpand});
                 }
                 ;
             },
@@ -114,8 +118,21 @@
         });
     }
 
+
+    var NodeExpand = function () {
+        $("[data-tt-id=" + this.children[0].id + "]").find('.icons').prepend('<input type="checkbox" class="rawflat" name="table_records">');
+
+        $("[data-tt-id=" + this.children[0].id + "]").find("tbody tr input.rawflat").iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+    };
+    var NodeCollapse = function () {
+        $("[data-tt-id=" + this.children[0].id + "]").find('.icons div.icheckbox_flat-green').remove();
+    };
+
     //getfiltredmetricsnames?all=all
-    function getmetainfo(tagkey) {    
+    function getmetainfo(tagkey) {
         $("#listtablediv").html("<img src='${cp}/assets/images/loading.gif' height='50px'> ");
         var url = cp + "/getmetastat";
         $.ajax({
@@ -196,6 +213,64 @@
 
         $('body').on("click", ".showtags", function () {
             getmetainfo($(this).attr("value"));
+        });
+
+        $('body').on("click", ".deletemetricgroup", function () {
+            var key = $(this).parents("#listtable").attr("key");
+            $(this).parents('table').find("tbody input[name='table_records']:checked").each(function () {
+                var sendData = {};
+                sendData.hash = $(this).parents("tr").attr("id");                
+                $.getJSON("deletemetrics?hash=" + sendData.hash, function (data) {
+
+                });
+            });            
+            getmetainfo(key);
+        });
+
+
+        $('body').on("click", ".Clear_reg", function () {
+            $(this).parents('table').find("tbody input[name='table_records']:checked").each(function () {
+                var sendData = {};
+                sendData.hash = $(this).parents("tr").attr("id");
+                var header = $("meta[name='_csrf_header']").attr("content");
+                var token = $("meta[name='_csrf']").attr("content");
+                url = cp + "/resetregression";
+                $.ajax({
+                    dataType: 'json',
+                    type: 'POST',
+                    url: url,
+                    data: sendData,
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader(header, token);
+                    }
+                }).done(function (msg) {
+                    if (msg.sucsses)
+                    {
+                        console.log("Message Sended ");
+                    } else
+                    {
+                        console.log("Request failed");
+                    }
+                }).fail(function (jqXHR, textStatus) {
+                    console.log("Request failed");
+                });
+            });
+        });
+
+        $('body').on("click", ".Show_chart", function () {
+            hashes = "";
+            if ($(this).parents('table').find("tbody input[name='table_records']:checked").length === 1)
+            {
+                hashes = "/" + $(this).parents('table').find("tbody input[name='table_records']:checked").first().parents("tr").attr("id");
+            } else
+            {
+                hashes = "?hashes=";
+                $(this).parents('table').find("tbody input[name='table_records']:checked").each(function () {
+                    hashes = hashes + $(this).parents("tr").attr("id") + ";";
+                });
+            }
+            var win = window.open(cp + "/chart" + hashes, '_blank');
+            win.focus();
         });
                 
     });

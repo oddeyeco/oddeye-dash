@@ -487,7 +487,6 @@ div.jsoneditor {
 .metrictable td .iradio_flat-green {
     margin-right: 3px;
     vertical-align: inherit;
-
 }
 
 .metrictable td.timech
@@ -572,4 +571,20 @@ ul.lastdash li .fa
     display: inline-block;
     text-decoration: none;
     width: 19px;    
+}
+ 
+.metricinfo .table>tbody>tr>td
+{
+    padding: 3px;
+}
+
+.metricinfo .table>tbody>tr>td .deletemetric
+{
+    margin: 0;
+}
+
+
+.metricinfo td .icheckbox_flat-green {
+    margin-right: 3px;
+    vertical-align: inherit;
 }
