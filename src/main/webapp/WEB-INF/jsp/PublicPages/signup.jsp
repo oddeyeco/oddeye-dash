@@ -12,7 +12,7 @@
         <div class="col-lg-4 col-xs-12 text-right">
             <a href="${cp}/"><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                            
             <div>
-                For Demo can use 
+                Demo Login
                 <br>Login: demodemo@oddeye.co
                 <br>Password: 123456
             </div>
