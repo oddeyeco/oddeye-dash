@@ -121,11 +121,11 @@ public class AjaxControlers {
             starttime = System.currentTimeMillis();
             if (data != null) {
                 if (data.isEmpty()) {
-                    LOGGER.warn("Empty data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
+                    LOGGER.info("Empty data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
                 }
                 for (DataPoints[] DataPointslist : data) {
                     if (DataPointslist.length < 1) {
-                        LOGGER.warn("Empty DataPointslist for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
+                        LOGGER.info("Empty DataPointslist for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
                     }
                     for (DataPoints DataPoints : DataPointslist) {
                         Tagmap = DataPoints.getTags();
