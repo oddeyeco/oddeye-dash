@@ -51,7 +51,7 @@
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                $("#listtablediv").html('<table id="listtable" class="table projects"></table>');
+                $("#listtablediv").html('<table id="listtable" class="table projects" key="' + key + '"></table>');
                 if (data.sucsses)
                 {
                     jQuery.each(data.data, function (i, val) {
@@ -76,12 +76,13 @@
         if (!tags)
         {
             var url = cp + "/getfiltredmetricsnames?all=true";
+            tags = 'name';
         } else
         {
             var url = cp + "/getfiltredmetricsnames?all=true&tags=" + tags;
         }
-        
-        
+
+
         $.ajax({
             url: url,
             dataType: 'json',
@@ -90,7 +91,7 @@
                 xhr.setRequestHeader(header, token);
             },
             success: function (data) {
-                $("#listtablediv").html('<table id="listtable" class="table projects"></table>');
+                $("#listtablediv").html('<table id="listtable" class="table projects" key="' + tags + '"></table>');
                 if (data.sucsses)
                 {
                     jQuery.each(data.data, function (i, val) {
@@ -115,7 +116,7 @@
     }
 
     //getfiltredmetricsnames?all=all
-    function getmetainfo(tagkey) {
+    function getmetainfo(tagkey) {    
         $("#listtablediv").html("<img src='${cp}/assets/images/loading.gif' height='50px'> ");
         var url = cp + "/getmetastat";
         $.ajax({
@@ -147,6 +148,7 @@
                         getmetanames("#listtable");
                     } else
                     {
+                        $("#listtable").attr('value', tagkey);
                         $('#metrics').html(data.names)
                         $('#tags').html(data.tagscount)
                         $("#tagslist").html("");
@@ -185,6 +187,13 @@
                 getmetainfo(key);
             });
         });
+        $('body').on("click", ".deletemetric", function () {
+            var key = $(this).parents("#listtable").attr("key");
+            $.getJSON("deletemetrics?hash=" + $(this).attr("value"), function (data) {
+                getmetainfo(key);
+            });
+        });
+
 
         $('body').on("click", ".showtags", function () {
             getmetainfo($(this).attr("value"));
