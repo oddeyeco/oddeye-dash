@@ -11,8 +11,7 @@
         id = id.replace(re, "_");
         var html = maetricrawHTML;
         var url = "getmetrics?key=" + key + "&value=" + idvalue;
-        $.getJSON(url, function (value) {
-            var biginput = ""
+        $.getJSON(url, function (value) {            
             $("#parent_" + i).find(".count").html("#" + value.data.length);
             for (var k in value.data) {
                 var metric = value.data[k];
@@ -95,7 +94,7 @@
                 if (data.sucsses)
                 {
                     jQuery.each(data.data, function (i, val) {
-                        var table = $(tablename)
+                        var table = $(tablename);
                         table.append("<tr id=parent_" + i + " data-tt-id=" + i + "><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = "name_" + val;
                         var re = new RegExp("[//.|///]", 'g');
@@ -131,9 +130,9 @@
                 {
                     if (!tagkey)
                     {
-                        $('#metrics').html(data.names)
-                        $('#metrics').after('<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>')
-                        $('#tags').html(data.tagscount)
+                        $('#metrics').html(data.names);
+                        $('#metrics').after('<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>');
+                        $('#tags').html(data.tagscount);
 
 
                         jQuery.each(data.tags, function (i, val) {
@@ -149,8 +148,8 @@
                     } else
                     {
                         $("#listtable").attr('value', tagkey);
-                        $('#metrics').html(data.names)
-                        $('#tags').html(data.tagscount)
+                        $('#metrics').html(data.names);
+                        $('#tags').html(data.tagscount);
                         $("#tagslist").html("");
                         jQuery.each(data.tags, function (i, val) {
                             $("#tagslist").append('<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">' +
