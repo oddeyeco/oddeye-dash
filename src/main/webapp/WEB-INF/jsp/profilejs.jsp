@@ -1,7 +1,7 @@
 <script src="${cp}/resources/ludo-jquery-treetable/jquery.treetable.js"></script>
 <script>
 //    var maetricrawHTML = '<tr><td>[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td><a>[tags]</a></td><td><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
-    var maetricrawHTML = '<tr id=[hash]><td class="icons nowrap">[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td class="tags">[tags]</td><td class="nowrap"><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
+    var maetricrawHTML = '<tr id=[hash]><td class="icons text-nowrap">[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td class="tags">[tags]</td><td class="text-nowrap"><a>[lasttime]</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
     var chartLinck = '<a href="${cp}/chart/[hash]" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a>';
     var header = $("meta[name='_csrf_header']").attr("content");
     var token = $("meta[name='_csrf']").attr("content");
@@ -31,22 +31,22 @@
                     } else
                     {
                         input = input.replace("[icons]", "");
-                    }                    
-                    var sttags = "";                    
+                    }
+                    var sttags = "";
                     for (var ind in metric.tags)
                     {
                         var tag = metric.tags[ind];
-                        sttags =sttags+ "<div>" +ind +":\"" +tag+"\"</div>";
+                        sttags = sttags + "<div>" + ind + ":\"" + tag + "\"</div>";
                     }
                     input = input.replace("[tags]", sttags);
                     input = input.replace("[hash]", JSON.stringify(metric.hash));
                     input = input.replace("[hash]", JSON.stringify(metric.hash));
                     input = input.replace("[hash]", JSON.stringify(metric.hash));
                     input = input.replace("[hash]", JSON.stringify(metric.hash));
-                    input = input.replace("[lasttime]", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));                    
+                    input = input.replace("[lasttime]", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));
                     biginput = biginput + input;
                 }
-                $("#" + id).find("tbody").append(biginput);                
+                $("#" + id).find("tbody").append(biginput);
                 if (value.data.length < 1000)
                 {
                     $("#" + id).find('.icons').prepend('<input type="checkbox" class="rawflat" name="table_records">');
@@ -55,8 +55,7 @@
                         radioClass: 'iradio_flat-green'
                     });
                     $("#" + id).find('.dropdown-toggle').show();
-                }
-                else
+                } else
                 {
                     $("#" + id).find('.dropdown-toggle').hide();
                 }
@@ -89,7 +88,7 @@
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
 //                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
-                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
+                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
                         getmetrics(key, val, i);
                     });
 //                    $("#listtable").treetable({expandable: true});
@@ -132,7 +131,7 @@
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
 //                        table.append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
-                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
+                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
                         getmetrics("name", val, i);
                     });
 
@@ -173,36 +172,27 @@
             success: function (data) {
                 if (data.sucsses)
                 {
+                    $('#metrics').html(data.names);
+//                    $('#metrics').after('<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>');
+                    $('#tags').html(data.tagscount);
+                    $("#tagslist").html('');
+
+
+                    jQuery.each(data.tags, function (i, val) {
+                        $("#tagslist").append('<div class="col-lg-2 col-sm-3 col-xs-6 tile_stats_count">' +
+                                '<span class="count_top"><i class="fa fa-th-list"></i> Total ' + i + '</span>' +
+                                '<div class="count">' + val + '</div>' +
+                                '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">Show List </a></span>' +
+                                '</div>');
+                    });
+
+                    $('.count').spincrement({duration: 2000});
+                    
                     if (!tagkey)
                     {
-                        $('#metrics').html(data.names);
-                        $('#metrics').after('<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>');
-                        $('#tags').html(data.tagscount);
-
-
-                        jQuery.each(data.tags, function (i, val) {
-                            $("#tagslist").append('<div class="col-lg-2 col-sm-3 col-xs-6 tile_stats_count">' +
-                                    '<span class="count_top"><i class="fa fa-th-list"></i> Total ' + i + '</span>' +
-                                    '<div class="count">' + val + '</div>' +
-                                    '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">Show List </a></span>' +
-                                    '</div>');
-                        });
-
-                        $('.count').spincrement({duration: 5000});
                         getmetanames("#listtable");
                     } else
                     {
-                        $("#listtable").attr('value', tagkey);
-                        $('#metrics').html(data.names);
-                        $('#tags').html(data.tagscount);
-                        $("#tagslist").html("");
-                        jQuery.each(data.tags, function (i, val) {
-                            $("#tagslist").append('<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">' +
-                                    '<span class="count_top"><i class="fa fa-th-list"></i> Total ' + i + '</span>' +
-                                    '<div class="count">' + val + '</div>' +
-                                    '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">Show List </a></span>' +
-                                    '</div>');
-                        });
                         if (tagkey === "name")
                         {
                             getmetanames("#listtable");

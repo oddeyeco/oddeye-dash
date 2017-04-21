@@ -578,11 +578,6 @@ ul.lastdash li .fa
     padding: 3px;    
 }
 
-.metricinfo .table>tbody>tr>td.nowrap
-{
-    white-space: nowrap;
-}
-
 .metricinfo .table>tbody>tr>td .deletemetric
 {
     margin: 0;
@@ -599,4 +594,9 @@ ul.lastdash li .fa
 {
     float:left;
     margin: 0 2px;
+}
+
+#listtable tr table tr:hover
+{
+    background-color: #d5d5d5;
 }

@@ -48,7 +48,8 @@
                     <div class="row tile_count">
                         <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
                             <span class="count_top"><i class="fa fa-list"></i> Total Metric Names</span>
-                            <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" height='50px' ></div>                            
+                            <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" height='50px' ></div>       
+                            <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>
                         </div>                                                
                         <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
                             <span class="count_top"><i class="fa fa-folder"></i> Total Tags Type</span>
