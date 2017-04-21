@@ -1,40 +1,69 @@
 <script src="${cp}/resources/ludo-jquery-treetable/jquery.treetable.js"></script>
 <script>
 //    var maetricrawHTML = '<tr><td>[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td><a>[tags]</a></td><td><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
-    var maetricrawHTML = '<tr id=[hash]><td class="icons">[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td><a>[tags]</a></td><td><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
+    var maetricrawHTML = '<tr id=[hash]><td class="icons nowrap">[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td class="tags">[tags]</td><td class="nowrap"><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
     var chartLinck = '<a href="${cp}/chart/[hash]" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a>';
     var header = $("meta[name='_csrf_header']").attr("content");
     var token = $("meta[name='_csrf']").attr("content");
-    function getmetrics(key, idvalue, i) {
+    function getmetrics(key, idvalue, i, draw) {
         var id = key + "_" + idvalue;
         var re = new RegExp("[//.|///]", 'g');
         id = id.replace(re, "_");
         var html = maetricrawHTML;
         var url = "getmetrics?key=" + key + "&value=" + idvalue;
+        if (draw)
+        {
+            $("#" + id).find("td").append("<img src='${cp}/assets/images/loading.gif' height='50px'> ");
+            $("#" + id).find("table").hide();
+        }
         $.getJSON(url, function (value) {
             $("#parent_" + i).find(".count").html("#" + value.data.length);
-            for (var k in value.data) {
-                var metric = value.data[k];
-                var input = html.replace("[metricname]", metric.name);
-                if (metric.type !== 0)
-                {
-                    var icons = chartLinck.replace("[hash]", JSON.stringify(metric.hash));
-                    input = input.replace("[icons]", icons);
-                } else
-                {
-                    input = input.replace("[icons]", "");
+            var biginput = "";
+            if (draw)
+            {
+                for (var k in value.data) {
+                    var metric = value.data[k];
+                    var input = html.replace("[metricname]", metric.name);
+                    if (metric.type !== 0)
+                    {
+                        var icons = chartLinck.replace("[hash]", JSON.stringify(metric.hash));
+                        input = input.replace("[icons]", icons);
+                    } else
+                    {
+                        input = input.replace("[icons]", "");
+                    }                    
+                    var sttags = "";                    
+                    for (var ind in metric.tags)
+                    {
+                        var tag = metric.tags[ind];
+                        sttags =sttags+ "<div>" +ind +":\"" +tag+"\"</div>";
+                    }
+                    input = input.replace("[tags]", sttags);
+                    input = input.replace("[hash]", JSON.stringify(metric.hash));
+                    input = input.replace("[hash]", JSON.stringify(metric.hash));
+                    input = input.replace("[hash]", JSON.stringify(metric.hash));
+                    input = input.replace("[hash]", JSON.stringify(metric.hash));
+                    input = input.replace("[lasttime]", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));                    
+                    biginput = biginput + input;
                 }
-
-                input = input.replace("[tags]", JSON.stringify(metric.tags));
-                input = input.replace("[hash]", JSON.stringify(metric.hash));
-                input = input.replace("[hash]", JSON.stringify(metric.hash));
-                input = input.replace("[hash]", JSON.stringify(metric.hash));
-                input = input.replace("[hash]", JSON.stringify(metric.hash));
-                input = input.replace("[lasttime]", moment(metric.lasttime));
-
-                $("#" + id).find("tbody").append(input);
+                $("#" + id).find("tbody").append(biginput);                
+                if (value.data.length < 1000)
+                {
+                    $("#" + id).find('.icons').prepend('<input type="checkbox" class="rawflat" name="table_records">');
+                    $("#" + id).find('input.rawflat').iCheck({
+                        checkboxClass: 'icheckbox_flat-green',
+                        radioClass: 'iradio_flat-green'
+                    });
+                    $("#" + id).find('.dropdown-toggle').show();
+                }
+                else
+                {
+                    $("#" + id).find('.dropdown-toggle').hide();
+                }
+                $("#" + id).find("img").remove();
+                $("#" + id).find("table").show();
             }
-//            $("#parent_" + i).after(biginput);
+
         });
     }
 
@@ -55,7 +84,7 @@
                 if (data.sucsses)
                 {
                     jQuery.each(data.data, function (i, val) {
-                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + "><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + val + "'><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = key + "_" + val;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
@@ -98,7 +127,7 @@
                 {
                     jQuery.each(data.data, function (i, val) {
                         var table = $(tablename);
-                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + "><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + val + "'><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = "name_" + val;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
@@ -120,15 +149,14 @@
 
 
     var NodeExpand = function () {
-        $("[data-tt-id=" + this.children[0].id + "]").find('.icons').prepend('<input type="checkbox" class="rawflat" name="table_records">');
 
-        $("[data-tt-id=" + this.children[0].id + "]").find("tbody tr input.rawflat").iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
-        });
+
+        var key = $("[data-tt-id=" + this.id + "]").attr("key");
+        var val = $("[data-tt-id=" + this.id + "]").attr("value");
+        getmetrics(key, val, this.id, true);
     };
     var NodeCollapse = function () {
-        $("[data-tt-id=" + this.children[0].id + "]").find('.icons div.icheckbox_flat-green').remove();
+        $("[data-tt-id=" + this.children[0].id + "]").find('tbody').html("");
     };
 
     //getfiltredmetricsnames?all=all
@@ -153,7 +181,7 @@
 
 
                         jQuery.each(data.tags, function (i, val) {
-                            $("#tagslist").append('<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">' +
+                            $("#tagslist").append('<div class="col-lg-2 col-sm-3 col-xs-6 tile_stats_count">' +
                                     '<span class="count_top"><i class="fa fa-th-list"></i> Total ' + i + '</span>' +
                                     '<div class="count">' + val + '</div>' +
                                     '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">Show List </a></span>' +
@@ -219,11 +247,11 @@
             var key = $(this).parents("#listtable").attr("key");
             $(this).parents('table').find("tbody input[name='table_records']:checked").each(function () {
                 var sendData = {};
-                sendData.hash = $(this).parents("tr").attr("id");                
+                sendData.hash = $(this).parents("tr").attr("id");
                 $.getJSON("deletemetrics?hash=" + sendData.hash, function (data) {
 
                 });
-            });            
+            });
             getmetainfo(key);
         });
 
