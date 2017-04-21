@@ -44,8 +44,8 @@
             <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">     
 
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css" />        
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />      
-            <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css" />-->
+            <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css" />-->      
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css" />
 
 
         </head>
