@@ -140,7 +140,7 @@ public class ProfileController {
                         while (Datalist.hasNext()) {
                             final DataPoint Point = Datalist.next();
                             JsonArray j_point = new JsonArray();
-                            j_point.add(Long.toString(Point.timestamp()));
+                            j_point.add(Point.timestamp());
                             j_point.add(Point.doubleValue());
                             DatapointsJSON.add(j_point);
                         }                        

@@ -152,7 +152,25 @@ var encodeHTML = function (source) {
                                     value = "<br>" + value[0] + "<br>" + value[1] + "<br>" + value[2] + "<br>" + value[3];
                                 }
 
-                            } else
+                            } else if (params.componentSubType === "boxplot")
+                            {
+                                if (params.data.info)
+                                {
+
+                                    value = "<br>";
+                                    for (var key in params.data.info)
+                                    {
+                                        value = value + key + ":" +func (params.data.info[key]) + "<br>";
+                                    }
+                                } else
+                                {
+
+                                    value = "<br>" + value[0] + "<br>" + value[1] + "<br>" + value[2] + "<br>" + value[3];
+                                }
+
+                            }
+                            
+                            else
                             {
                                 value = value[1];
                             }
