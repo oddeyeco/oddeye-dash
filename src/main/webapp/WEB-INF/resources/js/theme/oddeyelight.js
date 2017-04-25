@@ -1,4 +1,4 @@
-/* global define, format_date */
+/* global define, format_date, format_data */
 
 var colorPalette = [
     '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', '#b6a2de',
@@ -84,6 +84,7 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
+
 //                console.log(window[params.data.unit]);
                 var out = "";
                 if (params.constructor === Array)
@@ -107,19 +108,32 @@ var encodeHTML = function (source) {
                         {
                             value = param.value;
                         }
-                        if (typeof (window[param.data.unit]) === "function")
+//                        if (typeof (window[param.data.unit]) === "function")
+//                        {
+//                            value = window[param.data.unit](value);
+//                        } else
+//                        {
+//                            if (typeof (value) !== "string")
+//                            {
+//                                value = value.toFixed(2);
+//                            }                            
+//                        }
+                        if (param.data.unit)
                         {
-                            value = window[param.data.unit](value);
+                            if (typeof (window[param.data.unit]) === "function")
+                            {
+                                value = window[param.data.unit](value);
+                            } else
+                            {
+                                if (typeof (value) !== "string")
+                                {
+                                    value = value.toFixed(2);
+                                }
+                            }
                         } else
                         {
-                            if (typeof (value) !== "string")
-                            {
-                                value = value.toFixed(2);
-                            }
-
-
+                            value = format_metric(value);
                         }
-
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value
                     }
                 } else
@@ -144,7 +158,7 @@ var encodeHTML = function (source) {
                                     value = "<br>";
                                     for (var key in params.data.info)
                                     {
-                                        value = value + key + ":" +func (params.data.info[key]) + "<br>";
+                                        value = value + key + ":" + func(params.data.info[key]) + "<br>";
                                     }
                                 } else
                                 {
@@ -160,7 +174,7 @@ var encodeHTML = function (source) {
                                     value = "<br>";
                                     for (var key in params.data.info)
                                     {
-                                        value = value + key + ":" +func (params.data.info[key]) + "<br>";
+                                        value = value + key + ":" + func(params.data.info[key]) + "<br>";
                                     }
                                 } else
                                 {
@@ -168,24 +182,30 @@ var encodeHTML = function (source) {
                                     value = "<br>" + value[0] + "<br>" + value[1] + "<br>" + value[2] + "<br>" + value[3];
                                 }
 
-                            }
-                            
-                            else
+                            } else
                             {
                                 value = value[1];
+                                if (params.data.unit)
+                                {
+                                    if (typeof (window[params.data.unit]) === "function")
+                                    {
+                                        value = window[params.data.unit](value);
+                                    } else
+                                    {
+                                        if (typeof (value) !== "string")
+                                        {
+                                            value = value.toFixed(2);
+                                        }
+                                    }
+                                } else
+                                {
+                                    value = format_metric(value);
+                                }
                             }
 
                         }
-                        if (typeof (window[params.data.unit]) === "function")
-                        {
-                            value = window[params.data.unit](value);
-                        } else
-                        {
-                            if (typeof (value) !== "string")
-                            {
-                                value = value.toFixed(2);
-                            }
-                        }
+
+
                         out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
                     } else
                     {
