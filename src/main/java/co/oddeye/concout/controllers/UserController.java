@@ -460,6 +460,7 @@ public class UserController {
                 }
                 Map<String, MetriccheckRule> rules = MetaDao.getErrorRules(Error, Long.parseLong(timestamp));
                 map.put("Error", Error);
+                map.put("title", Error.getDisplayName());
                 map.put("Rules", rules);
                 ArrayList<DataPoints[]> data = new ArrayList<>();
                 // Get rules chart data

@@ -7,15 +7,18 @@ package co.oddeye.concout.controllers;
 
 import static co.oddeye.concout.controllers.dataControlers.LOGGER;
 import co.oddeye.concout.dao.BaseTsdbConnect;
+import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.LevelsValidator;
 import co.oddeye.concout.validator.UserValidator;
+import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
+import java.util.Calendar;
+import javax.servlet.http.HttpServletRequest;
+import net.opentsdb.core.DataPoint;
+import net.opentsdb.core.DataPoints;
+import net.opentsdb.core.SeekableView;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +68,8 @@ public class ProfileController {
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Autowired
     private BaseTsdbConnect BaseTsdb;
+    @Autowired
+    HbaseDataDao DataDao;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap map) throws Exception {
@@ -86,7 +96,7 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/metriq/{hash}", method = RequestMethod.GET)
-    public String metricinfo(@PathVariable(value = "hash") Integer hash, ModelMap map) throws Exception {
+    public String metricinfo(@PathVariable(value = "hash") Integer hash, HttpServletRequest request, ModelMap map) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -108,13 +118,42 @@ public class ProfileController {
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
 
                 map.put("metric", meta);
+                map.put("title", meta.getDisplayName());
+
+                Calendar CalendarObj = Calendar.getInstance();
+//                CalendarObj.setTimeInMillis(time * 1000);
+                String hour = request.getParameter("hour");
+                if (hour != null) {
+                    CalendarObj.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
+                }
+
+                CalendarObj.add(Calendar.DATE, -1);
+
+                Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, HbaseMetaDao.TBLENAME.getBytes(), BaseTsdb.getClient());
+                map.put("Rules", rules);
+                ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), "1h-ago", "now", "", false);
+                
+                JsonArray DatapointsJSON = new JsonArray();
+                for (DataPoints[] Datapointslist : data) {
+                    for (DataPoints Datapoints : Datapointslist) {
+                        final SeekableView Datalist = Datapoints.iterator();
+                        while (Datalist.hasNext()) {
+                            final DataPoint Point = Datalist.next();
+                            JsonArray j_point = new JsonArray();
+                            j_point.add(Long.toString(Point.timestamp()));
+                            j_point.add(Point.doubleValue());
+                            DatapointsJSON.add(j_point);
+                        }                        
+                    }
+                }
+                map.put("data", DatapointsJSON);
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         map.put("body", "metriqinfo");
         map.put("jspart", "metriqinfojs");
-        
+
         return "index";
 
 //        return layaut;

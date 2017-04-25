@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.dao;
 
-import co.oddeye.concout.core.TemplateType;
 import com.google.gson.JsonObject;
 import com.stumbleupon.async.Deferred;
 import java.util.Collection;

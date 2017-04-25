@@ -84,7 +84,7 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
-//                console.log(params);
+//                console.log(window[params.data.unit]);
                 var out = "";
                 if (params.constructor === Array)
                 {
@@ -96,44 +96,86 @@ var encodeHTML = function (source) {
                         {
                             return "";
                         }
-                        
+
                         var value;
                         var firstparam = "";
                         if (param.value instanceof Array)
                         {
                             value = param.value[1];
                             firstparam = format_date(param.value[0], 0);
-                        }
-                        else
+                        } else
                         {
                             value = param.value;
-                        }                        
+                        }
                         if (typeof (window[param.data.unit]) === "function")
                         {
                             value = window[param.data.unit](value);
                         } else
                         {
-                            value = value.toFixed(2);
-                        
-                       }
-                       
+                            if (typeof (value) !== "string")
+                            {
+                                value = value.toFixed(2);
+                            }
+
+
+                        }
+
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value
                     }
                 } else
                 {
                     var value = params.data.value;
-                    if (value.constructor === Array)
+                    if (value)
                     {
-                        value = value[1];
-                    }                    
-                    if (typeof (window[params.data.unit]) === "function")
-                    {
-                        value = window[params.data.unit](value);
+                        if (value.constructor === Array)
+                        {
+                            if (typeof (window[params.data.unit]) === "function")
+                            {
+                                func = window[params.data.unit];
+                            } else
+                            {
+                                func = format_data;
+                            }
+                            if (params.componentSubType === "candlestick")
+                            {
+                                if (params.data.info)
+                                {
+
+                                    value = "<br>";
+                                    for (var key in params.data.info)
+                                    {
+                                        value = value + key + ":" +func (params.data.info[key]) + "<br>";
+                                    }
+                                } else
+                                {
+
+                                    value = "<br>" + value[0] + "<br>" + value[1] + "<br>" + value[2] + "<br>" + value[3];
+                                }
+
+                            } else
+                            {
+                                value = value[1];
+                            }
+
+                        }
+                        if (typeof (window[params.data.unit]) === "function")
+                        {
+                            value = window[params.data.unit](value);
+                        } else
+                        {
+                            if (typeof (value) !== "string")
+                            {
+                                value = value.toFixed(2);
+                            }
+                        }
+                        out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
                     } else
                     {
-                        value = value.toFixed(2);
+                        if (params.componentSubType === "candlestick")
+                        {
+                            out = params.seriesName;
+                        }
                     }
-                    out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
                 }
 
                 return out;
