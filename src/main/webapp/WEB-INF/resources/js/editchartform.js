@@ -126,7 +126,7 @@ class ChartEditForm {
                         $(elem).trigger('click');
                     }
                     var elem = document.getElementById(qindex + "_enable_rate");
-                    console.log(dashJSON[row]["widgets"][index].q[qindex].info.rate);
+//                    console.log(dashJSON[row]["widgets"][index].q[qindex].info.rate);
                     if (!dashJSON[row]["widgets"][index].q[qindex].info.rate)
                     {
                         dashJSON[row]["widgets"][index].q[qindex].info.rate = false;

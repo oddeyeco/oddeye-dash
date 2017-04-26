@@ -170,15 +170,17 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
             {
                 var query = widget.q[k];
             } else if (widget.q[k].info)
-            {
+            {                
                 var query = "metrics=" + widget.q[k].info.metrics + "&tags=" + widget.q[k].info.tags +
                         "&aggregator=" + widget.q[k].info.aggregator;
                 if (widget.q[k].info.rate)
                 {
                     query = query + "&rate=true";
                 }
+
                 if (!widget.q[k].info.downsamplingstate)
                 {
+
                     if (!usePersonalTime)
                     {
                         if (widget.q[k].info.downsample === "")
@@ -194,11 +196,14 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                         {
                             query = query + "&downsample=" + widget.q[k].info.downsample;
                         }
+                    } else
+                    {
+                        query = query + "&downsample=" + widget.q[k].info.downsample;
                     }
 
                 }
             }
-            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
+            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;            
             chart.showLoading("default", {
                 text: '',
                 color: colorPalette[0],

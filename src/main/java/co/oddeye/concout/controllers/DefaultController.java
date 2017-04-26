@@ -81,10 +81,11 @@ public class DefaultController {
                 && //when Anonymous Authentication is enabled
                 !(auth instanceof AnonymousAuthenticationToken)) {
             user = (User) auth.getPrincipal();
-            map.put("user", user);
+            map.put("curentuser", user);
         }
-
-        return "test";
+        map.put("body", "test");
+        map.put("jspart", "testjs");
+        return "index";
     }
 
     @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
