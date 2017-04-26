@@ -10,7 +10,7 @@
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     $(document).ready(function () {
-        var url = cp + "/getdata?metrics=bytes_rx_eth0;&tags=cluster=*;&aggregator=none&downsample=1h-max&startdate=1d-ago&enddate=now"
+        var url = cp + "/getdata?metrics=sys_load_1;&tags=group=*;&aggregator=max&downsample=1h-max&startdate=1d-ago&enddate=now"
         var echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
 
         $.getJSON(url, null, function (data) {
@@ -22,11 +22,11 @@
             for (var index in data.chartsdata)
             {
                 var metric = data.chartsdata[index];
-                ydata.push(metric.tags.host);
+                ydata.push(metric.tags.group);
                 for (var ind in metric.data)
                 {
                     var times = moment(metric.data[ind][0]);
-                    var h = times.hour() + 1;
+                    var h = times.hour();
 
                     if (xdata.indexOf(h) === -1)
                     {
@@ -40,10 +40,10 @@
                 for (var ind in metric.data)
                 {
                     var times = moment(metric.data[ind][0]);
-                    var h = times.hour() + 1;
+                    var h = times.hour();
 
                     var xindex = xdata.indexOf(h);
-                    s_data.push([xindex, yindex,  metric.data[ind][1]]);
+                    s_data.push([xindex, yindex,  metric.data[ind][1].toFixed(2)]);
 
                 }
 
@@ -62,19 +62,18 @@
                     data: ydata
                 },
                 grid: {
-                    left: "170",
-                    height: '50%',
-                    y: '10%'
+                    
+                    height: '80%',                    
                 },
 
                 visualMap: {                    
                     min: 0,
-                    max: 70000000,
+                    max: 15,
                     calculable: true,
-                    realtime: false,
+                    realtime: false,                    
                     orient: 'horizontal',
                     left: 'center',
-                    bottom: '15%',
+                    top: '0',
                     inRange: {
                         color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
                     }
@@ -85,21 +84,15 @@
                         data: s_data,
                         itemStyle: {
                             emphasis: {
-                                borderColor: '#333',
-                                borderWidth: 1
+                                shadowBlur: 20,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'                                
                             }
                         },
-                        label: {
+                        label: {                            
                             normal: {
-                                show: true
+                                show: true,                                
                             }
                         },
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
                     }]
             };
             echartLine.setOption(option);
