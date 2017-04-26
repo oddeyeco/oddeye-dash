@@ -140,9 +140,13 @@ public class ProfileController {
                         while (Datalist.hasNext()) {
                             final DataPoint Point = Datalist.next();
                             JsonArray j_point = new JsonArray();
+                            JsonObject j_data = new JsonObject();
                             j_point.add(Point.timestamp());
                             j_point.add(Point.doubleValue());
-                            DatapointsJSON.add(j_point);
+                            j_data.add("value", j_point);
+                            //TODO check host type
+                            j_data.addProperty("unit:", "format_data");
+                            DatapointsJSON.add(j_data);
                         }                        
                     }
                 }

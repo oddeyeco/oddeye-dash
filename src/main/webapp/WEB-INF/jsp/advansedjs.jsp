@@ -7,10 +7,10 @@
     var chartsdata = ${chartdata};
     var echartLine;
     var series = [];
-    var legend = [];    
+    var legend = [];
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
-
+//TODO check host type for formater
     var defserie = {
         name: null,
         type: 'line',

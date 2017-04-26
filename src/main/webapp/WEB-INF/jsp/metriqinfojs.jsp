@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
-<script src="${cp}/resources/js/chartsfuncs.js"></script>
+<script src="${cp}/resources/js/chartsfuncs.min.js"></script>
 <script>
 
     var chartsdata = ${data};
@@ -28,10 +28,11 @@
     {
         var data = [];
         var datab = [];
-
+        //TODO check host type for formater
         $(".time").each(function () {
             dates.push($(this).attr("value"));
             data.push({name: $(this).attr("value"),
+                unit: "format_data",
                 value: [parseFloat($(this).next().next().next().attr('value')),
                     parseFloat($(this).next().attr('value')) - parseFloat($(this).next().next().attr('value')),
                     parseFloat($(this).next().attr('value')),
@@ -50,6 +51,7 @@
         serie2.name = "Today Data";
         serie2.type = "line";
         serie2.data = chartsdata;
+        console.log(chartsdata);
         serie2.xAxisIndex = 1;
         serie2.tooltip = {trigger: 'axix'};
         series.push(serie2);

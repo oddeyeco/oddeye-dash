@@ -14,11 +14,6 @@ var pickerlabel = "Last 5 minutes";
 
 var jsonmaker = function (k, v)
 {
-
-//    if (k === "manual")
-//    {
-//        return undefined;
-//    }
     if (k === "visible")
     {
         return undefined;
@@ -300,7 +295,12 @@ var dataGiB = function (params) {
 var format_data = function (params) {
     var divatior = 1024;
     var val = paramtoval(params);
-    var level = Math.floor(Math.log(val) / Math.log(divatior));
+    if (val === 0)
+    {
+     return val + "" + metric;   
+    }
+    var level = Math.floor(Math.log(Math.abs(val) ) / Math.log(divatior));
+    
     if (level > 0)
     {
         val = (val / Math.pow(divatior, level));
@@ -690,16 +690,7 @@ var format_metric = function (params, type) {
     var metric = " ";
     if (val !== 0)
     {
-        var level = Math.floor(Math.log(val) / Math.log(divatior));
-//        if ((level > 1) || (level < 0))
-//        {
-//            if (type === "v")
-//            {
-//                level = level - 2;
-//            }
-//        }
-
-
+        var level = Math.floor(Math.log(val) / Math.log(divatior));        
         if (level < -9)
         {
             val = (val / Math.pow(divatior, level));

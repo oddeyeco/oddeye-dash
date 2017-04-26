@@ -142,13 +142,13 @@ var encodeHTML = function (source) {
                     if (value)
                     {
                         if (value.constructor === Array)
-                        {
+                        {                            
                             if (typeof (window[params.data.unit]) === "function")
                             {
                                 func = window[params.data.unit];
                             } else
                             {
-                                func = format_data;
+                                func = format_metric;
                             }
                             if (params.componentSubType === "candlestick")
                             {
