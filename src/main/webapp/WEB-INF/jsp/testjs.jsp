@@ -10,7 +10,7 @@
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     $(document).ready(function () {
-        var url = cp + "/getdata?metrics=sys_load_1;&tags=group=*;&aggregator=max&downsample=1h-max&startdate=1d-ago&enddate=now"
+        var url = cp + "/getdata?metrics=sys_load_1;&tags=group=*;&aggregator=max&downsample=3m-max&startdate=1h-ago&enddate=now"
         var echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
 
         $.getJSON(url, null, function (data) {
@@ -26,7 +26,7 @@
                 for (var ind in metric.data)
                 {
                     var times = moment(metric.data[ind][0]);
-                    var h = times.hour();
+                    var h = times.minute();
 
                     if (xdata.indexOf(h) === -1)
                     {
@@ -40,7 +40,7 @@
                 for (var ind in metric.data)
                 {
                     var times = moment(metric.data[ind][0]);
-                    var h = times.hour();
+                    var h = times.minute();
 
                     var xindex = xdata.indexOf(h);
                     s_data.push([xindex, yindex,  metric.data[ind][1].toFixed(2)]);
