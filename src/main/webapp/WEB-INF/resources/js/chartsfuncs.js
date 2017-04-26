@@ -297,7 +297,7 @@ var format_data = function (params) {
     var val = paramtoval(params);
     if (val === 0)
     {
-     return val + "" + metric;   
+     return val;   
     }
     var level = Math.floor(Math.log(Math.abs(val) ) / Math.log(divatior));
     
