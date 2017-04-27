@@ -170,7 +170,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
             {
                 var query = widget.q[k];
             } else if (widget.q[k].info)
-            {                
+            {
                 var query = "metrics=" + widget.q[k].info.metrics + "&tags=" + widget.q[k].info.tags +
                         "&aggregator=" + widget.q[k].info.aggregator;
                 if (widget.q[k].info.rate)
@@ -203,7 +203,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
                 }
             }
-            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;            
+            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
             chart.showLoading("default", {
                 text: '',
                 color: colorPalette[0],
@@ -613,13 +613,20 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 {
                                     series.radius = radius - 3 + "%";
 
-                                    if (hr < wr)
+                                    if (Object.keys(tmp_series_1).length === 1)
                                     {
-                                        series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
+
                                     } else
                                     {
-                                        series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                                        if (hr < wr)
+                                        {
+                                            series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
+                                        } else
+                                        {
+                                            series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                                        }
                                     }
+
                                 }
 
 

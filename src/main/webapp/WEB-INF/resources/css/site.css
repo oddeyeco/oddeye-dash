@@ -600,3 +600,8 @@ ul.lastdash li .fa
 {
     background-color: #d5d5d5;
 }
+
+.filter .control-label
+{
+    margin: 0 10px;
+}
