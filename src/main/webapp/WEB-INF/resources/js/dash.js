@@ -203,16 +203,24 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
                 }
             }
-            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-            chart.showLoading("default", {
-                text: '',
-                color: colorPalette[0],
-                textColor: '#000',
-                maskColor: 'rgba(255, 255, 255, 0)',
-                zlevel: 0
-            });
 
-            $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+
+            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
+
+
+            if (getParameterByName('metrics', uri))
+            {
+                chart.showLoading("default", {
+                    text: '',
+                    color: colorPalette[0],
+                    textColor: '#000',
+                    maskColor: 'rgba(255, 255, 255, 0)',
+                    zlevel: 0
+                });
+
+                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+            }
+
         }
 }
 }
@@ -274,15 +282,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 //                                }                                
 
                             }
-//                            console.log(series);
                             series.data = [];
-                            if (!series.type)
-                            {
-                                series.type = widget.type;
-                            }
 
                             if (!widget.manual)
                             {
+                                series.type = widget.type;
                                 if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                 {
                                     series.showSymbol = true;
@@ -431,7 +435,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         }
 
                         series.data = [];
-                        if (!series.type)
+                        if (!widget.manual)
                         {
                             series.type = widget.type;
                         }
@@ -482,7 +486,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             series.data = [];
 
-                            if (!series.type)
+                            if (!widget.manual)
                             {
                                 series.type = widget.type;
                             }
