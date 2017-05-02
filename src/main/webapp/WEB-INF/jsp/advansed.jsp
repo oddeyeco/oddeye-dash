@@ -75,12 +75,12 @@
                             <span class="name"> Predict </span>
                             <span class="value text-success">
                                 <c:choose>
-                                    <c:when test="${Error.getRegression().predict(Error.getTimestamp()*1000) == Double.NaN}">
-                                        ${Error.getRegression().predict(Error.getTimestamp()*1000)}
+                                    <c:when test="${Error.getRegression().predict(Error.getTimestamp()) == Double.NaN}">
+                                        ${Error.getRegression().predict(Error.getTimestamp())}
                                         <br />
                                     </c:when>    
                                     <c:otherwise>
-                                        <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().predict(Error.getTimestamp()*1000)}" />
+                                        <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().predict(Error.getTimestamp())}" />
                                         <br />
                                     </c:otherwise>
                                 </c:choose>                                

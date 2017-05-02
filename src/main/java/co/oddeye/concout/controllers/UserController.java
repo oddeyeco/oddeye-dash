@@ -597,8 +597,8 @@ public class UserController {
 //                    DatapointsJSON.addProperty(Long.toString(i), Error.getRegression().predict(i));
 //                }
 
-                DatapointsJSON.addProperty(startdate, Error.getRegression().predict(Long.parseLong(startdate)));
-                DatapointsJSON.addProperty(enddate, Error.getRegression().predict(Long.parseLong(enddate)));
+                DatapointsJSON.addProperty(startdate, Error.getRegression().predict(Long.parseLong(startdate)/1000));
+                DatapointsJSON.addProperty(enddate, Error.getRegression().predict(Long.parseLong(enddate)/1000));
 
                 jsonMessage.add("data", DatapointsJSON);
                 jsonMessages.add("predict", jsonMessage);
