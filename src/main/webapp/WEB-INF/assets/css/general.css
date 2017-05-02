@@ -28,6 +28,10 @@ body {
     background-color: #0275d8;
     color: #fff
 }
+.select2-results__option
+{
+    color: #000;
+}
 
 .btn-primary
 {
@@ -113,27 +117,27 @@ a.btn-href:hover
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
-    .logincontener
-    {    
-        position: absolute;  
-        top: 3%; 
-        width: 100%
-    }    
+.logincontener
+{    
+    position: absolute;  
+    top: 3%; 
+    width: 100%
+}    
 
-    .col-xs-12.logo
-    {
-        text-align: center;
-    }
+.col-xs-12.logo
+{
+    text-align: center;
+}
 
-    .col-xs-12.login
-    {
-        text-align: center;
-    }
+.col-xs-12.login
+{
+    text-align: center;
+}
 
-    .col-xs-12.login form
-    {
-        text-align: center;    
-    }
+.col-xs-12.login form
+{
+    text-align: center;    
+}
 @media (min-width: 768px)
 {
     .col-xs-12.logo
