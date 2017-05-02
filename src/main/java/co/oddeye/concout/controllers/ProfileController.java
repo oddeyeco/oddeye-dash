@@ -129,7 +129,7 @@ public class ProfileController {
 
                 CalendarObj.add(Calendar.DATE, -1);
 
-                Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, HbaseMetaDao.TBLENAME.getBytes(), BaseTsdb.getClient());
+                Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, HbaseMetaDao.TBLENAME.getBytes(), BaseTsdb.getClient());                
                 map.put("Rules", rules);
                 ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), "1h-ago", "now", "", false);
                 
