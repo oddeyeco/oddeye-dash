@@ -14,7 +14,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Real Time monitor (UUID = ${curentuser.getId().toString()})</h2>
+                <h2>Advanced analytics  (UUID = ${curentuser.getId().toString()})</h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">                 
@@ -58,34 +58,34 @@
                         </div>                        
 
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                            <label class="col-md-12 col-sm-12 col-xs-12">Min Value</label>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <input class="form-control" value="${minValue}" name="minValue"></input>
+                                <label class="col-md-12 col-sm-12 col-xs-12">Min Value</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input class="form-control" value="${minValue}" name="minValue"></input>
                             </div>
                         </div>                    
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                            <label class="col-md-12 col-sm-12 col-xs-12">Min Percent</label>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <input class="form-control" value="${minPersent}" name="minPersent"></input>
+                                <label class="col-md-12 col-sm-12 col-xs-12">Min Percent</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input class="form-control" value="${minPersent}" name="minPersent"></input>
                             </div>
                         </div>                  
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                            <label class="col-md-12 col-sm-12 col-xs-12">Min Predict Percent</label>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <input class="form-control" value="${minPredictPersent}" name="minPredictPersent"></input>
+                                <label class="col-md-12 col-sm-12 col-xs-12">Min Predict Percent</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input class="form-control" value="${minPredictPersent}" name="minPredictPersent"></input>
                             </div>
                         </div>                            
 
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                            <label class="col-md-12 col-sm-12 col-xs-12">Min Weight</label>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <input class="form-control" value="${minWeight}" name="minWeight"></input>
+                                <label class="col-md-12 col-sm-12 col-xs-12">Min Weight</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input class="form-control" value="${minWeight}" name="minWeight"></input>
                             </div>
                         </div>                                            
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                            <label class="col-md-12 col-sm-12 col-xs-12">Min Recurrence Count</label>
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <input class="form-control" value="${minRecurrenceCount}" name="minRecurrenceCount"></input>
+                                <label class="col-md-12 col-sm-12 col-xs-12">Min Recurrence Count</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input class="form-control" value="${minRecurrenceCount}" name="minRecurrenceCount"></input>
                             </div>
                         </div>                                            
                         <div class="form-group">
@@ -158,11 +158,14 @@
                                                             </td>
                                                             <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
                                                             <td class="weight">${metric.getWeight()}</td>
-                                                            <td class="persent">${metric.getPersent_weight()}</td>
-                                                            <td class="persent">${metric.getPersent_predict()}</td>
+                                                            <td class="persent"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getPersent_weight()}" /> </td>
+                                                            <td class="persent"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getPersent_predict()}" /></td>
                                                             <td class="persent">${metric.getRecurrenceTmp()}</td>
                                                             <td class="level_${curentuser.getAlertLevels().getErrorLevel(metric)}">${curentuser.getAlertLevels().getName(curentuser.getAlertLevels().getErrorLevel(metric))}</td>
-                                                            <td class="time">${metric.getTimestamp()}</td>
+                                                            <td class="time">
+                                                                <jsp:useBean id="dateValue" class="java.util.Date"/>
+                                                                <jsp:setProperty name="dateValue" property="time" value="${metric.getTimestamp()*1000}"/>
+                                                                <fmt:formatDate value="${dateValue}" pattern="MM/dd HH:mm:ss"/></td>
                                                         </tr>
 
                                                     </c:forEach>

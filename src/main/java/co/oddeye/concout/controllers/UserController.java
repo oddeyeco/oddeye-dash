@@ -417,7 +417,7 @@ public class UserController {
                 if (minValue == null) {
                     map.put("minPredictPersent", 50);
                 } else {
-                    map.put("minPredictPersent", Math.abs(Short.parseShort(minPredictPersent)));
+                    map.put("minPredictPersent", Math.abs(Float.parseFloat(minPredictPersent)));
                 }
             } else {
                 map.put("minValue", userDetails.getAlertLevels().get(int_level_item).get(AlertLevel.ALERT_PARAM_VALUE));
