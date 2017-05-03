@@ -85,7 +85,7 @@ var encodeHTML = function (source) {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
 
-//                console.log(window[params.data.unit]);
+//                console.log(params);
                 var out = "";
                 if (params.constructor === Array)
                 {
@@ -108,16 +108,6 @@ var encodeHTML = function (source) {
                         {
                             value = param.value;
                         }
-//                        if (typeof (window[param.data.unit]) === "function")
-//                        {
-//                            value = window[param.data.unit](value);
-//                        } else
-//                        {
-//                            if (typeof (value) !== "string")
-//                            {
-//                                value = value.toFixed(2);
-//                            }                            
-//                        }
                         if (param.data.unit)
                         {
                             if (typeof (window[param.data.unit]) === "function")
@@ -132,7 +122,11 @@ var encodeHTML = function (source) {
                             }
                         } else
                         {
-                            value = format_metric(value);
+//                            value = format_metric(value);
+                            if (typeof (value) !== "string")
+                            {
+                                value = value.toFixed(2);
+                            }
                         }
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value
                     }
@@ -200,7 +194,11 @@ var encodeHTML = function (source) {
                                     }
                                 } else
                                 {
-                                    value = format_metric(value);
+                                    if (typeof (value) !== "string")
+                                    {
+                                        value = value.toFixed(2);
+                                    }
+//                                    value = format_metric(value);
                                 }
                             }
 
