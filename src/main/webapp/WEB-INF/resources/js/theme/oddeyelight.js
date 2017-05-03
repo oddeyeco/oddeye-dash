@@ -138,11 +138,12 @@ var encodeHTML = function (source) {
                     }
                 } else
                 {
+
                     var value = params.data.value;
                     if (value)
                     {
                         if (value.constructor === Array)
-                        {                            
+                        {
                             if (typeof (window[params.data.unit]) === "function")
                             {
                                 func = window[params.data.unit];
@@ -203,6 +204,12 @@ var encodeHTML = function (source) {
                                 }
                             }
 
+                        } else
+                        {
+                            if (typeof (window[params.data.unit]) === "function")
+                            {
+                                value = window[params.data.unit](value);
+                            }
                         }
 
 

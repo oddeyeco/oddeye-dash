@@ -403,7 +403,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             tmp_series_1[name] = [];
                         }
-                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname});
+                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit:widget.options.yAxis[0].unit});
                         sdata.push({value: val, name: name});
                     }
 
@@ -504,8 +504,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 }
                                 series.data = tmp_series_1[key];
                             } else
-                            {
-                                series.data = tmp_series_1[key];
+                            {                                
+                                series.data = tmp_series_1[key];                               
                                 if (series.type === "gauge")
                                 {
                                     for (i = 0; i < series.data.length; i++)
@@ -682,12 +682,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                             index++;
                             var dublicatename = false;
+                            
                             for (var s_index in widget.options.series)
                             {
                                 if (widget.options.series[s_index].name === series.name)
                                 {
                                     dublicatename = true;
                                     widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data);
+                                    
                                     widget.options.series[s_index].data.sort(function (a, b) {
                                         return compareStrings(a.name, b.name);
                                     });
