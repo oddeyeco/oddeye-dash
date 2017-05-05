@@ -11,7 +11,7 @@
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta name="description" content="">
             <meta name="author" content="">
-            <meta property="og:image" content="${cp}/assets/images/oddeyeog.png" />
+            <meta property="og:image" content="${cp}/assets/images/oddeyeog.png" />            
             <title>${title} | oddeye.co </title>
             <link rel="shortcut icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
             <link rel="icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
