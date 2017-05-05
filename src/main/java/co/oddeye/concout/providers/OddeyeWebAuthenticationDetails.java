@@ -18,15 +18,17 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 public class OddeyeWebAuthenticationDetails extends WebAuthenticationDetails {
 
     private final Map<String, String> HeadersInfo = new HashMap<>();
+    private final HttpServletRequest _request;
 
     public OddeyeWebAuthenticationDetails(HttpServletRequest request) {
         super(request);
-        Enumeration headerNames = request.getHeaderNames();
+        Enumeration headerNames = request.getHeaderNames();        
         while (headerNames.hasMoreElements()) {
             String key = (String) headerNames.nextElement();
             String value = request.getHeader(key);
             HeadersInfo.put(key, value);
         }        
+        _request = request;
     }
 
     /**
@@ -34,6 +36,13 @@ public class OddeyeWebAuthenticationDetails extends WebAuthenticationDetails {
      */
     public Map<String, String> getHeadersInfo() {
         return HeadersInfo;
+    }
+
+    /**
+     * @return the _request
+     */
+    public HttpServletRequest getRequest() {
+        return _request;
     }
 
 }

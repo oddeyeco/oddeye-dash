@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.AuthenticationException;
 import co.oddeye.concout.model.User;
+import java.util.Map;
 import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -50,7 +51,12 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
         if (userid != null) {
             final User principal = Userdao.getUserByUUID(userid, true);
             final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
-            LOGGER.warn(det.getHeadersInfo() + " " + authentication.getName() + " login sucsses");
+            String Hederout = "";
+            for (Map.Entry<String, String> hh:det.getHeadersInfo().entrySet())
+            {
+                Hederout =Hederout+ hh.getKey()+" = "+hh.getValue()+"\n";
+            }
+            LOGGER.warn(Hederout + " " + authentication.getName() + " login sucsses "+det.getRequest().getRemoteAddr()+" "+det.getRequest().getHeader("X-Real-IP"));
             return auth;
         } else {
             LOGGER.warn(det.getRemoteAddress() + " " + authentication.getName() + " login fail");
