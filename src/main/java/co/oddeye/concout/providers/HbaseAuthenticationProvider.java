@@ -12,17 +12,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.AuthenticationException;
 import co.oddeye.concout.model.User;
-import java.util.Map;
 import java.util.UUID;
-import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.RequestContextListener;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
@@ -51,15 +44,15 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
         if (userid != null) {
             final User principal = Userdao.getUserByUUID(userid, true);
             final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
-            String Hederout = "";
-            for (Map.Entry<String, String> hh:det.getHeadersInfo().entrySet())
-            {
-                Hederout =Hederout+ hh.getKey()+" = "+hh.getValue()+"\n";
-            }
-//            LOGGER.warn(Hederout + " " + authentication.getName() + " login sucsses "+det.getRequest().getRemoteAddr()+" "+det.getRequest().getHeader("X-Real-IP"));
+//            String Hederout = "";
+//            for (Map.Entry<String, String> hh:det.getHeadersInfo().entrySet())
+//            {
+//                Hederout =Hederout+ hh.getKey()+" = "+hh.getValue()+"\n";
+//            }
+            LOGGER.info(authentication.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
             return auth;
         } else {
-//            LOGGER.warn(det.getRemoteAddress() + " " + authentication.getName() + " login fail");
+            LOGGER.info(authentication.getName() + " login fail " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
             return null;
         }
     }

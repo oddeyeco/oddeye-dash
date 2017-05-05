@@ -70,12 +70,12 @@ public class DefaultController {
 //        return "indexPrime";
     }
 
-    @RequestMapping(value = "/gugush/", method = RequestMethod.GET)
+    @RequestMapping(value = "/gugush.txt", method = RequestMethod.GET)
     public String gugush(ModelMap map, HttpServletRequest request) {
         map.put("slug", "login");
         map.put("body", "gugush");
         map.put("jspart", "gugushjs");
-        return "indexPrime";
+        return "indextxt";
     }    
     
     @RequestMapping(value = "/test", method = RequestMethod.GET)
