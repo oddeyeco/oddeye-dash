@@ -13,10 +13,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.security.core.AuthenticationException;
 import co.oddeye.concout.model.User;
 import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  *
@@ -37,17 +42,18 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 //        String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-        WebAuthenticationDetails det = (WebAuthenticationDetails)authentication.getDetails();
-        
+        OddeyeWebAuthenticationDetails det = (OddeyeWebAuthenticationDetails) authentication.getDetails();
+
+//        System.out.println(request.getHeaderNames());
         //TODO check user in hbase
         UUID userid = Userdao.CheckUserAuthentication(authentication);
         if (userid != null) {
             final User principal = Userdao.getUserByUUID(userid, true);
             final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
-            LOGGER.warn(det.getRemoteAddress()+" "+authentication.getName()+" login sucsses");
+            LOGGER.warn(det.getHeadersInfo() + " " + authentication.getName() + " login sucsses");
             return auth;
         } else {
-            LOGGER.warn(det.getRemoteAddress()+" "+authentication.getName()+" login fail");
+            LOGGER.warn(det.getRemoteAddress() + " " + authentication.getName() + " login fail");
             return null;
         }
     }

@@ -10,12 +10,18 @@ package co.oddeye.concout.config;
  * @author vahan
  */
 import co.oddeye.concout.providers.HbaseAuthenticationProvider;
+import co.oddeye.concout.providers.OddeyeWebAuthenticationDetails;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -31,6 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
+
+        //.userDetailsService(this)
     }
 //http://www.baeldung.com/spring-security-authentication-provider
     //.antMatchers("/hosts").hasAnyAuthority("ROLE_ADMIN")
@@ -43,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**","/contact/**").permitAll()
+                .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**", "/contact/**").permitAll()
                 .antMatchers("/getfiltredmetrics*").permitAll()
                 .antMatchers("/getdata*").permitAll()
                 .antMatchers("/gettagkey*").permitAll()
@@ -55,8 +63,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
+                .authenticationDetailsSource(authenticationDetailsSource())
                 .loginPage("/login/")
                 .permitAll();
 
     }
+    
+    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource() {
+
+        return new AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails>() {
+            @Override
+            public OddeyeWebAuthenticationDetails buildDetails(
+                    HttpServletRequest request) {
+                return new OddeyeWebAuthenticationDetails(request);
+            }
+
+        };
+    }    
 }
