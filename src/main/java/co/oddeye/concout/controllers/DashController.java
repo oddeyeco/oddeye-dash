@@ -80,7 +80,15 @@ public class DashController {
                 map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
                 DashboardTemplate Dash = TemplateDAO.getbyKey(Hex.decodeHex(dashkey.toCharArray()));
                 map.put("title", Dash.getName());
-                map.put("dashInfo", Dash.getInfojson().toString());
+                if (Dash.getInfojson()!=null)
+                {
+                    map.put("dashInfo", Dash.getInfojson().toString());
+                }
+                else
+                {
+                    map.put("dashInfo", "{}");
+                }
+                
                 map.put("body", "dashboard");
                 map.put("jspart", "dashboardjs");
 
