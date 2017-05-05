@@ -13,7 +13,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.security.core.AuthenticationException;
 import co.oddeye.concout.model.User;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 /**
  *
@@ -21,28 +24,32 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @Component
 public class HbaseAuthenticationProvider implements AuthenticationProvider {
+
     @Autowired
     private HbaseUserDao Userdao;
-    
+    private final Logger LOGGER = LoggerFactory.getLogger(HbaseAuthenticationProvider.class);
+
     public HbaseAuthenticationProvider() {
         super();
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication)
-            throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 //        String name = authentication.getName();
         String password = authentication.getCredentials().toString();
-
+        WebAuthenticationDetails det = (WebAuthenticationDetails)authentication.getDetails();
+        
         //TODO check user in hbase
         UUID userid = Userdao.CheckUserAuthentication(authentication);
-        if (userid != null) {            
-            final User principal = Userdao.getUserByUUID(userid, true);            
+        if (userid != null) {
+            final User principal = Userdao.getUserByUUID(userid, true);
             final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
+            LOGGER.warn(det.getRemoteAddress()+" "+authentication.getName()+" login sucsses");
             return auth;
         } else {
+            LOGGER.warn(det.getRemoteAddress()+" "+authentication.getName()+" login fail");
             return null;
-}
+        }
     }
 
     @Override
