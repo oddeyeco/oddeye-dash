@@ -56,10 +56,10 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
             {
                 Hederout =Hederout+ hh.getKey()+" = "+hh.getValue()+"\n";
             }
-            LOGGER.warn(Hederout + " " + authentication.getName() + " login sucsses "+det.getRequest().getRemoteAddr()+" "+det.getRequest().getHeader("X-Real-IP"));
+//            LOGGER.warn(Hederout + " " + authentication.getName() + " login sucsses "+det.getRequest().getRemoteAddr()+" "+det.getRequest().getHeader("X-Real-IP"));
             return auth;
         } else {
-            LOGGER.warn(det.getRemoteAddress() + " " + authentication.getName() + " login fail");
+//            LOGGER.warn(det.getRemoteAddress() + " " + authentication.getName() + " login fail");
             return null;
         }
     }

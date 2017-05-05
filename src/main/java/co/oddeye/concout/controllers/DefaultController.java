@@ -70,12 +70,20 @@ public class DefaultController {
 //        return "indexPrime";
     }
 
+    @RequestMapping(value = "/gugush/", method = RequestMethod.GET)
+    public String gugush(ModelMap map, HttpServletRequest request) {
+        map.put("slug", "login");
+        map.put("body", "gugush");
+        map.put("jspart", "gugushjs");
+        return "indexPrime";
+    }    
+    
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        org.springframework.security.access.AccessDeniedException;
 //ExecutorSubscribableChannel
-        User user = null;
+        User user;
         if (auth != null
                 && auth.isAuthenticated()
                 && //when Anonymous Authentication is enabled
