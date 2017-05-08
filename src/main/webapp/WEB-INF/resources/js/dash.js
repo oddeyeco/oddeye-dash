@@ -299,6 +299,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             } else
                             {
+                                if (!series.type)
+                                {
+                                    series.type = widget.type;
+                                }
                                 series.showSymbol = ((series.symbol !== "none") && (typeof (series.symbol) !== "undefined"));
                             }
                             series.name = name;
@@ -403,7 +407,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             tmp_series_1[name] = [];
                         }
-                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit:widget.options.yAxis[0].unit});
+                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[0].unit});
                         sdata.push({value: val, name: name});
                     }
 
@@ -438,6 +442,12 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         if (!widget.manual)
                         {
                             series.type = widget.type;
+                        } else
+                        {
+                            if (!series.type)
+                            {
+                                series.type = widget.type;
+                            }
                         }
                         data = [];
                         for (var key in tmp_series_1)
@@ -489,8 +499,13 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             if (!widget.manual)
                             {
                                 series.type = widget.type;
+                            } else
+                            {
+                                if (!series.type)
+                                {
+                                    series.type = widget.type;
+                                }
                             }
-
                             series.name = key;
 //                        console.log(key);
                             if (series.type === "bar")
@@ -504,8 +519,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 }
                                 series.data = tmp_series_1[key];
                             } else
-                            {                                
-                                series.data = tmp_series_1[key];                               
+                            {
+                                series.data = tmp_series_1[key];
                                 if (series.type === "gauge")
                                 {
                                     for (i = 0; i < series.data.length; i++)
@@ -682,14 +697,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                             index++;
                             var dublicatename = false;
-                            
+
                             for (var s_index in widget.options.series)
                             {
                                 if (widget.options.series[s_index].name === series.name)
                                 {
                                     dublicatename = true;
                                     widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data);
-                                    
+
                                     widget.options.series[s_index].data.sort(function (a, b) {
                                         return compareStrings(a.name, b.name);
                                     });
@@ -743,10 +758,12 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
                 widget.options.legend.data.push(widget.options.series[ind].name);
+                console.log(redraw);
+                console.log(widget.options.series[ind].type);
                 if (redraw)
                 {
                     delete(widget.options.series[ind].type);
-                    delete(widget.options.series[ind].stack);                    
+                    delete(widget.options.series[ind].stack);
                 }
             }
             for (var yindex in widget.options.yAxis)
