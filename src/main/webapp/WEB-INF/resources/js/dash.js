@@ -758,8 +758,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
                 widget.options.legend.data.push(widget.options.series[ind].name);
-                console.log(redraw);
-                console.log(widget.options.series[ind].type);
                 if (redraw)
                 {
                     delete(widget.options.series[ind].type);
