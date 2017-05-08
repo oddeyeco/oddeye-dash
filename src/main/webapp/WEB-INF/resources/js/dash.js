@@ -743,6 +743,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
                 widget.options.legend.data.push(widget.options.series[ind].name);
+                if (redraw)
+                {
+                    delete(widget.options.series[ind].type);
+                    delete(widget.options.series[ind].stack);                    
+                }
             }
             for (var yindex in widget.options.yAxis)
             {
@@ -765,8 +770,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
+//            console.log(redraw);
             if (redraw)
             {
+//                console.log(widget.options.series);
                 chart.setOption({series: widget.options.series});
             } else
             {

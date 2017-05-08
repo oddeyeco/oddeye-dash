@@ -23,10 +23,10 @@
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         drawEchart(hashes, echartLine);
     });
-    
+
     function drawEchart(hashes, echartLine, reload)
-    {        
-        if (typeof(reload)==="undefined")
+    {
+        if (typeof (reload) === "undefined")
         {
             reload = false;
         }
@@ -74,6 +74,12 @@
                     for (var ind in chdata)
                     {
                         serie.data.push({value: chdata[ind], 'unit': "format_metric"});
+                        if (reload)
+                        {
+                            delete(serie.type);
+                            delete(serie.stack);
+
+                        }
                     }
                     var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags);
                     serie.name = name;
