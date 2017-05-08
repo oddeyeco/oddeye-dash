@@ -20,7 +20,7 @@
         <div class=" contactform col-lg-6 col-xs-12">              
             <form:form method="post" commandName="newUser" action="${cp}/signup/" modelAttribute="newUser" novalidate="true">            
                 <c:if test="${not empty message}" >
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                    <div class="alert alert-danger alert-dismissible fadein" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                         </button>
                         ${message}
@@ -30,45 +30,45 @@
 
                 <div class="form-group">
                     <form:input path="email" cssClass="form-control" type="email" required="" placeholder="E-Mail *"/>                    
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="email" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="email" />
 
 
                 </div>
                 <div class="form-group">
                     <form:input path="password" cssClass="form-control" type="password" required="" placeholder="Password *"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="password" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="password" />
                 </div>
                 <div class="form-group">
                     <form:input path="passwordsecond" cssClass="form-control" type="password" required="" placeholder="Re enter Password *"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="passwordsecond"  />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="passwordsecond"  />
                 </div>                
                 <div class="form-group">
                     <form:input path="name" cssClass="form-control" required="" placeholder="First Name *"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="name" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="name" />
                 </div>
                 <div class="form-group">
                     <form:input path="lastname" cssClass="form-control" placeholder="Last Name"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="lastname" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="lastname" />
                 </div>                    
                 <div class="form-group">
                     <form:input path="company" cssClass="form-control" placeholder="Company name"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="company" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="company" />
                 </div>
                 <div class="form-group">   
                     <form:select path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1"/>                                        
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="country" />                    
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="country" />                    
                 </div>
                 <div class="form-group">
                     <form:input path="city" cssClass="form-control" placeholder="City"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="city" />                    
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="city" />                    
                 </div>
                 <div class="form-group">
                     <form:input path="region" cssClass="form-control" placeholder="Region"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="region" />              
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="region" />              
                 </div>
                 <div class="form-group">                    
                     <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                        
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fade in" role="alert" path="timezone" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="timezone" />
                 </div>                
                 <div class="form-group">                
                     <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-out"></i> Sine Up</button>

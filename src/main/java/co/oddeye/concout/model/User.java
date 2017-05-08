@@ -725,5 +725,9 @@ public class User implements UserDetails {
         Result.put("Systems State", "");
         return Result;
     }
+
+    public void SendAdminMail(String action, mailSender Sender) throws UnsupportedEncodingException {
+        Sender.send(action,"User:"+ this.getName() + " " + this.getLastname() + "<br/>Sined by email:"+ this.getEmail() , "ara@oddeye.co");
+    }
     
 }
