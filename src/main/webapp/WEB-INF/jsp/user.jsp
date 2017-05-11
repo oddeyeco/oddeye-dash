@@ -23,7 +23,7 @@
                 <span class="count_bottom">&nbsp;</span>
             </div>                                                          
             <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-folder"></i> Uniq tags</span>
+                <span class="count_top"><i class="fa fa-folder"></i> unique tags </span>
                 <div class="count" id="uniqtagscount"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                 <span class="count_bottom">&nbsp;</span>
             </div>            
