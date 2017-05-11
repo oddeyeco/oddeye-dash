@@ -5,7 +5,5 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="x_panel">
-<h1>Error:404</h1>    
-<h2 class="alert alert-danger alert-dismissible fade in " role="alert">    
-${exception.getMessage()}</h2>    
+<h1>Error:403</h1>    
 </div>

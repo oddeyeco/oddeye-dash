@@ -123,3 +123,7 @@
         </c:forEach>         
     </form:form>                                                
 </div>
+<c:catch var="e">
+    <c:import url="${path}.jsp" />
+</c:catch>
+

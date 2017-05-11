@@ -4,7 +4,7 @@
 <compress:html removeIntertagSpaces="true" removeMultiSpaces="true"  compressCss="true" compressJavaScript="true">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
     <!DOCTYPE html>
     <html lang="en">
@@ -178,7 +178,7 @@
                         <c:catch var="e">
                             <c:import url="${body}.jsp" />
                         </c:catch>
-                        <c:if test="${!empty e}">
+                        <c:if test="${!empty e}">                            
                             <c:import url="errors/pageerror.jsp" />
                         </c:if>                    
                     </div>
@@ -217,11 +217,16 @@
             <!-- Select2 -->
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
 
-            <script src="${cp}/resources/js/global.js"></script>
+            <script src="${cp}/resources/js/global.js"></script>        
+
             <c:catch var="e">
                 <c:import url="${jspart}.jsp" />
             </c:catch>
-
+            <c:if test="${not empty path}">
+                <c:catch var="e">
+                    <c:import url="${path}js.jsp" />
+                </c:catch>                        
+            </c:if>
             <script>
                 $(function () {
                     $MENU_TOGGLE.on('click', function () {
@@ -232,6 +237,4 @@
             </script>
         </body>
     </html>
-
-
 </compress:html>

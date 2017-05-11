@@ -20,16 +20,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.stumbleupon.async.Deferred;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
@@ -50,6 +47,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -370,7 +368,7 @@ public class AjaxControlers {
                 jsonResult.addProperty("count", Metriclist.size());
                 final List<OddeeyMetricMeta> MetriclistSorted = new ArrayList<>(Metriclist.values());
                 MetriclistSorted.sort(OddeeyMetricMeta::compareTo);
-                MetriclistSorted.stream().map((metric) -> {                    
+                MetriclistSorted.stream().map((metric) -> {
                     final JsonObject metricjson = new JsonObject();
                     final JsonObject tagsjson = new JsonObject();
                     metricjson.addProperty("name", metric.getName());
@@ -694,4 +692,38 @@ public class AjaxControlers {
         return "ajax";
     }
 
+    @RequestMapping(value = {"/getmetastat/{uuid}"})
+    public String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User userDetails;
+
+        userDetails = UserDao.getUserByUUID(UUID.fromString(uuid));
+
+        if (userDetails != null) {
+            try {
+                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
+                jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
+                jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
+                jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
+                JsonObject tagaslist = new JsonObject();
+                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
+                    tagaslist.addProperty(item.getKey(), item.getValue().size());
+                }
+                jsonResult.add("tags", tagaslist);
+                jsonResult.addProperty("sucsses", true);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
 }

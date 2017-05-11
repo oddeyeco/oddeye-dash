@@ -129,7 +129,7 @@ public class DashController {
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("curentuser", userDetails);
-//            modelAndView.addObject("dashname", dashname);        
+
         modelAndView.addObject("exception", ex);
         modelAndView.addObject("url", request.getRequestURL());
         modelAndView.addObject("body", "errors/404error");
@@ -138,6 +138,8 @@ public class DashController {
         return modelAndView;
     }
 
+    
+    
     @RequestMapping(value = {"/dashboard/{dashname:.+}"}, method = RequestMethod.GET)
     public String ShowDash(@PathVariable(value = "dashname") String dashname, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
