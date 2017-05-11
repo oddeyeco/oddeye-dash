@@ -154,7 +154,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         final HBaseClient client = BaseTsdbV.getTsdb().getClient();
 
-        ArrayList<OddeeyMetricMeta> MtrList;
+        ConcoutMetricMetaList MtrList;
         try {
             MtrList = user.getMetricsMeta().getbyTag(tagK, tagV);
         } catch (Exception ex) {
@@ -163,7 +163,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
 
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
-        for (OddeeyMetricMeta meta : MtrList) {
+        for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
+            OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
             }
@@ -197,7 +198,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     public boolean deleteMetaByName(String name, User user) {
         final HBaseClient client = BaseTsdbV.getTsdb().getClient();
 
-        ArrayList<OddeeyMetricMeta> MtrList;
+        ConcoutMetricMetaList MtrList;
         try {
             MtrList = user.getMetricsMeta().getbyName(name);
         } catch (Exception ex) {
@@ -206,7 +207,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
 
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
-        for (OddeeyMetricMeta meta : MtrList) {
+        for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
+            OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
             }
@@ -230,10 +232,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return true;
     }
 
-    public ArrayList<Deferred<Object>> deleteMetaByList(ArrayList<OddeeyMetricMeta> MtrList, User user, SendToKafka sk) {
+    public ArrayList<Deferred<Object>> deleteMetaByList(ConcoutMetricMetaList MtrList, User user, SendToKafka sk) {
         final HBaseClient client = BaseTsdbV.getTsdb().getClient();
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
-        for (OddeeyMetricMeta meta : MtrList) {
+        for ( Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
+            OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
             }

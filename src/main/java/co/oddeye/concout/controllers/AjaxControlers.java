@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
@@ -22,11 +23,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
@@ -204,7 +207,7 @@ public class AjaxControlers {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
-        List<String> data = new ArrayList<>();
+//        List<String> data = new ArrayList<>();
         User userDetails;
         boolean all = Boolean.valueOf(s_all);
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -234,23 +237,30 @@ public class AjaxControlers {
                 if (filter.equals("") || filter.equals("*")) {
                     filter = "^(.*)$";
                 }
-                ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
+                ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
                 jsonResult.addProperty("sucsses", true);
-                for (final OddeeyMetricMeta metric : Metriclist) {
-                    if ((!metric.isSpecial()) || (all)) {
-                        if (!data.contains(metric.getName())) {
-                            data.add(metric.getName());
-                        }
-                    }
+
+//                for (final OddeeyMetricMeta metric : Metriclist) {
+//                    if ((!metric.isSpecial()) || (all)) {
+//                        if (!data.contains(metric.getName())) {
+//                            data.add(metric.getName());
+//                        }
+//                    }
+//                }
+                ArrayList<String> data = new ArrayList<>();
+                if (all) {
+                    data.addAll(Metriclist.getSpecialNameSorted());
+                    jsonResult.addProperty("specialcount", data.size());
                 }
-                Collections.sort(data);
+                data.addAll(Metriclist.getRegularNamelistSorted());
+//                Collections.sort(data);
                 Gson gson = new Gson();
 
                 jsondata.addAll(gson.toJsonTree(data).getAsJsonArray());
 //                        if (!jsondata.contains(metricjson)) {
 //                            jsondata.add(metricjson);
 //                        }                
-                jsonResult.addProperty("count", jsondata.size());
+                jsonResult.addProperty("count", data.size());
                 jsonResult.add("data", jsondata);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -300,11 +310,12 @@ public class AjaxControlers {
                 if (filter.equals("") || filter.equals("*")) {
                     filter = "^(.*)$";
                 }
-                ArrayList<OddeeyMetricMeta> Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
+                ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
 
-                for (final OddeeyMetricMeta metric : Metriclist) {
+                for (Map.Entry<Integer, OddeeyMetricMeta> metricentry : Metriclist.entrySet()) {
+                    final OddeeyMetricMeta metric = metricentry.getValue();
                     final JsonObject metricjson = new JsonObject();
                     final JsonObject tagsjson = new JsonObject();
                     metricjson.addProperty("name", metric.getName());
@@ -348,7 +359,7 @@ public class AjaxControlers {
                         getAuthentication().getPrincipal();
 
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                ArrayList<OddeeyMetricMeta> Metriclist;
+                ConcoutMetricMetaList Metriclist;
                 if (key.equals("name")) {
                     Metriclist = userDetails.getMetricsMeta().getbyName(value);
                 } else {
@@ -357,7 +368,9 @@ public class AjaxControlers {
 
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
-                for (final OddeeyMetricMeta metric : Metriclist) {
+                final List<OddeeyMetricMeta> MetriclistSorted = new ArrayList<>(Metriclist.values());
+                MetriclistSorted.sort(OddeeyMetricMeta::compareTo);
+                MetriclistSorted.stream().map((metric) -> {                    
                     final JsonObject metricjson = new JsonObject();
                     final JsonObject tagsjson = new JsonObject();
                     metricjson.addProperty("name", metric.getName());
@@ -365,15 +378,14 @@ public class AjaxControlers {
                     metricjson.addProperty("type", metric.getType());
                     metricjson.addProperty("typename", metric.getTypeName());
                     metricjson.addProperty("lasttime", metric.getLasttime());
-
-                    for (final Map.Entry<String, OddeyeTag> tag : metric.getTags().entrySet()) {
-                        if (!tag.getValue().getKey().equals("UUID")) {
-                            tagsjson.addProperty(tag.getValue().getKey(), tag.getValue().getValue());
-                        }
-                    }
+                    metric.getTags().entrySet().stream().filter((tag) -> (!tag.getValue().getKey().equals("UUID"))).forEachOrdered((tag) -> {
+                        tagsjson.addProperty(tag.getValue().getKey(), tag.getValue().getValue());
+                    });
                     metricjson.add("tags", tagsjson);
+                    return metricjson;
+                }).forEachOrdered((metricjson) -> {
                     jsondata.add(metricjson);
-                }
+                });
                 jsonResult.add("data", jsondata);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -439,31 +451,30 @@ public class AjaxControlers {
                 }
 
                 if ((key != null) && (value != null)) {
-                    ArrayList<OddeeyMetricMeta> MtrList;
+                    ConcoutMetricMetaList MtrList;
                     try {
 
                         if (key.equals("name")) {
                             MtrList = userDetails.getMetricsMeta().getbyName(value);
                         } else {
                             MtrList = userDetails.getMetricsMeta().getbyTag(key, value);
-                        }                                               
-                        ArrayList<Deferred<Object>> list = MetaDao.deleteMetaByList(MtrList, userDetails,KafkaLocalSender);
+                        }
+                        ArrayList<Deferred<Object>> list = MetaDao.deleteMetaByList(MtrList, userDetails, KafkaLocalSender);
                         Deferred.groupInOrder(list).join();
                     } catch (Exception ex) {
                         jsonResult.addProperty("sucsses", false);
                         LOGGER.error(globalFunctions.stackTrace(ex));
-                    }                    
+                    }
                 } else {
                     jsonResult.addProperty("sucsses", false);
                 }
-                
+
 //                if (name != null) {
 //                    MetaDao.deleteMetaByName(name, userDetails);
 //                    jsonResult.addProperty("sucsses", true);
 //                } else {
 //                    jsonResult.addProperty("sucsses", false);
 //                }
-
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -662,6 +673,8 @@ public class AjaxControlers {
                 userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
                 jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
+                jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
+                jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
                 JsonObject tagaslist = new JsonObject();
                 for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
                     tagaslist.addProperty(item.getKey(), item.getValue().size());

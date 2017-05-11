@@ -11,6 +11,7 @@ import co.oddeye.core.OddeyeTag;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,7 +30,10 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
     private final Map<String, Set<String>> TagsList = new HashMap<>();
     static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
-    private final List<String> Namelist = new ArrayList<>();
+    private final Set<String> Namelist = new HashSet<>();
+    private final Set<String> RegularNamelist = new HashSet<>();
+    private final Set<String> SpecialNamelist = new HashSet<>();
+    private final Set<Integer> Taghashlist = new HashSet<>();
 
     public ConcoutMetricMetaList() {
         super();
@@ -40,6 +44,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     }
 
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
+        getTaghashlist().add(e.getTags().hashCode());
         e.getTags().entrySet().stream().forEach((Entry<String, OddeyeTag> tag) -> {
             if (!tag.getKey().equals("UUID")) {
                 if (getTagsList().containsKey(tag.getKey())) {
@@ -54,10 +59,15 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             }
         });
 
-        if (!Namelist.contains(e.getName())) {
-            Namelist.add(e.getName());
+        Namelist.add(e.getName());
+        if (e.isSpecial()) 
+        {
+            getSpecialNamelist().add(e.getName());
         }
-
+        else
+        {
+            getRegularNamelist().add(e.getName());
+        }
         if (this.containsKey(e.hashCode())) {
             ConcoutMetricMetaList.LOGGER.info("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
         }
@@ -71,13 +81,18 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         return this.put(e.hashCode(), e);
     }
 
-    public List<String> GetNames() {
-        Collections.sort(Namelist);
+    public List<String> GetSortedNames() {
+        List<String> Name_list = new ArrayList<>(Namelist);
+        Collections.sort(Name_list);
+        return Name_list;
+    }
+
+    public Set<String> GetNames() {
         return Namelist;
     }
 
-    public ArrayList<OddeeyMetricMeta> getbyTag(String tagK, String tagV) throws Exception {
-        ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();
+    public ConcoutMetricMetaList getbyTag(String tagK, String tagV) throws Exception {
+        ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             if (MetricMeta.getValue().getTags().containsKey(tagK)) {
                 if (MetricMeta.getValue().getTags().get(tagK).getValue().equals(tagV)) {
@@ -85,7 +100,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 }
             }
         }
-        SortbyName.sort(OddeeyMetricMeta::compareTo);
+//        SortbyName.sort(OddeeyMetricMeta::compareTo);
         return SortbyName;
     }
 
@@ -96,8 +111,8 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         return TagsList;
     }
 
-    public ArrayList<OddeeyMetricMeta> getbyTags(Map<String, String> tagsMap, String filter) {
-        ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();
+    public ConcoutMetricMetaList getbyTags(Map<String, String> tagsMap, String filter) {
+        ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             boolean sucsses = true;
             for (Entry<String, String> tag : tagsMap.entrySet()) {
@@ -107,9 +122,6 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                     if (!m.matches()) {
                         sucsses = false;
                     }
-//                    if (!MetricMeta.getValue().getTags().get(tag.getKey()).getValue().equals(tag.getValue())) {
-//                        sucsses = false;
-//                    }
                 }
             }
             if (sucsses) {
@@ -120,20 +132,53 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 }
             }
         }
-        SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));
+//        SortbyName.sort((OddeeyMetricMeta o1, OddeeyMetricMeta o2) -> o1.compareTo(o2));
         return SortbyName;
     }
 
-    public ArrayList<OddeeyMetricMeta> getbyName(String name) {
-        ArrayList<OddeeyMetricMeta> SortbyName = new ArrayList<>();
+    public ConcoutMetricMetaList getbyName(String name) {
+        ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             if (MetricMeta.getValue().getName().equals(name)) {
                 SortbyName.add(MetricMeta.getValue());
             }
 
         }
-        SortbyName.sort(OddeeyMetricMeta::compareTo);
+//        SortbyName.sort(OddeeyMetricMeta::compareTo);
         return SortbyName;
     }
 
+    /**
+     * @return the Taghashlist
+     */
+    public Set<Integer> getTaghashlist() {
+        return Taghashlist;
+    }
+
+    /**
+     * @return the RegularNamelist
+     */
+    public Set<String> getRegularNamelist() {
+        return RegularNamelist;
+    }
+    
+    public List<String> getRegularNamelistSorted() {
+        List<String> list = new ArrayList<>(RegularNamelist);
+        Collections.sort(list);
+        return list;                
+    }
+    
+
+    /**
+     * @return the SpecialNamelist
+     */
+    public Set<String> getSpecialNamelist() {
+        return SpecialNamelist;
+    }
+
+        public List<String> getSpecialNameSorted() {
+        List<String> list = new ArrayList<>(SpecialNamelist);
+        Collections.sort(list);
+        return list;                
+    }
 }

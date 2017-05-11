@@ -56,6 +56,16 @@
                             <div class="count" id="tags"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                             <span class="count_bottom">&nbsp;</span>
                         </div>                                                
+                        <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-folder"></i> Total Metrics</span>
+                            <div class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
+                            <span class="count_bottom">&nbsp;</span>
+                        </div>                             
+                        <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-folder"></i> Gruppers </span>
+                            <div class="count" id="uniqtagscount"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
+                            <span class="count_bottom">&nbsp;</span>
+                        </div>                              
                     </div>
                     <div class="row tile_count" id="tagslist">
                         <%--<c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">
