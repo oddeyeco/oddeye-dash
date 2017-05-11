@@ -187,7 +187,7 @@
 //                    $('#metrics').after('<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>');
                     $('#tags').html(data.tagscount);
                     $('#count').html(data.count);
-                    $('#uniqtagscount').html(data.uniqtagscount);
+//                    $('#uniqtagscount').html(data.uniqtagscount);
                     
                     $("#tagslist").html('');
 
