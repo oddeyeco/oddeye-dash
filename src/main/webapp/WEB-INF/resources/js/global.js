@@ -5,6 +5,8 @@
  */
 
 
+/* global URL */
+
 function compareStrings(a, b) {
     // Assuming you want case-insensitive comparison
     a = a.toLowerCase();
@@ -68,3 +70,14 @@ function exportToCsv(filename, rows) {
         }
     }
 }
+
+$(document).ready(function () {
+    $("body").on("click", "#allowedit", function () {
+        var uri = cp + "/switchallow";
+        $.getJSON(uri, null, function (data) {
+            console.log(data);
+            location.reload();
+        });
+
+    });
+});

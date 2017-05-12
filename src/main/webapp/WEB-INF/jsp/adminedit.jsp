@@ -114,7 +114,20 @@
                             <form:errors path="${config.getValue().path}" />
                         </div>
                     </div>  
-                </c:when>                                
+                </c:when>  
+                <c:when test="${config.getValue().type == 'float'}">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="${config.getValue().path}">${config.getValue().title} 
+                            <c:if test="${config.getValue().required == true}"> 
+                                <span class="required">*</span>
+                            </c:if>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <form:input path="${config.getValue().path}" type="number" cssClass="form-control" placeholder="${config.getValue().retitle} "/>                            
+                            <form:errors path="${config.getValue().path}" />
+                        </div>
+                    </div>  
+                </c:when>                
                 <c:otherwise>
 
                 </c:otherwise>

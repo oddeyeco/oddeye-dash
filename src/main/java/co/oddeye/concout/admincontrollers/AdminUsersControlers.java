@@ -151,14 +151,13 @@ public class AdminUsersControlers extends GRUDControler {
                 put("retitle", "Re enter Password");
                 put("type", "password");
             }
-        })
-                .AddEditConfig("Company", new HashMap<String, Object>() {
-                    {
-                        put("path", "company");
-                        put("title", "Company");
-                        put("type", "String");
-                    }
-                }).AddEditConfig("Country", new HashMap<String, Object>() {
+        }).AddEditConfig("Company", new HashMap<String, Object>() {
+            {
+                put("path", "company");
+                put("title", "Company");
+                put("type", "String");
+            }
+        }).AddEditConfig("Country", new HashMap<String, Object>() {
             {
                 put("path", "country");
                 put("title", "Country");
@@ -171,6 +170,18 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", " Timezone");
                 put("type", "Select");
                 put("items", timezones);
+            }
+        }).AddEditConfig("balance", new HashMap<String, Object>() {
+            {
+                put("path", "balance");
+                put("title", "Balance");
+                put("type", "float");
+            }
+        }).AddEditConfig("alowswitch", new HashMap<String, Object>() {
+            {
+                put("path", "alowswitch");
+                put("title", "is Alowswitch");
+                put("type", "boolean");
             }
         }).AddEditConfig("Authorities", new HashMap<String, Object>() {
             {
@@ -227,7 +238,7 @@ public class AdminUsersControlers extends GRUDControler {
             map.put("isAuthentication", false);
         }
 
-        map.put("model", Userdao.getUserByUUID(UUID.fromString(id)));
+        map.put("model", Userdao.getUserByUUID(UUID.fromString(id),true));
         map.put("configMap", getEditConfig());
         map.put("modelname", "User");
         map.put("path", "user");
@@ -266,7 +277,7 @@ public class AdminUsersControlers extends GRUDControler {
                     map.put("configMap", getEditConfig());
                     map.put("modelname", "User");
                     map.put("path", "user");
-                    map.put("body", "adminedit");                    
+                    map.put("body", "adminedit");
                     map.put("jspart", "adminjs");
                 } else {
                     Userdao.deleteUser(newUser);
@@ -287,12 +298,11 @@ public class AdminUsersControlers extends GRUDControler {
                     } catch (Exception e) {
                         LOGGER.error(globalFunctions.stackTrace(e));
                     }
-
-//TODO Save User
                 }
 
                 map.put("model", newUser);
                 map.put("configMap", getEditConfig());
+                map.put("path", "user");
                 map.put("modelname", "User");
                 map.put("body", "adminedit");
                 map.put("jspart", "adminjs");

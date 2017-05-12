@@ -145,7 +145,7 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="">
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <!--<img src="${cp}/resources/images/img.jpg" alt="">-->${curentuser.getEmail()}
+                                            ${curentuser.getEmail()}
                                             <span class=" fa fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -160,7 +160,20 @@
 
                                             <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                         </ul>
-                                    </li>                                
+                                    </li>       
+                                    <li class="">
+                                        <a href="javascript:;" class="user-profile">
+                                            Balance ${curentuser.getBalance()}                                            
+                                        </a>
+                                    </li>  
+                                    <li class="">
+                                        <a href="javascript:void(0);" class="cluser-profile" id="allowedit">
+                                            Allow Edit                                            
+                                            <c:if test="${curentuser.getAlowswitch()}">
+                                                <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="30px">
+                                            </c:if>
+                                        </a>
+                                    </li>                                    
                                 </ul>
                             </nav>
                         </div>

