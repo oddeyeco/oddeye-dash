@@ -119,6 +119,12 @@ public class DashController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }            
+            map.put("activeuser", userDetails);
             map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
             map.put("title", "New Dashboard");
         }
@@ -155,17 +161,23 @@ public class DashController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
+
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
+            map.put("activeuser", userDetails);
             map.put("dashname", dashname);
             map.put("title", dashname);
             map.put("dashInfo", userDetails.getDush(dashname));
             map.put("body", "dashboard");
             map.put("jspart", "dashboardjs");
+
             if (userDetails.getDush(dashname) == null) {
                 throw new ResourceNotFoundException(dashname + " not exists");
             }
 
-//            DashboardTemplate template = new DashboardTemplate(dashname,userDetails.getDush(dashname), userDetails, TemplateType.Dushboard);            
-//            TemplateDAO.add(template);
             return "index";
         }
         return "index";
@@ -179,6 +191,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             String DushName = request.getParameter("name").trim();
             String DushInfo = request.getParameter("info").trim();
             if (DushName != null) {
@@ -202,6 +219,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             String DushName = request.getParameter("name").trim();
             String DushInfo = request.getParameter("info").trim();
             if (DushName != null) {
@@ -227,6 +249,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }            
             String DushName = request.getParameter("name").trim();
             if (DushName != null) {
                 userDetails.removeDush(DushName, Userdao);

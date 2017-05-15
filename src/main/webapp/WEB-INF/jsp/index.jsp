@@ -169,7 +169,9 @@
                                             </li>
                                             <li><a href="javascript:;">Help</a></li>
                                                 <c:url value="/logout/" var="logoutUrl" />
-
+                                                <c:if test="${curentuser.getSwitchUser()!=null}">
+                                                <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> Switch off</a></li>
+                                                </c:if>
                                             <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                                         </ul>
                                     </li>       

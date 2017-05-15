@@ -279,6 +279,18 @@ public class AdminUsersControlers extends GRUDControler {
 
     }
 
+    @RequestMapping(value = "/switchoff/", method = RequestMethod.GET)
+    public String userswitchoff(ModelMap map, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            userDetails.setSwitchUser(null);
+        }
+        return "redirect:/dashboard/";
+
+    }
+
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("model") User newUser, BindingResult result, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
 
