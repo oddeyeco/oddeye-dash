@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.providers;
 
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.core.OddeeyMetricMeta;
@@ -29,8 +30,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  * @author vahan
  */
 public class OddeyeKafkaDataListener implements MessageListener<Object, Object>, Serializable {
-
+    
     private final User user;
+    private final HbaseMetaDao MetaDao;
     private final Logger log = LoggerFactory.getLogger(OddeyeKafkaDataListener.class);
 
     private static final JsonParser PARSER = new JsonParser();
@@ -41,9 +43,10 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
     private final SimpMessagingTemplate template;
 //    private final Map<String, String[]> sotokenlist = new HashMap<>();
 
-    public OddeyeKafkaDataListener(User _user, SimpMessagingTemplate _template) {
+    public OddeyeKafkaDataListener(User _user, SimpMessagingTemplate _template, HbaseMetaDao _MetaDao) {
         user = _user;
         template = _template;
+        MetaDao=_MetaDao;
 //        sotokenlist.putAll(sotoken);
     }
 
@@ -69,6 +72,8 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
             if (metricMeta == null) {
                 try {
                     byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
+                    user.getMetricsMeta().put(hash, MetaDao.getByKey(key)) ;
+                    metricMeta = user.getMetricsMeta().get(hash);
                 } catch (Exception ex) {
                     log.info(globalFunctions.stackTrace(ex));
                 }

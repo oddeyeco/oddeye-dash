@@ -8,6 +8,7 @@ package co.oddeye.concout.model;
 import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.providers.OddeyeKafkaDataListener;
@@ -717,14 +718,14 @@ public class User implements UserDetails {
         this.listenerContainer = listenerContainer;
     }
 
-    public void setListenerContainer(ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
+    public void setListenerContainer(HbaseMetaDao _MetaDao,ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
         if (this.listenerContainer == null) {
             String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];
             for (int i = 0; i < AlertLevel.ALERT_LEVELS_INDEX.length; i++) {
                 topics[i] = this.getId().toString() + AlertLevel.ALERT_LEVELS_INDEX[i];
             }
             ContainerProperties properties = new ContainerProperties(topics);
-            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template));
+            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template,_MetaDao));
             this.sotokenlist.putAll(sotoken);
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setConcurrency(1);

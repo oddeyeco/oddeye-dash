@@ -144,8 +144,8 @@
 
                                                 <tbody>
                                                     <c:set value="1" var="loopindex" />
-                                                    <c:forEach items="${MetricsMeta.getbyTag(group_item,showgroup)}" var="metric" varStatus="loop">
-
+                                                    <c:forEach items="${MetricsMeta.getbyTag(group_item,showgroup)}" var="metricentry" varStatus="loop">
+                                                        <c:set var="metric" value="${metricentry.getValue()}" />
                                                         <c:set value="${metric.getValue() < 0 ? -metric.getValue():metric.getValue()}" var="val" />
                                                         <c:set value="${metric.getWeight() < 0 ? -metric.getWeight():metric.getWeight()}" var="weight" />
                                                         <c:set value="${metric.getPersent_weight() < 0 ? -metric.getPersent_weight():metric.getPersent_weight()}" var="persent" />
@@ -167,7 +167,6 @@
                                                                 <jsp:setProperty name="dateValue" property="time" value="${metric.getTimestamp()*1000}"/>
                                                                 <fmt:formatDate value="${dateValue}" pattern="MM/dd HH:mm:ss"/></td>
                                                         </tr>
-
                                                     </c:forEach>
                                                 </tbody>
                                             </table>

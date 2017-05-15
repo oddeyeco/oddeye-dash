@@ -93,7 +93,7 @@ public class UserController {
 
             String[] levels = request.getParameterValues("levels[]");
             String sotoken = request.getParameter("sotoken");
-            userDetails.setListenerContainer(consumerFactory, this.template, new HashMap<String, String[]>() {
+            userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, new HashMap<String, String[]>() {
                 {
                     put(sotoken, levels);
                 }
@@ -137,6 +137,7 @@ public class UserController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
+            map.put("activeuser", userDetails);
             map.put("title", "Real Time monitoring");
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
@@ -344,6 +345,7 @@ public class UserController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
+            map.put("activeuser", userDetails);
             map.put("ErrorsDao", ErrorsDao);
             map.put("title", "Analysis");
             String group_item = request.getParameter("group_item");
