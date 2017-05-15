@@ -65,15 +65,15 @@
                             </li>                         
 
                             <li>
-                                <span class="name">Significance</span>
+                                <span class="name">RSquare</span>
                                 <span class="value text-success">
                                     <c:choose>
-                                        <c:when test="${metric.getRegression().getSignificance() == Double.NaN}">
-                                            ${metric.getRegression().getSignificance()}
+                                        <c:when test="${metric.getRegression().getRSquare() == Double.NaN}">
+                                            ${metric.getRegression().getRSquare()}
                                             <br />
                                         </c:when>    
                                         <c:otherwise>
-                                            <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${metric.getRegression().getSignificance()}" />
+                                            <fmt:formatNumber type="number" maxFractionDigits="5" value=" ${metric.getRegression().getRSquare()}" />
                                             <br />
                                         </c:otherwise>
                                     </c:choose>                                

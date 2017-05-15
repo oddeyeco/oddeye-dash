@@ -119,15 +119,15 @@
                         </li>                         
                         
                         <li>
-                            <span class="name">Significance</span>
+                            <span class="name">RSquare</span>
                             <span class="value text-success">
                                 <c:choose>
-                                    <c:when test="${Error.getRegression().getSignificance() == Double.NaN}">
-                                        ${Error.getRegression().getSignificance()}
+                                    <c:when test="${Error.getRegression().getRSquare() == Double.NaN}">
+                                        ${Error.getRegression().getRSquare()}
                                         <br />
                                     </c:when>    
                                     <c:otherwise>
-                                        <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSignificance()}" />
+                                        <fmt:formatNumber type="number" maxFractionDigits="5" value=" ${Error.getRegression().getRSquare()}" />
                                         <br />
                                     </c:otherwise>
                                 </c:choose>                                
