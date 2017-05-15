@@ -58,10 +58,23 @@ public class DashController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
+
+            map.put("activeuser", userDetails);
+
             map.put("title", "My Dashboards");
-            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails,50));
-            map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails,50));
-            map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails,50));
+            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails, 50));
+            map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails, 50));
+            map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails, 50));
+
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    map.put("activeuser", userDetails.getSwitchUser());
+                    map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails.getSwitchUser(), 50));
+                    map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails.getSwitchUser(), 50));
+                    map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails.getSwitchUser(), 50));
+
+                }
+            }
         }
 
         map.put("body", "dashboards");
@@ -80,15 +93,12 @@ public class DashController {
                 map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
                 DashboardTemplate Dash = TemplateDAO.getbyKey(Hex.decodeHex(dashkey.toCharArray()));
                 map.put("title", Dash.getName());
-                if (Dash.getInfojson()!=null)
-                {
+                if (Dash.getInfojson() != null) {
                     map.put("dashInfo", Dash.getInfojson().toString());
-                }
-                else
-                {
+                } else {
                     map.put("dashInfo", "{}");
                 }
-                
+
                 map.put("body", "dashboard");
                 map.put("jspart", "dashboardjs");
 
@@ -138,8 +148,6 @@ public class DashController {
         return modelAndView;
     }
 
-    
-    
     @RequestMapping(value = {"/dashboard/{dashname:.+}"}, method = RequestMethod.GET)
     public String ShowDash(@PathVariable(value = "dashname") String dashname, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -185,7 +193,7 @@ public class DashController {
 
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/dashboard/savetemplate"})
     public String SaveDashTeplate(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -198,7 +206,7 @@ public class DashController {
             String DushInfo = request.getParameter("info").trim();
             if (DushName != null) {
                 userDetails.addDush(DushName, DushInfo, Userdao);
-                DashboardTemplate template = new DashboardTemplate(DushName, DushInfo, userDetails, TemplateType.Dushboard);                
+                DashboardTemplate template = new DashboardTemplate(DushName, DushInfo, userDetails, TemplateType.Dushboard);
                 TemplateDAO.add(template);
                 jsonResult.addProperty("sucsses", true);
             } else {
@@ -209,7 +217,7 @@ public class DashController {
         map.put("jsonmodel", jsonResult);
 
         return "ajax";
-    }    
+    }
 
     @RequestMapping(value = {"/dashboard/delete"})
     public String DeleteDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
@@ -244,7 +252,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             if (filtername == null) {
                 filtername = "oddeye_base_def";
             }

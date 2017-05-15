@@ -13,7 +13,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>User (UUID = ${curentuser.getId().toString()}) </h2>
+                <h2>User (UUID = ${activeuser.getId().toString()}) </h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -24,19 +24,19 @@
                             <!--<img class="img-responsive avatar-view" src="images/picture.jpg" alt="Avatar" title="Change the avatar">-->
                         </div>
                     </div>
-                    <h3>${curentuser.getName()} ${curentuser.getLastname()}</h3>
+                    <h3>${activeuser.getName()} ${activeuser.getLastname()}</h3>
 
                     <ul class="list-unstyled user_data">
-                        <li><i class="fa fa-map-marker user-profile-icon"></i> ${curentuser.getCountry()} ${curentuser.getRegion()} ${curentuser.getCity()} 
+                        <li><i class="fa fa-map-marker user-profile-icon"></i> ${activeuser.getCountry()} ${activeuser.getRegion()} ${activeuser.getCity()} 
                         </li>
 
                         <li>
-                            <i class="fa fa-suitcase  user-profile-icon"></i>  ${curentuser.getCompany()}
+                            <i class="fa fa-suitcase  user-profile-icon"></i>  ${activeuser.getCompany()}
                         </li>
 
                         <li class="m-top-xs">
                             <i class="glyphicon glyphicon-time user-profile-icon"></i>
-                            ${curentuser.getTimezone()}
+                            ${activeuser.getTimezone()}
                         </li>
                     </ul>
 
@@ -63,7 +63,7 @@
                         </div>                                                          
                     </div>
                     <div class="row tile_count" id="tagslist">
-                        <%--<c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">
+                        <%--<c:forEach items="${activeuser.getMetricsMeta().getTagsList()}" var="tagitem">
                             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                                 <span class="count_top"><i class="fa fa-th-list"></i> Total ${tagitem.key}</span>
                                 <div class="count">${tagitem.value.size()}</div>

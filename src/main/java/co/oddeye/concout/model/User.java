@@ -802,14 +802,7 @@ public class User implements UserDetails {
      */
     public void setAlowswitch(Boolean alowswitch) {
         this.alowswitch = alowswitch;
-    }
-    
-    public List<User> getSwitchUsers( HbaseUserDao Userdao) {
-        //TODO
-        return Userdao.getAllUsers(true);
-        
-    }    
-
+    }     
     /**
      * @return the SwitchUser
      */

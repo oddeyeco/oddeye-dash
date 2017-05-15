@@ -152,7 +152,12 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="">
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            ${curentuser.getEmail()}
+                                            <c:if test="${curentuser.getSwitchUser()==null}">
+                                                ${curentuser.getEmail()}    
+                                            </c:if>
+                                            <c:if test="${curentuser.getSwitchUser()!=null}">
+                                                <b>Switched to ${curentuser.getSwitchUser().getEmail()}</b>
+                                            </c:if>                                            
                                             <span class=" fa fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -181,13 +186,7 @@
                                             </c:if>
                                         </a>
                                     </li>     
-                                    <sec:authorize access="hasRole('ROLE_CAN_SWICH')">
-                                        <li class="">
-                                            <a href="javascript:void(0);" class="cluser-profile" id="switched">
-                                                Switched to ${curentuser.getSwitchUser().getEmail()}
-                                            </a>
-                                        </li>                                     
-                                    </sec:authorize>
+
                                 </ul>
                             </nav>
                         </div>

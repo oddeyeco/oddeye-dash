@@ -3,11 +3,11 @@
 <div class="form-group">
     <label class="col-md-12 col-sm-12 col-xs-12">Metric <input type="checkbox" class="js-switch-small filter-switch" id="check_metric" name="check_metric" value="metric"/> </label>
     <div class="col-lg-12 col-sm-12 col-xs-12">
-        <input class="form-control autocomplete-append-metric filter-input" type="text" name="metric_input" id="metric_input" tagkey="metric}" value="">
+        <input class="form-control autocomplete-append-metric filter-input" type="text" name="metric_input" id="metric_input" tagkey="metric" value="">
         <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
     </div>    
     <label class="col-md-12 col-sm-12 col-xs-12">By Tag</label>
-    <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
+    <c:forEach items="${activeuser.getMetricsMeta().getTagsList()}" var="tagitem">   
         <div class="form-group">
             <label class=" col-lg-12 col-sm-12 col-xs-12">
                 ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}
@@ -23,10 +23,10 @@
 <div class="form-group">
     <label class="col-md-12 col-sm-12 col-xs-12">Level</label>
     <div class="col-md-12 col-sm-12 col-xs-12">
-        <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
+        <c:forEach items="${activeuser.getAlertLevels()}" var="level">   
             <div class="col-lg-6">
                 <label>
-                    <input type="checkbox" class="js-switch-small" id="check_level_${level.key}" name="check_level_${level.key}" /> ${curentuser.getAlertLevels().getName(level.key)}
+                    <input type="checkbox" class="js-switch-small" id="check_level_${level.key}" name="check_level_${level.key}" /> ${activeuser.getAlertLevels().getName(level.key)}
                 </label>
             </div>                                
         </c:forEach>

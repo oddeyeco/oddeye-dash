@@ -79,10 +79,15 @@ public class ProfileController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-//            if (userDetails.getMetricsMeta() == null) {
-//            userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-//            }
+
             map.put("curentuser", userDetails);
+            map.put("activeuser", userDetails);
+
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    map.put("activeuser", userDetails.getSwitchUser());
+                }
+            }
             map.put("title", "MyProfile");
 
         } else {
@@ -101,9 +106,18 @@ public class ProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User userDetails = (User) SecurityContextHolder.getContext().
+                User cuentuser = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
-                map.put("curentuser", userDetails);
+                map.put("curentuser", cuentuser);
+                User userDetails = cuentuser;
+                if ((cuentuser.getSwitchUser() != null)) {
+                    if (cuentuser.getSwitchUser().getAlowswitch()) {
+                        userDetails = cuentuser.getSwitchUser();
+                    }
+                }
+
+                map.put("activeuser", userDetails);
+
                 if (userDetails.getMetricsMeta() == null) {
                     try {
                         userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
@@ -129,10 +143,10 @@ public class ProfileController {
 
                 CalendarObj.add(Calendar.DATE, -1);
 
-                Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, HbaseMetaDao.TBLENAME.getBytes(), BaseTsdb.getClient());                
+                Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, HbaseMetaDao.TBLENAME.getBytes(), BaseTsdb.getClient());
                 map.put("Rules", rules);
                 ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), "1h-ago", "now", "", false);
-                
+
                 JsonArray DatapointsJSON = new JsonArray();
                 for (DataPoints[] Datapointslist : data) {
                     for (DataPoints Datapoints : Datapointslist) {
@@ -147,7 +161,7 @@ public class ProfileController {
                             //TODO check host type
                             j_data.addProperty("unit:", "format_data");
                             DatapointsJSON.add(j_data);
-                        }                        
+                        }
                     }
                 }
                 map.put("data", DatapointsJSON);
@@ -172,8 +186,18 @@ public class ProfileController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
+            map.put("activeuser", userDetails);
+
             map.put("newuserleveldata", userDetails);
             map.put("newuserdata", userDetails);
+
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    map.put("activeuser", userDetails.getSwitchUser());
+                    map.put("newuserleveldata", userDetails.getSwitchUser());
+                    map.put("newuserdata", userDetails.getSwitchUser());
+                }
+            }
             map.put("title", "Edit Profile");
             DefaultController.setLocaleInfo(map);
 
@@ -197,7 +221,11 @@ public class ProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+            if ((curentuser.getSwitchUser() != null)) {
+                if (curentuser.getSwitchUser().getAlowswitch()) {
+                    curentuser = curentuser.getSwitchUser();
+                }
+            }
             userValidator.updatevalidate(newuserdata, result);
 
             DefaultController.setLocaleInfo(map);
@@ -252,7 +280,11 @@ public class ProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
+            if ((curentuser.getSwitchUser() != null)) {
+                if (curentuser.getSwitchUser().getAlowswitch()) {
+                    curentuser = curentuser.getSwitchUser();
+                }
+            }
             levelsValidator.validate(newuserdata, result);
 
             DefaultController.setLocaleInfo(map);

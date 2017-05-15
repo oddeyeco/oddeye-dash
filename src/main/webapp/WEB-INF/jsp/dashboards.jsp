@@ -15,7 +15,7 @@
     <div class="col-md-8">
         <div class="x_panel">    
             <div class="x_title">
-                <h2>My Dashboards (${curentuser.getDushList().size()})</h2>
+                <h2>My Dashboards (${activeuser.getDushList().size()})</h2>
                 <a class="btn btn-success btn-sm pull-right" href="<spring:url value="/dashboard/new"  htmlEscape="true"/>" >New Dashboard </a>
                 <div class="clearfix"></div>
             </div>
@@ -23,7 +23,7 @@
             <div class="x_content">
                 <div>
                     <ul class="gotodash">
-                        <c:forEach items="${curentuser.getDushList()}" var="Dush" varStatus="loop">                                
+                        <c:forEach items="${activeuser.getDushList()}" var="Dush" varStatus="loop">                                
                             <li class="col-md-6">
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">${Dush.getKey()}</a> 

@@ -57,19 +57,19 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class AjaxControlers {
-    
+
     @Autowired
     HbaseDataDao DataDao;
     @Autowired
     HbaseMetaDao MetaDao;
-    
+
     @Autowired
     HbaseUserDao UserDao;
-    
+
     @Autowired
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     protected static final Logger LOGGER = LoggerFactory.getLogger(AjaxControlers.class);
-    
+
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) Integer hash,
@@ -81,14 +81,12 @@ public class AjaxControlers {
             @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User userDetails;
+        User userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-        } else {
-            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
         }
-        
+
         Gson gson = new Gson();
         Map<String, String> Tagmap;
         JsonObject jsonMessages = new JsonObject();
@@ -98,8 +96,13 @@ public class AjaxControlers {
             map.put("jsonmodel", jsonResult);
             return "ajax";
         }
-        
+
         if (userDetails != null) {
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             OddeeyMetricMeta metric = null;
             if ((hash != null)) {
                 metric = userDetails.getMetricsMeta().get(hash);
@@ -135,33 +138,33 @@ public class AjaxControlers {
                         Tagmap.remove("alert_level");
                         JsonObject jsonMessage;
                         String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
-                        
+
                         if (jsonMessages.get(jsonuindex) == null) {
                             jsonMessage = new JsonObject();
                         } else {
                             jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                         }
-                        
+
                         if (metric != null) {
                             jsonMessage.addProperty("hash", metric.hashCode());
                         }
                         jsonMessage.addProperty("taghash", Tagmap.hashCode());
                         jsonMessage.addProperty("metric", DataPoints.metricName());
-                        
+
                         final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
                         jsonMessage.add("tags", TagsJSON);
                         Tagmap.clear();
-                        
+
                         final SeekableView Datalist = DataPoints.iterator();
-                        
+
                         JsonArray DatapointsJSON;
-                        
+
                         if (jsonMessage.get("data") == null) {
                             DatapointsJSON = new JsonArray();
                         } else {
                             DatapointsJSON = jsonMessage.get("data").getAsJsonArray();
                         }
-                        
+
                         while (Datalist.hasNext()) {
                             final DataPoint Point = Datalist.next();
                             if (Point.timestamp() < start_time) {
@@ -175,13 +178,13 @@ public class AjaxControlers {
                             pointsJSON.add(Point.doubleValue());
                             DatapointsJSON.add(pointsJSON);
                         }
-                        
+
                         jsonMessage.add("data", DatapointsJSON);
-                        
+
                         jsonMessages.add(jsonuindex, jsonMessage);
-                        
+
                     }
-                    
+
                 }
             } else {
                 LOGGER.warn("Empty Data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
@@ -193,10 +196,10 @@ public class AjaxControlers {
             jsonResult.add("chartsdata", jsonMessages);
         }
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/getfiltredmetricsnames"})
     public String GetMetricsLargeNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
@@ -207,17 +210,20 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
 //        List<String> data = new ArrayList<>();
-        User userDetails;
+        User userDetails = null;
         boolean all = Boolean.valueOf(s_all);
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-        } else {
-            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
         }
-        
+
         if (userDetails != null) {
             try {
+                if ((userDetails.getSwitchUser() != null)) {
+                    if (userDetails.getSwitchUser().getAlowswitch()) {
+                        userDetails = userDetails.getSwitchUser();
+                    }
+                }
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
                 for (String tag : tagslist) {
@@ -254,7 +260,7 @@ public class AjaxControlers {
                 data.addAll(Metriclist.getRegularNamelistSorted());
 //                Collections.sort(data);
                 Gson gson = new Gson();
-                
+
                 jsondata.addAll(gson.toJsonTree(data).getAsJsonArray());
 //                        if (!jsondata.contains(metricjson)) {
 //                            jsondata.add(metricjson);
@@ -269,10 +275,10 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/getfiltredmetrics"})
     public String GetMetricsLarge(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
@@ -281,15 +287,18 @@ public class AjaxControlers {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
-        User userDetails;
+        User userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-        } else {
-            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
         }
-        
+
         if (userDetails != null) {
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             try {
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
@@ -312,7 +321,7 @@ public class AjaxControlers {
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
-                
+
                 for (Map.Entry<Integer, OddeeyMetricMeta> metricentry : Metriclist.entrySet()) {
                     final OddeeyMetricMeta metric = metricentry.getValue();
                     final JsonObject metricjson = new JsonObject();
@@ -320,7 +329,7 @@ public class AjaxControlers {
                     metricjson.addProperty("name", metric.getName());
                     metricjson.addProperty("hash", metric.hashCode());
                     metricjson.addProperty("lasttime", metric.getLasttime());
-                    
+
                     for (final Map.Entry<String, OddeyeTag> tag : metric.getTags().entrySet()) {
                         if (!tag.getValue().getKey().equals("UUID")) {
                             tagsjson.addProperty(tag.getValue().getKey(), tag.getValue().getValue());
@@ -329,7 +338,7 @@ public class AjaxControlers {
                     metricjson.add("tags", tagsjson);
                     jsondata.add(metricjson);
                 }
-                
+
                 jsonResult.add("data", jsondata);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -339,10 +348,10 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/getmetrics"})
     public String GetMetrics(
             @RequestParam(value = "key") String key,
@@ -351,20 +360,24 @@ public class AjaxControlers {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
-        
+
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
                 User userDetails = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
 
-//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                if ((userDetails.getSwitchUser() != null)) {
+                    if (userDetails.getSwitchUser().getAlowswitch()) {
+                        userDetails = userDetails.getSwitchUser();
+                    }
+                }
                 ConcoutMetricMetaList Metriclist;
                 if (key.equals("name")) {
                     Metriclist = userDetails.getMetricsMeta().getbyName(value);
                 } else {
                     Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
                 }
-                
+
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
                 final List<OddeeyMetricMeta> MetriclistSorted = new ArrayList<>(Metriclist.values());
@@ -393,12 +406,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        
+
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/deletemetrics"})
     public String DeleteMetrics(
             @RequestParam(value = "key", required = false) String key,
@@ -407,7 +420,7 @@ public class AjaxControlers {
             @RequestParam(value = "name", required = false) String name,
             ModelMap map
     ) {
-        
+
         SendToKafka KafkaLocalSender = (User user, String action, Object hash1) -> {
             JsonObject Jsonchangedata = new JsonObject();
             Jsonchangedata.addProperty("UUID", user.getId().toString());
@@ -421,22 +434,27 @@ public class AjaxControlers {
                         LOGGER.info("Kafka KafkaLocalSender onSuccess");
                     }
                 }
-                
+
                 @Override
                 public void onFailure(Throwable ex) {
                     LOGGER.error("Kafka KafkaLocalSender onFailure:" + ex);
                 }
             });
         };
-        
+
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
+
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
                 User userDetails = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
-                
+                if ((userDetails.getSwitchUser() != null)) {
+                    if (userDetails.getSwitchUser().getAlowswitch()) {
+                        userDetails = userDetails.getSwitchUser();
+                    }
+                }
+
                 if (hash != null) {
                     if (MetaDao.deleteMeta(hash, userDetails) != null) {
                         KafkaLocalSender.run(userDetails, "deletemetricbyhash", hash);
@@ -444,28 +462,27 @@ public class AjaxControlers {
                     } else {
                         jsonResult.addProperty("sucsses", false);
                     }
-                    
+
                 } else {
-                    jsonResult.addProperty("sucsses", false);
-                }
-                
-                if ((key != null) && (value != null)) {
-                    ConcoutMetricMetaList MtrList;
-                    try {
-                        
-                        if (key.equals("name")) {
-                            MtrList = userDetails.getMetricsMeta().getbyName(value);
-                        } else {
-                            MtrList = userDetails.getMetricsMeta().getbyTag(key, value);
+                    if ((key != null) && (value != null)) {
+                        ConcoutMetricMetaList MtrList;
+                        try {
+
+                            if (key.equals("name")) {
+                                MtrList = userDetails.getMetricsMeta().getbyName(value);
+                            } else {
+                                MtrList = userDetails.getMetricsMeta().getbyTag(key, value);
+                            }
+                            ArrayList<Deferred<Object>> list = MetaDao.deleteMetaByList(MtrList, userDetails, KafkaLocalSender);
+                            jsonResult.addProperty("sucsses", true);
+                            Deferred.groupInOrder(list).join();
+                        } catch (Exception ex) {
+                            jsonResult.addProperty("sucsses", false);
+                            LOGGER.error(globalFunctions.stackTrace(ex));
                         }
-                        ArrayList<Deferred<Object>> list = MetaDao.deleteMetaByList(MtrList, userDetails, KafkaLocalSender);
-                        Deferred.groupInOrder(list).join();
-                    } catch (Exception ex) {
+                    } else {
                         jsonResult.addProperty("sucsses", false);
-                        LOGGER.error(globalFunctions.stackTrace(ex));
                     }
-                } else {
-                    jsonResult.addProperty("sucsses", false);
                 }
 
 //                if (name != null) {
@@ -482,44 +499,47 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        
+
         map.put(
                 "jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/gettagkey"})
     public String getTagkeys(
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        User userDetails;
+
+        User userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-        } else {
-            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
         }
-        
+
         if (userDetails != null) {
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             try {
-                
+
                 if (userDetails.getMetricsMeta() == null) {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 }
                 Map<String, Set<String>> tags = userDetails.getMetricsMeta().getTagsList();
                 JsonArray jsondata = new JsonArray();
-                
+
                 if (filter.equals("") || filter.equals("*")) {
                     for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
                         jsondata.add(tag.getKey());
                     }
                 } else {
                     Pattern r = Pattern.compile(filter);
-                    
+
                     for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
                         Matcher m = r.matcher(tag.getKey());
                         if (m.find()) {
@@ -527,9 +547,9 @@ public class AjaxControlers {
                         }
                     }
                 }
-                
+
                 jsonResult.add("data", jsondata);
-                
+
                 jsonResult.addProperty("sucsses", true);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -538,12 +558,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        
+
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/gettagvalue"})
     public String getTagvalues(
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
@@ -551,24 +571,27 @@ public class AjaxControlers {
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        User userDetails;
+
+        User userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-        } else {
-            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
         }
-        
+
         if (userDetails != null) {
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             try {
-                
+
                 if (userDetails.getMetricsMeta() == null) {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 }
                 Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key);
                 JsonArray jsondata = new JsonArray();
-                
+
                 if (filter.equals("") || filter.equals("*")) {
                     tags.forEach((tag) -> {
                         jsondata.add(tag);
@@ -583,11 +606,11 @@ public class AjaxControlers {
                             }
                         });
                     }
-                    
+
                 }
-                
+
                 jsonResult.add("data", jsondata);
-                
+
                 jsonResult.addProperty("sucsses", true);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -596,28 +619,31 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        
+
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/resetregression"})
     public String regrresinreset(
             @RequestParam(value = "hash") int hash,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        User userDetails;
+
+        User userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-        } else {
-            userDetails = UserDao.getUserByUUID(UUID.fromString("c1393383-217a-44ef-b699-8d69fe1867dc"));
         }
-        
+
         if (userDetails != null) {
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
             try {
                 JsonObject Jsonchangedata = new JsonObject();
                 Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
@@ -633,13 +659,13 @@ public class AjaxControlers {
                             LOGGER.info("Kafka resetregresion onSuccess");
                         }
                     }
-                    
+
                     @Override
                     public void onFailure(Throwable ex) {
                         LOGGER.error("Kafka resetregresion onFailure:" + ex);
                     }
                 });
-                
+
                 jsonResult.addProperty("sucsses", true);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
@@ -648,97 +674,97 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        
+
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/getmetastat"})
     public String getmetastat(ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        User userDetails;
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-        } else {
-            userDetails = UserDao.getUserByUUID(UUID.fromString("b46898ea-8eb2-4281-bd2c-93c37ba0d8ea"));
-        }
-        
-        if (userDetails != null) {
-            try {
-                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
-                jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
-                jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
-                jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
-                JsonObject tagaslist = new JsonObject();
-                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
-                    tagaslist.addProperty(item.getKey(), item.getValue().size());
-                }
-                jsonResult.add("tags", tagaslist);
-                jsonResult.addProperty("sucsses", true);
-            } catch (Exception ex) {
-                jsonResult.addProperty("sucsses", false);
-                LOGGER.error(globalFunctions.stackTrace(ex));
-            }
-        } else {
-            jsonResult.addProperty("sucsses", false);
-        }
-        
-        map.put("jsonmodel", jsonResult);
-        
-        return "ajax";
-    }
-    
-    @RequestMapping(value = {"/getmetastat/{uuid}"})
-    public String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
-        JsonObject jsonResult = new JsonObject();
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User userDetails;
-        
-        userDetails = UserDao.getUserByUUID(UUID.fromString(uuid));
-        
-        if (userDetails != null) {
-            try {
-                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
-                jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
-                jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
-                jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
-                JsonObject tagaslist = new JsonObject();
-                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
-                    tagaslist.addProperty(item.getKey(), item.getValue().size());
-                }
-                jsonResult.add("tags", tagaslist);
-                jsonResult.addProperty("sucsses", true);
-            } catch (Exception ex) {
-                jsonResult.addProperty("sucsses", false);
-                LOGGER.error(globalFunctions.stackTrace(ex));
-            }
-        } else {
-            jsonResult.addProperty("sucsses", false);
-        }
-        
-        map.put("jsonmodel", jsonResult);
-        
-        return "ajax";
-    }
-    
-    @RequestMapping(value = {"/switchallow"})
-    public String switchallow(ModelMap map) {
-        JsonObject jsonResult = new JsonObject();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
         User userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-        }        
-        
+        }
+
+        if (userDetails != null) {
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
+            try {
+                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
+                jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
+                jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
+                jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
+                JsonObject tagaslist = new JsonObject();
+                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
+                    tagaslist.addProperty(item.getKey(), item.getValue().size());
+                }
+                jsonResult.add("tags", tagaslist);
+                jsonResult.addProperty("sucsses", true);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
+    @RequestMapping(value = {"/getmetastat/{uuid}"})
+    public String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        User userDetails;
+        userDetails = UserDao.getUserByUUID(UUID.fromString(uuid));
+
+        if (userDetails != null) {
+            try {
+                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
+                jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
+                jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
+                jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
+                JsonObject tagaslist = new JsonObject();
+                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
+                    tagaslist.addProperty(item.getKey(), item.getValue().size());
+                }
+                jsonResult.add("tags", tagaslist);
+                jsonResult.addProperty("sucsses", true);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
+    @RequestMapping(value = {"/switchallow"})
+    public String switchallow(ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        User userDetails = null;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        }
+
         if (userDetails != null) {
             try {
                 userDetails.setAlowswitch(!userDetails.getAlowswitch());
@@ -751,9 +777,9 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        
+
         map.put("jsonmodel", jsonResult);
-        
+
         return "ajax";
-    }    
+    }
 }

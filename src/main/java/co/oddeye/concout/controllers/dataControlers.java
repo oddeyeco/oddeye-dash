@@ -67,9 +67,18 @@ public class dataControlers {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User userDetails = (User) SecurityContextHolder.getContext().
+                User cuentuser = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
-                map.put("curentuser", userDetails);
+                map.put("curentuser", cuentuser);
+                
+                User userDetails = cuentuser;
+                if ((cuentuser.getSwitchUser() != null)) {
+                    if (cuentuser.getSwitchUser().getAlowswitch()) {                        
+                        userDetails = cuentuser.getSwitchUser();
+                    }
+                }
+                                
+                map.put("activeuser", userDetails);                
                 if (userDetails.getMetricsMeta() == null) {
                     try {
                         userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));

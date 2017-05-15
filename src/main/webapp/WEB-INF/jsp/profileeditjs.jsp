@@ -1,7 +1,7 @@
 <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
 <script>
-    var emailfilterJson = ${curentuser.getEmailFilter()};
-    var telegramfilterJson = ${curentuser.getTelegramFilter()};
+    var emailfilterJson = ${activeuser.getEmailFilter()};
+    var telegramfilterJson = ${activeuser.getTelegramFilter()};
 
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
@@ -14,9 +14,6 @@
         });
         $(".select2_tz").select2({});
         
-        
-        
-
 //        console.log(emailfilterJson);
         var elems = document.querySelectorAll('#email_note .js-switch-small');
         for (var i = 0; i < elems.length; i++) {
