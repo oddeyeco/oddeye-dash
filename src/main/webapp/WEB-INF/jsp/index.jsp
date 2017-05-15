@@ -109,7 +109,14 @@
                                                         </sec:authorize>                                                        
                                                 </ul>
                                             </li>
-                                        </sec:authorize>                                         
+                                        </sec:authorize>   
+                                        <%--<sec:authorize access="hasRole('ROLE_CAN_SWICH')">
+                                            <li><a><i class="fa fa-asterisk"></i> Administrations <span class="fa fa-chevron-down"></span></a>
+                                                <ul class="nav child_menu">                                                                                        
+                                                     <li><a href="<c:url value="/templatelist"/>" >Templates</a></li>                                         
+                                                </ul>
+                                            </li>
+                                        </sec:authorize>--%>                                              
                                     </ul>
                                 </div>
                             </div>
@@ -173,7 +180,14 @@
                                                 <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="30px">
                                             </c:if>
                                         </a>
-                                    </li>                                    
+                                    </li>     
+                                    <sec:authorize access="hasRole('ROLE_CAN_SWICH')">
+                                        <li class="">
+                                            <a href="javascript:void(0);" class="cluser-profile" id="switched">
+                                                Switched to ${curentuser.getSwitchUser().getEmail()}
+                                            </a>
+                                        </li>                                     
+                                    </sec:authorize>
                                 </ul>
                             </nav>
                         </div>

@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/subscribe/**").permitAll()
                 .antMatchers("/userslist*").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/user/**").hasAnyAuthority("ROLE_USERMANAGER")
+                .antMatchers("/user/switch/**").hasAnyAuthority("ROLE_CAN_SWICH")
                 .antMatchers("/templatelist*").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/getmetastat/*").hasAnyAuthority("ROLE_USERMANAGER")
                 .anyRequest().authenticated()

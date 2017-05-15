@@ -96,8 +96,14 @@ public class AdminUsersControlers extends GRUDControler {
             }
         }).AddViewConfig("actions", new HashMap<String, Object>() {
             {
-                put("path", "actions");
+                put("path", "edit");
                 put("title", " Actions");
+                put("type", "actions");
+            }
+        }).AddViewConfig("userswitch", new HashMap<String, Object>() {
+            {
+                put("path", "alowswitch");
+                put("title", " Switch to user");
                 put("type", "actions");
             }
         });
@@ -238,7 +244,7 @@ public class AdminUsersControlers extends GRUDControler {
             map.put("isAuthentication", false);
         }
 
-        map.put("model", Userdao.getUserByUUID(UUID.fromString(id),true));
+        map.put("model", Userdao.getUserByUUID(UUID.fromString(id), true));
         map.put("configMap", getEditConfig());
         map.put("modelname", "User");
         map.put("path", "user");
@@ -259,6 +265,18 @@ public class AdminUsersControlers extends GRUDControler {
     @InitBinder
     public void initBinderAll(WebDataBinder binder) {
         binder.registerCustomEditor(GrantedAuthority.class, new GrantedAuthorityEditor());
+    }
+
+    @RequestMapping(value = "user/switch/{id}", method = RequestMethod.GET)
+    public String userswitch(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+            userDetails.setSwitchUser(Userdao.getUserByUUID(UUID.fromString(id), true));
+        }
+        return "redirect:/dashboard/";
+
     }
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.POST)

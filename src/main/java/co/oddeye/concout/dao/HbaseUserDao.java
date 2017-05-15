@@ -123,7 +123,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public List<User> getAllUsers() {
-        return new ArrayList<>(getUsers().values());
+        return getAllUsers(false);
     }
 
     public List<User> getAllUsers(boolean reload) {
