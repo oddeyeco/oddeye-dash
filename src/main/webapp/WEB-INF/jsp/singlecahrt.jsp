@@ -49,19 +49,19 @@
                                 </span>                            
                             </li>
                             <li>
-                                <span class="name">SSE</span>
-                                <span class="value text-success">
+                                <span class="name">Slope </span>
+                                <span class="value text-success">                                        
                                     <c:choose>
-                                        <c:when test="${metric.getRegression().getSumSquaredErrors() == Double.NaN}">
-                                            ${metric.getRegression().getSumSquaredErrors()}
+                                        <c:when test="${metric.getRegression().getSlope() == Double.NaN}">
+                                            ${metric.getRegression().getSlope()}
                                             <br />
                                         </c:when>    
                                         <c:otherwise>
-                                            <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${metric.getRegression().getSumSquaredErrors()}" />
-                                            <br />
+                                            <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${metric.getRegression().getSlope()}" />
+                                            <br />                                                
                                         </c:otherwise>
                                     </c:choose>                                                                
-                                </span>
+                                </span>  
                             </li>                         
 
                             <li>
@@ -80,7 +80,7 @@
                                 </span>
                             </li>
                             <li>
-                                <span class="name">Counts</span>
+                                <span class="name">Counts </span>
                                 <span class="value text-success">${metric.getRegression().getN()}</span>
                             </li>
                         </ul>   

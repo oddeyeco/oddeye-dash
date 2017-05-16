@@ -103,21 +103,21 @@
                             </span>                            
                         </li>
                         <li>
-                            <span class="name">SSE</span>
-                            <span class="value text-success">
+                            <span class="name">Slope </span>
+                            <span class="value text-success">                                        
                                 <c:choose>
-                                    <c:when test="${Error.getRegression().getSumSquaredErrors() == Double.NaN}">
-                                        ${Error.getRegression().getSumSquaredErrors()}
+                                    <c:when test="${Error.getRegression().getSlope() == Double.NaN}">
+                                        ${Error.getRegression().getSlope()}
                                         <br />
                                     </c:when>    
                                     <c:otherwise>
-                                        <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSumSquaredErrors()}" />
-                                        <br />
+                                        <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${Error.getRegression().getSlope()}" />
+                                        <br />                                                
                                     </c:otherwise>
                                 </c:choose>                                                                
-                            </span>
+                            </span> 
                         </li>                         
-                        
+
                         <li>
                             <span class="name">RSquare</span>
                             <span class="value text-success">
@@ -134,12 +134,12 @@
                             </span>
                         </li>
                         <li>
-                            <span class="name">Counts</span>
+                            <span class="name">Counts </span>
                             <span class="value text-success">${Error.getRegression().getN()}</span>
                         </li>
                     </ul>   
-                    
-                        
+
+
 
                 </div>
             </div>                         
