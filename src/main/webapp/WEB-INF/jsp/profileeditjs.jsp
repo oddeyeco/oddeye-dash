@@ -33,7 +33,7 @@
         
         $('.autocomplete-append-metric').each(function () {
             var input = $(this);
-            var uri = cp + "/getfiltredmetricsnames?filter=^(.*)$";
+            var uri = cp + "/getfiltredmetricsnames?filter="+encodeURIComponent("^(.*)$");
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
                     lookup: data.data,
@@ -44,7 +44,7 @@
 
         $('.autocomplete-append').each(function () {
             var input = $(this);
-            var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=^(.*)$";
+            var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter="+encodeURIComponent("^(.*)$");
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
                     lookup: data.data,

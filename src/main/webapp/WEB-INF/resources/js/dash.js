@@ -1412,7 +1412,8 @@ function makeMetricInput(metricinput, wraper)
     wraper.parents("form").find(".query_tag .text").each(function () {
         tags = tags + $(this).text().replace("*", "(.*)") + ";";
     });
-    var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=^(.*)$";
+    var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter="+encodeURIComponent("^(.*)$");
+    
     $.getJSON(uri, null, function (data) {
         metricinput.autocomplete({
             lookup: data.data,
@@ -1422,7 +1423,7 @@ function makeMetricInput(metricinput, wraper)
 }
 
 function maketagKInput(tagkinput, wraper) {
-    var uri = cp + "/gettagkey?filter=^(.*)$";
+    var uri = cp + "/gettagkey?filter="+encodeURIComponent("^(.*)$");
     $.getJSON(uri, null, function (data) {
 
         var tagvinput = tagkinput.parent().next().find("#tagv");

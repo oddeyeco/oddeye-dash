@@ -149,7 +149,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <form class="form-horizontal form-label-left form-filter" name="send_email" id="email_note">
                             <div class="x_title">                            
-                                <h5>For Email <input type="checkbox" class="js-switch-small" id="send_email" name="send_email" /> </h5><input class="form-control autocomplete-append filter-input" type="text" name="email_input" id="email_input" value=""></div>                            
+                                <h5>For Email <input type="checkbox" class="js-switch-small" id="send_email" name="send_email" /> </h5><input class="form-control filter-input" type="text" name="email_input" id="email_input" value=""></div>                            
                                     <jsp:include page="filterform.jsp" />  
                             <div class="form-group">                        
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
@@ -161,7 +161,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <form class="form-horizontal form-label-left form-filter" name="send_telegram" id="telegram_note">
                             <div class="x_title">
-                                <h5>For Telegram <input type="checkbox" class="js-switch-small" id="send_telegram" name="send_telegram" /> </h5><input class="form-control autocomplete-append filter-input" type="text" name="telegram_input" id="telegram_input" value=""></div>
+                                <h5>For Telegram <input type="checkbox" class="js-switch-small" id="send_telegram" name="send_telegram" /> </h5><input class="form-control filter-input" type="text" name="telegram_input" id="telegram_input" value=""></div>
                                     <jsp:include page="filterform.jsp" />  
                             <div class="form-group">                        
                                 <div class="col-md-12 col-sm-12 col-xs-12 text-right">
