@@ -373,10 +373,20 @@ public class HbaseUserDao extends HbaseBaseDao {
                                         }
                                         break;
                                     default:
-                                        if ((value == null) && (newvalue != null)) {
-                                            ischange = true;
+                                        if ((value == null)) {
+                                            if  (newvalue != null)
+                                            {
+                                                ischange = true;
+                                            }                                            
                                             break;
                                         }
+                                        if ((newvalue == null)) {
+                                            if  (value != null)
+                                            {
+                                                ischange = true;
+                                            }                                            
+                                            break;
+                                        }                                        
                                         if (!value.equals(newvalue)) {
                                             ischange = true;
                                         }
