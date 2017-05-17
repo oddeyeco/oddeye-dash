@@ -35,18 +35,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import co.oddeye.core.AlertLevel;
-import static co.oddeye.core.AlertLevel.ALERT_PARAM_PECENT;
-import static co.oddeye.core.AlertLevel.ALERT_PARAM_PREDICTPERSENT;
-import static co.oddeye.core.AlertLevel.ALERT_PARAM_RECCOUNT;
-import static co.oddeye.core.AlertLevel.ALERT_PARAM_VALUE;
-import static co.oddeye.core.AlertLevel.ALERT_PARAM_WEIGTH;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.function.Function;
 
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
