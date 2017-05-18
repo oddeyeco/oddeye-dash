@@ -47,11 +47,16 @@ function reDrawErrorList(listJson, table, errorjson)
                     }
                     if (!filtred)
                     {
+                        delete listJson[errorjson.hash];
                         break;
                     }
                 }
             }
             ;
+        }
+        else
+        {
+            delete listJson[errorjson.hash];
         }
     }
     if (errorjson.isspec === 0)
@@ -182,10 +187,14 @@ function DrawErrorList(listJson, table)
                     {
                         array_spec.push(errorjson);
                     }
+                } else
+                {
+                    delete listJson[key];                    
                 }
             } else
             {
                 delete listJson[key];
+
             }
         }
     }
@@ -212,15 +221,15 @@ function DrawErrorList(listJson, table)
     $("select").attr('disabled', false);
 }
 function drawRaw(errorjson, table, hashindex, update) {
-    if (typeof(hashindex) === "undefined" )
+    if (typeof (hashindex) === "undefined")
     {
         hashindex = null;
-    }  
-    if (typeof(update) === update )
+    }
+    if (typeof (update) === update)
     {
         type = false;
-    }      
-    
+    }
+
     var message = "";
     if (errorjson.isspec === 1)
     {
@@ -242,7 +251,7 @@ function drawRaw(errorjson, table, hashindex, update) {
         {
             val = val.toFixed(2);
         }
-        
+
         message = message + val;
     }
     var starttime = "";
@@ -392,7 +401,7 @@ $(document).ready(function () {
     });
     $('.autocomplete-append-metric').each(function () {
         var input = $(this);
-        var uri = cp + "/getfiltredmetricsnames?filter="+encodeURIComponent("^(.*)$");
+        var uri = cp + "/getfiltredmetricsnames?filter=" + encodeURIComponent("^(.*)$");
         $.getJSON(uri, null, function (data) {
             input.autocomplete({
                 lookup: data.data,
@@ -402,7 +411,7 @@ $(document).ready(function () {
     });
     $('.autocomplete-append').each(function () {
         var input = $(this);
-        var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter="+encodeURIComponent("^(.*)$");
+        var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=" + encodeURIComponent("^(.*)$");
         $.getJSON(uri, null, function (data) {
             input.autocomplete({
                 lookup: data.data,
@@ -474,18 +483,18 @@ $(document).ready(function () {
             {
                 errorlistJson[errorjson.hash] = errorjson;
             }
-            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);            
             if (Object.keys(errorlistJson).length > 200)
             {
                 $('#manyalert').fadeIn();
             } else
             {
                 $('#manyalert').fadeOut();
-            }            
+            }
         });
-    }, function (message) {            
-            $("#lostconnection").modal('show');
-        });
+    }, function (message) {
+        $("#lostconnection").modal('show');
+    });
 
     startlisen();
     $(window).bind('beforeunload', function () {
