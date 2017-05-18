@@ -169,8 +169,9 @@
             <a class="btn btn-primary savedash" type="button">Save </a>
             <a class="btn btn-primary backtodush" type="button">Back to Dash </a>
         </div>
+        <div class="clearfix"></div>
     </div>
-    <div class="clearfix"></div>
+    
     <div class="x_content" id="dashcontent"> 
     </div>
     <div class="x_content" id="singlewidget">      
