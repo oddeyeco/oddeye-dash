@@ -1199,7 +1199,10 @@ function repaint(redraw = false) {
         }
 }
 }
+
 $(document).ready(function () {
+
+
     if (dashJSONvar.times)
     {
         if (dashJSONvar.times.intervall)
@@ -1412,8 +1415,8 @@ function makeMetricInput(metricinput, wraper)
     wraper.parents("form").find(".query_tag .text").each(function () {
         tags = tags + $(this).text().replace("*", "(.*)") + ";";
     });
-    var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter="+encodeURIComponent("^(.*)$");
-    
+    var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");
+
     $.getJSON(uri, null, function (data) {
         metricinput.autocomplete({
             lookup: data.data,
@@ -1423,7 +1426,7 @@ function makeMetricInput(metricinput, wraper)
 }
 
 function maketagKInput(tagkinput, wraper) {
-    var uri = cp + "/gettagkey?filter="+encodeURIComponent("^(.*)$");
+    var uri = cp + "/gettagkey?filter=" + encodeURIComponent("^(.*)$");
     $.getJSON(uri, null, function (data) {
 
         var tagvinput = tagkinput.parent().next().find("#tagv");

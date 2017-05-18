@@ -44,7 +44,7 @@
                     </div>                        
                 </form>                        
             </div>
-            <div class="col-md-10 col-sm-9 col-xs-12 profile_left">
+            <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
                 <div class="summary">
                     <b>Total:</b><span class="Tablecount">0</span><b>Machine Learned:</b><span class="regcount">0</span><b>Manually Defined:</b><span class="Speccount">0 </span>
                 </div>                    

@@ -43,7 +43,7 @@
 </div>  
 
 
-<div class="x_panel">
+<div class="x_panel dash_main">
     <div class="filter">
 
         <div class="form-group-custom pull-left form-horizontal">
@@ -122,7 +122,7 @@
 </div>
 
 <div class="x_panel fulldash" style="display: none">
-    <div class="x_title">
+    <div class="x_title dash_action">
         <h2 class="col-md-3" ><input type="text" name="name" id="name" value="${dashname}"></h2>        
         <div class="pull-right"> 
             <div class="btn-toolbar"> 
@@ -163,19 +163,20 @@
 </div>
 <jsp:include page="queryForm.jsp" />
 <div class="x_panel editchartpanel" style="display: none">
-    <div class="x_title">
+    <div class="x_title dash_action">
         <h1 class="col-md-3">Edit Chart</h1>              
         <div class="pull-right">
             <a class="btn btn-primary savedash" type="button">Save </a>
             <a class="btn btn-primary backtodush" type="button">Back to Dash </a>
         </div>
-        <div class="clearfix"></div>
-        <div class="x_content" id="dashcontent"> 
-        </div>
-        <div class="x_content" id="singlewidget">      
-            <div class="echart_line_single" id="echart_line_single" style="height:600px;"></div>                   
-        </div>   
     </div>
+    <div class="clearfix"></div>
+    <div class="x_content" id="dashcontent"> 
+    </div>
+    <div class="x_content" id="singlewidget">      
+        <div class="echart_line_single" id="echart_line_single" style="height:600px;"></div>                   
+    </div>   
+
     <div class="x_content edit-form">
         <div class="pull-right tabcontrol">  
             <label class="control-label" >

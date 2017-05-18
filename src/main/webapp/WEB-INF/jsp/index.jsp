@@ -121,26 +121,24 @@
                                 </div>
                             </div>
                             <!-- /sidebar menu -->
-
-                            <!-- /menu footer buttons -->
-                            <div class="sidebar-footer hidden-small">
-                                <a data-toggle="tooltip" data-placement="top" title="Settings">
-                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                                </a>
-                                <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                                    <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-                                </a>
-                                <a data-toggle="tooltip" data-placement="top" title="Lock">
-                                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                                </a>
-                                <a data-toggle="tooltip" data-placement="top" title="Logout">
-                                    <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                                </a>
-                            </div>
-                            <!-- /menu footer buttons -->
                         </div>
                     </div>
-
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                        <a href="<c:url value="/logout/" />" data-toggle="tooltip" data-placement="top" title="Logout" >
+                            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                        </a>
+                        <a data-toggle="tooltip" data-placement="top" title="FullScreen" id="FullScreen">
+                            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+                        </a>
+                            <a data-toggle="tooltip" data-placement="top" title="Settings" href="${cp}/profile/edit">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </a>                            
+                        <!--                        <a data-toggle="tooltip" data-placement="top" title="Lock">
+                                                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+                                                </a>-->
+                    </div>
+                    <!-- /menu footer buttons -->
                     <!-- top navigation -->
                     <div class="top_nav">
                         <div class="nav_menu">
@@ -168,11 +166,12 @@
                                                 </a>
                                             </li>
                                             <li><a href="javascript:;">Help</a></li>
-                                                <c:url value="/logout/" var="logoutUrl" />
-                                                <c:if test="${curentuser.getSwitchUser()!=null}">
+
+                                            <c:if test="${curentuser.getSwitchUser()!=null}">
                                                 <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> Switch off</a></li>
                                                 </c:if>
-                                            <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                                <c:url value="/logout/" var="logoutUrl" />
+                                            <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i>Logout</a></li>
                                         </ul>
                                     </li>       
                                     <li class="">
