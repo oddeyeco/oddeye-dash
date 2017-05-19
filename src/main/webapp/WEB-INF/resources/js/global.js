@@ -5,7 +5,7 @@
  */
 
 
-/* global URL, cp */
+/* global URL, cp, $RIGHT_COL */
 
 function getCookie(name) {
     var matches = document.cookie.match(new RegExp(
