@@ -108,28 +108,39 @@ function exportToCsv(filename, rows) {
 }
 function fullscreenrequest(fullscreen)
 {
+    console.log(window.location.pathname);
     if (!fullscreen)
     {
-
-//        $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").hide();
-//        var right_col_style = "";
-//        right_col_style = $(".right_col").attr('style');
-//
-//        $(".right_col,.widgetraw,.fulldash").css('margin', "0");
-//        $(".right_col,.widgetraw,.fulldash").css('padding', "0");
-//        $(".profile_right").css("width", "100%");
         setCookie("fullscreen", true);
+        var right_col_style = $(".right_col").attr('style');
         setCookie("right_col_style", right_col_style);
-        location.reload();
-
+        if (window.location.pathname.indexOf("monitoring") !== -1)
+        {
+            $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").hide();
+            $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('margin', "0");
+            $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
+            $(".profile_right").css("width", "100%");
+            $RIGHT_COL.css('min-height', $(window).height());
+        } else
+        {
+            location.reload();
+        }
     } else
     {
-//        $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").show();
-//        $(".right_col").attr('style', getCookie('right_col_style'));
-//        $(".profile_right,.widgetraw,.fulldash").removeAttr('style');
         setCookie("fullscreen", false);
+        if (window.location.pathname.indexOf("monitoring") !== -1)
+        {
+            $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").show();
+            $(".right_col").attr('style', getCookie('right_col_style'));
+            $(".profile_right,.widgetraw,.fulldash").removeAttr('style');
+            $RIGHT_COL.css('min-height', $(window).height());
+        } else
+        {
+            location.reload();
+        }
+
     }
-    location.reload();
+
 }
 
 var fullscreen = getCookie('fullscreen');
@@ -148,7 +159,6 @@ $(document).ready(function () {
     $("body").on("click", "#allowedit", function () {
         var uri = cp + "/switchallow";
         $.getJSON(uri, null, function (data) {
-            console.log(data);
             location.reload();
         });
 
