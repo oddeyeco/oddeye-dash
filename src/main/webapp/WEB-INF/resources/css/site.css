@@ -487,17 +487,17 @@ ul.lastdash li .fa {
   }
 }
 /*suren*/
-.checkbox{
+.edit-form .checkbox{
     padding-left: 3px;
 }
-.query_tag.tag_label , .query_metric.tag_label {
+.edit-form .query_tag.tag_label , .query_metric.tag_label {
     margin:0px;
 }
-.control-label , .control-label-custom-legend {
+.edit-form .control-label , .control-label-custom-legend {
     margin:0px 6px;
   }
 
-.fa{margin: 2px;}
-#buttons_div{margin-right: 11px;}
-#title_x_position_text, #title_y_position_text{width: 100px;}
-.control-label2{width: 82px;}
+.dropdown_button{margin: 2px;}
+.edit-form #buttons_div{margin-right: 11px;}
+.edit-form #title_x_position_text, #title_y_position_text{width: 100px;}
+.edit-form .control-label2{width: 82px;}

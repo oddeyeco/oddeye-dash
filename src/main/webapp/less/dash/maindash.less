@@ -1,21 +1,20 @@
-@color_1: #26B99A;
-@color_2: #73879C;
-@color_3: #F1F6F7;
-@color_4: red;
-@color_5: #666;
+@color_1: #26b99a;
+@color_2: #73879c;
+@color_3: #ff0000;
+@color_4: #f1f6f7;
+@color_5: #666666;
 @font_family_1: helvetica;
-@background_color_1: #F5F7FA;
-@background_color_2: white;
+@background_color_1: #f5f7fa;
+@background_color_2: #ffffff;
 @background_color_3: #e3e3e3;
-@background_color_4: #FFC0C0;
-@background_color_5: #FFFFC0;
-@background_color_6: #C0FFFF;
-@background_color_7: #fff;
-@background_color_8: #f5f5f5;
-@background_color_9: #d5d5d5;
+@background_color_4: #ffc0c0;
+@background_color_5: #ffffc0;
+@background_color_6: #c0ffff;
+@background_color_7: #f5f5f5;
+@background_color_8: #d5d5d5;
 @border_color_1: transparent;
-@border_color_2: rgba(0,0,0,0.5);
-@border_left_color_1: #ccc;
+@border_color_2: rgba(0, 0, 0, 0.5);
+@border_left_color_1: #cccccc;
 
 /*
 To change this license header, choose License Headers in Project Properties.
@@ -40,6 +39,16 @@ and open the template in the editor.
     padding: 0px;  
 }*/
 /*Adds dash page*/
+/*#refresh_wrap .select2-container--default .select2-selection--single {
+  min-height: 31px;
+}
+#refresh_wrap .select2-container--default .select2-selection--single .select2-selection__rendered {
+  padding-top: 2px;
+}
+#refresh_wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 30px;
+}*/
+/*suren*/
 .profile_info {
     padding: 0px 10px 10px;
 }
@@ -77,7 +86,7 @@ and open the template in the editor.
     padding: 0px;
 }
 .title_input {
-    width: 350px;
+    width: 345px;
     display: inline-block;
 }
 .input-group {
@@ -91,7 +100,7 @@ and open the template in the editor.
     }
 }
 .titile_input_midle {
-    width: 215px;
+    width: 216px;
     display: inline-block;
     margin-bottom: -25px;
 }
@@ -112,11 +121,11 @@ and open the template in the editor.
     .control-label-custom-legend3 {
         padding: 2px;
         text-align: right;
-        width: 138px;
+        width: 140px;
     }
     .control-label-custom {
         padding: 2px;
-        width: 75px;
+        width: 81px;
         text-align: right;
     }
     .control-label-custom-legend {
@@ -125,10 +134,10 @@ and open the template in the editor.
         text-align: right;
     }
     .form-group-custom {
-        margin: 2px 0px;
+        margin: 2px 0px 4px;
     }
     .control-label-custom-axes {
-        padding: 2px;
+        padding: 0px;
         width: auto;
         text-align: right;
     }
@@ -147,7 +156,7 @@ and open the template in the editor.
     display: inline-block;
 }
 .title_input_small {
-    width: 73px;
+    width: 74px;
     display: inline-block;
 }
 .title_select {
@@ -186,6 +195,7 @@ and open the template in the editor.
 .dropdown_button {
     font-size: 19px;
     color: @color_1;
+    margin: 2px;
 }
 .legend_title {
     margin-right: 15px;
@@ -257,6 +267,20 @@ and open the template in the editor.
             }
         }
     }
+    .select2-selection--single {
+        min-height: 30px;
+        height: 31px;
+        .select2-selection__rendered {
+            padding-top: 2px;
+        }
+        .select2-selection__arrow {
+            height: 30px;
+        }
+    }
+    .select2-selection--multiple {
+        min-height: 30px;
+        height: 31px;
+    }
 }
 select.form-control {
     color: @color_2;
@@ -271,7 +295,7 @@ select.form-control {
     a {
         cursor: pointer;
         &:hover {
-            color: @color_4;
+            color: @color_3;
         }
     }
 }
@@ -281,7 +305,7 @@ span.tagspan {
     padding: 5px 9px;
     text-decoration: none;
     background: #1ABB9C;
-    color: @color_3;
+    color: @color_4;
     margin-right: 5px;
     font-weight: 500;
     margin-bottom: 5px;
@@ -294,35 +318,13 @@ span.tagspan {
     a {
         cursor: pointer;
         &:hover {
-            color: @color_4;
+            color: @color_3;
         }
     }
 }
-#refresh_wrap_private {
-    .select2-container--default {
-        .select2-selection--single {
-            min-height: 31px;
-            .select2-selection__rendered {
-                padding-top: 2px;
-            }
-            .select2-selection__arrow {
-                height: 30px;
-            }
-        }
-    }
-}
-#refresh_wrap {
-    .select2-container--default {
-        .select2-selection--single {
-            min-height: 31px;
-            .select2-selection__rendered {
-                padding-top: 2px;
-            }
-            .select2-selection__arrow {
-                height: 30px;
-            }
-        }
-    }
+.form-control {
+    min-height: 30px;
+    height: 31px;
 }
 .daterangepicker.opensright {
     .ranges {
@@ -356,6 +358,7 @@ span.tagspan {
         }
     }
     td {
+        white-space: nowrap;
         .icheckbox_flat-green {
             margin-right: 3px;
             vertical-align: inherit;
@@ -364,7 +367,6 @@ span.tagspan {
             margin-right: 3px;
             vertical-align: inherit;
         }
-        white-space: nowrap;
     }
     td.timech {
         width: 13%;
@@ -386,7 +388,7 @@ span.tagspan {
                     border-radius: 5px;
                     -moz-border-radius: 5px;
                     -webkit-border-radius: 5px;
-                    border: 1px solid rgba(0,0,0,0.3);
+                    border: 1px solid rgba(0, 0, 0, 0.3);
                     border-bottom-width: 3px;
                 }
             }
@@ -404,20 +406,20 @@ span.tagspan {
     }
 }
 .spec {
+    font-weight: bold;
     .level {
         div {
             background-color: @background_color_4;
         }
     }
-    font-weight: bold;
 }
 .level_5 {
+    font-weight: bold;
     .level {
         div {
             background-color: @background_color_4;
         }
     }
-    font-weight: bold;
 }
 .level_4 {
     .level {
@@ -472,14 +474,14 @@ div.jsoneditor {
     display: block;
     width: 80%;
     height: 26px;
-    background-color: @background_color_7;
+    background-color: @background_color_2;
     background-image: none;
     border: 1px solid #ccc;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 .fa-div {
     display: inline-block;
@@ -514,10 +516,10 @@ ul.gotodash {
         padding: 3px;
         list-style: none;
         &:hover {
-            background-color: @background_color_8;
+            background-color: @background_color_7;
             border-radius: 4px;
-            -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
-            box-shadow: inset 0 1px 2px rgba(0,0,0,.1);
+            -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
         }
     }
 }
@@ -593,17 +595,48 @@ ul.lastdash {
         table {
             tr {
                 &:hover {
-                    background-color: @background_color_9;
+                    background-color: @background_color_8;
                 }
             }
         }
     }
 }
-
-.filter .control-label
-{
-    margin: 0 10px;
+.filter {
+    .control-label {
+        margin: 0 10px;
+    }
 }
+.edit-form {
+    .checkbox {
+        padding-left: 3px;
+    }
+    .query_tag.tag_label {
+        margin: 0px;
+    }
+    .control-label {
+        margin: 0px 6px;
+    }
+    #buttons_div {
+        margin-right: 11px;
+    }
+    #title_x_position_text {
+        width: 100px;
+    }
+    .control-label2 {
+        width: 82px;
+    }
+    .query_metric.tag_label {
+        margin: 0px;
+    }        
+    .control-label-custom-legend {
+        margin: 0px 6px;
+    }
+    #title_y_position_text {
+        width: 100px;
+    }
+}
+
+
 
 @media (max-width: 600px) {
     .editchartpanel {
