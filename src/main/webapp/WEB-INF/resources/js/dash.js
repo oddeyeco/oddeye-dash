@@ -1234,6 +1234,7 @@ $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
     }
     $("#refreshtime").select2({minimumResultsForSearch: 15});
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15});
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(dashJSONvar, $('#reportrange')));
     var elems = document.querySelectorAll('.js-switch-small');
     for (var i = 0; i < elems.length; i++) {

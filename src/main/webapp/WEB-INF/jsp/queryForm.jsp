@@ -16,7 +16,7 @@
             <!--<input id="baze_metrics" name="metrics" class="form-control query_input" type="text" value="cpu_user">-->
         </div>
         <div class="form-group form-group-custom">
-            <label class="control-label control-label-custom-legend" for="metrics">Aggregator: 
+            <label class="control-label control-label-custom-legend" for="metrics">Aggregator 
             </label>        
             <select name="aggregator" class="form-control query_input aggregator">
                 <option label="avg" value="avg">avg</option>
@@ -51,10 +51,10 @@
                 <option label="sum" value="sum">sum</option>
                 <option label="zimsum" value="zimsum">zimsum</option>
             </select>
-            <label class="control-label control-label-custom-legend" for="alias">Alias: 
+            <label class="control-label control-label-custom-legend" for="alias">Alias 
             </label>
             <input id="baze_alias" name="alias" class="form-control query_input alias" type="text" value="">       
-            <label class="control-label" for="alias2">Alias secondary: 
+            <label class="control-label" for="alias2">Alias secondary 
             </label>
             <input id="baze_alias2" name="alias2" class="form-control query_input alias2" type="text" value="">       
 
@@ -65,7 +65,7 @@
             </label>
             <input id="baze_down-sample-time" name="down-sample-time" class="form-control query_input down-sample-time" type="text">
 
-            <label class="control-label control-label-custom-legend" for="">Aggregator: 
+            <label class="control-label control-label-custom-legend" for="">Aggregator 
             </label>
             <!--<input id="baze_down-sample-aggregator" name="down-sample-aggregator" class="form-control query_input" type="text" value="avg">-->        
             <select id="baze_down-sample-aggregator" name="down-sample-aggregator" class="form-control query_input down-sample-aggregator">

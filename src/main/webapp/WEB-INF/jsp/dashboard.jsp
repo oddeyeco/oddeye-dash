@@ -50,7 +50,7 @@
             <label class="control-label control-label-top" for="global-down-sample">Down sample 
             </label>
             <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
-            <label class="control-label control-label-top" for="global-down-sample-ag">Aggregator: 
+            <label class="control-label control-label-top" for="global-down-sample-ag">Aggregator
             </label>        
             <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input">
                 <option label="avg" value="avg">avg</option>
