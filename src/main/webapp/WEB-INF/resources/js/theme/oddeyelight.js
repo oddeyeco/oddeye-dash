@@ -211,7 +211,22 @@ var encodeHTML = function (source) {
                         }
 
 
-                        out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
+                        if (params.componentSubType === "treemap")
+                        {                            
+                            var head = "";
+                            for (var ii in params.treePathInfo)
+                            {                                
+                                if ((ii>0)&&(ii<(params.treePathInfo.length-1)))
+                                {
+                                    head = head + " " + params.treePathInfo[ii].name;
+                                }
+                            }
+                            out =  head+ '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
+                        } else
+                        {
+                            out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
+                        }
+
                     } else
                     {
                         if (params.componentSubType === "candlestick")
