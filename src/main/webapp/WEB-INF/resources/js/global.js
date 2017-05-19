@@ -111,23 +111,25 @@ function fullscreenrequest(fullscreen)
     if (!fullscreen)
     {
 
-        $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").hide();
-        var right_col_style = "";
-        right_col_style = $(".right_col").attr('style');
-
-        $(".right_col,.widgetraw,.fulldash").css('margin', "0");
-        $(".right_col,.widgetraw,.fulldash").css('padding', "0");
-        $(".profile_right").css("width", "100%");
+//        $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").hide();
+//        var right_col_style = "";
+//        right_col_style = $(".right_col").attr('style');
+//
+//        $(".right_col,.widgetraw,.fulldash").css('margin', "0");
+//        $(".right_col,.widgetraw,.fulldash").css('padding', "0");
+//        $(".profile_right").css("width", "100%");
         setCookie("fullscreen", true);
         setCookie("right_col_style", right_col_style);
+        location.reload();
 
     } else
     {
-        $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").show();
-        $(".right_col").attr('style', getCookie('right_col_style'));
-        $(".profile_right,.widgetraw,.fulldash").removeAttr('style');
+//        $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").show();
+//        $(".right_col").attr('style', getCookie('right_col_style'));
+//        $(".profile_right,.widgetraw,.fulldash").removeAttr('style');
         setCookie("fullscreen", false);
     }
+    location.reload();
 }
 
 var fullscreen = getCookie('fullscreen');
@@ -136,9 +138,9 @@ if (fullscreen == 'true')
     $(".left_col,.nav_menu,.dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").hide();
     var right_col_style = "";
     right_col_style = $(".right_col").attr('style');
-
-    $(".right_col,.widgetraw,.fulldash").css('margin', "0");
-    $(".right_col,.widgetraw,.fulldash").css('padding', "0");
+    setCookie("right_col_style", right_col_style);
+    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('margin', "0");
+    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
     $(".profile_right").css("width", "100%");
 }
 

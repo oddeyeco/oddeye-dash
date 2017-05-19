@@ -131,7 +131,7 @@
                         <a data-toggle="tooltip" data-placement="top" title="FullScreen" id="FullScreen">
                             <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                         </a>
-                            <a data-toggle="tooltip" data-placement="top" title="Settings" href="${cp}/profile/edit">
+                        <a data-toggle="tooltip" data-placement="top" title="Settings" href="${cp}/profile/edit">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>                            
                         <!--                        <a data-toggle="tooltip" data-placement="top" title="Lock">
@@ -166,7 +166,14 @@
                                                 </a>
                                             </li>
                                             <li><a href="javascript:;">Help</a></li>
-
+                                            <li>
+                                                <a href="javascript:void(0);" class="cluser-profile" id="allowedit">
+                                                    <c:if test="${curentuser.getAlowswitch()}">
+                                                        <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="15px">
+                                                    </c:if>                                                    
+                                                    Allow Edit                                            
+                                                </a>
+                                            </li> 
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
                                                 <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> Switch off</a></li>
                                                 </c:if>
@@ -178,16 +185,7 @@
                                         <a href="javascript:;" class="user-profile">
                                             Balance ${curentuser.getBalance()}                                            
                                         </a>
-                                    </li>  
-                                    <li class="">
-                                        <a href="javascript:void(0);" class="cluser-profile" id="allowedit">
-                                            Allow Edit                                            
-                                            <c:if test="${curentuser.getAlowswitch()}">
-                                                <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="30px">
-                                            </c:if>
-                                        </a>
-                                    </li>     
-
+                                    </li>      
                                 </ul>
                             </nav>
                         </div>
