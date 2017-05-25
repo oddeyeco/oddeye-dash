@@ -107,7 +107,7 @@
             <div class="x_panel">                                     
                 <div class="x_content" style="display: block;">
                     <!-- start List -->
-                    <table class="table metrictable table-striped bulk_action">
+                    <table id="datatable" class="table metrictable table-striped bulk_action">
                         <thead>
                             <tr>
                                 <!--<th>#</th>-->
