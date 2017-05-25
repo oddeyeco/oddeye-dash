@@ -99,9 +99,9 @@
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 ">
             <div class="x_panel" style="height: 165px">
-                
+
             </div>
-                
+
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 profile_right">
             <div class="x_panel">                                     
@@ -157,7 +157,7 @@
                                     </td>   
                                     <td class="timeinterval" value ="${lasttime-listitem.getTime()}">                                                                                
                                     </td>                                       
-                                    <c:set value="${listitem.getTime()}" var="lasttime"/>
+                                    <c:set value="${listitem.getTime()}" var="lasttime"/>                                        
                                     <td class="time" value ="">
                                         <c:if test="${listitem.getLevel()>=0}">
                                             <c:if test="${not empty listitem.getStarttimes()[listitem.getLevel()]}">
@@ -167,7 +167,6 @@
                                         </c:if>
                                     </td>       
                                 </tr>
-
                             </c:forEach>
                         </tbody>
                     </table>     

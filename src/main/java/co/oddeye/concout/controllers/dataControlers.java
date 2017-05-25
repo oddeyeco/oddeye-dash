@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 public class dataControlers {
-    
+
     @Autowired
     private HbaseDataDao Datadao;
     @Autowired
@@ -49,23 +49,23 @@ public class dataControlers {
     @Autowired
     private BaseTsdbConnect BaseTsdb;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
-    
+
     @RequestMapping(value = "/metriclist", params = {"tags",}, method = RequestMethod.GET)
     public String tagMetricsList(@RequestParam(value = "tags") String tags, ModelMap map) {
         map.put("body", "taglist");
         map.put("jspart", "taglistjs");
-        
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
             map.put("curentuser", userDetails);
             map.put("tags", tags);
-            
+
         }
         return "index";
     }
-    
+
     @RequestMapping(value = "/chart/{metricshash}", method = RequestMethod.GET)
     public String singlecahrt(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
         map.put("body", "singlecahrt");
@@ -76,14 +76,14 @@ public class dataControlers {
                 User cuentuser = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
                 map.put("curentuser", cuentuser);
-                
+
                 User userDetails = cuentuser;
                 if ((cuentuser.getSwitchUser() != null)) {
                     if (cuentuser.getSwitchUser().getAlowswitch()) {
                         userDetails = cuentuser.getSwitchUser();
                     }
                 }
-                
+
                 map.put("activeuser", userDetails);
                 if (userDetails.getMetricsMeta() == null) {
                     try {
@@ -93,11 +93,11 @@ public class dataControlers {
                     }
                 }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
-                
+
                 GetRequest getMetric = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), meta.getKey(), "d".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
-                
+
                 map.put("metric", meta);
                 map.put("title", meta.getDisplayName() + "|" + meta.getDisplayTags("|"));
             } catch (Exception ex) {
@@ -106,7 +106,7 @@ public class dataControlers {
         }
         return "index";
     }
-    
+
     @RequestMapping(value = "/history/{metricshash}", method = RequestMethod.GET)
     public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
         map.put("body", "singlehistory");
@@ -117,14 +117,14 @@ public class dataControlers {
                 User cuentuser = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
                 map.put("curentuser", cuentuser);
-                
+
                 User userDetails = cuentuser;
                 if ((cuentuser.getSwitchUser() != null)) {
                     if (cuentuser.getSwitchUser().getAlowswitch()) {
                         userDetails = cuentuser.getSwitchUser();
                     }
                 }
-                
+
                 map.put("activeuser", userDetails);
                 if (userDetails.getMetricsMeta() == null) {
                     try {
@@ -134,17 +134,23 @@ public class dataControlers {
                     }
                 }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
-                
+
                 byte[] historykey = ArrayUtils.addAll(meta.getUUIDKey(), meta.getKey());
                 historykey = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(System.currentTimeMillis()));
                 String ss = Hex.encodeHexString(historykey);
-                
+
                 GetRequest getMetric = new GetRequest(HbaseErrorHistoryDao.TBLENAME.getBytes(), historykey, "h".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 List<ErrorState> list = new ArrayList<>(row.size());
-                row.forEach((KeyValue KV) -> {
-                    list.add(ErrorState.createSerializedErrorState(KV.value()));
-                });
+                int lastlevel = -255;
+                for (KeyValue KV : row) {
+                    ErrorState lasterror = ErrorState.createSerializedErrorState(KV.value());
+                    if (lastlevel != lasterror.getLevel()) {
+                        list.add(lasterror);
+                    }
+
+                    lastlevel = lasterror.getLevel();
+                }
                 Collections.reverse(list);
                 map.put("list", list);
                 map.put("metric", meta);
@@ -155,7 +161,7 @@ public class dataControlers {
         }
         return "index";
     }
-    
+
     @RequestMapping(value = "/chart", method = RequestMethod.GET)
     public String multicahrt(HttpServletRequest request, ModelMap map) {
         map.put("body", "multicahrt");
