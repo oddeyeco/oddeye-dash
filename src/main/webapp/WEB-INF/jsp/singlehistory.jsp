@@ -139,17 +139,21 @@
                                         <i class="action fa ${arrowclass}" style="color:${color};"></i>
                                     </td>                                    
                                     <td class="level" >
-                                        <c:if test="${listitem.getLevel()>-1}">
-                                            <div>${listitem.getLevelName()}</div>
-                                        </c:if>
+                                        <div>
+                                            <c:if test="${listitem.getLevel()>-1}">
+                                                ${listitem.getLevelName()}
+                                            </c:if>
+                                            <c:if test="${listitem.getLevel()==-1}">
+                                                OK
+                                            </c:if>
+                                            
+                                        </div>
                                     </td>
-                                    <td>
+                                    <td class="message" value="${listitem.getMessage()}">
                                         <c:if test="${metric.getType()>0}">                                            
                                             <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${listitem.getStartvalue()}" />
                                         </c:if>
-                                        <c:if test="${metric.getType()==0}">
-                                            <span class="message" value="${listitem.getMessage()}"></span>  
-                                        </c:if>                                        
+                                    
                                     </td>                                    
                                     <jsp:setProperty name="dateValue" property="time" value="${listitem.getTime()}"/>
                                     <td class="time" value ="">
