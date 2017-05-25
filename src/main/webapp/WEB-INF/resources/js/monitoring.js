@@ -295,7 +295,7 @@ function drawRaw(errorjson, table, hashindex, update) {
         }
         html = html + '<td class="level"><div>' + errorjson.levelname + '</div></td>';
 //        html = html + '<td>' + errorjson.hash + " " + errorjson.info.name + '</td>';
-        html = html + '<td>' + errorjson.info.name + '</td>';
+        html = html + '<td><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank">' + errorjson.info.name + '</a></td>';
         html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
         html = html + '<td class="message">' + message + '</td>';
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';

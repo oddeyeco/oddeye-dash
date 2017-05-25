@@ -421,16 +421,16 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     index = 1;
                     var row = 0;
                     if (widget.type === "treemap")
-                    {                        
+                    {
                         name = "All";
                         var series = clone_obg(defserie);
-                        
+
                         for (var skey in oldseries)
                         {
                             if (oldseries[skey].name === name)
                             {
                                 series = clone_obg(oldseries[skey]);
-                                
+
                                 break;
                             }
 //                            if (!oldseries[skey].name)
@@ -440,7 +440,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 //                                break;
 //                            }
                         }
-                        
+
                         series.data = [];
                         if (!widget.manual)
                         {
@@ -454,7 +454,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         }
                         data = [];
                         for (var key in tmp_series_1)
-                        {                            
+                        {
                             var val = 0;
                             var cildren = [];
                             for (var ind in tmp_series_1[key])
@@ -463,7 +463,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name});
                             }
 
-                            data.push({value: val, name: key, children: cildren});                            
+                            data.push({value: val, name: key, children: cildren});
                         }
                         series.name = "All";
                         widget.options.tooltip.trigger = 'item';
@@ -760,17 +760,17 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         }
                     } else if (widget.options.series[ind].type === "treemap")
                     {
-                        
+
                         for (var sind in widget.options.series[ind].data)
-                        {                            
+                        {
                             if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
                             {
                                 widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
                             }
 
-                        }                        
+                        }
                     }
-                    
+
                 }
                 widget.options.legend.data.push(widget.options.series[ind].name);
                 if (redraw)
