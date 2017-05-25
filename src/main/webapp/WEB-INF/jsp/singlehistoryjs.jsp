@@ -24,9 +24,12 @@
             {
                 message = message.replace("{DURATION}", dur);
                 $(this).parent().find('.message').html(message);
-            }            
+            }
         });
-        
-        $('#datatable').dataTable();
+
+        $('#datatable').dataTable({
+            "pagingType": "full_numbers",
+            "lengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]]
+        });
     });
 </script>
