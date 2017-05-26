@@ -47,9 +47,8 @@
                     type: 'value',
                     max: 5,
                     splitNumber:5,
-//                    show: false,
                     splitArea:{show: false},
-                    axisLine: {show: false},
+                    axisLine: {show: false}
                 }],
             dataZoom: [{
                     type: 'inside',
