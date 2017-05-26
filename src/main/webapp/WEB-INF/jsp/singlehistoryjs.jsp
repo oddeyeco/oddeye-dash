@@ -39,8 +39,8 @@
             toolbox: {feature: {magicType: {show: false}}},
             xAxis: [{
                     type: 'time',                    
-                    max: moment('<fmt:formatDate type="both" pattern="MM/dd/YYYY 23:59" value="${date}"/>').utc().valueOf()       ,
-                    show: false,
+                    max: moment(${date.getTime()}).hour(23).minute(59).valueOf(),
+                    show: false
                     
                 }],
             yAxis: [{
@@ -61,15 +61,15 @@
             grid: {
                 left: 0,
                 right: 0,
-                bottom: 0,
-                top: 0
+                bottom: 2,
+                top: 2
             },
             series: series
         });
         $('#reportrange').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
-            startDate: moment('<fmt:formatDate type="both" pattern="MM/dd/YYYY" value="${date}"/>')
+            startDate: moment(${date.getTime()})
 
         },
                 function (start, end, label) {
