@@ -20,9 +20,19 @@
             smooth: false,
             data: []
         };
-        $("#datatable tr").each(function () {
+        $("#datatable tbody tr").each(function (i, val) {
+            if (i === 0)
+            {
+                var time = moment(${date.getTime()}).hour(23).minute(59).valueOf();
+                if (moment().valueOf()<time)
+                {
+                    time = moment().valueOf();
+                }
+                series.data.push([time, $(this).attr('level'),"", $(this).find('.level div').html()]);                
+            }
             var interval = parseInt($(this).find('.timeinterval').attr('value'));
-            series.data.push([$(this).attr('time'), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"),$(this).find('.level div').html() ]);
+            series.data.push([$(this).attr('time'), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
+            
         });
         echartLine.setOption({
             title: {
@@ -30,24 +40,25 @@
             },
             tooltip: {
                 trigger: 'axis',
-                formatter: function (params) {                    
-                    var out = params[0].data[3]+':'+params[0].data[2];
+                formatter: function (params) {
+                    var out = params[0].data[3] + ':' + params[0].data[2];
                     return out;
-                    
+
                 }
             },
             toolbox: {feature: {magicType: {show: false}}},
             xAxis: [{
-                    type: 'time',                    
+                    type: 'time',
                     max: moment(${date.getTime()}).hour(23).minute(59).valueOf(),
                     show: false
-                    
+
                 }],
             yAxis: [{
                     type: 'value',
                     max: 5,
-                    splitNumber:5,
-                    splitArea:{show: false},
+                    min: -1,
+                    splitNumber: 5,
+                    splitArea: {show: false},
                     axisLine: {show: false}
                 }],
             dataZoom: [{
