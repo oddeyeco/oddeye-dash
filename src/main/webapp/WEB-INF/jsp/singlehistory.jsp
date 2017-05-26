@@ -10,10 +10,15 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_title">
+            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}"/></span> <b class="caret"></b>
+            </div>
             <h1><a href="${cp}/metriq/${metric.hashCode()}"> ${metric.getDisplayName()} </a>: ${metric.getTypeName()}</h1>
+
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 ">
-            <div class="x_panel">
+            <div class="x_panel"  style="height: 182px">
                 <div class="col-xs-6 col-md-6">
                     <div class="x_content "> 
                         <div class="x_title">
@@ -98,8 +103,8 @@
             </div>     
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 ">
-            <div class="x_panel" style="height: 165px">
-
+            <div class="x_panel">
+                <div id="echart_line" class="echart_line_single" style="height: 160px"></div>
             </div>
 
         </div>
@@ -124,7 +129,7 @@
                             <jsp:useBean id="dateValue" class="java.util.Date"/>       
                             <c:set value="${dateValue.getTime()}" var="lasttime"/>
                             <c:forEach items="${list}" var="listitem" varStatus="loop">   
-                                <tr class="level_${listitem.getLevel()}">
+                                <tr class="level_${listitem.getLevel()}" level="${listitem.getLevel()}" time="${listitem.getTime()}">
                                     <td>
                                         <c:set value="" var="arrowclass"/>
                                         <c:set value="red" var="color"/>
@@ -146,14 +151,14 @@
                                             <c:if test="${listitem.getLevel()==-1}">
                                                 OK
                                             </c:if>
-                                            
+
                                         </div>
                                     </td>
                                     <td class="message" value="${listitem.getMessage()}">
                                         <c:if test="${metric.getType()>0}">                                            
                                             <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${listitem.getStartvalue()}" />
                                         </c:if>
-                                    
+
                                     </td>                                    
                                     <jsp:setProperty name="dateValue" property="time" value="${listitem.getTime()}"/>
                                     <td class="time" value ="">

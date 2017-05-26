@@ -15,6 +15,7 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -106,9 +107,13 @@ public class dataControlers {
         }
         return "index";
     }
-
     @RequestMapping(value = "/history/{metricshash}", method = RequestMethod.GET)
     public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
+      return singlehistory(metricshash,System.currentTimeMillis(), map);
+    }
+    
+    @RequestMapping(value = "/history/{metricshash}/{date}", method = RequestMethod.GET)
+    public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash,@PathVariable(value = "date") Long date, ModelMap map) {
         map.put("body", "singlehistory");
         map.put("jspart", "singlehistoryjs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -136,7 +141,7 @@ public class dataControlers {
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
 
                 byte[] historykey = ArrayUtils.addAll(meta.getUUIDKey(), meta.getKey());
-                historykey = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(System.currentTimeMillis()));
+                historykey = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(date));
                 String ss = Hex.encodeHexString(historykey);
 
                 GetRequest getMetric = new GetRequest(HbaseErrorHistoryDao.TBLENAME.getBytes(), historykey, "h".getBytes());
@@ -152,6 +157,7 @@ public class dataControlers {
                     lastlevel = lasterror.getLevel();
                 }
                 Collections.reverse(list);
+                map.put("date",new Date(date) );
                 map.put("list", list);
                 map.put("metric", meta);
                 map.put("title", meta.getDisplayName() + "|" + meta.getDisplayTags("|"));
