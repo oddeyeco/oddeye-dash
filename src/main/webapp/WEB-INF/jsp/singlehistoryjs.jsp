@@ -18,6 +18,9 @@
             type: "line",
             step: "start",
             smooth: false,
+//            showSymbol: true,
+//            symbolSize: 10,
+//            symbol: 'circle',            
             data: []
         };
         $("#datatable tbody tr").each(function (i, val) {
@@ -71,8 +74,8 @@
             grid: {
                 left: 0,
                 right: 0,
-                bottom: 2,
-                top: 2
+                bottom: 7,
+                top: 10
             },
             series: series
         });
