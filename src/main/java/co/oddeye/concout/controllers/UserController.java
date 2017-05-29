@@ -462,8 +462,9 @@ public class UserController {
                 // Get rules chart data
                 rules.entrySet().stream().map((rule) -> rule.getValue().getTime()).map((Calendar calobject) -> {
                     String startdate = Long.toString(calobject.getTimeInMillis());
-                    calobject.add(Calendar.HOUR, 1);
-                    calobject.add(Calendar.MILLISECOND, -1);
+//                    calobject.add(Calendar.HOUR, 1);
+                    calobject.add(Calendar.MINUTE, 59);
+//                    calobject.add(Calendar.SECOND, 59);
                     String enddate = Long.toString(calobject.getTimeInMillis());
                     data.addAll(DataDao.getDatabyQuery(userDetails, Error.getName(), "none", Error.getFullFilter(), startdate, enddate, "", false));
                     return startdate;
@@ -513,8 +514,10 @@ public class UserController {
                     return startdate;
                 }).forEachOrdered((_item) -> {
                     data.clear();
-                }); // Get Curent chart data
+                }); 
 
+                
+                // Get Curent chart data
                 Calendar calobject = Calendar.getInstance();
                 calobject.setTimeInMillis(Long.parseLong(timestamp) * 1000);
                 calobject.set(Calendar.MINUTE, 0);
