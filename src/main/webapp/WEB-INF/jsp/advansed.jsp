@@ -53,7 +53,18 @@
                         </li>
                         <li>
                             <span class="name"> Deviation % </span>
-                            <span class="value text-success"> <fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getPersent_weight()}" /> </span>
+                            <span class="value text-success"> 
+                                <c:choose>
+                                    <c:when test="${Error.getPersent_weight() == Double.NaN}">
+                                        NaN                                    
+                                    </c:when>  
+                                    <c:otherwise>
+                                        <fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getPersent_weight()}" />                                     
+                                    </c:otherwise>  
+                                </c:choose>
+                            </span>
+
+
                         </li>
                         <li>
                             <span class="name"> Time </span>
