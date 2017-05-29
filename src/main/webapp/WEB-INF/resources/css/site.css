@@ -501,3 +501,8 @@ ul.lastdash li .fa {
 .edit-form #buttons_div{margin-right: 11px;}
 .edit-form #title_x_position_text, #title_y_position_text{width: 100px;}
 .edit-form .control-label2{width: 82px;}
+.edit-query{
+    border: solid;
+    border-width: 0px 10px 0px 0px;
+    border-color: transparent;
+}

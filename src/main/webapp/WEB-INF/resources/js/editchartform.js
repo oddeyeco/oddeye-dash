@@ -47,7 +47,7 @@ class ChartEditForm {
         this.formwraper.find("#tab_metrics #forms").html("");
         if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
         {
-
+            var cache = {};
             for (var qindex in dashJSON[row]["widgets"][index].q)
             {
                 var query = "";
@@ -79,6 +79,18 @@ class ChartEditForm {
                     }
 
                 }
+                if (dashJSON[row]["widgets"][index].q[qindex].info)
+                {
+                    var text = dashJSON[row]["widgets"][index].q[qindex].info.tags;
+                    if (!cache[text])
+                    {
+                        cache[text] = [];
+                    }
+                    cache[text].push(qindex);
+//                console.log(text + cache[text]);                
+                }
+
+
                 this.formwraper.find("#tab_metrics form#" + qindex + "_query div.tags").html("");
                 for (var tagindex in tags)
                 {
@@ -138,6 +150,37 @@ class ChartEditForm {
 
                 }
             }
+            console.log(cache);
+            // suren
+            var colorarray = ["#ff0000", "#ff00ff", "#00ff00", "#0000ff"];
+            var colorindex = 0;
+            for (var key in cache)
+            {
+                var items = cache[key];
+                console.log(items);
+                if (items.length > 1)
+                {
+                    // console.log(items);
+                    for (var index in items)
+                    {
+                        console.log("normal e");
+                        // console.log("index=" + colorindex % colorarray.length +" colorindex "+ colorindex+ "colorarray.length"+ colorarray.length)	
+                        //   $("td#" + items[index]).parent().css("background-color", colorarray[colorindex % colorarray.length]);
+                        // $("#" (+items[index] +"_query") ).css("background-color", colorarray[colorindex % colorarray.length]);  
+                        console.log("suren" + items[index]);
+                        var gazan = items[index] + "_query";
+                        console.log(gazan);
+                        $("#" + gazan).css("border-color", colorarray[colorindex % colorarray.length]);
+                    }
+
+                }
+
+                colorindex++;
+                // console.log(index);
+            }
+
+
+            //suren 
             var elems = document.querySelectorAll('#tab_metrics #forms .js-switch-small');
             for (var i = 0; i < elems.length; i++) {
                 var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
@@ -1002,3 +1045,4 @@ class ChartEditForm {
     }
     }
 }
+
