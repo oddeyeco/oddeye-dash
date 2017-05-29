@@ -6,9 +6,9 @@
         <div class="x_title">            
             <h1><a href="${cp}/chart/${metric.hashCode()}"> ${metric.getDisplayName()} </a>: ${metric.getTypeName()}</h1>
         </div>
-        <div class="col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="x_panel">
-                <div class="col-sm-4 col-xs-6">
+                <div class="col-sm-6 col-xs-12">
                     <div class="x_content "> 
                         <div class="x_title">
                             <h2><i class="fa fa-asterisk"></i> Tags</h2>                                         
@@ -28,7 +28,7 @@
                 </div>
 
                 <c:if test="${metric.getType()!=0}">
-                    <div class="col-sm-4 col-xs-6">            
+                    <div class="col-sm-6 col-xs-12">            
                         <div class="x_content "> 
                             <div class="x_title">
                                 <h2><i class="fa fa-line-chart"></i> Regression</h2>     
@@ -94,7 +94,7 @@
         </div>
 
         <c:if test="${metric.getType()!=0}">
-            <div class="col-sm-6 col-xs-12">
+            <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Metric: ${metric.getName()} Rules</h2>
@@ -131,7 +131,7 @@
     </div>
     <c:if test="${metric.getType()!=0}">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-12">
                 <div class="x_panel">
                     <div class="x_title">
                         <h2>Graphic Analysis</h2>

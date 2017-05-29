@@ -422,12 +422,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     var row = 0;
                     if (widget.type === "treemap")
                     {
+                        name = "All";
                         var series = clone_obg(defserie);
+
                         for (var skey in oldseries)
                         {
                             if (oldseries[skey].name === name)
                             {
                                 series = clone_obg(oldseries[skey]);
+
                                 break;
                             }
 //                            if (!oldseries[skey].name)
@@ -462,7 +465,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             data.push({value: val, name: key, children: cildren});
                         }
-                        series.name = key;
+                        series.name = "All";
                         widget.options.tooltip.trigger = 'item';
                         series.data = data;
                         widget.options.series.push(series);
@@ -755,7 +758,19 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
 
                         }
+                    } else if (widget.options.series[ind].type === "treemap")
+                    {
+
+                        for (var sind in widget.options.series[ind].data)
+                        {
+                            if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
+                            {
+                                widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
+                            }
+
+                        }
                     }
+
                 }
                 widget.options.legend.data.push(widget.options.series[ind].name);
                 if (redraw)
@@ -1083,7 +1098,7 @@ function getParameterByName(name, url) {
 }
 $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
     var input = $('#reportrange_private');
-    chartForm.chage(input);
+    chartForm.change(input);
 });
 
 $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
@@ -1242,16 +1257,16 @@ $(document).ready(function () {
         elems[i].onchange = function () {
             if (chartForm !== null)
             {
-                chartForm.chage($(this));
+                chartForm.change($(this));
             }
         };
     }
 
     $('.cl_picer_input').colorpicker().on('hidePicker', function () {
-        chartForm.chage($(this).find("input"));
+        chartForm.change($(this).find("input"));
     });
     $('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
-        chartForm.chage($(this).find("input"));
+        chartForm.change($(this).find("input"));
     });
 
 
@@ -1388,7 +1403,7 @@ $(document).ready(function () {
 $('body').on("click", "span.tag_label .fa-remove", function () {
     var input = $(this).parents(".data-label");
     $(this).parents(".tag_label").remove();
-    chartForm.chage(input);
+    chartForm.change(input);
 });
 
 $('body').on("click", "span.tagspan .fa-pencil", function () {
@@ -1515,24 +1530,24 @@ $('body').on("click", "span.tag_label .fa-check", function () {
             valinput.parent().remove();
         }
     }
-    chartForm.chage(input);
+    chartForm.change(input);
 });
 $('body').on("blur", ".edit-form input", function () {
     if (!$(this).parent().hasClass("edit"))
     {
         if (!$(this).hasClass("ace_search_field"))
         {
-            chartForm.chage($(this));
+            chartForm.change($(this));
         }
     }
 });
 
 $('body').on("change", ".edit-form select", function () {
-    chartForm.chage($(this));
+    chartForm.change($(this));
 });
 
 $('body').on("click", ".edit-form #tab_metrics .btn", function () {
-    chartForm.chage($(this));
+    chartForm.change($(this));
 });
 
 $('body').on("change", ".edit-form select#axes_mode_x", function () {

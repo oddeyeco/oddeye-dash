@@ -187,7 +187,7 @@ class ChartEditForm {
                 elems[i].onchange = function () {
                     if (chartForm !== null)
                     {
-                        chartForm.chage($(this));
+                        chartForm.change($(this));
                     }
                 };
             }
@@ -502,7 +502,7 @@ class ChartEditForm {
         });
     }
 
-    chage(input) {
+    change(input) {
         if (input.hasClass('Addq'))
         {
             if (!this.dashJSON[this.row]["widgets"][this.index].q)
