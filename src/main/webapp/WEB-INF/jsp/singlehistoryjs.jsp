@@ -16,7 +16,7 @@
             name: "errors",
             sampling: 'average',
             type: "line",
-            step: "start",
+            step: "end",
             smooth: false,
 //            showSymbol: true,
 //            symbolSize: 10,
@@ -27,15 +27,18 @@
             if (i === 0)
             {
                 var time = moment(${date.getTime()}).hour(23).minute(59).valueOf();
-                if (moment().valueOf()<time)
+                if (moment().valueOf() < time)
                 {
                     time = moment().valueOf();
                 }
-                series.data.push([time, $(this).attr('level'),"", $(this).find('.level div').html()]);                
+                series.data.push([time, $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
+            } else
+            {
+                var interval = parseInt($(this).find('.timeinterval').attr('value'));
+                series.data.push([$(this).attr('time'), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
             }
-            var interval = parseInt($(this).find('.timeinterval').attr('value'));
-            series.data.push([$(this).attr('time'), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
-            
+
+
         });
         echartLine.setOption({
             title: {
