@@ -853,8 +853,13 @@ $('body').on("click", "#jsonApply", function () {
 });
 
 $('body').on("change", "#refreshtime", function () {
-    dashJSONvar.times.intervall = $(this).val();
-    repaint(true);
+    console.log(doapplyjson);
+    if (!doapplyjson)
+    {
+        dashJSONvar.times.intervall = $(this).val();
+        repaint(true);
+    }
+
 });
 
 function AutoRefresh(redraw = false)
@@ -1170,7 +1175,9 @@ function repaint(redraw = false) {
         var check = document.getElementById('global-downsampling-switsh');
         if (check.checked !== dashJSONvar.times.generalds[2])
         {
+            $(check).attr('autoedit', true);
             $(check).trigger('click');
+            $(check).removeAttr('autoedit');                        
         }
     }
     var request_W_index = getParameterByName("widget");
@@ -1365,12 +1372,23 @@ $(document).ready(function () {
     }
 
     $('body').on("change", "#global-down-sample-ag", function () {
+        if (!doapplyjson)
+        {
+            if (!dashJSONvar.times.generalds)
+            {
+                dashJSONvar.times.generalds = [];
+            }
+            dashJSONvar.times.generalds[1] = $(this).val();
+            repaint(true);
+        }
 
-        dashJSONvar.times.generalds[1] = $(this).val();
-        repaint(true);
     });
 
     $('body').on("blur", "#global-down-sample", function () {
+        if (!dashJSONvar.times.generalds)
+        {
+            dashJSONvar.times.generalds = [];
+        }
         dashJSONvar.times.generalds[0] = $(this).val();
         repaint(true);
     });
@@ -1611,7 +1629,12 @@ $('body').on("click", "#showasjson", function () {
     $("#showjson").modal('show');
 });
 
+var doapplyjson = false;
+
 $('body').on("click", "#applydashjson", function () {
+
+    doapplyjson = true;
+
     for (var rowindex in dashJSONvar)
     {
         for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
@@ -1623,17 +1646,23 @@ $('body').on("click", "#applydashjson", function () {
         }
     }
     dashJSONvar = dasheditor.get();
+    redrawAllJSON(dashJSONvar);
 
-    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-    var check = document.getElementById('global-downsampling-switsh');
-    if (check.checked !== dashJSONvar.times.generalds[2])
+    if (dashJSONvar.times.generalds)
     {
-        $(check).trigger('click');
+        $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
+        var check = document.getElementById('global-downsampling-switsh');
+        if (check.checked !== dashJSONvar.times.generalds[2])
+        {            
+            $(check).attr('autoedit', true);
+            $(check).trigger('click');
+            $(check).removeAttr('autoedit');            
+        }
     }
     if (dashJSONvar.times.intervall)
     {
-        $("#refreshtime").val(dashJSONvar.times.intervall);
+        $("#refreshtime").val(dashJSONvar.times.intervall).trigger('change');
     }
     var label = pickerlabel;
     if (dashJSONvar.times.pickerlabel)
@@ -1653,8 +1682,9 @@ $('body').on("click", "#applydashjson", function () {
         PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
         PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
     }
-    redrawAllJSON(dashJSONvar);
+
     $("#showjson").modal('hide');
+    doapplyjson = false;
 });
 
 $('body').on("click", ".showrowjson", function () {
