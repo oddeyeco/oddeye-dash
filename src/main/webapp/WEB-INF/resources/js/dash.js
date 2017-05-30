@@ -491,7 +491,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 if (!oldseries[skey].name)
                                 {
 
-                                    oldseries[skey].name = key
+                                    oldseries[skey].name = key;
                                     series = clone_obg(oldseries[skey]);
                                     break;
                                 }
@@ -904,7 +904,7 @@ function redrawAllJSON(dashJSON, redraw = false)
             if (dashJSON[rowindex]["widgets"][widgetindex] == null)
             {
 
-                delete(dashJSON[rowindex]["widgets"][widgetindex])
+                delete(dashJSON[rowindex]["widgets"][widgetindex]);
                 continue;
             }
             if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
