@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor, chartForm */
+/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor, chartForm, colorPalette */
 
 class ChartEditForm {
 
@@ -162,7 +162,7 @@ class ChartEditForm {
                     $(this).append('<i class="fa fa-exclamation-triangle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
                 }
                 ind += 1;
-                if (ind == $("#forms .edit-query[count!=1]").length) {
+                if (ind === $("#forms .edit-query[count!=1]").length) {
                     $('[data-toggle="tooltip"]').tooltip();
                 }
             }
