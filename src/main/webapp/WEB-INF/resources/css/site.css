@@ -506,3 +506,9 @@ ul.lastdash li .fa {
     border-width: 0px 10px 0px 0px;
     border-color: transparent;
 }
+.q_warning{
+    float: right;
+    font-size: 35px;
+    margin: -14px 14px 0px 0px;
+    color: #FF8C00;
+}

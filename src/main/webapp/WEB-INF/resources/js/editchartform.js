@@ -48,6 +48,7 @@ class ChartEditForm {
         if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
         {
             var cache = {};
+            var colorindex = 0;
             for (var qindex in dashJSON[row]["widgets"][index].q)
             {
                 var query = "";
@@ -55,6 +56,7 @@ class ChartEditForm {
                 var metrics = [];
                 var aggregator = "";
                 var form = $(formhtml);
+
                 form.attr("id", qindex + "_query");
                 form.attr("qindex", qindex);
                 form.find("#baze_disable_downsampling").attr("id", qindex + "_disable_downsampling");
@@ -79,16 +81,20 @@ class ChartEditForm {
                     }
 
                 }
-                if (dashJSON[row]["widgets"][index].q[qindex].info)
+//suren
+                tags.sort();
+                var s_tags = tags.toString();
+                if (!cache[s_tags])
                 {
-                    var text = dashJSON[row]["widgets"][index].q[qindex].info.tags;
-                    if (!cache[text])
-                    {
-                        cache[text] = [];
-                    }
-                    cache[text].push(qindex);
-//                console.log(text + cache[text]);                
+                    cache[s_tags] = [];
                 }
+                cache[s_tags].push(qindex);
+                var items = cache[s_tags];
+                colorindex = Object.keys(cache).indexOf(s_tags) % colorPalette.length;
+                this.formwraper.find("#tab_metrics form#" + qindex + "_query").attr("colorindex", colorindex);
+                $("[colorindex='" + colorindex + "']").css("border-color", colorPalette[colorindex]);
+                $("[colorindex='" + colorindex + "']").attr("count", items.length);
+//suren
 
 
                 this.formwraper.find("#tab_metrics form#" + qindex + "_query div.tags").html("");
@@ -138,7 +144,6 @@ class ChartEditForm {
                         $(elem).trigger('click');
                     }
                     var elem = document.getElementById(qindex + "_enable_rate");
-//                    console.log(dashJSON[row]["widgets"][index].q[qindex].info.rate);
                     if (!dashJSON[row]["widgets"][index].q[qindex].info.rate)
                     {
                         dashJSON[row]["widgets"][index].q[qindex].info.rate = false;
@@ -150,37 +155,20 @@ class ChartEditForm {
 
                 }
             }
-            console.log(cache);
-            // suren
-            var colorarray = ["#ff0000", "#ff00ff", "#00ff00", "#0000ff"];
-            var colorindex = 0;
-            for (var key in cache)
-            {
-                var items = cache[key];
-                console.log(items);
-                if (items.length > 1)
+            var ind = 0;
+            $("#forms .edit-query[count!=1]").each(function () {
+                if (!$(this).find('.fa').hasClass('q_warning'))
                 {
-                    // console.log(items);
-                    for (var index in items)
-                    {
-                        console.log("normal e");
-                        // console.log("index=" + colorindex % colorarray.length +" colorindex "+ colorindex+ "colorarray.length"+ colorarray.length)	
-                        //   $("td#" + items[index]).parent().css("background-color", colorarray[colorindex % colorarray.length]);
-                        // $("#" (+items[index] +"_query") ).css("background-color", colorarray[colorindex % colorarray.length]);  
-                        console.log("suren" + items[index]);
-                        var gazan = items[index] + "_query";
-                        console.log(gazan);
-                        $("#" + gazan).css("border-color", colorarray[colorindex % colorarray.length]);
-                    }
-
+                    $(this).append('<i class="fa fa-exclamation-triangle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
                 }
-
-                colorindex++;
-                // console.log(index);
+                ind += 1;
+                if (ind == $("#forms .edit-query[count!=1]").length) {
+                    $('[data-toggle="tooltip"]').tooltip();
+                }
             }
+            );
 
-
-            //suren 
+//    
             var elems = document.querySelectorAll('#tab_metrics #forms .js-switch-small');
             for (var i = 0; i < elems.length; i++) {
                 var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
