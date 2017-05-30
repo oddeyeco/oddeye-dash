@@ -158,7 +158,17 @@
                                                             </td>
                                                             <td class="value"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getValue()}" /></td>
                                                             <td class="weight">${metric.getWeight()}</td>
-                                                            <td class="persent"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getPersent_weight()}" /> </td>
+                                                            <td class="persent">
+                                                                <c:choose>
+                                                                    <c:when test="${metric.getPersent_weight() == Double.NaN}">
+                                                                        NaN                                    
+                                                                    </c:when>  
+                                                                    <c:otherwise>
+                                                                        <fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getPersent_weight()}" /> 
+                                                                    </c:otherwise>  
+                                                                </c:choose>                                                                
+
+                                                            </td>
                                                             <td class="persent"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getPersent_predict()}" /></td>
                                                             <td class="persent">${metric.getRecurrenceTmp()}</td>
                                                             <td class="level_${curentuser.getAlertLevels().getErrorLevel(metric)}">${curentuser.getAlertLevels().getName(curentuser.getAlertLevels().getErrorLevel(metric))}</td>

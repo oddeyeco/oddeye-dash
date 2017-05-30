@@ -37,8 +37,6 @@
                                                     <c:if test="${model[config.getValue().path]}">
                                                         <a href="<c:url value="/${path}/switch/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fa-pencil"></i> Switch </a>    
                                                     </c:if>
-
-
                                                 </sec:authorize>
                                             </c:when>
                                             <c:otherwise>

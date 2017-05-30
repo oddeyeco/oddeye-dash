@@ -40,13 +40,15 @@
             var chdata = [];
 
             for (var time in chartline.data) {
+
                 var dateval = moment(time * 1);
 //                    date.push(dateval.format("h:m:s"));
                 dateval = moment(time * 1).dayOfYear(0);
 //                dateval = moment(time * 1).year(0);
                 chdata.push([dateval.toDate(), chartline.data[time]]);
+
             }
-//                date.sort();
+//                date.sort();            
             var serie = clone_obg(defserie);
             serie.data = chdata;
             if (k != "predict")
@@ -113,7 +115,6 @@
             },
             xAxis: [{
                     type: 'time',
-//                    data: date
                 }],
             yAxis: [{
                     type: 'value',
@@ -121,12 +122,18 @@
                         formatter: format_data
                     }
                 }],
-            dataZoom: {
-                show: true,
-//                realtime: true,
-                start: 0,
-                end: 100
-            },
+            dataZoom: [{
+                    type: 'inside',
+                    xAxisIndex: 0,
+                    show: true,
+                    start: 0,
+                    end: 100
+                }, {
+                    show: true,
+                    start: 0,
+                    end: 100
+                },
+            ],
             series: series
         });
 

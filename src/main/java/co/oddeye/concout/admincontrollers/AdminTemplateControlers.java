@@ -72,7 +72,7 @@ public class AdminTemplateControlers extends GRUDControler {
             }
         }).AddViewConfig("actions", new HashMap<String, Object>() {
             {
-                put("path", "actions");
+                put("path", "edit");
                 put("title", " Actions");
                 put("type", "actions");
             }

@@ -89,13 +89,13 @@ var encodeHTML = function (source) {
                 var out = "";
                 if (params.constructor === Array)
                 {
-                    out = params[0].name;
+                    out = params[0].name;                    
                     for (var ind in params)
                     {
-                        param = params[ind];
+                        param = params[ind];                        
                         if (typeof (param.value) === 'undefined')
                         {
-                            return "";
+                            continue;
                         }
 
                         var value;

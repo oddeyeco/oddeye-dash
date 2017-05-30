@@ -161,6 +161,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
             }
         }
+
         var count = {"value": widget.q.length};
         var oldseries = clone_obg(widget.options.series);
         widget.options.series = [];
@@ -219,6 +220,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                 });
 
                 $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+
             }
 
         }
@@ -228,6 +230,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart)
 {
     return function (data) {
+
         var m_sample = widget.options.xAxis[0].m_sample;
         if (data.chartsdata)
         {
@@ -274,16 +277,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     series = clone_obg(oldseries[skey]);
                                     break;
                                 }
-//                                if (!oldseries[skey].name)
-//                                {
-//                                    oldseries[skey].name = name
-//                                    series = clone_obg(oldseries[skey]);
-//                                    break;
-//                                }                                
 
                             }
                             series.data = [];
-
                             if (!widget.manual)
                             {
                                 series.type = widget.type;
@@ -433,14 +429,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                                 break;
                             }
-//                            if (!oldseries[skey].name)
-//                            {
-//                                oldseries[skey].name = name
-//                                series = clone_obg(oldseries[skey]);
-//                                break;
-//                            }
                         }
-
                         series.data = [];
                         if (!widget.manual)
                         {
@@ -491,7 +480,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 if (!oldseries[skey].name)
                                 {
 
-                                    oldseries[skey].name = key
+                                    oldseries[skey].name = key;
                                     series = clone_obg(oldseries[skey]);
                                     break;
                                 }
@@ -714,6 +703,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     break;
                                 }
                             }
+
                             if (!dublicatename)
                             {
                                 widget.options.series.push(series);
@@ -731,6 +721,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
             widget.options.series.sort(function (a, b) {
                 return compareStrings(a.name, b.name);
             });
+
             for (var ind in widget.options.series)
             {
                 if (widget.options.xAxis[0].type === "category")
@@ -772,9 +763,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
 
                 }
+
+
                 widget.options.legend.data.push(widget.options.series[ind].name);
-                if (redraw)
-                {
+                if ((redraw)&&(!widget.manual))
+                {                    
                     delete(widget.options.series[ind].type);
                     delete(widget.options.series[ind].stack);
                 }
@@ -852,9 +845,13 @@ $('body').on("click", "#jsonApply", function () {
     chartForm.applyjson();
 });
 
-$('body').on("change", "#refreshtime", function () {
-    dashJSONvar.times.intervall = $(this).val();
-    repaint(true);
+$('body').on("change", "#refreshtime", function () {    
+    if (!doapplyjson)
+    {
+        dashJSONvar.times.intervall = $(this).val();
+        repaint(true);
+    }
+
 });
 
 function AutoRefresh(redraw = false)
@@ -865,6 +862,7 @@ function AutoRefresh(redraw = false)
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
 {
     var opt = dashJSONvar[row]["widgets"][index];
+
     showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw, function () {
         var jsonstr = JSON.stringify(opt, jsonmaker);
         editor.set(JSON.parse(jsonstr));
@@ -899,7 +897,7 @@ function redrawAllJSON(dashJSON, redraw = false)
             if (dashJSON[rowindex]["widgets"][widgetindex] == null)
             {
 
-                delete(dashJSON[rowindex]["widgets"][widgetindex])
+                delete(dashJSON[rowindex]["widgets"][widgetindex]);
                 continue;
             }
             if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
@@ -1078,6 +1076,7 @@ function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = t
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].options);
     }
+
     if (rebuildform)
     {
         chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
@@ -1163,14 +1162,17 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     }
 });
 function repaint(redraw = false) {
+    doapplyjson = true;
     if (dashJSONvar.times.generalds)
     {
         $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
         var check = document.getElementById('global-downsampling-switsh');
         if (check.checked !== dashJSONvar.times.generalds[2])
         {
+            $(check).attr('autoedit', true);
             $(check).trigger('click');
+            $(check).removeAttr('autoedit');
         }
     }
     var request_W_index = getParameterByName("widget");
@@ -1212,7 +1214,8 @@ function repaint(redraw = false) {
             $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             $(".select2_group").select2({dropdownCssClass: "menu-select"});
         }
-}
+    }
+    doapplyjson = false;
 }
 
 $(document).ready(function () {
@@ -1365,12 +1368,23 @@ $(document).ready(function () {
     }
 
     $('body').on("change", "#global-down-sample-ag", function () {
+        if (!doapplyjson)
+        {
+            if (!dashJSONvar.times.generalds)
+            {
+                dashJSONvar.times.generalds = [];
+            }
+            dashJSONvar.times.generalds[1] = $(this).val();
+            repaint(true);
+        }
 
-        dashJSONvar.times.generalds[1] = $(this).val();
-        repaint(true);
     });
 
     $('body').on("blur", "#global-down-sample", function () {
+        if (!dashJSONvar.times.generalds)
+        {
+            dashJSONvar.times.generalds = [];
+        }
         dashJSONvar.times.generalds[0] = $(this).val();
         repaint(true);
     });
@@ -1611,7 +1625,12 @@ $('body').on("click", "#showasjson", function () {
     $("#showjson").modal('show');
 });
 
+var doapplyjson = false;
+
 $('body').on("click", "#applydashjson", function () {
+
+    doapplyjson = true;
+
     for (var rowindex in dashJSONvar)
     {
         for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
@@ -1623,17 +1642,23 @@ $('body').on("click", "#applydashjson", function () {
         }
     }
     dashJSONvar = dasheditor.get();
+    redrawAllJSON(dashJSONvar);
 
-    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-    var check = document.getElementById('global-downsampling-switsh');
-    if (check.checked !== dashJSONvar.times.generalds[2])
+    if (dashJSONvar.times.generalds)
     {
-        $(check).trigger('click');
+        $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
+        var check = document.getElementById('global-downsampling-switsh');
+        if (check.checked !== dashJSONvar.times.generalds[2])
+        {
+            $(check).attr('autoedit', true);
+            $(check).trigger('click');
+            $(check).removeAttr('autoedit');
+        }
     }
     if (dashJSONvar.times.intervall)
     {
-        $("#refreshtime").val(dashJSONvar.times.intervall);
+        $("#refreshtime").val(dashJSONvar.times.intervall).trigger('change');
     }
     var label = pickerlabel;
     if (dashJSONvar.times.pickerlabel)
@@ -1653,8 +1678,9 @@ $('body').on("click", "#applydashjson", function () {
         PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
         PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
     }
-    redrawAllJSON(dashJSONvar);
+
     $("#showjson").modal('hide');
+    doapplyjson = false;
 });
 
 $('body').on("click", ".showrowjson", function () {
@@ -1795,9 +1821,6 @@ $('body').on("click", ".addchart", function () {
     {
         dashJSONvar[rowindex].widgets = [];
     }
-
-    console.log();
-
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
     dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
 

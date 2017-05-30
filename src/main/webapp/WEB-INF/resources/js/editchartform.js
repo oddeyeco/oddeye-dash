@@ -724,7 +724,7 @@ class ChartEditForm {
                 if (this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.constructor !== Array)
                 {
                     var dz = [];
-                    dz.push(this.dashJSON[this.row]["widgets"][this.index].options.dataZoom);
+                    dz.push(this.dashJSON[this.row]["widgets"][this.index].options.dataZoom);                    
                     this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [{
                             type: 'slider',
                             xAxisIndex: 0,
@@ -739,6 +739,15 @@ class ChartEditForm {
                     {
                         this.dashJSON[this.row]["widgets"][this.index].options.dataZoom = [];
                     }
+                    if (!this.dashJSON[this.row]["widgets"][this.index].options.grid)
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].options.grid = {};                        
+                    }
+                    if (!this.dashJSON[this.row]["widgets"][this.index].options.grid.y2)
+                    {
+                        this.dashJSON[this.row]["widgets"][this.index].options.grid.y2= 70;
+                    }                    
+                        
                     this.dashJSON[this.row]["widgets"][this.index].options.dataZoom.push({
                         type: 'slider',
                         xAxisIndex: 0,
