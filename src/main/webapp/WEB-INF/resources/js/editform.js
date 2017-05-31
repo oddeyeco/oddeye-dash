@@ -10,6 +10,8 @@
 class EditForm {
 
     constructor(formwraper, row, index, dashJSON) {
+        this.deflist = {};
+        this.inittabcontent();
         this.formwraper = formwraper;
         this.row = row;
         this.index = index;
@@ -22,7 +24,7 @@ class EditForm {
 
         this.formwraper.append('<div class="pull-right tabcontrol"><label class="control-label" >JSON Manual Edit:</label>' +
                 '<div class="checkbox" style="display: inline-block">' +
-                '<input type="checkbox" class="js-switch-small"  chart_prop_key="manual" id="manual" name="manual" /> ' +
+                '<input type="checkbox" class="js-switch-small"  chart_prop_key="manual" id="manual" name="manual" key_path="manual" /> ' +
                 '</div> '
                 );
         if (checked)
@@ -66,10 +68,11 @@ class EditForm {
                                 if (form.label.checker)
                                 {
                                     contenttab.find('#' + form.id + ' .form_main_block h3').append('<div class="checkbox" style="display: inline-block">' +
-                                            '<' + form.label.checker.tag + ' type="' + form.label.checker.type + '" class="' + form.label.checker.class + '" prop_key="' + form.label.checker.prop_key + '" id="' + form.label.checker.id + '" name="' + form.label.checker.name + '" /> ' +
+                                            '<' + form.label.checker.tag + ' type="' + form.label.checker.type + '" class="' + form.label.checker.class + '" prop_key="' + form.label.checker.prop_key + '" id="' + form.label.checker.id + '" name="' + form.label.checker.name + '"' + '" key_path="' + form.label.checker.key_path + '" /> ' +
                                             '</div>');
 
                                     checked = this.getvaluebypath(form.label.checker.key_path, form.label.checker.default);
+
                                     if (checked)
                                     {
                                         contenttab.find('#' + form.label.checker.id).attr("checked", checked);
@@ -151,6 +154,10 @@ class EditForm {
                 }
                 if (item.key_path)
                 {
+                    jobject.attr('key_path', item.key_path);
+                }
+                if (item.key_path)
+                {
                     if (item.type === 'checkbox')
                     {
                         var check = this.getvaluebypath(item.key_path, item.default);
@@ -177,30 +184,19 @@ class EditForm {
             }
         }
     }
-    getvaluebypath(path, def)
-    {
-        var a_path = path.split('.');
-        var object = this.dashJSON[this.row]["widgets"][this.index];
-        for (var key in a_path)
-        {
-            object = object[a_path[key]];
-            if (!object)
-            {
-                return def;
-            }
-
-        }
-        return object;
-    }
     get targetoptions()
     {
         return {"": "&nbsp;", "self": "Self", "blank": "Blank"};
     }
 
-    get positionoptions()
+    get xpositionoptions()
     {
         return {"": "&nbsp;", "center": "Center", "left": "Left", "right": "Right"};
     }
+    get ypositionoptions()
+    {
+        return {"": "&nbsp;", "center": "Center", "top": "Top", "bottom": "Bottom"};
+    }    
     get spanoptions()
     {
         var obj = {};
@@ -218,12 +214,12 @@ class EditForm {
         ];
     }
 
-    gettabcontent(key)
+    inittabcontent()
     {
-        var tabcontent = {};
-        tabcontent.tab_general = {};
-        tabcontent.tab_metric = {};
-        tabcontent.tab_json = {};
+        this.tabcontent = {};
+        this.tabcontent.tab_general = {};
+        this.tabcontent.tab_metric = {};
+        this.tabcontent.tab_json = {};
         var edit_dimensions = {id: "edit_dimensions", label: {show: true, text: 'Dimensions', checker: false}};
         edit_dimensions.content = [{tag: "div", class: "form-group form-group-custom", content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Span", lfor: "dimensions_span"},
@@ -238,15 +234,18 @@ class EditForm {
                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                             {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "height", id: "dimensions_transparent", name: "dimensions_transparent", key_path: 'transparent', default: false}
                         ]}
-//                    
                 ]}
         ];
-        tabcontent.tab_general.forms = [edit_dimensions];
+        this.tabcontent.tab_general.forms = [edit_dimensions];
+    }
+
+    gettabcontent(key)
+    {
         if (key === null)
         {
-            return tabcontent;
+            return this.tabcontent;
         }
-        return tabcontent[key];
+        return this.tabcontent[key];
     }
 
     jspluginsinit() {
@@ -280,6 +279,83 @@ class EditForm {
     }
 
     change(input) {
-        console.log("dsdasasd");
+        var value = null;
+
+        if (input.attr('type') === 'checkbox')
+        {
+            var elem = document.getElementById(input.attr("id"));
+            value = elem.checked;
+        }
+        if (input.attr('type') === 'text')
+        {            
+            value = input.val();
+        }
+
+        if (input.attr('type') === 'number')
+        {            
+            value = Number(input.val());
+        }          
+        if (input.prop("tagName").toLowerCase() === "select")
+        {
+            value = input.val();
+        }
+        this.setvaluebypath(input.attr('key_path'), value);
+        
+        showsingleWidget(this.row, this.index, this.dashJSON, false, false, false, function () {
+//            var jsonstr = JSON.stringify(opt, jsonmaker);
+//            editor.set(JSON.parse(jsonstr));
+        });        
+    }
+    getdefvalue(path)
+    {
+
+        if (path === null)
+        {
+            return this.deflist;
+        }
+        return this.deflist[path];
+    }
+    setvaluebypath(path, value)
+    {
+        if (value === null)
+        {
+            return;
+        }
+        var a_path = path.split('.');
+        var object = this.dashJSON[this.row]["widgets"][this.index];
+        for (var key in a_path)
+        {
+            if (key == (a_path.length - 1))
+            {
+                if (this.getdefvalue(path) === value)
+                {
+                    delete object[a_path[key]];
+                } else
+                {
+                    object[a_path[key]] = value;
+                }
+
+            }
+
+            object = object[a_path[key]];
+
+        }
+
+    }
+
+    getvaluebypath(path, def)
+    {
+        var a_path = path.split('.');
+        var object = this.dashJSON[this.row]["widgets"][this.index];
+        for (var key in a_path)
+        {
+            object = object[a_path[key]];            
+            if (typeof (object) === "undefined")
+            {
+                return def;
+            }
+        }
+
+        return object;
     }
 }

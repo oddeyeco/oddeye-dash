@@ -1032,18 +1032,21 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         title = "Edit Table";
     }
-    $(".right_col").append('<div class="x_panel editpanel"></div>');
-    if (!readonly)
+    if (rebuildform)
     {
-        $(".right_col .editpanel").append('<div class="x_title dash_action">' +
-                '<h1 class="col-md-3">' + title + '</h1>' +
-                '<div class="pull-right">' +
-                '<a class="btn btn-primary savedash" type="button">Save </a>' +
-                '<a class="btn btn-primary backtodush" type="button">Back to Dash </a>' +
-                '</div>' +
-                '<div class="clearfix"></div>' +
-                '</div>');
+        $(".right_col").append('<div class="x_panel editpanel"></div>');
+        if (!readonly)
+        {
+            $(".right_col .editpanel").append('<div class="x_title dash_action">' +
+                    '<h1 class="col-md-3">' + title + '</h1>' +
+                    '<div class="pull-right">' +
+                    '<a class="btn btn-primary savedash" type="button">Save </a>' +
+                    '<a class="btn btn-primary backtodush" type="button">Back to Dash </a>' +
+                    '</div>' +
+                    '<div class="clearfix"></div>' +
+                    '</div>');
 
+        }
     }
     if (W_type === "table")
     {
@@ -1305,7 +1308,7 @@ $(document).ready(function () {
             shevron = $(this).find('i');
         }
         $('#' + $(this).attr('target')).fadeToggle(500, function () {
-            if ($('#' +target).css('display') === 'block')
+            if ($('#' + target).css('display') === 'block')
             {
                 shevron.removeClass("fa-chevron-circle-down");
                 shevron.addClass("fa-chevron-circle-up");

@@ -13,6 +13,7 @@ class ChartEditForm extends EditForm {
 //        this.chart = chart;
         super(formwraper, row, index, dashJSON);
         // Add castoms
+        this.deflist["options.title.show"] = true;
         super.jspluginsinit();
     }
 
@@ -27,10 +28,20 @@ class ChartEditForm extends EditForm {
             {id: "json-tab", title: "Json", contentid: "tab_json"}
         ];
     }
-    gettabcontent(key)
+    
+    getdefvalue(path)
     {
-        var tabcontent = super.gettabcontent(null);
-        tabcontent.tab_general.active = true;
+        if (path === null)
+        {
+            return this.deflist;
+        }
+        return this.deflist[path];
+    }    
+    
+    inittabcontent()
+    {    
+        super.inittabcontent();
+        this.tabcontent.tab_general.active = true;
         var edit_chart_title = {id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'options.title.show', default: true}}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
@@ -72,12 +83,12 @@ class ChartEditForm extends EditForm {
             {tag: "div", id: "position_block", style: "display: none;", content: [{
                         tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom", text: "X", lfor: "title_x_position"},
-                            {tag: "select", class: "form-control title_select", prop_key: "x", id: "title_x_position", name: "title_x_position", key_path: 'options.title.x', default: "", options: this.positionoptions},
+                            {tag: "select", class: "form-control title_select", prop_key: "x", id: "title_x_position", name: "title_x_position", key_path: 'options.title.x', default: "", options: this.xpositionoptions},
                             {tag: "label", class: "control-label control-label-custom3 control_label_or", text: "OR"},
                             {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "title_x_position_text", name: "title_x_position_text", key_path: 'options.title.x', default: ""},
                             {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"},
                             {tag: "label", class: "control-label control-label_Y", text: "Y", lfor: "title_y_position"},
-                            {tag: "select", class: "form-control title_select", prop_key: "y", id: "title_y_position", name: "title_y_position", key_path: 'options.title.y', default: "", options: this.positionoptions},
+                            {tag: "select", class: "form-control title_select", prop_key: "y", id: "title_y_position", name: "title_y_position", key_path: 'options.title.y', default: "", options: this.ypositionoptions},
                             {tag: "label", class: "control-label control-label-custom3 control_label_or", text: "OR"},
                             {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'options.title.y', default: ""},
                             {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
@@ -117,16 +128,20 @@ class ChartEditForm extends EditForm {
                                     {tag: "div", class: "input-group", content: [
                                             {tag: "input", type: "number", class: "form-control titile_input_midle", prop_key: "borderWidth", id: "title_border_width", name: "title_border_width", key_path: 'options.title.borderWidth', default: ""}
                                         ]}
-                                ]},
+                                ]}
                         ]
                     }]}
         ];
 
-        tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
+        this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
+    }    
+    
+    gettabcontent(key)
+    {        
         if (key === null)
         {
-            return tabcontent;
+            return this.tabcontent;
         }
-        return tabcontent[key];
+        return this.tabcontent[key];
     }
 }
