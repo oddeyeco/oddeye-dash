@@ -2,6 +2,7 @@
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script src="${cp}/resources/js/dash.js"></script>
+<script src="${cp}/resources/js/editform.js"></script>
 <script src="${cp}/resources/js/editchartform.js"></script>
 <script src="${cp}/resources/switchery/dist/switchery.min.js"></script>
 <script src="${cp}/resources/numbersjs/src/numbers.min.js"></script>
@@ -10,5 +11,5 @@
 
 <script>
     var dashJSONvar = ${dashInfo};
-    var chartForm;    
+    var Edit_Form;    
 </script>

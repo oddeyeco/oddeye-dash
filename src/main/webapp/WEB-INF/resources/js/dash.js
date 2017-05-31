@@ -766,8 +766,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
 
                 widget.options.legend.data.push(widget.options.series[ind].name);
-                if ((redraw)&&(!widget.manual))
-                {                    
+                if ((redraw) && (!widget.manual))
+                {
                     delete(widget.options.series[ind].type);
                     delete(widget.options.series[ind].stack);
                 }
@@ -838,14 +838,14 @@ $('body').on("click", "#refresh", function () {
     repaint(true);
 });
 $('body').on("click", "#jsonReset", function () {
-    chartForm.resetjson();
+    Edit_Form.resetjson();
 });
 
 $('body').on("click", "#jsonApply", function () {
-    chartForm.applyjson();
+    Edit_Form.applyjson();
 });
 
-$('body').on("change", "#refreshtime", function () {    
+$('body').on("change", "#refreshtime", function () {
     if (!doapplyjson)
     {
         dashJSONvar.times.intervall = $(this).val();
@@ -863,9 +863,9 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
 {
     var opt = dashJSONvar[row]["widgets"][index];
 
-    showsingleChart(row, index, dashJSONvar, readonly, rebuildform, redraw, function () {
-        var jsonstr = JSON.stringify(opt, jsonmaker);
-        editor.set(JSON.parse(jsonstr));
+    showsingleWidget(row, index, dashJSONvar, readonly, rebuildform, redraw, function () {
+//        var jsonstr = JSON.stringify(opt, jsonmaker);
+//        editor.set(JSON.parse(jsonstr));
     });
 }
 function redrawAllJSON(dashJSON, redraw = false)
@@ -1013,75 +1013,106 @@ function redrawAllJSON(dashJSON, redraw = false)
 }
 }
 var echartLine;
-function showsingleChart(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
+function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
     $(".fulldash").hide();
     if (rebuildform)
     {
-        chartForm = null;
+        Edit_Form = null;
     }
-    $(".editchartpanel").show();
-    if (readonly)
-    {
-        $(".editchartpanel .savedash").hide();
-        $(".editchartpanel h1").hide();
-        $(".edit-form").hide();
-        $(".echart_line_single").css("height", "");
-    } else
-    {
-        $(".editchartpanel .savedash").show();
-        $(".edit-form").show();
-        $(".editchartpanel h1").show();
-        if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
-        {
-            if (dashJSON[row]["widgets"][index].height === "")
-            {
-                dashJSON[row]["widgets"][index].height = "300px";
-            }
-            $(".echart_line_single").css("height", dashJSON[row]["widgets"][index].height);
-        } else
-        {
-            $(".echart_line_single").css("height", "300px");
-        }
-    }
-    if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
-    {
-        $(".editchartpanel #singlewidget").addClass("chartbkg");
-
-    } else
-    {
-        if (dashJSON[row]["widgets"][index].transparent)
-        {
-            $(".editchartpanel #singlewidget").removeClass("chartbkg");
-        } else
-        {
-            $(".editchartpanel #singlewidget").addClass("chartbkg");
-        }
-    }
-    if (!redraw)
-    {
-        echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
-    }
-
-
+    //Rename queryes to q
     if (typeof (dashJSON[row]["widgets"][index].q) === "undefined")
     {
         dashJSON[row]["widgets"][index].q = clone_obg(dashJSON[row]["widgets"][index].queryes);
         delete dashJSON[row]["widgets"][index].queryes;
     }
 
-    if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
+    var title = "Edit Chart";
+    var W_type = dashJSON[row]["widgets"][index].type;
+    if (W_type === "table")
     {
-        setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
-    } else
+        title = "Edit Table";
+    }
+    $(".right_col").append('<div class="x_panel editpanel"></div>');
+    if (!readonly)
     {
-        echartLine.setOption(dashJSON[row]["widgets"][index].options);
+        $(".right_col .editpanel").append('<div class="x_title dash_action">' +
+                '<h1 class="col-md-3">' + title + '</h1>' +
+                '<div class="pull-right">' +
+                '<a class="btn btn-primary savedash" type="button">Save </a>' +
+                '<a class="btn btn-primary backtodush" type="button">Back to Dash </a>' +
+                '</div>' +
+                '<div class="clearfix"></div>' +
+                '</div>');
+
+    }
+    if (W_type === "table")
+    {
+        $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+                '<div class="table_single" id="table_single"></div>' +
+                '</div>');
+    } else //chart
+    {
+        if (!redraw)
+        {
+            if (readonly)
+            {
+                $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+                        '<div class="echart_line_single" id="echart_line_single"></div>' +
+                        '</div>');
+
+            } else
+            {
+                var height = "300px";
+                if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
+                {
+                    if (dashJSON[row]["widgets"][index].height === "")
+                    {
+                        dashJSON[row]["widgets"][index].height = "300px";
+                    }
+                    height = dashJSON[row]["widgets"][index].height;
+                }
+                $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+                        '<div class="echart_line_single" id="echart_line_single" style="height:' + height + ';"></div>' +
+                        '</div>');
+            }
+            echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
+        }
+
+        if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
+        {
+            setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
+        } else
+        {
+            echartLine.setOption(dashJSON[row]["widgets"][index].options);
+        }
+
+        if (rebuildform)
+        {
+            if (!readonly)
+            {
+                $(".right_col .editpanel").append('<div class="x_content edit-form">');
+                Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
+//                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
+            }
+
+        }
     }
 
-    if (rebuildform)
+    if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
     {
-        chartForm = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON);
-        $(".editchartpanel select").select2({minimumResultsForSearch: 15});
-}
+        $(".right_col .editpanel #singlewidget").addClass("chartbkg");
+    } else
+    {
+        if (dashJSON[row]["widgets"][index].transparent)
+        {
+            $(".right_col .editpanel #singlewidget").removeClass("chartbkg");
+        } else
+        {
+            $(".right_col .editpanel #singlewidget").addClass("chartbkg");
+        }
+    }
+
+    return;
 }
 function getParameterByName(name, url) {
     if (!url)
@@ -1097,7 +1128,7 @@ function getParameterByName(name, url) {
 }
 $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
     var input = $('#reportrange_private');
-    chartForm.change(input);
+    Edit_Form.change(input);
 });
 
 $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
@@ -1146,7 +1177,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var request_R_index = getParameterByName("row");
         var action = getParameterByName("action");
 
-        showsingleChart(request_R_index, request_W_index, dashJSONvar, action !== "edit", false);
+        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false);
         if ($('#axes_mode_x').val() === 'category') {
             $('.only-Series').show();
         } else {
@@ -1258,91 +1289,30 @@ $(document).ready(function () {
     for (var i = 0; i < elems.length; i++) {
         var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
         elems[i].onchange = function () {
-            if (chartForm !== null)
+            if (Edit_Form !== null)
             {
-                chartForm.change($(this));
+                Edit_Form.change($(this));
             }
         };
     }
 
-    $('.cl_picer_input').colorpicker().on('hidePicker', function () {
-        chartForm.change($(this).find("input"));
-    });
-    $('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
-        chartForm.change($(this).find("input"));
-    });
+    $('body').on("click", ".dropdown_button,.button_title_adv", function () {
 
-
-    $('#button_title_subtitle').on('click', function () {
-        $('#title_subtitle').fadeToggle(500, function () {
-            if ($('#title_subtitle').css('display') === 'block')
+        var target = $(this).attr('target');
+        var shevron = $(this);
+        if ($(this).hasClass("button_title_adv"))
+        {
+            shevron = $(this).find('i');
+        }
+        $('#' + $(this).attr('target')).fadeToggle(500, function () {
+            if ($('#' +target).css('display') === 'block')
             {
-                $('#button_title_subtitle').removeClass("fa-chevron-circle-down");
-                $('#button_title_subtitle').addClass("fa-chevron-circle-up");
+                shevron.removeClass("fa-chevron-circle-down");
+                shevron.addClass("fa-chevron-circle-up");
             } else
             {
-                $('#button_title_subtitle').removeClass("fa-chevron-circle-up");
-                $('#button_title_subtitle').addClass("fa-chevron-circle-down");
-
-            }
-        });
-    });
-
-    $('#button_title_description').on('click', function () {
-        $('#title_subdescription').fadeToggle(500, function () {
-            if ($('#title_subdescription').css('display') === 'block')
-            {
-                $('#button_title_description').removeClass("fa-chevron-circle-down");
-                $('#button_title_description').addClass("fa-chevron-circle-up");
-            } else
-            {
-                $('#button_title_description').removeClass("fa-chevron-circle-up");
-                $('#button_title_description').addClass("fa-chevron-circle-down");
-
-            }
-        });
-    });
-
-    $('#button_title_position').on('click', function () {
-        $('#position_block').fadeToggle(500, function () {
-            if ($('#position_block').css('display') === 'block')
-            {
-                $('#button_title_position i').removeClass("fa-chevron-circle-down");
-                $('#button_title_position i').addClass("fa-chevron-circle-up");
-            } else
-            {
-                $('#button_title_position i').removeClass("fa-chevron-circle-up");
-                $('#button_title_position i').addClass("fa-chevron-circle-down");
-
-            }
-        });
-    });
-
-    $('#button_title_color').on('click', function () {
-        $('#color_block').fadeToggle(500, function () {
-            if ($('#color_block').css('display') === 'block')
-            {
-                $('#button_title_color i').removeClass("fa-chevron-circle-down");
-                $('#button_title_color i').addClass("fa-chevron-circle-up");
-            } else
-            {
-                $('#button_title_color i').removeClass("fa-chevron-circle-up");
-                $('#button_title_color i').addClass("fa-chevron-circle-down");
-
-            }
-        });
-    });
-
-    $('#button_title_border').on('click', function () {
-        $('#border_block').fadeToggle(500, function () {
-            if ($('#border_block').css('display') === 'block')
-            {
-                $('#button_title_border i').removeClass("fa-chevron-circle-down");
-                $('#button_title_border i').addClass("fa-chevron-circle-up");
-            } else
-            {
-                $('#button_title_border i').removeClass("fa-chevron-circle-up");
-                $('#button_title_border i').addClass("fa-chevron-circle-down");
+                shevron.removeClass("fa-chevron-circle-up");
+                shevron.addClass("fa-chevron-circle-down");
 
             }
         });
@@ -1417,7 +1387,7 @@ $(document).ready(function () {
 $('body').on("click", "span.tag_label .fa-remove", function () {
     var input = $(this).parents(".data-label");
     $(this).parents(".tag_label").remove();
-    chartForm.change(input);
+    Edit_Form.change(input);
 });
 
 $('body').on("click", "span.tagspan .fa-pencil", function () {
@@ -1544,24 +1514,24 @@ $('body').on("click", "span.tag_label .fa-check", function () {
             valinput.parent().remove();
         }
     }
-    chartForm.change(input);
+    Edit_Form.change(input);
 });
 $('body').on("blur", ".edit-form input", function () {
     if (!$(this).parent().hasClass("edit"))
     {
         if (!$(this).hasClass("ace_search_field"))
         {
-            chartForm.change($(this));
+            Edit_Form.change($(this));
         }
     }
 });
 
 $('body').on("change", ".edit-form select", function () {
-    chartForm.change($(this));
+    Edit_Form.change($(this));
 });
 
 $('body').on("click", ".edit-form #tab_metrics .btn", function () {
-    chartForm.change($(this));
+    Edit_Form.change($(this));
 });
 
 $('body').on("change", ".edit-form select#axes_mode_x", function () {
