@@ -181,10 +181,18 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
                 if (!widget.q[k].info.downsamplingstate)
                 {
-
+                    var downsample = widget.q[k].info.downsample;
+                    if (widget.q[k].info.ds)
+                    {
+//                        console.log;
+                        if ((Object.keys(widget.q[k].info.ds).length === 2))
+                        {
+                            downsample = widget.q[k].info.ds.time+"-"+widget.q[k].info.ds.aggregator;
+                        }
+                    }
                     if (!usePersonalTime)
                     {
-                        if (widget.q[k].info.downsample === "")
+                        if (downsample === "")
                         {
                             if (json.times.generalds)
                             {
@@ -195,11 +203,11 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                             }
                         } else
                         {
-                            query = query + "&downsample=" + widget.q[k].info.downsample;
+                            query = query + "&downsample=" + downsample;
                         }
                     } else
                     {
-                        query = query + "&downsample=" + widget.q[k].info.downsample;
+                        query = query + "&downsample=" + downsample;
                     }
 
                 }
@@ -1025,6 +1033,21 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         dashJSON[row]["widgets"][index].q = clone_obg(dashJSON[row]["widgets"][index].queryes);
         delete dashJSON[row]["widgets"][index].queryes;
     }
+    //Change queryes downsample 
+    if (dashJSON[row]["widgets"][index].q)
+    {
+        for (var qindex in dashJSON[row]["widgets"][index].q)
+        {
+            if (dashJSON[row]["widgets"][index].q[qindex].info.downsample)
+            {
+                var ds_ = dashJSON[row]["widgets"][index].q[qindex].info.downsample.split("-");
+                dashJSON[row]["widgets"][index].q[qindex].info.ds = {};
+                dashJSON[row]["widgets"][index].q[qindex].info.ds.time = ds_[0];
+                dashJSON[row]["widgets"][index].q[qindex].info.ds.aggregator = ds_[1];
+                delete dashJSON[row]["widgets"][index].q[qindex].info.downsample;
+            }
+        }
+    }
 
     var title = "Edit Chart";
     var W_type = dashJSON[row]["widgets"][index].type;
@@ -1462,8 +1485,7 @@ function maketagKInput(tagkinput, wraper) {
 }
 
 $('body').on("click", ".query-label .fa-plus", function () {
-
-    var input = $(this).parents(".form-group").find(".data-label");
+    var input = $(this).parents(".form-group").find(".data-label");    
     if (input.hasClass("metrics"))
     {
         input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
@@ -1533,9 +1555,6 @@ $('body').on("change", ".edit-form select", function () {
     Edit_Form.change($(this));
 });
 
-$('body').on("click", ".edit-form #tab_metrics .btn", function () {
-    Edit_Form.change($(this));
-});
 
 $('body').on("change", ".edit-form select#axes_mode_x", function () {
     if ($(this).val() === 'category') {

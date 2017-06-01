@@ -59,7 +59,7 @@ class EditForm {
                     for (var f_key in content.forms)
                     {
                         var form = content.forms[f_key];
-                        contenttab.append('<form class="form-horizontal form-label-left pull-left" id="' + form.id + '"><div class="form_main_block">');
+                        contenttab.append('<' + form.tag + ' class="' + form.class + '" id="' + form.id + '"><div class="form_main_block">');
                         if (form.label)
                         {
                             if (form.label.show)
@@ -95,92 +95,144 @@ class EditForm {
         }
 
     }
-    drawcontent(formcontent, contener)
+    drawcontent(formcontent, contener, initval, template_index)
     {
         if (formcontent)
         {
-
             for (var c_index in formcontent)
             {
                 var item = formcontent[c_index];
-
-                var jobject = $('<' + item.tag + '/>');
-                if (item.tag === "select")
+                if (item.tag)
                 {
-                    if (item.options)
+                    var jobject = $('<' + item.tag + '/>');
+                    if (item.tag === "select")
                     {
-                        for (var opt_key in item.options)
+                        if (item.options)
                         {
-                            jobject.append('<option value="' + opt_key + '">' + item.options[opt_key] + '</option>');
+                            for (var opt_key in item.options)
+                            {
+                                jobject.append('<option value="' + opt_key + '">' + item.options[opt_key] + '</option>');
+                            }
+
                         }
+                    }
+                    if (item.class)
+                    {
+                        jobject.addClass(item.class);
+                    }
+                    if (item.text)
+                    {
+                        jobject.html(item.text);
+                    }
+                    if (item.lfor)
+                    {
+                        jobject.attr('for', item.lfor);
+                    }
+                    if (item.target)
+                    {
+                        jobject.attr('target', item.target);
+                    }
+                    if (item.id)
+                    {
+                        var tmpval = item.id;
+                        if (template_index)
+                        {
+                            tmpval = tmpval.replace("{index}", template_index);
+                            jobject.attr('template_index', template_index);
+                        }
+                        jobject.attr('id', tmpval);
 
                     }
-                }
-                if (item.class)
-                {
-                    jobject.addClass(item.class);
-                }
-                if (item.text)
-                {
-                    jobject.html(item.text);
-                }
-                if (item.lfor)
-                {
-                    jobject.attr('for', item.lfor);
-                }
-                if (item.target)
-                {
-                    jobject.attr('target', item.target);
-                }
-                if (item.id)
-                {
-                    jobject.attr('id', item.id);
-                }
-                if (item.type)
-                {
-                    jobject.attr('type', item.type);
-                }
-                if (item.prop_key)
-                {
-                    jobject.attr('prop_key', item.prop_key);
-                }
-                if (item.name)
-                {
-                    jobject.attr('name', item.name);
-                }
-                if (item.style)
-                {
-                    jobject.attr('style', item.style);
-                }
-                if (item.key_path)
-                {
-                    jobject.attr('key_path', item.key_path);
-                }
-                if (item.key_path)
-                {
-                    if (item.type === 'checkbox')
+                    if (item.type)
                     {
-                        var check = this.getvaluebypath(item.key_path, item.default);
-                        if (check)
+                        jobject.attr('type', item.type);
+                    }
+                    if (item.prop_key)
+                    {
+                        jobject.attr('prop_key', item.prop_key);
+                    }
+                    if (item.name)
+                    {
+                        jobject.attr('name', item.name);
+                    }
+                    if (item.style)
+                    {
+                        jobject.attr('style', item.style);
+                    }
+                    if (item.key_path)
+                    {
+                        jobject.attr('key_path', item.key_path);
+                        if (item.type === 'checkbox')
                         {
-                            jobject.attr("checked", check);
+
+                            var check = this.getvaluebypath(item.key_path, item.default, initval);
+                            if (check)
+                            {
+                                jobject.attr("checked", check);
+                            } else
+                            {
+                                jobject.removeAttr("checked");
+                            }
+                        } else if (item.type === 'split_string')
+                        {
+                            if (this.getvaluebypath(item.key_path, item.default, initval))
+                            {
+                                var vars = this.getvaluebypath(item.key_path, item.default, initval).split(item.split);
+
+                                for (var varsindex in vars)
+                                {
+                                    if (vars[varsindex] !== "")
+                                    {
+                                        jobject.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + vars[varsindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                                    }
+                                }
+                            }
+
                         } else
                         {
-                            jobject.removeAttr("checked");
+
+                            if (typeof (this.getvaluebypath(item.key_path, item.default, initval)) === 'object')
+                            {
+                                if (item.template)
+                                {
+                                    contener.attr('key_path', item.key_path);
+                                    var val = this.getvaluebypath(item.key_path, item.default, initval);
+                                    for (var qindex in val)
+                                    {
+                                        this.drawcontent(item.template, contener, val[qindex], qindex);
+                                    }
+
+
+                                }
+                            } else
+                            {
+                                jobject.val(this.getvaluebypath(item.key_path, item.default, initval));
+                            }
+
+
                         }
-//                        console.log(this.getvaluebypath(item.key_path, item.default));
-                    } else
-                    {
-                        jobject.val(this.getvaluebypath(item.key_path, item.default));
+
                     }
 
+                    if (item.actions)
+                    {
+                        for (var a_index in item.actions)
+                        {
+                            if (typeof (item.actions[a_index]) === "function")
+                            {
+                                jobject.on(a_index, item.actions[a_index]);
+                            }
+
+                        }
+                    }
+
+                    jobject.appendTo(contener);
+                    if (item.content)
+                    {
+                        this.drawcontent(item.content, jobject, initval, template_index);
+                    }
                 }
 
-                jobject.appendTo(contener);
-                if (item.content)
-                {
-                    this.drawcontent(item.content, jobject);
-                }
             }
         }
     }
@@ -196,7 +248,7 @@ class EditForm {
     get ypositionoptions()
     {
         return {"": "&nbsp;", "center": "Center", "top": "Top", "bottom": "Bottom"};
-    }    
+    }
     get spanoptions()
     {
         var obj = {};
@@ -204,6 +256,40 @@ class EditForm {
             obj[i] = i;
         }
         return obj;
+    }
+    get aggregatoroptions()
+    {
+        return {"none": "none",
+            "avg": "avg",
+            "count": "count",
+            "dev": "dev",
+            "ep50r3": "ep50r3",
+            "ep50r7": "ep50r7",
+            "ep75r3": "ep75r3",
+            "ep75r7": "ep75r7",
+            "ep90r3": "ep90r3",
+            "ep90r7": "ep90r7",
+            "ep95r3": "ep95r3",
+            "ep95r7": "ep95r7",
+            "ep999r3": "ep999r3",
+            "ep999r7": "ep999r7",
+            "ep99r3": "ep99r3",
+            "ep99r7": "ep99r7",
+            "first": "first",
+            "last": "last",
+            "max": "max",
+            "mimmax": "mimmax",
+            "mimmin": "mimmin",
+            "min": "min",
+            "mult": "mult",
+            "p50": "p50",
+            "p75": "p75",
+            "p90": "p90",
+            "p95": "p95",
+            "p99": "p99",
+            "p999": "p999",
+            "sum": "sum",
+            "zimsum": "zimsum"};
     }
 
     get tabs()
@@ -220,7 +306,7 @@ class EditForm {
         this.tabcontent.tab_general = {};
         this.tabcontent.tab_metric = {};
         this.tabcontent.tab_json = {};
-        var edit_dimensions = {id: "edit_dimensions", label: {show: true, text: 'Dimensions', checker: false}};
+        var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_dimensions", label: {show: true, text: 'Dimensions', checker: false}};
         edit_dimensions.content = [{tag: "div", class: "form-group form-group-custom", content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Span", lfor: "dimensions_span"},
                     {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
@@ -236,7 +322,57 @@ class EditForm {
                         ]}
                 ]}
         ];
+
+        this.tabcontent.tab_metric.active = true;
+        var current = this;
+        var edit_q = {tag: "div", class: 'forms', id: "edit_q"};
+        var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Tags", lfor: "tags"},
+                            {tag: "div", class: "data-label tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";" },
+                            {tag: "label", class: "control-label query-label tags", text: '<a><i class="fa fa-plus "></i></a>'}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Metrics", lfor: "metrics"},
+                            {tag: "div", class: "data-label metrics", key_path: "info.metrics",id: "{index}_metrics", type: "split_string", split: ";"},
+                            {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
+                        ]},
+
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "aggregator"},
+                            {tag: "select", class: "form-control query_input aggregator", prop_key: "aggregator", id: "{index}_aggregator", name: "aggregator", key_path: 'info.aggregator', default: "", options: this.aggregatoroptions},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Alias", lfor: "alias"},
+                            {tag: "input", type: "text", class: "form-control query_input alias", prop_key: "alias", id: "{index}_alias", name: "alias", key_path: 'info.alias', default: ""},
+                            {tag: "label", class: "control-label", text: "Alias secondary", lfor: "alias2"},
+                            {tag: "input", type: "text", class: "form-control query_input alias2", prop_key: "alias2", id: "{index}_alias2", name: "alias2", key_path: 'info.alias2', default: ""}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Down sample", lfor: "down-sample"},
+                            {tag: "input", type: "text", class: "form-control query_input down-sample-time", prop_key: "time", id: "{index}_down-sample-time", name: "down-sample-time", key_path: 'info.ds.time', default: ""},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "down-sample-aggregator"},
+                            {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: this.aggregatoroptions},
+
+                            {tag: "label", class: "control-label", text: "Alias secondary", lfor: "alias2"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small disable_downsampling", prop_key: "downsamplingstate", id: "{index}_disable_downsampling", name: "disable_downsampling", key_path: 'info.downsamplingstate', default: false}
+                        ]}
+                ]}
+        ];
+        edit_q.content = [{tag: "button", class: "btn btn-success Addq btn-xs",
+                text: "Add",
+                key_path: "q",
+                template: q_template,
+                actions: {click: function () {
+                        current.dashJSON[current.row]["widgets"][current.index].q.push({});
+                        var qindex = current.dashJSON[current.row]["widgets"][current.index].q.length - 1;
+                        current.drawcontent(q_template, $(this).parent(), current.dashJSON[current.row]["widgets"][current.index].q[qindex], qindex);
+                        $(this).parent().append($(this));
+//                        drawcontent(formcontent, contener, initval, template_index);
+                    }
+                }
+            }
+        ];
         this.tabcontent.tab_general.forms = [edit_dimensions];
+        this.tabcontent.tab_metric.forms = [edit_q];
     }
 
     gettabcontent(key)
@@ -266,6 +402,10 @@ class EditForm {
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
+
+//        this.formwraper.find('#edit_q .Addq').on("click",  function () {
+//            form.change($(this));
+//        });
     }
 
     resetjson()
@@ -280,31 +420,54 @@ class EditForm {
 
     change(input) {
         var value = null;
-
+        console.log('change');
         if (input.attr('type') === 'checkbox')
         {
             var elem = document.getElementById(input.attr("id"));
             value = elem.checked;
         }
         if (input.attr('type') === 'text')
-        {            
+        {
             value = input.val();
         }
 
         if (input.attr('type') === 'number')
-        {            
+        {
             value = Number(input.val());
-        }          
+        }
         if (input.prop("tagName").toLowerCase() === "select")
         {
             value = input.val();
         }
-        this.setvaluebypath(input.attr('key_path'), value);
-        
+        if (input.attr('type') === 'split_string')
+        {
+            value = "";
+            input.find('.text').each(function () {
+                value = value + $(this).text() + ";";
+            });
+        }
+
+
+        var parent;
+        var tmpindex = input.attr('template_index');
+        if (tmpindex)
+        {
+            parent = input.parents(".form_main_block").attr('key_path');
+        }
+        console.log(input);
+        this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
+        if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
+        {
+
+            if (input.parent().hasClass("cl_picer"))
+            {
+                $('[key_path="' + input.attr('key_path') + '"]').parent().colorpicker('setValue', value);
+            }
+        }
         showsingleWidget(this.row, this.index, this.dashJSON, false, false, false, function () {
 //            var jsonstr = JSON.stringify(opt, jsonmaker);
 //            editor.set(JSON.parse(jsonstr));
-        });        
+        });
     }
     getdefvalue(path)
     {
@@ -315,7 +478,7 @@ class EditForm {
         }
         return this.deflist[path];
     }
-    setvaluebypath(path, value)
+    setvaluebypath(path, value, tmpindex, parent)
     {
         if (value === null)
         {
@@ -323,6 +486,16 @@ class EditForm {
         }
         var a_path = path.split('.');
         var object = this.dashJSON[this.row]["widgets"][this.index];
+        if (parent)
+        {
+            var a_parent = parent.split('.');
+            for (var key in a_parent)
+            {
+                object = object[a_parent[key]];
+            }
+            object = object[tmpindex];
+        }
+
         for (var key in a_path)
         {
             if (key == (a_path.length - 1))
@@ -334,7 +507,12 @@ class EditForm {
                 {
                     object[a_path[key]] = value;
                 }
-
+            } else
+            {
+                if (!object[a_path[key]])
+                {
+                    object[a_path[key]] = {};
+                }
             }
 
             object = object[a_path[key]];
@@ -343,13 +521,21 @@ class EditForm {
 
     }
 
-    getvaluebypath(path, def)
+    getvaluebypath(path, def, val)
     {
+        var object;
+        if (val)
+        {
+            object = val;
+        } else
+        {
+            object = this.dashJSON[this.row]["widgets"][this.index];
+        }
         var a_path = path.split('.');
-        var object = this.dashJSON[this.row]["widgets"][this.index];
+//        console.log(val);
         for (var key in a_path)
         {
-            object = object[a_path[key]];            
+            object = object[a_path[key]];
             if (typeof (object) === "undefined")
             {
                 return def;

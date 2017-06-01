@@ -41,8 +41,8 @@ class ChartEditForm extends EditForm {
     inittabcontent()
     {    
         super.inittabcontent();
-        this.tabcontent.tab_general.active = true;
-        var edit_chart_title = {id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'options.title.show', default: true}}};
+//        this.tabcontent.tab_general.active = true;
+        var edit_chart_title = {tag:"form", class:"form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'options.title.show', default: true}}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
