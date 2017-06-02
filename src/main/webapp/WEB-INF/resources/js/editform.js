@@ -751,8 +751,7 @@ class EditForm {
         if (tmpindex)
         {
             parent = input.parents(".form_main_block").attr('key_path');
-        }
-
+        }        
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
         {

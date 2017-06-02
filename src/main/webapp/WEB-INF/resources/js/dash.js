@@ -314,10 +314,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             for (var ind in chdata)
                             {
                                 series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2});
-                            }
+                            }                            
                             if (widget.stacked)
                             {
                                 series.stack = "0";
+                            }
+                            else
+                            {
+                                delete series.stack;
                             }
                             if (widget.fill)
                             {

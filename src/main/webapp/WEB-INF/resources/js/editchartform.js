@@ -390,7 +390,8 @@ class ChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Points", lfor: "display_points"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "", options: {"": "None",
+                                    {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "", options: {
+                                            "": "None",
                                             "circle": "Circle",
                                             "rectangle": "Rectangle",
                                             "triangle": "Triangle",
