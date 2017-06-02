@@ -136,7 +136,6 @@ class ChartEditForm extends EditForm {
         this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
 
         this.tabcontent.tab_axes = {};
-        this.tabcontent.tab_axes.active = true;
         var edit_axes_y = {tag: "div", class: 'form_main_block pull-left', id: "edit_y", label: {show: true, text: 'Y axes'}};
         var current = this;
 
@@ -144,7 +143,7 @@ class ChartEditForm extends EditForm {
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_y"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
-                        ]},                    
+                        ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
                             {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
@@ -161,12 +160,12 @@ class ChartEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_y"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_y", name: "axes_position_y", key_path: 'position', default: "",options: this.ypos}
-                        ]},                
+                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_y", name: "axes_position_y", key_path: 'position', default: "", options: this.ypos}
+                        ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_y"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_y", name: "splitNumber_y", key_path: 'splitNumber', default: ""}
-                        ]},                    
+                        ]},
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
                         text: "Dublicate",
                         actions: {click: function () {
@@ -193,7 +192,7 @@ class ChartEditForm extends EditForm {
                         }
                     }
                 ]}];
-        edit_axes_y.content = [{tag: "div", class:"form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
+        edit_axes_y.content = [{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
                         text: "Add",
                         id: "addq",
                         key_path: "options.yAxis",
@@ -210,7 +209,7 @@ class ChartEditForm extends EditForm {
                     }
                 ]}]
                 ;
-                
+
         var edit_axes_x = {tag: "section", class: 'form_main_block pull-left', id: "edit_x", label: {show: true, text: 'X axes'}};
         var current = this;
 
@@ -218,19 +217,19 @@ class ChartEditForm extends EditForm {
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_x"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
-                        ]},                    
+                        ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_x"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_x", name: "axes_name_x", key_path: 'name', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_x"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "",options: this.xpos}
-                        ]},                
+                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
+                        ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
-                        ]},                    
+                        ]},
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
                         text: "Dublicate",
                         actions: {click: function () {
@@ -257,7 +256,7 @@ class ChartEditForm extends EditForm {
                         }
                     }
                 ]}];
-        edit_axes_x.content = [{tag: "div", class:"form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
+        edit_axes_x.content = [{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
                         text: "Add",
                         id: "addq",
                         key_path: "options.xAxis",
@@ -273,8 +272,83 @@ class ChartEditForm extends EditForm {
                         }
                     }
                 ]}]
-                ;                
-        this.tabcontent.tab_axes.forms = [edit_axes_y,edit_axes_x];
+                ;
+        this.tabcontent.tab_axes.forms = [edit_axes_y, edit_axes_x];
+
+        this.tabcontent.tab_legend = {};
+        this.tabcontent.tab_legend.active = true;
+//        var edit_legend = {tag: "div", class: 'form-horizontal form-label-left edit-legend pull-left', id: "edit_legend", label: {show: true, text: 'Legend'}};
+
+        var edit_legend = {tag: "div", class: "form-horizontal form-label-left edit-legend pull-left", id: "edit_legend", label: {show: true, text: 'Legend', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "legend_show", name: "legend_show", key_path: 'options.legend.show', default: true}}};
+        edit_legend.content = [{tag: "div", class: "legendform", content: [
+                    {tag: "div", class: "form_main_block pull-left", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: "Orient", lfor: "legend_orient"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "orient", id: "legend_orient", name: "legend_orient", key_path: 'options.legend.orient', default: "", options: this.legendOrient}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: "Select Mode", lfor: "legend_select_mode"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "selectedMode", id: "legend_select_mode", name: "legend_select_mode", key_path: 'options.legend.selectedMode', default: "", options: this.legendMode}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: "Background", lfor: "legend_background_color"},
+                                    {tag: "div", class: "color-button", content: [
+                                            {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
+                                                    {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "legend_background_color", name: "legend_background_color", key_path: 'options.legend.backgroundColor', default: ""},
+                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                ]}
+                                        ]}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: "Text Color", lfor: "legend_text_color"},
+                                    {tag: "div", class: "color-button", content: [
+                                            {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
+                                                    {tag: "input", type: "text", class: "form-control", prop_key: "color", id: "legend_text_color", name: "legend_text_color", key_path: 'options.legend.textStyle.color', default: ""},
+                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                ]}
+                                        ]}
+                                ]}
+                        ]},
+                    {tag: "div", class: "form_main_block pull-left", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "X", lfor: "legend_x_position"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "x", id: "legend_x_position", name: "legend_x_position", key_path: 'options.legend.x', default: "", options: this.xpositionoptions},
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "OR"},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "legend_x_position_text", name: "legend_x_position_text", key_path: 'options.legend.x', default: ""},
+                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "Y", lfor: "legend_y_position"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "y", id: "legend_y_position", name: "legend_y_position", key_path: 'options.legend.y', default: "", options: this.ypositionoptions},
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "OR"},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "legend_y_position_text", name: "legend_y_position_text", key_path: 'options.legend.y', default: ""},
+                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "Shape Width", lfor: "legend_shape_width"},
+                                    {tag: "input", type: "number", class: "form-control title_select", prop_key: "itemWidth", id: "legend_shape_width", name: "legend_shape_width", key_path: 'options.legend.itemWidth', default: ""},
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "Height", lfor: "legend_shape_height"},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "itemHeight", id: "legend_shape_height", name: "legend_shape_height", key_path: 'options.legend.itemHeight', default: ""},
+                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "Border Color", lfor: "legend_border_color"},
+                                    {tag: "div", class: "color-button", content: [
+                                            {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
+                                                    {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "legend_border_color", name: "legend_border_color", key_path: 'options.legend.borderColor', default: ""},
+                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                ]}
+                                        ]},
+                                    {tag: "label", class: "control-label control-label-custom-legend3", text: "Width", lfor: "legend_border_width"},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "borderWidth", id: "legend_border_width", name: "legend_border_width", key_path: 'options.legend.borderWidth', default: ""},
+                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}                                    
+                                ]}
+                        ]}
+                ]}];
+
+
+        this.tabcontent.tab_legend.forms = [edit_legend];
+
     }
 
     gettabcontent(key)
@@ -285,13 +359,23 @@ class ChartEditForm extends EditForm {
         }
         return this.tabcontent[key];
     }
-    get ypos ()
+    get ypos()
     {
-        return {"":"", left:"Left",right:"Right"};
+        return {"": "&nbsp", left: "Left", right: "Right"};
     }
-    
-    get xpos ()
+
+    get xpos()
     {
-        return {"":"", bottom:"Bottom",top:"Top"};
-    }    
+        return {"": "&nbsp", bottom: "Bottom", top: "Top"};
+    }
+    get legendOrient()
+    {
+        return {horizontal: "Horizontal", vertical: "Vertical"};
+    }
+
+    get legendMode()
+    {
+        return {single: "Single", multiple: "Multiple"};
+    }
+
 }
