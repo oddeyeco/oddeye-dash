@@ -28,7 +28,7 @@ class ChartEditForm extends EditForm {
             {id: "json-tab", title: "Json", contentid: "tab_json"}
         ];
     }
-    
+
     getdefvalue(path)
     {
         if (path === null)
@@ -36,18 +36,18 @@ class ChartEditForm extends EditForm {
             return this.deflist;
         }
         return this.deflist[path];
-    }    
-    
+    }
+
     inittabcontent()
-    {    
+    {
         super.inittabcontent();
 //        this.tabcontent.tab_general.active = true;
-        var edit_chart_title = {tag:"form", class:"form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'options.title.show', default: true}}};
+        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'options.title.show', default: true}}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'options.title.text', default: ""},
-                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target:"title_subtitle", id: "button_title_subtitle"},
+                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle"},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subtitle",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_link"},
@@ -62,7 +62,7 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_subtext"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "subtext", id: "title_subtext", name: "title_subtext", key_path: 'options.title.subtext', default: ""},
-                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down",target:"title_subdescription", id: "button_title_description"},
+                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description"},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subdescription",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_sublink"},
@@ -75,9 +75,9 @@ class ChartEditForm extends EditForm {
                 ]},
             {tag: "div", class: "raw", content: [
                     {tag: "div", id: "buttons_div", content: [
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target:"position_block", id: "button_title_position", text: "Positions", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target:"color_block", id: "button_title_color", text: "Colors", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target:"border_block", id: "button_title_border", text: "Border", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]}
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "position_block", id: "button_title_position", text: "Positions", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "color_block", id: "button_title_color", text: "Colors", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "border_block", id: "button_title_border", text: "Border", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]}
                         ]}
                 ]},
             {tag: "div", id: "position_block", style: "display: none;", content: [{
@@ -134,14 +134,164 @@ class ChartEditForm extends EditForm {
         ];
 
         this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
-    }    
-    
+
+        this.tabcontent.tab_axes = {};
+        this.tabcontent.tab_axes.active = true;
+        var edit_axes_y = {tag: "div", class: 'form_main_block pull-left', id: "edit_y", label: {show: true, text: 'Y axes'}};
+        var current = this;
+
+        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_yaxes", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_y"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
+                        ]},                    
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y-Min", lfor: "axes_min_y"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "min", id: "{index}_axes_min_y", name: "axes_min_y", key_path: 'min', default: ""},
+                            {tag: "label", class: "control-label control-label-custom-axes", text: "Y-Max", lfor: "axes_max_y"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "max", id: "{index}_axes_max_y", name: "axes_max_y", key_path: 'max', default: ""}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_y"},
+                            {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_y", name: "axes_name_y", key_path: 'name', default: ""}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_y"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_y", name: "axes_position_y", key_path: 'position', default: "",options: this.ypos}
+                        ]},                
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_y"},
+                            {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_y", name: "splitNumber_y", key_path: 'splitNumber', default: ""}
+                        ]},                    
+                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
+                        text: "Dublicate",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].options.yAxis[curindex]);
+                                current.dashJSON[current.row]["widgets"][current.index].options.yAxis.splice(curindex, 0, qitem);
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    },
+                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
+                        text: "Remove",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                current.dashJSON[current.row]["widgets"][current.index].options.yAxis.splice(curindex, 1);
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    }
+                ]}];
+        edit_axes_y.content = [{tag: "div", class:"form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
+                        text: "Add",
+                        id: "addq",
+                        key_path: "options.yAxis",
+                        template: axes_template,
+                        actions: {click: function () {
+                                current.dashJSON[current.row]["widgets"][current.index].options.yAxis.push({});
+                                var qindex = current.dashJSON[current.row]["widgets"][current.index].options.yAxis.length - 1;
+                                var contener = $(this).parent();
+                                contener.html("");
+                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+
+                            }
+                        }
+                    }
+                ]}]
+                ;
+                
+        var edit_axes_x = {tag: "section", class: 'form_main_block pull-left', id: "edit_x", label: {show: true, text: 'X axes'}};
+        var current = this;
+
+        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_xaxes", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_x"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
+                        ]},                    
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_x"},
+                            {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_x", name: "axes_name_x", key_path: 'name', default: ""}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_x"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "",options: this.xpos}
+                        ]},                
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
+                        ]},                    
+                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
+                        text: "Dublicate",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].options.xAxis[curindex]);
+                                current.dashJSON[current.row]["widgets"][current.index].options.xAxis.splice(curindex, 0, qitem);
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    },
+                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
+                        text: "Remove",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                current.dashJSON[current.row]["widgets"][current.index].options.xAxis.splice(curindex, 1);
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    }
+                ]}];
+        edit_axes_x.content = [{tag: "div", class:"form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
+                        text: "Add",
+                        id: "addq",
+                        key_path: "options.xAxis",
+                        template: axes_template,
+                        actions: {click: function () {
+                                current.dashJSON[current.row]["widgets"][current.index].options.xAxis.push({});
+                                var qindex = current.dashJSON[current.row]["widgets"][current.index].options.xAxis.length - 1;
+                                var contener = $(this).parent();
+                                contener.html("");
+                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+
+                            }
+                        }
+                    }
+                ]}]
+                ;                
+        this.tabcontent.tab_axes.forms = [edit_axes_y,edit_axes_x];
+    }
+
     gettabcontent(key)
-    {        
+    {
         if (key === null)
         {
             return this.tabcontent;
         }
         return this.tabcontent[key];
     }
+    get ypos ()
+    {
+        return {"":"", left:"Left",right:"Right"};
+    }
+    
+    get xpos ()
+    {
+        return {"":"", bottom:"Bottom",top:"Top"};
+    }    
 }

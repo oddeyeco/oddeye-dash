@@ -11,11 +11,11 @@ class EditForm {
 
     constructor(formwraper, row, index, dashJSON) {
         this.deflist = {};
-        this.inittabcontent();
         this.formwraper = formwraper;
         this.row = row;
         this.index = index;
         this.dashJSON = dashJSON;
+        this.inittabcontent();
         var checked = false;
         if (this.dashJSON[this.row]["widgets"][this.index].manual)
         {
@@ -69,21 +69,20 @@ class EditForm {
                 {
                     for (var f_key in content.forms)
                     {
-                        var form = content.forms[f_key];
+                        
+                        var form = content.forms[f_key];                        
                         contenttab.append('<' + form.tag + ' class="' + form.class + '" id="' + form.id + '"><div class="form_main_block">');
                         if (form.label)
                         {
                             if (form.label.show)
                             {
-                                contenttab.find('#' + form.id + ' .form_main_block').append('<h3><label class="control-label" >' + form.label.text + '</label></h3>');
+                                contenttab.find('#' + form.id + ' .form_main_block').append('<h3><label class="control-label" >' + form.label.text + '</label></h3>');                               
                                 if (form.label.checker)
                                 {
                                     contenttab.find('#' + form.id + ' .form_main_block h3').append('<div class="checkbox" style="display: inline-block">' +
                                             '<' + form.label.checker.tag + ' type="' + form.label.checker.type + '" class="' + form.label.checker.class + '" prop_key="' + form.label.checker.prop_key + '" id="' + form.label.checker.id + '" name="' + form.label.checker.name + '"' + '" key_path="' + form.label.checker.key_path + '" /> ' +
                                             '</div>');
-
                                     checked = this.getvaluebypath(form.label.checker.key_path, form.label.checker.default);
-
                                     if (checked)
                                     {
                                         contenttab.find('#' + form.label.checker.id).attr("checked", checked);
@@ -125,18 +124,33 @@ class EditForm {
             for (var c_index in formcontent)
             {
                 var item = formcontent[c_index];
-
                 if (item.tag)
                 {
                     var jobject = $('<' + item.tag + '/>');
-
                     if (item.tag === "select")
                     {
                         if (item.options)
                         {
                             for (var opt_key in item.options)
                             {
-                                jobject.append('<option value="' + opt_key + '">' + item.options[opt_key] + '</option>');
+
+                                if (typeof (item.options[opt_key]) === "object")
+                                {
+                                    if (item.options[opt_key].label)
+                                    {
+                                        var group = $('<optgroup label="' + item.options[opt_key].label + '">');
+                                        for (var optgroup_key in item.options[opt_key].items)
+                                        {
+                                            group.append('<option value="' + optgroup_key + '">' + item.options[opt_key].items[optgroup_key] + '</option>');
+                                        }
+                                        jobject.append(group);
+                                    }
+
+                                } else
+                                {
+                                    jobject.append('<option value="' + opt_key + '">' + item.options[opt_key] + '</option>');
+                                }
+
                             }
 
                         }
@@ -166,7 +180,6 @@ class EditForm {
                             jobject.attr('template_index', template_index);
                         }
                         jobject.attr('id', tmpval);
-
                     }
                     if (item.type)
                     {
@@ -203,7 +216,6 @@ class EditForm {
                             if (this.getvaluebypath(item.key_path, item.default, initval))
                             {
                                 var vars = this.getvaluebypath(item.key_path, item.default, initval).split(item.split);
-
                                 for (var varsindex in vars)
                                 {
                                     if (vars[varsindex] !== "")
@@ -298,6 +310,132 @@ class EditForm {
         }
         return obj;
     }
+
+    get units()
+    {
+        return {none: {label: "None", items: {"none": "None"
+                    , "format_metric": "Short"
+                    , "{value} %": "Percent(0-100)"
+                    , "format100": "Percent(0.0-1.0)"
+                    , "{value} %H": "Humidity(%H)"
+                    , "{value} ppm": "PPM"
+                    , "{value} dB": "Decible"
+                    , "formathexadecimal0": "Hexadecimal(0x)"
+                    , "formathexadecimal": "Hexadecimal"
+                }},
+            currency: {label: "Currency", items: {"$ {value}": "Dollars ($)"
+                    , "£ {value}": "Pounds (£)"
+                    , "€ {value}": "Euro (€)"
+                    , "¥ {value}": "Yen (¥)"
+                    , "{value} руб.": "Rubles (руб)"
+
+                }},
+            time: {label: "Time", items: {"formathertz": "Hertz (1/s)"
+                    , "timens": "Nanoseconds (ns)"
+                    , "timemicros": "microseconds (µs)"
+                    , "timems": "Milliseconds (ms)"
+                    , "timesec": "Seconds (s)"
+                    , "timemin": "Minutes (m)"
+                    , "timeh": "Hours (h)"
+                    , "timed": "Days d"
+                }},
+            dataiec: {label: "Data IEC", items: {"dataBit": "Bits"
+                    , "dataBytes": "Bytes"
+                    , "dataKiB": "Kibibytes"
+                    , "dataMiB": "Mebibytes"
+                    , "dataGiB": "Gibibytes"
+                }},
+            data_metric: {label: "Data (Metric)", items: {"dataBitmetric": "Bits"
+                    , "dataBytesmetric": "Bytes"
+                    , "dataKiBmetric": "Kilobytes"
+                    , "dataMiBmetric": "Megabytes"
+                    , "dataGiBmetric": "Gigabytes"
+                }},
+            datarate: {label: "Data Rate", items: {"formatPpS": "Packets/s"
+                    , "formatbpS": "Bits/s"
+                    , "formatBpS": "Bytes/s"
+                    , "formatKbpS": "Kilobits/s"
+                    , "formatKBpS": "Kilobytes/s"
+                    , "formatMbpS": "Megabits/s"
+                    , "formatMBpS": "Megabytes/s"
+                    , "formatGBbpS": "Gigabits/s"
+                    , "formatGBpS": "Gigabytes/s"
+                }},
+            Throughput: {
+                label: "Throughput",
+                items: {
+                    "formatops": "Ops/sec (ops)",
+                    "formatrps": "Reads/sec (rps)",
+                    "formatwps": "Writes/sec (wps)",
+                    "formatiops": "I/O Ops/sec (iops)",
+                    "formatopm": "Ops/min (opm)",
+                    "formatrpm": "Reads/min (rpm)",
+                    "formatwpm": "Writes/min (wpm)"
+                }
+            },
+            Lenght: {
+                label: "Lenght",
+                items: {
+                    "formatmm": "Millimeter (mm)",
+                    "formatm": "Meter (m)",
+                    "formatkm": "Kilometer (km)",
+                    "{value} mi": "Mile (mi)"
+                }
+            },
+            Velocity: {
+                label: "Velocity",
+                items: {
+                    "{value} m/s": "m/s",
+                    "{value} km/h": "km/h",
+                    "{value} km/h": "mtf",
+                    "{value} knot": "knot"
+                }
+            },
+            Volume: {
+                label: "Volume",
+                items: {
+                    "formatmL": "Millilitre",
+                    "formatL": "Litre",
+                    "formatm3": "Cubic Metre"
+                }
+            },
+            Energy: {
+                label: "Energy",
+                items: {
+                    "formatW": "Watt (W)",
+                    "formatKW": "Kilowatt (KW)",
+                    "formatVA": "Volt-Ampere (VA)",
+                    "formatKVA": "Kilovolt-Ampere (KVA)",
+                    "formatVAR": "Volt-Ampere Reactive (VAR)",
+                    "formatVH": "Watt-Hour (VH)",
+                    "formatKWH": "Kilowatt-Hour (KWH)",
+                    "formatJ": "Joule (J)",
+                    "formatEV": "Electron-Volt (EV)",
+                    "formatA": "Ampere (A)",
+                    "formatV": "Volt (V)",
+                    "{value} dBm": "Decibell-Milliwatt (DBM)"
+                }
+            },
+            Temperature: {
+                label: "Temperature",
+                items: {
+                    "{value} °C": "Celsius (°C)",
+                    "{value} °F": "Farenheit (°F)",
+                    "{value} K": "Kelvin (K)"
+                }
+            },
+            Pressure: {
+                label: "Pressure",
+                items: {
+                    "{value} mbar": "Millibars",
+                    "{value} hPa": "Hectopascals",
+                    "{value} &quot;Hg": "Inches of Mercury",
+                    "formatpsi": "PSI"
+                }
+            }
+        };
+    }
+
     get aggregatoroptions()
     {
         return {"none": "none",
@@ -363,8 +501,7 @@ class EditForm {
                         ]}
                 ]}
         ];
-
-        this.tabcontent.tab_metric.active = true;
+//        this.tabcontent.tab_metric.active = true;
         var current = this;
         var edit_q = {tag: "div", class: 'forms', id: "edit_q"};
         var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
@@ -378,7 +515,6 @@ class EditForm {
                             {tag: "div", class: "data-label metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
-
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "aggregator"},
                             {tag: "select", class: "form-control query_input aggregator", prop_key: "aggregator", id: "{index}_aggregator", name: "aggregator", key_path: 'info.aggregator', default: "", options: this.aggregatoroptions},
@@ -392,7 +528,6 @@ class EditForm {
                             {tag: "input", type: "text", class: "form-control query_input down-sample-time", prop_key: "time", id: "{index}_down-sample-time", name: "down-sample-time", key_path: 'info.ds.time', default: ""},
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "down-sample-aggregator"},
                             {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: this.aggregatoroptions},
-
                             {tag: "label", class: "control-label", text: "Disable downsampling", lfor: "disable_downsampling"},
                             {tag: "input", type: "checkbox", class: "js-switch-small disable_downsampling", prop_key: "downsamplingstate", id: "{index}_disable_downsampling", name: "disable_downsampling", key_path: 'info.downsamplingstate', default: false}
                         ]},
@@ -470,7 +605,6 @@ class EditForm {
             }
 
             tags.sort();
-
             var s_tags = tags.toString();
             if (!cache[s_tags])
             {
@@ -507,16 +641,13 @@ class EditForm {
 
     jspluginsinit() {
         var form = this;
-
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
-
         this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
             form.change($(this).find("input"));
         });
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
-
 //         console.log(this.formwraper.find(".fa"));
 
         $('body').on("click", "span.tag_label .fa-remove", function () {
@@ -527,7 +658,6 @@ class EditForm {
             var json = form.dashJSON[form.row]["widgets"][form.index].q;
             form.check_q_dublicates(contener, json);
         });
-
         $('body').on("click", "span.tag_label .fa-check", function () {
             var input = $(this).parents(".form-group").find(".data-label");
             if (input.hasClass("metrics"))
@@ -647,7 +777,6 @@ class EditForm {
         }
         var a_path = path.split('.');
         var object = this.dashJSON[this.row]["widgets"][this.index];
-
         if (parent)
         {
             var a_parent = parent.split('.');
@@ -678,7 +807,6 @@ class EditForm {
             }
 
             object = object[a_path[key]];
-
         }
 
     }
