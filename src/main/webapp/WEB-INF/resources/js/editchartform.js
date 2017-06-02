@@ -276,7 +276,6 @@ class ChartEditForm extends EditForm {
         this.tabcontent.tab_axes.forms = [edit_axes_y, edit_axes_x];
 
         this.tabcontent.tab_legend = {};
-        this.tabcontent.tab_legend.active = true;
 //        var edit_legend = {tag: "div", class: 'form-horizontal form-label-left edit-legend pull-left', id: "edit_legend", label: {show: true, text: 'Legend'}};
 
         var edit_legend = {tag: "div", class: "form-horizontal form-label-left edit-legend pull-left", id: "edit_legend", label: {show: true, text: 'Legend', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "legend_show", name: "legend_show", key_path: 'options.legend.show', default: true}}};
@@ -341,13 +340,127 @@ class ChartEditForm extends EditForm {
                                         ]},
                                     {tag: "label", class: "control-label control-label-custom-legend3", text: "Width", lfor: "legend_border_width"},
                                     {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "borderWidth", id: "legend_border_width", name: "legend_border_width", key_path: 'options.legend.borderWidth', default: ""},
-                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}                                    
+                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]}
                         ]}
                 ]}];
 
 
         this.tabcontent.tab_legend.forms = [edit_legend];
+
+        //SURO
+        this.tabcontent.tab_display = {};//suren
+        this.tabcontent.tab_display.active = true;
+        var edit_display = {id: "edit_display"};
+        edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left",
+                content: [
+                    {tag: "div", class: "form_main_block pull-left", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Animation", lfor: "display_animation"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "animation", id: "display_animation", name: "display_animation", key_path: 'options.animation', default: true}
+                                        ]}
+                                ]},
+
+//                            {tag: "div", class: "form-group form-group-custom", content: [
+//                                    {tag: "label", class: "control-label control-label-custom", text: "Data zoom", lfor: "display_datazoom"},
+//                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+//                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "dataZoom", id: "display_datazoom", name: "display_datazoom", key_path: 'option.dataZoom', default: true}
+//                                        ]}
+//                                ]},
+
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Stacked", lfor: "display_stacked"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: true}
+                                        ]}
+                                ]}
+
+                        ]},
+                    {tag: "div", class: "form_main_block pull-left", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Chart Type", lfor: "display_charttype"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "type", id: "display_charttype", name: "display_charttype", key_path: 'type', default: "", options: {"line": "Lines",
+                                            "bar": "Bars",
+                                            "pie": "Pie",
+                                            "gauge": "Gauge",
+                                            "funnel": "Funnel",
+                                            "treemap": "Treemap"}}
+
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Points", lfor: "display_points"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "", options: {"": "None",
+                                            "circle": "Circle",
+                                            "rectangle": "Rectangle",
+                                            "triangle": "Triangle",
+                                            "diamond": "Diamond",
+                                            "emptyCircle": "Empty Circle",
+                                            "emptyRectangle": "Empty Rectang",
+                                            "emptyTriangle": "Empty Triangl",
+                                            "emptyDiamond": "Empty Diamond"
+                                        }}
+
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Fill Area", lfor: "display_fillArea"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "fill", id: "display_fillArea", name: "display_fillArea", key_path: 'fill', default: "", options: {"": "None",
+                                            "0.1": "1",
+                                            "0.2": "2",
+                                            "0.3": "3",
+                                            "0.4": "4",
+                                            "0.5": "5",
+                                            "0.6": "6",
+                                            "0.7": "7",
+                                            "0.8": "8",
+                                            "0.9": "9",
+                                            "1.0": "10"
+                                        }}
+
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Staircase", lfor: "display_steped"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "step", id: "step", name: "display_steped", key_path: 'step', default: "", options: {"": "None",
+                                            "start": "start",
+                                            "middle": "middle",
+                                            "end": "end"
+
+                                        }}
+
+                                ]}
+                        ]},
+                    {tag: "div", class: "form_main_block pull-left grid", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Left", lfor: "padding_left"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_left", name: "padding_left", prop_key: "x", key_path: 'options.grid.x'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Top", lfor: "padding_top"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_top", name: "padding_top", prop_key: "y", key_path: 'options.grid.y'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: " Right", lfor: "padding_right"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_right", name: "padding_right", prop_key: "x2", key_path: 'options.grid.x2'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Bottom", lfor: "padding_bottom"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_bottom", name: "padding_bottom", prop_key: "y2", key_path: 'options.grid.y2'}
+                                ]}
+                        ]},
+                    {tag: "div", class: "form_main_block pull-left grid", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Width", lfor: "padding_width"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_width", name: "padding_width", prop_key: "width", key_path: 'options.grid.width'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Height", lfor: "padding_height"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_height", name: "padding_height", prop_key: "height", key_path: 'options.grid.height'}
+                                ]}
+                        ]}
+                ]}
+        ];
+
+        this.tabcontent.tab_display.forms = [edit_display];//suren
 
     }
 

@@ -189,6 +189,13 @@ class EditForm {
                     {
                         jobject.attr('prop_key', item.prop_key);
                     }
+                    if (item.placeholder)
+                    {
+                        jobject.attr('placeholder', item.placeholder);
+                    }
+                    
+                    
+                    
                     if (item.name)
                     {
                         jobject.attr('name', item.name);
