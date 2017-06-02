@@ -253,6 +253,10 @@ class EditForm {
                     }
 
                     jobject.appendTo(contener);
+                    if (item.check_dublicates)
+                    {
+                        item.check_dublicates(contener, this.getvaluebypath(item.key_path, item.default, initval));
+                    }
 
                     if (jobject.hasClass("js-switch-small"))
                     {
@@ -400,8 +404,8 @@ class EditForm {
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].q[curindex]);                                
-                                current.dashJSON[current.row]["widgets"][current.index].q.splice(curindex, 0, qitem);                                
+                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].q[curindex]);
+                                current.dashJSON[current.row]["widgets"][current.index].q.splice(curindex, 0, qitem);
                                 var contener = $(this).parent().parent();
                                 contener.html("");
                                 current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
@@ -428,12 +432,14 @@ class EditForm {
                 text: "Add",
                 id: "addq",
                 key_path: "q",
+                check_dublicates: this.check_q_dublicates,
                 template: q_template,
                 actions: {click: function () {
                         current.dashJSON[current.row]["widgets"][current.index].q.push({});
                         var qindex = current.dashJSON[current.row]["widgets"][current.index].q.length - 1;
-                        current.drawcontent(q_template, $(this).parent(), current.dashJSON[current.row]["widgets"][current.index].q[qindex], qindex);
-                        $(this).parent().append($(this));
+                        var contener = $(this).parent();
+                        contener.html("");
+                        current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
 //                        drawcontent(formcontent, contener, initval, template_index);
                     }
                 }
@@ -441,6 +447,53 @@ class EditForm {
         ];
         this.tabcontent.tab_general.forms = [edit_dimensions];
         this.tabcontent.tab_metric.forms = [edit_q];
+    }
+
+    check_q_dublicates(contener, json) {
+
+        var cache = {};
+        var colorindex = 0;
+        for (var dub_index in json)
+        {
+            var tags = [];
+            if ((typeof (json[dub_index])) === "string")
+            {
+                var query = "?" + json[dub_index];
+                tags = getParameterByName("tags", query).split(";");
+            } else
+            {
+                if (json[dub_index].info)
+                {
+                    tags = json[dub_index].info.tags.split(";");
+                }
+
+            }
+
+            tags.sort();
+
+            var s_tags = tags.toString();
+            if (!cache[s_tags])
+            {
+                cache[s_tags] = [];
+            }
+            cache[s_tags].push(dub_index);
+            var items = cache[s_tags];
+            colorindex = Object.keys(cache).indexOf(s_tags) % colorPalette.length;
+            contener.find("form#" + dub_index + "_query").attr("colorindex", colorindex);
+            $("[colorindex='" + colorindex + "']").css("border-color", colorPalette[colorindex]);
+            $("[colorindex='" + colorindex + "']").attr("count", items.length);
+        }
+
+        contener.find(".edit-query[count!=1]").each(function () {
+            if (!$(this).find('.fa').hasClass('q_warning'))
+            {
+                var worn = $('<i class="fa fa-exclamation-triangle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
+                worn.appendTo($(this));
+                worn.tooltip();
+            }
+        }
+        );
+        contener.find(".edit-query[count=1] [data-toggle='tooltip']").remove();
     }
 
     gettabcontent(key)
@@ -464,9 +517,57 @@ class EditForm {
             form.change($(this).find("input"));
         });
 
-//        this.formwraper.find('#edit_q .Addq').on("click",  function () {
-//            form.change($(this));
-//        });
+//         console.log(this.formwraper.find(".fa"));
+
+        $('body').on("click", "span.tag_label .fa-remove", function () {
+            var input = $(this).parents(".data-label");
+            $(this).parents(".tag_label").remove();
+            form.change(input);
+            var contener = $('.edit-form #tabpanel #TabContent #tab_metric div #edit_q .form_main_block');
+            var json = form.dashJSON[form.row]["widgets"][form.index].q;
+            form.check_q_dublicates(contener, json);
+        });
+
+        $('body').on("click", "span.tag_label .fa-check", function () {
+            var input = $(this).parents(".form-group").find(".data-label");
+            if (input.hasClass("metrics"))
+            {
+                var metricinput = input.find("input");
+                if (metricinput.val() === "")
+                {
+                    metricinput.parents(".tag_label").remove();
+                } else
+                {
+                    metricinput.parents(".tag_label").find(".text").html(metricinput.val());
+                    metricinput.parents(".tag_label").find(".tagspan").show();
+                    metricinput.parent().remove();
+                }
+            }
+            if (input.hasClass("tags"))
+            {
+
+                var keyinput = input.find("#tagk");
+                var valinput = input.find("#tagv");
+                if (keyinput.val() === "")
+                {
+                    keyinput.parents(".tag_label").remove();
+                } else
+                {
+                    if (valinput.val() === "")
+                    {
+                        valinput.val("*");
+                    }
+                    keyinput.parents(".tag_label").find(".text").html(keyinput.val() + "=" + valinput.val());
+                    keyinput.parents(".tag_label").find(".tagspan").show();
+                    keyinput.parent().remove();
+                    valinput.parent().remove();
+                }
+            }
+            form.change(input);
+            var contener = $('.edit-form #tabpanel #TabContent #tab_metric div #edit_q .form_main_block');
+            var json = form.dashJSON[form.row]["widgets"][form.index].q;
+            form.check_q_dublicates(contener, json);
+        });
     }
 
     resetjson()
@@ -480,7 +581,7 @@ class EditForm {
     }
 
     change(input) {
-        var value = null;        
+        var value = null;
         if (input.attr('type') === 'checkbox')
         {
             var elem = document.getElementById(input.attr("id"));
@@ -513,7 +614,7 @@ class EditForm {
         if (tmpindex)
         {
             parent = input.parents(".form_main_block").attr('key_path');
-        }        
+        }
 
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
@@ -560,14 +661,14 @@ class EditForm {
         for (var key in a_path)
         {
             if (key == (a_path.length - 1))
-            {             
+            {
                 if (this.getdefvalue(path) === value)
                 {
                     delete object[a_path[key]];
                 } else
                 {
                     object[a_path[key]] = value;
-                }                
+                }
             } else
             {
                 if (!object[a_path[key]])

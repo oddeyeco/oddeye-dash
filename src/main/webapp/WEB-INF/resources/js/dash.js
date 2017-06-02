@@ -1405,12 +1405,12 @@ $(document).ready(function () {
     editor = new JSONEditor(document.getElementById("jsoneditor"), options);
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
 });
-
-$('body').on("click", "span.tag_label .fa-remove", function () {
-    var input = $(this).parents(".data-label");
-    $(this).parents(".tag_label").remove();
-    Edit_Form.change(input);
-});
+// Todo Move form class
+//$('body').on("click", "span.tag_label .fa-remove", function () {
+//    var input = $(this).parents(".data-label");
+//    $(this).parents(".tag_label").remove();
+//    Edit_Form.change(input);
+//});
 
 $('body').on("click", "span.tagspan .fa-pencil", function () {
     $(this).parents(".tagspan").hide();
@@ -1500,43 +1500,45 @@ $('body').on("click", ".query-label .fa-plus", function () {
         maketagKInput(tagkinput, input);
     }
 });
-$('body').on("click", "span.tag_label .fa-check", function () {
-    var input = $(this).parents(".form-group").find(".data-label");
-    if (input.hasClass("metrics"))
-    {
-        var metricinput = input.find("input");
-        if (metricinput.val() === "")
-        {
-            metricinput.parents(".tag_label").remove();
-        } else
-        {
-            metricinput.parents(".tag_label").find(".text").html(metricinput.val());
-            metricinput.parents(".tag_label").find(".tagspan").show();
-            metricinput.parent().remove();
-        }
-    }
-    if (input.hasClass("tags"))
-    {
 
-        var keyinput = input.find("#tagk");
-        var valinput = input.find("#tagv");
-        if (keyinput.val() === "")
-        {
-            keyinput.parents(".tag_label").remove();
-        } else
-        {
-            if (valinput.val() === "")
-            {
-                valinput.val("*");
-            }
-            keyinput.parents(".tag_label").find(".text").html(keyinput.val() + "=" + valinput.val());
-            keyinput.parents(".tag_label").find(".tagspan").show();
-            keyinput.parent().remove();
-            valinput.parent().remove();
-        }
-    }
-    Edit_Form.change(input);
-});
+// TODO Move Form class
+//$('body').on("click", "span.tag_label .fa-check", function () {
+//    var input = $(this).parents(".form-group").find(".data-label");
+//    if (input.hasClass("metrics"))
+//    {
+//        var metricinput = input.find("input");
+//        if (metricinput.val() === "")
+//        {
+//            metricinput.parents(".tag_label").remove();
+//        } else
+//        {
+//            metricinput.parents(".tag_label").find(".text").html(metricinput.val());
+//            metricinput.parents(".tag_label").find(".tagspan").show();
+//            metricinput.parent().remove();
+//        }
+//    }
+//    if (input.hasClass("tags"))
+//    {
+//
+//        var keyinput = input.find("#tagk");
+//        var valinput = input.find("#tagv");
+//        if (keyinput.val() === "")
+//        {
+//            keyinput.parents(".tag_label").remove();
+//        } else
+//        {
+//            if (valinput.val() === "")
+//            {
+//                valinput.val("*");
+//            }
+//            keyinput.parents(".tag_label").find(".text").html(keyinput.val() + "=" + valinput.val());
+//            keyinput.parents(".tag_label").find(".tagspan").show();
+//            keyinput.parent().remove();
+//            valinput.parent().remove();
+//        }
+//    }
+//    Edit_Form.change(input);
+//});
 $('body').on("blur", ".edit-form input", function () {
     if (!$(this).parent().hasClass("edit"))
     {
