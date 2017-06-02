@@ -187,7 +187,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 //                        console.log;
                         if ((Object.keys(widget.q[k].info.ds).length === 2))
                         {
-                            downsample = widget.q[k].info.ds.time+"-"+widget.q[k].info.ds.aggregator;
+                            downsample = widget.q[k].info.ds.time + "-" + widget.q[k].info.ds.aggregator;
                         }
                     }
                     if (!usePersonalTime)
@@ -237,8 +237,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart)
 {
-    return function (data) {
-
+    return function (data) {         
         var m_sample = widget.options.xAxis[0].m_sample;
         if (data.chartsdata)
         {
@@ -277,7 +276,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 }
                             }
 
-                            var series = clone_obg(defserie);
+                            var series = clone_obg(defserie);                            
                             for (var skey in oldseries)
                             {
                                 if (oldseries[skey].name === name)
@@ -801,14 +800,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
-//            console.log(redraw);
+            
             if (redraw)
             {
 //                console.log(widget.options.series);
                 chart.setOption({series: widget.options.series});
             } else
             {
-                chart.setOption(widget.options);
+                chart.setOption(widget.options,true);
             }
             chart.hideLoading();
             if (callback !== null)
@@ -1070,50 +1069,41 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>');
 
         }
-    }
-    if (W_type === "table")
-    {
-        $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
-                '<div class="table_single" id="table_single"></div>' +
-                '</div>');
-    } else //chart
-    {
-        if (!redraw)
-        {
-            if (readonly)
-            {
-                $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
-                        '<div class="echart_line_single" id="echart_line_single"></div>' +
-                        '</div>');
 
-            } else
+        if (W_type === "table")
+        {
+            $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+                    '<div class="table_single" id="table_single"></div>' +
+                    '</div>');
+        } else //chart
+        {
+            if (!redraw)
             {
-                var height = "300px";
-                if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
+                if (readonly)
                 {
-                    if (dashJSON[row]["widgets"][index].height === "")
+                    $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+                            '<div class="echart_line_single" id="echart_line_single"></div>' +
+                            '</div>');
+
+                } else
+                {
+                    var height = "300px";
+                    if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
                     {
-                        dashJSON[row]["widgets"][index].height = "300px";
+                        if (dashJSON[row]["widgets"][index].height === "")
+                        {
+                            dashJSON[row]["widgets"][index].height = "300px";
+                        }
+                        height = dashJSON[row]["widgets"][index].height;
                     }
-                    height = dashJSON[row]["widgets"][index].height;
+                    $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+                            '<div class="echart_line_single" id="echart_line_single" style="height:' + height + ';"></div>' +
+                            '</div>');
                 }
-                $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
-                        '<div class="echart_line_single" id="echart_line_single" style="height:' + height + ';"></div>' +
-                        '</div>');
+                echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
             }
-            echartLine = echarts.init(document.getElementById("echart_line_single"), 'oddeyelight');
-        }
 
-        if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
-        {
-            setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
-        } else
-        {
-            echartLine.setOption(dashJSON[row]["widgets"][index].options);
-        }
 
-        if (rebuildform)
-        {
             if (!readonly)
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
@@ -1122,8 +1112,14 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             }
 
         }
+    }    
+    if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
+    {        
+        setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
+    } else
+    {
+        echartLine.setOption(dashJSON[row]["widgets"][index].options);
     }
-
     if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
     {
         $(".right_col .editpanel #singlewidget").addClass("chartbkg");
@@ -1485,7 +1481,7 @@ function maketagKInput(tagkinput, wraper) {
 }
 
 $('body').on("click", ".query-label .fa-plus", function () {
-    var input = $(this).parents(".form-group").find(".data-label");    
+    var input = $(this).parents(".form-group").find(".data-label");
     if (input.hasClass("metrics"))
     {
         input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");

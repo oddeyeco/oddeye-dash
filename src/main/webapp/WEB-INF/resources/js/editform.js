@@ -34,6 +34,17 @@ class EditForm {
         {
             this.formwraper.find('#manual').removeAttr("checked");
         }
+        var jobject = this.formwraper.find('#manual');
+        if (jobject.hasClass("js-switch-small"))
+        {
+            var ob_form = this;
+            var elem = document.getElementById(jobject.attr('id'));
+            new Switchery(elem, {size: 'small', color: '#26B99A'});
+            elem.onchange = function () {
+                ob_form.change($(this));
+            };
+        }
+
         this.formwraper.append('<div role="tabpanel" id="tabpanel">');
         this.formwraper.find('#tabpanel').append('<ul id="formTab" class="nav nav-tabs bar_tabs" role="tablist">');
         this.formwraper.find('#tabpanel').append('<div id="TabContent" class="tab-content" >');
@@ -80,6 +91,18 @@ class EditForm {
                                     {
                                         contenttab.find('#' + form.label.checker.id).removeAttr("checked");
                                     }
+
+
+                                    var jobject = contenttab.find('#' + form.label.checker.id);
+                                    if (jobject.hasClass("js-switch-small"))
+                                    {
+                                        var ob_form = this;
+                                        var elem = document.getElementById(jobject.attr('id'));
+                                        new Switchery(elem, {size: 'small', color: '#26B99A'});
+                                        elem.onchange = function () {
+                                            ob_form.change($(this));
+                                        };
+                                    }
                                 }
                             }
 
@@ -102,9 +125,11 @@ class EditForm {
             for (var c_index in formcontent)
             {
                 var item = formcontent[c_index];
+
                 if (item.tag)
                 {
                     var jobject = $('<' + item.tag + '/>');
+
                     if (item.tag === "select")
                     {
                         if (item.options)
@@ -190,7 +215,8 @@ class EditForm {
 
                         } else
                         {
-
+//                            console.log(initval); 
+//                            console.log(this.getvaluebypath(item.key_path, item.default, initval)); 
                             if (typeof (this.getvaluebypath(item.key_path, item.default, initval)) === 'object')
                             {
                                 if (item.template)
@@ -227,6 +253,17 @@ class EditForm {
                     }
 
                     jobject.appendTo(contener);
+
+                    if (jobject.hasClass("js-switch-small"))
+                    {
+                        var form = this;
+                        var elem = document.getElementById(jobject.attr('id'));
+                        new Switchery(elem, {size: 'small', color: '#26B99A'});
+                        elem.onchange = function () {
+                            form.change($(this));
+                        };
+                    }
+
                     if (item.content)
                     {
                         this.drawcontent(item.content, jobject, initval, template_index);
@@ -329,12 +366,12 @@ class EditForm {
         var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Tags", lfor: "tags"},
-                            {tag: "div", class: "data-label tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";" },
+                            {tag: "div", class: "data-label tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label tags", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Metrics", lfor: "metrics"},
-                            {tag: "div", class: "data-label metrics", key_path: "info.metrics",id: "{index}_metrics", type: "split_string", split: ";"},
+                            {tag: "div", class: "data-label metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
 
@@ -352,13 +389,44 @@ class EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "down-sample-aggregator"},
                             {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: this.aggregatoroptions},
 
-                            {tag: "label", class: "control-label", text: "Alias secondary", lfor: "alias2"},
+                            {tag: "label", class: "control-label", text: "Disable downsampling", lfor: "disable_downsampling"},
                             {tag: "input", type: "checkbox", class: "js-switch-small disable_downsampling", prop_key: "downsamplingstate", id: "{index}_disable_downsampling", name: "disable_downsampling", key_path: 'info.downsamplingstate', default: false}
-                        ]}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Rate", lfor: "alias2"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small enable_rate", prop_key: "rate", id: "{index}_enable_rate", name: "enable_rate", key_path: 'info.rate', default: false}
+                        ]},
+                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
+                        text: "Dublicate",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].q[curindex]);                                
+                                current.dashJSON[current.row]["widgets"][current.index].q.splice(curindex, 0, qitem);                                
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    },
+                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
+                        text: "Remove",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                current.dashJSON[current.row]["widgets"][current.index].q.splice(curindex, 1);
+//                                console.log(current.dashJSON[current.row]["widgets"][current.index].q);
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    }
                 ]}
         ];
         edit_q.content = [{tag: "button", class: "btn btn-success Addq btn-xs",
                 text: "Add",
+                id: "addq",
                 key_path: "q",
                 template: q_template,
                 actions: {click: function () {
@@ -385,14 +453,7 @@ class EditForm {
     }
 
     jspluginsinit() {
-        var elems = document.querySelectorAll(this.formwraper.selector + ' .js-switch-small');
         var form = this;
-        for (var i = 0; i < elems.length; i++) {
-            var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-            elems[i].onchange = function () {
-                form.change($(this));
-            };
-        }
 
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
 
@@ -419,8 +480,7 @@ class EditForm {
     }
 
     change(input) {
-        var value = null;
-        console.log('change');
+        var value = null;        
         if (input.attr('type') === 'checkbox')
         {
             var elem = document.getElementById(input.attr("id"));
@@ -453,8 +513,8 @@ class EditForm {
         if (tmpindex)
         {
             parent = input.parents(".form_main_block").attr('key_path');
-        }
-        console.log(input);
+        }        
+
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
         {
@@ -486,6 +546,7 @@ class EditForm {
         }
         var a_path = path.split('.');
         var object = this.dashJSON[this.row]["widgets"][this.index];
+
         if (parent)
         {
             var a_parent = parent.split('.');
@@ -499,14 +560,14 @@ class EditForm {
         for (var key in a_path)
         {
             if (key == (a_path.length - 1))
-            {
+            {             
                 if (this.getdefvalue(path) === value)
                 {
                     delete object[a_path[key]];
                 } else
                 {
                     object[a_path[key]] = value;
-                }
+                }                
             } else
             {
                 if (!object[a_path[key]])
