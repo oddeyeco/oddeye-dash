@@ -227,6 +227,20 @@ class ChartEditForm extends EditForm {
                             {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "", options: {time: "Time", category: "Series"}}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Value", lfor: "axes_value_x"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "m_sample", id: "{index}_axes_value_x", name: "axes_value_x", key_path: 'm_sample', default: "", options: {"avg": "Avg",
+                                    "min": "Min",
+                                    "max": "Max",
+                                    "total": "Total",
+                                    "count": "Count",
+                                    "current": "Current",
+                                    "product": "Product"}}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
                         ]},
@@ -273,6 +287,7 @@ class ChartEditForm extends EditForm {
                     }
                 ]}]
                 ;
+        this.tabcontent.tab_axes.active = true;
         this.tabcontent.tab_axes.forms = [edit_axes_y, edit_axes_x];
 
         this.tabcontent.tab_legend = {};
@@ -350,7 +365,7 @@ class ChartEditForm extends EditForm {
 
         //SURO
         this.tabcontent.tab_display = {};//suren
-        this.tabcontent.tab_display.active = true;
+
         var edit_display = {id: "edit_display"};
         edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left",
                 content: [

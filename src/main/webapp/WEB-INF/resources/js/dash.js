@@ -859,8 +859,8 @@ $('body').on("click", "#jsonApply", function () {
 $('body').on("change", "#refreshtime", function () {
     if (!doapplyjson)
     {
-        dashJSONvar.times.intervall = $(this).val();
-        repaint(true);
+        dashJSONvar.times.intervall = $(this).val();        
+        repaint(true, false);
     }
 
 });
@@ -1201,9 +1201,8 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
     {
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
-        var action = getParameterByName("action");
-
-        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false);
+        var action = getParameterByName("action");        
+        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false,false);
         if ($('#axes_mode_x').val() === 'category') {
             $('.only-Series').show();
         } else {
@@ -1218,7 +1217,7 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         redrawAllJSON(dashJSONvar);
     }
 });
-function repaint(redraw = false) {
+function repaint(redraw = false,rebuildform = true) {
     doapplyjson = true;
     if (dashJSONvar.times.generalds)
     {
@@ -1262,7 +1261,7 @@ function repaint(redraw = false) {
         {
             clearTimeout(dashJSONvar[request_R_index]["widgets"][request_W_index].timer);
             var action = getParameterByName("action");
-            AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", true, redraw);
+            AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", rebuildform, redraw);
             if ($('#axes_mode_x').val() === 'category') {
                 $('.only-Series').show();
             } else {
