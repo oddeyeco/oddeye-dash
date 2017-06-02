@@ -69,14 +69,14 @@ class EditForm {
                 {
                     for (var f_key in content.forms)
                     {
-                        
-                        var form = content.forms[f_key];                        
+
+                        var form = content.forms[f_key];
                         contenttab.append('<' + form.tag + ' class="' + form.class + '" id="' + form.id + '"><div class="form_main_block">');
                         if (form.label)
                         {
                             if (form.label.show)
                             {
-                                contenttab.find('#' + form.id + ' .form_main_block').append('<h3><label class="control-label" >' + form.label.text + '</label></h3>');                               
+                                contenttab.find('#' + form.id + ' .form_main_block').append('<h3><label class="control-label" >' + form.label.text + '</label></h3>');
                                 if (form.label.checker)
                                 {
                                     contenttab.find('#' + form.id + ' .form_main_block h3').append('<div class="checkbox" style="display: inline-block">' +
@@ -141,14 +141,14 @@ class EditForm {
                                         var group = $('<optgroup label="' + item.options[opt_key].label + '">');
                                         for (var optgroup_key in item.options[opt_key].items)
                                         {
-                                            group.append('<option value="' + optgroup_key + '">' + item.options[opt_key].items[optgroup_key] + '</option>');
+                                            group.append('<option value="' + optgroup_key.trim() + '">' + item.options[opt_key].items[optgroup_key] + '</option>');
                                         }
                                         jobject.append(group);
                                     }
 
                                 } else
                                 {
-                                    jobject.append('<option value="' + opt_key + '">' + item.options[opt_key] + '</option>');
+                                    jobject.append('<option value="' + opt_key.trim() + '">' + item.options[opt_key] + '</option>');
                                 }
 
                             }
@@ -193,9 +193,9 @@ class EditForm {
                     {
                         jobject.attr('placeholder', item.placeholder);
                     }
-                    
-                    
-                    
+
+
+
                     if (item.name)
                     {
                         jobject.attr('name', item.name);
@@ -232,10 +232,11 @@ class EditForm {
                                 }
                             }
 
+                        } else if (item.tag === 'span')
+                        {
+                            jobject.html(this.getvaluebypath(item.key_path, item.default, initval));
                         } else
                         {
-//                            console.log(initval); 
-//                            console.log(this.getvaluebypath(item.key_path, item.default, initval)); 
                             if (typeof (this.getvaluebypath(item.key_path, item.default, initval)) === 'object')
                             {
                                 if (item.template)
@@ -589,8 +590,60 @@ class EditForm {
         ];
         this.tabcontent.tab_general.forms = [edit_dimensions];
         this.tabcontent.tab_metric.forms = [edit_q];
+
+        this.tabcontent.tab_time = {};
+        var edit_time = {tag: "form", class: 'form-horizontal form-label-left edit-times pull-left', id: "edit_time"};
+        edit_time.content = [{tag: "div", class: "form-group form-group-custom filter", content: [
+                    {tag: "label", class: "control-label pull-left", text: "Times", lfor: "padding_height"},
+                    {tag: "div", id: "reportrange_private", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                        content: [
+                            {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
+                            {tag: "span", key_path: 'times.pickerlabel'},
+                            {tag: "b", class: "caret"}
+                        ]},
+//                    text:'<i class="glyphicon glyphicon-calendar fa fa-calendar"></i><span></span> <b class="caret"></b>'},
+
+                    {tag: "div", id: "refresh_wrap_private", class: "pull-left",
+                        content: [
+                            {tag: "select", id: "refreshtime_private", name: "refreshtime", key_path: 'times.intervall', style: "width: 150px", options: this.privaterefreshtimes}
+                        ]}
+
+                ]}];
+        this.tabcontent.tab_time.active = true;
+
+        this.tabcontent.tab_time.forms = [edit_time];
+
+    }
+    get refreshtimes() {
+        return {
+            "5000": "Refresh every 5s",
+            "10000": "Refresh every 10s",
+            "30000": "Refresh every 30s",
+            "60000": "Refresh every 1m",
+            "300000": "Refresh every 5m",
+            "900000": "Refresh every 15m",
+            "1800000": "Refresh every 30m",
+            "3600000": "Refresh every 1h",
+            "7200000": "Refresh every 2h",
+            "86400000": "Refresh every 1d"
+        };
     }
 
+    get privaterefreshtimes() {
+        return {
+            "General": "Refresh General",
+            " 5000": "Refresh every 5s",
+            " 10000": "Refresh every 10s",
+            " 30000": "Refresh every 30s",
+            " 60000": "Refresh every 1m",
+            " 300000": "Refresh every 5m",
+            " 900000": "Refresh every 15m",
+            " 1800000": "Refresh every 30m",
+            " 3600000": "Refresh every 1h",
+            " 7200000": "Refresh every 2h",
+            " 86400000": "Refresh every 1d"
+        };
+    }
     check_q_dublicates(contener, json) {
 
         var cache = {};
@@ -655,7 +708,30 @@ class EditForm {
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
-//         console.log(this.formwraper.find(".fa"));
+
+        if (form.dashJSON[form.row]["widgets"][form.index].times)
+        {
+            if (form.dashJSON[form.row]["widgets"][form.index].times.intervall)
+            {
+                $("#refreshtime_private").val(form.dashJSON[form.row]["widgets"][form.index].times.intervall);
+            }
+
+            if (form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel)
+            {
+                if (form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel !== "Custom")
+                {
+                    PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel][0];
+                    PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel][1];
+                }
+                else
+                {
+                    PicerOptionSet2.startDate = form.dashJSON[form.row]["widgets"][form.index].times.pickerstart;
+                    PicerOptionSet2.endDate = form.dashJSON[form.row]["widgets"][form.index].times.pickerend;                    
+                }
+            }
+        }
+        console.log(PicerOptionSet2.startDate);
+        $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON[form.row]["widgets"][form.index], $('#reportrange_private')));
 
         $('body').on("click", "span.tag_label .fa-remove", function () {
             var input = $(this).parents(".data-label");
@@ -751,7 +827,7 @@ class EditForm {
         if (tmpindex)
         {
             parent = input.parents(".form_main_block").attr('key_path');
-        }        
+        }
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
         {

@@ -287,7 +287,7 @@ class ChartEditForm extends EditForm {
                     }
                 ]}]
                 ;
-        this.tabcontent.tab_axes.active = true;
+//        this.tabcontent.tab_axes.active = true;
         this.tabcontent.tab_axes.forms = [edit_axes_y, edit_axes_x];
 
         this.tabcontent.tab_legend = {};
@@ -477,7 +477,6 @@ class ChartEditForm extends EditForm {
         ];
 
         this.tabcontent.tab_display.forms = [edit_display];//suren
-
     }
 
     gettabcontent(key)

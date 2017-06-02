@@ -1152,6 +1152,8 @@ function getParameterByName(name, url) {
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+//TODO Move to form class
 $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
     var input = $('#reportrange_private');
     Edit_Form.change(input);
@@ -1276,7 +1278,7 @@ function repaint(redraw = false,rebuildform = true) {
 
 $(document).ready(function () {
 
-
+    console.log(dashJSONvar[2]["widgets"][2]);
     if (dashJSONvar.times)
     {
         if (dashJSONvar.times.intervall)
