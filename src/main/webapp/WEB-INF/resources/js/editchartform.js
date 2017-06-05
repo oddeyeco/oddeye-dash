@@ -14,7 +14,24 @@ class ChartEditForm extends EditForm {
         super(formwraper, row, index, dashJSON);
         // Add castoms
         this.deflist["options.title.show"] = true;
+        this.jspluginsinit();
+    }
+    jspluginsinit()
+    {
         super.jspluginsinit();
+
+        this.formwraper.find('[name=axes_mode_x]').each(function () {
+            if ($(this).val() === 'category') {
+                $(this).parent().parent().find('.only-Series').show();
+            } else {
+                $(this).parent().parent().find('.only-Series').hide();
+            }
+        });
+//        if ($('#axes_mode_x').val() === 'category') {
+//            $('.only-Series').show();
+//        } else {
+//            $('.only-Series').hide();
+//        }
     }
 
     gettabs()
@@ -41,7 +58,7 @@ class ChartEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
-//        this.tabcontent.tab_general.active = true;
+        this.tabcontent.tab_general.active = true;
         var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'options.title.show', default: true}}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
@@ -228,9 +245,15 @@ class ChartEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "", options: {time: "Time", category: "Series"}}
+                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "", options: {time: "Time", category: "Series"}, actions: {"change": function () {
+                                        if ($(this).val() === 'category') {
+                                            $(this).parent().parent().find('.only-Series').fadeIn();
+                                        } else {
+                                            $(this).parent().parent().find('.only-Series').fadeOut();
+                                        }
+                                    }}}
                         ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form-group form-group-custom only-Series", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Value", lfor: "axes_value_x"},
                             {tag: "select", class: "form-control axes_select", prop_key: "m_sample", id: "{index}_axes_value_x", name: "axes_value_x", key_path: 'm_sample', default: "", options: {"avg": "Avg",
                                     "min": "Min",

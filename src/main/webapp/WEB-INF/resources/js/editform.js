@@ -262,10 +262,11 @@ class EditForm {
 
                     if (item.actions)
                     {
+                        
                         for (var a_index in item.actions)
                         {
                             if (typeof (item.actions[a_index]) === "function")
-                            {
+                            {                                
                                 jobject.on(a_index, item.actions[a_index]);
                             }
 
@@ -611,8 +612,6 @@ class EditForm {
 
 
         this.tabcontent.tab_time.forms = [edit_time];
-
-        //*******************************
         this.tabcontent.tab_json = {};
         var edit_json = {tag: "form", class: 'edit-ljson', id: "edit_json", label: {show: true, text: 'Json Editor', checker: false}};
 
@@ -653,7 +652,7 @@ class EditForm {
                 ]
 
             }];
-        this.tabcontent.tab_json.active = true;
+//        this.tabcontent.tab_json.active = true;
 
         this.tabcontent.tab_json.forms = [edit_json];
 
@@ -746,7 +745,7 @@ class EditForm {
 
     jspluginsinit() {
         var form = this;
-        this.formwraper.find("select").select2({minimumResultsForSearch: 15});
+        this.formwraper.find("select").select2({minimumResultsForSearch: 15});        
         this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
             form.change($(this).find("input"));
         });

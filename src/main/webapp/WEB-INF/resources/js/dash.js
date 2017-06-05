@@ -1198,14 +1198,6 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var request_R_index = getParameterByName("row");
         var action = getParameterByName("action");        
         showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false,false);
-        if ($('#axes_mode_x').val() === 'category') {
-            $('.only-Series').show();
-        } else {
-            $('.only-Series').hide();
-        }
-        $(".editchartpanel select").select2({minimumResultsForSearch: 15});
-        $(".select2_group").select2({dropdownCssClass: "menu-select"});
-
     } else
     {
         window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
@@ -1257,11 +1249,6 @@ function repaint(redraw = false,rebuildform = true) {
             clearTimeout(dashJSONvar[request_R_index]["widgets"][request_W_index].timer);
             var action = getParameterByName("action");
             AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", rebuildform, redraw);
-            if ($('#axes_mode_x').val() === 'category') {
-                $('.only-Series').show();
-            } else {
-                $('.only-Series').hide();
-            }
             $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             $(".select2_group").select2({dropdownCssClass: "menu-select"});
         }
@@ -1931,11 +1918,6 @@ $('body').on("click", ".editchart", function () {
         }
     }
     AutoRefreshSingle(single_rowindex, single_widgetindex);
-    if ($('#axes_mode_x').val() === 'category') {
-        $('.only-Series').show();
-    } else {
-        $('.only-Series').hide();
-    }
     $(".editchartpanel select").select2({minimumResultsForSearch: 15});
     $(".select2_group").select2({dropdownCssClass: "menu-select"});
     $RIGHT_COL.css('min-height', $(window).height());
@@ -1960,7 +1942,7 @@ $('body').on("click", ".view", function () {
 });
 
 $('body').on("click", ".backtodush", function () {
-    $(".editchartpanel").hide();
+    $(".editpanel").remove();
     $(".fulldash").show();
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");
