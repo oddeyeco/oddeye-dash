@@ -598,7 +598,7 @@ class EditForm {
                     {tag: "div", id: "reportrange_private", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
                         content: [
                             {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
-                            {tag: "span", key_path: 'times.pickerlabel'},
+                            {tag: "span"},
                             {tag: "b", class: "caret"}
                         ]},
 //                    text:'<i class="glyphicon glyphicon-calendar fa fa-calendar"></i><span></span> <b class="caret"></b>'},
@@ -705,6 +705,31 @@ class EditForm {
         this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
             form.change($(this).find("input"));
         });
+
+
+        $('body').on("blur", ".edit-form input", function () {
+            if (!$(this).parent().hasClass("edit"))
+            {
+                if (!$(this).hasClass("ace_search_field"))
+                {
+                    form.change($(this));
+                }
+            }
+        });
+
+        $('body').on("change", ".edit-form select", function () {
+            form.change($(this));
+        });
+
+
+//        $('body').on("change", ".edit-form select#axes_mode_x", function () {
+//            if ($(this).val() === 'category') {
+//                $('.only-Series').fadeIn();
+//            } else {
+//                $('.only-Series').fadeOut();
+//            }
+//        });
+
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
@@ -722,17 +747,20 @@ class EditForm {
                 {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel][1];
-                }
-                else
+                    $('#reportrange_private span').html(form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel);
+                } else
                 {
-                    PicerOptionSet2.startDate = form.dashJSON[form.row]["widgets"][form.index].times.pickerstart;
-                    PicerOptionSet2.endDate = form.dashJSON[form.row]["widgets"][form.index].times.pickerend;                    
+                    PicerOptionSet2.startDate = moment(form.dashJSON[form.row]["widgets"][form.index].times.pickerstart);
+                    PicerOptionSet2.endDate = moment(form.dashJSON[form.row]["widgets"][form.index].times.pickerend);
+                    $('#reportrange_private span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
                 }
             }
         }
-        console.log(PicerOptionSet2.startDate);
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON[form.row]["widgets"][form.index], $('#reportrange_private')));
-
+        $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
+            var input = $('#reportrange_private');
+            form.change(input);
+        });
         $('body').on("click", "span.tag_label .fa-remove", function () {
             var input = $(this).parents(".data-label");
             $(this).parents(".tag_label").remove();
