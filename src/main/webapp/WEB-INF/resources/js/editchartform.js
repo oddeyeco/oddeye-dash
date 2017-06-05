@@ -42,7 +42,8 @@ class ChartEditForm extends EditForm {
             {id: "legend-tab", title: "Legend", contentid: "tab_legend"},
             {id: "display-tab", title: "Display", contentid: "tab_display"},
             {id: "time-tab", title: "Time Range", contentid: "tab_time"},
-            {id: "json-tab", title: "Json", contentid: "tab_json"}
+            {id: "json-tab", title: "Json", contentid: "tab_json"},
+            {id: "data_zoom_tab", title: "Data Zoom", contentid: "tab_data_zoom"}
         ];
     }
 
@@ -183,7 +184,7 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_y"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_y", name: "splitNumber_y", key_path: 'splitNumber', default: ""}
                         ]},
-                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
+                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesy",
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
@@ -196,7 +197,7 @@ class ChartEditForm extends EditForm {
                             }
                         }
                     },
-                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
+                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeaxesy",
                         text: "Remove",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
@@ -267,7 +268,7 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
                         ]},
-                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
+                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
@@ -280,7 +281,7 @@ class ChartEditForm extends EditForm {
                             }
                         }
                     },
-                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
+                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeaxesx",
                         text: "Remove",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
@@ -500,6 +501,76 @@ class ChartEditForm extends EditForm {
         ];
 
         this.tabcontent.tab_display.forms = [edit_display];//suren
+         this.tabcontent.tab_data_zoom = {};//suren
+
+        var data_zoom_template = [{tag: "form", class: "form-horizontal form-label-left edit-datazoom", id: "{index}_data_zoom", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "data_zoom_show"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small data_zoom_show", prop_key: "show", id: "{index}_data_zoom_show", name: "data_zoom_show", key_path: 'show', default: true}
+                        ]},
+                    
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Start %", lfor: "datazoom_start"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "start", id: "{index}_datazoom_start", name: "datazoom_start", key_path: 'start', default: 0, min:0,max:100},
+                            {tag: "label", class: "control-label control-label-custom-axes", text: "End %", lfor: "datazoom_end"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "end", id: "{index}_datazoom_end", name: "datazoom_end", key_path: 'end', default: 100, min:0,max:100}
+                        ]},  
+                    
+                     {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: "Type", lfor: "datazoom_type"},
+                                    {tag: "select", class: "form-control title_select", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "", options: {"slider": "Slider", "inside": "Inside"  }}
+                                 
+                                ]},
+                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicatedatazoom",
+                        text: "Dublicate",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].options.dataZoom[curindex]);
+                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.splice(curindex, 0, qitem);
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    },
+                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removedatazoom",
+                        text: "Remove",
+                        actions: {click: function () {
+                                var curindex = parseInt($(this).attr('template_index'));
+                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.splice(curindex, 1);
+                                var contener = $(this).parent().parent();
+                                contener.html("");
+                                current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.change($(this));
+                            }
+                        }
+                    }                
+                                                                                                                                                                                                                
+                     ]}];
+
+        var edit_data_zoom = {id: "edit_data_zoom"};
+        edit_data_zoom.content=[{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
+                        text: "Add",
+                        id: "addq",
+                        key_path: "options.dataZoom",
+                        template: data_zoom_template,
+                        actions: {click: function () {
+                                if (!current.dashJSON[current.row]["widgets"][current.index].options.dataZoom)
+                                {
+                                    current.dashJSON[current.row]["widgets"][current.index].options.dataZoom =[];
+                                }
+                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.push({});
+                                var qindex = current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.length - 1;
+                                var contener = $(this).parent();
+                                contener.html("");
+                                current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+
+                            }
+                        }
+                    }
+                ]}];
+        this.tabcontent.tab_data_zoom.forms = [edit_data_zoom];//suren
     }
 
     gettabcontent(key)

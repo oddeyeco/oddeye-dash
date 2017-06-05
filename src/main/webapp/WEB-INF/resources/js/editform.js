@@ -185,6 +185,14 @@ class EditForm {
                     {
                         jobject.attr('type', item.type);
                     }
+                    if (typeof(item.min) !=="undefined" )
+                    {                                     
+                        jobject.attr('min', item.min);
+                    }
+                    if (typeof(item.max) !=="undefined" )                    
+                    {                        
+                        jobject.attr('max', item.max);
+                    }
                     if (item.prop_key)
                     {
                         jobject.attr('prop_key', item.prop_key);
@@ -262,11 +270,11 @@ class EditForm {
 
                     if (item.actions)
                     {
-                        
+
                         for (var a_index in item.actions)
                         {
                             if (typeof (item.actions[a_index]) === "function")
-                            {                                
+                            {
                                 jobject.on(a_index, item.actions[a_index]);
                             }
 
@@ -642,8 +650,7 @@ class EditForm {
                                 if (!check.checked)
                                 {
                                     current.formwraper.find('#manual').attr("checked", true).trigger('click');
-                                }
-                                else
+                                } else
                                 {
                                     current.change($(this));
                                 }
@@ -745,7 +752,7 @@ class EditForm {
 
     jspluginsinit() {
         var form = this;
-        this.formwraper.find("select").select2({minimumResultsForSearch: 15});        
+        this.formwraper.find("select").select2({minimumResultsForSearch: 15});
         this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
             form.change($(this).find("input"));
         });
@@ -886,6 +893,19 @@ class EditForm {
         if (input.attr('type') === 'number')
         {
             value = Number(input.val());
+            if (input.attr('max'))
+            {
+               var max = Number (input.attr('max'));
+               value = Math.min(value,max);
+               input.val(value);
+            }
+            if (input.attr('min'))
+            {
+               var min = Number (input.attr('min'));                
+               value = Math.max(value,min);
+               input.val(value);
+            }            
+            
         }
         if (input.prop("tagName").toLowerCase() === "select")
         {
