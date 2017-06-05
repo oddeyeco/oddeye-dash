@@ -601,7 +601,6 @@ class EditForm {
                             {tag: "span"},
                             {tag: "b", class: "caret"}
                         ]},
-//                    text:'<i class="glyphicon glyphicon-calendar fa fa-calendar"></i><span></span> <b class="caret"></b>'},
 
                     {tag: "div", id: "refresh_wrap_private", class: "pull-left",
                         content: [
@@ -609,9 +608,55 @@ class EditForm {
                         ]}
 
                 ]}];
-        this.tabcontent.tab_time.active = true;
+
 
         this.tabcontent.tab_time.forms = [edit_time];
+
+        //*******************************
+        this.tabcontent.tab_json = {};
+        var edit_json = {tag: "form", class: 'edit-ljson', id: "edit_json", label: {show: true, text: 'Json Editor', checker: false}};
+
+        edit_json.content = [{tag: "div", id: "jsoneditor"},
+            {tag: "div", class: "col-md-12 col-sm-12 col-xs-12 text-right", content: [
+                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonReset", text: "Reset", actions: {click: function () {
+                                var jsonstr = JSON.stringify(current.dashJSON[current.row]["widgets"][current.index], jsonmaker);
+                                current.editor.set(JSON.parse(jsonstr));
+                            }}},
+                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonApply", text: "Apply", actions: {click: function () {
+                                var tmpJson = current.editor.get();
+                                clearTimeout(current.dashJSON[current.row]["widgets"][current.index].timer);
+                                for (var key in tmpJson)
+                                {
+                                    current.dashJSON[current.row]["widgets"][current.index][key] = clone_obg(tmpJson[key]);
+                                }
+
+                                for (var key in current.dashJSON[current.row]["widgets"][current.index])
+                                {
+                                    if (!tmpJson[key])
+                                    {
+                                        delete current.dashJSON[current.row]["widgets"][current.index][key];
+                                    }
+
+                                }
+                                current.dashJSON[current.row]["widgets"][current.index].manual = true;
+                                var check = document.getElementById('manual');
+                                if (!check.checked)
+                                {
+                                    current.formwraper.find('#manual').attr("checked", true).trigger('click');
+                                }
+                                else
+                                {
+                                    current.change($(this));
+                                }
+
+                            }}}
+                ]
+
+            }];
+        this.tabcontent.tab_json.active = true;
+
+        this.tabcontent.tab_json.forms = [edit_json];
+
 
     }
     get refreshtimes() {
@@ -729,6 +774,12 @@ class EditForm {
 //                $('.only-Series').fadeOut();
 //            }
 //        });
+
+        var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
+        this.editor = new JSONEditor(document.getElementById("jsoneditor"), options);
+
+        var jsonstr = JSON.stringify(form.dashJSON[form.row]["widgets"][form.index], jsonmaker);
+        this.editor.set(JSON.parse(jsonstr));
 
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));

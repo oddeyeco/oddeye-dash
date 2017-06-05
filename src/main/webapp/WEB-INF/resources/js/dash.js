@@ -1,6 +1,5 @@
 /* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker */
 var SingleRedrawtimer;
-var editor;
 var dasheditor;
 var refreshtimes =
         {
@@ -1401,7 +1400,6 @@ $(document).ready(function () {
     });
 
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
-    editor = new JSONEditor(document.getElementById("jsoneditor"), options);
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
 });
 
