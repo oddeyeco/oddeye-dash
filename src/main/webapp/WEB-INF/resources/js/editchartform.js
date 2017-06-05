@@ -522,7 +522,7 @@ class ChartEditForm extends EditForm {
         this.tabcontent.tab_display.forms = [edit_display];//suren
         this.tabcontent.tab_data_zoom = {};//suren
 
-        var data_zoom_template = [{tag: "form", class: "form-horizontal form-label-left edit-datazoom", id: "{index}_data_zoom", content: [
+        var data_zoom_template = [{tag: "form", class: "form-horizontal form-label-left edit-datazoom pull-left", id: "{index}_data_zoom", content: [
                     {tag: "div", class: "form-group form-group-custom forslider", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "data_zoom_show"},
                             {tag: "input", type: "checkbox", class: "js-switch-small data_zoom_show", prop_key: "show", id: "{index}_data_zoom_show", name: "data_zoom_show", key_path: 'show', default: true}
@@ -540,7 +540,7 @@ class ChartEditForm extends EditForm {
 
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Type", lfor: "datazoom_type"},
-                            {tag: "select", class: "form-control title_select", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "",
+                            {tag: "select", class: "form-control query_input", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "",
                                 options: {"slider": "Slider", "inside": "Inside"}
                                 , actions: {"change": function () {
                                         if ($(this).val() === 'slider') {
@@ -557,7 +557,7 @@ class ChartEditForm extends EditForm {
                             }
 
                         ]},
-                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicatedatazoom",
+                    {tag: "div", class: "btn btn-success dublicateq btn-xs pull-right", id: "{index}_dublicatedatazoom",
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
@@ -570,7 +570,7 @@ class ChartEditForm extends EditForm {
                             }
                         }
                     },
-                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removedatazoom",
+                    {tag: "div", class: "btn btn-danger removeq btn-xs pull-right", id: "{index}_removedatazoom",
                         text: "Remove",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
