@@ -27,11 +27,22 @@ class ChartEditForm extends EditForm {
                 $(this).parent().parent().find('.only-Series').hide();
             }
         });
-//        if ($('#axes_mode_x').val() === 'category') {
-//            $('.only-Series').show();
-//        } else {
-//            $('.only-Series').hide();
-//        }
+
+        this.formwraper.find('[name=datazoom_type]').each(function () {
+            if ($(this).val() === 'slider') {
+                $(this).parent().parent().find('.forslider').show();
+            } else {
+                $(this).parent().parent().find('.forslider').hide();
+            }
+
+            if ($(this).val() === 'inside') {
+                $(this).parent().parent().find('.forinside').show();
+            } else {
+                $(this).parent().parent().find('.forinside').hide();
+            }
+        });
+        //forslider
+
     }
 
     gettabs()
@@ -306,7 +317,7 @@ class ChartEditForm extends EditForm {
                         actions: {click: function () {
                                 if (!current.dashJSON[current.row]["widgets"][current.index].options.xAxis)
                                 {
-                                    current.dashJSON[current.row]["widgets"][current.index].options.xAxis=[];
+                                    current.dashJSON[current.row]["widgets"][current.index].options.xAxis = [];
                                 }
                                 current.dashJSON[current.row]["widgets"][current.index].options.xAxis.push({});
                                 var qindex = current.dashJSON[current.row]["widgets"][current.index].options.xAxis.length - 1;
@@ -509,26 +520,43 @@ class ChartEditForm extends EditForm {
         ];
 
         this.tabcontent.tab_display.forms = [edit_display];//suren
-         this.tabcontent.tab_data_zoom = {};//suren
+        this.tabcontent.tab_data_zoom = {};//suren
 
         var data_zoom_template = [{tag: "form", class: "form-horizontal form-label-left edit-datazoom", id: "{index}_data_zoom", content: [
-                    {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form-group form-group-custom forslider", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "data_zoom_show"},
                             {tag: "input", type: "checkbox", class: "js-switch-small data_zoom_show", prop_key: "show", id: "{index}_data_zoom_show", name: "data_zoom_show", key_path: 'show', default: true}
                         ]},
-                    
+                    {tag: "div", class: "form-group form-group-custom forinside", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Disabled", lfor: "data_zoom_disabled"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small data_zoom_disabled", prop_key: "disabled", id: "{index}_data_zoom_disabled", name: "data_zoom_disabled", key_path: 'disabled', default: false}
+                        ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Start %", lfor: "datazoom_start"},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "start", id: "{index}_datazoom_start", name: "datazoom_start", key_path: 'start', default: 0, min:0,max:100},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "start", id: "{index}_datazoom_start", name: "datazoom_start", key_path: 'start', default: 0, min: 0, max: 100},
                             {tag: "label", class: "control-label control-label-custom-axes", text: "End %", lfor: "datazoom_end"},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "end", id: "{index}_datazoom_end", name: "datazoom_end", key_path: 'end', default: 100, min:0,max:100}
-                        ]},  
-                    
-                     {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom-legend", text: "Type", lfor: "datazoom_type"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "", options: {"slider": "Slider", "inside": "Inside"  }}
-                                 
-                                ]},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "end", id: "{index}_datazoom_end", name: "datazoom_end", key_path: 'end', default: 100, min: 0, max: 100}
+                        ]},
+
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Type", lfor: "datazoom_type"},
+                            {tag: "select", class: "form-control title_select", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "",
+                                options: {"slider": "Slider", "inside": "Inside"}
+                                , actions: {"change": function () {
+                                        if ($(this).val() === 'slider') {
+                                            $(this).parent().parent().find('.forslider').fadeIn();
+                                        } else {
+                                            $(this).parent().parent().find('.forslider').fadeOut();
+                                        }
+                                        if ($(this).val() === 'inside') {
+                                            $(this).parent().parent().find('.forinside').fadeIn();
+                                        } else {
+                                            $(this).parent().parent().find('.forinside').fadeOut();
+                                        }                                        
+                                    }}
+                            }
+
+                        ]},
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicatedatazoom",
                         text: "Dublicate",
                         actions: {click: function () {
@@ -553,12 +581,12 @@ class ChartEditForm extends EditForm {
                                 current.change($(this));
                             }
                         }
-                    }                
-                                                                                                                                                                                                                
-                     ]}];
+                    }
+
+                ]}];
 
         var edit_data_zoom = {id: "edit_data_zoom"};
-        edit_data_zoom.content=[{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
+        edit_data_zoom.content = [{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
                         text: "Add",
                         id: "addq",
                         key_path: "options.dataZoom",
@@ -566,7 +594,7 @@ class ChartEditForm extends EditForm {
                         actions: {click: function () {
                                 if (!current.dashJSON[current.row]["widgets"][current.index].options.dataZoom)
                                 {
-                                    current.dashJSON[current.row]["widgets"][current.index].options.dataZoom =[];
+                                    current.dashJSON[current.row]["widgets"][current.index].options.dataZoom = [];
                                 }
                                 current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.push({});
                                 var qindex = current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.length - 1;
