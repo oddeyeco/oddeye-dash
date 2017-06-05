@@ -19,32 +19,20 @@ class ChartEditForm extends EditForm {
     jspluginsinit()
     {
         super.jspluginsinit();
+        this.axesmode();
+        this.initzoomtype();
+        //forslider
 
+    }
+    axesmode () {
         this.formwraper.find('[name=axes_mode_x]').each(function () {
             if ($(this).val() === 'category') {
                 $(this).parent().parent().find('.only-Series').show();
             } else {
                 $(this).parent().parent().find('.only-Series').hide();
             }
-        });
-
-        this.formwraper.find('[name=datazoom_type]').each(function () {
-            if ($(this).val() === 'slider') {
-                $(this).parent().parent().find('.forslider').show();
-            } else {
-                $(this).parent().parent().find('.forslider').hide();
-            }
-
-            if ($(this).val() === 'inside') {
-                $(this).parent().parent().find('.forinside').show();
-            } else {
-                $(this).parent().parent().find('.forinside').hide();
-            }
-        });
-        //forslider
-
+        });                
     }
-
     gettabs()
     {
         return [{id: "general-tab", title: "General", contentid: "tab_general"},
@@ -261,7 +249,7 @@ class ChartEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "", options: {time: "Time", category: "Series"}, actions: {"change": function () {
+                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "time", options: {time: "Time", category: "Series"}, actions: {"change": function () {
                                         if ($(this).val() === 'category') {
                                             $(this).parent().parent().find('.only-Series').fadeIn();
                                         } else {
@@ -292,6 +280,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent().parent();
                                 contener.html("");
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.axesmode();                                
                                 current.change($(this));
                             }
                         }
@@ -304,6 +293,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent().parent();
                                 contener.html("");
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.axesmode();                                
                                 current.change($(this));
                             }
                         }
@@ -324,6 +314,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent();
                                 contener.html("");
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.axesmode();                                
 
                             }
                         }
@@ -540,7 +531,7 @@ class ChartEditForm extends EditForm {
 
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Type", lfor: "datazoom_type"},
-                            {tag: "select", class: "form-control query_input", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "",
+                            {tag: "select", class: "form-control query_input", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "slider",
                                 options: {"slider": "Slider", "inside": "Inside"}
                                 , actions: {"change": function () {
                                         if ($(this).val() === 'slider') {
@@ -552,7 +543,7 @@ class ChartEditForm extends EditForm {
                                             $(this).parent().parent().find('.forinside').fadeIn();
                                         } else {
                                             $(this).parent().parent().find('.forinside').fadeOut();
-                                        }                                        
+                                        }
                                     }}
                             }
 
@@ -566,6 +557,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent().parent();
                                 contener.html("");
                                 current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.initzoomtype();
                                 current.change($(this));
                             }
                         }
@@ -578,6 +570,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent().parent();
                                 contener.html("");
                                 current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.initzoomtype();
                                 current.change($(this));
                             }
                         }
@@ -601,12 +594,29 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent();
                                 contener.html("");
                                 current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.initzoomtype();
 
                             }
                         }
                     }
                 ]}];
         this.tabcontent.tab_data_zoom.forms = [edit_data_zoom];//suren
+    }
+
+    initzoomtype() {
+        this.formwraper.find('[name=datazoom_type]').each(function () {
+            if ($(this).val() === 'slider') {
+                $(this).parent().parent().find('.forslider').show();
+            } else {
+                $(this).parent().parent().find('.forslider').hide();
+            }
+
+            if ($(this).val() === 'inside') {
+                $(this).parent().parent().find('.forinside').show();
+            } else {
+                $(this).parent().parent().find('.forinside').hide();
+            }
+        });
     }
 
     gettabcontent(key)

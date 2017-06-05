@@ -781,14 +781,6 @@ class EditForm {
         });
 
 
-//        $('body').on("change", ".edit-form select#axes_mode_x", function () {
-//            if ($(this).val() === 'category') {
-//                $('.only-Series').fadeIn();
-//            } else {
-//                $('.only-Series').fadeOut();
-//            }
-//        });
-
         var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
         this.editor = new JSONEditor(document.getElementById("jsoneditor"), options);
 
