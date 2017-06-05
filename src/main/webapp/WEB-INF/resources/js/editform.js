@@ -262,11 +262,11 @@ class EditForm {
 
                     if (item.actions)
                     {
-                        
+
                         for (var a_index in item.actions)
                         {
                             if (typeof (item.actions[a_index]) === "function")
-                            {                                
+                            {
                                 jobject.on(a_index, item.actions[a_index]);
                             }
 
@@ -579,6 +579,10 @@ class EditForm {
                 check_dublicates: this.check_q_dublicates,
                 template: q_template,
                 actions: {click: function () {
+                        if (!current.dashJSON[current.row]["widgets"][current.index].q)
+                        {
+                            current.dashJSON[current.row]["widgets"][current.index].q = [];
+                        }
                         current.dashJSON[current.row]["widgets"][current.index].q.push({});
                         var qindex = current.dashJSON[current.row]["widgets"][current.index].q.length - 1;
                         var contener = $(this).parent();
@@ -642,8 +646,7 @@ class EditForm {
                                 if (!check.checked)
                                 {
                                     current.formwraper.find('#manual').attr("checked", true).trigger('click');
-                                }
-                                else
+                                } else
                                 {
                                     current.change($(this));
                                 }
@@ -703,7 +706,11 @@ class EditForm {
             {
                 if (json[dub_index].info)
                 {
-                    tags = json[dub_index].info.tags.split(";");
+                    if (json[dub_index].info.tags)
+                    {
+                        tags = json[dub_index].info.tags.split(";");
+                    }
+
                 }
 
             }
@@ -745,7 +752,7 @@ class EditForm {
 
     jspluginsinit() {
         var form = this;
-        this.formwraper.find("select").select2({minimumResultsForSearch: 15});        
+        this.formwraper.find("select").select2({minimumResultsForSearch: 15});
         this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
             form.change($(this).find("input"));
         });
