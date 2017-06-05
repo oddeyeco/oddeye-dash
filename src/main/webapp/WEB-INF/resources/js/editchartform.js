@@ -216,6 +216,10 @@ class ChartEditForm extends EditForm {
                         key_path: "options.yAxis",
                         template: axes_template,
                         actions: {click: function () {
+                                if (!current.dashJSON[current.row]["widgets"][current.index].options.yAxis)
+                                {
+                                    current.dashJSON[current.row]["widgets"][current.index].options.yAxis = [];
+                                }
                                 current.dashJSON[current.row]["widgets"][current.index].options.yAxis.push({});
                                 var qindex = current.dashJSON[current.row]["widgets"][current.index].options.yAxis.length - 1;
                                 var contener = $(this).parent();
@@ -300,6 +304,10 @@ class ChartEditForm extends EditForm {
                         key_path: "options.xAxis",
                         template: axes_template,
                         actions: {click: function () {
+                                if (!current.dashJSON[current.row]["widgets"][current.index].options.xAxis)
+                                {
+                                    current.dashJSON[current.row]["widgets"][current.index].options.xAxis=[];
+                                }
                                 current.dashJSON[current.row]["widgets"][current.index].options.xAxis.push({});
                                 var qindex = current.dashJSON[current.row]["widgets"][current.index].options.xAxis.length - 1;
                                 var contener = $(this).parent();

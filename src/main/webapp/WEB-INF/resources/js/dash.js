@@ -171,7 +171,20 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                 var query = widget.q[k];
             } else if (widget.q[k].info)
             {
-                var query = "metrics=" + widget.q[k].info.metrics + "&tags=" + widget.q[k].info.tags +
+                if (!widget.q[k].info.metrics)
+                {
+                    continue;
+                }
+                var stags = "&tags=";
+                if (widget.q[k].info.tags)
+                {
+                    stags = "&tags=" + widget.q[k].info.tags;
+                }
+                if (!widget.q[k].info.aggregator)
+                {
+                    widget.q[k].info.aggregator = "none";
+                }
+                var query = "metrics=" + widget.q[k].info.metrics + stags +
                         "&aggregator=" + widget.q[k].info.aggregator;
                 if (widget.q[k].info.rate)
                 {
@@ -183,7 +196,6 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                     var downsample = widget.q[k].info.downsample;
                     if (widget.q[k].info.ds)
                     {
-//                        console.log;
                         if ((Object.keys(widget.q[k].info.ds).length === 2))
                         {
                             downsample = widget.q[k].info.ds.time + "-" + widget.q[k].info.ds.aggregator;
@@ -202,11 +214,18 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                             }
                         } else
                         {
-                            query = query + "&downsample=" + downsample;
+                            if (downsample)
+                            {
+                                query = query + "&downsample=" + downsample;
+                            }
+
                         }
                     } else
                     {
-                        query = query + "&downsample=" + downsample;
+                        if (downsample)
+                        {
+                            query = query + "&downsample=" + downsample;
+                        }
                     }
 
                 }
@@ -236,7 +255,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart)
 {
-    return function (data) {         
+    return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
         if (data.chartsdata)
         {
@@ -256,13 +275,17 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             if (typeof (widget.q[q_index].info) !== "undefined")
                             {
-                                if (widget.q[q_index].info.alias !== "")
+                                if (widget.q[q_index].info.alias)
                                 {
-                                    name = widget.q[q_index].info.alias;
-                                    name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                    name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                    name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    if (widget.q[q_index].info.alias !== "")
+                                    {
+                                        name = widget.q[q_index].info.alias;
+                                        name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                                        name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                        name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    }
                                 }
+
                                 if (widget.q[q_index].info.alias2)
                                 {
                                     if (widget.q[q_index].info.alias2 !== "")
@@ -275,7 +298,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 }
                             }
 
-                            var series = clone_obg(defserie);                            
+                            var series = clone_obg(defserie);
                             for (var skey in oldseries)
                             {
                                 if (oldseries[skey].name === name)
@@ -313,12 +336,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             for (var ind in chdata)
                             {
                                 series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2});
-                            }                            
+                            }
                             if (widget.stacked)
                             {
                                 series.stack = "0";
-                            }
-                            else
+                            } else
                             {
                                 delete series.stack;
                             }
@@ -803,14 +825,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
-            
+
             if (redraw)
             {
 //                console.log(widget.options.series);
                 chart.setOption({series: widget.options.series});
             } else
             {
-                chart.setOption(widget.options,true);
+                chart.setOption(widget.options, true);
             }
             chart.hideLoading();
             if (callback !== null)
@@ -858,7 +880,7 @@ $('body').on("click", "#jsonApply", function () {
 $('body').on("change", "#refreshtime", function () {
     if (!doapplyjson)
     {
-        dashJSONvar.times.intervall = $(this).val();        
+        dashJSONvar.times.intervall = $(this).val();
         repaint(true, false);
     }
 
@@ -1115,9 +1137,9 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             }
 
         }
-    }    
+    }
     if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
-    {        
+    {
         setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
     } else
     {
@@ -1192,19 +1214,19 @@ $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         }
     }
 
-    if ($(".editchartpanel").is(':visible'))
+    if ($(".editpanel").is(':visible'))
     {
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
-        var action = getParameterByName("action");        
-        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false,false);
+        var action = getParameterByName("action");
+        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false, false);
     } else
     {
         window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
         redrawAllJSON(dashJSONvar);
     }
 });
-function repaint(redraw = false,rebuildform = true) {
+function repaint(redraw = false, rebuildform = true) {
     doapplyjson = true;
     if (dashJSONvar.times.generalds)
     {

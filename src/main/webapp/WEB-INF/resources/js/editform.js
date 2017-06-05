@@ -587,6 +587,10 @@ class EditForm {
                 check_dublicates: this.check_q_dublicates,
                 template: q_template,
                 actions: {click: function () {
+                        if (!current.dashJSON[current.row]["widgets"][current.index].q)
+                        {
+                            current.dashJSON[current.row]["widgets"][current.index].q = [];
+                        }
                         current.dashJSON[current.row]["widgets"][current.index].q.push({});
                         var qindex = current.dashJSON[current.row]["widgets"][current.index].q.length - 1;
                         var contener = $(this).parent();
@@ -710,7 +714,11 @@ class EditForm {
             {
                 if (json[dub_index].info)
                 {
-                    tags = json[dub_index].info.tags.split(";");
+                    if (json[dub_index].info.tags)
+                    {
+                        tags = json[dub_index].info.tags.split(";");
+                    }
+
                 }
 
             }
