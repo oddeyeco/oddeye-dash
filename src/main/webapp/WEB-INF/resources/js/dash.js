@@ -1428,24 +1428,24 @@ $(document).ready(function () {
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
 });
 
-$('body').on("click", "span.tagspan .fa-pencil", function () {
-    $(this).parents(".tagspan").hide();
-    var input = $(this).parents(".data-label");
-    if ($(this).parents(".tag_label").hasClass("query_metric"))
-    {
-        $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-        var metricinput = $(this).parents(".tag_label").find("input");
-        makeMetricInput(metricinput, input);
-    }
-
-    if ($(this).parents(".tag_label").hasClass("query_tag"))
-    {
-        var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");
-        $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="' + tag_arr[0] + '"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="' + tag_arr[1] + '"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-        var tagkinput = $(this).parents(".tag_label").find("input#tagk");
-        maketagKInput(tagkinput, input);
-    }
-});
+//$('body').on("click", "span.tagspan .fa-pencil", function () {
+//    $(this).parents(".tagspan").hide();
+//    var input = $(this).parents(".data-label");
+//    if ($(this).parents(".tag_label").hasClass("query_metric"))
+//    {
+//        $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+//        var metricinput = $(this).parents(".tag_label").find("input");
+//        makeMetricInput(metricinput, input);
+//    }
+//
+//    if ($(this).parents(".tag_label").hasClass("query_tag"))
+//    {
+//        var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");
+//        $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="' + tag_arr[0] + '"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="' + tag_arr[1] + '"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+//        var tagkinput = $(this).parents(".tag_label").find("input#tagk");
+//        maketagKInput(tagkinput, input);
+//    }
+//});
 
 function makeMetricInput(metricinput, wraper)
 {

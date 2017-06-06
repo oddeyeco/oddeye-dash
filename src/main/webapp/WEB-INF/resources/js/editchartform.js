@@ -16,7 +16,7 @@ class ChartEditForm extends EditForm {
         this.deflist["options.title.show"] = true;
         this.deflist["max"] = "";
         this.deflist["min"] = "";
-        
+
         this.jspluginsinit();
     }
     jspluginsinit()
@@ -52,7 +52,7 @@ class ChartEditForm extends EditForm {
             {id: "legend-tab", title: "Legend", contentid: "tab_legend"},
             {id: "display-tab", title: "Display", contentid: "tab_display"},
             {id: "time-tab", title: "Time Range", contentid: "tab_time"},
-            {id: "json-tab", title: "Json", contentid: "tab_json"}            
+            {id: "json-tab", title: "Json", contentid: "tab_json"}
         ];
     }
 
@@ -603,12 +603,21 @@ class ChartEditForm extends EditForm {
                     }
                 ]}];
         this.tabcontent.tab_data_zoom.forms = [edit_data_zoom];//suren
+
+
+//        this.tabcontent.tab_metric.forms[0].content[0].template[0].content(0, 0, edit_chart_title);
+//        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.push( {tag: "div", class: "form-group form-group-custom", content: [
+//                            {tag: "label", class: "control-label control-label-custom-legend", text: "YAxisIndex", lfor: "data_zoom_yAxisIndex"},
+//                            {tag: "div", type: "choose_array", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_data_zoom_yAxisIndex", name: "data_zoom_yAxisIndex"}
+//                        ]});
+//
+//        console.log(this.tabcontent.tab_metric.forms[0].content[0].template[0].content);
     }
 
-    repaintdatazoom(contener, content) {        
-        contener.empty();        
-        this.drawcontent(content, contener, this.dashJSON[this.row]["widgets"][this.index]);        
-        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});        
+    repaintdatazoom(contener, content) {
+        contener.empty();
+        this.drawcontent(content, contener, this.dashJSON[this.row]["widgets"][this.index]);
+        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
         this.initzoomtype();
     }
 

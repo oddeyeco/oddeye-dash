@@ -238,7 +238,7 @@ class EditForm {
                                 {
                                     if (vars[varsindex] !== "")
                                     {
-                                        jobject.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + vars[varsindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                                        jobject.append("<span class='control-label tag_label "+item.prop_key+"' ><span class='tagspan'><span class='text'>" + vars[varsindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                                     }
                                 }
                             }
@@ -562,12 +562,12 @@ class EditForm {
         var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Tags", lfor: "tags"},
-                            {tag: "div", class: "data-label tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";"},
+                            {tag: "div", class: "data-label tags",prop_key:"tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label tags", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Metrics", lfor: "metrics"},
-                            {tag: "div", class: "data-label metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
+                            {tag: "div", class: "data-label metrics",prop_key:"metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
@@ -913,6 +913,26 @@ class EditForm {
             var json = form.dashJSON[form.row]["widgets"][form.index].q;
             form.check_q_dublicates(contener, json);
         });
+
+        this.formwraper.on("click", "span.tagspan .fa-pencil", function () {
+            $(this).parents(".tagspan").hide();
+            var input = $(this).parents(".form-group").find(".data-label");
+            if ($(this).parents(".tag_label").hasClass("metrics"))
+            {                
+                $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+                var metricinput = $(this).parents(".tag_label").find("input");
+                makeMetricInput(metricinput, input);
+            }
+
+            if ($(this).parents(".tag_label").hasClass("tags"))
+            {
+                var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");
+                $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="' + tag_arr[0] + '"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="' + tag_arr[1] + '"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+                var tagkinput = $(this).parents(".tag_label").find("input#tagk");
+                maketagKInput(tagkinput, input);
+            }
+        });
+
     }
 
     resetjson()
