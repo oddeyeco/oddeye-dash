@@ -366,6 +366,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 {
                                     series.areaStyle = {normal: {opacity: widget.fill}};
                                 }
+                                else{
+                                    delete series.areaStyle;
+                                }
                             }
                             if (widget.step)
                             {
