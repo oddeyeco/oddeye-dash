@@ -439,7 +439,7 @@ class EditForm {
                     "{value} m/s": "m/s",
                     "{value} km/h": "km/h",
                     "{value} mph": "mph",
-                    "{value} knot": "knot"
+                    "{value} kn": "knot"
                 }
             },
             Volume: {
