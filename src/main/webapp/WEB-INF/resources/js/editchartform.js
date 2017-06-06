@@ -21,7 +21,6 @@ class ChartEditForm extends EditForm {
         super.jspluginsinit();
         this.axesmode();
         this.initzoomtype();
-        //forslider
 
     }
     axesmode () {
@@ -411,13 +410,6 @@ class ChartEditForm extends EditForm {
                                         ]}
                                 ]},
 
-//                            {tag: "div", class: "form-group form-group-custom", content: [
-//                                    {tag: "label", class: "control-label control-label-custom", text: "Data zoom", lfor: "display_datazoom"},
-//                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-//                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "dataZoom", id: "display_datazoom", name: "display_datazoom", key_path: 'option.dataZoom', default: true}
-//                                        ]}
-//                                ]},
-
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Stacked", lfor: "display_stacked"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
@@ -548,6 +540,14 @@ class ChartEditForm extends EditForm {
                             }
 
                         ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "xAxisIndex", lfor: "data_zoom_xAxisIndex"},
+                            {tag: "div", type:"choose_array",init_key_path:"options.xAxis",key_path:"xAxisIndex" ,style:"display:inline-block",id:"{index}_data_zoom_xAxisIndex",name:"data_zoom_xAxisIndex"}                           
+                        ]},                    
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "YAxisIndex", lfor: "data_zoom_yAxisIndex"} ,                          
+                            {tag: "div", type:"choose_array",init_key_path:"options.yAxis",key_path:"yAxisIndex" ,style:"display:inline-block",id:"{index}_data_zoom_yAxisIndex",name:"data_zoom_yAxisIndex"}                           
+                        ]},                                        
                     {tag: "div", class: "btn btn-success dublicateq btn-xs pull-right", id: "{index}_dublicatedatazoom",
                         text: "Dublicate",
                         actions: {click: function () {
@@ -557,6 +557,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent().parent();
                                 contener.html("");
                                 current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
                                 current.initzoomtype();
                                 current.change($(this));
                             }
@@ -570,6 +571,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent().parent();
                                 contener.html("");
                                 current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
                                 current.initzoomtype();
                                 current.change($(this));
                             }
@@ -589,11 +591,11 @@ class ChartEditForm extends EditForm {
                                 {
                                     current.dashJSON[current.row]["widgets"][current.index].options.dataZoom = [];
                                 }
-                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.push({});
-                                var qindex = current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.length - 1;
+                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.push({});                                
                                 var contener = $(this).parent();
                                 contener.html("");
                                 current.drawcontent(edit_data_zoom.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
                                 current.initzoomtype();
 
                             }

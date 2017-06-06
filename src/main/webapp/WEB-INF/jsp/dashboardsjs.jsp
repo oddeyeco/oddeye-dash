@@ -7,7 +7,7 @@
 
 <script>
     $(document).ready(function () {
-        $("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+//        $("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
 
         url = cp + "/getmetastat";
         var header = $("meta[name='_csrf_header']").attr("content");

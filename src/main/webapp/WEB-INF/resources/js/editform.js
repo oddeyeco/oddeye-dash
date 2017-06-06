@@ -185,12 +185,12 @@ class EditForm {
                     {
                         jobject.attr('type', item.type);
                     }
-                    if (typeof(item.min) !=="undefined" )
-                    {                                     
+                    if (typeof (item.min) !== "undefined")
+                    {
                         jobject.attr('min', item.min);
                     }
-                    if (typeof(item.max) !=="undefined" )                    
-                    {                        
+                    if (typeof (item.max) !== "undefined")
+                    {
                         jobject.attr('max', item.max);
                     }
                     if (item.prop_key)
@@ -212,6 +212,9 @@ class EditForm {
                     {
                         jobject.attr('style', item.style);
                     }
+
+                    var form = this;
+
                     if (item.key_path)
                     {
                         jobject.attr('key_path', item.key_path);
@@ -240,9 +243,36 @@ class EditForm {
                                 }
                             }
 
-                        } else if (item.tag === 'span')
+                        } else if (item.type === 'choose_array')
                         {
-                            jobject.html(this.getvaluebypath(item.key_path, item.default, initval));
+                            if (this.getvaluebypath(item.init_key_path, item.default))
+                            {
+                                var vars = this.getvaluebypath(item.init_key_path, item.default);
+                                var values = this.getvaluebypath(item.key_path, item.default, initval);
+                                for (var varsindex in vars)
+                                {
+                                    if (vars[varsindex] !== "")
+                                    {
+                                        var checked = "";
+                                        if (typeof (values) === 'array')
+                                        {
+                                        } else
+                                        {
+                                            var ivarsindex = parseInt(varsindex);
+                                            if (values === ivarsindex)
+                                            {
+                                                checked = "checked=true";
+                                            }
+                                        }
+                                        jobject.append("<span>" + varsindex + '<input type="checkbox" index="' + varsindex + '" class="flat", name="' + item.name + '[]" ' + checked + ' />');
+
+                                    }
+                                }
+                                jobject.find('input.flat').on('ifToggled', function () {
+                                    form.change($(this).parents('[type=choose_array]'));
+                                });
+                            }
+
                         } else
                         {
                             if (typeof (this.getvaluebypath(item.key_path, item.default, initval)) === 'object')
@@ -264,6 +294,11 @@ class EditForm {
                             }
 
 
+                        }
+
+                        if (item.tag === 'span')
+                        {
+                            jobject.html(this.getvaluebypath(item.key_path, item.default, initval));
                         }
 
                     }
@@ -289,7 +324,6 @@ class EditForm {
 
                     if (jobject.hasClass("js-switch-small"))
                     {
-                        var form = this;
                         var elem = document.getElementById(jobject.attr('id'));
                         new Switchery(elem, {size: 'small', color: '#26B99A'});
                         elem.onchange = function () {
@@ -761,6 +795,7 @@ class EditForm {
     jspluginsinit() {
         var form = this;
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
+        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
         this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
             form.change($(this).find("input"));
         });
@@ -880,11 +915,21 @@ class EditForm {
 
     change(input) {
         var value = null;
+//        console.log(input);
         if (input.attr('type') === 'checkbox')
         {
             var elem = document.getElementById(input.attr("id"));
             value = elem.checked;
         }
+        if (input.attr('type') === 'choose_array')
+        {
+            value = [];
+            input.find('[type=checkbox]:checked').each(function () {
+                value.push(Number($(this).attr('index')));
+            });
+        }
+
+
         if (input.attr('type') === 'text')
         {
             value = input.val();
@@ -895,22 +940,26 @@ class EditForm {
             value = Number(input.val());
             if (input.attr('max'))
             {
-               var max = Number (input.attr('max'));
-               value = Math.min(value,max);
-               input.val(value);
+                var max = Number(input.attr('max'));
+                value = Math.min(value, max);
+                input.val(value);
             }
             if (input.attr('min'))
             {
-               var min = Number (input.attr('min'));                
-               value = Math.max(value,min);
-               input.val(value);
-            }            
-            
+                var min = Number(input.attr('min'));
+                value = Math.max(value, min);
+                input.val(value);
+            }
+
         }
-        if (input.prop("tagName").toLowerCase() === "select")
+        if (input.prop("tagName"))
         {
-            value = input.val();
+            if (input.prop("tagName").toLowerCase() === "select")
+            {
+                value = input.val();
+            }
         }
+
         if (input.attr('type') === 'split_string')
         {
             value = "";
@@ -977,6 +1026,13 @@ class EditForm {
                 } else
                 {
                     object[a_path[key]] = value;
+                }
+                if ($.isArray(value))
+                {
+                    if (value.length === 0)
+                    {
+                        delete object[a_path[key]];
+                    }
                 }
             } else
             {

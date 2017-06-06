@@ -1046,6 +1046,7 @@ function redrawAllJSON(dashJSON, redraw = false)
 }
 var echartLine;
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
+    console.log(dashJSON);
     $(".fulldash").hide();
     if (rebuildform)
     {
@@ -1720,6 +1721,8 @@ $('body').on("click", ".dublicate", function () {
     var rowindex = $(this).parents(".widgetraw").first().attr("index");
     var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
     var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
+//    console.log(curentwidgetindex);
+//    console.log(widgetindex);
     dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
     delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
     redrawAllJSON(dashJSONvar);
@@ -1964,7 +1967,7 @@ $('body').on("click", ".view", function () {
 });
 
 $('body').on("click", ".backtodush", function () {
-    $(".editpanel").remove();
+    
     $(".fulldash").show();
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");
@@ -1979,6 +1982,7 @@ $('body').on("click", ".backtodush", function () {
             }
         }
     }
+    $(".editpanel").remove();
     AutoRefresh();
 
     $('html, body').animate({
