@@ -460,7 +460,7 @@ class ChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Fill Area", lfor: "display_fillArea"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "fill", id: "display_fillArea", name: "display_fillArea", key_path: 'fill', default: "", options: {"": "None",
+                                    {tag: "select", class: "form-control title_select", prop_key: "fill", id: "display_fillArea", name: "display_fillArea", key_path: 'fill', default: "", options: {"none": "None",
                                             "0.1": "1",
                                             "0.2": "2",
                                             "0.3": "3",
