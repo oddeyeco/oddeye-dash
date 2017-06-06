@@ -1006,9 +1006,10 @@ function redrawAllJSON(dashJSON, redraw = false)
                 $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
             }
+//            console.log(dashJSON[rowindex]["widgets"][widgetindex]);
             if (typeof (dashJSON[rowindex]["widgets"][widgetindex].options) === "undefined")
             {
-                dashJSON[rowindex]["widgets"][widgetindex].options = defoption;
+                dashJSON[rowindex]["widgets"][widgetindex].options = clone_obg(defoption) ;
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             }
@@ -1769,8 +1770,7 @@ $('body').on("click", ".addchart", function () {
         dashJSONvar[rowindex].widgets = [];
     }
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
-    dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
-
+    dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;    
     //TODO DRAW 1 chart    
     redrawAllJSON(dashJSONvar);
     $('html, body').animate({
