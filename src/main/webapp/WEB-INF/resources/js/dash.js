@@ -327,7 +327,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 {
                                     delete series.xAxisIndex;
                                 }
-                                series.type = widget.type;
+                                series.type = widget.type;                                
                                 if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                 {
                                     series.showSymbol = true;
@@ -373,6 +373,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 {
                                     series.step = widget.step;
                                 }
+                            } else
+                            {                                
+                                delete series.step;
                             }
                             widget.options.series.push(series);
                         }

@@ -28,14 +28,14 @@ class ChartEditForm extends EditForm {
         this.formwraper.find('[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if (e.delegateTarget.hash === "#tab_data_zoom")
             {
-                var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="options.dataZoom"]');                
+                var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="options.dataZoom"]');
                 current.repaintdatazoom(contener, current.gettabcontent('tab_data_zoom').forms[0].content[0].content);
             }
             if (e.delegateTarget.hash === "#tab_metric")
             {
-                var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="q"]');                
+                var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="q"]');
                 current.repaintq(contener, current.gettabcontent('tab_metric').forms[0].content);
-            }            
+            }
         });
 
     }
@@ -445,8 +445,8 @@ class ChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Points", lfor: "display_points"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "", options: {
-                                            "": "None",
+                                    {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "none", options: {
+                                            "none": "None",
                                             "circle": "Circle",
                                             "rectangle": "Rectangle",
                                             "triangle": "Triangle",
@@ -476,7 +476,8 @@ class ChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Staircase", lfor: "display_steped"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "step", id: "step", name: "display_steped", key_path: 'step', default: "", options: {"": "None",
+                                    {tag: "select", class: "form-control title_select", prop_key: "step", id: "step", name: "display_steped", key_path: 'step', default: "", options: {
+                                            "": "None",
                                             "start": "start",
                                             "middle": "middle",
                                             "end": "end"
