@@ -48,11 +48,11 @@ class ChartEditForm extends EditForm {
         return [{id: "general-tab", title: "General", contentid: "tab_general"},
             {id: "metrics-tab", title: "Metrics", contentid: "tab_metric"},
             {id: "axes-tab", title: "Axes", contentid: "tab_axes"},
+            {id: "data_zoom_tab", title: "Data Zoom", contentid: "tab_data_zoom"},
             {id: "legend-tab", title: "Legend", contentid: "tab_legend"},
             {id: "display-tab", title: "Display", contentid: "tab_display"},
             {id: "time-tab", title: "Time Range", contentid: "tab_time"},
-            {id: "json-tab", title: "Json", contentid: "tab_json"},
-            {id: "data_zoom_tab", title: "Data Zoom", contentid: "tab_data_zoom"}
+            {id: "json-tab", title: "Json", contentid: "tab_json"}            
         ];
     }
 
