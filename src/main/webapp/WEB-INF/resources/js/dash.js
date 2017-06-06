@@ -255,8 +255,9 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart)
 {
-    return function (data) {        
+    return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
+
         if (data.chartsdata)
         {
             if (Object.keys(data.chartsdata).length > 0)
@@ -311,6 +312,21 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             series.data = [];
                             if (!widget.manual)
                             {
+
+                                if (widget.q[q_index].yAxisIndex)
+                                {
+                                    series.yAxisIndex = widget.q[q_index].yAxisIndex;
+                                } else
+                                {
+                                    delete series.yAxisIndex;
+                                }
+                                if (widget.q[q_index].xAxisIndex)
+                                {
+                                    series.xAxisIndex = widget.q[q_index].xAxisIndex;
+                                } else
+                                {
+                                    delete series.xAxisIndex;
+                                }
                                 series.type = widget.type;
                                 if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                 {
@@ -519,10 +535,25 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
 
                             series.data = [];
-
+//                            console.log(q_index);                            
+//                            console.log(widget.q[q_index]);
                             if (!widget.manual)
                             {
                                 series.type = widget.type;
+                                if (widget.q[q_index].yAxisIndex)
+                                {
+                                    series.yAxisIndex = widget.q[q_index].yAxisIndex;
+                                } else
+                                {
+                                    delete series.yAxisIndex;
+                                }
+                                if (widget.q[q_index].xAxisIndex)
+                                {
+                                    series.xAxisIndex = widget.q[q_index].xAxisIndex;
+                                } else
+                                {
+                                    delete series.xAxisIndex;
+                                }
                             } else
                             {
                                 if (!series.type)
@@ -742,32 +773,38 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                         }
                     }
-                    widget.options.xAxis[0].data = [];
+//                    widget.options.xAxis[0].data = [];
                 }
 
             }
+
         }
+
         count.value--;
         if (count.value === 0)
         {
             widget.options.series.sort(function (a, b) {
                 return compareStrings(a.name, b.name);
             });
-
+//            widget.options.xAxis=[]; 
+            for (var ind in widget.options.xAxis)
+            {
+                widget.options.xAxis[ind].data = [];
+            }
             for (var ind in widget.options.series)
             {
                 var xAxisIndex = 0;
                 if (widget.options.series[ind].xAxisIndex)
                 {
-                  xAxisIndex =   widget.options.series[ind].xAxisIndex;
+                    xAxisIndex = widget.options.series[ind].xAxisIndex;
                 }
-                
+
                 if (widget.options.xAxis[xAxisIndex].type === "category")
                 {
                     widget.options.series[ind].unit = widget.options.yAxis[0].unit;
                     if ((widget.type === "bar") || (widget.type === "line"))
                     {
-                        
+
                         for (var sind in widget.options.series[ind].data)
                         {
                             if (!widget.options.xAxis[xAxisIndex].data)
@@ -835,8 +872,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         widget.options.yAxis[yindex].axisLabel.formatter = formatter;
                     }
                 }
-            }                   
-            
+            }
             if (redraw)
             {
 //                console.log(widget.options.series);
@@ -845,7 +881,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
             {
                 chart.setOption(widget.options, true);
             }
-            
+
             chart.hideLoading();
             if (callback !== null)
             {
@@ -1010,7 +1046,7 @@ function redrawAllJSON(dashJSON, redraw = false)
 //            console.log(dashJSON[rowindex]["widgets"][widgetindex]);
             if (typeof (dashJSON[rowindex]["widgets"][widgetindex].options) === "undefined")
             {
-                dashJSON[rowindex]["widgets"][widgetindex].options = clone_obg(defoption) ;
+                dashJSON[rowindex]["widgets"][widgetindex].options = clone_obg(defoption);
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
                 dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
             }
@@ -1771,7 +1807,7 @@ $('body').on("click", ".addchart", function () {
         dashJSONvar[rowindex].widgets = [];
     }
     dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
-    dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;    
+    dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
     //TODO DRAW 1 chart    
     redrawAllJSON(dashJSONvar);
     $('html, body').animate({

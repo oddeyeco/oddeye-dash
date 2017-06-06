@@ -28,9 +28,14 @@ class ChartEditForm extends EditForm {
         this.formwraper.find('[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if (e.delegateTarget.hash === "#tab_data_zoom")
             {
-                var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="options.dataZoom"]');
+                var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="options.dataZoom"]');                
                 current.repaintdatazoom(contener, current.gettabcontent('tab_data_zoom').forms[0].content[0].content);
             }
+            if (e.delegateTarget.hash === "#tab_metric")
+            {
+                var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="q"]');                
+                current.repaintq(contener, current.gettabcontent('tab_metric').forms[0].content);
+            }            
         });
 
     }
@@ -603,15 +608,15 @@ class ChartEditForm extends EditForm {
                     }
                 ]}];
         this.tabcontent.tab_data_zoom.forms = [edit_data_zoom];//suren
+        var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
+                {tag: "label", class: "control-label control-label-custom-legend", text: "Axis Indexes"},
+                {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
+                {tag: "div", type: "choose_array", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
+                {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
+                {tag: "div", type: "choose_array", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
+            ]};
+        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, xfieds);
 
-
-//        this.tabcontent.tab_metric.forms[0].content[0].template[0].content(0, 0, edit_chart_title);
-//        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.push( {tag: "div", class: "form-group form-group-custom", content: [
-//                            {tag: "label", class: "control-label control-label-custom-legend", text: "YAxisIndex", lfor: "data_zoom_yAxisIndex"},
-//                            {tag: "div", type: "choose_array", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_data_zoom_yAxisIndex", name: "data_zoom_yAxisIndex"}
-//                        ]});
-//
-//        console.log(this.tabcontent.tab_metric.forms[0].content[0].template[0].content);
     }
 
     repaintdatazoom(contener, content) {
