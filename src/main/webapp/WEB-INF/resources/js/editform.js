@@ -254,8 +254,12 @@ class EditForm {
                                     if (vars[varsindex] !== "")
                                     {
                                         var checked = "";
-                                        if (typeof (values) === 'array')
+                                        if ($.isArray(values))
                                         {
+                                            if (values.indexOf(parseInt(varsindex)) > -1)
+                                            {
+                                                checked = "checked=true";
+                                            }
                                         } else
                                         {
                                             var ivarsindex = parseInt(varsindex);
@@ -800,6 +804,14 @@ class EditForm {
             form.change($(this).find("input"));
         });
 
+        var current = this;
+        this.formwraper.find('[data-toggle="tab"]').on('shown.bs.tab', function (e) {            
+            if (e.delegateTarget.hash === "#tab_json")
+            {
+                var jsonstr = JSON.stringify(current.dashJSON[form.row]["widgets"][form.index], jsonmaker);
+                current.editor.set(JSON.parse(jsonstr));                
+            }
+        });
 
         this.formwraper.on("blur", "input", function () {
             if (!$(this).parent().hasClass("edit"))
@@ -975,7 +987,7 @@ class EditForm {
         {
             parent = input.parents(".form_main_block").attr('key_path');
         }
-        
+
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
         {
