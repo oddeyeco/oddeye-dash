@@ -274,7 +274,7 @@ function drawRaw(errorjson, table, hashindex, update) {
     var trclass = "level_" + errorjson.level;
     if (errorjson.isspec !== 0)
     {
-        trclass = "spec";
+        trclass =trclass+" spec";
     }
 
     if (!update)
