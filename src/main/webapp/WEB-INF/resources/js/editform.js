@@ -805,11 +805,11 @@ class EditForm {
         });
 
         var current = this;
-        this.formwraper.find('[data-toggle="tab"]').on('shown.bs.tab', function (e) {            
+        this.formwraper.find('[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if (e.delegateTarget.hash === "#tab_json")
             {
                 var jsonstr = JSON.stringify(current.dashJSON[form.row]["widgets"][form.index], jsonmaker);
-                current.editor.set(JSON.parse(jsonstr));                
+                current.editor.set(JSON.parse(jsonstr));
             }
         });
 
@@ -949,19 +949,27 @@ class EditForm {
 
         if (input.attr('type') === 'number')
         {
-            value = Number(input.val());
-            if (input.attr('max'))
+            if (input.val().trim() === "")
             {
-                var max = Number(input.attr('max'));
-                value = Math.min(value, max);
-                input.val(value);
-            }
-            if (input.attr('min'))
+                value = "";
+            } else
             {
-                var min = Number(input.attr('min'));
-                value = Math.max(value, min);
-                input.val(value);
+                value = Number(input.val());
+
+                if (input.attr('max'))
+                {
+                    var max = Number(input.attr('max'));
+                    value = Math.min(value, max);
+                    input.val(value);
+                }
+                if (input.attr('min'))
+                {
+                    var min = Number(input.attr('min'));
+                    value = Math.max(value, min);
+                    input.val(value);
+                }
             }
+
 
         }
         if (input.prop("tagName"))

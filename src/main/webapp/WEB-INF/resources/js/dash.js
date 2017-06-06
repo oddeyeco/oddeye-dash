@@ -835,7 +835,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         widget.options.yAxis[yindex].axisLabel.formatter = formatter;
                     }
                 }
-            }            
+            }                     
             if (redraw)
             {
 //                console.log(widget.options.series);

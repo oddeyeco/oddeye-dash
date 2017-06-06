@@ -14,6 +14,9 @@ class ChartEditForm extends EditForm {
         super(formwraper, row, index, dashJSON);
         // Add castoms
         this.deflist["options.title.show"] = true;
+        this.deflist["max"] = "";
+        this.deflist["min"] = "";
+        
         this.jspluginsinit();
     }
     jspluginsinit()
