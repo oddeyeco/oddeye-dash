@@ -801,7 +801,7 @@ class EditForm {
         });
 
 
-        $('body').on("blur", ".edit-form input", function () {
+        this.formwraper.on("blur", "input", function () {
             if (!$(this).parent().hasClass("edit"))
             {
                 if (!$(this).hasClass("ace_search_field"))
@@ -811,7 +811,7 @@ class EditForm {
             }
         });
 
-        $('body').on("change", ".edit-form select", function () {
+        this.formwraper.on("change", "select", function () {
             form.change($(this));
         });
 
@@ -853,7 +853,7 @@ class EditForm {
             var input = $('#reportrange_private');
             form.change(input);
         });
-        $('body').on("click", "span.tag_label .fa-remove", function () {
+        this.formwraper.on("click", "span.tag_label .fa-remove", function () {
             var input = $(this).parents(".data-label");
             $(this).parents(".tag_label").remove();
             form.change(input);
@@ -861,7 +861,7 @@ class EditForm {
             var json = form.dashJSON[form.row]["widgets"][form.index].q;
             form.check_q_dublicates(contener, json);
         });
-        $('body').on("click", "span.tag_label .fa-check", function () {
+        this.formwraper.on("click", "span.tag_label .fa-check", function () {
             var input = $(this).parents(".form-group").find(".data-label");
             if (input.hasClass("metrics"))
             {
@@ -975,6 +975,7 @@ class EditForm {
         {
             parent = input.parents(".form_main_block").attr('key_path');
         }
+        
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
         {
@@ -1006,6 +1007,7 @@ class EditForm {
         }
         var a_path = path.split('.');
         var object = this.dashJSON[this.row]["widgets"][this.index];
+
         if (parent)
         {
             var a_parent = parent.split('.');

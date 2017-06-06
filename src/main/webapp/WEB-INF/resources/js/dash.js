@@ -869,13 +869,13 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 $('body').on("click", "#refresh", function () {
     repaint(true);
 });
-$('body').on("click", "#jsonReset", function () {
-    Edit_Form.resetjson();
-});
-
-$('body').on("click", "#jsonApply", function () {
-    Edit_Form.applyjson();
-});
+//$('body').on("click", "#jsonReset", function () {
+//    Edit_Form.resetjson();
+//});
+//
+//$('body').on("click", "#jsonApply", function () {
+//    Edit_Form.applyjson();
+//});
 
 $('body').on("change", "#refreshtime", function () {
     if (!doapplyjson)
@@ -1046,7 +1046,6 @@ function redrawAllJSON(dashJSON, redraw = false)
 }
 var echartLine;
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
-    console.log(dashJSON);
     $(".fulldash").hide();
     if (rebuildform)
     {
@@ -1063,14 +1062,18 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         for (var qindex in dashJSON[row]["widgets"][index].q)
         {
-            if (dashJSON[row]["widgets"][index].q[qindex].info.downsample)
+            if (dashJSON[row]["widgets"][index].q[qindex].info)
             {
-                var ds_ = dashJSON[row]["widgets"][index].q[qindex].info.downsample.split("-");
-                dashJSON[row]["widgets"][index].q[qindex].info.ds = {};
-                dashJSON[row]["widgets"][index].q[qindex].info.ds.time = ds_[0];
-                dashJSON[row]["widgets"][index].q[qindex].info.ds.aggregator = ds_[1];
-                delete dashJSON[row]["widgets"][index].q[qindex].info.downsample;
+                if (dashJSON[row]["widgets"][index].q[qindex].info.downsample)
+                {
+                    var ds_ = dashJSON[row]["widgets"][index].q[qindex].info.downsample.split("-");
+                    dashJSON[row]["widgets"][index].q[qindex].info.ds = {};
+                    dashJSON[row]["widgets"][index].q[qindex].info.ds.time = ds_[0];
+                    dashJSON[row]["widgets"][index].q[qindex].info.ds.aggregator = ds_[1];
+                    delete dashJSON[row]["widgets"][index].q[qindex].info.downsample;
+                }
             }
+
         }
     }
 
@@ -1967,7 +1970,7 @@ $('body').on("click", ".view", function () {
 });
 
 $('body').on("click", ".backtodush", function () {
-    
+
     $(".fulldash").show();
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");
@@ -1982,7 +1985,9 @@ $('body').on("click", ".backtodush", function () {
             }
         }
     }
+    $(".editpanel").empty();
     $(".editpanel").remove();
+    delete Edit_Form;
     AutoRefresh();
 
     $('html, body').animate({
