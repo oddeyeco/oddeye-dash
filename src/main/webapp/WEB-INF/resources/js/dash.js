@@ -255,7 +255,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart)
 {
-    return function (data) {
+    return function (data) {        
         var m_sample = widget.options.xAxis[0].m_sample;
         if (data.chartsdata)
         {
@@ -835,7 +835,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         widget.options.yAxis[yindex].axisLabel.formatter = formatter;
                     }
                 }
-            }                     
+            }                   
+            
             if (redraw)
             {
 //                console.log(widget.options.series);
