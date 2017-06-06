@@ -756,17 +756,28 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
             for (var ind in widget.options.series)
             {
-                if (widget.options.xAxis[0].type === "category")
+                var xAxisIndex = 0;
+                if (widget.options.series[ind].xAxisIndex)
+                {
+                  xAxisIndex =   widget.options.series[ind].xAxisIndex;
+                }
+                
+                if (widget.options.xAxis[xAxisIndex].type === "category")
                 {
                     widget.options.series[ind].unit = widget.options.yAxis[0].unit;
                     if ((widget.type === "bar") || (widget.type === "line"))
                     {
+                        
                         for (var sind in widget.options.series[ind].data)
                         {
-                            widget.options.series[ind].data[sind].unit = widget.options.yAxis[0].unit;
-                            if (widget.options.xAxis[0].data.indexOf(widget.options.series[ind].data[sind].name) === -1)
+                            if (!widget.options.xAxis[xAxisIndex].data)
                             {
-                                widget.options.xAxis[0].data.push(widget.options.series[ind].data[sind].name);
+                                widget.options.xAxis[xAxisIndex].data = [];
+                            }
+                            widget.options.series[ind].data[sind].unit = widget.options.yAxis[0].unit;
+                            if (widget.options.xAxis[xAxisIndex].data.indexOf(widget.options.series[ind].data[sind].name) === -1)
+                            {
+                                widget.options.xAxis[xAxisIndex].data.push(widget.options.series[ind].data[sind].name);
                             }
                         }
                     }
@@ -824,8 +835,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         widget.options.yAxis[yindex].axisLabel.formatter = formatter;
                     }
                 }
-            }
-
+            }            
             if (redraw)
             {
 //                console.log(widget.options.series);
@@ -834,6 +844,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
             {
                 chart.setOption(widget.options, true);
             }
+            
             chart.hideLoading();
             if (callback !== null)
             {
