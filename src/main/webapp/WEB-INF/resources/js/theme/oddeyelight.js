@@ -92,7 +92,8 @@ var encodeHTML = function (source) {
                     out = params[0].name;                    
                     for (var ind in params)
                     {
-                        param = params[ind];                        
+                        
+                        param = params[ind];                                                
                         if (typeof (param.value) === 'undefined')
                         {
                             continue;
@@ -107,6 +108,10 @@ var encodeHTML = function (source) {
                         } else
                         {
                             value = param.value;
+                        }
+                        if (param.data.isinverse===true)
+                        {
+                            value=value*-1;
                         }
                         if (param.data.unit)
                         {
@@ -389,11 +394,10 @@ var encodeHTML = function (source) {
                     }
 
                     return '<span style="font-size:16px;color:#fff">' + params.seriesName + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
-                },
+                }
             },
             axisLine: {
-                lineStyle: {
-                    color: [[0.15, 'lime'], [0.85, '#1e90ff'], [1, '#ff4500']],
+                lineStyle: {                    
                     width: 5,
                     color: [[0.2, '#2ec7c9'], [0.8, '#5ab1ef'], [1, '#d87a80']],
                     shadowColor: '#1e90ff',

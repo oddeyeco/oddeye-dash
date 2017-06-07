@@ -619,6 +619,11 @@ class ChartEditForm extends EditForm {
                 {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
                 {tag: "div", type: "choose_array", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
             ]};
+        var inversef = {tag: "div", class: "form-group form-group-custom", content: [
+                {tag: "label", class: "control-label control-label-custom-legend", text: "Inverse"},
+                {tag: "input", type: "checkbox", class: "js-switch-small enable_inverse", prop_key: "inverse", id: "{index}_enable_inverse", name: "enable_inverse", key_path: 'info.inverse', default: false}
+            ]};
+        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, inversef);
         this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, xfieds);
 
     }

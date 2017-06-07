@@ -324,6 +324,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             }
                             series.data = [];
+//                            console.log(widget.q[q_index].info.inverse);
                             if (!widget.manual)
                             {
                                 if (widget.q[q_index].yAxisIndex)
@@ -386,10 +387,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                             series.name = name;
                             var chdata = data.chartsdata[index].data;
-                            series.data = [];
+                            series.data = [];                            
                             for (var ind in chdata)
                             {
-                                series.data.push({value: chdata[ind], 'unit': widget.options.yAxis[0].unit, 'name': name2});
+                                var val=chdata[ind];
+                                if (widget.q[q_index].info.inverse)
+                                {
+                                    val[1] = -1*val[1];
+                                }                                
+                                series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse:widget.q[q_index].info.inverse});
                             }
                             if (widget.stacked)
                             {
