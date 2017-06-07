@@ -161,7 +161,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
             }
         }
 
-        var count = {"value": widget.q.length};
+        var count = {"value": widget.q.length,"base": widget.q.length};        
         var oldseries = clone_obg(widget.options.series);
         widget.options.series = [];
         for (k in widget.q)
@@ -387,15 +387,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                             series.name = name;
                             var chdata = data.chartsdata[index].data;
-                            series.data = [];                            
+                            series.data = [];
                             for (var ind in chdata)
                             {
-                                var val=chdata[ind];
+                                var val = chdata[ind];
                                 if (widget.q[q_index].info.inverse)
                                 {
-                                    val[1] = -1*val[1];
-                                }                                
-                                series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse:widget.q[q_index].info.inverse});
+                                    val[1] = -1 * val[1];
+                                }
+                                series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
                             }
                             if (widget.stacked)
                             {
@@ -512,7 +512,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             tmp_series_1[name] = [];
                         }
-                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[0].unit});
+                        if (widget.q[q_index].info.inverse)
+                        {
+                            val = -1 * val;
+                        }
+                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[0].unit, isinverse: widget.q[q_index].info.inverse});
                         sdata.push({value: val, name: name});
                     }
 
@@ -649,8 +653,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 //                        console.log(key);
                             if (series.type === "bar")
                             {
-
-                                if (Object.keys(tmp_series_1).length === 1)
+                                if ((Object.keys(tmp_series_1).length === 1)&&(count.base===1))
                                 {
                                     series.itemStyle = {normal: {color: function (params) {
                                                 return colorPalette[params.dataIndex % colorPalette.length];
@@ -972,6 +975,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 //            widget.options.grid={};
 //            widget.options.grid.show = true;
 //            widget.options.grid.backgroundColor = 'rgb(128, 128, 128)';
+//            console.log(widget.options.series);
             if (redraw)
             {
 //                console.log(widget.options.series);

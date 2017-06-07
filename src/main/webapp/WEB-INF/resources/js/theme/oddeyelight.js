@@ -85,15 +85,15 @@ var encodeHTML = function (source) {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
 
-//                console.log(params);
+
                 var out = "";
                 if (params.constructor === Array)
                 {
-                    out = params[0].name;                    
+                    out = params[0].name;
                     for (var ind in params)
                     {
-                        
-                        param = params[ind];                                                
+
+                        param = params[ind];
                         if (typeof (param.value) === 'undefined')
                         {
                             continue;
@@ -109,9 +109,9 @@ var encodeHTML = function (source) {
                         {
                             value = param.value;
                         }
-                        if (param.data.isinverse===true)
+                        if (param.data.isinverse === true)
                         {
-                            value=value*-1;
+                            value = value * -1;
                         }
                         if (param.data.unit)
                         {
@@ -130,8 +130,13 @@ var encodeHTML = function (source) {
 //                            value = format_metric(value);
                             if (typeof (value) !== "string")
                             {
+                                if (param.data.isinverse === true)
+                                {
+                                    value = value * -1;
+                                }
                                 value = value.toFixed(2);
                             }
+
                         }
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value
                     }
@@ -139,6 +144,10 @@ var encodeHTML = function (source) {
                 {
 
                     var value = params.data.value;
+                    if (params.data.isinverse === true)
+                    {
+                        value = value * -1;
+                    }
                     if (value)
                     {
                         if (value.constructor === Array)
@@ -217,16 +226,16 @@ var encodeHTML = function (source) {
 
 
                         if (params.componentSubType === "treemap")
-                        {                            
+                        {
                             var head = "";
                             for (var ii in params.treePathInfo)
-                            {                                
-                                if ((ii>0)&&(ii<(params.treePathInfo.length-1)))
+                            {
+                                if ((ii > 0) && (ii < (params.treePathInfo.length - 1)))
                                 {
                                     head = head + " " + params.treePathInfo[ii].name;
                                 }
                             }
-                            out =  head+ '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
+                            out = head + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                         } else
                         {
                             out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
@@ -271,9 +280,9 @@ var encodeHTML = function (source) {
         },
 
         timeAxis: {
-            splitNumber: 10,
+            splitNumber: 7,
             nameLocation: "middle",
-            nameGap:25,
+            nameGap: 25,
 //            axisLabel:
 //                    {
 //                        formatter: format_date
@@ -397,7 +406,7 @@ var encodeHTML = function (source) {
                 }
             },
             axisLine: {
-                lineStyle: {                    
+                lineStyle: {
                     width: 5,
                     color: [[0.2, '#2ec7c9'], [0.8, '#5ab1ef'], [1, '#d87a80']],
                     shadowColor: '#1e90ff',
