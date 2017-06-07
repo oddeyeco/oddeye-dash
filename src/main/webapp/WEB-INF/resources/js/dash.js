@@ -190,29 +190,29 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                 {
                     query = query + "&rate=true";
                 }
-                
+
                 if (!widget.q[k].info.downsamplingstate)
-                {                    
+                {
                     var downsample = widget.q[k].info.downsample;
-                    
+
                     if (widget.q[k].info.ds)
                     {
-                        
+
                         if ((Object.keys(widget.q[k].info.ds).length === 2))
                         {
                             downsample = widget.q[k].info.ds.time + "-" + widget.q[k].info.ds.aggregator;
                         }
                     }
-                    
+
                     if (!usePersonalTime)
-                    {                                                
+                    {
                         if (!downsample)
-                        {                            
+                        {
                             if (json.times.generalds)
                             {
                                 if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
                                 {
-                                    query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];                                    
+                                    query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
                                 }
                             }
                         } else
@@ -326,23 +326,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             series.data = [];
                             if (!widget.manual)
                             {
-
-//                                if (widget.q[q_index].yAxisIndex)
-//                                {
-//                                    series.yAxisIndex = widget.q[q_index].yAxisIndex;
-//                                } else
-//                                {
-//                                    delete series.yAxisIndex;
-//                                }
-//                                console.log(widget.q[q_index].xAxisIndex);
-//                                if (widget.q[q_index].xAxisIndex)
-//                                {
-//                                    series.xAxisIndex = widget.q[q_index].xAxisIndex;
-//                                } else
-//                                {
-//                                    delete series.xAxisIndex;
-//                                }
-
                                 if (widget.q[q_index].yAxisIndex)
                                 {
                                     series.yAxisIndex = [];
@@ -414,7 +397,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             } else
                             {
                                 delete series.stack;
-                            }
+                            }                            
+                            if (typeof (widget.smooth) !=="undefined" )
+                            {
+                                series.smooth = widget.smooth;
+                            } else
+                            {
+                                delete series.smooth;
+                            }                            
+                            
                             if (widget.fill)
                             {
                                 if (widget.fill !== "none")
@@ -1505,7 +1496,7 @@ $(document).ready(function () {
                     dashJSONvar.times.generalds = [];
                 }
                 dashJSONvar.times.generalds[2] = this.checked;
-                repaint(true,false);
+                repaint(true, false);
             }
 
         };
@@ -1519,7 +1510,7 @@ $(document).ready(function () {
                 dashJSONvar.times.generalds = [];
             }
             dashJSONvar.times.generalds[1] = $(this).val();
-            repaint(true,false);
+            repaint(true, false);
         }
 
     });
@@ -1530,7 +1521,7 @@ $(document).ready(function () {
             dashJSONvar.times.generalds = [];
         }
         dashJSONvar.times.generalds[0] = $(this).val();
-        repaint(true,false);
+        repaint(true, false);
     });
 
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
