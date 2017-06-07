@@ -442,12 +442,16 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                         if (typeof (widget.q[q_index].info) !== "undefined")
                         {
-                            if (widget.q[q_index].info.alias !== "")
+                            if (widget.q[q_index].info.alias)
                             {
-                                name = widget.q[q_index].info.alias;
-                                name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                if (widget.q[q_index].info.alias !== "")
+                                {
+                                    name = widget.q[q_index].info.alias;
+                                    name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
+                                    name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                }
+
                             }
                             if (widget.q[q_index].info.alias2)
                             {
