@@ -397,15 +397,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             } else
                             {
                                 delete series.stack;
-                            }                            
-                            if (typeof (widget.smooth) !=="undefined" )
+                            }
+                            if (typeof (widget.smooth) !== "undefined")
                             {
                                 series.smooth = widget.smooth;
                             } else
                             {
                                 delete series.smooth;
-                            }                            
-                            
+                            }
+
                             if (widget.fill)
                             {
                                 if (widget.fill !== "none")
@@ -951,7 +951,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
-//            console.log(widget.options.grid.containLabel);            
+//            console.log(JSON.stringify(widget.options) );            
 //            widget.options.grid={};
 //            widget.options.grid.show = true;
 //            widget.options.grid.backgroundColor = 'rgb(128, 128, 128)';
@@ -2147,13 +2147,16 @@ window.onscroll = function () {
                         dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
                         if (chart !== null)
                         {
-                            if (chart._dom.getBoundingClientRect().bottom < 0)
+                            if (chart._dom)
                             {
-                                dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
-                            }
-                            if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-                            {
-                                dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                                if (chart._dom.getBoundingClientRect().bottom < 0)
+                                {
+                                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                                }
+                                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                                {
+                                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                                }
                             }
                             if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
                             {
@@ -2162,6 +2165,7 @@ window.onscroll = function () {
                                     setdatabyQ(dashJSONvar, rowindex, widgetindex, "getdata", false);
                                 }
                             }
+
                         }
                     }
                 }
