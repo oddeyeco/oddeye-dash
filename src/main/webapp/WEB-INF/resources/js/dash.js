@@ -796,6 +796,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             {
                                 series.stack = "0";
                             }
+                            else
+                            {
+                                delete series.stack;
+                            }
 
                             if (series.type === "funnel")
                             {
