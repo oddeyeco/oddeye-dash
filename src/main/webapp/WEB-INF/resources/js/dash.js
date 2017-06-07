@@ -417,8 +417,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 if (widget.fill !== "none")
                                 {
                                     series.areaStyle = {normal: {opacity: widget.fill}};
-                                }
-                                else{
+                                } else {
                                     delete series.areaStyle;
                                 }
                             }
@@ -1372,12 +1371,16 @@ function repaint(redraw = false, rebuildform = true) {
         $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
         $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
         var check = document.getElementById('global-downsampling-switsh');
-        if (check.checked !== dashJSONvar.times.generalds[2])
+        if (dashJSONvar.times.generalds[2])
         {
-            $(check).attr('autoedit', true);
-            $(check).trigger('click');
-            $(check).removeAttr('autoedit');
+            if (check.checked !== dashJSONvar.times.generalds[2])
+            {
+                $(check).attr('autoedit', true);
+                $(check).trigger('click');
+                $(check).removeAttr('autoedit');
+            }
         }
+
     }
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");

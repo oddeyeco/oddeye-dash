@@ -87,10 +87,10 @@
             </select>        
 
             <label class="control-label control-label-top" for="global-downsampling-switsh">
-                Disable downsampling
+                Enable downsampling
             </label>
             <div class="checkbox" style="display: inline-block">
-                <input type="checkbox" class="js-switch-general" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh" /> 
+                <input type="checkbox" style="display: none" class="js-switch-general" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh" /> 
             </div>        
         </div>          
 
