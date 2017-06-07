@@ -221,10 +221,10 @@ var encodeHTML = function (source) {
                                     head = head + " " + params.treePathInfo[ii].name;
                                 }
                             }
-                            out =  head+ '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
+                            out =  head+ '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                         } else
                         {
-                            out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value
+                            out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                         }
 
                     } else
@@ -266,7 +266,9 @@ var encodeHTML = function (source) {
         },
 
         timeAxis: {
-            splitNumber: 5,
+            splitNumber: 10,
+            nameLocation: "middle",
+            nameGap:25,
 //            axisLabel:
 //                    {
 //                        formatter: format_date

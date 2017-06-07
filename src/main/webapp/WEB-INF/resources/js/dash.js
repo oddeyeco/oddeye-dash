@@ -955,6 +955,13 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
+
+//            widget.options.tooltip.axisPointer={
+//            "type": 'cross',
+//            "animation": true,
+//            "label": {
+//                "backgroundColor": '#505765'
+//            }};
 //            console.log(JSON.stringify(widget.options) );            
 //            widget.options.grid={};
 //            widget.options.grid.show = true;

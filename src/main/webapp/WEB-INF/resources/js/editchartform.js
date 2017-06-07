@@ -257,6 +257,10 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_x"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_x", name: "axes_name_x", key_path: 'name', default: ""}
                         ]},
+//                    {tag: "div", class: "form-group form-group-custom", content: [
+//                            {tag: "label", class: "control-label control-label-custom-legend", text: "Location", lfor: "axes_nameLocation_x"},
+//                            {tag: "input", type: "text", class: "form-control axes_select", prop_key: "nameLocation", id: "{index}_axes_nameLocation_x", name: "axes_nameLocation_x", key_path: 'nameLocation', default: ""}
+//                        ]},                    
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_x"},
                             {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
