@@ -190,26 +190,29 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                 {
                     query = query + "&rate=true";
                 }
-
+                
                 if (!widget.q[k].info.downsamplingstate)
-                {
+                {                    
                     var downsample = widget.q[k].info.downsample;
+                    
                     if (widget.q[k].info.ds)
                     {
+                        
                         if ((Object.keys(widget.q[k].info.ds).length === 2))
                         {
                             downsample = widget.q[k].info.ds.time + "-" + widget.q[k].info.ds.aggregator;
                         }
                     }
+                    
                     if (!usePersonalTime)
-                    {
-                        if (downsample === "")
-                        {
+                    {                                                
+                        if (!downsample)
+                        {                            
                             if (json.times.generalds)
                             {
                                 if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
                                 {
-                                    query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                                    query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];                                    
                                 }
                             }
                         } else
@@ -1502,7 +1505,7 @@ $(document).ready(function () {
                     dashJSONvar.times.generalds = [];
                 }
                 dashJSONvar.times.generalds[2] = this.checked;
-                repaint(true);
+                repaint(true,false);
             }
 
         };
@@ -1516,7 +1519,7 @@ $(document).ready(function () {
                 dashJSONvar.times.generalds = [];
             }
             dashJSONvar.times.generalds[1] = $(this).val();
-            repaint(true);
+            repaint(true,false);
         }
 
     });
@@ -1527,7 +1530,7 @@ $(document).ready(function () {
             dashJSONvar.times.generalds = [];
         }
         dashJSONvar.times.generalds[0] = $(this).val();
-        repaint(true);
+        repaint(true,false);
     });
 
     $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {

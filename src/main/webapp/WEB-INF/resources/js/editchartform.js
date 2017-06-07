@@ -427,7 +427,7 @@ class ChartEditForm extends EditForm {
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Stacked", lfor: "display_stacked"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: true}
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: false}
                                         ]}
                                 ]}
 
