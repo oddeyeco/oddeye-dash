@@ -951,7 +951,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
-//            console.log(widget.options);
+//            console.log(widget.options.grid.containLabel);            
+//            widget.options.grid={};
+//            widget.options.grid.show = true;
+//            widget.options.grid.backgroundColor = 'rgb(128, 128, 128)';
             if (redraw)
             {
 //                console.log(widget.options.series);

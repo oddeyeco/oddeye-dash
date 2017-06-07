@@ -1060,9 +1060,13 @@ class EditForm {
         {
             return;
         }
+        if (typeof (value)==="string" )
+        {
+            value= value.trim();
+        }
         var a_path = path.split('.');
         var object = this.dashJSON[this.row]["widgets"][this.index];
-
+         
         if (parent)
         {
             var a_parent = parent.split('.');
@@ -1083,6 +1087,10 @@ class EditForm {
                 } else
                 {
                     object[a_path[key]] = value;
+                }
+                if (value==="")
+                {
+                    delete object[a_path[key]];
                 }
                 if ($.isArray(value))
                 {

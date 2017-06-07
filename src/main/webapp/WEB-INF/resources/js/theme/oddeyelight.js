@@ -259,9 +259,10 @@ var encodeHTML = function (source) {
         },
 
         grid: {
-            left: "90",
+            left: "2%",
             right: "2%",
-            bottom: 30
+            bottom: 30,
+            containLabel: true
         },
 
         timeAxis: {

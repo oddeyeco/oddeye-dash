@@ -418,28 +418,6 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "div", class: "form_main_block pull-left", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Animation", lfor: "display_animation"},
-                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "animation", id: "display_animation", name: "display_animation", key_path: 'options.animation', default: true}
-                                        ]}
-                                ]},
-
-                            {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Stacked", lfor: "display_stacked"},
-                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: false}
-                                        ]}
-                                ]},
-                            {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Smooth", lfor: "display_smooth"},
-                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "smooth", id: "display_smooth", name: "display_smooth", key_path: 'smooth', default: true}
-                                        ]}
-                                ]}                            
-
-                        ]},
-                    {tag: "div", class: "form_main_block pull-left", content: [
-                            {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Chart Type", lfor: "display_charttype"},
                                     {tag: "select", class: "form-control title_select", prop_key: "type", id: "display_charttype", name: "display_charttype", key_path: 'type', default: "", options: {"line": "Lines",
                                             "bar": "Bars",
@@ -448,7 +426,38 @@ class ChartEditForm extends EditForm {
                                             "funnel": "Funnel",
                                             "treemap": "Treemap"}}
 
+                                ]},                            
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Animation", lfor: "display_animation"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "animation", id: "display_animation", name: "display_animation", key_path: 'options.animation', default: true}
+                                        ]},
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Contains label", lfor: "display_containLabel"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "containLabel", id: "display_containLabel", name: "display_containLabel", key_path: 'options.grid.containLabel', default: true}
+                                        ]}
                                 ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Left", lfor: "padding_left"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_left", name: "padding_left", prop_key: "x", key_path: 'options.grid.x'},
+                                    {tag: "label", class: "control-label control-label-custom", text: "Top", lfor: "padding_top"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_top", name: "padding_top", prop_key: "y", key_path: 'options.grid.y'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: " Right", lfor: "padding_right"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_right", name: "padding_right", prop_key: "x2", key_path: 'options.grid.x2'},
+                                    {tag: "label", class: "control-label control-label-custom", text: "Bottom", lfor: "padding_bottom"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_bottom", name: "padding_bottom", prop_key: "y2", key_path: 'options.grid.y2'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Width", lfor: "padding_width"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_width", name: "padding_width", prop_key: "width", key_path: 'options.grid.width'},
+                                    {tag: "label", class: "control-label control-label-custom", text: "Height", lfor: "padding_height"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_height", name: "padding_height", prop_key: "height", key_path: 'options.grid.height'}
+                                    
+                                ]}                            
+                        ]},
+                    {tag: "div", class: "form_main_block pull-left", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Points", lfor: "display_points"},
                                     {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "none", options: {
@@ -490,34 +499,18 @@ class ChartEditForm extends EditForm {
 
                                         }}
 
-                                ]}
-                        ]},
-                    {tag: "div", class: "form_main_block pull-left grid", content: [
-                            {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Left", lfor: "padding_left"},
-                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_left", name: "padding_left", prop_key: "x", key_path: 'options.grid.x'}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Top", lfor: "padding_top"},
-                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_top", name: "padding_top", prop_key: "y", key_path: 'options.grid.y'}
+                                    {tag: "label", class: "control-label control-label-custom", text: "Stacked", lfor: "display_stacked"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: false}
+                                        ]}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: " Right", lfor: "padding_right"},
-                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_right", name: "padding_right", prop_key: "x2", key_path: 'options.grid.x2'}
-                                ]},
-                            {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Bottom", lfor: "padding_bottom"},
-                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_bottom", name: "padding_bottom", prop_key: "y2", key_path: 'options.grid.y2'}
-                                ]}
-                        ]},
-                    {tag: "div", class: "form_main_block pull-left grid", content: [
-                            {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Width", lfor: "padding_width"},
-                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_width", name: "padding_width", prop_key: "width", key_path: 'options.grid.width'}
-                                ]},
-                            {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: "Height", lfor: "padding_height"},
-                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_height", name: "padding_height", prop_key: "height", key_path: 'options.grid.height'}
+                                    {tag: "label", class: "control-label control-label-custom", text: "Smooth", lfor: "display_smooth"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "smooth", id: "display_smooth", name: "display_smooth", key_path: 'smooth', default: true}
+                                        ]}
                                 ]}
                         ]}
                 ]}
