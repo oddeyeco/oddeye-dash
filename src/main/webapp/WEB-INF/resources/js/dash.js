@@ -546,7 +546,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                         }
                         data = [];
-                        
                         for (var key in tmp_series_1)
                         {
                             var val = 0;
@@ -554,7 +553,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             for (var ind in tmp_series_1[key])
                             {
                                 val = val + tmp_series_1[key][ind].value;
-                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name,unit:series.unit});
+                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name, unit: series.unit});
                             }
 
                             data.push({value: val, name: key, children: cildren});
@@ -563,6 +562,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         widget.options.tooltip.trigger = 'item';
                         series.data = data;
                         widget.options.series.push(series);
+
+//                        console.log(widget.options.series[0].data);
+
                     } else
                     {
                         for (var key in tmp_series_1)
