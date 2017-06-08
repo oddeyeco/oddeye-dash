@@ -546,6 +546,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                         }
                         data = [];
+                        
                         for (var key in tmp_series_1)
                         {
                             var val = 0;
@@ -553,7 +554,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             for (var ind in tmp_series_1[key])
                             {
                                 val = val + tmp_series_1[key][ind].value;
-                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name});
+                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name,unit:series.unit});
                             }
 
                             data.push({value: val, name: key, children: cildren});
@@ -800,11 +801,91 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
             {
                 widget.options.xAxis[ind].data = [];
             }
+
+            var radius = (100 / widget.options.series.length);
+
+            if (radius < 25)
+            {
+                radius = 25;
+            }
+            var rows = Math.floor((widget.options.series.length / 4)) + 1;
+            var wr = radius * chart._dom.getBoundingClientRect().width / 100;
+            var hr = radius * chart._dom.getBoundingClientRect().height / 100;
+            index = 1;
+            var row = 0;
             for (var ind in widget.options.series)
             {
 
-                //Set serions positions
+                var ser = widget.options.series[ind];
+                if (index > 4)
+                {
+                    index = 1;
+                    row++;
+                }
+                if (ser.type === "pie")
+                {
+                    if (!widget.manual)
+                    {
+                        ser.radius = radius - 3 + "%";
 
+                        if (hr < wr)
+                        {
+                            ser.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
+                        } else
+                        {
+                            ser.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                        }
+
+                    }
+                }
+                if (ser.type === "gauge")
+                {
+                    if (!widget.manual)
+                    {
+                        var tmpradius = radius;
+                        if (hr < wr)
+                        {
+                            var tmpradius = radius + radius / 2;
+                        }
+                        if (tmpradius > 100)
+                        {
+                            tmpradius = 95;
+                        }
+                        ser.radius = tmpradius - 3 + "%";
+                        if (hr < wr)
+                        {
+                            ser.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
+                        } else
+                        {
+                            ser.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                        }
+                    }
+                }
+                if (ser.type === "funnel")
+                {
+                    if (!widget.manual)
+                    {
+                        delete ser.axisLine;
+                        delete ser.max;
+                        delete ser.min;
+                        delete ser.radius;
+                        delete ser.center;
+                        if (row !== 1)
+                        {
+                            if (!ser.sort)
+                            {
+                                ser.sort = 'ascending';
+                            }
+                        }
+                        ser.width = radius - 5 + "%";
+                        ser.height = 100 / rows - 5 + "%";
+                        ser.x = index * radius - radius + '%';
+                        ser.y = (row * 50 + 2.5) + "%";
+                    }
+
+                }
+                //Set serions positions
+                index++;
                 var xAxisIndex = 0;
                 if (widget.options.series[ind].xAxisIndex)
                 {
@@ -939,7 +1020,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 }
             }
         }
-    };
+    }
+    ;
 };
 
 $('body').on("click", "#refresh", function () {
