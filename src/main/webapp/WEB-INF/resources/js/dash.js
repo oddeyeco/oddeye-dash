@@ -882,7 +882,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                         if (typeof widget.options.dataZoom[zoomindex].yAxisIndex[0] !== "undefined")
                         {
-                            console.log(widget.options.dataZoom[zoomindex].yAxisIndex[0]);
                             if (widget.options.yAxis[widget.options.dataZoom[zoomindex].yAxisIndex[0]])
                             {
                                 widget.options.dataZoom[zoomindex].labelFormatter = widget.options.yAxis[widget.options.dataZoom[zoomindex].yAxisIndex[0]].axisLabel.formatter;
