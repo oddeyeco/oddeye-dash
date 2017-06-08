@@ -85,6 +85,7 @@ var encodeHTML = function (source) {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {                
                 var out = "";
+                console.log(params);
                 if (params.constructor === Array)
                 {
                     out = params[0].name;
@@ -145,8 +146,8 @@ var encodeHTML = function (source) {
                     if (params.data.isinverse === true)
                     {
                         value = value * -1;
-                    }
-                    if (value)
+                    }                    
+                    if (typeof value !== 'undefined')
                     {
                         if (value.constructor === Array)
                         {
