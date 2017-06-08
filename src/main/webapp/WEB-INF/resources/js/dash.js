@@ -161,7 +161,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
             }
         }
 
-        var count = {"value": widget.q.length,"base": widget.q.length};        
+        var count = {"value": widget.q.length, "base": widget.q.length};
         var oldseries = clone_obg(widget.options.series);
         widget.options.series = [];
         for (k in widget.q)
@@ -520,15 +520,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         sdata.push({value: val, name: name});
                     }
 
-                    var radius = (100 / Object.keys(tmp_series_1).length);
-
-                    if (radius < 25)
-                    {
-                        radius = 25;
-                    }
-                    var rows = Math.floor((Object.keys(tmp_series_1).length / 4)) + 1;
-                    index = 1;
-                    var row = 0;
                     if (widget.type === "treemap")
                     {
                         name = "All";
@@ -575,12 +566,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         for (var key in tmp_series_1)
                         {
-                            if (index > 4)
-                            {
-                                index = 1;
-                                row++;
-                            }
-
                             var series = clone_obg(defserie);
 
                             for (var skey in oldseries)
@@ -653,7 +638,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 //                        console.log(key);
                             if (series.type === "bar")
                             {
-                                if ((Object.keys(tmp_series_1).length === 1)&&(count.base===1))
+                                if ((Object.keys(tmp_series_1).length === 1) && (count.base === 1))
                                 {
                                     series.itemStyle = {normal: {color: function (params) {
                                                 return colorPalette[params.dataIndex % colorPalette.length];
@@ -700,8 +685,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 }
 
                             }
-                            var wr = radius * chart._dom.getBoundingClientRect().width / 100;
-                            var hr = radius * chart._dom.getBoundingClientRect().height / 100;
+
 
                             if (series.type === "gauge")
                             {
@@ -748,75 +732,17 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                         series.max = widget.options.yAxis[0].max;
                                     }
                                 }
-                                var tmpradius = radius;
-                                if (hr < wr)
-                                {
-                                    var tmpradius = radius + radius / 2;
-                                }
-                                if (tmpradius > 100)
-                                    tmpradius = 95;
-                                if (!widget.manual)
-                                {
-                                    series.radius = tmpradius - 3 + "%";
-                                    if (hr < wr)
-                                    {
-                                        series.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
-                                    } else
-                                    {
-                                        series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
-                                    }
-                                }
-                            }
-
-                            if (series.type === "pie")
-                            {
-                                if (!widget.manual)
-                                {
-                                    series.radius = radius - 3 + "%";
-
-                                    if (Object.keys(tmp_series_1).length === 1)
-                                    {
-
-                                    } else
-                                    {
-                                        if (hr < wr)
-                                        {
-                                            series.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
-                                        } else
-                                        {
-                                            series.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
-                                        }
-                                    }
-
-                                }
-
-
                             }
                             if (widget.stacked)
                             {
                                 series.stack = "0";
-                            }
-                            else
+                            } else
                             {
                                 delete series.stack;
                             }
 
                             if (series.type === "funnel")
                             {
-                                delete series.axisLine;
-                                delete series.max;
-                                delete series.min;
-                                delete series.radius;
-                                delete series.center;
-                                if (row !== 1)
-                                {
-                                    if (!series.sort)
-                                    {
-                                        series.sort = 'ascending';
-                                    }
-
-                                }
-
                                 if (!series.itemStyle)
                                 {
                                     series.itemStyle = {
@@ -829,15 +755,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                             }
                                         }
                                     };
-                                }
-
-                                if (!widget.manual)
-                                {
-                                    series.width = radius - 5 + "%";
-                                    series.height = 100 / rows - 5 + "%";
-                                    series.x = index * radius - radius + '%';
-                                    series.y = (row * 50 + 2.5) + "%";
-
                                 }
 
                             }
@@ -877,13 +794,17 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
             widget.options.series.sort(function (a, b) {
                 return compareStrings(a.name, b.name);
             });
-//            widget.options.xAxis=[]; 
+
+
             for (var ind in widget.options.xAxis)
             {
                 widget.options.xAxis[ind].data = [];
             }
             for (var ind in widget.options.series)
             {
+
+                //Set serions positions
+
                 var xAxisIndex = 0;
                 if (widget.options.series[ind].xAxisIndex)
                 {
