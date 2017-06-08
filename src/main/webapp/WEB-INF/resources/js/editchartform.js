@@ -23,6 +23,7 @@ class ChartEditForm extends EditForm {
     {
         super.jspluginsinit();
         this.axesmode();
+        this.typemode();
         this.initzoomtype();
         var current = this;
         this.formwraper.find('[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -48,6 +49,29 @@ class ChartEditForm extends EditForm {
             }
         });
     }
+
+    typemode(duration = 0) {
+
+        this.formwraper.find('[name=display_charttype]').each(function () {
+            switch ($(this).val()) {
+                case 'line':
+                    $(this).parents('.edit-display').find('.custominputs .typeline').fadeIn(duration);
+                    $(this).parents('.edit-display').find('.custominputs >:not(.typeline)').fadeOut(duration);
+                    break
+
+                case 'bar':  // if (x === 'value2')
+                    $(this).parents('.edit-display').find('.custominputs >.typebars').fadeIn(duration);
+                    $(this).parents('.edit-display').find('.custominputs >:not(.typebars)').fadeOut(duration);
+                    break
+
+                default:
+                    $(this).parents('.edit-display').find('.custominputs > .form-group').fadeOut(duration);
+                    break
+            }
+
+        });
+    }
+
     gettabs()
     {
         return [{id: "general-tab", title: "General", contentid: "tab_general"},
@@ -428,9 +452,13 @@ class ChartEditForm extends EditForm {
                                             "pie": "Pie",
                                             "gauge": "Gauge",
                                             "funnel": "Funnel",
-                                            "treemap": "Treemap"}}
+                                            "treemap": "Treemap"}, actions: {change: function () {
+                                                current.typemode("slow");
 
-                                ]},                            
+                                            }
+                                        }}
+
+                                ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Animation", lfor: "display_animation"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
@@ -458,11 +486,11 @@ class ChartEditForm extends EditForm {
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_width", name: "padding_width", prop_key: "width", key_path: 'options.grid.width'},
                                     {tag: "label", class: "control-label control-label-custom", text: "Height", lfor: "padding_height"},
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_height", name: "padding_height", prop_key: "height", key_path: 'options.grid.height'}
-                                    
-                                ]}                            
+
+                                ]}
                         ]},
-                    {tag: "div", class: "form_main_block pull-left", content: [
-                            {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form_main_block pull-left custominputs", content: [
+                            {tag: "div", class: "form-group form-group-custom typeline", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Points", lfor: "display_points"},
                                     {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "none", options: {
                                             "none": "None",
@@ -477,9 +505,9 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "div", class: "form-group form-group-custom typeline", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Fill Area", lfor: "display_fillArea"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "fill", id: "display_fillArea", name: "display_fillArea", key_path: 'fill', default: "", options: {"none": "None",
+                                    {tag: "select", class: "form-control title_select", prop_key: "fill", id: "display_fillArea", name: "display_fillArea", key_path: 'fill', default: "none", options: {"none": "None",
                                             "0.1": "1",
                                             "0.2": "2",
                                             "0.3": "3",
@@ -493,7 +521,7 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "div", class: "form-group form-group-custom typeline", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Staircase", lfor: "display_steped"},
                                     {tag: "select", class: "form-control title_select", prop_key: "step", id: "step", name: "display_steped", key_path: 'step', default: "", options: {
                                             "": "None",
@@ -504,13 +532,36 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom", content: [
+
+                            {tag: "div", class: "form-group form-group-custom typebars", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Label Position", lfor: "display_label_pos"},
+                                    {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "inside", options: {
+                                            'top': 'Top',
+                                            'left': 'Left',
+                                            'right': 'Right',
+                                            'bottom': 'Bottom',
+                                            'inside': 'Inside',
+                                            'insideLeft': 'Inside Left',
+                                            'insideRight': 'Inside Right',
+                                            'insideTop': 'Inside Top',
+                                            'insideBottom': 'Inside Bottom'
+
+                                        }}
+
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom typebars", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: "Label", lfor: "display_label"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label", name: "display_label", key_path: 'label.show', default: false}
+                                        ]}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Stacked", lfor: "display_stacked"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: false}
                                         ]}
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "div", class: "form-group form-group-custom typeline", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Smooth", lfor: "display_smooth"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "smooth", id: "display_smooth", name: "display_smooth", key_path: 'smooth', default: true}
