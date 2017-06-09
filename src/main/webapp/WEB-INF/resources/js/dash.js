@@ -597,7 +597,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     {
                                         series.label = {normal: {}};
                                     }
-                                    if (widget.label.show)
+                                    if (typeof widget.label.show !== "undefined")
                                     {
                                         series.label.normal.show = widget.label.show;
                                     } else
@@ -749,28 +749,28 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 {
                                     series.axisLabel = {};
                                 }
-                                var formatter = widget.options.yAxis[0].unit;
-                                if (formatter === "none")
-                                {
-                                    delete series.axisLabel.formatter;
-                                    delete series.detail.formatter;
-                                } else
-                                {
-                                    if (!series.detail)
-                                    {
-                                        series.detail = {};
-                                    }
-
-                                    if (typeof (window[formatter]) === "function")
-                                    {
-                                        series.axisLabel.formatter = window[formatter];
-                                        series.detail.formatter = window[formatter];
-                                    } else
-                                    {
-                                        series.axisLabel.formatter = formatter;
-                                        series.detail.formatter = formatter;
-                                    }
-                                }
+//                                var formatter = widget.options.yAxis[0].unit;
+//                                if (formatter === "none")
+//                                {
+//                                    delete series.axisLabel.formatter;
+//                                    delete series.detail.formatter;
+//                                } else
+//                                {
+//                                    if (!series.detail)
+//                                    {
+//                                        series.detail = {};
+//                                    }
+//
+//                                    if (typeof (window[formatter]) === "function")
+//                                    {
+//                                        series.axisLabel.formatter = window[formatter];
+//                                        series.detail.formatter = window[formatter];
+//                                    } else
+//                                    {
+//                                        series.axisLabel.formatter = formatter;
+//                                        series.detail.formatter = formatter;
+//                                    }
+//                                }
                                 if (!widget.manual)
                                 {
                                     var yAxis = 0;
@@ -930,24 +930,37 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 {
                     yAxis = ser.yAxisIndex[0];
                 }
-                if (ser.label)
+                if (!widget.manual)
                 {
-                    if (ser.label.normal)
+                    if (ser.label)
                     {
-                        if (ser.label.normal.show)
+                        if (ser.label.normal)
                         {
-                            if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
+                            if (ser.label.normal.show)
                             {
-                                ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
-                            } else
-                            {
-                                ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
+                                switch (ser.type) {
+                                case 'pie':                                     
+                                    delete ser.label.normal.formatter;                                    
+                                    break
+
+                                    default:
+                                        if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
+                                        {
+                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+                                        } else
+                                        {
+                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
+                                        }
+                                        break
+                                }
+
+
                             }
-
                         }
-                    }
 
+                    }
                 }
+//                console.log(ser.label.normal);
                 //Set series positions
                 if (index > 4)
                 {

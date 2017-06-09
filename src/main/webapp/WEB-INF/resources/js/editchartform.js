@@ -63,6 +63,10 @@ class ChartEditForm extends EditForm {
                     $(this).parents('.edit-display').find('.custominputs >.typebars').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typebars)').fadeOut(duration);
                     break
+                case 'pie':  // if (x === 'value2')
+                    $(this).parents('.edit-display').find('.custominputs >.typepie').fadeIn(duration);
+                    $(this).parents('.edit-display').find('.custominputs >:not(.typepie)').fadeOut(duration);
+                    break                    
 
                 default:
                     $(this).parents('.edit-display').find('.custominputs > .form-group').fadeOut(duration);
@@ -550,7 +554,17 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
+                            {tag: "div", class: "form-group form-group-custom typepie ", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label Position", lfor: "display_label_pos"},
+                                    {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "outside", options: {
+                                            'outside': 'Outside',
+                                            'inner': 'Inner',
+                                            'center': 'Center'
+
+                                        }}
+
+                                ]},                            
+                            {tag: "div", class: "form-group form-group-custom typeline typepie typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label", lfor: "display_label"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label", name: "display_label", key_path: 'label.show', default: false}
