@@ -299,6 +299,7 @@ var format_data = function (params) {
     {
      return val;   
     }
+//    console.log(val);
     var level = Math.floor(Math.log(Math.abs(val) ) / Math.log(divatior));
     
     if (level > 0)
@@ -354,6 +355,7 @@ var format_data = function (params) {
             break;
         }
     }
+//    console.log(val.toFixed(2) + "" + metric);
     return val.toFixed(2) + "" + metric;
 };
 

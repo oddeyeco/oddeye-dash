@@ -760,22 +760,40 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                         series.detail.formatter = formatter;
                                     }
                                 }
+                                if (!widget.manual)
+                                {                                    
+                                    var yAxis = 0;
+                                    if (series.yAxisIndex)
+                                    {
+                                        yAxis = series.yAxisIndex[0];
+                                    }
+                                    //if (typeof widget.options.dataZoom[zoomindex].yAxisIndex[0] !== "undefined")
 
-                                if (widget.options.yAxis[0].min)
-                                {
-                                    if (!series.min)
+
+                                    if (typeof widget.options.yAxis[yAxis].min !== "undefined")
                                     {
                                         series.min = widget.options.yAxis[0].min;
+                                    } else
+                                    {
+                                        delete series.min;
                                     }
 
-                                }
-                                if (widget.options.yAxis[0].max)
-                                {
-                                    if (!series.max)
+                                    if (typeof widget.options.yAxis[yAxis].max !== "undefined")
                                     {
                                         series.max = widget.options.yAxis[0].max;
+                                    } else
+                                    {
+                                        delete(series.max);
                                     }
+                                    if (typeof widget.options.yAxis[yAxis].splitNumber !== "undefined")
+                                    {
+                                        series.splitNumber = widget.options.yAxis[0].splitNumber;
+                                    } else
+                                    {
+                                        delete(series.splitNumber);
+                                    }                                    
                                 }
+
                             }
 
                             if (series.type === "funnel")
