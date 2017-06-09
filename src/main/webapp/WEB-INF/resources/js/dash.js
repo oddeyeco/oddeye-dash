@@ -324,7 +324,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             }
                             series.data = [];
-//                            console.log(widget.q[q_index].info.inverse);
                             if (!widget.manual)
                             {
                                 if (widget.q[q_index].yAxisIndex)
@@ -705,24 +704,36 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             widget.options.tooltip.trigger = 'item';
                             if (series.type === "line")
                             {
-                                if (widget.fill)
+                                if (!widget.manual)
                                 {
-                                    if (widget.fill !== "none")
+                                    if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                     {
-                                        series.areaStyle = {normal: {opacity: widget.fill}};
+                                        series.showSymbol = true;
+                                        series.symbol = widget.points;
+                                    } else
+                                    {
+                                        delete series.symbol;
+                                        delete series.showSymbol;
                                     }
                                 }
-                                if (widget.step)
-                                {
-                                    if (widget.step !== "")
-                                    {
-                                        series.step = widget.step;
-                                    }
-                                }
-                                if (!series.symbol)
-                                {
-                                    series.symbol = widget.points;
-                                }
+//                                if (widget.fill)
+//                                {
+//                                    if (widget.fill !== "none")
+//                                    {
+//                                        series.areaStyle = {normal: {opacity: widget.fill}};
+//                                    }
+//                                }
+//                                if (widget.step)
+//                                {
+//                                    if (widget.step !== "")
+//                                    {
+//                                        series.step = widget.step;
+//                                    }
+//                                }
+//                                if (!series.symbol)
+//                                {
+//                                    series.symbol = widget.points;
+//                                }
                                 if (widget.options.tooltip.trigger)
                                 {
                                     widget.options.tooltip.trigger = 'axis';
@@ -761,7 +772,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     }
                                 }
                                 if (!widget.manual)
-                                {                                    
+                                {
                                     var yAxis = 0;
                                     if (series.yAxisIndex)
                                     {
@@ -791,7 +802,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     } else
                                     {
                                         delete(series.splitNumber);
-                                    }                                    
+                                    }
                                 }
 
                             }
