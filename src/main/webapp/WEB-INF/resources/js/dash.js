@@ -932,6 +932,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 }
                 if (!widget.manual)
                 {
+                    if (ser.type === 'gauge')
+                    {
+                        ser.axisLabel.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+                        ser.detail.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+                    }
                     if (ser.label)
                     {
                         if (ser.label.normal)
@@ -939,10 +944,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             if (ser.label.normal.show)
                             {
                                 switch (ser.type) {
-                                case 'pie':                                     
-                                    delete ser.label.normal.formatter;                                    
-                                    break
-
+                                    case 'pie':
+                                    {
+                                        delete ser.label.normal.formatter;
+                                        break;
+                                    }
                                     default:
                                         if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
                                         {
@@ -960,7 +966,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                     }
                 }
-//                console.log(ser.label.normal);
+
                 //Set series positions
                 if (index > 4)
                 {
