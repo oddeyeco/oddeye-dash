@@ -878,19 +878,31 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         w = w - widget.options.grid.x;
                     }
+                }
+                if (widget.options.grid.x2)
+                {
+
                     if ($.isNumeric(widget.options.grid.x2))
                     {
                         w = w - widget.options.grid.x2;
                     }
+                }
+                if (widget.options.grid.y)
+                {
+
                     if ($.isNumeric(widget.options.grid.y))
                     {
                         h = h - widget.options.grid.y;
                     }
+                }
+
+                if (widget.options.grid.y2)
+                {
+
                     if ($.isNumeric(widget.options.grid.y2))
                     {
                         h = h - widget.options.grid.y2;
                     }
-
                 }
             }
             var a = w;
@@ -1079,7 +1091,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         delete ser.max;
                         delete ser.min;
                         delete ser.radius;
-                        delete ser.center;                        
+                        delete ser.center;
                         if (row % 2 !== 0)
                         {
 
