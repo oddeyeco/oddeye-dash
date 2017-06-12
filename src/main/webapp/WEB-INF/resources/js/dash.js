@@ -976,7 +976,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 {
                     if (widget.label)
                     {
-                        if (!series.label)
+                        if (!ser.label)
                         {
                             ser.label = {normal: {}};
                         }
@@ -1850,75 +1850,27 @@ $(document).ready(function () {
 //    }
 //});
 
-function makeMetricInput(metricinput, wraper)
-{
-    var tags = "";
-    wraper.parents("form").find(".query_tag .text").each(function () {
-        tags = tags + $(this).text().replace("*", "(.*)") + ";";
-    });
-    var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");
 
-    $.getJSON(uri, null, function (data) {
-        metricinput.autocomplete({
-            lookup: data.data,
-            minChars: 0
-        });
-    });
-}
-
-function maketagKInput(tagkinput, wraper) {
-    var uri = cp + "/gettagkey?filter=" + encodeURIComponent("^(.*)$");
-    $.getJSON(uri, null, function (data) {
-
-        var tagvinput = tagkinput.parent().next().find("#tagv");
-
-        if (tagkinput.val() !== "")
-        {
-            var uri = cp + "/gettagvalue?key=" + tagkinput.val();
-            $.getJSON(uri, null, function (data) {
-                tagvinput.autocomplete({
-                    lookup: data.data,
-                    minChars: 0
-                });
-            });
-        }
-        tagkinput.autocomplete({
-            lookup: data.data,
-            minChars: 0,
-            onSelect: function (suggestion) {
-                var uri = cp + "/gettagvalue?key=" + suggestion.value;
-                $.getJSON(uri, null, function (data) {
-                    tagvinput.autocomplete({
-                        lookup: data.data,
-                        minChars: 0
-                    });
-                });
-
-            }
-        });
-    });
-}
-
-$('body').on("click", ".query-label .fa-plus", function () {
-    var input = $(this).parents(".form-group").find(".data-label");
-    if (input.hasClass("metrics"))
-    {
-        input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
-        input.find(".tagspan").last().hide();
-        input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-        var metricinput = input.find("input");
-        makeMetricInput(metricinput, input);
-    }
-
-    if (input.hasClass("tags"))
-    {
-        input.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
-        input.find(".tagspan").last().hide();
-        input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-        var tagkinput = input.find("input#tagk");
-        maketagKInput(tagkinput, input);
-    }
-});
+//$('body').on("click", ".query-label .fa-plus", function () {
+//    var input = $(this).parents(".form-group").find(".data-label");
+//    if (input.hasClass("metrics"))
+//    {
+//        input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+//        input.find(".tagspan").last().hide();
+//        input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+//        var metricinput = input.find("input");
+//        makeMetricInput(metricinput, input);
+//    }
+//
+//    if (input.hasClass("tags"))
+//    {
+//        input.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+//        input.find(".tagspan").last().hide();
+//        input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+//        var tagkinput = input.find("input#tagk");
+//        maketagKInput(tagkinput, input);
+//    }
+//});
 
 
 $("#addrow").on("click", function () {

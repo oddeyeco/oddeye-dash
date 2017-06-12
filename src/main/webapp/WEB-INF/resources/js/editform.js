@@ -5,7 +5,7 @@
  */
 
 
-/* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor */
+/* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor, cp */
 
 class EditForm {
 
@@ -711,17 +711,17 @@ class EditForm {
 
     }
 
-    repaintq (contener, content)
+    repaintq(contener, content)
     {
-        
+
 //                                contener.html("");
 //                                current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
-        
+
         contener.empty();
         this.drawcontent(content, contener, this.dashJSON[this.row]["widgets"][this.index]);
         this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
     }
-    
+
     get refreshtimes() {
         return {
             "5000": "Refresh every 5s",
@@ -880,6 +880,8 @@ class EditForm {
             var input = $('#reportrange_private');
             form.change(input);
         });
+
+
         this.formwraper.on("click", "span.tag_label .fa-remove", function () {
             var input = $(this).parents(".data-label");
             $(this).parents(".tag_label").remove();
@@ -888,6 +890,28 @@ class EditForm {
             var json = form.dashJSON[form.row]["widgets"][form.index].q;
             form.check_q_dublicates(contener, json);
         });
+
+        this.formwraper.on("click", ".query-label .fa-plus", function () {
+            var input = $(this).parents(".form-group").find(".data-label");
+            if (input.hasClass("metrics"))
+            {
+                input.append("<span class='control-label metrics tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                input.find(".tagspan").last().hide();
+                input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+                var metricinput = input.find("input");
+                form.makeMetricInput(metricinput, input);
+            }
+
+            if (input.hasClass("tags"))
+            {
+                input.append("<span class='control-label tags tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                input.find(".tagspan").last().hide();
+                input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
+                var tagkinput = input.find("input#tagk");
+                form.maketagKInput(tagkinput, input);
+            }
+        });
+
         this.formwraper.on("click", "span.tag_label .fa-check", function () {
             var input = $(this).parents(".form-group").find(".data-label");
             if (input.hasClass("metrics"))
@@ -929,14 +953,16 @@ class EditForm {
             form.check_q_dublicates(contener, json);
         });
 
-        this.formwraper.on("click", "span.tagspan .fa-pencil", function () {
+        this.formwraper.on("click", "span.tagspan .fa-pencil", function () {            
             $(this).parents(".tagspan").hide();
             var input = $(this).parents(".form-group").find(".data-label");
+            console.log(input);
             if ($(this).parents(".tag_label").hasClass("metrics"))
             {
+                
                 $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
                 var metricinput = $(this).parents(".tag_label").find("input");
-                makeMetricInput(metricinput, input);
+                form.makeMetricInput(metricinput, input);
             }
 
             if ($(this).parents(".tag_label").hasClass("tags"))
@@ -944,7 +970,7 @@ class EditForm {
                 var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");
                 $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="' + tag_arr[0] + '"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="' + tag_arr[1] + '"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
                 var tagkinput = $(this).parents(".tag_label").find("input#tagk");
-                maketagKInput(tagkinput, input);
+                form.maketagKInput(tagkinput, input);
             }
         });
 
@@ -1060,13 +1086,13 @@ class EditForm {
         {
             return;
         }
-        if (typeof (value)==="string" )
+        if (typeof (value) === "string")
         {
-            value= value.trim();
+            value = value.trim();
         }
         var a_path = path.split('.');
         var object = this.dashJSON[this.row]["widgets"][this.index];
-         
+
         if (parent)
         {
             var a_parent = parent.split('.');
@@ -1088,7 +1114,7 @@ class EditForm {
                 {
                     object[a_path[key]] = value;
                 }
-                if (value==="")
+                if (value === "")
                 {
                     delete object[a_path[key]];
                 }
@@ -1135,4 +1161,54 @@ class EditForm {
 
         return object;
     }
+
+    makeMetricInput(metricinput, wraper)
+    {
+        var tags = "";
+        wraper.parents("form").find(".query_tag .text").each(function () {
+            tags = tags + $(this).text().replace("*", "(.*)") + ";";
+        });
+        var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");
+
+        $.getJSON(uri, null, function (data) {
+            metricinput.autocomplete({
+                lookup: data.data,
+                minChars: 0
+            });
+        });
+    }
+
+    maketagKInput(tagkinput, wraper) {
+        var uri = cp + "/gettagkey?filter=" + encodeURIComponent("^(.*)$");
+        $.getJSON(uri, null, function (data) {
+
+            var tagvinput = tagkinput.parent().next().find("#tagv");
+
+            if (tagkinput.val() !== "")
+            {
+                var uri = cp + "/gettagvalue?key=" + tagkinput.val();
+                $.getJSON(uri, null, function (data) {
+                    tagvinput.autocomplete({
+                        lookup: data.data,
+                        minChars: 0
+                    });
+                });
+            }
+            tagkinput.autocomplete({
+                lookup: data.data,
+                minChars: 0,
+                onSelect: function (suggestion) {
+                    var uri = cp + "/gettagvalue?key=" + suggestion.value;
+                    $.getJSON(uri, null, function (data) {
+                        tagvinput.autocomplete({
+                            lookup: data.data,
+                            minChars: 0
+                        });
+                    });
+
+                }
+            });
+        });
+    }
+
 }
