@@ -578,12 +578,18 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},                                                        
-                            {tag: "div", class: "form-group form-group-custom typeline typepie typebars", content: [
+                            {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label", lfor: "display_label"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label", name: "display_label", key_path: 'label.show', default: false}
                                         ]}
                                 ]},
+                            {tag: "div", class: "form-group form-group-custom typepie typefunnel", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label", lfor: "display_label_2"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_2", name: "display_label_2", key_path: 'label.show', default: true}
+                                        ]}
+                                ]},                            
                             {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Stacked", lfor: "display_stacked"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
