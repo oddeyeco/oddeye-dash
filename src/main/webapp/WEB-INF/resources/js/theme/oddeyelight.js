@@ -7,6 +7,33 @@ var colorPalette = [
     '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
 ];
 
+var abcformater = function (params) {    
+    var formatter = params.data.formatter;
+    if (!formatter)
+    {
+        formatter = "{value}";
+    }
+    var valueformatter = params.data.unit;
+    if (params.data.valueformatter)
+    {
+        valueformatter = params.data.valueformatter;
+    }
+    formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
+    formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
+    var value = params.value;
+    if (params.value.constructor === Array)
+    {
+        value = params.value[1];
+    }    
+    if (typeof (valueformatter) === "function")
+    {
+        formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
+    } else
+    {
+        formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), value.toFixed(2)));
+    }
+    return formatter;
+};
 
 var encodeHTML = function (source) {
     return String(source)
@@ -347,7 +374,15 @@ var encodeHTML = function (source) {
             smooth: true,
             showSymbol: false,
             symbol: 'pin',
-            symbolSize: 5
+            symbolSize: 5,
+            label: {
+                normal: {
+                    formatter: abcformater
+                },
+                emphasis: {
+                    formatter: abcformater
+                }
+            }
         },
 
         candlestick: {
@@ -419,23 +454,7 @@ var encodeHTML = function (source) {
         funnel: {
             label: {
                 normal: {
-                    formatter: function (params) {
-                        var formatter = params.data.formatter;
-                        if (!formatter)
-                        {
-                            return formatter;
-                        }
-                        formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
-                        formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
-                        if (typeof (params.data.valueformatter) === "function")
-                        {
-                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter(params.value));
-                        } else
-                        {
-                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter.replace(new RegExp("{value}", 'g'), params.value));
-                        }
-                        return formatter;
-                    }
+                    formatter: abcformater
                 }
             }
         },

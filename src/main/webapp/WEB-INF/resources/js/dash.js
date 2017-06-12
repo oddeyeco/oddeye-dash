@@ -963,7 +963,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
             for (var ind in widget.options.series)
             {
-
+                
                 var ser = widget.options.series[ind];
                 var yAxis = 0;
                 if (ser.yAxisIndex)
@@ -975,7 +975,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         if (widget.options.yAxis[yAxis].axisLabel.formatter)
                         {
-
                             $.each(ser.data, function (i, val) {
                                 val.valueformatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                                 val.formatter = widget.label.parts;
@@ -985,14 +984,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 ;
 
                 if (!widget.manual)
-                {                    
+                {
                     if (widget.label)
                     {
                         if (!ser.label)
                         {
                             ser.label = {normal: {}};
                         }
-                        
+
                         if (typeof widget.label.show !== "undefined")
                         {
                             ser.label.normal.show = widget.label.show;
@@ -1031,15 +1030,21 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         if (ser.label.normal)
                         {
                             if (ser.label.normal.show)
-                            {
+                            {                                
                                 switch (ser.type) {
                                     case 'pie':
                                     {
+                                        delete ser.label.normal.formatter;
                                         break;
                                     }
                                     case 'funnel':
                                     {
-//                                        delete ser.label.normal.formatter;
+                                        delete ser.label.normal.formatter;
+                                        break;
+                                    }
+                                    case 'line':
+                                    {
+                                        delete ser.label.normal.formatter;
                                         break;
                                     }
                                     default:
@@ -1054,6 +1059,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                                 ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
                                             }
                                         }
+                                        console.log(ser.label.normal.formatter);
                                         break
                                     }
                                 }
