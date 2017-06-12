@@ -872,7 +872,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
             if (widget.options.grid)
             {
-                console.log(widget.options.grid);
                 if (widget.options.grid.x)
                 {
                     if ($.isNumeric(widget.options.grid.x))
@@ -893,7 +892,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
 
                 }
-                console.log(widget.options.grid.x);
             }
             var a = w;
             var b = h;
@@ -916,37 +914,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     rawcols = 1;
                     rows++;
                 }
-                console.log("cols=" + cols);
-                console.log("a=" + a + " b=" + b + " i=" + i);
             }
 
             cols = Math.max(rawcols, cols);
-
-            console.log(w);
-            console.log(a + " " + b);
-            console.log(cols + " " + rows);
-
-//            var S=a*b;
-//            var Sp=S/widget.options.series.length;
-//            var x=Math.sqrt(Sp);
-//            console.log(a);
-//            var h=Math.sqrt(Sp)*(b/a);
-//            var w=Math.sqrt(Sp)/(b/a);
-//            
-//            console.log(x+" "+h+" "+w);
-
-//            var rows = Math.floor((widget.options.series.length / 4)) + 1;
-//            var radius = (100 / widget.options.series.length);
-//
-//            var wr = radius * chart._dom.getBoundingClientRect().width / 100;
-//            var hr = radius * chart._dom.getBoundingClientRect().height / 100;
-//
-//
-//            if (radius < 25)
-//            {
-//                radius = 25;
-//            }
-
             var col = 1;
             var row = 1;
 
@@ -1006,7 +976,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 {
                     if (ser.type === 'gauge')
                     {
+                        if (!ser.detail)
+                        {
+                            ser.axisLabel = {};
+                        }
                         ser.axisLabel.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+                        if (!ser.detail)
+                        {
+                            ser.detail = {};
+                        }
                         ser.detail.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                     }
                     if (ser.label)
@@ -1045,7 +1023,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     col = 1;
                     row++;
                 }
-                if (ser.type === "pie")
+                if ((ser.type === "pie") || (ser.type === "gauge"))
                 {
                     if (!widget.manual)
                     {
@@ -1079,29 +1057,20 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
 
-                if (ser.type === "gauge")
-                {
-                    if (!widget.manual)
-                    {
-                        var tmpradius = radius;
-                        if (hr < wr)
-                        {
-                            var tmpradius = radius + radius / 2;
-                        }
-                        if (tmpradius > 100)
-                        {
-                            tmpradius = 95;
-                        }
-                        ser.radius = tmpradius - 3 + "%";
-                        if (hr < wr)
-                        {
-                            ser.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
-                        } else
-                        {
-                            ser.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
-                        }
-                    }
-                }
+//                if (ser.type === "gauge")
+//                {
+//                    if (!widget.manual)
+//                    {
+//                        ser.radius = Math.min(a / 2, b / 2);
+////                        if (hr < wr)
+////                        {
+////                            ser.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
+////                        } else
+////                        {
+////                            ser.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+////                        }
+//                    }
+//                }
                 if (ser.type === "funnel")
                 {
                     if (!widget.manual)
@@ -1110,18 +1079,43 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         delete ser.max;
                         delete ser.min;
                         delete ser.radius;
-                        delete ser.center;
-                        if (row !== 1)
+                        delete ser.center;                        
+                        if (row % 2 !== 0)
                         {
-                            if (!ser.sort)
+
+                            ser.sort = 'ascending';
+                        } else
+                        {
+                            delete ser.sort;
+                        }
+                        ser.width = a;
+                        ser.height = b;
+                        delete ser.x;
+                        delete ser.y;
+
+                        var left = 0;
+                        var top = 0;
+                        if (widget.options.grid)
+                        {
+                            if (widget.options.grid.x)
                             {
-                                ser.sort = 'ascending';
+                                if ($.isNumeric(widget.options.grid.x))
+                                {
+                                    left = parseInt(widget.options.grid.x);
+                                }
+
+                            }
+                            if (widget.options.grid.y)
+                            {
+                                if ($.isNumeric(widget.options.grid.y))
+                                {
+                                    top = parseInt(widget.options.grid.y);
+                                }
+
                             }
                         }
-                        ser.width = radius - 5 + "%";
-                        ser.height = 100 / rows - 5 + "%";
-                        ser.x = index * radius - radius + '%';
-                        ser.y = (row * 50 + 2.5) + "%";
+                        ser.x = (col - 1) * a + left;
+                        ser.y = (row - 1) * b + top;
                     }
 
                 }
