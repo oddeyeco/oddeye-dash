@@ -883,24 +883,39 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
             var rows = 1;
             var cols = 0;
             var rawcols = 0;
-
+            
             for (var i = 1; i <= widget.options.series.length; i++)
             {
 
                 if (a > b)
                 {
-                    rawcols++;
+            
+                    if (cols > 0)
+                    {
+                        if (rawcols * rows <= cols * rows)
+                        {
+                            rawcols++;
+                        }
+                        else if (i%rows !==0 )
+                        {
+                            rawcols++;
+                        }
+                    }
+                    else
+                    {
+                        rawcols++;
+                    }
                     a = w / Math.max(rawcols, cols);
 
                 } else
                 {
-                    b = b / 2;
+                    rows++;
+                    b = h / rows;
                     cols = rawcols;
                     rawcols = 1;
-                    rows++;
-                }
-            }
 
+                }                
+            }            
             cols = Math.max(rawcols, cols);
             var col = 1;
             var row = 1;
@@ -1004,7 +1019,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             if (ser.label.normal.show)
                             {
-                                
+
                                 switch (ser.type) {
                                     case 'pie':
                                     {
@@ -1015,9 +1030,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     {
                                         delete ser.label.normal.formatter;
                                         break;
-                                    }                                    
+                                    }
                                     default:
-                                    {                                        
+                                    {
                                         if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
                                         {
                                             ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
