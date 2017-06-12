@@ -66,11 +66,11 @@ class ChartEditForm extends EditForm {
                 case 'pie':  // if (x === 'value2')
                     $(this).parents('.edit-display').find('.custominputs >.typepie').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typepie)').fadeOut(duration);
-                    break                    
+                    break
                 case 'funnel':  // if (x === 'value2')
                     $(this).parents('.edit-display').find('.custominputs >.typefunnel').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typefunnel)').fadeOut(duration);
-                    break                                        
+                    break
 //typefunnel
                 default:
                     $(this).parents('.edit-display').find('.custominputs > .form-group').fadeOut(duration);
@@ -464,7 +464,14 @@ class ChartEditForm extends EditForm {
                                                 current.typemode("slow");
 
                                             }
-                                        }}
+                                        }},
+                                    {tag: "label", class: "control-label control-label-custom", text: "Color", lfor: "backgroundColor"},
+                                    {tag: "div", class: "color-button", content: [
+                                            {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
+                                                    {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "backgroundColor", name: "backgroundColor", key_path: 'options.backgroundColor', default: ""},
+                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                ]}
+                                        ]}
 
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
@@ -567,7 +574,7 @@ class ChartEditForm extends EditForm {
 
                                         }}
 
-                                ]},                            
+                                ]},
                             {tag: "div", class: "form-group form-group-custom typepie ", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label Position", lfor: "display_label_pos"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "outside", options: {
@@ -577,24 +584,24 @@ class ChartEditForm extends EditForm {
 
                                         }}
 
-                                ]},        
+                                ]},
                             {tag: "div", class: "form-group form-group-custom typepie typefunnel", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: "Show in label", lfor: "display_label_parts"},    
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Show in label", lfor: "display_label_parts"},
                                     {tag: "input", type: "text", class: "form-control query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
-                                ]},                            
-                            
+                                ]},
+
                             {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label show", lfor: "display_label"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label", name: "display_label", key_path: 'label.show', default: false}
                                         ]}
-                                ]},                            
+                                ]},
                             {tag: "div", class: "form-group form-group-custom typepie typefunnel", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label show", lfor: "display_label_2"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_2", name: "display_label_2", key_path: 'label.show', default: true}
                                         ]}
-                                ]},                            
+                                ]},
                             {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Stacked", lfor: "display_stacked"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [

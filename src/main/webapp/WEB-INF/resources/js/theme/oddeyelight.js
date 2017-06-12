@@ -393,12 +393,12 @@ var encodeHTML = function (source) {
         pie: {
             label: {
                 normal: {
-                    formatter: function (params) {                                                
+                    formatter: function (params) {
                         var formatter = params.data.formatter;
                         if (!formatter)
                         {
                             return formatter;
-                        }                        
+                        }
                         formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
                         formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
                         formatter = formatter.replace(new RegExp("{p}", 'g'), params.percent);
@@ -419,15 +419,14 @@ var encodeHTML = function (source) {
         funnel: {
             label: {
                 normal: {
-                    formatter: function (params) {                                                
+                    formatter: function (params) {
                         var formatter = params.data.formatter;
                         if (!formatter)
                         {
-                            return formatter
+                            return formatter;
                         }
                         formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
                         formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
-                        formatter = formatter.replace(new RegExp("{p}", 'g'), params.percent);
                         if (typeof (params.data.valueformatter) === "function")
                         {
                             formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter(params.value));
@@ -439,8 +438,8 @@ var encodeHTML = function (source) {
                     }
                 }
             }
-        },        
-        
+        },
+
         gauge: {
             tooltip: {
                 formatter: function (params) {
