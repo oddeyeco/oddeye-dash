@@ -970,14 +970,29 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 {
                     yAxis = ser.yAxisIndex[0];
                 }
+                if (widget.label)
+                    if (widget.label.parts)
+                    {
+                        if (widget.options.yAxis[yAxis].axisLabel.formatter)
+                        {
+
+                            $.each(ser.data, function (i, val) {
+                                val.valueformatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+                                val.formatter = widget.label.parts;
+                            });
+                        }
+                    }
+                ;
+
                 if (!widget.manual)
-                {
+                {                    
                     if (widget.label)
                     {
                         if (!ser.label)
                         {
                             ser.label = {normal: {}};
                         }
+                        
                         if (typeof widget.label.show !== "undefined")
                         {
                             ser.label.normal.show = widget.label.show;
@@ -1017,30 +1032,27 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             if (ser.label.normal.show)
                             {
-
                                 switch (ser.type) {
                                     case 'pie':
                                     {
-                                        delete ser.label.normal.formatter;
                                         break;
                                     }
                                     case 'funnel':
                                     {
-                                        delete ser.label.normal.formatter;
+//                                        delete ser.label.normal.formatter;
                                         break;
                                     }
                                     default:
                                     {
-                                        if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
+                                        if (widget.options.yAxis[yAxis].axisLabel.formatter)
                                         {
-                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
-                                        } else
-                                        {
-                                            if (widget.options.yAxis[yAxis].axisLabel.formatter)
+                                            if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
+                                            {
+                                                ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+                                            } else
                                             {
                                                 ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
                                             }
-
                                         }
                                         break
                                     }
@@ -1154,7 +1166,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             }
                         }
-                        ser.width = a / 1.5;                        
+                        ser.width = a / 1.5;
                         if (ser.label)
                         {
                             if (ser.label.normal)
@@ -1165,11 +1177,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 }
                                 if ((ser.label.normal.position === 'left') && (ser.label.normal.show))
                                 {
-                                    left = left+a-ser.width;
-                                }                                
+                                    left = left + a - ser.width;
+                                }
 
                             }
-                        }                        
+                        }
                         ser.x = (col - 1) * a + left;
                         ser.y = (row - 1) * b + top;
                     }

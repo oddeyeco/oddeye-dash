@@ -83,8 +83,8 @@ var encodeHTML = function (source) {
 
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
-            formatter: function (params) {                
-                var out = "";                
+            formatter: function (params) {
+                var out = "";
                 if (params.constructor === Array)
                 {
                     out = params[0].name;
@@ -145,7 +145,7 @@ var encodeHTML = function (source) {
                     if (params.data.isinverse === true)
                     {
                         value = value * -1;
-                    }                    
+                    }
                     if (typeof value !== 'undefined')
                     {
                         if (value.constructor === Array)
@@ -390,7 +390,57 @@ var encodeHTML = function (source) {
         graph: {
             color: colorPalette
         },
+        pie: {
+            label: {
+                normal: {
+                    formatter: function (params) {                                                
+                        var formatter = params.data.formatter;
+                        if (!formatter)
+                        {
+                            return formatter;
+                        }                        
+                        formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
+                        formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
+                        formatter = formatter.replace(new RegExp("{p}", 'g'), params.percent);
+                        if (typeof (params.data.valueformatter) === "function")
+                        {
+                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter(params.value));
+                        } else
+                        {
+                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter.replace(new RegExp("{value}", 'g'), params.value));
+                        }
 
+
+                        return formatter;
+                    }
+                }
+            }
+        },
+        funnel: {
+            label: {
+                normal: {
+                    formatter: function (params) {                                                
+                        var formatter = params.data.formatter;
+                        if (!formatter)
+                        {
+                            return formatter
+                        }
+                        formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
+                        formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
+                        formatter = formatter.replace(new RegExp("{p}", 'g'), params.percent);
+                        if (typeof (params.data.valueformatter) === "function")
+                        {
+                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter(params.value));
+                        } else
+                        {
+                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter.replace(new RegExp("{value}", 'g'), params.value));
+                        }
+                        return formatter;
+                    }
+                }
+            }
+        },        
+        
         gauge: {
             tooltip: {
                 formatter: function (params) {
