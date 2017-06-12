@@ -590,33 +590,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             if (!widget.manual)
                             {
                                 series.type = widget.type;
-
-                                if (widget.label)
-                                {
-                                    if (!series.label)
-                                    {
-                                        series.label = {normal: {}};
-                                    }
-                                    if (typeof widget.label.show !== "undefined")
-                                    {
-                                        series.label.normal.show = widget.label.show;
-                                    } else
-                                    {
-                                        delete series.label.normal.show;
-                                    }
-
-                                    if (widget.label.position)
-                                    {
-                                        series.label.normal.position = widget.label.position;
-                                    } else
-                                    {
-                                        delete series.label.normal.position;
-                                    }
-                                } else
-                                {
-                                    delete series.label;
-                                }
-
                                 var yAxis = 0;
                                 if (series.yAxisIndex)
                                 {
@@ -986,6 +959,32 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 }
                 if (!widget.manual)
                 {
+                    if (widget.label)
+                    {
+                        if (!series.label)
+                        {
+                            ser.label = {normal: {}};
+                        }
+                        if (typeof widget.label.show !== "undefined")
+                        {
+                            ser.label.normal.show = widget.label.show;
+                        } else
+                        {
+                            delete ser.label.normal.show;
+                        }
+
+                        if (widget.label.position)
+                        {
+                            ser.label.normal.position = widget.label.position;
+                        } else
+                        {
+                            delete ser.label.normal.position;
+                        }
+                    } else
+                    {
+                        delete ser.label;
+                    }
+
                     if (ser.type === 'gauge')
                     {
                         if (!ser.detail)
@@ -1005,21 +1004,33 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             if (ser.label.normal.show)
                             {
+                                
                                 switch (ser.type) {
-                                    case 'pie','funnel':
+                                    case 'pie':
                                     {
                                         delete ser.label.normal.formatter;
                                         break;
                                     }
+                                    case 'funnel':
+                                    {
+                                        delete ser.label.normal.formatter;
+                                        break;
+                                    }                                    
                                     default:
+                                    {                                        
                                         if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
                                         {
                                             ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                                         } else
                                         {
-                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
+                                            if (widget.options.yAxis[yAxis].axisLabel.formatter)
+                                            {
+                                                ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
+                                            }
+
                                         }
                                         break
+                                    }
                                 }
 
 
