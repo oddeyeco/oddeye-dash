@@ -807,23 +807,23 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             }
 
-                            if (series.type === "funnel")
-                            {
-                                if (!series.itemStyle)
-                                {
-                                    series.itemStyle = {
-                                        normal: {
-                                            label: {
-                                                position: 'right'
-                                            },
-                                            labelLine: {
-                                                show: true
-                                            }
-                                        }
-                                    };
-                                }
-
-                            }
+//                            if (series.type === "funnel")
+//                            {
+//                                if (!series.itemStyle)
+//                                {
+//                                    series.itemStyle = {
+//                                        normal: {
+//                                            label: {
+//                                                position: 'right'
+//                                            },
+//                                            labelLine: {
+//                                                show: true
+//                                            }
+//                                        }
+//                                    };
+//                                }
+//
+//                            }
                             index++;
                             var dublicatename = false;
 
@@ -1006,7 +1006,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             if (ser.label.normal.show)
                             {
                                 switch (ser.type) {
-                                    case 'pie':
+                                    case 'pie','funnel':
                                     {
                                         delete ser.label.normal.formatter;
                                         break;

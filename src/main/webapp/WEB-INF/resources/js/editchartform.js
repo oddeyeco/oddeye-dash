@@ -67,7 +67,11 @@ class ChartEditForm extends EditForm {
                     $(this).parents('.edit-display').find('.custominputs >.typepie').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typepie)').fadeOut(duration);
                     break                    
-
+                case 'funnel':  // if (x === 'value2')
+                    $(this).parents('.edit-display').find('.custominputs >.typefunnel').fadeIn(duration);
+                    $(this).parents('.edit-display').find('.custominputs >:not(.typefunnel)').fadeOut(duration);
+                    break                                        
+//typefunnel
                 default:
                     $(this).parents('.edit-display').find('.custominputs > .form-group').fadeOut(duration);
                     break
@@ -554,6 +558,16 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},
+                            {tag: "div", class: "form-group form-group-custom typefunnel ", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label Position", lfor: "display_label_pos"},
+                                    {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "outside", options: {
+                                            'left': 'Left',
+                                            'right': 'Right',
+                                            'inside': 'Inside'
+
+                                        }}
+
+                                ]},                            
                             {tag: "div", class: "form-group form-group-custom typepie ", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label Position", lfor: "display_label_pos"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "outside", options: {
@@ -563,7 +577,7 @@ class ChartEditForm extends EditForm {
 
                                         }}
 
-                                ]},                            
+                                ]},                                                        
                             {tag: "div", class: "form-group form-group-custom typeline typepie typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label", lfor: "display_label"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
