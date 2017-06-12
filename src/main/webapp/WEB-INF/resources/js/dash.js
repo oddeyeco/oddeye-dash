@@ -867,17 +867,89 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 widget.options.xAxis[ind].data = [];
             }
 
-            var radius = (100 / widget.options.series.length);
+            var w = chart._dom.getBoundingClientRect().width;
+            var h = chart._dom.getBoundingClientRect().height;
 
-            if (radius < 25)
+            if (widget.options.grid)
             {
-                radius = 25;
+                console.log(widget.options.grid);
+                if (widget.options.grid.x)
+                {
+                    if ($.isNumeric(widget.options.grid.x))
+                    {
+                        w = w - widget.options.grid.x;
+                    }
+                    if ($.isNumeric(widget.options.grid.x2))
+                    {
+                        w = w - widget.options.grid.x2;
+                    }
+                    if ($.isNumeric(widget.options.grid.y))
+                    {
+                        h = h - widget.options.grid.y;
+                    }
+                    if ($.isNumeric(widget.options.grid.y2))
+                    {
+                        h = h - widget.options.grid.y2;
+                    }
+
+                }
+                console.log(widget.options.grid.x);
             }
-            var rows = Math.floor((widget.options.series.length / 4)) + 1;
-            var wr = radius * chart._dom.getBoundingClientRect().width / 100;
-            var hr = radius * chart._dom.getBoundingClientRect().height / 100;
-            index = 1;
-            var row = 0;
+            var a = w;
+            var b = h;
+            var rows = 1;
+            var cols = 0;
+            var rawcols = 0;
+
+            for (var i = 1; i <= widget.options.series.length; i++)
+            {
+
+                if (a > b)
+                {
+                    rawcols++;
+                    a = w / Math.max(rawcols, cols);
+
+                } else
+                {
+                    b = b / 2;
+                    cols = rawcols;
+                    rawcols = 1;
+                    rows++;
+                }
+                console.log("cols=" + cols);
+                console.log("a=" + a + " b=" + b + " i=" + i);
+            }
+
+            cols = Math.max(rawcols, cols);
+
+            console.log(w);
+            console.log(a + " " + b);
+            console.log(cols + " " + rows);
+
+//            var S=a*b;
+//            var Sp=S/widget.options.series.length;
+//            var x=Math.sqrt(Sp);
+//            console.log(a);
+//            var h=Math.sqrt(Sp)*(b/a);
+//            var w=Math.sqrt(Sp)/(b/a);
+//            
+//            console.log(x+" "+h+" "+w);
+
+//            var rows = Math.floor((widget.options.series.length / 4)) + 1;
+//            var radius = (100 / widget.options.series.length);
+//
+//            var wr = radius * chart._dom.getBoundingClientRect().width / 100;
+//            var hr = radius * chart._dom.getBoundingClientRect().height / 100;
+//
+//
+//            if (radius < 25)
+//            {
+//                radius = 25;
+//            }
+
+            var col = 1;
+            var row = 1;
+
             for (var yindex in widget.options.yAxis)
             {
                 var formatter = widget.options.yAxis[yindex].unit;
@@ -967,28 +1039,46 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
 
-                //Set series positions
-                if (index > 4)
+                //Set series positions                
+                if (col > cols)
                 {
-                    index = 1;
+                    col = 1;
                     row++;
                 }
                 if (ser.type === "pie")
                 {
                     if (!widget.manual)
                     {
-                        ser.radius = radius - 3 + "%";
+                        delete ser.center;
+                        delete ser.radius;
+                        ser.radius = Math.min(a / 2, b / 2);
+                        var left = 0;
+                        var top = 0;
+                        if (widget.options.grid)
+                        {
+                            if (widget.options.grid.x)
+                            {
+                                if ($.isNumeric(widget.options.grid.x))
+                                {
+                                    left = parseInt(widget.options.grid.x);
+                                }
 
-                        if (hr < wr)
-                        {
-                            ser.center = [index * radius - radius / 2 + '%', ((row + 1) * radius) + "%"];
-                        } else
-                        {
-                            ser.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
+                            }
+                            if (widget.options.grid.y)
+                            {
+                                if ($.isNumeric(widget.options.grid.y))
+                                {
+                                    top = parseInt(widget.options.grid.y);
+                                }
+
+                            }
                         }
 
+
+                        ser.center = [col * a - a / 2 + left, row * b - b / 2 + top];
                     }
                 }
+
                 if (ser.type === "gauge")
                 {
                     if (!widget.manual)
@@ -1036,7 +1126,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 }
 
-                index++;
+                col++;
                 var xAxisIndex = 0;
                 if (widget.options.series[ind].xAxisIndex)
                 {
