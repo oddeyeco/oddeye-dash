@@ -883,25 +883,23 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
             var rows = 1;
             var cols = 0;
             var rawcols = 0;
-            
+
             for (var i = 1; i <= widget.options.series.length; i++)
             {
 
                 if (a > b)
                 {
-            
+
                     if (cols > 0)
                     {
                         if (rawcols * rows <= cols * rows)
                         {
                             rawcols++;
-                        }
-                        else if (i%rows !==0 )
+                        } else if (i % rows !== 0)
                         {
                             rawcols++;
                         }
-                    }
-                    else
+                    } else
                     {
                         rawcols++;
                     }
@@ -914,8 +912,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     cols = rawcols;
                     rawcols = 1;
 
-                }                
-            }            
+                }
+            }
             cols = Math.max(rawcols, cols);
             var col = 1;
             var row = 1;
@@ -979,13 +977,13 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         if (!ser.label)
                         {
                             ser.label = {normal: {}};
-                        }
+                        }                        
                         if (typeof widget.label.show !== "undefined")
                         {
                             ser.label.normal.show = widget.label.show;
                         } else
                         {
-                            delete ser.label.normal.show;
+                            ser.label.normal.show = false;
                         }
 
                         if (widget.label.position)
@@ -1067,7 +1065,26 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         delete ser.center;
                         delete ser.radius;
-                        ser.radius = Math.min(a / 2, b / 2);
+
+
+                        if (ser.type === "pie")
+                        {
+                            ser.radius = Math.min(a / 4, b / 4);
+                            if (ser.label)
+                            {
+                                if (ser.label.normal)
+                                {
+                                    if ((ser.label.normal.position === 'inner') || (ser.label.normal.position === 'center')||(!ser.label.normal.show))
+                                    {
+                                        ser.radius = Math.min(a / 2, b / 2);
+                                    }
+
+                                }
+                            }
+                        } else
+                        {
+                            ser.radius = Math.min(a / 2, b / 2);
+                        }
                         var left = 0;
                         var top = 0;
                         if (widget.options.grid)
