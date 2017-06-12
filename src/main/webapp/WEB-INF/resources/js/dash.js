@@ -977,7 +977,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         if (!ser.label)
                         {
                             ser.label = {normal: {}};
-                        }                        
+                        }
                         if (typeof widget.label.show !== "undefined")
                         {
                             ser.label.normal.show = widget.label.show;
@@ -1074,7 +1074,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             {
                                 if (ser.label.normal)
                                 {
-                                    if ((ser.label.normal.position === 'inner') || (ser.label.normal.position === 'center')||(!ser.label.normal.show))
+                                    if ((ser.label.normal.position === 'inner') || (ser.label.normal.position === 'center') || (!ser.label.normal.show))
                                     {
                                         ser.radius = Math.min(a / 2, b / 2);
                                     }
@@ -1111,21 +1111,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         ser.center = [col * a - a / 2 + left, row * b - b / 2 + top];
                     }
                 }
-
-//                if (ser.type === "gauge")
-//                {
-//                    if (!widget.manual)
-//                    {
-//                        ser.radius = Math.min(a / 2, b / 2);
-////                        if (hr < wr)
-////                        {
-////                            ser.center = [index * radius - radius / 2 + '%', (row * tmpradius) + tmpradius / 2 + "%"];
-////                        } else
-////                        {
-////                            ser.center = [index * radius - radius / 2 + '%', wr * row + wr / 2];
-////                        }
-//                    }
-//                }
                 if (ser.type === "funnel")
                 {
                     if (!widget.manual)
@@ -1143,7 +1128,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             delete ser.sort;
                         }
-                        ser.width = a;
+
                         ser.height = b;
                         delete ser.x;
                         delete ser.y;
@@ -1169,6 +1154,22 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             }
                         }
+                        ser.width = a / 1.5;                        
+                        if (ser.label)
+                        {
+                            if (ser.label.normal)
+                            {
+                                if ((ser.label.normal.position === 'inside') || (!ser.label.normal.show))
+                                {
+                                    ser.width = a;
+                                }
+                                if ((ser.label.normal.position === 'left') && (ser.label.normal.show))
+                                {
+                                    left = left+a-ser.width;
+                                }                                
+
+                            }
+                        }                        
                         ser.x = (col - 1) * a + left;
                         ser.y = (row - 1) * b + top;
                     }
