@@ -1376,20 +1376,6 @@ function redrawAllJSON(dashJSON, redraw = false)
             {
                 var bkgclass = "";
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].transparent) === "undefined")
-                {
-                    bkgclass = "chartbkg";
-
-                } else
-                {
-                    if (dashJSON[rowindex]["widgets"][widgetindex].transparent)
-                    {
-                        bkgclass = "";
-                    } else
-                    {
-                        bkgclass = "chartbkg";
-                    }
-                }
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);

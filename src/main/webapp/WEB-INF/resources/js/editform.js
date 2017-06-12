@@ -548,12 +548,6 @@ class EditForm {
             {tag: "div", class: "form-group form-group-custom", content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Height", lfor: "dimensions_height"},
                     {tag: "input", type: "text", class: "form-control dimensions_input", prop_key: "height", id: "dimensions_height", name: "dimensions_height", key_path: 'height', default: "300px"}
-                ]},
-            {tag: "div", class: "form-group form-group-custom", content: [
-                    {tag: "label", class: "control-label control-label-custom", text: "Transparent", lfor: "dimensions_transparent"},
-                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                            {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "height", id: "dimensions_transparent", name: "dimensions_transparent", key_path: 'transparent', default: false}
-                        ]}
                 ]}
         ];
 //        this.tabcontent.tab_metric.active = true;
