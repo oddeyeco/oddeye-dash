@@ -944,8 +944,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 var yAxis = 0;
                 if (ser.yAxisIndex)
                 {
-                    yAxis = ser.yAxisIndex[0];
-                }
+                    if (ser.yAxisIndex === Array)
+                    {
+                        yAxis = ser.yAxisIndex[0];
+                    } else
+                    {
+                        yAxis = ser.yAxisIndex;
+                    }
+
+                }                
                 val.valueformatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                 if (widget.label)
                     if (widget.label.parts)
@@ -1438,7 +1445,6 @@ function redrawAllJSON(dashJSON, redraw = false)
             }
             if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
             {
-                console.log(dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
                 var bkgclass = "";
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
