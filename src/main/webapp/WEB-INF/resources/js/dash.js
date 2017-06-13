@@ -957,9 +957,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 if (widget.label)
                     if (widget.label.parts)
-                    {
-                        console.log(widget.options.yAxis[yAxis].axisLabel.formatter);
-
+                    {                        
                         $.each(ser.data, function (i, val) {
                             val.formatter = widget.label.parts;
                         });
