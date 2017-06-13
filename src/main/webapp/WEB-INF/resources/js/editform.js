@@ -950,7 +950,6 @@ class EditForm {
         this.formwraper.on("click", "span.tagspan .fa-pencil", function () {            
             $(this).parents(".tagspan").hide();
             var input = $(this).parents(".form-group").find(".data-label");
-            console.log(input);
             if ($(this).parents(".tag_label").hasClass("metrics"))
             {
                 
