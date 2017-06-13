@@ -957,7 +957,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 if (widget.label)
                     if (widget.label.parts)
-                    {                        
+                    {
                         $.each(ser.data, function (i, val) {
                             val.formatter = widget.label.parts;
                         });
@@ -1315,14 +1315,17 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
 
                 }
-
-
                 widget.options.legend.data.push(widget.options.series[ind].name);
-                if ((redraw) && (!widget.manual))
-                {
-                    delete(widget.options.series[ind].type);
-                    delete(widget.options.series[ind].stack);
-                }
+//                if ((redraw) && (!widget.manual))
+//                {
+//                    delete(widget.options.series[ind].type);
+//                    delete(widget.options.series[ind].stack);
+//                }
+//                if (!ser.type)
+//                {
+//                    console.log(ser);
+//                }
+
             }
 
 //            widget.options.tooltip.axisPointer={
@@ -1451,12 +1454,11 @@ function redrawAllJSON(dashJSON, redraw = false)
                 if (dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor)
                 {
                     $("#charttemplate .chartsection").css("background-color", dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
-                }
-                else
+                } else
                 {
                     $("#charttemplate .chartsection").css("background-color", "");
                 }
-                    
+
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
