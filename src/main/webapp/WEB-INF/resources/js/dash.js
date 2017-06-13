@@ -1106,22 +1106,20 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         delete ser.center;
                         delete ser.radius;
-
+                        if (widget.options.grid)
+                        {
+                            if (typeof (widget.options.grid.height) !== "undefined")
+                            {
+                                if ($.isNumeric(widget.options.grid.height))
+                                {
+                                    ser.radius = widget.options.grid.height;
+                                }
+                            }
+                        }
 
                         if (ser.type === "pie")
                         {
 
-                            if (widget.options.grid)
-                            {
-                                if (typeof (widget.options.grid.height) !== "undefined")
-                                {
-                                    if ($.isNumeric(widget.options.grid.height))
-                                    {
-                                        ser.radius = widget.options.grid.height;
-                                    }
-                                }
-                            }
-                               
                             if (!ser.radius)
                             {
                                 ser.radius = Math.min(a / 4, b / 4);
@@ -1154,10 +1152,31 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                         ser.radius = [internalRad, ser.radius];
                                     }
                                 }
-                            }                            
+                            }
                         } else
                         {
-                            ser.radius = Math.min(a / 2, b / 2);
+                            if (!ser.radius)
+                            {
+                                ser.radius = Math.min(a / 2, b / 2) - 5;
+                            }
+                            delete ser.axisLine;
+                            delete ser.axisTick;
+                            delete ser.splitLine;
+                            if (widget.options.grid)
+                            {
+                                if (typeof (widget.options.grid.width) !== "undefined")
+                                {
+                                    if ($.isNumeric(widget.options.grid.width))
+                                    {
+                                        ser.radius = ser.radius - parseInt(widget.options.grid.width);
+                                        ser.axisLine = {lineStyle: {width: widget.options.grid.width}};
+                                        ser.axisTick = {length: parseInt(widget.options.grid.width) + 8}
+                                        ser.splitLine = {length: parseInt(widget.options.grid.width) + 15};
+                                    }
+                                }
+                            }
+
+
                         }
 
                         var left = 0;
@@ -1180,6 +1199,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 }
 
                             }
+
                         }
 
 
@@ -1204,12 +1224,14 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             delete ser.sort;
                         }
 
-                        ser.height = b;
+
                         delete ser.x;
                         delete ser.y;
 
                         var left = 0;
                         var top = 0;
+                        delete ser.width;
+                        delete ser.height;
                         if (widget.options.grid)
                         {
                             if (widget.options.grid.x)
@@ -1227,26 +1249,49 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     top = parseInt(widget.options.grid.y);
                                 }
 
-                            }
-                        }
-                        ser.width = a / 1.5;
-                        if (ser.label)
-                        {
-                            if (ser.label.normal)
+                            }                            
+                            if (typeof (widget.options.grid.width) !== "undefined")
                             {
-                                if ((ser.label.normal.position === 'inside') || (!ser.label.normal.show))
+                                if ($.isNumeric(widget.options.grid.width))
                                 {
-                                    ser.width = a;
+                                    ser.width = widget.options.grid.width;
                                 }
-                                if ((ser.label.normal.position === 'left') && (ser.label.normal.show))
+                            }
+                            if (typeof (widget.options.grid.height) !== "undefined")
+                            {
+                                if ($.isNumeric(widget.options.grid.height))
                                 {
-                                    left = left + a - ser.width;
+                                    ser.height = widget.options.grid.height;
                                 }
-
                             }
                         }
-                        ser.x = (col - 1) * a + left;
-                        ser.y = (row - 1) * b + top;
+                        if (!ser.height)
+                        {
+                            ser.height = b - 10;
+                        }
+                        
+                        if (!ser.width)
+                        {
+                            ser.width = a / 1.5;
+                            if (ser.label)
+                            {
+                                if (ser.label.normal)
+                                {
+                                    if ((ser.label.normal.position === 'inside') || (!ser.label.normal.show))
+                                    {
+                                        ser.width = a;
+                                    }
+                                    if ((ser.label.normal.position === 'left') && (ser.label.normal.show))
+                                    {
+                                        left = left + a - ser.width;
+                                    }
+
+                                }
+                            }
+                            ser.width = ser.width - 10;
+                        }
+                        ser.x = (col - 1) * a + left + 10;
+                        ser.y = (row - 1) * b + top + 10;
                     }
 
                 }
