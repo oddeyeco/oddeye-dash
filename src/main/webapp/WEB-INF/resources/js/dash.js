@@ -727,7 +727,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     if (series.yAxisIndex)
                                     {
                                         yAxis = series.yAxisIndex[0];
-                                    }                                 
+                                    }
                                     if (typeof widget.options.yAxis[yAxis].min !== "undefined")
                                     {
                                         series.min = widget.options.yAxis[0].min;
@@ -777,7 +777,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                         }
                     }
-//                    widget.options.xAxis[0].data = [];
                 }
 
             }
@@ -1128,7 +1127,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     {
                                         ser.radius = ser.radius - parseInt(widget.options.grid.width);
                                         ser.axisLine = {lineStyle: {width: widget.options.grid.width}};
-                                        ser.axisTick = {length: parseInt(widget.options.grid.width) + 8}
+                                        ser.axisTick = {length: parseInt(widget.options.grid.width) + 8};
                                         ser.splitLine = {length: parseInt(widget.options.grid.width) + 15};
                                     }
                                 }
@@ -1207,7 +1206,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     top = parseInt(widget.options.grid.y);
                                 }
 
-                            }                            
+                            }
                             if (typeof (widget.options.grid.width) !== "undefined")
                             {
                                 if ($.isNumeric(widget.options.grid.width))
@@ -1227,7 +1226,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             ser.height = b - 10;
                         }
-                        
+
                         if (!ser.width)
                         {
                             ser.width = a / 1.5;
@@ -1439,9 +1438,12 @@ function redrawAllJSON(dashJSON, redraw = false)
             }
             if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
             {
+                console.log(dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
                 var bkgclass = "";
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
+                if (dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor)
+                    $("#charttemplate .chartsection").css("background-color", dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
@@ -2398,7 +2400,7 @@ $('body').on("click", ".editchart", function () {
     $RIGHT_COL.css('min-height', $(window).height());
 });
 
-$('body').on("click", ".view", function () {
+$('body').on("click", ".viewchart", function () {
     var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
     var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
     window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");

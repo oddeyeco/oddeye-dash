@@ -27,7 +27,7 @@
             <div class="controls text-center">
                 <div class="echart_time pull-left"></div>
                 <div class="btn-group  btn-group-xs">
-                    <a class="btn btn-default view" type="button">View</a>
+                    <a class="btn btn-default viewchart" type="button">View</a>
                     <a class="btn btn-default editchart" type="button">Edit</a>
                     <a class="btn btn-default dublicate" type="button">Duplicate</a>               
                     <a class="btn btn-default csv" type="button">asCsv</a>
