@@ -7,8 +7,7 @@ var colorPalette = [
     '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
 ];
 
-var abcformater = function (params) {
-    console.log(params.data);
+var abcformater = function (params) {    
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
