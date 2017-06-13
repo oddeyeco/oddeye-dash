@@ -8,6 +8,7 @@ var colorPalette = [
 ];
 
 var abcformater = function (params) {
+    console.log(params.data);
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -18,6 +19,10 @@ var abcformater = function (params) {
         formatter = "{value}";
     }
     var valueformatter = params.data.unit;
+    if (typeof (window[valueformatter]) === "function")
+    {
+        valueformatter =window[valueformatter];
+    }
     if (params.data.valueformatter)
     {
         valueformatter = params.data.valueformatter;
@@ -31,7 +36,10 @@ var abcformater = function (params) {
     {
         value = params.value[1];
     }
-
+    if (params.data.isinverse)
+    {
+        value = value*-1;
+    }
     if (typeof (window[formatter]) === "function")
     {
         formatter = window[formatter](value);
