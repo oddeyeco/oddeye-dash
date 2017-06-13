@@ -394,7 +394,29 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 {
                                     val[1] = -1 * val[1];
                                 }
-                                series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                switch (widget.type) {
+                                    case 'pie':
+                                    {
+                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[0].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
+                                        break;
+                                    }
+                                    case 'bar':
+                                    {                               
+                                        series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});                                        
+                                        break;
+                                    }
+                                    case 'line':
+                                    {
+                                        series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                        break;
+                                    }
+                                    default:
+                                    {
+                                        break
+                                    }
+                                }
+
+
                             }
                             if (widget.stacked)
                             {
@@ -558,7 +580,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             data.push({value: val, name: key, children: cildren});
                         }
                         series.name = "All";
-                        widget.options.tooltip.trigger = 'item';
+//                        widget.options.tooltip.trigger = 'item';
                         series.data = data;
                         widget.options.series.push(series);
 
@@ -674,7 +696,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                                 }
                             }
-                            widget.options.tooltip.trigger = 'item';
                             if (series.type === "line")
                             {
                                 if (!widget.manual)
@@ -688,28 +709,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                         delete series.symbol;
                                         delete series.showSymbol;
                                     }
-                                }
-//                                if (widget.fill)
-//                                {
-//                                    if (widget.fill !== "none")
-//                                    {
-//                                        series.areaStyle = {normal: {opacity: widget.fill}};
-//                                    }
-//                                }
-//                                if (widget.step)
-//                                {
-//                                    if (widget.step !== "")
-//                                    {
-//                                        series.step = widget.step;
-//                                    }
-//                                }
-//                                if (!series.symbol)
-//                                {
-//                                    series.symbol = widget.points;
-//                                }
-                                if (widget.options.tooltip.trigger)
-                                {
-                                    widget.options.tooltip.trigger = 'axis';
                                 }
 
                             }
@@ -830,10 +829,32 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
         count.value--;
         if (count.value === 0)
         {
-            widget.options.series.sort(function (a, b) {
-                return compareStrings(a.name, b.name);
-            });
 
+
+            if (!widget.manual)
+            {
+                switch (widget.type) {
+                    case 'bars':
+                    {
+                        widget.options.tooltip.trigger = 'axes';
+                        break;
+                    }
+                    case 'line':
+                    {
+                        widget.options.tooltip.trigger = 'axes';
+                        break;
+                    }
+                    default:
+                    {
+                        widget.options.tooltip.trigger = 'item';
+                        break
+                    }
+                }
+
+                widget.options.series.sort(function (a, b) {
+                    return compareStrings(a.name, b.name);
+                });
+            }
 
             for (var ind in widget.options.xAxis)
             {
@@ -942,8 +963,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
             for (var zoomindex in widget.options.dataZoom)
             {
-
-
                 if (!widget.options.dataZoom[zoomindex].xAxisIndex)
                 {
                     if (widget.options.dataZoom[zoomindex].yAxisIndex)
@@ -963,20 +982,20 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
             for (var ind in widget.options.series)
             {
-                
+
                 var ser = widget.options.series[ind];
                 var yAxis = 0;
                 if (ser.yAxisIndex)
                 {
                     yAxis = ser.yAxisIndex[0];
                 }
+                val.valueformatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                 if (widget.label)
                     if (widget.label.parts)
                     {
                         if (widget.options.yAxis[yAxis].axisLabel.formatter)
                         {
-                            $.each(ser.data, function (i, val) {
-                                val.valueformatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+                            $.each(ser.data, function (i, val) {                                
                                 val.formatter = widget.label.parts;
                             });
                         }
@@ -1030,7 +1049,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         if (ser.label.normal)
                         {
                             if (ser.label.normal.show)
-                            {                                
+                            {
                                 switch (ser.type) {
                                     case 'pie':
                                     {
@@ -1049,6 +1068,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     }
                                     default:
                                     {
+
                                         if (widget.options.yAxis[yAxis].axisLabel.formatter)
                                         {
                                             if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
@@ -1058,8 +1078,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                             {
                                                 ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
                                             }
-                                        }
-                                        console.log(ser.label.normal.formatter);
+                                        } else
+                                        {
+                                            delete ser.label.normal.formatter;
+                                        }   
+                                        delete ser.label.normal.formatter;
                                         break
                                     }
                                 }

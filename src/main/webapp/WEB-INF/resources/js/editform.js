@@ -368,7 +368,7 @@ class EditForm {
 
     get units()
     {
-        return {none: {label: "None", items: {"none": "None"
+        return {none: {label: "None", items: {"": "None"
                     , "format_metric": "Short"
                     , "{value} %": "Percent(0-100)"
                     , "format100": "Percent(0.0-1.0)"

@@ -1,4 +1,4 @@
-/* global define, format_date, format_data */
+/* global define, format_date, format_data, format_metric */
 
 var colorPalette = [
     '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', '#b6a2de',
@@ -7,8 +7,12 @@ var colorPalette = [
     '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
 ];
 
-var abcformater = function (params) {    
-    var formatter = params.data.formatter;
+var abcformater = function (params) {
+    var formatter = params.data.unit;
+    if (params.data.formatter)
+    {
+        formatter = params.data.formatter;
+    }
     if (!formatter)
     {
         formatter = "{value}";
@@ -18,20 +22,34 @@ var abcformater = function (params) {
     {
         valueformatter = params.data.valueformatter;
     }
-    formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
-    formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
+    if (!valueformatter)
+    {
+        valueformatter = "{value}";
+    }
     var value = params.value;
     if (params.value.constructor === Array)
     {
         value = params.value[1];
-    }    
-    if (typeof (valueformatter) === "function")
+    }
+
+    if (typeof (window[formatter]) === "function")
     {
-        formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
+        formatter = window[formatter](value);
     } else
     {
-        formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), value.toFixed(2)));
+        formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
+        formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
+
+        if (typeof (valueformatter) === "function")
+        {
+            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
+        } else
+        {
+            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), value.toFixed(2)));
+
+        }
     }
+
     return formatter;
 };
 
@@ -81,7 +99,7 @@ var encodeHTML = function (source) {
             color: ['#5ab1ef', '#e0ffff']
         },
         legend: {
-            show: true,
+            show: true
         },
         toolbox: {
             show: true,
@@ -111,6 +129,7 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
+
                 var out = "";
                 if (params.constructor === Array)
                 {
@@ -163,11 +182,10 @@ var encodeHTML = function (source) {
                             }
 
                         }
-                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value
+                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value;
                     }
                 } else
                 {
-
                     var value = params.data.value;
                     if (params.data.isinverse === true)
                     {
@@ -212,9 +230,14 @@ var encodeHTML = function (source) {
                                     }
                                 } else
                                 {
-
                                     value = "<br>" + value[0] + "<br>" + value[1] + "<br>" + value[2] + "<br>" + value[3];
                                 }
+
+                            } else if (params.componentSubType === "bar")
+                            {
+                                value = format_date(value[0], 0) + ":" + value[1].toFixed(2);
+                                out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + value;
+                                return out;
 
                             } else
                             {
@@ -458,7 +481,13 @@ var encodeHTML = function (source) {
                 }
             }
         },
-
+        bar: {
+            label: {
+                normal: {
+                    formatter: abcformater
+                }
+            }
+        },
         gauge: {
             tooltip: {
                 formatter: function (params) {

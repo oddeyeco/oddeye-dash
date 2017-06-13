@@ -17,8 +17,8 @@ var jsonmaker = function (k, v)
     if (k === "visible")
     {
         return undefined;
-    }    
-    
+    }
+
     if (k === "echartLine")
     {
         return undefined;
@@ -209,9 +209,7 @@ var cbJson = function (JSON, wraper)
             delete JSON.times.pickerstart;
             delete JSON.times.pickerend;
             delete JSON.times.pickerlabel;
-        }
-        
-        else
+        } else
         {
             wraper.find('span').html(JSON.times.pickerlabel);
             JSON.times.generalds = rangeslabelsds[JSON.times.pickerlabel];
@@ -236,7 +234,7 @@ var cb = function (start, end, label) {
 var s2d = function (str) {
     return str < 10 ? ('0' + str) : str;
 };
-var format_date = function (value, b) {    
+var format_date = function (value, b) {
     var a = new Date(value);
     var year = a.getFullYear();
     var month = a.getMonth();
@@ -297,11 +295,11 @@ var format_data = function (params) {
     var val = paramtoval(params);
     if (val === 0)
     {
-     return val;   
+        return val;
     }
 //    console.log(val);
-    var level = Math.floor(Math.log(Math.abs(val) ) / Math.log(divatior));
-    
+    var level = Math.floor(Math.log(Math.abs(val)) / Math.log(divatior));
+
     if (level > 0)
     {
         val = (val / Math.pow(divatior, level));
@@ -434,13 +432,13 @@ var timems = function (params) {
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "ms";
-    
+
     if (val < 0)
     {
         val = 0;
     }
     if (val > divatior + 1)
-    {        
+    {
         return format_time(moment.duration(val));
     }
 
@@ -471,18 +469,18 @@ var timed = function (params) {
 
 
 var format_time = function (time, base) {
-    if (typeof(base) === "undefined" )
+    if (typeof (base) === "undefined")
     {
         base = "s";
     }
-    var val = time.asSeconds();    
+    var val = time.asSeconds();
     if (val < 0)
     {
         val = 0;
     }
     var metric = base;
     var isday = false;
-    
+
     if (val > 60)
     {
         val = time.asMinutes();
@@ -677,10 +675,10 @@ var formatpsi = function (params) {
 };
 
 var format_metric = function (params, type) {
-    if (typeof(type) === "undefined" )
+    if (typeof (type) === "undefined")
     {
         type = "m";
-    }    
+    }
     var divatior = 10;
     var val = paramtoval(params);
     var neg = 1;
@@ -692,7 +690,7 @@ var format_metric = function (params, type) {
     var metric = " ";
     if (val !== 0)
     {
-        var level = Math.floor(Math.log(val) / Math.log(divatior));        
+        var level = Math.floor(Math.log(val) / Math.log(divatior));
         if (level < -9)
         {
             val = (val / Math.pow(divatior, level));
@@ -852,19 +850,30 @@ function clone_obg(obj) {
 
 function paramtoval(params)
 {
+
+    var val = null;
     if (isNaN(params))
     {
         if (isNaN(params.value))
         {
-            val = 0;
+            if (params.value.constructor === Array)
+            {
+                val = params.value[1];
+            } else
+            {
+                val = 0;
+            }
+
         } else
         {
-            val = params.value;
+            val = params.value[1];
+
         }
     } else
     {
         val = params;
     }
+
     return val;
 }
 ;
