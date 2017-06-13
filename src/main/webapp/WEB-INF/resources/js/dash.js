@@ -721,38 +721,13 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 {
                                     series.axisLabel = {};
                                 }
-//                                var formatter = widget.options.yAxis[0].unit;
-//                                if (formatter === "none")
-//                                {
-//                                    delete series.axisLabel.formatter;
-//                                    delete series.detail.formatter;
-//                                } else
-//                                {
-//                                    if (!series.detail)
-//                                    {
-//                                        series.detail = {};
-//                                    }
-//
-//                                    if (typeof (window[formatter]) === "function")
-//                                    {
-//                                        series.axisLabel.formatter = window[formatter];
-//                                        series.detail.formatter = window[formatter];
-//                                    } else
-//                                    {
-//                                        series.axisLabel.formatter = formatter;
-//                                        series.detail.formatter = formatter;
-//                                    }
-//                                }
                                 if (!widget.manual)
                                 {
                                     var yAxis = 0;
                                     if (series.yAxisIndex)
                                     {
                                         yAxis = series.yAxisIndex[0];
-                                    }
-                                    //if (typeof widget.options.dataZoom[zoomindex].yAxisIndex[0] !== "undefined")
-
-
+                                    }                                 
                                     if (typeof widget.options.yAxis[yAxis].min !== "undefined")
                                     {
                                         series.min = widget.options.yAxis[0].min;
@@ -779,23 +754,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                             }
 
-//                            if (series.type === "funnel")
-//                            {
-//                                if (!series.itemStyle)
-//                                {
-//                                    series.itemStyle = {
-//                                        normal: {
-//                                            label: {
-//                                                position: 'right'
-//                                            },
-//                                            labelLine: {
-//                                                show: true
-//                                            }
-//                                        }
-//                                    };
-//                                }
-//
-//                            }
                             index++;
                             var dublicatename = false;
 

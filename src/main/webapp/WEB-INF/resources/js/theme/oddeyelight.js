@@ -528,9 +528,9 @@ var encodeHTML = function (source) {
             },
             axisLine: {
                 lineStyle: {
-                    width: 5,
-                    color: [[0.2, '#2ec7c9'], [0.8, '#5ab1ef'], [1, '#d87a80']],
-                    shadowColor: '#1e90ff',
+                    width: 10,
+                    color: [[0.2, colorPalette[2]], [0.8, colorPalette[7]], [1, colorPalette[0]]],
+                    shadowColor: colorPalette[1],
                     shadowBlur: 10
                 }
             },
