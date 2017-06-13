@@ -1449,7 +1449,14 @@ function redrawAllJSON(dashJSON, redraw = false)
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
                 if (dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor)
+                {
                     $("#charttemplate .chartsection").css("background-color", dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
+                }
+                else
+                {
+                    $("#charttemplate .chartsection").css("background-color", "");
+                }
+                    
                 $("#charttemplate .chartsection").attr("index", widgetindex);
                 $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
                 $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
