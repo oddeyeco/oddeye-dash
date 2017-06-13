@@ -457,18 +457,31 @@ var encodeHTML = function (source) {
                         {
                             return formatter;
                         }
+                        var valueformatter = params.data.unit;
+
+                        if (typeof (window[params.data.unit]) === "function")
+                        {
+                            valueformatter = window[params.data.unit];
+                        }
+                        if (params.data.valueformatter)
+                        {
+                            valueformatter = params.data.valueformatter;
+                        }
+                        if (!valueformatter)
+                        {
+                            valueformatter = "{value}";
+                        }
+
                         formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
                         formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
                         formatter = formatter.replace(new RegExp("{p}", 'g'), params.percent);
-                        if (typeof (params.data.valueformatter) === "function")
+                        if (typeof (valueformatter) === "function")
                         {
-                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter(params.value));
+                            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(params.value));
                         } else
-                        {
-                            formatter = formatter.replace(new RegExp("{value}", 'g'), params.data.valueformatter.replace(new RegExp("{value}", 'g'), params.value));
+                        {                                                        
+                            formatter = formatter.replace(new RegExp("{value}", 'g'),valueformatter.replace(new RegExp("{value}", 'g'), params.value));
                         }
-
-
                         return formatter;
                     }
                 }
