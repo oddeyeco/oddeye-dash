@@ -401,8 +401,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                         break;
                                     }
                                     case 'bar':
-                                    {                               
-                                        series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});                                        
+                                    {
+                                        series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
                                         break;
                                     }
                                     case 'line':
@@ -995,7 +995,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         if (widget.options.yAxis[yAxis].axisLabel.formatter)
                         {
-                            $.each(ser.data, function (i, val) {                                
+                            $.each(ser.data, function (i, val) {
                                 val.formatter = widget.label.parts;
                             });
                         }
@@ -1081,7 +1081,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                         } else
                                         {
                                             delete ser.label.normal.formatter;
-                                        }   
+                                        }
                                         delete ser.label.normal.formatter;
                                         break
                                     }
@@ -1110,22 +1110,56 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                         if (ser.type === "pie")
                         {
-                            ser.radius = Math.min(a / 4, b / 4);
-                            if (ser.label)
-                            {
-                                if (ser.label.normal)
-                                {
-                                    if ((ser.label.normal.position === 'inner') || (ser.label.normal.position === 'center') || (!ser.label.normal.show))
-                                    {
-                                        ser.radius = Math.min(a / 2, b / 2);
-                                    }
 
+                            if (widget.options.grid)
+                            {
+                                if (typeof (widget.options.grid.height) !== "undefined")
+                                {
+                                    if ($.isNumeric(widget.options.grid.height))
+                                    {
+                                        ser.radius = widget.options.grid.height;
+                                    }
                                 }
                             }
+                               
+                            if (!ser.radius)
+                            {
+                                ser.radius = Math.min(a / 4, b / 4);
+                                if (ser.label)
+                                {
+                                    if (ser.label.normal)
+                                    {
+                                        if ((ser.label.normal.position === 'inner') || (ser.label.normal.position === 'center') || (!ser.label.normal.show))
+                                        {
+                                            ser.radius = Math.min(a / 2, b / 2);
+                                        }
+
+                                    }
+                                }
+                                ser.radius = ser.radius - 5;
+                            }
+
+
+                            if (widget.options.grid)
+                            {
+                                if (typeof (widget.options.grid.width) !== "undefined")
+                                {
+                                    if ($.isNumeric(widget.options.grid.width))
+                                    {
+                                        var internalRad = ser.radius - widget.options.grid.width;
+                                        if (internalRad < 0)
+                                        {
+                                            internalRad = ser.radius - internalRad;
+                                        }
+                                        ser.radius = [internalRad, ser.radius];
+                                    }
+                                }
+                            }                            
                         } else
                         {
                             ser.radius = Math.min(a / 2, b / 2);
                         }
+
                         var left = 0;
                         var top = 0;
                         if (widget.options.grid)
@@ -1397,7 +1431,6 @@ function redrawAllJSON(dashJSON, redraw = false)
         {
             if (dashJSON[rowindex]["widgets"][widgetindex] == null)
             {
-
                 delete(dashJSON[rowindex]["widgets"][widgetindex]);
                 continue;
             }

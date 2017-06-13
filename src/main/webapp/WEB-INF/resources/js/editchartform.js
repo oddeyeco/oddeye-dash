@@ -586,7 +586,7 @@ class ChartEditForm extends EditForm {
 
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typepie typefunnel", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: "Show in label", lfor: "display_label_parts"},
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts"},
                                     {tag: "input", type: "text", class: "form-control query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
