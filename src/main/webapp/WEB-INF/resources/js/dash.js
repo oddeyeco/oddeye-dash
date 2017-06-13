@@ -952,17 +952,18 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         yAxis = ser.yAxisIndex;
                     }
 
-                }                
+                }
                 val.valueformatter = widget.options.yAxis[yAxis].axisLabel.formatter;
+
                 if (widget.label)
                     if (widget.label.parts)
                     {
-                        if (widget.options.yAxis[yAxis].axisLabel.formatter)
-                        {
-                            $.each(ser.data, function (i, val) {
-                                val.formatter = widget.label.parts;
-                            });
-                        }
+                        console.log(widget.options.yAxis[yAxis].axisLabel.formatter);
+
+                        $.each(ser.data, function (i, val) {
+                            val.formatter = widget.label.parts;
+                        });
+
                     }
                 ;
 
@@ -1254,6 +1255,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             }
                             ser.width = ser.width - 10;
                         }
+
                         ser.x = (col - 1) * a + left + 10;
                         ser.y = (row - 1) * b + top + 10;
                     }

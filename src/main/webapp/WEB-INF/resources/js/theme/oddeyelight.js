@@ -13,7 +13,7 @@ var colorPalette = [
 colorPalette.reverse();
 
 
-var abcformater = function (params) {    
+var abcformater = function (params) {        
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -21,7 +21,7 @@ var abcformater = function (params) {
     }
     if (!formatter)
     {
-        formatter = "{value}";
+       return  formatter;
     }
     var valueformatter = params.data.unit;
     if (typeof (window[valueformatter]) === "function")
