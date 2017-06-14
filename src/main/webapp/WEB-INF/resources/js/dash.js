@@ -124,6 +124,10 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                 widget.options.toolbox.feature = {magicType: {show: false}};
             }
         }
+        else
+        {
+            widget.options.toolbox= {};
+        }
         var start = "5m-ago";
         var end = "now";
 
@@ -163,9 +167,10 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
         var count = {"value": widget.q.length, "base": widget.q.length};
         var oldseries = clone_obg(widget.options.series);
-        widget.options.series = [];
+        widget.options.series = [];        
         for (k in widget.q)
-        {
+        {            
+            continue;
             if ((typeof (widget.q[k])) === "string")
             {
                 var query = widget.q[k];
