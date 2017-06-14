@@ -1,27 +1,25 @@
 /* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker */
 var SingleRedrawtimer;
 var dasheditor;
-var refreshtimes =
-        {
-            "5000": "Refresh every 5s",
-            "10000": "Refresh every 10s",
-            "30000": "Refresh every 30s",
-            "60000": "Refresh every 1m",
-            "300000": "Refresh every 5m",
-            "900000": "Refresh every 15m",
-            "1800000": "Refresh every 30m",
-            "3600000": "Refresh every 1h",
-            "7200000": "Refresh every 2h",
-            "86400000": "Refresh every 1d"
-        };
-
+var refreshtimes = {
+    "5000": "Refresh every 5s",
+    "10000": "Refresh every 10s",
+    "30000": "Refresh every 30s",
+    "60000": "Refresh every 1m",
+    "300000": "Refresh every 5m",
+    "900000": "Refresh every 15m",
+    "1800000": "Refresh every 30m",
+    "3600000": "Refresh every 1h",
+    "7200000": "Refresh every 2h",
+    "86400000": "Refresh every 1d"
+};
+var echartLine;
 var defserie = {
     name: null,
     sampling: 'average',
     data: null
 };
-
-defoption = {
+var defoption = {
     tooltip: {
         trigger: 'axis'
     },
@@ -41,227 +39,13 @@ defoption = {
         }],
     series: [defserie]
 };
-var definterval = 10000;
+var doapplyjson = false;
+var single_rowindex = 0;
+var single_widgetindex = 0;
+var scrolltimer;
 
 
-function datafunc() {
-    var d = [];
-    var len = 0;
-    while (len < 50) {
-        d.push([
-            new Date(2017, 9, 1, 0, len * 10000),
-            (Math.random() * 500).toFixed(2) - 0
-        ]);
-        len++;
-    }
-    return d;
-}
-function replacer(tags) {
-    return function (str, p1) {
-        if (typeof tags[p1] === "undefined")
-        {
-            return "tag." + p1;
-        }
-        return tags[p1];
-    };
-}
-function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback = null, customchart = null)
-{
-    var widget = json[rowindex]["widgets"][widgetindex];
-    clearTimeout(widget.timer);
-    var chart;
-    if (customchart === null)
-    {
-        chart = json[rowindex]["widgets"][widgetindex].echartLine;
-    } else
-    {
-        chart = customchart;
-    }
-    if (chart === null)
-    {
-        return;
-    }
-    if (widget.tmpoptions)
-    {
-        widget.options = clone_obg(widget.tmpoptions);
-        delete widget.tmpoptions;
-    }
-    widget.visible = !redraw;
-    if (chart)
-    {
-        if (chart._dom.className !== "echart_line_single")
-        {
-            if (redraw)
-            {
-                if (chart._dom.getBoundingClientRect().bottom < 0)
-                {
-                    widget.visible = false;
-                    return;
-                }
-                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
-                {
-                    widget.visible = false;
-                    return;
-                }
-            }
-        }
-
-        var k;
-        if (!widget.options.legend)
-        {
-            widget.options.legend = {data: []};
-        } else
-        {
-            widget.options.legend.data = [];
-        }
-        if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
-        {
-            if (widget.options.toolbox.feature)
-            {
-                widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
-            } else
-            {
-                widget.options.toolbox.feature = {magicType: {show: false}};
-            }
-        }
-        else
-        {
-            widget.options.toolbox= {};
-        }
-        var start = "5m-ago";
-        var end = "now";
-
-        if (json.times)
-        {
-            if (json.times.pickerlabel === "Custom")
-            {
-                start = json.times.pickerstart;
-                end = json.times.pickerend;
-            } else
-            {
-                if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
-                {
-                    start = rangeslabels[json.times.pickerlabel];
-                }
-
-            }
-        }
-        var usePersonalTime = false;
-        if (widget.times)
-        {
-            if (widget.times.pickerlabel === "Custom")
-            {
-                start = widget.times.pickerstart;
-                end = widget.times.pickerend;
-                usePersonalTime = true;
-            } else
-            {
-                if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
-                {
-                    start = rangeslabels[widget.times.pickerlabel];
-                    usePersonalTime = true;
-                }
-
-            }
-        }
-
-        var count = {"value": widget.q.length, "base": widget.q.length};
-        var oldseries = clone_obg(widget.options.series);
-        widget.options.series = [];        
-        for (k in widget.q)
-        {                        
-            if ((typeof (widget.q[k])) === "string")
-            {
-                var query = widget.q[k];
-            } else if (widget.q[k].info)
-            {
-                if (!widget.q[k].info.metrics)
-                {
-                    continue;
-                }
-                var stags = "&tags=";
-                if (widget.q[k].info.tags)
-                {
-                    stags = "&tags=" + widget.q[k].info.tags;
-                }
-                if (!widget.q[k].info.aggregator)
-                {
-                    widget.q[k].info.aggregator = "none";
-                }
-                var query = "metrics=" + widget.q[k].info.metrics + stags +
-                        "&aggregator=" + widget.q[k].info.aggregator;
-                if (widget.q[k].info.rate)
-                {
-                    query = query + "&rate=true";
-                }
-
-                if (!widget.q[k].info.downsamplingstate)
-                {
-                    var downsample = widget.q[k].info.downsample;
-
-                    if (widget.q[k].info.ds)
-                    {
-
-                        if ((Object.keys(widget.q[k].info.ds).length === 2))
-                        {
-                            downsample = widget.q[k].info.ds.time + "-" + widget.q[k].info.ds.aggregator;
-                        }
-                    }
-
-                    if (!usePersonalTime)
-                    {
-                        if (!downsample)
-                        {
-                            if (json.times.generalds)
-                            {
-                                if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
-                                {
-                                    query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
-                                }
-                            }
-                        } else
-                        {
-                            if (downsample)
-                            {
-                                query = query + "&downsample=" + downsample;
-                            }
-
-                        }
-                    } else
-                    {
-                        if (downsample)
-                        {
-                            query = query + "&downsample=" + downsample;
-                        }
-                    }
-
-                }
-            }
-
-
-            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-
-
-            if (getParameterByName('metrics', uri))
-            {
-                chart.showLoading("default", {
-                    text: '',
-                    color: colorPalette[colorPalette.length],
-                    textColor: '#000',
-                    maskColor: 'rgba(255, 255, 255, 0)',
-                    zlevel: 0
-                });
-
-                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
-
-            }
-
-        }
-}
-}
-
-var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart)
-{
+var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart) {
     return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
 
@@ -1320,32 +1104,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 }
                 widget.options.legend.data.push(widget.options.series[ind].name);
-//                if ((redraw) && (!widget.manual))
-//                {
-//                    delete(widget.options.series[ind].type);
-//                    delete(widget.options.series[ind].stack);
-//                }
-//                if (!ser.type)
-//                {
-//                    console.log(ser);
-//                }
 
             }
-
-//            widget.options.tooltip.axisPointer={
-//            "type": 'cross',
-//            "animation": true,
-//            "label": {
-//                "backgroundColor": '#505765'
-//            }};
-//            console.log(JSON.stringify(widget.options) );            
-//            widget.options.grid={};
-//            widget.options.grid.show = true;
-//            widget.options.grid.backgroundColor = 'rgb(128, 128, 128)';
-//            console.log(widget.options.series);
             if (redraw)
             {
-//                console.log(widget.options.series);
                 chart.setOption({series: widget.options.series});
             } else
             {
@@ -1384,34 +1146,223 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
     }
     ;
 };
-
-$('body').on("click", "#refresh", function () {
-    repaint(true);
-});
-//$('body').on("click", "#jsonReset", function () {
-//    Edit_Form.resetjson();
-//});
-//
-//$('body').on("click", "#jsonApply", function () {
-//    Edit_Form.applyjson();
-//});
-
-$('body').on("change", "#refreshtime", function () {
-    if (!doapplyjson)
-    {
-        dashJSONvar.times.intervall = $(this).val();
-        repaint(true, false);
+function datafunc() {
+    var d = [];
+    var len = 0;
+    while (len < 50) {
+        d.push([
+            new Date(2017, 9, 1, 0, len * 10000),
+            (Math.random() * 500).toFixed(2) - 0
+        ]);
+        len++;
     }
+    return d;
+}
+function replacer(tags) {
+    return function (str, p1) {
+        if (typeof tags[p1] === "undefined")
+        {
+            return "tag." + p1;
+        }
+        return tags[p1];
+    };
+}
+function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback = null, customchart = null) {
+    var widget = json[rowindex]["widgets"][widgetindex];
+    clearTimeout(widget.timer);
+    var chart;
+    if (customchart === null)
+    {
+        chart = json[rowindex]["widgets"][widgetindex].echartLine;
+    } else
+    {
+        chart = customchart;
+    }
+    if (chart === null)
+    {
+        return;
+    }
+    if (widget.tmpoptions)
+    {
+        widget.options = clone_obg(widget.tmpoptions);
+        delete widget.tmpoptions;
+    }
+    widget.visible = !redraw;
+    if (chart)
+    {
+        if (chart._dom.className !== "echart_line_single")
+        {
+            if (redraw)
+            {
+                if (chart._dom.getBoundingClientRect().bottom < 0)
+                {
+                    widget.visible = false;
+                    return;
+                }
+                if (chart._dom.getBoundingClientRect().top > window.innerHeight)
+                {
+                    widget.visible = false;
+                    return;
+                }
+            }
+        }
 
-});
+        var k;
+        if (!widget.options.legend)
+        {
+            widget.options.legend = {data: []};
+        } else
+        {
+            widget.options.legend.data = [];
+        }
+        if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
+        {
+            if (widget.options.toolbox.feature)
+            {
+                widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+            } else
+            {
+                widget.options.toolbox.feature = {magicType: {show: false}};
+            }
+        } else
+        {
+            widget.options.toolbox = {};
+        }
+        var start = "5m-ago";
+        var end = "now";
 
-function AutoRefresh(redraw = false)
-{
+        if (json.times)
+        {
+            if (json.times.pickerlabel === "Custom")
+            {
+                start = json.times.pickerstart;
+                end = json.times.pickerend;
+            } else
+            {
+                if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
+                {
+                    start = rangeslabels[json.times.pickerlabel];
+                }
+
+            }
+        }
+        var usePersonalTime = false;
+        if (widget.times)
+        {
+            if (widget.times.pickerlabel === "Custom")
+            {
+                start = widget.times.pickerstart;
+                end = widget.times.pickerend;
+                usePersonalTime = true;
+            } else
+            {
+                if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
+                {
+                    start = rangeslabels[widget.times.pickerlabel];
+                    usePersonalTime = true;
+                }
+
+            }
+        }
+
+        var count = {"value": widget.q.length, "base": widget.q.length};
+        var oldseries = clone_obg(widget.options.series);
+        widget.options.series = [];
+        for (k in widget.q)
+        {
+            if ((typeof (widget.q[k])) === "string")
+            {
+                var query = widget.q[k];
+            } else if (widget.q[k].info)
+            {
+                if (!widget.q[k].info.metrics)
+                {
+                    continue;
+                }
+                var stags = "&tags=";
+                if (widget.q[k].info.tags)
+                {
+                    stags = "&tags=" + widget.q[k].info.tags;
+                }
+                if (!widget.q[k].info.aggregator)
+                {
+                    widget.q[k].info.aggregator = "none";
+                }
+                var query = "metrics=" + widget.q[k].info.metrics + stags +
+                        "&aggregator=" + widget.q[k].info.aggregator;
+                if (widget.q[k].info.rate)
+                {
+                    query = query + "&rate=true";
+                }
+
+                if (!widget.q[k].info.downsamplingstate)
+                {
+                    var downsample = widget.q[k].info.downsample;
+
+                    if (widget.q[k].info.ds)
+                    {
+
+                        if ((Object.keys(widget.q[k].info.ds).length === 2))
+                        {
+                            downsample = widget.q[k].info.ds.time + "-" + widget.q[k].info.ds.aggregator;
+                        }
+                    }
+
+                    if (!usePersonalTime)
+                    {
+                        if (!downsample)
+                        {
+                            if (json.times.generalds)
+                            {
+                                if (json.times.generalds[2] && json.times.generalds[0] && json.times.generalds[1])
+                                {
+                                    query = query + "&downsample=" + json.times.generalds[0] + "-" + json.times.generalds[1];
+                                }
+                            }
+                        } else
+                        {
+                            if (downsample)
+                            {
+                                query = query + "&downsample=" + downsample;
+                            }
+
+                        }
+                    } else
+                    {
+                        if (downsample)
+                        {
+                            query = query + "&downsample=" + downsample;
+                        }
+                    }
+
+                }
+            }
+
+
+            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
+
+
+            if (getParameterByName('metrics', uri))
+            {
+                chart.showLoading("default", {
+                    text: '',
+                    color: colorPalette[colorPalette.length],
+                    textColor: '#000',
+                    maskColor: 'rgba(255, 255, 255, 0)',
+                    zlevel: 0
+                });
+
+                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+
+            }
+
+        }
+}
+}
+function AutoRefresh(redraw = false){
     redrawAllJSON(dashJSONvar, redraw);
 }
-
-function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false)
-{
+function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false){
     var opt = dashJSONvar[row]["widgets"][index];
 
     showsingleWidget(row, index, dashJSONvar, readonly, rebuildform, redraw, function () {
@@ -1419,8 +1370,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
 //        editor.set(JSON.parse(jsonstr));
     });
 }
-function redrawAllJSON(dashJSON, redraw = false)
-{
+function redrawAllJSON(dashJSON, redraw = false){
     var rowindex;
     var widgetindex;
     $(".editchartpanel").hide();
@@ -1560,7 +1510,6 @@ function redrawAllJSON(dashJSON, redraw = false)
         }
 }
 }
-var echartLine;
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
     $(".fulldash").hide();
     if (rebuildform)
@@ -1693,59 +1642,6 @@ function getParameterByName(name, url) {
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
-
-$('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-    var startdate = "5m-ago";
-    var enddate = "now";
-    if (dashJSONvar.times.pickerlabel === "Custom")
-    {
-        startdate = dashJSONvar.times.pickerstart;
-        enddate = dashJSONvar.times.pickerend;
-    } else
-    {
-        if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
-        {
-            startdate = rangeslabels[dashJSONvar.times.pickerlabel];
-        }
-
-    }
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
-
-    //TODO Fix redraw
-    var check = document.getElementById('global-downsampling-switsh');
-    if (dashJSONvar.times.generalds[2])
-    {
-        if (check.checked !== dashJSONvar.times.generalds[2])
-        {
-            $(check).attr('autoedit', true);
-            $(check).trigger('click');
-            $(check).removeAttr('autoedit');
-        }
-    }
-
-    if ($(".editpanel").is(':visible'))
-    {
-        var request_W_index = getParameterByName("widget");
-        var request_R_index = getParameterByName("row");
-        var action = getParameterByName("action");
-        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false, false);
-    } else
-    {
-        window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
-        redrawAllJSON(dashJSONvar);
-    }
-});
 function repaint(redraw = false, rebuildform = true) {
     doapplyjson = true;
     if (dashJSONvar.times.generalds)
@@ -1803,8 +1699,6 @@ function repaint(redraw = false, rebuildform = true) {
 }
 
 $(document).ready(function () {
-
-//    console.log(dashJSONvar[2]["widgets"][2]);
     if (dashJSONvar.times)
     {
         if (dashJSONvar.times.intervall)
@@ -1835,22 +1729,78 @@ $(document).ready(function () {
         dashJSONvar.times = {};
         $('#reportrange span').html(pickerlabel);
     }
+    repaint();
+    var elem = document.getElementById('global-downsampling-switsh');
+    var switchery = new Switchery(elem, {size: 'small', color: '#26B99A'});
+    elem.onchange = function () {
+        if (!$(this).attr('autoedit'))
+        {
+            if (!dashJSONvar.times.generalds)
+            {
+                dashJSONvar.times.generalds = [];
+            }
+            dashJSONvar.times.generalds[2] = this.checked;
+            repaint(true, false);
+        }
+
+    };
+    
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+    var startdate = "5m-ago";
+    var enddate = "now";
+    if (dashJSONvar.times.pickerlabel === "Custom")
+    {
+        startdate = dashJSONvar.times.pickerstart;
+        enddate = dashJSONvar.times.pickerend;
+    } else
+    {
+        if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+        {
+            startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+        }
+
+    }
+    for (var rowindex in dashJSONvar)
+    {
+        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        {
+            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }
+    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+
+    //TODO Fix redraw
+    var check = document.getElementById('global-downsampling-switsh');
+    if (dashJSONvar.times.generalds[2])
+    {
+        if (check.checked !== dashJSONvar.times.generalds[2])
+        {
+            $(check).attr('autoedit', true);
+            $(check).trigger('click');
+            $(check).removeAttr('autoedit');
+        }
+    }
+
+    if ($(".editpanel").is(':visible'))
+    {
+        var request_W_index = getParameterByName("widget");
+        var request_R_index = getParameterByName("row");
+        var action = getParameterByName("action");
+        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false, false);
+    } else
+    {
+        window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
+        redrawAllJSON(dashJSONvar);
+    }
+});
     $("#refreshtime").select2({minimumResultsForSearch: 15});
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15});
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(dashJSONvar, $('#reportrange')));
-    var elems = document.querySelectorAll('.js-switch-small');
-    for (var i = 0; i < elems.length; i++) {
-        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-        elems[i].onchange = function () {
-            if (Edit_Form !== null)
-            {
-                Edit_Form.change($(this));
-            }
-        };
-    }
-
     $('body').on("click", ".dropdown_button,.button_title_adv", function () {
-
         var target = $(this).attr('target');
         var shevron = $(this);
         if ($(this).hasClass("button_title_adv"))
@@ -1870,26 +1820,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    repaint();
-
-    var elems = document.querySelectorAll('.js-switch-general');
-    for (var i = 0; i < elems.length; i++) {
-        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-        elems[i].onchange = function () {
-            if (!$(this).attr('autoedit'))
-            {
-                if (!dashJSONvar.times.generalds)
-                {
-                    dashJSONvar.times.generalds = [];
-                }
-                dashJSONvar.times.generalds[2] = this.checked;
-                repaint(true, false);
-            }
-
-        };
-    }
-
     $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
@@ -1902,7 +1832,6 @@ $(document).ready(function () {
         }
 
     });
-
     $('body').on("blur", "#global-down-sample", function () {
         if (!dashJSONvar.times.generalds)
         {
@@ -1911,393 +1840,248 @@ $(document).ready(function () {
         dashJSONvar.times.generalds[0] = $(this).val();
         repaint(true, false);
     });
-
-    $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
-        $(this).find("ul").css("top", $(this).position().top);
-        var curent = $(this);
-        if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").length === 0)
-        {
-            curent.find("ul:hidden").show();
-        } else
-        {
-            if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").parents(".select2-results__option[role=group]").attr("aria-label") !== $(this).attr("aria-label"))
-            {
-                $(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").hide();
-                curent.find("ul:hidden").show();
-            }
-        }
-
-    });
-    $('body').on("mouseleave", ".select2-container--default .menu-select", function () {
-        $(".select2-container--default .menu-select .select2-results__option[role=group] ul").hide();
-    });
-
-    var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
-    dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
-});
-
-//$('body').on("click", "span.tagspan .fa-pencil", function () {
-//    $(this).parents(".tagspan").hide();
-//    var input = $(this).parents(".data-label");
-//    if ($(this).parents(".tag_label").hasClass("query_metric"))
-//    {
-//        $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-//        var metricinput = $(this).parents(".tag_label").find("input");
-//        makeMetricInput(metricinput, input);
-//    }
-//
-//    if ($(this).parents(".tag_label").hasClass("query_tag"))
-//    {
-//        var tag_arr = $(this).parents(".tagspan").find(".text").html().split("=");
-//        $(this).parents(".tagspan").after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value="' + tag_arr[0] + '"> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value="' + tag_arr[1] + '"> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-//        var tagkinput = $(this).parents(".tag_label").find("input#tagk");
-//        maketagKInput(tagkinput, input);
-//    }
-//});
-
-
-//$('body').on("click", ".query-label .fa-plus", function () {
-//    var input = $(this).parents(".form-group").find(".data-label");
-//    if (input.hasClass("metrics"))
-//    {
-//        input.append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
-//        input.find(".tagspan").last().hide();
-//        input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-//        var metricinput = input.find("input");
-//        makeMetricInput(metricinput, input);
-//    }
-//
-//    if (input.hasClass("tags"))
-//    {
-//        input.append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
-//        input.find(".tagspan").last().hide();
-//        input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
-//        var tagkinput = input.find("input#tagk");
-//        maketagKInput(tagkinput, input);
-//    }
-//});
-
-
-$("#addrow").on("click", function () {
-    dashJSONvar[Object.keys(dashJSONvar).length] = {widgets: {}};
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-
-    redrawAllJSON(dashJSONvar);
-});
-
-$('body').on("click", "#deleterowconfirm", function () {
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-
-    var rowindex = $(this).attr("index");
-    delete dashJSONvar[rowindex];
-    redrawAllJSON(dashJSONvar);
-    $("#deleteConfirm").modal('hide');
-});
-
-
-$('body').on("click", ".deleterow", function () {
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
-    $("#deleteConfirm").find('.btn-ok').attr('index', rowindex);
-    $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-    $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Row?");
-    $("#deleteConfirm").find('.modal-body .text-warning').html("");
-    $("#deleteConfirm").modal('show');
-});
-
-
-$('body').on("click", "#showasjson", function () {
-    $("#showjson").find('.btn-ok').attr('id', "applydashjson");
-    var jsonstr = JSON.stringify(dashJSONvar, jsonmaker);
-    dasheditor.set(JSON.parse(jsonstr));
-    $("#showjson").modal('show');
-});
-
-var doapplyjson = false;
-
-$('body').on("click", "#applydashjson", function () {
-
-    doapplyjson = true;
-
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-    dashJSONvar = dasheditor.get();
-    redrawAllJSON(dashJSONvar);
-
-    if (dashJSONvar.times.generalds)
-    {
-        $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
-        var check = document.getElementById('global-downsampling-switsh');
-        if (check.checked !== dashJSONvar.times.generalds[2])
-        {
-            $(check).attr('autoedit', true);
-            $(check).trigger('click');
-            $(check).removeAttr('autoedit');
-        }
-    }
-    if (dashJSONvar.times.intervall)
-    {
-        $("#refreshtime").val(dashJSONvar.times.intervall).trigger('change');
-    }
-    var label = pickerlabel;
-    if (dashJSONvar.times.pickerlabel)
-    {
-        label = dashJSONvar.times.pickerlabel;
-    }
-
-    $('#reportrange span').html(label);
-    if (label === "Custom")
-    {
-        PicerOptionSet1.startDate = moment(dashJSONvar.times.pickerstart);
-        PicerOptionSet1.endDate = moment(dashJSONvar.times.pickerend);
-        $('#reportrange span').html(PicerOptionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + PicerOptionSet1.endDate.format('MM/DD/YYYY H:m:s'));
-
-    } else
-    {
-        PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
-        PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
-    }
-
-    $("#showjson").modal('hide');
-    doapplyjson = false;
-});
-
-$('body').on("click", ".showrowjson", function () {
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
-    $("#showjson").find('.btn-ok').attr('index', rowindex);
-    var jsonstr = JSON.stringify(dashJSONvar[rowindex], jsonmaker);
-    dasheditor.set(JSON.parse(jsonstr));
-    $("#showjson").modal('show');
-});
-
-$('body').on("click", "#applyrowjson", function () {
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-
-    var rowindex = $(this).attr("index");
-    dashJSONvar[rowindex] = dasheditor.get();
-    redrawAllJSON(dashJSONvar);
-    $("#showjson").modal('hide');
-});
-
-$('body').on("click", ".minus", function () {
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var widgetindex = $(this).parents(".chartsection").first().attr("index");
-    if (dashJSONvar[rowindex]["widgets"][widgetindex].size > 1)
-    {
-        var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
-        dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size) - 1;
-        $(this).parents(".chartsection").attr("size", dashJSONvar[rowindex]["widgets"][widgetindex].size);
-        $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
-        dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();
-
-    }
-
-});
-
-$('body').on("click", ".plus", function () {
-
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var widgetindex = $(this).parents(".chartsection").first().attr("index");
-    if (dashJSONvar[rowindex]["widgets"][widgetindex].size < 12)
-    {
-
-        var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
-        dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size) + 1;
-        $(this).parents(".chartsection").attr("size", dashJSONvar[rowindex]["widgets"][widgetindex].size);
-        $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
-        dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();
-    }
-//    redrawAllJSON(dashJSONvar);
-});
-
-
-$('body').on("click", "#deletewidgetconfirm", function () {
-
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-    var rowindex = $(this).attr("rowindex");
-    var widgetindex = $(this).attr("widgetindex");
-    delete dashJSONvar[rowindex]["widgets"][widgetindex];
-    redrawAllJSON(dashJSONvar);
-    $("#deleteConfirm").modal('hide');
-});
-
-
-$('body').on("click", ".deletewidget", function () {
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var widgetindex = $(this).parents(".chartsection").first().attr("index");
-    $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
-    $("#deleteConfirm").find('.btn-ok').attr('rowindex', rowindex);
-    $("#deleteConfirm").find('.btn-ok').attr('widgetindex', widgetindex);
-    $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-    $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Panel?");
-    $("#deleteConfirm").find('.modal-body .text-warning').html("");
-    $("#deleteConfirm").modal('show');
-});
-
-
-$('body').on("click", ".dublicate", function () {
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
-    var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-//    console.log(curentwidgetindex);
-//    console.log(widgetindex);
-    dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
-    delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-    redrawAllJSON(dashJSONvar);
-});
-
-$('body').on("click", ".addchart", function () {
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-            }
-        }
-    }
-    var rowindex = $(this).parents(".widgetraw").first().attr("index");
-
-    var widgetindex = 0;
-
-    if (dashJSONvar[rowindex]["widgets"])
-    {
-        if (Object.keys(dashJSONvar[rowindex]["widgets"]).length > 0)
-        {
-            widgetindex = Math.max.apply(null, Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
-        }
-
-    } else
-    {
-        dashJSONvar[rowindex].widgets = [];
-    }
-    dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
-    dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
-    //TODO DRAW 1 chart    
-    redrawAllJSON(dashJSONvar);
-    $('html, body').animate({
-        scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top - 60
-    }, 5);
-});
-
-$('body').on("click", "#deletedashconfirm", function () {
-    url = cp + "/dashboard/delete";
-    senddata = {};
-    senddata.name = $("#name").val();
-    var header = $("meta[name='_csrf_header']").attr("content");
-    var token = $("meta[name='_csrf']").attr("content");
-    $.ajax({
-        url: url,
-        data: senddata,
-        dataType: 'json',
-        type: 'POST',
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        success: function (data) {
-            if (data.sucsses)
-            {
-                window.location = cp + "/dashboard/";
-            }
-            ;
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            console.log(xhr.status + ": " + thrownError);
-        }
-    });
-
-});
-
-$('body').on("click", ".deletedash", function () {
-    $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
-    $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-    $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this dashboard?");
-    $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
-    $("#deleteConfirm").modal('show');
-});
-
-$('body').on("click", ".savedash", function () {
-    var url = cp + "/dashboard/save";
-    var senddata = {};
-
-    if (Object.keys(dashJSONvar).length > 0)
-    {
+    $("#addrow").on("click", function () {
+        dashJSONvar[Object.keys(dashJSONvar).length] = {widgets: {}};
         for (var rowindex in dashJSONvar)
         {
-            for (var widgetindex in dashJSONvar[rowindex]["widgets"])
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
             {
-                delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
                 {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
-                    delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 }
-
-                for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
+            }
+        }
+        redrawAllJSON(dashJSONvar);
+    });
+    $('body').on("click", "#deleterowconfirm", function () {
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 }
             }
         }
 
-        senddata.info = JSON.stringify(dashJSONvar);
+        var rowindex = $(this).attr("index");
+        delete dashJSONvar[rowindex];
+        redrawAllJSON(dashJSONvar);
+        $("#deleteConfirm").modal('hide');
+    });
+    $('body').on("click", ".deleterow", function () {
+        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
+        $("#deleteConfirm").find('.btn-ok').attr('index', rowindex);
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Row?");
+        $("#deleteConfirm").find('.modal-body .text-warning').html("");
+        $("#deleteConfirm").modal('show');
+    });
+    $('body').on("click", "#showasjson", function () {
+        $("#showjson").find('.btn-ok').attr('id', "applydashjson");
+        var jsonstr = JSON.stringify(dashJSONvar, jsonmaker);
+        dasheditor.set(JSON.parse(jsonstr));
+        $("#showjson").modal('show');
+    });
+    $('body').on("click", "#applydashjson", function () {
+
+        doapplyjson = true;
+
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                }
+            }
+        }
+        dashJSONvar = dasheditor.get();
+        redrawAllJSON(dashJSONvar);
+
+        if (dashJSONvar.times.generalds)
+        {
+            $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+            $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
+            var check = document.getElementById('global-downsampling-switsh');
+            if (check.checked !== dashJSONvar.times.generalds[2])
+            {
+                $(check).attr('autoedit', true);
+                $(check).trigger('click');
+                $(check).removeAttr('autoedit');
+            }
+        }
+        if (dashJSONvar.times.intervall)
+        {
+            $("#refreshtime").val(dashJSONvar.times.intervall).trigger('change');
+        }
+        var label = pickerlabel;
+        if (dashJSONvar.times.pickerlabel)
+        {
+            label = dashJSONvar.times.pickerlabel;
+        }
+
+        $('#reportrange span').html(label);
+        if (label === "Custom")
+        {
+            PicerOptionSet1.startDate = moment(dashJSONvar.times.pickerstart);
+            PicerOptionSet1.endDate = moment(dashJSONvar.times.pickerend);
+            $('#reportrange span').html(PicerOptionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + PicerOptionSet1.endDate.format('MM/DD/YYYY H:m:s'));
+
+        } else
+        {
+            PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
+            PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+        }
+
+        $("#showjson").modal('hide');
+        doapplyjson = false;
+    });
+    $('body').on("click", ".showrowjson", function () {
+        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
+        $("#showjson").find('.btn-ok').attr('index', rowindex);
+        var jsonstr = JSON.stringify(dashJSONvar[rowindex], jsonmaker);
+        dasheditor.set(JSON.parse(jsonstr));
+        $("#showjson").modal('show');
+    });
+    $('body').on("click", "#applyrowjson", function () {
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                }
+            }
+        }
+
+        var rowindex = $(this).attr("index");
+        dashJSONvar[rowindex] = dasheditor.get();
+        redrawAllJSON(dashJSONvar);
+        $("#showjson").modal('hide');
+    });
+    $('body').on("click", ".minus", function () {
+        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var widgetindex = $(this).parents(".chartsection").first().attr("index");
+        if (dashJSONvar[rowindex]["widgets"][widgetindex].size > 1)
+        {
+            var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
+            dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size) - 1;
+            $(this).parents(".chartsection").attr("size", dashJSONvar[rowindex]["widgets"][widgetindex].size);
+            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
+            dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();
+
+        }
+
+    });
+    $('body').on("click", ".plus", function () {
+
+        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var widgetindex = $(this).parents(".chartsection").first().attr("index");
+        if (dashJSONvar[rowindex]["widgets"][widgetindex].size < 12)
+        {
+
+            var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
+            dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size) + 1;
+            $(this).parents(".chartsection").attr("size", dashJSONvar[rowindex]["widgets"][widgetindex].size);
+            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
+            dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();
+        }
+//    redrawAllJSON(dashJSONvar);
+    });
+    $('body').on("click", "#deletewidgetconfirm", function () {
+
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                }
+            }
+        }
+        var rowindex = $(this).attr("rowindex");
+        var widgetindex = $(this).attr("widgetindex");
+        delete dashJSONvar[rowindex]["widgets"][widgetindex];
+        redrawAllJSON(dashJSONvar);
+        $("#deleteConfirm").modal('hide');
+    });
+    $('body').on("click", ".deletewidget", function () {
+        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var widgetindex = $(this).parents(".chartsection").first().attr("index");
+        $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
+        $("#deleteConfirm").find('.btn-ok').attr('rowindex', rowindex);
+        $("#deleteConfirm").find('.btn-ok').attr('widgetindex', widgetindex);
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Panel?");
+        $("#deleteConfirm").find('.modal-body .text-warning').html("");
+        $("#deleteConfirm").modal('show');
+    });
+    $('body').on("click", ".dublicate", function () {
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                }
+            }
+        }
+
+        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
+        var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
+//    console.log(curentwidgetindex);
+//    console.log(widgetindex);
+        dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
+        delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+        redrawAllJSON(dashJSONvar);
+    });
+    $('body').on("click", ".addchart", function () {
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                }
+            }
+        }
+        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+
+        var widgetindex = 0;
+
+        if (dashJSONvar[rowindex]["widgets"])
+        {
+            if (Object.keys(dashJSONvar[rowindex]["widgets"]).length > 0)
+            {
+                widgetindex = Math.max.apply(null, Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
+            }
+
+        } else
+        {
+            dashJSONvar[rowindex].widgets = [];
+        }
+        dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
+        dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
+        //TODO DRAW 1 chart    
+        redrawAllJSON(dashJSONvar);
+        $('html, body').animate({
+            scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top - 60
+        }, 5);
+    });
+    $('body').on("click", "#deletedashconfirm", function () {
+        url = cp + "/dashboard/delete";
+        senddata = {};
         senddata.name = $("#name").val();
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
@@ -2312,162 +2096,276 @@ $('body').on("click", ".savedash", function () {
             success: function (data) {
                 if (data.sucsses)
                 {
-                    var uri = cp + "/dashboard/" + senddata.name;
-                    var request_W_index = getParameterByName("widget");
-                    var request_R_index = getParameterByName("row");
-                    if (request_W_index === null)
+                    window.location = cp + "/dashboard/";
+                }
+                ;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status + ": " + thrownError);
+            }
+        });
+
+    });
+    $('body').on("click", ".deletedash", function () {
+        $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this dashboard?");
+        $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
+        $("#deleteConfirm").modal('show');
+    });
+    $('body').on("click", ".savedash", function () {
+        var url = cp + "/dashboard/save";
+        var senddata = {};
+
+        if (Object.keys(dashJSONvar).length > 0)
+        {
+            for (var rowindex in dashJSONvar)
+            {
+                for (var widgetindex in dashJSONvar[rowindex]["widgets"])
+                {
+                    delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+                    if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
                     {
-                        if (window.location.pathname !== uri)
-                        {
-                            window.location.href = uri;
-                        } else
-                        {
-                            alert("Data saved");
-                        }
-                    } else
+                        dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
+                        delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
+                    }
+
+                    for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
+                        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
+                    }
+                }
+            }
+
+            senddata.info = JSON.stringify(dashJSONvar);
+            senddata.name = $("#name").val();
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            $.ajax({
+                url: url,
+                data: senddata,
+                dataType: 'json',
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    if (data.sucsses)
                     {
-                        if (request_R_index !== null)
+                        var uri = cp + "/dashboard/" + senddata.name;
+                        var request_W_index = getParameterByName("widget");
+                        var request_R_index = getParameterByName("row");
+                        if (request_W_index === null)
                         {
-                            uri = uri + "?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit";
-//                            console.log(window.location.pathname + "?" + window.location.search);
-//                            console.log(uri);
-                            if (window.location.pathname + window.location.search !== uri)
+                            if (window.location.pathname !== uri)
                             {
                                 window.location.href = uri;
                             } else
                             {
                                 alert("Data saved");
                             }
-                        }
+                        } else
+                        {
+                            if (request_R_index !== null)
+                            {
+                                uri = uri + "?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit";
+//                            console.log(window.location.pathname + "?" + window.location.search);
+//                            console.log(uri);
+                                if (window.location.pathname + window.location.search !== uri)
+                                {
+                                    window.location.href = uri;
+                                } else
+                                {
+                                    alert("Data saved");
+                                }
+                            }
 
+                        }
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status + ": " + thrownError);
+                }
+            });
+        }
+    });
+    $('body').on("click", ".savedashasTemplate", function () {
+        var url = cp + "/dashboard/savetemplate";
+        var senddata = {};
+
+        if (Object.keys(dashJSONvar).length > 0)
+        {
+            for (var rowindex in dashJSONvar)
+            {
+                for (var widgetindex in dashJSONvar[rowindex]["widgets"])
+                {
+                    delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+                    if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
+                    {
+                        dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
+                        delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
+                    }
+
+                    for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
+                        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
                     }
                 }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status + ": " + thrownError);
             }
-        });
-    }
-});
 
+            senddata.info = JSON.stringify(dashJSONvar);
+            senddata.name = $("#name").val();
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            $.ajax({
+                url: url,
+                data: senddata,
+                dataType: 'json',
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    if (data.sucsses)
+                    {
 
-$('body').on("click", ".savedashasTemplate", function () {
-    var url = cp + "/dashboard/savetemplate";
-    var senddata = {};
-
-    if (Object.keys(dashJSONvar).length > 0)
-    {
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(xhr.status + ": " + thrownError);
+                }
+            });
+        }
+    });
+    $('body').on("click", ".editchart", function () {
+        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
         for (var rowindex in dashJSONvar)
         {
-            for (var widgetindex in dashJSONvar[rowindex]["widgets"])
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
             {
-                delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
                 {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
-                    delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
-                }
-
-                for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
-                    dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 }
             }
         }
-
-        senddata.info = JSON.stringify(dashJSONvar);
-        senddata.name = $("#name").val();
-        var header = $("meta[name='_csrf_header']").attr("content");
-        var token = $("meta[name='_csrf']").attr("content");
-        $.ajax({
-            url: url,
-            data: senddata,
-            dataType: 'json',
-            type: 'POST',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            success: function (data) {
-                if (data.sucsses)
+        AutoRefreshSingle(single_rowindex, single_widgetindex);
+        $(".editchartpanel select").select2({minimumResultsForSearch: 15});
+        $(".select2_group").select2({dropdownCssClass: "menu-select"});
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+    $('body').on("click", ".viewchart", function () {
+        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
                 {
-
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status + ": " + thrownError);
-            }
-        });
-    }
-});
-
-var single_rowindex = 0;
-var single_widgetindex = 0;
-
-$('body').on("click", ".editchart", function () {
-    var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
-    window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
-        {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
-            {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
             }
         }
-    }
-    AutoRefreshSingle(single_rowindex, single_widgetindex);
-    $(".editchartpanel select").select2({minimumResultsForSearch: 15});
-    $(".select2_group").select2({dropdownCssClass: "menu-select"});
-    $RIGHT_COL.css('min-height', $(window).height());
-});
+        AutoRefreshSingle(single_rowindex, single_widgetindex, true, true);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+    $('body').on("click", ".backtodush", function () {
 
-$('body').on("click", ".viewchart", function () {
-    var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
-    window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        $(".fulldash").show();
+        var request_W_index = getParameterByName("widget");
+        var request_R_index = getParameterByName("row");
+        window.history.pushState({}, "", window.location.pathname);
+        for (var rowindex in dashJSONvar)
         {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
             {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                }
             }
         }
-    }
-    AutoRefreshSingle(single_rowindex, single_widgetindex, true, true);
-    $RIGHT_COL.css('min-height', $(window).height());
-});
+        $(".editpanel").empty();
+        $(".editpanel").remove();
+        delete Edit_Form;
+        AutoRefresh();
 
-$('body').on("click", ".backtodush", function () {
-
-    $(".fulldash").show();
-    var request_W_index = getParameterByName("widget");
-    var request_R_index = getParameterByName("row");
-    window.history.pushState({}, "", window.location.pathname);
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+        $('html, body').animate({
+            scrollTop: dashJSONvar[request_R_index]["widgets"][request_W_index].echartLine._dom.getBoundingClientRect().top
+        }, 500);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+    $('body').on("click", ".csv", function () {
+        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        var csvarray = [];
+        csvarray.push([dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text]);
+        if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "time")
         {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
             {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                var Ser = dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series[seriesindex];
+                csvarray.push([Ser.name]);
+                for (var dataind in Ser.data)
+                {
+                    csvarray.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+                }
             }
         }
-    }
-    $(".editpanel").empty();
-    $(".editpanel").remove();
-    delete Edit_Form;
-    AutoRefresh();
+        if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "category")
+        {
+            for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
+            {
+                var Ser = dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series[seriesindex];
+                csvarray.push([Ser.name]);
+                for (var dataind in Ser.data)
+                {
+                    csvarray.push([Ser.data[dataind].name, Ser.data[dataind].value]);
+                }
+            }
+        }
 
-    $('html, body').animate({
-        scrollTop: dashJSONvar[request_R_index]["widgets"][request_W_index].echartLine._dom.getBoundingClientRect().top
-    }, 500);
-    $RIGHT_COL.css('min-height', $(window).height());
+        exportToCsv(dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text + ".csv", csvarray);
+
+    });
+    $('body').on("click", "#refresh", function () {
+        repaint(true);
+    });
+    $('body').on("change", "#refreshtime", function () {
+        if (!doapplyjson)
+        {
+            dashJSONvar.times.intervall = $(this).val();
+            repaint(true, false);
+        }
+
+    });
+
+
+//    $('body').on("mouseenter", ".select2-container--default .menu-select .select2-results__option[role=group]", function () {
+//        $(this).find("ul").css("top", $(this).position().top);
+//        var curent = $(this);
+//        if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").length === 0)
+//        {
+//            curent.find("ul:hidden").show();
+//        } else
+//        {
+//            if ($(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").parents(".select2-results__option[role=group]").attr("aria-label") !== $(this).attr("aria-label"))
+//            {
+//                $(".select2-container--default .menu-select .select2-results__option[role=group] ul:visible").hide();
+//                curent.find("ul:hidden").show();
+//            }
+//        }
+//
+//    });
+//    $('body').on("mouseleave", ".select2-container--default .menu-select", function () {
+//        $(".select2-container--default .menu-select .select2-results__option[role=group] ul").hide();
+//    });
+
+    var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
+    dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
 });
-
-var scrolltimer;
 window.onscroll = function () {
     clearTimeout(scrolltimer);
     scrolltimer = setTimeout(function () {
@@ -2511,7 +2409,6 @@ window.onscroll = function () {
 
     }, 1000);
 };
-
 window.onresize = function () {
     if ($(".fulldash").is(':visible'))
     {
@@ -2551,36 +2448,4 @@ window.onresize = function () {
 
 };
 
-$('body').on("click", ".csv", function () {
-    var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-    var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
-    var csvarray = [];
-    csvarray.push([dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text]);
-    if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "time")
-    {
-        for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
-        {
-            var Ser = dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series[seriesindex];
-            csvarray.push([Ser.name]);
-            for (var dataind in Ser.data)
-            {
-                csvarray.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
-            }
-        }
-    }
-    if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "category")
-    {
-        for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
-        {
-            var Ser = dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series[seriesindex];
-            csvarray.push([Ser.name]);
-            for (var dataind in Ser.data)
-            {
-                csvarray.push([Ser.data[dataind].name, Ser.data[dataind].value]);
-            }
-        }
-    }
 
-    exportToCsv(dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text + ".csv", csvarray);
-
-});
