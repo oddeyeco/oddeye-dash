@@ -169,8 +169,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
         var oldseries = clone_obg(widget.options.series);
         widget.options.series = [];        
         for (k in widget.q)
-        {            
-            continue;
+        {                        
             if ((typeof (widget.q[k])) === "string")
             {
                 var query = widget.q[k];
