@@ -206,13 +206,19 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
 
                             }
+                            var yAxis = 0;
+                            if (series.yAxisIndex)
+                            {
+                                yAxis = series.yAxisIndex[0];
+                            }
                             if (widget.stacked)
                             {
-                                series.stack = "0";
+                                series.stack = "stack" + yAxis;
                             } else
                             {
                                 delete series.stack;
                             }
+
                             if (typeof (widget.smooth) !== "undefined")
                             {
                                 series.smooth = widget.smooth;
@@ -675,7 +681,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 }
             }
-            
+
             cols = Math.max(rawcols, cols);
             var col = 1;
             var row = 1;
@@ -700,8 +706,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
-            
-            
+
+
             for (var zoomindex in widget.options.dataZoom)
             {
                 if (!widget.options.dataZoom[zoomindex].xAxisIndex)
@@ -720,7 +726,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 }
             }
-            
+
             for (var ind in widget.options.series)
             {
 
@@ -1102,7 +1108,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 widget.options.legend.data.push(widget.options.series[ind].name);
 
             }
-            
+
             if (redraw)
             {
                 chart.setOption({series: widget.options.series});
@@ -1356,10 +1362,10 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
         }
 }
 }
-function AutoRefresh(redraw = false){
+function AutoRefresh(redraw = false) {
     redrawAllJSON(dashJSONvar, redraw);
 }
-function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false){
+function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false) {
     var opt = dashJSONvar[row]["widgets"][index];
 
     showsingleWidget(row, index, dashJSONvar, readonly, rebuildform, redraw, function () {
@@ -1367,7 +1373,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
 //        editor.set(JSON.parse(jsonstr));
     });
 }
-function redrawAllJSON(dashJSON, redraw = false){
+function redrawAllJSON(dashJSON, redraw = false) {
     var rowindex;
     var widgetindex;
     $(".editchartpanel").hide();
@@ -1741,59 +1747,59 @@ $(document).ready(function () {
         }
 
     };
-    
-    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-    var startdate = "5m-ago";
-    var enddate = "now";
-    if (dashJSONvar.times.pickerlabel === "Custom")
-    {
-        startdate = dashJSONvar.times.pickerstart;
-        enddate = dashJSONvar.times.pickerend;
-    } else
-    {
-        if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
-        {
-            startdate = rangeslabels[dashJSONvar.times.pickerlabel];
-        }
 
-    }
-    for (var rowindex in dashJSONvar)
-    {
-        for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+        var startdate = "5m-ago";
+        var enddate = "now";
+        if (dashJSONvar.times.pickerlabel === "Custom")
         {
-            if (dashJSONvar[rowindex]["widgets"][widgetindex])
+            startdate = dashJSONvar.times.pickerstart;
+            enddate = dashJSONvar.times.pickerend;
+        } else
+        {
+            if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
             {
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+            }
+
+        }
+        for (var rowindex in dashJSONvar)
+        {
+            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            {
+                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                {
+                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                }
             }
         }
-    }
-    $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-    $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+        $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
+        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
 
-    //TODO Fix redraw
-    var check = document.getElementById('global-downsampling-switsh');
-    if (dashJSONvar.times.generalds[2])
-    {
-        if (check.checked !== dashJSONvar.times.generalds[2])
+        //TODO Fix redraw
+        var check = document.getElementById('global-downsampling-switsh');
+        if (dashJSONvar.times.generalds[2])
         {
-            $(check).attr('autoedit', true);
-            $(check).trigger('click');
-            $(check).removeAttr('autoedit');
+            if (check.checked !== dashJSONvar.times.generalds[2])
+            {
+                $(check).attr('autoedit', true);
+                $(check).trigger('click');
+                $(check).removeAttr('autoedit');
+            }
         }
-    }
 
-    if ($(".editpanel").is(':visible'))
-    {
-        var request_W_index = getParameterByName("widget");
-        var request_R_index = getParameterByName("row");
-        var action = getParameterByName("action");
-        showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false, false);
-    } else
-    {
-        window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
-        redrawAllJSON(dashJSONvar);
-    }
-});
+        if ($(".editpanel").is(':visible'))
+        {
+            var request_W_index = getParameterByName("widget");
+            var request_R_index = getParameterByName("row");
+            var action = getParameterByName("action");
+            showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false, false);
+        } else
+        {
+            window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
+            redrawAllJSON(dashJSONvar);
+        }
+    });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15});
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(dashJSONvar, $('#reportrange')));
