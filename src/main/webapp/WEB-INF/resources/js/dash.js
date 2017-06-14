@@ -246,7 +246,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
             {
                 chart.showLoading("default", {
                     text: '',
-                    color: colorPalette[0],
+                    color: colorPalette[colorPalette.length],
                     textColor: '#000',
                     maskColor: 'rgba(255, 255, 255, 0)',
                     zlevel: 0
