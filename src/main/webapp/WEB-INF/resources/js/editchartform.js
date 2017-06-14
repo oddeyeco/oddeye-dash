@@ -37,6 +37,7 @@ class ChartEditForm extends EditForm {
                 var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="q"]');
                 current.repaintq(contener, current.gettabcontent('tab_metric').forms[0].content);
             }
+            contener.find("select").select2({minimumResultsForSearch: 15});
         });
 
     }
