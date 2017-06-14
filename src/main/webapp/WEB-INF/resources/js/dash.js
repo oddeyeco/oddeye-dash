@@ -574,8 +574,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
         count.value--;
         if (count.value === 0)
         {
-
-
             if (!widget.manual)
             {
                 switch (widget.type) {
@@ -600,15 +598,12 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     return compareStrings(a.name, b.name);
                 });
             }
-
             for (var ind in widget.options.xAxis)
             {
                 widget.options.xAxis[ind].data = [];
             }
-
             var w = chart._dom.getBoundingClientRect().width;
             var h = chart._dom.getBoundingClientRect().height;
-
             if (widget.options.grid)
             {
                 if (widget.options.grid.x)
@@ -680,10 +675,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 }
             }
+            
             cols = Math.max(rawcols, cols);
             var col = 1;
             var row = 1;
-
             for (var yindex in widget.options.yAxis)
             {
                 var formatter = widget.options.yAxis[yindex].unit;
@@ -705,7 +700,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
             }
-
+            
+            
             for (var zoomindex in widget.options.dataZoom)
             {
                 if (!widget.options.dataZoom[zoomindex].xAxisIndex)
@@ -724,7 +720,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                 }
             }
-
+            
             for (var ind in widget.options.series)
             {
 
@@ -1106,6 +1102,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 widget.options.legend.data.push(widget.options.series[ind].name);
 
             }
+            
             if (redraw)
             {
                 chart.setOption({series: widget.options.series});
