@@ -45,7 +45,7 @@ var single_widgetindex = 0;
 var scrolltimer;
 
 
-var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart) {
+var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart, end) {
     return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
 
@@ -65,7 +65,16 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
                 if (widget.options.xAxis[xAxis_Index].type === "time")
-                {
+                {                    
+                    if (end === "now")
+                    {
+                        widget.options.xAxis[xAxis_Index].max = new Date().getTime();
+                    } else
+                    {
+                        widget.options.xAxis[xAxis_Index].max = end;
+                    }
+
+
                     for (index in data.chartsdata)
                     {
                         if (Object.keys(data.chartsdata[index].data).length > 0)
@@ -1111,7 +1120,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
             if (redraw)
             {
-                chart.setOption({series: widget.options.series});
+                chart.setOption({series: widget.options.series,xAxis:widget.options.xAxis});
             } else
             {
                 chart.setOption(widget.options, true);
@@ -1355,7 +1364,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                     zlevel: 0
                 });
 
-                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart));
+                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart, end));
 
             }
 
