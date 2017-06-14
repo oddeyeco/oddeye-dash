@@ -1451,12 +1451,15 @@ function redrawAllJSON(dashJSON, redraw = false)
                 var bkgclass = "";
                 clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
                 $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
-                if (dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor)
+                if (dashJSON[rowindex]["widgets"][widgetindex].options)
                 {
-                    $("#charttemplate .chartsection").css("background-color", dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
-                } else
-                {
-                    $("#charttemplate .chartsection").css("background-color", "");
+                    if (dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor)
+                    {
+                        $("#charttemplate .chartsection").css("background-color", dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
+                    } else
+                    {
+                        $("#charttemplate .chartsection").css("background-color", "");
+                    }
                 }
 
                 $("#charttemplate .chartsection").attr("index", widgetindex);
