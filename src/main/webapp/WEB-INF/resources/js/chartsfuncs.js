@@ -674,13 +674,13 @@ var formatpsi = function (params) {
     return (format_metric(params)) + "psi";
 };
 
-var format_metric = function (params, type) {
+var format_metric = function (params, type) {    
     if (typeof (type) === "undefined")
     {
         type = "m";
     }
     var divatior = 10;
-    var val = paramtoval(params);
+    var val = paramtoval(params);    
     var neg = 1;
     if (val !== 0)
     {
@@ -853,7 +853,7 @@ function paramtoval(params)
 
     var val = null;
     if (isNaN(params))
-    {
+    {        
         if (isNaN(params.value))
         {
             if (params.value.constructor === Array)
@@ -866,7 +866,7 @@ function paramtoval(params)
 
         } else
         {
-            val = params.value[1];
+            val = params.value;
 
         }
     } else
