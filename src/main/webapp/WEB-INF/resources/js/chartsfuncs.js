@@ -553,11 +553,11 @@ var formatPpS = function (params) {
 
 var formatbpS = function (params) {
     var val = paramtoval(params);
-    return (format_metric(val)) + "bpS";
+    return (format_data(val)) + "bpS";
 };
 var formatBpS = function (params) {
     var val = paramtoval(params);
-    return (format_metric(val)) + "BpS";
+    return (format_data(val)) + "BpS";
 };
 var formatKbpS = function (params) {
     var val = paramtoval(params);

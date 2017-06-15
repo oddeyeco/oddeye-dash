@@ -1,19 +1,18 @@
 <script src="${cp}/resources/echarts/dist/echarts.js"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
-<script>
+<script>    
     var hashcode = ${metric.hashCode()};
     var merictype = ${metric.getType()};
     var formatter = format_metric;
     var abc_formatter = format_metric;
-
+    console.log(merictype);
     switch (merictype) {
         case 4:
             formatter = "{value} %";
             abc_formatter = "{c} %";
-            break;
-
-        default:
+            break;//formatops          
+        default:                        
             formatter = format_metric;
             abc_formatter = format_metric;
             break;
@@ -180,7 +179,7 @@
                         name: 'Last',
                         type: 'gauge',
                         axisLabel: {show: false},
-                        center: ['91%', 220],
+                        center: ['90%', 220],
                         radius: 140,
                         startAngle: 90,
                         endAngle: -90,
@@ -202,7 +201,7 @@
                         },
                         detail: {
                             offsetCenter: ["50%", "140%"],
-                            formatter: format_metric,
+                            formatter: formatter,
                         },
                         data: [{value: chdataMath[chdataMath.length - 1], name: 'Last Value'}]
                     }]

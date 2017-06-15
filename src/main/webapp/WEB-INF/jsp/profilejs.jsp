@@ -1,8 +1,8 @@
 <script src="${cp}/resources/ludo-jquery-treetable/jquery.treetable.js"></script>
 <script>
-//    var maetricrawHTML = '<tr><td>[icons]</td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td><a>[tags]</a></td><td><a>[lasttime]</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
-    var maetricrawHTML = '<tr id=[hash]><td class="icons text-nowrap">[icons]<a href="${cp}/history/[hash]" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="${cp}/metriq/[hash]">[metricname]</a></td><td class="tags">[tags]</td><td class="text-nowrap"><a>[lasttime]</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="[hash]"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
-    var chartLinck = '<a href="${cp}/chart/[hash]" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a>';
+//    var maetricrawHTML = '<tr><td>{icons}</td><td><a href="${cp}/metriq/{hash}">{metricname}</a></td><td><a>{tags}</a></td><td><a>{lasttime}</a></td><td class="text-nowrap"><a href="javascript:void(0)" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i> Edit </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
+    var maetricrawHTML = '<tr id={hash}><td class="icons text-nowrap">{icons}<a href="${cp}/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="${cp}/metriq/{hash}">{metricname}</a></td><td class="tags">{tags}</td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{lasttime}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
+    var chartLinck = '<a href="${cp}/chart/{hash}" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a>';
     var header = $("meta[name='_csrf_header']").attr("content");
     var token = $("meta[name='_csrf']").attr("content");
     function getmetrics(key, idvalue, i, draw) {
@@ -23,14 +23,14 @@
             {
                 for (var k in value.data) {
                     var metric = value.data[k];
-                    var input = html.replace("[metricname]", metric.name);
+                    var input = html.replace("{metricname}", metric.name);
                     if (metric.type !== 0)
                     {
-                        var icons = chartLinck.replace("[hash]", JSON.stringify(metric.hash));
-                        input = input.replace("[icons]", icons);
+                        var icons = chartLinck.replace("{hash}", JSON.stringify(metric.hash));
+                        input = input.replace("{icons}", icons);
                     } else
                     {
-                        input = input.replace("[icons]", "");
+                        input = input.replace("{icons}", "");
                     }
                     var sttags = "";
                     for (var ind in metric.tags)
@@ -38,12 +38,10 @@
                         var tag = metric.tags[ind];
                         sttags = sttags + "<div>" + ind + ":\"" + tag + "\"</div>";
                     }
-                    input = input.replace("[tags]", sttags);
-                    input = input.replace("[hash]", JSON.stringify(metric.hash));
-                    input = input.replace("[hash]", JSON.stringify(metric.hash));
-                    input = input.replace("[hash]", JSON.stringify(metric.hash));
-                    input = input.replace("[hash]", JSON.stringify(metric.hash));
-                    input = input.replace("[lasttime]", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));
+                    input = input.replace("{tags}", sttags);
+                    input = input.replace(new RegExp("{hash}", 'g') , JSON.stringify(metric.hash));                                                            
+                    input = input.replace("{type}", JSON.stringify(metric.typename));                                        
+                    input = input.replace("{lasttime}", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));
                     biginput = biginput + input;
                 }
                 $("#" + id).find("tbody").append(biginput);
@@ -87,7 +85,6 @@
                         var id = key + "_" + val;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
-//                        $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped projects"><thead><tr><th>#</th><th>Metric name</th><th>Tags</th><th>Last Time</th><th>Actions</th></tr></thead><tbody></tbody></table></span></td></tr>');
                         $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
                         getmetrics(key, val, i);
                     });
@@ -136,11 +133,11 @@
                         id = id.replace(re, "_");
                         if (i< data.specialcount)
                         { //Special
-                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
+                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
                         } 
                         else
                         {
-                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
+                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
                         }
                         
                         getmetrics("name", val, i);                        
