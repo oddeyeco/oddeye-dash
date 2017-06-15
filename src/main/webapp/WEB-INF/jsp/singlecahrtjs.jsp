@@ -2,13 +2,28 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
+    var hashcode = ${metric.hashCode()};
+    var merictype = ${metric.getType()};
+    var formatter = format_metric;
+    var abc_formatter = format_metric;
+
+    switch (merictype) {
+        case 4:
+            formatter = "{value} %";
+            abc_formatter = "{c} %";
+            break;
+
+        default:
+            formatter = format_metric;
+            abc_formatter = format_metric;
+            break;
+    }
     pickerlabel = "Last 1 day";
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var timer;
     var interval = 10000;
     $(document).ready(function () {
-
-        var uri = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
+        var uri = cp + "/getdata?hash=" + hashcode + "&startdate=1d-ago";
         drawEchart(uri, echartLine);
         timer = setInterval(function () {
             ReDrawEchart(uri, echartLine);
@@ -19,7 +34,7 @@
 
         $('body').on("click", "#Clear_reg", function () {
             var sendData = {};
-            sendData.hash = ${metric.hashCode()};
+            sendData.hash = hashcode;
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
             url = cp + "/resetregression";
@@ -48,15 +63,15 @@
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         if (pickerlabel === "Custom")
         {
-            var url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + pickerstart + "&enddate=" + pickerend;
+            var url = cp + "/getdata?hash=" + hashcode + "&startdate=" + pickerstart + "&enddate=" + pickerend;
         } else
         {
             if (typeof (rangeslabels[pickerlabel]) === "undefined")
             {
-                url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=1d-ago";
+                url = cp + "/getdata?hash=" + hashcode + "&startdate=1d-ago";
             } else
             {
-                url = "${cp}/getdata?hash=${metric.hashCode()}&startdate=" + rangeslabels[pickerlabel];
+                url = cp + "/getdata?hash=" + hashcode + "&startdate=" + rangeslabels[pickerlabel];
             }
 
         }
@@ -88,8 +103,24 @@
                     chdataMath.push(chartline.data[ind][1]);
                     chdata.push({value: chartline.data[ind], 'unit': "format_metric"});
                 }
-//                chdata = chartline.data;
             }
+
+            var calcmin = 0;
+            var clacmax = 100;
+
+            switch (merictype) {
+                case 4:
+                    calcmin = 0;
+                    clacmax = 100;
+                    break;
+
+                default:
+                    calcmin = Math.min.apply(null, chdataMath);
+                    clacmax = Math.max.apply(null, chdataMath);
+                    break;
+            }
+
+
             chart.hideLoading();
             chart.setOption({
                 title: {
@@ -100,14 +131,14 @@
                 },
                 toolbox: {},
                 xAxis: [{
-                        type: 'time',
+                        type: 'time'
                     }],
                 yAxis: [{
                         type: 'value',
                         axisLabel:
                                 {
-                                    formatter: format_metric
-                                },
+                                    formatter: formatter
+                                }
                     }],
                 dataZoom: [{
                         type: 'inside',
@@ -128,22 +159,19 @@
                         },
                         markPoint: {
                             data: [
-                                {type: 'max', name: 'max', itemStyle: {
-                                        normal: {
-                                            label: {position: "top", formatter: format_metric}
-                                        }}},
-                                {type: 'min', name: 'min', itemStyle: {
-                                        normal: {
-                                            label: {position: "top", formatter: format_metric}
-                                        }}}
+                                {type: 'max', name: 'max', label: {
+                                        normal: {position: "top", formatter: abc_formatter}
+                                    }},
+                                {type: 'min', name: 'min', label: {
+                                        normal: {position: "top", formatter: abc_formatter}
+                                    }}
                             ]
                         },
                         markLine: {
                             data: [
-                                {type: 'average', name: 'average', itemStyle: {
-                                        normal: {
-                                            label: {formatter: format_metric}
-                                        }}}
+                                {type: 'average', name: 'average', label: {
+                                        normal: {formatter: abc_formatter}
+                                    }}
                             ]
                         },
                         data: chdata
@@ -156,8 +184,8 @@
                         radius: 140,
                         startAngle: 90,
                         endAngle: -90,
-                        min: Math.min.apply(null, chdataMath),
-                        max: Math.max.apply(null, chdataMath),
+                        min: calcmin,
+                        max: clacmax,
                         splitNumber: 3,
                         axisLine: {
                             lineStyle: {
@@ -197,7 +225,7 @@
                     chdataMath.push(chartline.data[ind][1]);
                     chdata.push({value: chartline.data[ind], 'unit': "format_metric"});
                 }
-                
+
             }
             var options = chart.getOption();
 
