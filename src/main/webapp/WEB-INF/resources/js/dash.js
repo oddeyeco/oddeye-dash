@@ -259,9 +259,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         }
                     }
                 }
-
+                
                 if (widget.options.xAxis[xAxis_Index].type === "category")
                 {
+                    
+                    delete widget.options.xAxis[xAxis_Index].max;
                     var sdata = [];
                     var tmp_series_1 = {};
 
@@ -518,8 +520,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
 
                             if (series.type === "gauge")
-                            {
-
+                            {                                
                                 if (!series.axisLabel)
                                 {
                                     series.axisLabel = {};
@@ -587,6 +588,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
         }
 
         count.value--;
+
         if (count.value === 0)
         {
             if (!widget.manual)
@@ -613,10 +615,12 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     return compareStrings(a.name, b.name);
                 });
             }
+
             for (var ind in widget.options.xAxis)
             {
                 widget.options.xAxis[ind].data = [];
             }
+
             var w = chart._dom.getBoundingClientRect().width;
             var h = chart._dom.getBoundingClientRect().height;
             if (widget.options.grid)
@@ -1117,15 +1121,16 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 widget.options.legend.data.push(widget.options.series[ind].name);
 
             }
-
+            
             if (redraw)
             {
                 chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
             } else
-            {
+            {                
+//                console.log(widget.options.xAxis);
                 chart.setOption(widget.options, true);
             }
-
+            
             chart.hideLoading();
             if (callback !== null)
             {
@@ -1523,6 +1528,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
 }
 }
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
+
     $(".fulldash").hide();
     for (var rowindex in dashJSON)
     {
@@ -1631,25 +1637,13 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
         }
     }
+
     if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
     {
         setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
     } else
     {
         echartLine.setOption(dashJSON[row]["widgets"][index].options);
-    }
-    if (typeof (dashJSON[row]["widgets"][index].transparent) === "undefined")
-    {
-        $(".right_col .editpanel #singlewidget").addClass("chartbkg");
-    } else
-    {
-        if (dashJSON[row]["widgets"][index].transparent)
-        {
-            $(".right_col .editpanel #singlewidget").removeClass("chartbkg");
-        } else
-        {
-            $(".right_col .editpanel #singlewidget").addClass("chartbkg");
-        }
     }
 
     return;

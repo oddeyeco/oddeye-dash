@@ -516,7 +516,7 @@ var encodeHTML = function (source) {
         },
         gauge: {
             tooltip: {
-                formatter: function (params) {
+                formatter: function (params) {                    
                     var value = params.data.value;
                     if (typeof (window[params.data.unit]) === "function")
                     {
