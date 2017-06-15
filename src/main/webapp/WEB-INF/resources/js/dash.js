@@ -65,7 +65,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     }
                 }
                 if (widget.options.xAxis[xAxis_Index].type === "time")
-                {                    
+                {
                     if (end === "now")
                     {
                         widget.options.xAxis[xAxis_Index].max = new Date().getTime();
@@ -1120,7 +1120,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
             if (redraw)
             {
-                chart.setOption({series: widget.options.series,xAxis:widget.options.xAxis});
+                chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
             } else
             {
                 chart.setOption(widget.options, true);
@@ -1524,6 +1524,18 @@ function redrawAllJSON(dashJSON, redraw = false) {
 }
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
     $(".fulldash").hide();
+    for (var rowindex in dashJSON)
+    {
+        for (var widgetindex in    dashJSON[rowindex]["widgets"])
+        {
+            if (dashJSON[rowindex]["widgets"][widgetindex])
+            {
+                clearTimeout(dashJSON[rowindex]["widgets"][widgetindex].timer);
+            }
+        }
+    }
+
+
     if (rebuildform)
     {
         Edit_Form = null;
