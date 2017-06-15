@@ -1127,7 +1127,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
             } else
             {                
-//                console.log(widget.options.xAxis);
                 chart.setOption(widget.options, true);
             }
             
