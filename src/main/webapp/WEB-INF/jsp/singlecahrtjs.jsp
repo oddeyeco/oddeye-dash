@@ -5,8 +5,7 @@
     var hashcode = ${metric.hashCode()};
     var merictype = ${metric.getType()};
     var formatter = format_metric;
-    var abc_formatter = format_metric;
-    console.log(merictype);
+    var abc_formatter = format_metric;    
     switch (merictype) {
         case 4:
             formatter = "{value} %";
@@ -77,7 +76,7 @@
         clearTimeout(timer);
 
         drawEchart(url, echartLine);
-        timer = setInterval(function () {
+        timer = setInterval(function () {            
             ReDrawEchart(url, echartLine);
         }, interval);
 
@@ -201,7 +200,7 @@
                         },
                         detail: {
                             offsetCenter: ["50%", "140%"],
-                            formatter: formatter,
+                            formatter: formatter
                         },
                         data: [{value: chdataMath[chdataMath.length - 1], name: 'Last Value'}]
                     }]
@@ -212,7 +211,7 @@
 
 
     function ReDrawEchart(uri, chart)
-    {
+    {        
         $.getJSON(uri, null, function (data) {
             var date = [];
             var chdata = [];
@@ -222,7 +221,7 @@
                 var chartline = data.chartsdata[k];
                 for (var ind in chartline.data) {
                     chdataMath.push(chartline.data[ind][1]);
-                    chdata.push({value: chartline.data[ind], 'unit': "format_metric"});
+                    chdata.push({value: chartline.data[ind]});
                 }
 
             }
