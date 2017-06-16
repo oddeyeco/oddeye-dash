@@ -13,7 +13,7 @@ var colorPalette = [
 colorPalette.reverse();
 
 
-var abcformater = function (params) {        
+var abcformater = function (params) {
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -21,12 +21,12 @@ var abcformater = function (params) {
     }
     if (!formatter)
     {
-       return  formatter;
+        return  formatter;
     }
     var valueformatter = params.data.unit;
     if (typeof (window[valueformatter]) === "function")
     {
-        valueformatter =window[valueformatter];
+        valueformatter = window[valueformatter];
     }
     if (params.data.valueformatter)
     {
@@ -43,7 +43,7 @@ var abcformater = function (params) {
     }
     if (params.data.isinverse)
     {
-        value = value*-1;
+        value = value * -1;
     }
     if (typeof (window[formatter]) === "function")
     {
@@ -141,7 +141,7 @@ var encodeHTML = function (source) {
 
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
-            formatter: function (params) {                
+            formatter: function (params) {
                 var out = "";
                 if (params.constructor === Array)
                 {
@@ -491,8 +491,8 @@ var encodeHTML = function (source) {
                         {
                             formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(params.value));
                         } else
-                        {                                                        
-                            formatter = formatter.replace(new RegExp("{value}", 'g'),valueformatter.replace(new RegExp("{value}", 'g'), params.value));
+                        {
+                            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), params.value));
                         }
                         return formatter;
                     }
@@ -515,11 +515,18 @@ var encodeHTML = function (source) {
         },
         gauge: {
             tooltip: {
-                formatter: function (params) {                        
+                formatter: function (params) {
                     var value = params.data.value;
-                    if (typeof (window[params.data.unit]) === "function")
+                    if (typeof params.data.unit !== "undefined")
                     {
-                        value = window[params.data.unit](value);
+                        if (typeof (window[params.data.unit]) === "function")
+                        {
+                            value = window[params.data.unit](value);
+                        } else
+                        {
+                            value = params.data.unit.replace("{value}", value);
+                        }
+
                     }
 
                     return '<span style="font-size:16px;color:#fff">' + params.seriesName + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
