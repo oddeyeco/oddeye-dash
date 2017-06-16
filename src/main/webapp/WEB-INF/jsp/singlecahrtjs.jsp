@@ -5,14 +5,17 @@
     var hashcode = ${metric.hashCode()};
     var merictype = ${metric.getType()};
     var formatter = format_metric;
+    var s_formatter = "{value} %";
     var abc_formatter = format_metric;    
     switch (merictype) {
         case 4:
             formatter = "{value} %";
+            s_formatter = "{value} %";
             abc_formatter = "{c} %";
             break;//formatops          
         default:                        
             formatter = format_metric;
+            s_formatter = "format_metric";
             abc_formatter = format_metric;
             break;
     }
@@ -99,7 +102,7 @@
                 var chartline = data.chartsdata[k];
                 for (var ind in chartline.data) {
                     chdataMath.push(chartline.data[ind][1]);
-                    chdata.push({value: chartline.data[ind], 'unit': "format_metric"});
+                    chdata.push({value: chartline.data[ind], 'unit': s_formatter});
                 }
             }
 
@@ -157,18 +160,21 @@
                         },
                         markPoint: {
                             data: [
-                                {type: 'max', name: 'max', label: {
-                                        normal: {position: "top", formatter: abc_formatter}
+                                {type: 'max', name: 'max', 'unit': s_formatter, label: {
+                                        normal: {position: "top", formatter: abc_formatter},
+                                        emphasis: {position: "top",formatter: abc_formatter}
                                     }},
                                 {type: 'min', name: 'min', label: {
-                                        normal: {position: "top", formatter: abc_formatter}
+                                        normal: {position: "top", formatter: abc_formatter},
+                                        emphasis: {position: "top",formatter: abc_formatter}
                                     }}
                             ]
                         },
                         markLine: {
                             data: [
                                 {type: 'average', name: 'average', label: {
-                                        normal: {formatter: abc_formatter}
+                                        normal: {formatter: abc_formatter},
+                                        emphasis: {formatter: abc_formatter}
                                     }}
                             ]
                         },
