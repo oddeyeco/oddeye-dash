@@ -172,7 +172,7 @@
                         },
                         markLine: {
                             data: [
-                                {type: 'average', name: 'average', label: {
+                                {type: 'average', name: 'average',  'unit': s_formatter, label: {
                                         normal: {formatter: abc_formatter},
                                         emphasis: {formatter: abc_formatter}
                                     }}
