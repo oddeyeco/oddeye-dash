@@ -565,7 +565,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                     }
                                     if (typeof widget.options.yAxis[yAxis].min !== "undefined")
                                     {
-                                        series.min = widget.options.yAxis[0].min;
+                                        series.min = widget.options.yAxis[yAxis].min;
                                     } else
                                     {
                                         delete series.min;
@@ -573,7 +573,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
                                     if (typeof widget.options.yAxis[yAxis].max !== "undefined")
                                     {
-                                        series.max = widget.options.yAxis[0].max;
+                                        series.max = widget.options.yAxis[yAxis].max;
                                     } else
                                     {
                                         delete(series.max);
