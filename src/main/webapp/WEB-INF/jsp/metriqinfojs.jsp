@@ -4,6 +4,22 @@
 <!--<script src="${cp}/resources/js/chartsfuncs.js"></script>-->
 <script src="${cp}/assets/js/chartsfuncs.min.js"></script>
 <script>
+    var merictype = ${metric.getType()};
+    var formatter = format_metric;
+    var s_formatter = "{value} %";
+    var abc_formatter = format_metric;
+    switch (merictype) {
+        case 4:
+            formatter = "{value} %";
+            s_formatter = "{value} %";
+            abc_formatter = "{c} %";
+            break;//formatops          
+        default:
+            formatter = format_metric;
+            s_formatter = "format_metric";
+            abc_formatter = format_metric;
+            break;
+    }
 
     var chartsdata = ${data};
     var echartLine;
@@ -51,7 +67,7 @@
         var serie2 = clone_obg(defserie);
         serie2.name = "Today Data";
         serie2.type = "line";
-        serie2.data = chartsdata;        
+        serie2.data = chartsdata;
         serie2.xAxisIndex = 1;
         serie2.tooltip = {trigger: 'axix'};
         series.push(serie2);
@@ -93,7 +109,7 @@
                     type: 'value',
                     scale: true,
                     axisLabel: {
-                        formatter: format_data
+                        formatter: formatter
                     }
                 }],
             dataZoom: [{
