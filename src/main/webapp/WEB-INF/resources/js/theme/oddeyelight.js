@@ -141,8 +141,7 @@ var encodeHTML = function (source) {
 
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
-            formatter: function (params) {
-
+            formatter: function (params) {                
                 var out = "";
                 if (params.constructor === Array)
                 {
@@ -516,7 +515,7 @@ var encodeHTML = function (source) {
         },
         gauge: {
             tooltip: {
-                formatter: function (params) {                    
+                formatter: function (params) {                        
                     var value = params.data.value;
                     if (typeof (window[params.data.unit]) === "function")
                     {

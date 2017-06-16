@@ -184,6 +184,22 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             series.name = name;
                             var chdata = data.chartsdata[index].data;
                             series.data = [];
+                            var yAxis = 0;
+                            if (series.yAxisIndex)
+                            {
+                                if (series.yAxisIndex === Array)
+                                {
+                                    yAxis = series.yAxisIndex[0];
+                                } else
+                                {
+                                    yAxis = series.yAxisIndex;
+                                }
+                            }
+                            if (!widget.options.yAxis[yAxis])
+                            {
+                                yAxis = 0;
+                            }
+
                             for (var ind in chdata)
                             {
                                 var val = chdata[ind];
@@ -194,17 +210,17 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                                 switch (widget.type) {
                                     case 'pie':
                                     {
-                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[0].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
+                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
                                         break;
                                     }
                                     case 'bar':
                                     {
-                                        series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                        series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
                                         break;
                                     }
                                     case 'line':
                                     {
-                                        series.data.push({value: val, 'unit': widget.options.yAxis[0].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                        series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
                                         break;
                                     }
                                     default:
@@ -259,10 +275,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         }
                     }
                 }
-                
+
                 if (widget.options.xAxis[xAxis_Index].type === "category")
                 {
-                    
+
                     delete widget.options.xAxis[xAxis_Index].max;
                     var sdata = [];
                     var tmp_series_1 = {};
@@ -342,7 +358,22 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                         {
                             val = -1 * val;
                         }
-                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[0].unit, isinverse: widget.q[q_index].info.inverse});
+                        var yAxis = 0;
+                        if (widget.q[q_index].yAxisIndex)
+                        {
+                            if (widget.q[q_index].yAxisIndex === Array)
+                            {
+                                yAxis = widget.q[q_index].yAxisIndex[0];
+                            } else
+                            {
+                                yAxis = widget.q[q_index].yAxisIndex;
+                            }
+                        }                        
+                        if (!widget.options.yAxis[yAxis])
+                        {
+                            yAxis = 0;
+                        }                                               
+                        tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[yAxis].unit, isinverse: widget.q[q_index].info.inverse});
                         sdata.push({value: val, name: name});
                     }
 
@@ -520,7 +551,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
 
 
                             if (series.type === "gauge")
-                            {                                
+                            {
                                 if (!series.axisLabel)
                                 {
                                     series.axisLabel = {};
@@ -1121,15 +1152,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 widget.options.legend.data.push(widget.options.series[ind].name);
 
             }
-            
+
             if (redraw)
             {
                 chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
             } else
-            {                
+            {
                 chart.setOption(widget.options, true);
             }
-            
+
             chart.hideLoading();
             if (callback !== null)
             {
