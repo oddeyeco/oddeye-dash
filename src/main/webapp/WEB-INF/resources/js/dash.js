@@ -368,11 +368,11 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             {
                                 yAxis = widget.q[q_index].yAxisIndex;
                             }
-                        }                        
+                        }
                         if (!widget.options.yAxis[yAxis])
                         {
                             yAxis = 0;
-                        }                                               
+                        }
                         tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[yAxis].unit, isinverse: widget.q[q_index].info.inverse});
                         sdata.push({value: val, name: name});
                     }
@@ -1313,10 +1313,37 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
         }
 
         var count = {"value": widget.q.length, "base": widget.q.length};
+        for (k in widget.q)
+        {
+            if (widget.q[k].check_disabled || (!widget.q[k].info.metrics))
+            {
+                count.base--;
+            }
+        }
+        if (count.base === 0)
+        {
+            var tmpseries = clone_obg(widget.options.series);
+            for (var tk in tmpseries)
+            {
+                tmpseries[tk].data = [];
+            }
+            chart.setOption({series: tmpseries, legend: {data: []}});
+            return;
+        }
+
+        count.value = count.base;
         var oldseries = clone_obg(widget.options.series);
         widget.options.series = [];
         for (k in widget.q)
         {
+            if (count.base !== 0)
+            {
+                if (widget.q[k].check_disabled)
+                {
+                    continue;
+                }
+            }
+
             if ((typeof (widget.q[k])) === "string")
             {
                 var query = widget.q[k];
@@ -1384,8 +1411,6 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 
                 }
             }
-
-
             var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
 
 

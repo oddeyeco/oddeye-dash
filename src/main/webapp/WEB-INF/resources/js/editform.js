@@ -554,6 +554,10 @@ class EditForm {
         var current = this;
         var edit_q = {tag: "div", class: 'forms', id: "edit_q"};
         var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
+                    {tag: "div", class: "form-group form-group-custom forinside", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Disabled", lfor: "metric_check_disabled"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small metric_check_disabled", prop_key: "check_disabled", id: "{index}_metric_check_disabled", name: "metric_check_disabled", key_path: 'check_disabled', default: false}
+                        ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Tags", lfor: "tags"},
                             {tag: "div", class: "data-label tags", prop_key: "tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";"},
