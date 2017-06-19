@@ -11,35 +11,33 @@
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
-    var levels = {"-1":"OK",0:"All",1:"Low",2:"Guarded",3:"Elevated",4:"High",5:"Severe"};
-    
+    var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};
+
     $(document).ready(function () {
         var series = {
             name: "errors",
             type: "line",
             step: "end",
-            smooth: false,           
+            smooth: false,
             data: []
         };
         $("#datatable tbody tr").each(function (i, val) {
+            var interval = parseInt($(this).find('.timeinterval').attr('value'));
             if (i === 0)
             {
                 var time = moment(${date.getTime()}).hour(23).minute(59).valueOf();
                 if (moment().valueOf() < time)
                 {
                     time = moment().valueOf();
-                }
-
-                series.data.push([time, $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
+                }                
+                series.data.push([time, $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);                               
             } else
-            {
-                var interval = parseInt($(this).find('.timeinterval').attr('value'));
+            {                
                 series.data.push([$(this).attr('time'), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
             }
 
 
-        });
-        console.log(series);
+        });        
         echartLine.setOption({
             title: {
                 text: ""
@@ -65,8 +63,8 @@
                     splitNumber: 5,
                     splitArea: {show: false},
                     axisLabel: {
-                         formatter: function (param) {                             
-                             return  levels[param];
+                        formatter: function (param) {
+                            return  levels[param];
                         }
                     },
                     axisLine: {show: false}
