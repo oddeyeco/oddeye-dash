@@ -5,6 +5,8 @@
  */
 package co.oddeye.concout.config;
 
+import freemarker.template.TemplateException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +17,14 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 /**
  *
@@ -65,6 +70,21 @@ public class Config extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
-        registry.addResourceHandler("/assets/**").addResourceLocations("/WEB-INF/assets/");
-    }
+        registry.addResourceHandler("/assets/**").addResourceLocations("/WEB-INF/assets/");        
+    }  
+    
+//    @Bean
+//    public freemarker.template.Configuration freemarkerConfiguration() throws IOException, TemplateException {        
+//        FreeMarkerConfigurationFactoryBean factoryBean = new FreeMarkerConfigurationFactoryBean();
+//        factoryBean.setPreferFileSystemAccess(true);
+//        factoryBean.setTemplateLoaderPath("/");
+//        factoryBean.afterPropertiesSet();
+//        return factoryBean.getObject();
+//    }    
+    @Bean(name = "freemarkerConfig")
+    public FreeMarkerConfigurer getFreemarkerConfig() throws IOException, TemplateException { 
+        FreeMarkerConfigurer result = new FreeMarkerConfigurer();
+        result.setTemplateLoaderPaths("/WEB-INF/ftl/"); // prevents FreeMarkerConfigurer from using its default path allowing setPrefix to work as expected
+        return result;
+    }    
 }

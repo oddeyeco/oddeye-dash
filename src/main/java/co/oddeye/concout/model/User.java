@@ -14,6 +14,8 @@ import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.providers.OddeyeKafkaDataListener;
 import co.oddeye.concout.providers.UserConcurrentMessageListenerContainer;
 import co.oddeye.core.globalFunctions;
+import freemarker.template.TemplateException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,6 +30,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
@@ -87,9 +91,9 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
     @HbaseColumn(qualifier = "balance", family = "technicalinfo")
-    private Long balance;    
+    private Long balance;
     @HbaseColumn(qualifier = "alowswitch", family = "technicalinfo")
-    private Boolean alowswitch;    
+    private Boolean alowswitch;
     @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
     private Collection<GrantedAuthority> authorities;
     private ConcoutMetricMetaList MetricsMetas;
@@ -98,7 +102,7 @@ public class User implements UserDetails {
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
-    
+
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
     private final Map<String, String[]> sotokenlist = new HashMap<>();
@@ -120,16 +124,23 @@ public class User implements UserDetails {
         roles.put(new SimpleGrantedAuthority(User.ROLE_DELETE), "Can delete");
         roles.put(new SimpleGrantedAuthority(User.ROLE_EDIT), "Can Edit");
         roles.put(new SimpleGrantedAuthority(User.ROLE_CAN_SWICH), "Can Switch to users");
-        
 
         return roles;
     }
 
     // Developet metods
     public void SendConfirmMail(mailSender Sender, String uri) throws UnsupportedEncodingException {
-        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
-    }
+            //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
+            HashMap<String,String> model = new HashMap();
+            model.put("userName", this.getName());
+            model.put("userLastName", this.getLastname());
+            model.put("uri", uri);
+            model.put("email", this.getEmail());
+            model.put("id", this.getId().toString());
+            Sender.send("Confirm Email ",this.getEmail(), "cinfirm.ftl",model);
 
+        
+    }
 
     public void inituser(ArrayList<KeyValue> userkvs) {
         authorities.clear();
@@ -208,17 +219,17 @@ public class User implements UserDetails {
             return property;
         }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "balance".getBytes())) {
-                this.balance = Bytes.getLong(property.value()) ;
+                this.balance = Bytes.getLong(property.value());
             }
             return property;
         }).map((KeyValue property) -> {
             if (Arrays.equals(property.qualifier(), "alowswitch".getBytes())) {
-            if (property.value().length == 1) {
-                this.alowswitch = property.value()[0] != (byte) 0;
-            }
-            if (property.value().length == 4) {
-                this.alowswitch = Bytes.getInt(property.value()) != 0;
-            }
+                if (property.value().length == 1) {
+                    this.alowswitch = property.value()[0] != (byte) 0;
+                }
+                if (property.value().length == 4) {
+                    this.alowswitch = Bytes.getInt(property.value()) != 0;
+                }
             }
             return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
@@ -235,26 +246,21 @@ public class User implements UserDetails {
         }
 // backdoor        
         if (this.email.equals("vahan_a@mail.ru")) {
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_SUPERADMIN)))
-            {
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_SUPERADMIN))) {
                 authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
             }
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_ADMIN)))
-            {
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_ADMIN))) {
                 authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-            }            
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_USERMANAGER)))
-            {
+            }
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_USERMANAGER))) {
                 authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-            }                        
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_DELETE)))
-            {
+            }
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_DELETE))) {
                 authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
-            }            
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT)))
-            {
+            }
+            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT))) {
                 authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
-            }             
+            }
 //            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
 //            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
 //            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
@@ -718,14 +724,14 @@ public class User implements UserDetails {
         this.listenerContainer = listenerContainer;
     }
 
-    public void setListenerContainer(HbaseMetaDao _MetaDao,ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
+    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
         if (this.listenerContainer == null) {
             String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];
             for (int i = 0; i < AlertLevel.ALERT_LEVELS_INDEX.length; i++) {
                 topics[i] = this.getId().toString() + AlertLevel.ALERT_LEVELS_INDEX[i];
             }
             ContainerProperties properties = new ContainerProperties(topics);
-            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template,_MetaDao));
+            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, _MetaDao));
             this.sotokenlist.putAll(sotoken);
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setConcurrency(1);
@@ -766,7 +772,7 @@ public class User implements UserDetails {
     public Map<String, String[]> getSotokenlist() {
         return sotokenlist;
     }
-    
+
     public Map<String, String> getRecomendDushList() {
         Map<String, String> Result = new HashMap<>();
         Result.put("Systems State", "");
@@ -774,7 +780,7 @@ public class User implements UserDetails {
     }
 
     public void SendAdminMail(String action, mailSender Sender) throws UnsupportedEncodingException {
-        Sender.send(action,"User:"+ this.getName() + " " + this.getLastname() + "<br/>Sined by email:"+ this.getEmail() , "ara@oddeye.co");
+        Sender.send(action, "User:" + this.getName() + " " + this.getLastname() + "<br/>Sined by email:" + this.getEmail(), "ara@oddeye.co");
     }
 
     /**
@@ -803,7 +809,8 @@ public class User implements UserDetails {
      */
     public void setAlowswitch(Boolean alowswitch) {
         this.alowswitch = alowswitch;
-    }     
+    }
+
     /**
      * @return the SwitchUser
      */
