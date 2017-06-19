@@ -16,7 +16,6 @@ var refreshtimes = {
 var echartLine;
 var defserie = {
     name: null,
-    sampling: 'average',
     data: null
 };
 var defoption = {

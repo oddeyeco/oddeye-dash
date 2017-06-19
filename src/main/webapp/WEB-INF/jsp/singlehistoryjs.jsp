@@ -11,16 +11,14 @@
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
+    var levels = {"-1":"OK",0:"All",1:"Low",2:"Guarded",3:"Elevated",4:"High",5:"Severe"};
+    
     $(document).ready(function () {
         var series = {
             name: "errors",
-            sampling: 'average',
             type: "line",
             step: "end",
-            smooth: false,
-//            showSymbol: true,
-//            symbolSize: 10,
-//            symbol: 'circle',            
+            smooth: false,           
             data: []
         };
         $("#datatable tbody tr").each(function (i, val) {
@@ -31,6 +29,7 @@
                 {
                     time = moment().valueOf();
                 }
+
                 series.data.push([time, $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
             } else
             {
@@ -40,6 +39,7 @@
 
 
         });
+        console.log(series);
         echartLine.setOption({
             title: {
                 text: ""
@@ -57,7 +57,6 @@
                     type: 'time',
                     max: moment(${date.getTime()}).hour(23).minute(59).valueOf(),
                     show: false
-
                 }],
             yAxis: [{
                     type: 'value',
@@ -65,7 +64,13 @@
                     min: -1,
                     splitNumber: 5,
                     splitArea: {show: false},
+                    axisLabel: {
+                         formatter: function (param) {                             
+                             return  levels[param];
+                        }
+                    },
                     axisLine: {show: false}
+
                 }],
             dataZoom: [{
                     type: 'inside',
@@ -75,10 +80,11 @@
                     end: 100
                 }],
             grid: {
-                left: 0,
-                right: 0,
-                bottom: 7,
-                top: 10
+                containLabel: false,
+                x: 60,
+                x2: 0,
+                y2: 10,
+                y: 10
             },
             series: series
         });
@@ -89,7 +95,7 @@
 
         },
                 function (start, end, label) {
-                    window.open(cp + "/history/${metric.hashCode()}/" + start.utc().valueOf(), "_self")
+                    window.open(cp + "/history/${metric.hashCode()}/" + start.utc().valueOf(), "_self");
                 });
 
         $('.timeinterval').each(function () {
