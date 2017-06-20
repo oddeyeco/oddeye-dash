@@ -275,7 +275,7 @@
 
                 ga('create', 'UA-101325828-1', 'auto');
                 ga('send', 'pageview');
-                setTimeout("ga('send', 'event', '10 seconds', 'read')",10000);
+                setTimeout(function (){ga('send', 'event', '10 seconds', 'read');},10000);                
             </script>            
 
         </body>

@@ -4,3 +4,13 @@
  * and open the template in the editor.
  */
 var test = false;
+
+$(document).ready(function () {
+    $("body").on("click", "input", function (event) {
+        ga('send', 'event', 'click', $(this).prop("tagName") + " " + $(this).attr("href"));
+    });
+
+    $("body").on("click", "a", function (event) {
+        ga('send', 'event', 'click', $(this).prop("tagName") + " " + $(this).attr("href"));
+    });
+});

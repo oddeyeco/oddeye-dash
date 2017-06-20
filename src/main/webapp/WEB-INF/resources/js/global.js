@@ -156,12 +156,19 @@ if (fullscreen == 'true')
 }
 
 $(document).ready(function () {
-    $("body").on("click", "#allowedit", function () {
+    $("body").on("click", "input", function (event) {        
+         ga('send', 'event', 'click', $(this).prop("tagName")+" "+$(this).attr("href"));                      
+    });    
+    
+    $("body").on("click", "a", function (event) {        
+         ga('send', 'event', 'click', $(this).prop("tagName")+" "+$(this).attr("href"));                      
+    });        
+    
+    $("body").on("click", "#allowedit", function () {        
         var uri = cp + "/switchallow";
         $.getJSON(uri, null, function (data) {
             location.reload();
         });
-
     });
 
     $("body").on("click", "#FullScreen", function () {
