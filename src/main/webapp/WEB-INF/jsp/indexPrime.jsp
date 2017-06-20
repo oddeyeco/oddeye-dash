@@ -64,7 +64,7 @@
                     m.parentNode.insertBefore(a, m)
                 })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-                ga('create', 'UA-101325828-1', 'www.oddeye.co');
+                ga('create', 'UA-101325828-1', 'auto');
                 ga('send', 'pageview');
             </script>               
             
