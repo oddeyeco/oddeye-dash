@@ -2111,11 +2111,15 @@ $(document).ready(function () {
         var rowindex = $(this).parents(".widgetraw").first().attr("index");
         var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
         var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-//    console.log(curentwidgetindex);
-//    console.log(widgetindex);
         dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
         delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-        redrawAllJSON(dashJSONvar);
+
+        window.history.pushState({}, "", "?widget=" + widgetindex + "&row=" + rowindex + "&action=edit");       
+
+        AutoRefreshSingle(rowindex, widgetindex);
+        $RIGHT_COL.css('min-height', $(window).height());        
+        
+//        redrawAllJSON(dashJSONvar);
     });
     $('body').on("click", ".addchart", function () {
         for (var rowindex in dashJSONvar)
@@ -2145,11 +2149,16 @@ $(document).ready(function () {
         }
         dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
         dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
-        //TODO DRAW 1 chart    
-        redrawAllJSON(dashJSONvar);
-        $('html, body').animate({
-            scrollTop: dashJSONvar[rowindex]["widgets"][widgetindex].echartLine._dom.getBoundingClientRect().top - 60
-        }, 5);
+        window.history.pushState({}, "", "?widget=" + widgetindex + "&row=" + rowindex + "&action=edit");
+        
+        dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(defoption);
+        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
+        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[0].type = "line";
+        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
+
+        AutoRefreshSingle(rowindex, widgetindex);
+        $RIGHT_COL.css('min-height', $(window).height());
+
     });
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";

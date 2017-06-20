@@ -290,7 +290,7 @@ var encodeHTML = function (source) {
                                     {
                                         value = value.toFixed(2);
                                     }
-                                    value = param.data.unit.replace("{value}", value);
+                                    value = params.data.unit.replace("{value}", value);
                                 }
                             }
                         }
