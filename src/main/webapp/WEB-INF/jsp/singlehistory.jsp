@@ -161,7 +161,7 @@
 
                                     </td>                                    
                                     <jsp:setProperty name="dateValue" property="time" value="${listitem.getTime()}"/>
-                                    <td class="time" value ="">
+                                    <td class="time" value ="${listitem.getTime()}">
                                         <fmt:formatDate type="both" pattern="HH:mm:ss" value="${dateValue}"/>                                                                                                                            
                                     </td>   
                                     <td class="timeinterval" value ="${lasttime-listitem.getTime()}">                                                                                

@@ -17,7 +17,7 @@
         var series = {
             name: "errors",
             type: "line",
-            step: "end",
+            step: "start",
             smooth: false,
             data: []
         };
@@ -29,15 +29,20 @@
                 if (moment().valueOf() < time)
                 {
                     time = moment().valueOf();
-                }                
-                series.data.push([time, $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);                               
-            } else
-            {                
-                series.data.push([$(this).attr('time'), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
+                }
+                series.data.push([time, $(this).attr('level'), null]);
+
+            }
+            series.data.push([parseInt($(this).attr('time')), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
+            if (i===$("#datatable tbody tr").length-1)
+            {
+                var time = moment(${date.getTime()}).hour(0).minute(0).valueOf();
+                series.data.push([time, $(this).attr('level'), null]);
+                
             }
 
 
-        });        
+        });
         echartLine.setOption({
             title: {
                 text: ""
@@ -45,16 +50,22 @@
             tooltip: {
                 trigger: 'axis',
                 formatter: function (params) {
-                    var out = params[0].data[3] + ':' + params[0].data[2];
+                    if (!params[0].data[3])
+                    {
+                        return "Now";
+                    }
+                    var out = format_date(params[0].value[0], 0) + ":" + params[0].data[3] + ':' + params[0].data[2];
                     return out;
-
                 }
             },
             toolbox: {feature: {magicType: {show: false}}},
             xAxis: [{
                     type: 'time',
                     max: moment(${date.getTime()}).hour(23).minute(59).valueOf(),
-                    show: false
+                    min: moment(${date.getTime()}).hour(0).minute(0).valueOf(),
+                    splitNumber: 20,
+                    axisLine: {onZero: false}
+//                    show: false
                 }],
             yAxis: [{
                     type: 'value',
@@ -81,11 +92,13 @@
                 containLabel: false,
                 x: 60,
                 x2: 0,
-                y2: 10,
+                y2: 30,
                 y: 10
             },
             series: series
         });
+
+
         $('#reportrange').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
