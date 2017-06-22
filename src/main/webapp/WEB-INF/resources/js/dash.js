@@ -812,7 +812,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                             ser.label.normal.show = widget.label.show;
                         } else
                         {
-                            ser.label.normal.show = false;
+                            delete ser.label.normal.show;
                         }
 
                         if (widget.label.position)
