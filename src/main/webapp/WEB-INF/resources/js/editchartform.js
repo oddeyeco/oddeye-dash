@@ -40,6 +40,7 @@ class ChartEditForm extends EditForm {
             if (contener)
             {
                 contener.find("select").select2({minimumResultsForSearch: 15});
+                contener.find('[data-toggle="tooltip"]').tooltip(); 
             }
 
         });
@@ -110,7 +111,6 @@ class ChartEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
-        this.tabcontent.tab_general.active = true;
         var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'options.title.show', default: true}}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
@@ -591,7 +591,7 @@ class ChartEditForm extends EditForm {
 
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typepie typefunnel typeline typebars", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts"},
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts" , info:{text:"Use patterns {a1},{a2},{value},{p} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
                                     {tag: "input", type: "text", class: "form-control query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
@@ -728,6 +728,8 @@ class ChartEditForm extends EditForm {
             ]};
         this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, inversef);
         this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, xfieds);
+
+        this.tabcontent.tab_metric.active = true;
 
     }
 

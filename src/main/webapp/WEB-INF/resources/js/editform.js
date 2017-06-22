@@ -321,6 +321,15 @@ class EditForm {
                     }
 
                     jobject.appendTo(contener);
+
+                    if (item.info)
+                    {
+                        if (item.info.text)
+                        {
+                            jobject.append(' <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="' + item.info.text + '">');
+                        }
+                    }
+
                     if (item.check_dublicates)
                     {
                         item.check_dublicates(contener, this.getvaluebypath(item.key_path, item.default, initval));
@@ -571,9 +580,9 @@ class EditForm {
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "aggregator"},
                             {tag: "select", class: "form-control query_input aggregator", prop_key: "aggregator", id: "{index}_aggregator", name: "aggregator", key_path: 'info.aggregator', default: "", options: this.aggregatoroptions},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Alias", lfor: "alias"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Alias", lfor: "alias", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
                             {tag: "input", type: "text", class: "form-control query_input alias", prop_key: "alias", id: "{index}_alias", name: "alias", key_path: 'info.alias', default: ""},
-                            {tag: "label", class: "control-label", text: "Alias secondary", lfor: "alias2"},
+                            {tag: "label", class: "control-label", text: "Alias secondary", lfor: "alias2", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
                             {tag: "input", type: "text", class: "form-control query_input alias2", prop_key: "alias2", id: "{index}_alias2", name: "alias2", key_path: 'info.alias2', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
@@ -793,11 +802,11 @@ class EditForm {
             {
                 var worn = $('<i class="fa fa-exclamation-triangle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
                 worn.appendTo($(this));
-                worn.tooltip();
+//                worn.tooltip();
             }
         }
         );
-        contener.find(".edit-query[count=1] [data-toggle='tooltip']").remove();
+        contener.find(".edit-query[count=1] .q_warning[data-toggle='tooltip']").remove();
     }
 
     gettabcontent(key)
@@ -813,6 +822,8 @@ class EditForm {
         var form = this;
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
         this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+
+        this.formwraper.find('[data-toggle="tooltip"]').tooltip();
         this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
             form.change($(this).find("input"));
         });
@@ -951,12 +962,12 @@ class EditForm {
             form.check_q_dublicates(contener, json);
         });
 
-        this.formwraper.on("click", "span.tagspan .fa-pencil", function () {            
+        this.formwraper.on("click", "span.tagspan .fa-pencil", function () {
             $(this).parents(".tagspan").hide();
             var input = $(this).parents(".form-group").find(".data-label");
             if ($(this).parents(".tag_label").hasClass("metrics"))
             {
-                
+
                 $(this).parents(".tagspan").after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value="' + $(this).parents(".tagspan").find(".text").html() + '"><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
                 var metricinput = $(this).parents(".tag_label").find("input");
                 form.makeMetricInput(metricinput, input);
