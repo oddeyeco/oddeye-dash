@@ -25,24 +25,23 @@
             var interval = parseInt($(this).find('.timeinterval').attr('value'));
             if (i === 0)
             {
-                var time = moment(${date.getTime()}).hour(23).minute(59).valueOf();
+                var time = moment(${date.getTime()}).set({hour: 23, minute: 59, second: 59, millisecond: 0}).valueOf();
                 if (moment().valueOf() < time)
                 {
                     time = moment().valueOf();
                 }
-                series.data.push([time, $(this).attr('level'), null]);
+                series.data.push([time, $(this).attr('level'), 0]);
 
             }
             series.data.push([parseInt($(this).attr('time')), $(this).attr('level'), moment.utc(interval).format("HH:mm:ss"), $(this).find('.level div').html()]);
-            if (i===$("#datatable tbody tr").length-1)
+            if (i === $("#datatable tbody tr").length - 1)
             {
-                var time = moment(${date.getTime()}).hour(0).minute(0).valueOf();
-                series.data.push([time, $(this).attr('level'), null]);
-                
+                var time = moment(${date.getTime()}).set({hour: 0, minute: 0, second: 0, millisecond: 0}).valueOf();
+                series.data.push([time, $(this).attr('level'), 1]);
             }
 
-
         });
+
         echartLine.setOption({
             title: {
                 text: ""
@@ -50,10 +49,15 @@
             tooltip: {
                 trigger: 'axis',
                 formatter: function (params) {
-                    if (!params[0].data[3])
+                    if (params[0].data[2] === 0)
                     {
                         return "Now";
                     }
+                    if (params[0].data[2] === 1)
+                    {
+                        return "";
+                    }
+
                     var out = format_date(params[0].value[0], 0) + ":" + params[0].data[3] + ':' + params[0].data[2];
                     return out;
                 }
@@ -61,8 +65,8 @@
             toolbox: {feature: {magicType: {show: false}}},
             xAxis: [{
                     type: 'time',
-                    max: moment(${date.getTime()}).hour(23).minute(59).valueOf(),
-                    min: moment(${date.getTime()}).hour(0).minute(0).valueOf(),
+                    max: moment(${date.getTime()}).set({hour: 23, minute: 59, second: 59, millisecond: 0}).valueOf(),
+                    min: moment(${date.getTime()}).set({hour: 0, minute: 0, second: 0, millisecond: 0}).valueOf(),
                     splitNumber: 20,
                     axisLine: {onZero: false}
 //                    show: false
