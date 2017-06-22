@@ -500,6 +500,50 @@ class EditForm {
         };
     }
 
+    static get aggregatoroptions_selct2()
+    {
+        var result = [{id:"",text:""}];
+        for (var index in EditForm.aggregatoroptions2)
+        {
+            result.push({id:index,text:EditForm.aggregatoroptions2[index] });
+        }
+        return result;
+    }
+    static get aggregatoroptions2()
+    {
+        return {
+            "avg": "avg",
+            "count": "count",
+            "dev": "dev",
+            "ep50r3": "ep50r3",
+            "ep50r7": "ep50r7",
+            "ep75r3": "ep75r3",
+            "ep75r7": "ep75r7",
+            "ep90r3": "ep90r3",
+            "ep90r7": "ep90r7",
+            "ep95r3": "ep95r3",
+            "ep95r7": "ep95r7",
+            "ep999r3": "ep999r3",
+            "ep999r7": "ep999r7",
+            "ep99r3": "ep99r3",
+            "ep99r7": "ep99r7",
+            "first": "first",
+            "last": "last",
+            "max": "max",
+            "mimmax": "mimmax",
+            "mimmin": "mimmin",
+            "min": "min",
+            "mult": "mult",
+            "p50": "p50",
+            "p75": "p75",
+            "p90": "p90",
+            "p95": "p95",
+            "p99": "p99",
+            "p999": "p999",
+            "sum": "sum",
+            "zimsum": "zimsum"};
+    }
+
     get aggregatoroptions()
     {
         return {"none": "none",
@@ -589,7 +633,7 @@ class EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Down sample", lfor: "down-sample"},
                             {tag: "input", type: "text", class: "form-control query_input down-sample-time", prop_key: "time", id: "{index}_down-sample-time", name: "down-sample-time", key_path: 'info.ds.time', default: ""},
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "down-sample-aggregator"},
-                            {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: this.aggregatoroptions},
+                            {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: EditForm.aggregatoroptions2},
                             {tag: "label", class: "control-label", text: "Disable downsampling", lfor: "disable_downsampling"},
                             {tag: "input", type: "checkbox", class: "js-switch-small disable_downsampling", prop_key: "downsamplingstate", id: "{index}_disable_downsampling", name: "disable_downsampling", key_path: 'info.downsamplingstate', default: false}
                         ]},

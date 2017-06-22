@@ -53,7 +53,7 @@
             <label class="control-label control-label-top" for="global-down-sample-ag">Aggregator
             </label>        
             <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input">
-                <option label="avg" value="avg">avg</option>
+<!--                <option label="avg" value="avg">avg</option>
                 <option label="count" value="count">count</option>
                 <option label="dev" value="dev">dev</option>
                 <option label="ep50r3" value="ep50r3">ep50r3</option>
@@ -83,7 +83,7 @@
                 <option label="p99" value="p99">p99</option>
                 <option label="p999" value="p999">p999</option>
                 <option label="sum" value="sum">sum</option>
-                <option label="zimsum" value="zimsum">zimsum</option>
+                <option label="zimsum" value="zimsum">zimsum</option>-->
             </select>        
 
             <label class="control-label control-label-top" for="global-downsampling-switsh">

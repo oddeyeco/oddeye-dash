@@ -1770,7 +1770,7 @@ function repaint(redraw = false, rebuildform = true) {
     doapplyjson = false;
 }
 
-$(document).ready(function () {
+$(document).ready(function () {            
     if (dashJSONvar.times)
     {
         if (dashJSONvar.times.intervall)
@@ -1870,7 +1870,8 @@ $(document).ready(function () {
         }
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15});
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15,data:EditForm.aggregatoroptions_selct2});
+    //console.log(EditForm.aggregatoroptions2);
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(dashJSONvar, $('#reportrange')));
     $('body').on("click", ".dropdown_button,.button_title_adv", function () {
         var target = $(this).attr('target');
