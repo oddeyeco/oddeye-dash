@@ -107,8 +107,7 @@ function exportToCsv(filename, rows) {
     }
 }
 function fullscreenrequest(fullscreen)
-{
-    console.log(window.location.pathname);
+{    
     if (!fullscreen)
     {
         setCookie("fullscreen", true);
