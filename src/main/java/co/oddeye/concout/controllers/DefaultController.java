@@ -180,8 +180,8 @@ public class DefaultController {
         }
 
         user.setActive(Boolean.TRUE);
-        
-        try {            
+
+        try {
             Userdao.addUser(user);
             user.SendAdminMail("User Confirm Email", Sender);
         } catch (Exception ex) {
@@ -206,28 +206,26 @@ public class DefaultController {
             map.put("jspart", "signupjs");
         } else {
             try {
-                //request.getScheme()
-//                String baseUrl = String.format("%s://%s:%d"+request.getContextPath(),"https",  request.getServerName(), request.getServerPort());
                 String baseUrl = Sender.getBaseurl(request);
                 newUser.SendConfirmMail(Sender, baseUrl);
                 newUser.SendAdminMail("User Sined", Sender);
-//                newUser.getAuthorities().add(new SimpleGrantedAuthority(User.ROLE_USER));
                 newUser.addAuthoritie(User.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);
-                return redirecttodashboard();
-//                map.put("body", "homepage");
-//                map.put("jspart", "homepagejs");
+//                return redirecttodashboard();
+                map.put("body", "signupconfirm");
+                map.put("jspart", "signupconfirmjs");
+
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
                 map.put("newUser", newUser);
                 map.put("result", result);
-
+                map.put("body", "signup");
+                map.put("jspart", "signupjs");
                 map.put("message", ex.toString());
             }
         }
-        map.put("body", "signup");
-        map.put("jspart", "signupjs");
+
         return "indexPrime";
         //else
 
