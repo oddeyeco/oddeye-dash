@@ -155,12 +155,12 @@ if (fullscreen == 'true')
 }
 
 $(document).ready(function () {
-    $("body").on("click", "input", function (event) {        
-         ga('send', 'event', 'click', $(this).prop("tagName")+" "+$(this).attr("href"));                      
+    $("body").on("click", "input", function (event) {                 
+         ga('send', 'event', 'input click', $(this).attr("name"));
     });    
     
     $("body").on("click", "a", function (event) {        
-         ga('send', 'event', 'click', $(this).prop("tagName")+" "+$(this).attr("href"));                      
+         ga('send', 'event', 'link click', $(this).attr("href"));
     });        
     
     $("body").on("click", "#allowedit", function () {        
