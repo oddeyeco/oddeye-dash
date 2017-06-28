@@ -1,5 +1,3 @@
-<div class="x_content">
-    <!--<canvas id="lineChart"></canvas>-->
-    <div id="echart_line" style="height:600px;"></div>
+<div class="x_content">    
+    <div id="echart_line" style="height:800px;"></div>
 </div> 
-fsdfsdfsd

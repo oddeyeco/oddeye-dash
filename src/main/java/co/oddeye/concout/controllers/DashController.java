@@ -51,6 +51,24 @@ public class DashController {
     @Autowired
     private HbaseDushboardTemplateDAO TemplateDAO;
 
+    
+    @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
+    public String test(ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user;
+        if (auth != null
+                && auth.isAuthenticated()
+                && //when Anonymous Authentication is enabled
+                !(auth instanceof AnonymousAuthenticationToken)) {
+            user = (User) auth.getPrincipal();
+            map.put("curentuser", user);
+        }
+        map.put("body", "infrastructure");
+        map.put("jspart", "infrastructurejs");
+        map.put("title", "My Infrastructure");
+        return "index";
+    }    
+    
     @RequestMapping(value = {"/dashboard/"}, method = RequestMethod.GET)
     public String getDashboards(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -62,11 +62,11 @@
                             </div>
                             <div class="clearfix"></div>
                             <!-- menu profile quick info -->
-<!--                            <div class="profile">
-                                <div class="profile_info">                                    
-                                    <h2> <span>Welcome: </span> ${curentuser.getName()}&nbsp;${curentuser.getLastname()}</h2>                           
-                                </div>
-                            </div>-->
+                            <!--                            <div class="profile">
+                                                            <div class="profile_info">                                    
+                                                                <h2> <span>Welcome: </span> ${curentuser.getName()}&nbsp;${curentuser.getLastname()}</h2>                           
+                                                            </div>
+                                                        </div>-->
                             <!-- /menu profile quick info -->
 
                             <div class="clearfix"></div>
@@ -76,12 +76,20 @@
                                 <div class="menu_section">
                                     <!--<h3>Navigation</h3>-->
                                     <ul class="nav side-menu">
-                                        <li><a><i class="fa fa-home"></i> General <span class="fa fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fa-info "></i> Personal <span class="fa fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu">                                            
+                                                <li><a href="<c:url value="/profile"/>"> Profile</a></li>
+                                                <li><a href="<c:url value="/dashboard/"/>"><span>Dashboards</span></a></li>
+                                                <li><a href="<c:url value="/infrastructure/"/>" target="_blank">Infrastructure</a></li>
+                                                <li><a href="https://docs.oddeye.co/" target="_blank">Help</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a><i class="fa fa-clock-o"></i> Monitoring <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">                                            
                                                 <li><a href="<c:url value="/monitoring"/>">Monitor</a></li>
                                                 <li><a href="<c:url value="/errorsanalysis"/>">Advanced Monitoring</a></li>
                                             </ul>
-                                        </li>
+                                        </li>                                        
                                         <li><a><i class="fa fa-desktop"></i> Dashboards <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">                                                                                        
                                                 <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
@@ -155,13 +163,6 @@
                                             <span class=" fa fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                            <li><a href="<c:url value="/profile"/>"> Profile</a></li>
-                                            <li>
-                                                <a href="<c:url value="/dashboard/"/>">
-                                                    <span>Dashboards</span>
-                                                </a>
-                                            </li>
-                                            <li><a href="https://docs.oddeye.co/" target="_blank">Help</a></li>
                                             <li>
                                                 <a href="javascript:void(0);" class="cluser-profile" id="allowedit">
                                                     <c:if test="${curentuser.getAlowswitch()}">
@@ -271,7 +272,9 @@
 
                 ga('create', 'UA-101325828-1', 'auto');
                 ga('send', 'pageview');
-                setTimeout(function (){ga('send', 'event', '10 seconds', 'read');},10000);                
+                setTimeout(function () {
+                    ga('send', 'event', '10 seconds', 'read');
+                }, 10000);
             </script>            
 
         </body>
