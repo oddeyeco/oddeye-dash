@@ -80,7 +80,7 @@
                                             <ul class="nav child_menu">                                            
                                                 <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                                 <li><a href="<c:url value="/dashboard/"/>"><span>Dashboards</span></a></li>
-                                                <li><a href="<c:url value="/infrastructure/"/>" target="_blank">Infrastructure</a></li>
+                                                <li><a href="<c:url value="/infrastructure/"/>">Infrastructure</a></li>
                                                 <li><a href="https://docs.oddeye.co/" target="_blank">Help</a></li>
                                             </ul>
                                         </li>
@@ -219,6 +219,8 @@
             <script src="<c:url value="/assets/dist/jquery.min.js"/>"></script>    
 
             <script src="${cp}/assets/dist/switchery.min.js"></script>
+            
+            <script src="${cp}/assets/dist/jquery-ui.custom.min.js"></script>                    
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js"></script>        
             <script src="${cp}/assets/dist/jquery.spincrement.min.js"></script>        
 

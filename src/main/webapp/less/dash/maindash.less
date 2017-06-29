@@ -64,8 +64,8 @@ and open the template in the editor.
         }
         margin: 5px;        
     }
-/*    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);  Параметры тени */
+    /*    border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);  Параметры тени */
 }
 .dataTables_filter {
     float: right;
@@ -363,10 +363,10 @@ span.tagspan {
             >td {
                 padding: 5px;
                 a {
-                  text-decoration:  underline ;
-                  &:hover {
-                      text-decoration:  none;
-                  }
+                    text-decoration:  underline ;
+                    &:hover {
+                        text-decoration:  none;
+                    }
                 }
             }
         }
@@ -687,6 +687,26 @@ ul.lastdash {
 }
 i[data-toggle="tooltip"] {
     cursor: pointer;
+}
+.draggable:hover
+{
+    cursor: move;
+    -webkit-box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.8);
+    -moz-box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.8);
+    box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.8);
+}
+.draggable
+{
+    padding: 5px;
+    -webkit-box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.27);
+    -moz-box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.27);
+    box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.27);
+    border:2px inset rgba(0,0,0,0.5);
+    border-top:10px inset rgba(0,0,0,0.5);
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    background-color: #fff;     
 }
 @media (max-width: 600px) {
     .editchartpanel {

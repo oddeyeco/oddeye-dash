@@ -245,13 +245,6 @@ public class AjaxControlers {
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
                 jsonResult.addProperty("sucsses", true);
 
-//                for (final OddeeyMetricMeta metric : Metriclist) {
-//                    if ((!metric.isSpecial()) || (all)) {
-//                        if (!data.contains(metric.getName())) {
-//                            data.add(metric.getName());
-//                        }
-//                    }
-//                }
                 ArrayList<String> data = new ArrayList<>();
                 if (all) {
                     data.addAll(Metriclist.getSpecialNameSorted());

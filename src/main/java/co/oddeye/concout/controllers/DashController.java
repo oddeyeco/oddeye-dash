@@ -5,14 +5,20 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.TemplateType;
 import co.oddeye.concout.dao.HbaseDushboardTemplateDAO;
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.exception.ResourceNotFoundException;
 import co.oddeye.concout.model.DashboardTemplate;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -50,8 +56,9 @@ public class DashController {
     private HbaseUserDao Userdao;
     @Autowired
     private HbaseDushboardTemplateDAO TemplateDAO;
+    @Autowired
+    HbaseMetaDao MetaDao;
 
-    
     @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
     public String test(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -62,13 +69,43 @@ public class DashController {
                 !(auth instanceof AnonymousAuthenticationToken)) {
             user = (User) auth.getPrincipal();
             map.put("curentuser", user);
+            if (user.getMetricsMeta() == null) {
+                try {
+                    user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+            }
+
+            LinkedHashMap<String, Boolean> taglist = new LinkedHashMap<>();
+//            taglistprioryty = {"cluster"}
+            String[] taglistprioryty = {"cluster", "group", "location", "host"};
+
+            for (String tg : taglistprioryty) {
+                if (user.getMetricsMeta().getTagsList().containsKey(tg)) {
+                    taglist.put(tg, true);
+                }
+            }
+            
+            for ( Map.Entry<String, Set<String>> tag : user.getMetricsMeta().getTagsList().entrySet()) {
+                if (!taglist.containsKey(tag.getKey())) {
+                    taglist.put(tag.getKey(), false);
+                }
+            }            
+
+//user.getMetricsMeta().getTagsList()
+            map.put("taglist", taglist);
+            map.put("taglistprioryty", taglistprioryty);
+//            map.put("initmetric", taglist);
+
         }
+
         map.put("body", "infrastructure");
         map.put("jspart", "infrastructurejs");
         map.put("title", "My Infrastructure");
         return "index";
-    }    
-    
+    }
+
     @RequestMapping(value = {"/dashboard/"}, method = RequestMethod.GET)
     public String getDashboards(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -141,7 +178,7 @@ public class DashController {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     userDetails = userDetails.getSwitchUser();
                 }
-            }            
+            }
             map.put("activeuser", userDetails);
             map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
             map.put("title", "New Dashboard");
@@ -271,7 +308,7 @@ public class DashController {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     userDetails = userDetails.getSwitchUser();
                 }
-            }            
+            }
             String DushName = request.getParameter("name").trim();
             if (DushName != null) {
                 userDetails.removeDush(DushName, Userdao);
