@@ -177,7 +177,7 @@
                         },
                         lineStyle: {
                             normal: {
-                                color: 'source',
+                                color: 'target',
                                 curveness: 0,
                                 width:3,
                                 type: "solid"
