@@ -14,15 +14,15 @@
     $(document).ready(function () {
         var draging = false;
         $("#tagsconteger").sortable({
-            cursor: "move"            
+            cursor: "move"
         });
 
         $('.autocomplete-append-metric').each(function () {
             var input = $(this);
             var uri = cp + "/getfiltredmetricsnames?filter=" + encodeURIComponent("^(.*)$");
-                input.autocomplete();            
-            
-            $.getJSON(uri, null, function (data) {                
+            input.autocomplete();
+
+            $.getJSON(uri, null, function (data) {
                 input.autocomplete({
                     lookup: data.data,
                     appendTo: '.autocomplete-container-metric'
@@ -35,8 +35,8 @@
         $('.autocomplete-append').each(function () {
             var input = $(this);
             var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=" + encodeURIComponent("^(.*)$");
-            $.getJSON(uri, null, function (data) {                
-                input.autocomplete({                    
+            $.getJSON(uri, null, function (data) {
+                input.autocomplete({
                     lookup: data.data,
                     appendTo: '.autocomplete-container_' + input.attr("tagkey")
                 });
@@ -116,8 +116,9 @@
                             "name": name,
                             "symbolSize": size,
                             "category": tagindexindex,
-                            "symbol": symbol,
+                            "symbol": symbol,                            
                             "draggable": true
+                            
                         });
                     }
                 }
@@ -154,6 +155,7 @@
                         type: 'graph',
                         layout: 'force',
                         force: {
+                            initLayout:'circular',
                             repulsion: 20000 / datach.length,
                             edgeLength: 5
                         },
@@ -177,6 +179,7 @@
                             normal: {
                                 color: 'source',
                                 curveness: 0,
+                                width:3,
                                 type: "solid"
                             }
                         }
