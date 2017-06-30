@@ -70,6 +70,7 @@ public class ProfileController {
     private BaseTsdbConnect BaseTsdb;
     @Autowired
     HbaseDataDao DataDao;
+    
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap map) throws Exception {
@@ -127,7 +128,7 @@ public class ProfileController {
                 }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(hash);
 
-                GetRequest getMetric = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), meta.getKey(), "d".getBytes());
+                GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
 
@@ -143,7 +144,7 @@ public class ProfileController {
 
                 CalendarObj.add(Calendar.DATE, -1);
 
-                Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, HbaseMetaDao.TBLENAME.getBytes(), BaseTsdb.getClient());
+                Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, MetaDao.getTablename().getBytes(), BaseTsdb.getClient());
                 map.put("Rules", rules);
                 ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), "1h-ago", "now", "", false);
 

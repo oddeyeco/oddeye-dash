@@ -6,7 +6,7 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.annotation.HbaseColumn;
-import co.oddeye.concout.core.TemplateType;
+import co.oddeye.concout.config.DatabaseConfig;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import co.oddeye.concout.model.DashboardTemplate;
@@ -24,7 +24,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.BinaryPrefixComparator;
 import org.hbase.async.Bytes;
@@ -38,15 +37,13 @@ import org.hbase.async.RowFilter;
 import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
 import org.hbase.async.ValueFilter;
-import org.hbase.async.generated.FilterPB;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author vahan
  */
-@Repository
+//@Repository
 public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
 
     @Autowired
@@ -54,9 +51,9 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseDushboardTemplateDAO.class);
 
-    public HbaseDushboardTemplateDAO() {
-        super("oddeyeDushboardTemplates");
-    }
+    public HbaseDushboardTemplateDAO(DatabaseConfig p_config) {
+        super(p_config.getDushboardsTemplatesTable());                
+    }   
 
     public Deferred<Object> add(DashboardTemplate template) {
         final Field[] fields = template.getClass().getDeclaredFields();

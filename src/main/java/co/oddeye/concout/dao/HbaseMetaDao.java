@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.SendToKafka;
@@ -33,13 +34,6 @@ import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-//import org.apache.hadoop.hbase.client.Result;
-//import org.apache.hadoop.hbase.client.ResultScanner;
-//import org.apache.hadoop.hbase.client.Scan;
-//import org.apache.hadoop.hbase.filter.Filter;
-//import org.apache.hadoop.hbase.filter.PrefixFilter;
-//import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -49,29 +43,26 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HbaseMetaDao extends HbaseBaseDao {
 
-    @Autowired
-    private BaseTsdbConnect BaseTsdbV;
-    private final ConcoutMetricMetaList fullmetalist = new ConcoutMetricMetaList();
-    public static final String TBLENAME = "test_oddeye-meta";
+    private final ConcoutMetricMetaList fullmetalist = new ConcoutMetricMetaList();    
 //    private ConcoutMetricMetaList MtrscList;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
 
-    public HbaseMetaDao() {
-        super(TBLENAME);
-    }
+    public HbaseMetaDao(DatabaseConfig p_config) {
+        super(p_config.getMetaTable());         
+    }    
 
     public Map<String, MetriccheckRule> getErrorRules(MetricErrorMeta meta, long time) throws Exception {
         Calendar CalendarObj = Calendar.getInstance();
         CalendarObj.setTimeInMillis(time * 1000);
         CalendarObj.add(Calendar.DATE, -1);
-        return meta.getRules(CalendarObj, 7, table, BaseTsdbV.getClient());
+        return meta.getRules(CalendarObj, 7, table, BaseTsdb.getClient());
     }
 
     public OddeeyMetricMeta getByKey(byte[] key) throws Exception {
         GetRequest request = new GetRequest(table, key, "d".getBytes());
-        ArrayList<KeyValue> row = BaseTsdbV.getClient().get(request).joinUninterruptibly();
+        ArrayList<KeyValue> row = BaseTsdb.getClient().get(request).joinUninterruptibly();
         if (row.size() > 0) {
-            final OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
+            final OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
             fullmetalist.put(meta.hashCode(), meta);
             return fullmetalist.get(meta.hashCode());
         } else {
@@ -83,7 +74,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
     public ConcoutMetricMetaList getByUUID(UUID userid) throws Exception {
 
-        Scanner scanner = BaseTsdbV.getClient().newScanner(table);
+        Scanner scanner = BaseTsdb.getClient().newScanner(table);
         scanner.setServerBlockCache(false);
         scanner.setMaxNumRows(1000);
         scanner.setFamily("d".getBytes());
@@ -92,8 +83,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         byte[] key = new byte[0];
 
-        key = ArrayUtils.addAll(key, BaseTsdbV.getTsdb().getUID(UniqueId.UniqueIdType.TAGK, "UUID"));
-        key = ArrayUtils.addAll(key, BaseTsdbV.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, userid.toString()));
+        key = ArrayUtils.addAll(key, BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGK, "UUID"));
+        key = ArrayUtils.addAll(key, BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, userid.toString()));
 
         StringBuilder buffer = new StringBuilder();
         buffer.append("\\Q");
@@ -105,7 +96,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
             for (final ArrayList<KeyValue> row : rows) {
                 try {
-                    OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdbV.getTsdb(), false);
+                    OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
                     if (meta.getTags().get("UUID").getValue().equals(userid.toString())) {
                         OddeeyMetricMeta add = result.add(meta);
                     } else {
@@ -114,7 +105,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 } catch (InvalidKeyException e) {
                     LOGGER.warn("InvalidKeyException " + row + " Is deleted");
                     final DeleteRequest deleterequest = new DeleteRequest(table, row.get(0).key());
-                    BaseTsdbV.getClient().delete(deleterequest).joinUninterruptibly();
+                    BaseTsdb.getClient().delete(deleterequest).joinUninterruptibly();
                 } catch (Exception e) {
                     LOGGER.warn(globalFunctions.stackTrace(e));
                     LOGGER.warn("Can not add row to metrics " + row);
@@ -134,8 +125,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public OddeeyMetricMeta deleteMeta(OddeeyMetricMeta meta, User user) {
-        final HBaseClient client = BaseTsdbV.getTsdb().getClient();
-        final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
+        final HBaseClient client = BaseTsdb.getTsdb().getClient();
+        final DeleteRequest req = new DeleteRequest(table, meta.getKey());
 
         if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
             return meta;
@@ -152,7 +143,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
     public boolean deleteMetaByTag(String tagK, String tagV, User user) {
 
-        final HBaseClient client = BaseTsdbV.getTsdb().getClient();
+        final HBaseClient client = BaseTsdb.getTsdb().getClient();
 
         ConcoutMetricMetaList MtrList;
         try {
@@ -169,7 +160,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 continue;
             }
 
-            final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
+            final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
                 result.add(client.delete(req));
             } catch (Exception ex) {
@@ -196,7 +187,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public boolean deleteMetaByName(String name, User user) {
-        final HBaseClient client = BaseTsdbV.getTsdb().getClient();
+        final HBaseClient client = BaseTsdb.getTsdb().getClient();
 
         ConcoutMetricMetaList MtrList;
         try {
@@ -213,7 +204,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 continue;
             }
 
-            final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
+            final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
                 result.add(client.delete(req));
             } catch (Exception ex) {
@@ -233,7 +224,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public ArrayList<Deferred<Object>> deleteMetaByList(ConcoutMetricMetaList MtrList, User user, SendToKafka sk) {
-        final HBaseClient client = BaseTsdbV.getTsdb().getClient();
+        final HBaseClient client = BaseTsdb.getTsdb().getClient();
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
         for ( Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
             OddeeyMetricMeta meta = metaentry.getValue();
@@ -241,7 +232,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 continue;
             }
 
-            final DeleteRequest req = new DeleteRequest(TBLENAME.getBytes(), meta.getKey());
+            final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
                 Callback<Object, Object> cb = new Callback<Object, Object> ()
                 {
@@ -271,7 +262,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public OddeeyMetricMeta updateMeta(OddeeyMetricMeta metric) {
-        metric.update(table, BaseTsdbV.getTsdb().getClient());
+        metric.update(table, BaseTsdb.getTsdb().getClient());
         return metric;
     }
 

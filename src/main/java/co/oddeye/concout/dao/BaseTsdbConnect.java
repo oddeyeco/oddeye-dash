@@ -5,9 +5,9 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.core.globalFunctions;
 import java.io.IOException;
-import java.util.Map;
 import javax.annotation.PreDestroy;
 import net.opentsdb.core.TSDB;
 import net.opentsdb.utils.Config;
@@ -18,27 +18,27 @@ import org.slf4j.Logger;
  *
  * @author vahan
  */
-
 public final class BaseTsdbConnect {
 
     private org.hbase.async.HBaseClient client;
     private TSDB tsdb;
+    private DatabaseConfig config;
     protected static final Logger LOGGER = LoggerFactory.getLogger(BaseTsdbConnect.class);
-    public BaseTsdbConnect(Map<String, String> attr) {
 
-        String quorum = "nn1.netangels.net:2181,nn2.netangels.net:2181,rm1.netangels.net:2181";
-//        String quorum = attr.get("tsdb.quorum");
+    public BaseTsdbConnect(DatabaseConfig p_config) {
+        config = p_config;
+//        String quorum = "nn1.netangels.net:2181,nn2.netangels.net:2181,rm1.netangels.net:2181";        
         org.hbase.async.Config clientconf = new org.hbase.async.Config();
-        clientconf.overrideConfig("hbase.zookeeper.quorum", quorum);
-        clientconf.overrideConfig("hbase.rpcs.batch.size", "2048");
+        clientconf.overrideConfig("hbase.zookeeper.quorum", config.getHbaseQuorum());
+        clientconf.overrideConfig("hbase.rpcs.batch.size", config.getHbaseBatchSize());
 
         this.client = new org.hbase.async.HBaseClient(clientconf);
         try {
             Config openTsdbConfig = new net.opentsdb.utils.Config(false);
-            openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", String.valueOf(false));
-            openTsdbConfig.overrideConfig("tsd.storage.enable_compaction", String.valueOf(false));
-            openTsdbConfig.overrideConfig("tsd.storage.hbase.data_table", String.valueOf("test_tsdb"));
-            openTsdbConfig.overrideConfig("tsd.storage.hbase.uid_table", String.valueOf("test_tsdb-uid"));
+            openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", config.getTsdbAutoCreateMetrics());
+            openTsdbConfig.overrideConfig("tsd.storage.enable_compaction", config.getTsdbEnableCompaction());
+            openTsdbConfig.overrideConfig("tsd.storage.hbase.data_table", config.getTsdbDataTable());
+            openTsdbConfig.overrideConfig("tsd.storage.hbase.uid_table", config.getTsdbUidTable());
             this.tsdb = new TSDB(
                     this.getClient(),
                     openTsdbConfig);
@@ -69,5 +69,12 @@ public final class BaseTsdbConnect {
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
+    }
+
+    /**
+     * @return the config
+     */
+    public DatabaseConfig getConfig() {
+        return config;
     }
 }

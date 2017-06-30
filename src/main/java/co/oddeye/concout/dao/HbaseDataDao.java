@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.model.User;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +14,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.springframework.stereotype.Repository;
 import net.opentsdb.core.Query;
 import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.Internal;
@@ -23,20 +23,17 @@ import net.opentsdb.query.filter.TagVFilter;
 import org.hbase.async.HBaseException;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
  * @author vahan
  */
-@Repository
+//@Repository
 public class HbaseDataDao extends HbaseBaseDao {
 
-    @Autowired
-    private BaseTsdbConnect BaseTsdb;
-
-    private final static String tablename = "HbaseDataDao";
-//    private final Map<String, String> tags = new HashMap<>();
+    public HbaseDataDao(DatabaseConfig p_config) {
+        super(p_config.getTsdbDataTable());                
+    }    
 
     public short getLastAlertLevel(User user, String metric, String tagsquery) throws Exception {
         KeyValue lastekv = getLastbyQuery(user, metric, tagsquery);
@@ -100,10 +97,6 @@ public class HbaseDataDao extends HbaseBaseDao {
         }
 
         return lastekv;
-    }
-
-    public HbaseDataDao() {
-        super(tablename);
     }
 
     public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery) {

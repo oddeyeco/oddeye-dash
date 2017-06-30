@@ -48,6 +48,8 @@ public class dataControlers {
     @Autowired
     HbaseMetaDao MetaDao;
     @Autowired
+    HbaseErrorHistoryDao ErrorHistoryDao;    
+    @Autowired
     private BaseTsdbConnect BaseTsdb;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
 
@@ -95,7 +97,7 @@ public class dataControlers {
                 }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
 
-                GetRequest getMetric = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), meta.getKey(), "d".getBytes());
+                GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
 
@@ -144,7 +146,7 @@ public class dataControlers {
                 historykey = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(date));
                 String ss = Hex.encodeHexString(historykey);
 
-                GetRequest getMetric = new GetRequest(HbaseErrorHistoryDao.TBLENAME.getBytes(), historykey, "h".getBytes());
+                GetRequest getMetric = new GetRequest(ErrorHistoryDao.getTablename().getBytes(), historykey, "h".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 List<ErrorState> list = new ArrayList<>(row.size());
                 int lastlevel = -255;

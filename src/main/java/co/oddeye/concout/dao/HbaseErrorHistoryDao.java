@@ -5,8 +5,8 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.config.DatabaseConfig;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,15 +15,11 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HbaseErrorHistoryDao extends HbaseBaseDao {
-    
-    @Autowired
-    private BaseTsdbConnect BaseTsdbV;    
-    public static final String TBLENAME = "test_oddeye-error-history";
-//    private ConcoutMetricMetaList MtrscList;
+        
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
     
-    public HbaseErrorHistoryDao() {
-        super(TBLENAME);
+    public HbaseErrorHistoryDao(DatabaseConfig p_config) {
+        super(p_config.getErrorHistoryTable());
     }
     
 }

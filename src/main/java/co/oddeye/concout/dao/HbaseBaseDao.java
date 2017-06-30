@@ -26,6 +26,7 @@ abstract public class HbaseBaseDao {
     @Autowired
     protected BaseTsdbConnect BaseTsdb;        
     protected byte[] table = null;    
+    private final String tablename;
     /**
      *
      * @param tableName
@@ -38,6 +39,7 @@ abstract public class HbaseBaseDao {
         };
 
         table = tableName.getBytes();
+        tablename = tableName;
     }
     
     public Deferred<Object> put (Map<String, HashMap<String, Object>>  changedata,  byte[] key)
@@ -81,5 +83,12 @@ abstract public class HbaseBaseDao {
             }
         }  
         return null;
+    }
+
+    /**
+     * @return the tablename
+     */
+    public String getTablename() {
+        return tablename;
     }
 }

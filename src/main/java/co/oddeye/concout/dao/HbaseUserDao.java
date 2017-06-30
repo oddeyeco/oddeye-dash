@@ -6,6 +6,7 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.annotation.HbaseColumn;
+import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.globalFunctions;
 import java.beans.IntrospectionException;
@@ -41,14 +42,13 @@ import org.slf4j.Logger;
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author vahan
  */
 //TODO REFACTOR
-@Repository
+//@Repository
 public class HbaseUserDao extends HbaseBaseDao {
 
     @Autowired
@@ -61,8 +61,10 @@ public class HbaseUserDao extends HbaseBaseDao {
     private final Map<UUID, User> usersbyUUID = new HashMap<>();
     private final Map<String, User> usersbyEmail = new HashMap<>();
 
-    public HbaseUserDao() {
-        super("oddeyeusers");
+    public HbaseUserDao(DatabaseConfig p_config) {
+        super(p_config.getUsersTable());
+        dashtable = p_config.getDashTable().getBytes();
+        
     }
 
     public void addUser(User user) throws Exception {

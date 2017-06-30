@@ -5,7 +5,7 @@
  */
 package co.oddeye.concout.dao;
 
-import co.oddeye.concout.controllers.UserController;
+import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.model.User;
@@ -41,12 +41,12 @@ import org.slf4j.Logger;
 @Repository
 public class HbaseErrorsDao extends HbaseBaseDao {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(HbaseErrorsDao.class);
-    
     @Autowired
-    private BaseTsdbConnect BaseTsdb;
-    private final static String TABLENAME_LAST = "test_oddeye-error-last";
-    private final static String TABLENAME = "test_oddeye-errors";
+    HbaseMetaDao MetaDao;    
+    
+    private final Logger LOGGER = LoggerFactory.getLogger(HbaseErrorsDao.class);    
+    private final String TABLENAME_LAST ;
+    private final String TABLENAME ;
     private HBaseClient client;
     private short weight;
     private double persent_weight;
@@ -54,8 +54,10 @@ public class HbaseErrorsDao extends HbaseBaseDao {
     private short stat_weight;
     private double persent_predict;
 
-    public HbaseErrorsDao() {
-        super(TABLENAME);
+    public HbaseErrorsDao(DatabaseConfig p_config) {
+        super(p_config.getErrorHistoryTable());
+        TABLENAME = p_config.getErrorHistoryTable();
+        TABLENAME_LAST = p_config.getErrorsLastTable();
     }
 
     public ArrayList<ArrayList<KeyValue>> getActiveErrors(User user) throws Exception {
@@ -111,7 +113,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         if (e == null) {
             return null;
         }
-        GetRequest getRegression = new GetRequest(HbaseMetaDao.TBLENAME.getBytes(), e.getKey(), "d".getBytes(), "Regression".getBytes());
+        GetRequest getRegression = new GetRequest(MetaDao.getTablename().getBytes(), e.getKey(), "d".getBytes(), "Regression".getBytes());
         ArrayList<KeyValue> Regressiondata = client.get(getRegression).joinUninterruptibly();
         for (KeyValue Regression : Regressiondata) {
             if (Arrays.equals(Regression.qualifier(), "Regression".getBytes())) {
