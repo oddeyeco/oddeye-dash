@@ -45,8 +45,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
     HbaseMetaDao MetaDao;    
     
     private final Logger LOGGER = LoggerFactory.getLogger(HbaseErrorsDao.class);    
-    private final String TABLENAME_LAST ;
-    private final String TABLENAME ;
+    private final String TABLENAME_LAST ;    
     private HBaseClient client;
     private short weight;
     private double persent_weight;
@@ -55,8 +54,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
     private double persent_predict;
 
     public HbaseErrorsDao(DatabaseConfig p_config) {
-        super(p_config.getErrorHistoryTable());
-        TABLENAME = p_config.getErrorHistoryTable();
+        super(p_config.getErrorsTable());        
         TABLENAME_LAST = p_config.getErrorsLastTable();
     }
 
