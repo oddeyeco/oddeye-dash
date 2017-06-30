@@ -7,30 +7,27 @@ package co.oddeye.concout.dao;
 
 import co.oddeye.core.globalFunctions;
 import java.io.IOException;
+import java.util.Map;
 import javax.annotation.PreDestroy;
 import net.opentsdb.core.TSDB;
 import net.opentsdb.utils.Config;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
-import org.springframework.stereotype.Service;
-
 /**
  *
  * @author vahan
  */
-@Service
+
 public final class BaseTsdbConnect {
 
     private org.hbase.async.HBaseClient client;
     private TSDB tsdb;
     protected static final Logger LOGGER = LoggerFactory.getLogger(BaseTsdbConnect.class);
-
-    /*
-     */
-    public BaseTsdbConnect() {
+    public BaseTsdbConnect(Map<String, String> attr) {
 
         String quorum = "nn1.netangels.net:2181,nn2.netangels.net:2181,rm1.netangels.net:2181";
+//        String quorum = attr.get("tsdb.quorum");
         org.hbase.async.Config clientconf = new org.hbase.async.Config();
         clientconf.overrideConfig("hbase.zookeeper.quorum", quorum);
         clientconf.overrideConfig("hbase.rpcs.batch.size", "2048");
