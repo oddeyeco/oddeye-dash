@@ -6,6 +6,13 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<style>
+   
+</style>    
+
+<div id="main"></div>
+
+
 <div class="container center" style="padding-top: 100px;">    
     <h2 class="text-center">Create Account.</h2>        
     <div class="row">

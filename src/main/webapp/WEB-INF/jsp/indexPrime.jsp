@@ -19,13 +19,13 @@
             <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">        
             <!-- Bootstrap core CSS -->
             <link rel="stylesheet" href="<c:url value="/assets/bootstrap4/css/bootstrap.min.css"/>" />                                    
-            <link rel="stylesheet" href="<c:url value="/assets/css/general.css"/>" />
+            <link rel="stylesheet" href="<c:url value="/assets/css/main.css"/>" />
 
         </head>
 
         <body>        
             <!--<header class="">-->
-            <div >
+            <div>
                 <header class="container" style="text-align: center">                       
                     <!--<a href="${cp}/"><img src="${cp}/assets/images/logo.png" alt="logo"></a>-->                
                 </header>    

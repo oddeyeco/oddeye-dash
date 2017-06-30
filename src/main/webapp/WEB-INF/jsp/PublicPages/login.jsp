@@ -4,6 +4,9 @@
     Author     : vahan
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<div id="main"></div>
+
 <div class="container center logincontener" >    
     <div class="row">
         <div class="col-md-6 col-xs-12 logo">

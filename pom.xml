@@ -336,7 +336,7 @@
                     <includes>
                         <include>bootstrap/bootstrap.less</include>
                         <include>font-awesome/font-awesome.less</include>
-                        <!--<include>main.less</include>-->
+                        <include>main.less</include>
                         <include>dash/maindash.less</include>                        
                     </includes>
                 </configuration>
