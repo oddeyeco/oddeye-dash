@@ -17,14 +17,16 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.apache.kafka.clients.producer.ProducerConfig;
-import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
 
 /**
  *
@@ -32,11 +34,19 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver;
  */
 @Configuration
 @ComponentScan("co.oddeye.concout")
+@PropertySource("config.properties")
 @EnableWebMvc
 public class Config extends WebMvcConfigurerAdapter {
 
-    //http://docs.spring.io/spring-security/site/docs/3.2.x/guides/helloworld.html#creating-your-spring-security-configuration
-    //https://habrahabr.ru/post/226791/
+    @Value("${kafka.producer.bootstrap.servers}")
+    private String producerServers;        
+    @Value("${kafka.producer.key.serializer}")
+    private String producerKeySerializer;        
+    @Value("${kafka.producer.value.serializer}")
+    private String producerValueSerializer;   
+    
+    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Config.class);
+
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();
@@ -53,12 +63,10 @@ public class Config extends WebMvcConfigurerAdapter {
 
     @Bean
     public Map<String, Object> producerConfigs() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "node0.netangels.net:9092,node1.netangels.net:9092,node2.netangels.net:9092");
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
-
-//        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "localhost:9092");        
+        Map<String, Object> props = new HashMap<>();                         
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, producerServers);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, producerKeySerializer);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, producerValueSerializer);        
         return props;
     }
 
@@ -70,21 +78,13 @@ public class Config extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/WEB-INF/resources/");
-        registry.addResourceHandler("/assets/**").addResourceLocations("/WEB-INF/assets/");        
-    }  
-    
-//    @Bean
-//    public freemarker.template.Configuration freemarkerConfiguration() throws IOException, TemplateException {        
-//        FreeMarkerConfigurationFactoryBean factoryBean = new FreeMarkerConfigurationFactoryBean();
-//        factoryBean.setPreferFileSystemAccess(true);
-//        factoryBean.setTemplateLoaderPath("/");
-//        factoryBean.afterPropertiesSet();
-//        return factoryBean.getObject();
-//    }    
+        registry.addResourceHandler("/assets/**").addResourceLocations("/WEB-INF/assets/");
+    }
+
     @Bean(name = "freemarkerConfig")
-    public FreeMarkerConfigurer getFreemarkerConfig() throws IOException, TemplateException { 
+    public FreeMarkerConfigurer getFreemarkerConfig() throws IOException, TemplateException {
         FreeMarkerConfigurer result = new FreeMarkerConfigurer();
         result.setTemplateLoaderPaths("/WEB-INF/ftl/"); // prevents FreeMarkerConfigurer from using its default path allowing setPrefix to work as expected
         return result;
-    }    
+    }
 }

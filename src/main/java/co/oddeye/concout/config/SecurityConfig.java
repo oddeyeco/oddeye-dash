@@ -25,12 +25,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {        
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("user").password("password").roles("USER");
-//    }
     @Autowired
     private HbaseAuthenticationProvider authProvider;
 
@@ -38,10 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
 
-        //.userDetailsService(this)
     }
-//http://www.baeldung.com/spring-security-authentication-provider
-    //.antMatchers("/hosts").hasAnyAuthority("ROLE_ADMIN")
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

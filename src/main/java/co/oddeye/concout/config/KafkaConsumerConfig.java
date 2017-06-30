@@ -16,6 +16,8 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 
 /**
@@ -24,8 +26,23 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
  */
 @Configuration
 @EnableKafka
+@PropertySource("config.properties")
 public class KafkaConsumerConfig {
-
+    
+    @Value("${kafka.consumer.bootstrap.servers}")
+    private String consumerServers;        
+    @Value("${kafka.consumer.zookeeper.connect}")
+    private String consumerZookeeperConnect;        
+    @Value("${kafka.consumer.autocommit}")
+    private boolean consumerAutocommit;        
+    @Value("${kafka.consumer.autocommit.interval}")
+    private String consumerAutocommitInterval;        
+    @Value("${kafka.consumer.session.timeout}")
+    private String consumerSessionTimeout;        
+    @Value("${kafka.consumer.maxpullrecord}")    
+    private String consumerMaxpullrecord;        
+    
+    
     @Bean
     KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<Integer, String>> kafkaListenerContainerFactory() {
         
@@ -46,22 +63,18 @@ public class KafkaConsumerConfig {
     @Bean
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> propsMap = new HashMap<>();
-        propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "node0.netangels.net:9092,node1.netangels.net:9092,node2.netangels.net:9092"); //,node1.netangels.net:9092,node2.netangels.net:9092
-        propsMap.put("zookeeper.connect", "nn1.netangels.net:2181,nn2.netangels.net:2181,rm1.netangels.net:2181");
-        propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
-        propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "1000");
-        propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "15000");
-        propsMap.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, "50");
+        propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, consumerServers); //,node1.netangels.net:9092,node2.netangels.net:9092
+        propsMap.put("zookeeper.connect", consumerZookeeperConnect);
+        propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, consumerAutocommit);
+        propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, consumerAutocommitInterval);
+        propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, consumerSessionTimeout);
+        propsMap.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, consumerMaxpullrecord);
+        
         propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
-        propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);        
+        propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);         
         propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString());
-//        propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");//latest
         propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");//latest
         return propsMap;
     }
 
-//    @Bean
-//    public Listener listener() {
-//        return new Listener();
-//    }
 }

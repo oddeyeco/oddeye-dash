@@ -32,15 +32,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        
-//        String log4jConfigFile = servletContext.getInitParameter("log4jConfigLocation");
-//        String fullPath = servletContext.getRealPath("") + log4jConfigFile;
-//        final File f = new File(fullPath);
-//        if (f.exists()) {
-//            PropertyConfigurator.configure(fullPath);
-//            servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class); 
-//        }
-        
         servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class); 
         super.onStartup(servletContext);
     }

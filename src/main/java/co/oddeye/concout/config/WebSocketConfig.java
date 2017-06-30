@@ -26,9 +26,6 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
                 .simpDestMatchers("/topic/**").permitAll()
-//                .simpDestMatchers("/user/**").access("hasRole('ROLE_USER')")
-//                .simpDestMatchers("/user/**").access("@socketWebSecurity.checkUserId(#user,#request)")
-//                .simpDestMatchers("/user/{userId}/**").access("@socketWebSecurity.checkUserId(#user,#userId)")
                 .simpDestMatchers("/user/{userId}/**").hasRole("USER")
                 .simpDestMatchers("/**").hasRole("ADMIN");        
     }
