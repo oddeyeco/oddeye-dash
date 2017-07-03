@@ -190,7 +190,7 @@
                         data: categories
                     }],
 
-                animationDuration: 3000,
+                animationDuration: 1000,
                 animationEasing: 'quinticInOut',
                 series: [
                     {
