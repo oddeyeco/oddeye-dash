@@ -9,9 +9,46 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 
-<script>
-
+<script>    
+    var metric_input = '${metric_input}';
     $(document).ready(function () {
+        $('body').on("click", "#Save", function () {
+            var formData = $("form.form-filter").serializeArray();
+            filterJson = {};
+            jQuery.each(formData, function (i, field) {
+                if (field.value !== "")
+                {
+                    filterJson[field.name] = field.value;
+                }
+            });
+            var sendData = {};
+            sendData.filter = JSON.stringify(filterJson);
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var token = $("meta[name='_csrf']").attr("content");
+            url = cp + "/savefilter/oddeye_base_infrastructure";            
+            $.ajax({
+                dataType: 'json',
+                type: 'POST',
+                url: url,
+                data: sendData,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader(header, token);
+                }
+            }).done(function (msg) {
+                if (msg.sucsses)
+                {
+                    alert("Data Saved ");
+                } else
+                {
+                    alert("Request failed");
+                }
+            }).fail(function (jqXHR, textStatus) {
+                alert("Request failed");
+            });
+        }
+        );
+
+
         var draging = false;
         $("#tagsconteger").sortable({
             cursor: "move"
@@ -27,7 +64,14 @@
                     lookup: data.data,
                     appendTo: '.autocomplete-container-metric'
                 });
-                input.val(data.data[0]);
+                if (metric_input === '')
+                {
+                    input.val(data.data[0]);
+                } else
+                {
+                    input.val(metric_input);
+                }
+
                 drawstructure();
 
             });
@@ -116,9 +160,9 @@
                             "name": name,
                             "symbolSize": size,
                             "category": tagindexindex,
-                            "symbol": symbol,                            
+                            "symbol": symbol,
                             "draggable": true
-                            
+
                         });
                     }
                 }
@@ -155,7 +199,7 @@
                         type: 'graph',
                         layout: 'force',
                         force: {
-                            initLayout:'circular',
+                            initLayout: 'circular',
                             repulsion: 20000 / datach.length,
                             edgeLength: 5
                         },
@@ -179,7 +223,7 @@
                             normal: {
                                 color: 'target',
                                 curveness: 0,
-                                width:3,
+                                width: 3,
                                 type: "solid"
                             }
                         }
