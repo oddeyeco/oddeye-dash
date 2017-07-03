@@ -14,7 +14,10 @@ import co.oddeye.concout.exception.ResourceNotFoundException;
 import co.oddeye.concout.model.DashboardTemplate;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.globalFunctions;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -79,23 +82,46 @@ public class DashController {
 
             LinkedHashMap<String, Boolean> taglist = new LinkedHashMap<>();
 //            taglistprioryty = {"cluster"}
-            String[] taglistprioryty = {"cluster", "group", "location", "host"};
+            JsonObject filter = null;
+            try {
+                if (user.getFiltertemplateList().containsKey("oddeye_base_infrastructure"))
+                {
+                    filter = (JsonObject) globalFunctions.getJsonParser().parse(user.getFiltertemplateList().get("oddeye_base_infrastructure"));
+                }                
+            } catch (JsonSyntaxException e) {
+                LOGGER.warn("Wrong folter JSON");
+            }
+
+            map.put("filter", filter);
+            ArrayList<String> taglistprioryty = new ArrayList<>();
+            if (filter == null) {
+                taglistprioryty.add("cluster") ;
+                taglistprioryty.add("group") ;
+                taglistprioryty.add("location") ;
+                taglistprioryty.add("host") ;
+            } else {
+                map.put("metric_input", filter.get("metric_input").getAsString());
+                for (Map.Entry<String, JsonElement> f_item: filter.entrySet())
+                {
+                    if (user.getMetricsMeta().getTagsList().containsKey(f_item.getValue().getAsString()) ) 
+                    {
+                        taglistprioryty.add(f_item.getValue().getAsString()) ;
+                    }
+                }
+            }
 
             for (String tg : taglistprioryty) {
                 if (user.getMetricsMeta().getTagsList().containsKey(tg)) {
                     taglist.put(tg, true);
                 }
             }
-            
-            for ( Map.Entry<String, Set<String>> tag : user.getMetricsMeta().getTagsList().entrySet()) {
-                if (!taglist.containsKey(tag.getKey())) {
-                    taglist.put(tag.getKey(), false);
-                }
-            }            
+
+            user.getMetricsMeta().getTagsList().entrySet().stream().filter((tag) -> (!taglist.containsKey(tag.getKey()))).forEachOrdered((tag) -> {
+                taglist.put(tag.getKey(), false);
+            });
 
 //user.getMetricsMeta().getTagsList()
             map.put("taglist", taglist);
-            map.put("taglistprioryty", taglistprioryty);
 //            map.put("initmetric", taglist);
 
         }
