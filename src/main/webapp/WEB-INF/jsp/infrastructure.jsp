@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_panel">                                     
-            <div class="col-md-1 col-sm-3 col-xs-12 profile_left">
+            <div class="col-md-2 col-sm-3 col-xs-12 profile_left">
                 <h3>Filter</h3>
                 <form class="form-horizontal form-label-left form-filter">
                     <div class="form-group">
