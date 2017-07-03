@@ -10,7 +10,7 @@
 <div class="container center logincontener" >    
     <div class="row">
         <div class="col-md-6 col-xs-12 logo">
-            <a href="${cp}/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
+            <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
         </div>    
         <div class=" contactform col-md-6 col-xs-12 login">        
             <form action="<c:url value="/login/"/>" method="post">                
