@@ -191,7 +191,7 @@
 
                     jQuery.each(data.tags, function (i, val) {
                         $("#tagslist").append('<div class="col-lg-2 col-sm-3 col-xs-6 tile_stats_count">' +
-                                '<span class="count_top"><i class="fa fa-th-list"></i> Total ' + i + '</span>' +
+                                '<span class="count_top"><i class="fa fa-th-list"></i> Tag "' + i + '" count </span>' +
                                 '<div class="count">' + val + '</div>' +
                                 '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">Show List </a></span>' +
                                 '</div>');
