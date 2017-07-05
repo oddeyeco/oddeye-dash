@@ -7,6 +7,7 @@
     var formatter = format_metric;
     var s_formatter = "{value} %";
     var abc_formatter = format_metric;    
+    
     switch (merictype) {
         case 4:
             formatter = "{value} %";
@@ -234,11 +235,20 @@
             var options = chart.getOption();
 
             options.series[1].data[0].value = chdataMath[chdataMath.length - 1];
-            options.series[1].min = Math.min.apply(null, chdataMath);
-            options.series[1].max = Math.max.apply(null, chdataMath);
-            options.series[0].data = chdata;
-            options.xAxis[0].data = date;
-            chart.setOption(options);
+            switch (merictype) {
+                case 4:
+                    options.series[1].min = 0;
+                    options.series[1].max = 100;
+                    break;
+
+                default:
+                    options.series[1].min = Math.min.apply(null, chdataMath);
+                    options.series[1].max = Math.max.apply(null, chdataMath);
+                    break;
+            }            
+            
+            options.series[0].data = chdata;            
+            chart.setOption({series:options.series});
 
         }
         );
