@@ -177,7 +177,7 @@ public class DashController {
                 if (Dash.getInfojson() != null) {
                     map.put("dashInfo", Dash.getInfojson().toString());
                 } else {
-                    map.put("dashInfo", "{}");
+                    map.put("dashInfo", "{rows:[]}");
                 }
 
                 map.put("body", "dashboard");
@@ -212,7 +212,7 @@ public class DashController {
 
         map.put("body", "dashboard");
         map.put("jspart", "dashboardjs");
-        map.put("dashInfo", "{}");
+        map.put("dashInfo", "{rows:[]}");
 
         return "index";
     }

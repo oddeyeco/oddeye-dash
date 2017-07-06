@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, dashJSONvar, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker */
 var SingleRedrawtimer;
 var dasheditor;
 var refreshtimes = {
@@ -39,12 +39,12 @@ var defoption = {
     series: [defserie]
 };
 var doapplyjson = false;
-var single_rowindex = 0;
-var single_widgetindex = 0;
+var single_ri = 0;
+var single_wi = 0;
 var scrolltimer;
 
 
-var queryCallback = function (q_index, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart, end) {
+var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end) {
     return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
 
@@ -1174,7 +1174,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                     {
                         GlobalRefresh = false;
                         widget.timer = setTimeout(function () {
-                            setdatabyQ(json, rowindex, widgetindex, url, true, null, customchart);
+                            setdatabyQ(json, ri, wi, url, true, null, customchart);
                         }, widget.times.intervall);
                     }
                 }
@@ -1184,7 +1184,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ro
                 if (json.times.intervall)
                 {
                     widget.timer = setTimeout(function () {
-                        setdatabyQ(json, rowindex, widgetindex, url, true, null, customchart);
+                        setdatabyQ(json, ri, wi, url, true, null, customchart);
                     }, json.times.intervall);
                 }
             }
@@ -1213,13 +1213,13 @@ function replacer(tags) {
         return tags[p1];
     };
 }
-function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback = null, customchart = null) {
-    var widget = json[rowindex]["widgets"][widgetindex];
+function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
+    var widget = json.rows[ri].widgets[wi];
     clearTimeout(widget.timer);
     var chart;
     if (customchart === null)
     {
-        chart = json[rowindex]["widgets"][widgetindex].echartLine;
+        chart = json.rows[ri].widgets[wi].echartLine;
     } else
     {
         chart = customchart;
@@ -1423,7 +1423,7 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
                     zlevel: 0
                 });
 
-                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, rowindex, widgetindex, url, redraw, callback, customchart, end));
+                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end));
 
             }
 
@@ -1431,96 +1431,93 @@ function setdatabyQ(json, rowindex, widgetindex, url, redraw = false, callback =
 }
 }
 function AutoRefresh(redraw = false) {
-    redrawAllJSON(dashJSONvar, redraw);
+    redrawAllJSON(gdd, redraw);
 }
 function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, redraw = false) {
-    var opt = dashJSONvar[row]["widgets"][index];
+    var opt = gdd.rows[row].widgets[index];
 
-    showsingleWidget(row, index, dashJSONvar, readonly, rebuildform, redraw, function () {
+    showsingleWidget(row, index, gdd, readonly, rebuildform, redraw, function () {
 //        var jsonstr = JSON.stringify(opt, jsonmaker);
 //        editor.set(JSON.parse(jsonstr));
     });
 }
 function redrawAllJSON(dashJSON, redraw = false) {
-    var rowindex;
-    var widgetindex;
+    var ri;
+    var wi;
     $(".editchartpanel").hide();
     $(".fulldash").show();
     if (!redraw)
     {
         $("#dashcontent").html("");
     }
-    for (rowindex in dashJSON)
+    for (ri in dashJSON.rows)
     {
-        if (rowindex === "times")
-        {
-            continue;
-        }
+        var tmprow = dashJSON.rows[ri];
         if (!redraw)
         {
-            $("#rowtemplate .widgetraw").attr("index", rowindex);
-            $("#rowtemplate .widgetraw").attr("id", "row" + rowindex);
+            $("#rowtemplate .widgetraw").attr("index", ri);
+            $("#rowtemplate .widgetraw").attr("id", "row" + ri);
             var html = $("#rowtemplate").html();
             $("#dashcontent").append(html);
             $("#rowtemplate .widgetraw").attr("id", "row");
         }
-        for (widgetindex in    dashJSON[rowindex]["widgets"])
+        for (wi in tmprow.widgets)
         {
-            if (dashJSON[rowindex]["widgets"][widgetindex] == null)
+            if (tmprow.widgets[wi] === null)
             {
-                delete(dashJSON[rowindex]["widgets"][widgetindex]);
+                delete(tmprow.widgets[wi]);
                 continue;
             }
-            if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
+            if (!tmprow.widgets[wi].echartLine || !redraw)
             {
                 var bkgclass = "";
-                clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
-                $("#charttemplate .chartsection").attr("size", dashJSON[rowindex]["widgets"][widgetindex].size);
-                if (dashJSON[rowindex]["widgets"][widgetindex].options)
+                clearTimeout(tmprow.widgets[wi].timer);
+                $("#charttemplate .chartsection").attr("size", tmprow.widgets[wi].size);
+                if (tmprow.widgets[wi].options)
                 {
-                    if (dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor)
+                    if (tmprow.widgets[wi].options.backgroundColor)
                     {
-                        $("#charttemplate .chartsection").css("background-color", dashJSON[rowindex]["widgets"][widgetindex].options.backgroundColor);
+                        $("#charttemplate .chartsection").css("background-color", tmprow.widgets[wi].options.backgroundColor);
                     } else
                     {
                         $("#charttemplate .chartsection").css("background-color", "");
                     }
                 }
 
-                $("#charttemplate .chartsection").attr("index", widgetindex);
-                $("#charttemplate .chartsection").attr("id", "widget" + rowindex + "_" + widgetindex);
-                $("#charttemplate .chartsection").attr("type", dashJSON[rowindex]["widgets"][widgetindex].type);
-                $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + dashJSON[rowindex]["widgets"][widgetindex].size);
-                $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + rowindex + "_" + widgetindex);
+                $("#charttemplate .chartsection").attr("index", wi);
+                $("#charttemplate .chartsection").attr("id", "widget" + ri + "_" + wi);
+                $("#charttemplate .chartsection").attr("type", tmprow.widgets[wi].type);
+                $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + tmprow.widgets[wi].size);
+                $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line" + ri + "_" + wi);
                 $("#charttemplate .chartsection .echart_time").html("");
 
-                if (dashJSON[rowindex]["widgets"][widgetindex].times)
+                if (tmprow.widgets[wi].times)
                 {
-                    if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel)
+                    if (tmprow.widgets[wi].times.pickerlabel)
                     {
-                        if (dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel !== "Custom")
+                        if (tmprow.widgets[wi].times.pickerlabel !== "Custom")
                         {
-                            $("#charttemplate .chartsection .echart_time").append(dashJSON[rowindex]["widgets"][widgetindex].times.pickerlabel + " ");
+                            $("#charttemplate .chartsection .echart_time").append(tmprow.widgets[wi].times.pickerlabel + " ");
                         } else
                         {
-                            $("#charttemplate .chartsection .echart_time").append("From " + moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(dashJSON[rowindex]["widgets"][widgetindex].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
+                            $("#charttemplate .chartsection .echart_time").append("From " + moment(tmprow.widgets[wi].times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(tmprow.widgets[wi].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
                         }
                     }
-                    if (dashJSON[rowindex]["widgets"][widgetindex].times.intervall)
+                    if (tmprow.widgets[wi].times.intervall)
                     {
-                        if (dashJSON[rowindex]["widgets"][widgetindex].times.intervall !== "General")
+                        if (tmprow.widgets[wi].times.intervall !== "General")
                         {
-                            $("#charttemplate .chartsection .echart_time").append(refreshtimes[dashJSON[rowindex]["widgets"][widgetindex].times.intervall]);
+                            $("#charttemplate .chartsection .echart_time").append(refreshtimes[tmprow.widgets[wi].times.intervall]);
                         }
                     }
 
                 }
 
 
-                if (typeof (dashJSON[rowindex]["widgets"][widgetindex].height) !== "undefined")
+                if (typeof (tmprow.widgets[wi].height) !== "undefined")
                 {
-                    $("#charttemplate .chartsection").find(".echart_line").css("height", dashJSON[rowindex]["widgets"][widgetindex].height);
-                    if (dashJSON[rowindex]["widgets"][widgetindex].height === "")
+                    $("#charttemplate .chartsection").find(".echart_line").css("height", tmprow.widgets[wi].height);
+                    if (tmprow.widgets[wi].height === "")
                     {
                         $("#charttemplate .chartsection").find(".echart_line").css("height", "300px");
                     }
@@ -1528,69 +1525,84 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 {
                     $("#charttemplate .chartsection").find(".echart_line").css("height", "300px");
                 }
-                $("#row" + rowindex).find(".rowcontent").append($("#charttemplate").html());
+                $("#row" + ri).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
             }
-//            console.log(dashJSON[rowindex]["widgets"][widgetindex]);
-            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].options) === "undefined")
+//            console.log(tmprow.widgets[wi]);
+            if (typeof (tmprow.widgets[wi].options) === "undefined")
             {
-                dashJSON[rowindex]["widgets"][widgetindex].options = clone_obg(defoption);
-                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
-                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
+                tmprow.widgets[wi].options = clone_obg(defoption);
+                tmprow.widgets[wi].options.series[0].symbol = "none";
+                tmprow.widgets[wi].options.series[0].data = datafunc();
             }
-            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].q) === "undefined")
+            if (typeof (tmprow.widgets[wi].q) === "undefined")
             {
-                dashJSON[rowindex]["widgets"][widgetindex].q = clone_obg(dashJSON[rowindex]["widgets"][widgetindex].queryes);
-                delete dashJSON[rowindex]["widgets"][widgetindex].queryes;
+                tmprow.widgets[wi].q = clone_obg(tmprow.widgets[wi].queryes);
+                delete tmprow.widgets[wi].queryes;
             }
 
 
-            if (typeof (dashJSON[rowindex]["widgets"][widgetindex].q) !== "undefined")
+            if (typeof (tmprow.widgets[wi].q) !== "undefined")
             {
-                if (!dashJSON[rowindex]["widgets"][widgetindex].echartLine || !redraw)
+                if (!tmprow.widgets[wi].echartLine || !redraw)
                 {
-                    dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
+                    tmprow.widgets[wi].echartLine = echarts.init(document.getElementById("echart_line" + ri + "_" + wi), 'oddeyelight');
                 }
-                setdatabyQ(dashJSON, rowindex, widgetindex, "getdata", redraw);
+                setdatabyQ(dashJSON, ri, wi, "getdata", redraw);
             } else
             {
-                if (dashJSON[rowindex]["widgets"][widgetindex].options.series.length === 1)
+                if (tmprow.widgets[wi].options.series.length === 1)
                 {
-                    if (!dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data)
+                    if (!tmprow.widgets[wi].options.series[0].data)
                     {
-                        dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
+                        tmprow.widgets[wi].options.series[0].data = datafunc();
                     } else
-                    if (dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data.length === 0)
+                    if (tmprow.widgets[wi].options.series[0].data.length === 0)
                     {
-                        dashJSON[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
+                        tmprow.widgets[wi].options.series[0].data = datafunc();
                     }
                 }
 
-                dashJSON[rowindex]["widgets"][widgetindex].echartLine = echarts.init(document.getElementById("echart_line" + rowindex + "_" + widgetindex), 'oddeyelight');
-                if (!dashJSON[rowindex]["widgets"][widgetindex].options.series[0])
+                tmprow.widgets[wi].echartLine = echarts.init(document.getElementById("echart_line" + ri + "_" + wi), 'oddeyelight');
+                if (!tmprow.widgets[wi].options.series[0])
                 {
-                    dashJSON[rowindex]["widgets"][widgetindex].options.series[0] = {};
+                    tmprow.widgets[wi].options.series[0] = {};
                 }
-                dashJSON[rowindex]["widgets"][widgetindex].options.series[0].type = "line";
+                tmprow.widgets[wi].options.series[0].type = "line";
 
-                dashJSON[rowindex]["widgets"][widgetindex].echartLine.setOption(dashJSON[rowindex]["widgets"][widgetindex].options);
+                tmprow.widgets[wi].echartLine.setOption(tmprow.widgets[wi].options);
             }
 
             $("#charttemplate .chartsection").attr("id", "widget");
 
         }
+        
+        $("#row" + ri+" .rowcontent").sortable({
+            cursor: "move",
+            appendTo: ".rowcontent"
+        });
+
+        $("#row" + ri+" .rowcontent").on('sortstart',function (event, ui ){
+            ui.item.css('border',"5px solid rgba(200,200,200,1)");
+        });
+        $("#row" + ri+" .rowcontent").on('sortstop',function (event, ui ){            
+            ui.item.removeAttr('style');            
+        });        
+        
+//        console.log($("#row" + ri));
 }
 }
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
 
     $(".fulldash").hide();
-    for (var rowindex in dashJSON)
+    for (var ri in dashJSON.rows)
     {
-        for (var widgetindex in    dashJSON[rowindex]["widgets"])
+        var tmprow = dashJSON.rows[ri];
+        for (var wi in    tmprow.widgets)
         {
-            if (dashJSON[rowindex]["widgets"][widgetindex])
+            if (tmprow.widgets[wi])
             {
-                clearTimeout(dashJSON[rowindex]["widgets"][widgetindex].timer);
+                clearTimeout(tmprow.widgets[wi].timer);
             }
         }
     }
@@ -1601,25 +1613,25 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         Edit_Form = null;
     }
     //Rename queryes to q
-    if (typeof (dashJSON[row]["widgets"][index].q) === "undefined")
+    if (typeof (dashJSON.rows[row].widgets[index].q) === "undefined")
     {
-        dashJSON[row]["widgets"][index].q = clone_obg(dashJSON[row]["widgets"][index].queryes);
-        delete dashJSON[row]["widgets"][index].queryes;
+        dashJSON.rows[row].widgets[index].q = clone_obg(dashJSON.rows[row].widgets[index].queryes);
+        delete dashJSON.rows[row].widgets[index].queryes;
     }
     //Change queryes downsample 
-    if (dashJSON[row]["widgets"][index].q)
+    if (dashJSON.rows[row].widgets[index].q)
     {
-        for (var qindex in dashJSON[row]["widgets"][index].q)
+        for (var qindex in dashJSON.rows[row].widgets[index].q)
         {
-            if (dashJSON[row]["widgets"][index].q[qindex].info)
+            if (dashJSON.rows[row].widgets[index].q[qindex].info)
             {
-                if (dashJSON[row]["widgets"][index].q[qindex].info.downsample)
+                if (dashJSON.rows[row].widgets[index].q[qindex].info.downsample)
                 {
-                    var ds_ = dashJSON[row]["widgets"][index].q[qindex].info.downsample.split("-");
-                    dashJSON[row]["widgets"][index].q[qindex].info.ds = {};
-                    dashJSON[row]["widgets"][index].q[qindex].info.ds.time = ds_[0];
-                    dashJSON[row]["widgets"][index].q[qindex].info.ds.aggregator = ds_[1];
-                    delete dashJSON[row]["widgets"][index].q[qindex].info.downsample;
+                    var ds_ = dashJSON.rows[row].widgets[index].q[qindex].info.downsample.split("-");
+                    dashJSON.rows[row].widgets[index].q[qindex].info.ds = {};
+                    dashJSON.rows[row].widgets[index].q[qindex].info.ds.time = ds_[0];
+                    dashJSON.rows[row].widgets[index].q[qindex].info.ds.aggregator = ds_[1];
+                    delete dashJSON.rows[row].widgets[index].q[qindex].info.downsample;
                 }
             }
 
@@ -1627,7 +1639,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     }
 
     var title = "Edit Chart";
-    var W_type = dashJSON[row]["widgets"][index].type;
+    var W_type = dashJSON.rows[row].widgets[index].type;
     if (W_type === "table")
     {
         title = "Edit Table";
@@ -1666,13 +1678,13 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 } else
                 {
                     var height = "300px";
-                    if (typeof (dashJSON[row]["widgets"][index].height) !== "undefined")
+                    if (typeof (dashJSON.rows[row].widgets[index].height) !== "undefined")
                     {
-                        if (dashJSON[row]["widgets"][index].height === "")
+                        if (dashJSON.rows[row].widgets[index].height === "")
                         {
-                            dashJSON[row]["widgets"][index].height = "300px";
+                            dashJSON.rows[row].widgets[index].height = "300px";
                         }
-                        height = dashJSON[row]["widgets"][index].height;
+                        height = dashJSON.rows[row].widgets[index].height;
                     }
                     $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
                             '<div class="echart_line_single" id="echart_line_single" style="height:' + height + ';"></div>' +
@@ -1692,12 +1704,12 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         }
     }
 
-    if (typeof (dashJSON[row]["widgets"][index].q) !== "undefined")
+    if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
     {
         setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
     } else
     {
-        echartLine.setOption(dashJSON[row]["widgets"][index].options);
+        echartLine.setOption(dashJSON.rows[row].widgets[index].options);
     }
 
     return;
@@ -1716,14 +1728,14 @@ function getParameterByName(name, url) {
 }
 function repaint(redraw = false, rebuildform = true) {
     doapplyjson = true;
-    if (dashJSONvar.times.generalds)
+    if (gdd.times.generalds)
     {
-        $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
+        $('#global-down-sample').val(gdd.times.generalds[0]);
+        $('#global-down-sample-ag').val(gdd.times.generalds[1]).trigger('change');
         var check = document.getElementById('global-downsampling-switsh');
-        if (dashJSONvar.times.generalds[2])
+        if (gdd.times.generalds[2])
         {
-            if (check.checked !== dashJSONvar.times.generalds[2])
+            if (check.checked !== gdd.times.generalds[2])
             {
                 $(check).attr('autoedit', true);
                 $(check).trigger('click');
@@ -1741,14 +1753,14 @@ function repaint(redraw = false, rebuildform = true) {
     } else
     {
         var NoOpt = false;
-        if (typeof (dashJSONvar[request_R_index]) === "undefined")
+        if (typeof (gdd[request_R_index]) === "undefined")
         {
             NoOpt = true;
         }
 
         if (!NoOpt)
         {
-            if (typeof (dashJSONvar[request_R_index]["widgets"][request_W_index]) === "undefined")
+            if (typeof (gdd[request_R_index].widgets[request_W_index]) === "undefined")
             {
                 NoOpt = true;
             }
@@ -1760,7 +1772,7 @@ function repaint(redraw = false, rebuildform = true) {
             AutoRefresh(redraw);
         } else
         {
-            clearTimeout(dashJSONvar[request_R_index]["widgets"][request_W_index].timer);
+            clearTimeout(gdd[request_R_index].widgets[request_W_index].timer);
             var action = getParameterByName("action");
             AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", rebuildform, redraw);
             $(".editchartpanel select").select2({minimumResultsForSearch: 15});
@@ -1771,23 +1783,23 @@ function repaint(redraw = false, rebuildform = true) {
 }
 
 $(document).ready(function () {            
-    if (dashJSONvar.times)
+    if (gdd.times)
     {
-        if (dashJSONvar.times.intervall)
+        if (gdd.times.intervall)
         {
-            $("#refreshtime").val(dashJSONvar.times.intervall);
+            $("#refreshtime").val(gdd.times.intervall);
         }
         var label = pickerlabel;
-        if (dashJSONvar.times.pickerlabel)
+        if (gdd.times.pickerlabel)
         {
-            label = dashJSONvar.times.pickerlabel;
+            label = gdd.times.pickerlabel;
         }
 
         $('#reportrange span').html(label);
         if (label === "Custom")
         {
-            PicerOptionSet1.startDate = moment(dashJSONvar.times.pickerstart);
-            PicerOptionSet1.endDate = moment(dashJSONvar.times.pickerend);
+            PicerOptionSet1.startDate = moment(gdd.times.pickerstart);
+            PicerOptionSet1.endDate = moment(gdd.times.pickerend);
             $('#reportrange span').html(PicerOptionSet1.startDate.format('MM/DD/YYYY HH:mm:ss') + ' - ' + PicerOptionSet1.endDate.format('MM/DD/YYYY HH:mm:ss'));
 
         } else
@@ -1798,7 +1810,7 @@ $(document).ready(function () {
 
     } else
     {
-        dashJSONvar.times = {};
+        gdd.times = {};
         $('#reportrange span').html(pickerlabel);
     }
     repaint();
@@ -1807,11 +1819,11 @@ $(document).ready(function () {
     elem.onchange = function () {
         if (!$(this).attr('autoedit'))
         {
-            if (!dashJSONvar.times.generalds)
+            if (!gdd.times.generalds)
             {
-                dashJSONvar.times.generalds = [];
+                gdd.times.generalds = [];
             }
-            dashJSONvar.times.generalds[2] = this.checked;
+            gdd.times.generalds[2] = this.checked;
             repaint(true, false);
         }
 
@@ -1820,36 +1832,36 @@ $(document).ready(function () {
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";
         var enddate = "now";
-        if (dashJSONvar.times.pickerlabel === "Custom")
+        if (gdd.times.pickerlabel === "Custom")
         {
-            startdate = dashJSONvar.times.pickerstart;
-            enddate = dashJSONvar.times.pickerend;
+            startdate = gdd.times.pickerstart;
+            enddate = gdd.times.pickerend;
         } else
         {
-            if (typeof (rangeslabels[dashJSONvar.times.pickerlabel]) !== "undefined")
+            if (typeof (rangeslabels[gdd.times.pickerlabel]) !== "undefined")
             {
-                startdate = rangeslabels[dashJSONvar.times.pickerlabel];
+                startdate = rangeslabels[gdd.times.pickerlabel];
             }
 
         }
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
-        $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-        $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]);
+        $('#global-down-sample').val(gdd.times.generalds[0]);
+        $('#global-down-sample-ag').val(gdd.times.generalds[1]);
 
         //TODO Fix redraw
         var check = document.getElementById('global-downsampling-switsh');
-        if (dashJSONvar.times.generalds[2])
+        if (gdd.times.generalds[2])
         {
-            if (check.checked !== dashJSONvar.times.generalds[2])
+            if (check.checked !== gdd.times.generalds[2])
             {
                 $(check).attr('autoedit', true);
                 $(check).trigger('click');
@@ -1862,17 +1874,17 @@ $(document).ready(function () {
             var request_W_index = getParameterByName("widget");
             var request_R_index = getParameterByName("row");
             var action = getParameterByName("action");
-            showsingleWidget(request_R_index, request_W_index, dashJSONvar, action !== "edit", false, false);
+            showsingleWidget(request_R_index, request_W_index, gdd, action !== "edit", false, false);
         } else
         {
             window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
-            redrawAllJSON(dashJSONvar);
+            redrawAllJSON(gdd);
         }
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15,data:EditForm.aggregatoroptions_selct2});
     //console.log(EditForm.aggregatoroptions2);
-    $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(dashJSONvar, $('#reportrange')));
+    $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
     $('body').on("click", ".dropdown_button,.button_title_adv", function () {
         var target = $(this).attr('target');
         var shevron = $(this);
@@ -1896,58 +1908,59 @@ $(document).ready(function () {
     $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
-            if (!dashJSONvar.times.generalds)
+            if (!gdd.times.generalds)
             {
-                dashJSONvar.times.generalds = [];
+                gdd.times.generalds = [];
             }
-            dashJSONvar.times.generalds[1] = $(this).val();
+            gdd.times.generalds[1] = $(this).val();
             repaint(true, false);
         }
 
     });
     $('body').on("blur", "#global-down-sample", function () {
-        if (!dashJSONvar.times.generalds)
+        if (!gdd.times.generalds)
         {
-            dashJSONvar.times.generalds = [];
+            gdd.times.generalds = [];
         }
-        dashJSONvar.times.generalds[0] = $(this).val();
+        gdd.times.generalds[0] = $(this).val();
         repaint(true, false);
     });
     $("#addrow").on("click", function () {
-        dashJSONvar[Object.keys(dashJSONvar).length] = {widgets: {}};
-        for (var rowindex in dashJSONvar)
+        gdd.rows.push ({widgets: []}) ;
+        console.log(gdd);
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
-        }
-        redrawAllJSON(dashJSONvar);
+        }        
+        redrawAllJSON(gdd);
     });
     $('body').on("click", "#deleterowconfirm", function () {
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
 
-        var rowindex = $(this).attr("index");
-        delete dashJSONvar[rowindex];
-        redrawAllJSON(dashJSONvar);
+        var ri = $(this).attr("index");
+        delete gdd.rows[ri];
+        redrawAllJSON(gdd);
         $("#deleteConfirm").modal('hide');
     });
     $('body').on("click", ".deleterow", function () {
-        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var ri = $(this).parents(".widgetraw").first().attr("index");
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
-        $("#deleteConfirm").find('.btn-ok').attr('index', rowindex);
+        $("#deleteConfirm").find('.btn-ok').attr('index', ri);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
         $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Row?");
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
@@ -1955,7 +1968,7 @@ $(document).ready(function () {
     });
     $('body').on("click", "#showasjson", function () {
         $("#showjson").find('.btn-ok').attr('id', "applydashjson");
-        var jsonstr = JSON.stringify(dashJSONvar, jsonmaker);
+        var jsonstr = JSON.stringify(gdd, jsonmaker);
         dasheditor.set(JSON.parse(jsonstr));
         $("#showjson").modal('show');
     });
@@ -1963,46 +1976,46 @@ $(document).ready(function () {
 
         doapplyjson = true;
 
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
-        dashJSONvar = dasheditor.get();
-        redrawAllJSON(dashJSONvar);
+        gdd = dasheditor.get();
+        redrawAllJSON(gdd);
 
-        if (dashJSONvar.times.generalds)
+        if (gdd.times.generalds)
         {
-            $('#global-down-sample').val(dashJSONvar.times.generalds[0]);
-            $('#global-down-sample-ag').val(dashJSONvar.times.generalds[1]).trigger('change');
+            $('#global-down-sample').val(gdd.times.generalds[0]);
+            $('#global-down-sample-ag').val(gdd.times.generalds[1]).trigger('change');
             var check = document.getElementById('global-downsampling-switsh');
-            if (check.checked !== dashJSONvar.times.generalds[2])
+            if (check.checked !== gdd.times.generalds[2])
             {
                 $(check).attr('autoedit', true);
                 $(check).trigger('click');
                 $(check).removeAttr('autoedit');
             }
         }
-        if (dashJSONvar.times.intervall)
+        if (gdd.times.intervall)
         {
-            $("#refreshtime").val(dashJSONvar.times.intervall).trigger('change');
+            $("#refreshtime").val(gdd.times.intervall).trigger('change');
         }
         var label = pickerlabel;
-        if (dashJSONvar.times.pickerlabel)
+        if (gdd.times.pickerlabel)
         {
-            label = dashJSONvar.times.pickerlabel;
+            label = gdd.times.pickerlabel;
         }
 
         $('#reportrange span').html(label);
         if (label === "Custom")
         {
-            PicerOptionSet1.startDate = moment(dashJSONvar.times.pickerstart);
-            PicerOptionSet1.endDate = moment(dashJSONvar.times.pickerend);
+            PicerOptionSet1.startDate = moment(gdd.times.pickerstart);
+            PicerOptionSet1.endDate = moment(gdd.times.pickerend);
             $('#reportrange span').html(PicerOptionSet1.startDate.format('MM/DD/YYYY H:m:s') + ' - ' + PicerOptionSet1.endDate.format('MM/DD/YYYY H:m:s'));
 
         } else
@@ -2015,150 +2028,142 @@ $(document).ready(function () {
         doapplyjson = false;
     });
     $('body').on("click", ".showrowjson", function () {
-        var rowindex = $(this).parents(".widgetraw").first().attr("index");
+        var ri = $(this).parents(".widgetraw").first().attr("index");
         $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
-        $("#showjson").find('.btn-ok').attr('index', rowindex);
-        var jsonstr = JSON.stringify(dashJSONvar[rowindex], jsonmaker);
+        $("#showjson").find('.btn-ok').attr('index', ri);
+        var jsonstr = JSON.stringify(gdd.rows[ri], jsonmaker);
         dasheditor.set(JSON.parse(jsonstr));
         $("#showjson").modal('show');
     });
     $('body').on("click", "#applyrowjson", function () {
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
 
-        var rowindex = $(this).attr("index");
-        dashJSONvar[rowindex] = dasheditor.get();
-        redrawAllJSON(dashJSONvar);
+        var ri = $(this).attr("index");
+        gdd.rows[ri] = dasheditor.get();
+        redrawAllJSON(gdd);
         $("#showjson").modal('hide');
     });
     $('body').on("click", ".minus", function () {
-        var rowindex = $(this).parents(".widgetraw").first().attr("index");
-        var widgetindex = $(this).parents(".chartsection").first().attr("index");
-        if (dashJSONvar[rowindex]["widgets"][widgetindex].size > 1)
+        var ri = $(this).parents(".widgetraw").first().attr("index");
+        var wi = $(this).parents(".chartsection").first().attr("index");
+        if (gdd.rows[ri].widgets[wi].size > 1)
         {
-            var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
-            dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size) - 1;
-            $(this).parents(".chartsection").attr("size", dashJSONvar[rowindex]["widgets"][widgetindex].size);
-            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
-            dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();
+            var olssize = gdd.rows[ri].widgets[wi].size;
+            gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) - 1;
+            $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
+            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
+            gdd.rows[ri].widgets[wi].echartLine.resize();
 
         }
 
     });
     $('body').on("click", ".plus", function () {
 
-        var rowindex = $(this).parents(".widgetraw").first().attr("index");
-        var widgetindex = $(this).parents(".chartsection").first().attr("index");
-        if (dashJSONvar[rowindex]["widgets"][widgetindex].size < 12)
+        var ri = $(this).parents(".widgetraw").first().attr("index");
+        var wi = $(this).parents(".chartsection").first().attr("index");
+        if (gdd.rows[ri].widgets[wi].size < 12)
         {
 
-            var olssize = dashJSONvar[rowindex]["widgets"][widgetindex].size;
-            dashJSONvar[rowindex]["widgets"][widgetindex].size = parseInt(dashJSONvar[rowindex]["widgets"][widgetindex].size) + 1;
-            $(this).parents(".chartsection").attr("size", dashJSONvar[rowindex]["widgets"][widgetindex].size);
-            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + dashJSONvar[rowindex]["widgets"][widgetindex].size);
-            dashJSONvar[rowindex]["widgets"][widgetindex].echartLine.resize();
+            var olssize = gdd.rows[ri].widgets[wi].size;
+            gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) + 1;
+            $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
+            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
+            gdd.rows[ri].widgets[wi].echartLine.resize();
         }
-//    redrawAllJSON(dashJSONvar);
+//    redrawAllJSON(gdd);
     });
     $('body').on("click", "#deletewidgetconfirm", function () {
 
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
-        var rowindex = $(this).attr("rowindex");
-        var widgetindex = $(this).attr("widgetindex");
-        delete dashJSONvar[rowindex]["widgets"][widgetindex];
-        redrawAllJSON(dashJSONvar);
+        var ri = $(this).attr("ri");
+        var wi = $(this).attr("wi");
+        delete gdd.rows[ri].widgets[wi];
+        redrawAllJSON(gdd);
         $("#deleteConfirm").modal('hide');
     });
+    
     $('body').on("click", ".deletewidget", function () {
-        var rowindex = $(this).parents(".widgetraw").first().attr("index");
-        var widgetindex = $(this).parents(".chartsection").first().attr("index");
+        var ri = $(this).parents(".widgetraw").first().attr("index");
+        var wi = $(this).parents(".chartsection").first().attr("index");
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
-        $("#deleteConfirm").find('.btn-ok').attr('rowindex', rowindex);
-        $("#deleteConfirm").find('.btn-ok').attr('widgetindex', widgetindex);
+        $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
+        $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
         $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Panel?");
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
     });
+    
     $('body').on("click", ".dublicate", function () {
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
 
-        var rowindex = $(this).parents(".widgetraw").first().attr("index");
-        var curentwidgetindex = $(this).parents(".chartsection").first().attr("index");
-        var widgetindex = Object.keys(dashJSONvar[rowindex]["widgets"]).length;
-        dashJSONvar[rowindex]["widgets"][widgetindex] = clone_obg(dashJSONvar[rowindex]["widgets"][curentwidgetindex]);
-        delete  dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
+        var ri = $(this).parents(".widgetraw").first().attr("index");
+        var curentwi = $(this).parents(".chartsection").first().attr("index");
+        var wi = Object.keys(gdd.rows[ri].widgets).length;
+        gdd.rows[ri].widgets.push(clone_obg(gdd.rows[ri].widgets[curentwi])) ;
+        delete  gdd.rows[ri].widgets[wi].echartLine;
 
-        window.history.pushState({}, "", "?widget=" + widgetindex + "&row=" + rowindex + "&action=edit");       
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");       
 
-        AutoRefreshSingle(rowindex, widgetindex);
+        AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());        
         
-//        redrawAllJSON(dashJSONvar);
+//        redrawAllJSON(gdd);
     });
     $('body').on("click", ".addchart", function () {
-        for (var rowindex in dashJSONvar)
+        
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
-        var rowindex = $(this).parents(".widgetraw").first().attr("index");
-
-        var widgetindex = 0;
-
-        if (dashJSONvar[rowindex]["widgets"])
+        var ri = $(this).parents(".widgetraw").first().attr("index");
+        if (!gdd.rows[ri].widgets)
         {
-            if (Object.keys(dashJSONvar[rowindex]["widgets"]).length > 0)
-            {
-                widgetindex = Math.max.apply(null, Object.keys(dashJSONvar[rowindex]["widgets"])) + 1;
-            }
-
-        } else
-        {
-            dashJSONvar[rowindex].widgets = [];
+            gdd.rows[ri].widgets = [];            
         }
-        dashJSONvar[rowindex]["widgets"][widgetindex] = {type: "line"};
-        dashJSONvar[rowindex]["widgets"][widgetindex].size = 12;
-        window.history.pushState({}, "", "?widget=" + widgetindex + "&row=" + rowindex + "&action=edit");
-        
-        dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(defoption);
-        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[0].symbol = "none";
-        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[0].type = "line";
-        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[0].data = datafunc();
+        var wi = gdd.rows[ri].widgets.length;
+        gdd.rows[ri].widgets.push({type: "line",size:12,options:clone_obg(defoption)});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");                
+        gdd.rows[ri].widgets[wi].options.series[0].symbol = "none";
+        gdd.rows[ri].widgets[wi].options.series[0].type = "line";
+        gdd.rows[ri].widgets[wi].options.series[0].data = datafunc();
 
-        AutoRefreshSingle(rowindex, widgetindex);
+        AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
+        console.log(gdd);
 
     });
     $('body').on("click", "#deletedashconfirm", function () {
@@ -2199,26 +2204,26 @@ $(document).ready(function () {
         var url = cp + "/dashboard/save";
         var senddata = {};
 
-        if (Object.keys(dashJSONvar).length > 0)
+        if (Object.keys(gdd).length > 0)
         {
-            for (var rowindex in dashJSONvar)
+            for (var ri in gdd.rows)
             {
-                for (var widgetindex in dashJSONvar[rowindex]["widgets"])
+                for (var wi in gdd.rows[ri].widgets)
                 {
-                    delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                    if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
+                    delete gdd.rows[ri].widgets[wi].echartLine;
+                    if (gdd.rows[ri].widgets[wi].tmpoptions)
                     {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
-                        delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
+                        gdd.rows[ri].widgets[wi].options = clone_obg(gdd.rows[ri].widgets[wi].tmpoptions);
+                        delete gdd.rows[ri].widgets[wi].tmpoptions;
                     }
 
-                    for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
+                    for (var k in gdd.rows[ri].widgets[wi].options.series) {
+                        gdd.rows[ri].widgets[wi].options.series[k].data = [];
                     }
                 }
             }
 
-            senddata.info = JSON.stringify(dashJSONvar);
+            senddata.info = JSON.stringify(gdd);
             senddata.name = $("#name").val();
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
@@ -2274,26 +2279,26 @@ $(document).ready(function () {
         var url = cp + "/dashboard/savetemplate";
         var senddata = {};
 
-        if (Object.keys(dashJSONvar).length > 0)
+        if (Object.keys(gdd).length > 0)
         {
-            for (var rowindex in dashJSONvar)
+            for (var ri in gdd.rows)
             {
-                for (var widgetindex in dashJSONvar[rowindex]["widgets"])
+                for (var wi in gdd.rows[ri].widgets)
                 {
-                    delete dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                    if (dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions)
+                    delete gdd.rows[ri].widgets[wi].echartLine;
+                    if (gdd.rows[ri].widgets[wi].tmpoptions)
                     {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].options = clone_obg(dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions);
-                        delete dashJSONvar[rowindex]["widgets"][widgetindex].tmpoptions;
+                        gdd.rows[ri].widgets[wi].options = clone_obg(gdd.rows[ri].widgets[wi].tmpoptions);
+                        delete gdd.rows[ri].widgets[wi].tmpoptions;
                     }
 
-                    for (var k in dashJSONvar[rowindex]["widgets"][widgetindex].options.series) {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].options.series[k].data = [];
+                    for (var k in gdd.rows[ri].widgets[wi].options.series) {
+                        gdd.rows[ri].widgets[wi].options.series[k].data = [];
                     }
                 }
             }
 
-            senddata.info = JSON.stringify(dashJSONvar);
+            senddata.info = JSON.stringify(gdd);
             senddata.name = $("#name").val();
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
@@ -2318,39 +2323,39 @@ $(document).ready(function () {
         }
     });
     $('body').on("click", ".editchart", function () {
-        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
-        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=edit");
-        for (var rowindex in dashJSONvar)
+        var single_ri = $(this).parents(".widgetraw").first().attr("index");
+        var single_wi = $(this).parents(".chartsection").first().attr("index");
+        window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
-        AutoRefreshSingle(single_rowindex, single_widgetindex);
+        AutoRefreshSingle(single_ri, single_wi);
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".viewchart", function () {
-        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
-        window.history.pushState({}, "", "?widget=" + single_widgetindex + "&row=" + single_rowindex + "&action=view");
-        for (var rowindex in dashJSONvar)
+        var single_ri = $(this).parents(".widgetraw").first().attr("index");
+        var single_wi = $(this).parents(".chartsection").first().attr("index");
+        window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
-        AutoRefreshSingle(single_rowindex, single_widgetindex, true, true);
+        AutoRefreshSingle(single_ri, single_wi, true, true);
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".backtodush", function () {
@@ -2359,13 +2364,13 @@ $(document).ready(function () {
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
         window.history.pushState({}, "", window.location.pathname);
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    clearTimeout(dashJSONvar[rowindex]["widgets"][widgetindex].timer);
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
         }
@@ -2375,20 +2380,20 @@ $(document).ready(function () {
         AutoRefresh();
 
         $('html, body').animate({
-            scrollTop: dashJSONvar[request_R_index]["widgets"][request_W_index].echartLine._dom.getBoundingClientRect().top
+            scrollTop: gdd.rows[request_R_index].widgets[request_W_index].echartLine._dom.getBoundingClientRect().top
         }, 500);
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".csv", function () {
-        var single_rowindex = $(this).parents(".widgetraw").first().attr("index");
-        var single_widgetindex = $(this).parents(".chartsection").first().attr("index");
+        var single_ri = $(this).parents(".widgetraw").first().attr("index");
+        var single_wi = $(this).parents(".chartsection").first().attr("index");
         var csvarray = [];
-        csvarray.push([dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text]);
-        if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "time")
+        csvarray.push([gdd.rows[single_ri].widgets[single_wi].options.title.text]);
+        if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
         {
-            for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
+            for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
             {
-                var Ser = dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series[seriesindex];
+                var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
                 csvarray.push([Ser.name]);
                 for (var dataind in Ser.data)
                 {
@@ -2396,11 +2401,11 @@ $(document).ready(function () {
                 }
             }
         }
-        if (dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.xAxis[0].type === "category")
+        if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
         {
-            for (var seriesindex in dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series)
+            for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
             {
-                var Ser = dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.series[seriesindex];
+                var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
                 csvarray.push([Ser.name]);
                 for (var dataind in Ser.data)
                 {
@@ -2409,7 +2414,7 @@ $(document).ready(function () {
             }
         }
 
-        exportToCsv(dashJSONvar[single_rowindex]["widgets"][single_widgetindex].options.title.text + ".csv", csvarray);
+        exportToCsv(gdd.rows[single_ri].widgets[single_wi].options.title.text + ".csv", csvarray);
 
     });
     $('body').on("click", "#refresh", function () {
@@ -2418,7 +2423,7 @@ $(document).ready(function () {
     $('body').on("change", "#refreshtime", function () {
         if (!doapplyjson)
         {
-            dashJSONvar.times.intervall = $(this).val();
+            gdd.times.intervall = $(this).val();
             repaint(true, false);
         }
 
@@ -2453,33 +2458,33 @@ window.onscroll = function () {
     scrolltimer = setTimeout(function () {
         if ($(".fulldash").is(':visible'))
         {
-            for (var rowindex in dashJSONvar)
+            for (var ri in gdd.rows)
             {
-                for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+                for (var wi in gdd.rows[ri].widgets)
                 {
-                    if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                    if (gdd.rows[ri].widgets[wi])
                     {
-                        var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                        var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
-                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
-                        if (chart !== null)
+                        var chart = gdd.rows[ri].widgets[wi].echartLine;
+                        var oldvisible = gdd.rows[ri].widgets[wi].visible;
+                        gdd.rows[ri].widgets[wi].visible = true;
+                        if (chart)
                         {
                             if (chart._dom)
                             {
                                 if (chart._dom.getBoundingClientRect().bottom < 0)
                                 {
-                                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                                    gdd.rows[ri].widgets[wi].visible = false;
                                 }
                                 if (chart._dom.getBoundingClientRect().top > window.innerHeight)
                                 {
-                                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                                    gdd.rows[ri].widgets[wi].visible = false;
                                 }
                             }
-                            if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
+                            if (!oldvisible && gdd.rows[ri].widgets[wi].visible)
                             {
-                                if (typeof (dashJSONvar[rowindex]["widgets"][widgetindex].q) !== "undefined")
+                                if (typeof (gdd.rows[ri].widgets[wi].q) !== "undefined")
                                 {
-                                    setdatabyQ(dashJSONvar, rowindex, widgetindex, "getdata", false);
+                                    setdatabyQ(gdd, ri, wi, "getdata", false);
                                 }
                             }
 
@@ -2494,28 +2499,28 @@ window.onscroll = function () {
 window.onresize = function () {
     if ($(".fulldash").is(':visible'))
     {
-        for (var rowindex in dashJSONvar)
+        for (var ri in gdd.rows)
         {
-            for (var widgetindex in    dashJSONvar[rowindex]["widgets"])
+            for (var wi in    gdd.rows[ri].widgets)
             {
-                if (dashJSONvar[rowindex]["widgets"][widgetindex])
+                if (gdd.rows[ri].widgets[wi])
                 {
-                    var chart = dashJSONvar[rowindex]["widgets"][widgetindex].echartLine;
-                    var oldvisible = dashJSONvar[rowindex]["widgets"][widgetindex].visible;
-                    dashJSONvar[rowindex]["widgets"][widgetindex].visible = true;
+                    var chart = gdd.rows[ri].widgets[wi].echartLine;
+                    var oldvisible = gdd.rows[ri].widgets[wi].visible;
+                    gdd.rows[ri].widgets[wi].visible = true;
                     if (chart._dom.getBoundingClientRect().bottom < 0)
                     {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                        gdd.rows[ri].widgets[wi].visible = false;
                     }
                     if (chart._dom.getBoundingClientRect().top > window.innerHeight)
                     {
-                        dashJSONvar[rowindex]["widgets"][widgetindex].visible = false;
+                        gdd.rows[ri].widgets[wi].visible = false;
                     }
-                    if (!oldvisible && dashJSONvar[rowindex]["widgets"][widgetindex].visible)
+                    if (!oldvisible && gdd.rows[ri].widgets[wi].visible)
                     {
-                        if (typeof (dashJSONvar[rowindex]["widgets"][widgetindex].q) !== "undefined")
+                        if (typeof (gdd.rows[ri].widgets[wi].q) !== "undefined")
                         {
-                            setdatabyQ(dashJSONvar, rowindex, widgetindex, "getdata", false);
+                            setdatabyQ(gdd, ri, wi, "getdata", false);
                         }
                     }
                     chart.resize();

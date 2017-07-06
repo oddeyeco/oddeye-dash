@@ -17,9 +17,9 @@ class EditForm {
         this.dashJSON = dashJSON;
         this.inittabcontent();
         var checked = false;
-        if (this.dashJSON[this.row]["widgets"][this.index].manual)
+        if (this.dashJSON.rows[this.row]["widgets"][this.index].manual)
         {
-            checked = this.dashJSON[this.row]["widgets"][this.index].manual;
+            checked = this.dashJSON.rows[this.row]["widgets"][this.index].manual;
         }
 
         this.formwraper.append('<div class="pull-right tabcontrol"><label class="control-label" >JSON Manual Edit:</label>' +
@@ -645,12 +645,12 @@ class EditForm {
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].q[curindex]);
-                                current.dashJSON[current.row]["widgets"][current.index].q.splice(curindex, 0, qitem);
+                                var qitem = clone_obg(current.dashJSON.rows[current.row]["widgets"][current.index].q[curindex]);
+                                current.dashJSON.rows[current.row]["widgets"][current.index].q.splice(curindex, 0, qitem);
                                 var contener = $(this).parent().parent();
                                 current.repaintq(contener, edit_q.content)
 //                                contener.html("");
-//                                current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+//                                current.drawcontent(edit_q.content, contener, current.dashJSON.rows[current.row]["widgets"][current.index]);
                                 current.change($(this));
                             }
                         }
@@ -659,12 +659,12 @@ class EditForm {
                         text: "Remove",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                current.dashJSON[current.row]["widgets"][current.index].q.splice(curindex, 1);
-//                                console.log(current.dashJSON[current.row]["widgets"][current.index].q);
+                                current.dashJSON.rows[current.row]["widgets"][current.index].q.splice(curindex, 1);
+//                                console.log(current.dashJSON.rows[current.row]["widgets"][current.index].q);
                                 var contener = $(this).parent().parent();
 //                                contener.html("");
-//                                current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
-                                current.repaintq(contener, edit_q.content)
+//                                current.drawcontent(edit_q.content, contener, current.dashJSON.rows[current.row]["widgets"][current.index]);
+                                current.repaintq(contener, edit_q.content);
                                 current.change($(this));
                             }
                         }
@@ -678,16 +678,16 @@ class EditForm {
                 check_dublicates: this.check_q_dublicates,
                 template: q_template,
                 actions: {click: function () {
-                        if (!current.dashJSON[current.row]["widgets"][current.index].q)
+                        if (!current.dashJSON.rows[current.row]["widgets"][current.index].q)
                         {
-                            current.dashJSON[current.row]["widgets"][current.index].q = [];
+                            current.dashJSON.rows[current.row]["widgets"][current.index].q = [];
                         }
-                        current.dashJSON[current.row]["widgets"][current.index].q.push({});
-                        var qindex = current.dashJSON[current.row]["widgets"][current.index].q.length - 1;
+                        current.dashJSON.rows[current.row]["widgets"][current.index].q.push({});
+                        var qindex = current.dashJSON.rows[current.row]["widgets"][current.index].q.length - 1;
                         var contener = $(this).parent();
 
 //                        contener.html("");
-//                        current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+//                        current.drawcontent(edit_q.content, contener, current.dashJSON.rows[current.row]["widgets"][current.index]);
                         current.repaintq(contener, edit_q.content);
                     }
                 }
@@ -722,26 +722,26 @@ class EditForm {
         edit_json.content = [{tag: "div", id: "jsoneditor"},
             {tag: "div", class: "col-md-12 col-sm-12 col-xs-12 text-right", content: [
                     {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonReset", text: "Reset", actions: {click: function () {
-                                var jsonstr = JSON.stringify(current.dashJSON[current.row]["widgets"][current.index], jsonmaker);
+                                var jsonstr = JSON.stringify(current.dashJSON.rows[current.row]["widgets"][current.index], jsonmaker);
                                 current.editor.set(JSON.parse(jsonstr));
                             }}},
                     {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonApply", text: "Apply", actions: {click: function () {
                                 var tmpJson = current.editor.get();
-                                clearTimeout(current.dashJSON[current.row]["widgets"][current.index].timer);
+                                clearTimeout(current.dashJSON.rows[current.row]["widgets"][current.index].timer);
                                 for (var key in tmpJson)
                                 {
-                                    current.dashJSON[current.row]["widgets"][current.index][key] = clone_obg(tmpJson[key]);
+                                    current.dashJSON.rows[current.row]["widgets"][current.index][key] = clone_obg(tmpJson[key]);
                                 }
 
-                                for (var key in current.dashJSON[current.row]["widgets"][current.index])
+                                for (var key in current.dashJSON.rows[current.row]["widgets"][current.index])
                                 {
                                     if (!tmpJson[key])
                                     {
-                                        delete current.dashJSON[current.row]["widgets"][current.index][key];
+                                        delete current.dashJSON.rows[current.row]["widgets"][current.index][key];
                                     }
 
                                 }
-                                current.dashJSON[current.row]["widgets"][current.index].manual = true;
+                                current.dashJSON.rows[current.row]["widgets"][current.index].manual = true;
                                 var check = document.getElementById('manual');
                                 if (!check.checked)
                                 {
@@ -766,10 +766,10 @@ class EditForm {
     {
 
 //                                contener.html("");
-//                                current.drawcontent(edit_q.content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+//                                current.drawcontent(edit_q.content, contener, current.dashJSON.rows[current.row]["widgets"][current.index]);
 
         contener.empty();
-        this.drawcontent(content, contener, this.dashJSON[this.row]["widgets"][this.index]);
+        this.drawcontent(content, contener, this.dashJSON.rows[this.row]["widgets"][this.index]);
         this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
     }
 
@@ -899,36 +899,36 @@ class EditForm {
         var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
         this.editor = new JSONEditor(document.getElementById("jsoneditor"), options);
 
-        var jsonstr = JSON.stringify(form.dashJSON[form.row]["widgets"][form.index], jsonmaker);
+        var jsonstr = JSON.stringify(form.dashJSON.rows[form.row]["widgets"][form.index], jsonmaker);
         this.editor.set(JSON.parse(jsonstr));
 
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
 
-        if (form.dashJSON[form.row]["widgets"][form.index].times)
+        if (form.dashJSON.rows[form.row]["widgets"][form.index].times)
         {
-            if (form.dashJSON[form.row]["widgets"][form.index].times.intervall)
+            if (form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall)
             {
-                $("#refreshtime_private").val(form.dashJSON[form.row]["widgets"][form.index].times.intervall);
+                $("#refreshtime_private").val(form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall);
             }
 
-            if (form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel)
+            if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel)
             {
-                if (form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel !== "Custom")
+                if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel !== "Custom")
                 {
-                    PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel][0];
-                    PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel][1];
-                    $('#reportrange_private span').html(form.dashJSON[form.row]["widgets"][form.index].times.pickerlabel);
+                    PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
+                    PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
+                    $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
                 } else
                 {
-                    PicerOptionSet2.startDate = moment(form.dashJSON[form.row]["widgets"][form.index].times.pickerstart);
-                    PicerOptionSet2.endDate = moment(form.dashJSON[form.row]["widgets"][form.index].times.pickerend);
+                    PicerOptionSet2.startDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerstart);
+                    PicerOptionSet2.endDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerend);
                     $('#reportrange_private span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
                 }
             }
         }
-        $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON[form.row]["widgets"][form.index], $('#reportrange_private')));
+        $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');
             form.change(input);
@@ -940,7 +940,7 @@ class EditForm {
             $(this).parents(".tag_label").remove();
             form.change(input);
             var contener = $('.edit-form #tabpanel #TabContent #tab_metric div #edit_q .form_main_block');
-            var json = form.dashJSON[form.row]["widgets"][form.index].q;
+            var json = form.dashJSON.rows[form.row]["widgets"][form.index].q;
             form.check_q_dublicates(contener, json);
         });
 
@@ -1002,7 +1002,7 @@ class EditForm {
             }
             form.change(input);
             var contener = $('.edit-form #tabpanel #TabContent #tab_metric div #edit_q .form_main_block');
-            var json = form.dashJSON[form.row]["widgets"][form.index].q;
+            var json = form.dashJSON.rows[form.row]["widgets"][form.index].q;
             form.check_q_dublicates(contener, json);
         });
 
@@ -1143,7 +1143,7 @@ class EditForm {
             value = value.trim();
         }
         var a_path = path.split('.');
-        var object = this.dashJSON[this.row]["widgets"][this.index];
+        var object = this.dashJSON.rows[this.row]["widgets"][this.index];
 
         if (parent)
         {
@@ -1198,7 +1198,7 @@ class EditForm {
             object = val;
         } else
         {
-            object = this.dashJSON[this.row]["widgets"][this.index];
+            object = this.dashJSON.rows[this.row]["widgets"][this.index];
         }
         var a_path = path.split('.');
 //        console.log(val);

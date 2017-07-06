@@ -10,6 +10,7 @@
 <script src="${cp}/resources/jsoneditor/dist/jsoneditor.min.js"></script>
 
 <script>
-    var dashJSONvar = ${dashInfo};
-    var Edit_Form;    
+    var gdd = ${dashInfo};
+    var Edit_Form;        
+    console.log(gdd);
 </script>
