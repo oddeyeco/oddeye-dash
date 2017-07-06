@@ -1576,19 +1576,19 @@ function redrawAllJSON(dashJSON, redraw = false) {
             $("#charttemplate .chartsection").attr("id", "widget");
 
         }
-        
-        $("#row" + ri+" .rowcontent").sortable({
+
+        $("#row" + ri + " .rowcontent").sortable({
             cursor: "move",
             appendTo: ".rowcontent"
         });
 
-        $("#row" + ri+" .rowcontent").on('sortstart',function (event, ui ){
-            ui.item.css('border',"5px solid rgba(200,200,200,1)");
+        $("#row" + ri + " .rowcontent").on('sortstart', function (event, ui) {
+            ui.item.css('border', "5px solid rgba(200,200,200,1)");
         });
-        $("#row" + ri+" .rowcontent").on('sortstop',function (event, ui ){            
-            ui.item.removeAttr('style');            
-        });        
-        
+        $("#row" + ri + " .rowcontent").on('sortstop', function (event, ui) {
+            ui.item.removeAttr('style');
+        });
+
 //        console.log($("#row" + ri));
 }
 }
@@ -1782,7 +1782,28 @@ function repaint(redraw = false, rebuildform = true) {
     doapplyjson = false;
 }
 
-$(document).ready(function () {            
+$(document).ready(function () {
+    if (!gdd.rows) //Old style Update te new
+    {
+        var rows = [];
+        for (var ri in gdd)
+        {
+            if (ri !== 'times')
+            {
+                var wid = [];
+                for (var wi in gdd[ri].widgets)
+                {
+                    wid.push (clone_obg(gdd[ri].widgets[wi]));
+                }
+                rows.push({widgets: wid});
+                delete gdd[ri];
+            }
+
+
+        }
+        gdd.rows = rows;        
+    }
+
     if (gdd.times)
     {
         if (gdd.times.intervall)
@@ -1882,7 +1903,7 @@ $(document).ready(function () {
         }
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15,data:EditForm.aggregatoroptions_selct2});
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
     //console.log(EditForm.aggregatoroptions2);
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
     $('body').on("click", ".dropdown_button,.button_title_adv", function () {
@@ -1926,7 +1947,7 @@ $(document).ready(function () {
         repaint(true, false);
     });
     $("#addrow").on("click", function () {
-        gdd.rows.push ({widgets: []}) ;
+        gdd.rows.push({widgets: []});
         console.log(gdd);
         for (var ri in gdd.rows)
         {
@@ -1937,7 +1958,7 @@ $(document).ready(function () {
                     clearTimeout(gdd.rows[ri].widgets[wi].timer);
                 }
             }
-        }        
+        }
         redrawAllJSON(gdd);
     });
     $('body').on("click", "#deleterowconfirm", function () {
@@ -2099,7 +2120,7 @@ $(document).ready(function () {
         redrawAllJSON(gdd);
         $("#deleteConfirm").modal('hide');
     });
-    
+
     $('body').on("click", ".deletewidget", function () {
         var ri = $(this).parents(".widgetraw").first().attr("index");
         var wi = $(this).parents(".chartsection").first().attr("index");
@@ -2111,7 +2132,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
     });
-    
+
     $('body').on("click", ".dublicate", function () {
         for (var ri in gdd.rows)
         {
@@ -2127,18 +2148,18 @@ $(document).ready(function () {
         var ri = $(this).parents(".widgetraw").first().attr("index");
         var curentwi = $(this).parents(".chartsection").first().attr("index");
         var wi = Object.keys(gdd.rows[ri].widgets).length;
-        gdd.rows[ri].widgets.push(clone_obg(gdd.rows[ri].widgets[curentwi])) ;
+        gdd.rows[ri].widgets.push(clone_obg(gdd.rows[ri].widgets[curentwi]));
         delete  gdd.rows[ri].widgets[wi].echartLine;
 
-        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");       
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
 
         AutoRefreshSingle(ri, wi);
-        $RIGHT_COL.css('min-height', $(window).height());        
-        
+        $RIGHT_COL.css('min-height', $(window).height());
+
 //        redrawAllJSON(gdd);
     });
     $('body').on("click", ".addchart", function () {
-        
+
         for (var ri in gdd.rows)
         {
             for (var wi in    gdd.rows[ri].widgets)
@@ -2152,11 +2173,11 @@ $(document).ready(function () {
         var ri = $(this).parents(".widgetraw").first().attr("index");
         if (!gdd.rows[ri].widgets)
         {
-            gdd.rows[ri].widgets = [];            
+            gdd.rows[ri].widgets = [];
         }
         var wi = gdd.rows[ri].widgets.length;
-        gdd.rows[ri].widgets.push({type: "line",size:12,options:clone_obg(defoption)});
-        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");                
+        gdd.rows[ri].widgets.push({type: "line", size: 12, options: clone_obg(defoption)});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
         gdd.rows[ri].widgets[wi].options.series[0].symbol = "none";
         gdd.rows[ri].widgets[wi].options.series[0].type = "line";
         gdd.rows[ri].widgets[wi].options.series[0].data = datafunc();
