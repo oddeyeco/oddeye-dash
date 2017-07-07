@@ -1468,10 +1468,10 @@ function redrawAllJSON(dashJSON, redraw = false) {
             $("#rowtemplate .widgetraw").attr("id", "row");
         }
         for (wi in tmprow.widgets)
-        {
+        {            
             if (tmprow.widgets[wi] === null)
             {
-                tmprow.splice(wi, 1);
+                tmprow.widgets.splice(wi, 1);
                 continue;
             }
             if (!tmprow.widgets[wi].echartLine || !redraw)
