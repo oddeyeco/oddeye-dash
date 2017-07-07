@@ -876,7 +876,7 @@ class EditForm {
         this.formwraper.find('[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             if (e.delegateTarget.hash === "#tab_json")
             {
-                var jsonstr = JSON.stringify(current.dashJSON[form.row]["widgets"][form.index], jsonmaker);
+                var jsonstr = JSON.stringify(current.dashJSON.rows[form.row].widgets[form.index], jsonmaker);
                 current.editor.set(JSON.parse(jsonstr));
             }
         });

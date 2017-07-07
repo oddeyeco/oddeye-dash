@@ -239,11 +239,11 @@ class ChartEditForm extends EditForm {
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].options.yAxis[curindex]);
-                                current.dashJSON[current.row]["widgets"][current.index].options.yAxis.splice(curindex, 0, qitem);
+                                var qitem = clone_obg(current.dashJSON.rows[current.row].widgets[current.index].options.yAxis[curindex]);
+                                current.dashJSON.rows[current.row].widgets[current.index].options.yAxis.splice(curindex, 0, qitem);
                                 var contener = $(this).parent().parent();
                                 contener.html("");
-                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.change($(this));
                             }
                         }
@@ -252,10 +252,10 @@ class ChartEditForm extends EditForm {
                         text: "Remove",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                current.dashJSON[current.row]["widgets"][current.index].options.yAxis.splice(curindex, 1);
+                                current.dashJSON.rows[current.row].widgets[current.index].options.yAxis.splice(curindex, 1);
                                 var contener = $(this).parent().parent();
                                 contener.html("");
-                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.change($(this));
                             }
                         }
@@ -267,14 +267,14 @@ class ChartEditForm extends EditForm {
                         key_path: "options.yAxis",
                         template: axes_template,
                         actions: {click: function () {
-                                if (!current.dashJSON[current.row]["widgets"][current.index].options.yAxis)
+                                if (!current.dashJSON.rows[current.row].widgets[current.index].options.yAxis)
                                 {
-                                    current.dashJSON[current.row]["widgets"][current.index].options.yAxis = [];
+                                    current.dashJSON.rows[current.row].widgets[current.index].options.yAxis = [];
                                 }
-                                current.dashJSON[current.row]["widgets"][current.index].options.yAxis.push({});
+                                current.dashJSON.rows[current.row].widgets[current.index].options.yAxis.push({});
                                 var contener = $(this).parent();
                                 contener.html("");
-                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
 
                             }
                         }
@@ -330,11 +330,11 @@ class ChartEditForm extends EditForm {
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].options.xAxis[curindex]);
-                                current.dashJSON[current.row]["widgets"][current.index].options.xAxis.splice(curindex, 0, qitem);
+                                var qitem = clone_obg(current.dashJSON.rows[current.row].widgets[current.index].options.xAxis[curindex]);
+                                current.dashJSON.rows[current.row].widgets[current.index].options.xAxis.splice(curindex, 0, qitem);
                                 var contener = $(this).parent().parent();
                                 contener.html("");
-                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
                             }
@@ -344,10 +344,10 @@ class ChartEditForm extends EditForm {
                         text: "Remove",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                current.dashJSON[current.row]["widgets"][current.index].options.xAxis.splice(curindex, 1);
+                                current.dashJSON.rows[current.row].widgets[current.index].options.xAxis.splice(curindex, 1);
                                 var contener = $(this).parent().parent();
                                 contener.html("");
-                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
                             }
@@ -360,14 +360,14 @@ class ChartEditForm extends EditForm {
                         key_path: "options.xAxis",
                         template: axes_template,
                         actions: {click: function () {
-                                if (!current.dashJSON[current.row]["widgets"][current.index].options.xAxis)
+                                if (!current.dashJSON.rows[current.row].widgets[current.index].options.xAxis)
                                 {
-                                    current.dashJSON[current.row]["widgets"][current.index].options.xAxis = [];
+                                    current.dashJSON.rows[current.row].widgets[current.index].options.xAxis = [];
                                 }
-                                current.dashJSON[current.row]["widgets"][current.index].options.xAxis.push({});
+                                current.dashJSON.rows[current.row].widgets[current.index].options.xAxis.push({});
                                 var contener = $(this).parent();
                                 contener.html("");
-                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON[current.row]["widgets"][current.index]);
+                                current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
 
                             }
@@ -673,8 +673,8 @@ class ChartEditForm extends EditForm {
                         text: "Dublicate",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                var qitem = clone_obg(current.dashJSON[current.row]["widgets"][current.index].options.dataZoom[curindex]);
-                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.splice(curindex, 0, qitem);
+                                var qitem = clone_obg(current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom[curindex]);
+                                current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom.splice(curindex, 0, qitem);
                                 var contener = $(this).parent().parent();
                                 current.repaintdatazoom(contener, edit_data_zoom.content[0].content);
                                 current.change($(this));
@@ -685,7 +685,7 @@ class ChartEditForm extends EditForm {
                         text: "Remove",
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
-                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.splice(curindex, 1);
+                                current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom.splice(curindex, 1);
                                 var contener = $(this).parent().parent();
                                 current.repaintdatazoom(contener, edit_data_zoom.content[0].content);
                                 current.change($(this));
@@ -702,11 +702,11 @@ class ChartEditForm extends EditForm {
                         key_path: "options.dataZoom",
                         template: data_zoom_template,
                         actions: {click: function () {
-                                if (!current.dashJSON[current.row]["widgets"][current.index].options.dataZoom)
+                                if (!current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom)
                                 {
-                                    current.dashJSON[current.row]["widgets"][current.index].options.dataZoom = [];
+                                    current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom = [];
                                 }
-                                current.dashJSON[current.row]["widgets"][current.index].options.dataZoom.push({});
+                                current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom.push({});
                                 var contener = $(this).parent();
                                 current.repaintdatazoom(contener, edit_data_zoom.content[0].content);
 

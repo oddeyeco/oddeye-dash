@@ -1314,7 +1314,8 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         var count = {"value": widget.q.length, "base": widget.q.length};
         for (k in widget.q)
         {
-            if (widget.q[k].check_disabled || (!widget.q[k].info.metrics))
+            
+            if (widget.q[k].check_disabled || (!widget.q[k].info) || (!widget.q[k].info.metrics))
             {
                 count.base--;
             }
