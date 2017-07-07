@@ -343,10 +343,11 @@ var encodeHTML = function (source) {
             handleColor: '#008acd'
         },
 
-        grid: {
-            left: "2%",
-            right: "2%",
-            bottom: 30,
+        grid: {            
+            left: 0,
+            right: 20,
+            top: 40,
+            bottom: 5,
             containLabel: true
         },
 
