@@ -1453,9 +1453,15 @@ function redrawAllJSON(dashJSON, redraw = false) {
     for (ri in dashJSON.rows)
     {
         var tmprow = dashJSON.rows[ri];
+        console.log(tmprow);
+        if (tmprow === null)
+        {
+            dashJSON.rows.splice(ri, 1);
+            continue;
+        }
         if (!redraw)
         {
-            $("#rowtemplate .widgetraw").attr("index", ri);
+//            $("#rowtemplate .widgetraw").attr("index", ri);
             $("#rowtemplate .widgetraw").attr("id", "row" + ri);
             var html = $("#rowtemplate").html();
             $("#dashcontent").append(html);
@@ -1465,7 +1471,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         {
             if (tmprow.widgets[wi] === null)
             {
-                delete(tmprow.widgets[wi]);
+                tmprow.splice(wi, 1);
                 continue;
             }
             if (!tmprow.widgets[wi].echartLine || !redraw)
@@ -1484,7 +1490,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     }
                 }
 
-                $("#charttemplate .chartsection").attr("index", wi);
+//                $("#charttemplate .chartsection").attr("index", wi);
                 $("#charttemplate .chartsection").attr("id", "widget" + ri + "_" + wi);
                 $("#charttemplate .chartsection").attr("type", tmprow.widgets[wi].type);
                 $("#charttemplate .chartsection").attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + tmprow.widgets[wi].size);
@@ -1581,12 +1587,24 @@ function redrawAllJSON(dashJSON, redraw = false) {
             cursor: "move",
             appendTo: ".rowcontent"
         });
-
+        var wingetindrag = false;
         $("#row" + ri + " .rowcontent").on('sortstart', function (event, ui) {
             ui.item.css('border', "5px solid rgba(200,200,200,1)");
+            var ri = ui.item.parents(".widgetraw").index();
+            var wi = ui.item.index();
+            wingetindrag = [ri, wi];
         });
         $("#row" + ri + " .rowcontent").on('sortstop', function (event, ui) {
             ui.item.removeAttr('style');
+            var ri = ui.item.parents(".widgetraw").index();
+            var wi = ui.item.index();
+            var tmpwid = (gdd.rows[wingetindrag[0]].widgets[wingetindrag[1]]);
+            if (wingetindrag)
+            {
+                gdd.rows[wingetindrag[0]].widgets.splice(wingetindrag[1], 1);
+            }            
+            gdd.rows[ri].widgets.splice(wi, 0,tmpwid);
+            wingetindrag = false;
         });
 
 //        console.log($("#row" + ri));
@@ -1793,7 +1811,7 @@ $(document).ready(function () {
                 var wid = [];
                 for (var wi in gdd[ri].widgets)
                 {
-                    wid.push (clone_obg(gdd[ri].widgets[wi]));
+                    wid.push(clone_obg(gdd[ri].widgets[wi]));
                 }
                 rows.push({widgets: wid});
                 delete gdd[ri];
@@ -1801,7 +1819,7 @@ $(document).ready(function () {
 
 
         }
-        gdd.rows = rows;        
+        gdd.rows = rows;
     }
 
     if (gdd.times)
@@ -1948,7 +1966,6 @@ $(document).ready(function () {
     });
     $("#addrow").on("click", function () {
         gdd.rows.push({widgets: []});
-        console.log(gdd);
         for (var ri in gdd.rows)
         {
             for (var wi in    gdd.rows[ri].widgets)
@@ -1973,13 +1990,13 @@ $(document).ready(function () {
             }
         }
 
-        var ri = $(this).attr("index");
-        delete gdd.rows[ri];
+        var ri = $(this).index();
+        gdd.rows.splice(ri, 1);
         redrawAllJSON(gdd);
         $("#deleteConfirm").modal('hide');
     });
     $('body').on("click", ".deleterow", function () {
-        var ri = $(this).parents(".widgetraw").first().attr("index");
+        var ri = $(this).parents(".widgetraw").index();
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
@@ -2049,7 +2066,7 @@ $(document).ready(function () {
         doapplyjson = false;
     });
     $('body').on("click", ".showrowjson", function () {
-        var ri = $(this).parents(".widgetraw").first().attr("index");
+        var ri = $(this).parents(".widgetraw").index();
         $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
         $("#showjson").find('.btn-ok').attr('index', ri);
         var jsonstr = JSON.stringify(gdd.rows[ri], jsonmaker);
@@ -2068,14 +2085,14 @@ $(document).ready(function () {
             }
         }
 
-        var ri = $(this).attr("index");
+        var ri = $(this).index();
         gdd.rows[ri] = dasheditor.get();
         redrawAllJSON(gdd);
         $("#showjson").modal('hide');
     });
     $('body').on("click", ".minus", function () {
-        var ri = $(this).parents(".widgetraw").first().attr("index");
-        var wi = $(this).parents(".chartsection").first().attr("index");
+        var ri = $(this).parents(".widgetraw").index();
+        var wi = $(this).parents(".chartsection").index();
         if (gdd.rows[ri].widgets[wi].size > 1)
         {
             var olssize = gdd.rows[ri].widgets[wi].size;
@@ -2089,8 +2106,8 @@ $(document).ready(function () {
     });
     $('body').on("click", ".plus", function () {
 
-        var ri = $(this).parents(".widgetraw").first().attr("index");
-        var wi = $(this).parents(".chartsection").first().attr("index");
+        var ri = $(this).parents(".widgetraw").index();
+        var wi = $(this).parents(".chartsection").index();
         if (gdd.rows[ri].widgets[wi].size < 12)
         {
 
@@ -2116,14 +2133,15 @@ $(document).ready(function () {
         }
         var ri = $(this).attr("ri");
         var wi = $(this).attr("wi");
-        delete gdd.rows[ri].widgets[wi];
+        gdd.rows[ri].widgets.splice(wi, 1);
         redrawAllJSON(gdd);
         $("#deleteConfirm").modal('hide');
     });
 
     $('body').on("click", ".deletewidget", function () {
-        var ri = $(this).parents(".widgetraw").first().attr("index");
-        var wi = $(this).parents(".chartsection").first().attr("index");
+        var ri = $(this).parents(".widgetraw").index();
+        var wi = $(this).parents(".chartsection").index();
+
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
         $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
@@ -2145,8 +2163,8 @@ $(document).ready(function () {
             }
         }
 
-        var ri = $(this).parents(".widgetraw").first().attr("index");
-        var curentwi = $(this).parents(".chartsection").first().attr("index");
+        var ri = $(this).parents(".widgetraw").index();
+        var curentwi = $(this).parents(".chartsection").index();
         var wi = Object.keys(gdd.rows[ri].widgets).length;
         gdd.rows[ri].widgets.push(clone_obg(gdd.rows[ri].widgets[curentwi]));
         delete  gdd.rows[ri].widgets[wi].echartLine;
@@ -2170,7 +2188,7 @@ $(document).ready(function () {
                 }
             }
         }
-        var ri = $(this).parents(".widgetraw").first().attr("index");
+        var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
             gdd.rows[ri].widgets = [];
@@ -2344,8 +2362,8 @@ $(document).ready(function () {
         }
     });
     $('body').on("click", ".editchart", function () {
-        var single_ri = $(this).parents(".widgetraw").first().attr("index");
-        var single_wi = $(this).parents(".chartsection").first().attr("index");
+        var single_ri = $(this).parents(".widgetraw").index();
+        var single_wi = $(this).parents(".chartsection").index();
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
         for (var ri in gdd.rows)
         {
@@ -2363,8 +2381,8 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".viewchart", function () {
-        var single_ri = $(this).parents(".widgetraw").first().attr("index");
-        var single_wi = $(this).parents(".chartsection").first().attr("index");
+        var single_ri = $(this).parents(".widgetraw").index();
+        var single_wi = $(this).parents(".chartsection").index();
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
         for (var ri in gdd.rows)
         {
@@ -2406,8 +2424,8 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".csv", function () {
-        var single_ri = $(this).parents(".widgetraw").first().attr("index");
-        var single_wi = $(this).parents(".chartsection").first().attr("index");
+        var single_ri = $(this).parents(".widgetraw").index();
+        var single_wi = $(this).parents(".chartsection").index();
         var csvarray = [];
         csvarray.push([gdd.rows[single_ri].widgets[single_wi].options.title.text]);
         if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
