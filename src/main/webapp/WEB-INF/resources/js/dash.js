@@ -1314,7 +1314,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         var count = {"value": widget.q.length, "base": widget.q.length};
         for (k in widget.q)
         {
-            
+
             if (widget.q[k].check_disabled || (!widget.q[k].info) || (!widget.q[k].info.metrics))
             {
                 count.base--;
@@ -1453,7 +1453,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     }
     for (ri in dashJSON.rows)
     {
-        var tmprow = dashJSON.rows[ri];        
+        var tmprow = dashJSON.rows[ri];
         if (tmprow === null)
         {
             dashJSON.rows.splice(ri, 1);
@@ -1468,7 +1468,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             $("#rowtemplate .widgetraw").attr("id", "row");
         }
         for (wi in tmprow.widgets)
-        {            
+        {
             if (tmprow.widgets[wi] === null)
             {
                 tmprow.widgets.splice(wi, 1);
@@ -1595,6 +1595,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             wingetindrag = [ri, wi];
         });
         $("#row" + ri + " .rowcontent").on('sortstop', function (event, ui) {
+
             ui.item.removeAttr('style');
             var ri = ui.item.parents(".widgetraw").index();
             var wi = ui.item.index();
@@ -1602,8 +1603,19 @@ function redrawAllJSON(dashJSON, redraw = false) {
             if (wingetindrag)
             {
                 gdd.rows[wingetindrag[0]].widgets.splice(wingetindrag[1], 1);
-            }            
-            gdd.rows[ri].widgets.splice(wi, 0,tmpwid);
+            }
+            gdd.rows[ri].widgets.splice(wi, 0, tmpwid);            
+            if (gdd.rows[ri].widgets[wi].options)
+            {
+                if (gdd.rows[ri].widgets[wi].options.backgroundColor)
+                {
+                    ui.item.css("background-color", gdd.rows[ri].widgets[wi].options.backgroundColor);
+                } else
+                {
+                   ui.item.css("background-color", "");
+                }
+            }
+
             wingetindrag = false;
         });
 }
@@ -1919,7 +1931,7 @@ $(document).ready(function () {
         }
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
     $('body').on("click", ".dropdown_button,.button_title_adv", function () {
         var target = $(this).attr('target');
@@ -2198,7 +2210,7 @@ $(document).ready(function () {
         gdd.rows[ri].widgets[wi].options.series[0].data = datafunc();
 
         AutoRefreshSingle(ri, wi);
-        $RIGHT_COL.css('min-height', $(window).height());        
+        $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
