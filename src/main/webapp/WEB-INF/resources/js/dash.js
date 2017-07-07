@@ -1584,7 +1584,8 @@ function redrawAllJSON(dashJSON, redraw = false) {
 
         $("#row" + ri + " .rowcontent").sortable({
             cursor: "move",
-            appendTo: ".rowcontent"
+            appendTo: ".rowcontent",
+            cancel: "canvas"
         });
         var wingetindrag = false;
         $("#row" + ri + " .rowcontent").on('sortstart', function (event, ui) {
