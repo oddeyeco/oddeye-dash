@@ -1483,10 +1483,10 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 {
                     if (tmprow.widgets[wi].options.backgroundColor)
                     {
-                        $("#charttemplate .chartsection").css("background-color", tmprow.widgets[wi].options.backgroundColor);
+                        $("#charttemplate .chartsection > div").css("background-color", tmprow.widgets[wi].options.backgroundColor);
                     } else
                     {
-                        $("#charttemplate .chartsection").css("background-color", "");
+                        $("#charttemplate .chartsection  > div").css("background-color", "");
                     }
                 }
 
@@ -1589,14 +1589,14 @@ function redrawAllJSON(dashJSON, redraw = false) {
         });
         var wingetindrag = false;
         $("#row" + ri + " .rowcontent").on('sortstart', function (event, ui) {
-            ui.item.css('border', "5px solid rgba(200,200,200,1)");
+            ui.item.find('.inner').css('border', "5px solid rgba(200,200,200,1)");
             var ri = ui.item.parents(".widgetraw").index();
             var wi = ui.item.index();
             wingetindrag = [ri, wi];
         });
         $("#row" + ri + " .rowcontent").on('sortstop', function (event, ui) {
 
-            ui.item.removeAttr('style');
+            ui.item.find('.inner').removeAttr('style');
             var ri = ui.item.parents(".widgetraw").index();
             var wi = ui.item.index();
             var tmpwid = (gdd.rows[wingetindrag[0]].widgets[wingetindrag[1]]);
@@ -1609,10 +1609,10 @@ function redrawAllJSON(dashJSON, redraw = false) {
             {
                 if (gdd.rows[ri].widgets[wi].options.backgroundColor)
                 {
-                    ui.item.css("background-color", gdd.rows[ri].widgets[wi].options.backgroundColor);
+                    ui.item.find('.inner').css("background-color", gdd.rows[ri].widgets[wi].options.backgroundColor);
                 } else
                 {
-                    ui.item.css("background-color", "");
+                    ui.item.find('.inner').css("background-color", "");
                 }
             }
 

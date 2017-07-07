@@ -23,7 +23,7 @@
 
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
-        <div>            
+        <div class="inner col-xs-12">            
             <div class="controls text-center">
                 <div class="echart_time pull-left"></div>
                 <div class="btn-group  btn-group-xs">
