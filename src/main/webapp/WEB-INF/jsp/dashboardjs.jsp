@@ -11,6 +11,5 @@
 
 <script>
     var gdd = ${dashInfo};
-    var Edit_Form;        
-    console.log(gdd);
+    var Edit_Form;            
 </script>

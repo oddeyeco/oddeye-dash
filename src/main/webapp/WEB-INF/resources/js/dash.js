@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm */
 var SingleRedrawtimer;
 var dasheditor;
 var refreshtimes = {
@@ -1453,8 +1453,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     }
     for (ri in dashJSON.rows)
     {
-        var tmprow = dashJSON.rows[ri];
-        console.log(tmprow);
+        var tmprow = dashJSON.rows[ri];        
         if (tmprow === null)
         {
             dashJSON.rows.splice(ri, 1);
@@ -1535,7 +1534,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 $("#row" + ri).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
             }
-//            console.log(tmprow.widgets[wi]);
             if (typeof (tmprow.widgets[wi].options) === "undefined")
             {
                 tmprow.widgets[wi].options = clone_obg(defoption);
@@ -1607,8 +1605,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
             gdd.rows[ri].widgets.splice(wi, 0,tmpwid);
             wingetindrag = false;
         });
-
-//        console.log($("#row" + ri));
 }
 }
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
@@ -1922,8 +1918,7 @@ $(document).ready(function () {
         }
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
-    //console.log(EditForm.aggregatoroptions2);
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
     $('body').on("click", ".dropdown_button,.button_title_adv", function () {
         var target = $(this).attr('target');
@@ -2202,9 +2197,7 @@ $(document).ready(function () {
         gdd.rows[ri].widgets[wi].options.series[0].data = datafunc();
 
         AutoRefreshSingle(ri, wi);
-        $RIGHT_COL.css('min-height', $(window).height());
-        console.log(gdd);
-
+        $RIGHT_COL.css('min-height', $(window).height());        
     });
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
@@ -2295,8 +2288,6 @@ $(document).ready(function () {
                             if (request_R_index !== null)
                             {
                                 uri = uri + "?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit";
-//                            console.log(window.location.pathname + "?" + window.location.search);
-//                            console.log(uri);
                                 if (window.location.pathname + window.location.search !== uri)
                                 {
                                     window.location.href = uri;
