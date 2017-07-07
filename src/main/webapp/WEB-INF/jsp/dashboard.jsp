@@ -24,7 +24,7 @@
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
         <div class="inner col-xs-12">            
-            <div class="controls text-center">
+            <div class="controls text-right">
                 <div class="echart_time pull-left"></div>
                 <div class="btn-group  btn-group-xs">
                     <a class="btn btn-default viewchart" type="button">View</a>
@@ -33,7 +33,7 @@
                     <a class="btn btn-default csv" type="button">asCsv</a>
                     <a class="btn btn-default plus" type="button"><i class="fa fa-plus"></i></a>
                     <a class="btn btn-default minus" type="button"><i class="fa fa-minus"></i></a>
-                    <a class="btn btn-default deletewidget" type="button"><i class="fa fa-trash"></i></a>
+                    <a class="btn btn-default deletewidget" type="button"><i class="fa fa-times"></i></a>
                 </div> 
             </div>             
             <div class="echart_line" style="height:300px;"></div>                   
