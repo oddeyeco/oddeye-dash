@@ -1604,7 +1604,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             {
                 gdd.rows[wingetindrag[0]].widgets.splice(wingetindrag[1], 1);
             }
-            gdd.rows[ri].widgets.splice(wi, 0, tmpwid);            
+            gdd.rows[ri].widgets.splice(wi, 0, tmpwid);
             if (gdd.rows[ri].widgets[wi].options)
             {
                 if (gdd.rows[ri].widgets[wi].options.backgroundColor)
@@ -1612,7 +1612,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     ui.item.css("background-color", gdd.rows[ri].widgets[wi].options.backgroundColor);
                 } else
                 {
-                   ui.item.css("background-color", "");
+                    ui.item.css("background-color", "");
                 }
             }
 
@@ -2432,7 +2432,14 @@ $(document).ready(function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
         var csvarray = [];
-        csvarray.push([gdd.rows[single_ri].widgets[single_wi].options.title.text]);
+        var filename = "chart";
+        if (gdd.rows[single_ri].widgets[single_wi].options.title)
+            if (gdd.rows[single_ri].widgets[single_wi].options.title.text)
+            {
+                csvarray.push([gdd.rows[single_ri].widgets[single_wi].options.title.text]);
+                filename = gdd.rows[single_ri].widgets[single_wi].options.title.text;
+            }
+
         if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
         {
             for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
@@ -2458,7 +2465,7 @@ $(document).ready(function () {
             }
         }
 
-        exportToCsv(gdd.rows[single_ri].widgets[single_wi].options.title.text + ".csv", csvarray);
+        exportToCsv(filename + ".csv", csvarray);
 
     });
     $('body').on("click", "#refresh", function () {
