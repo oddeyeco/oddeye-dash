@@ -70,7 +70,6 @@ public class ProfileController {
     private BaseTsdbConnect BaseTsdb;
     @Autowired
     HbaseDataDao DataDao;
-    
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap map) throws Exception {
@@ -101,8 +100,8 @@ public class ProfileController {
         return layaut;
     }
 
-    @RequestMapping(value = "/metriq/{hash}", method = RequestMethod.GET)
-    public String metricinfo(@PathVariable(value = "hash") Integer hash, HttpServletRequest request, ModelMap map) throws Exception {
+    @RequestMapping(value = {"/metriq/{hash}/{timestamp}", "/metriq/{hash}"}, method = RequestMethod.GET)
+    public String metricinfo(@PathVariable(value = "hash") Integer hash, @PathVariable(value = "timestamp", required = false) Long timestamp, HttpServletRequest request, ModelMap map) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -133,20 +132,37 @@ public class ProfileController {
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
 
                 map.put("metric", meta);
-                map.put("title", meta.getDisplayName());
-
+                map.put("title", meta.getDisplayName());                
                 Calendar CalendarObj = Calendar.getInstance();
-//                CalendarObj.setTimeInMillis(time * 1000);
-                String hour = request.getParameter("hour");
-                if (hour != null) {
-                    CalendarObj.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
+                if (timestamp != null) {
+                    CalendarObj.setTimeInMillis(timestamp * 1000);
+                }
+                
+                map.put("Date", CalendarObj.getTime()); 
+
+//                String hour = request.getParameter("hour");
+//                if (hour != null) {
+//                    CalendarObj.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
+//                }
+                ArrayList<DataPoints[]> data;
+                if (timestamp != null) {
+                    CalendarObj.set(Calendar.MILLISECOND, 0);
+                    CalendarObj.set(Calendar.SECOND, 0);
+                    CalendarObj.set(Calendar.MINUTE, 0);
+                    String startdate = Long.toString(CalendarObj.getTimeInMillis()) ;
+                    CalendarObj.add(Calendar.HOUR, 1);
+                    String enddate = Long.toString(CalendarObj.getTimeInMillis()) ;
+                    
+                    data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), startdate, enddate, "", false);
+                } else {
+                    data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), "1h-ago", "now", "", false);
                 }
 
                 CalendarObj.add(Calendar.DATE, -1);
 
                 Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, MetaDao.getTablename().getBytes(), BaseTsdb.getClient());
                 map.put("Rules", rules);
-                ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), "1h-ago", "now", "", false);
+
 
                 JsonArray DatapointsJSON = new JsonArray();
                 for (DataPoints[] Datapointslist : data) {

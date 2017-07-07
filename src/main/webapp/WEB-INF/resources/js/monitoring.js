@@ -288,14 +288,14 @@ function drawRaw(errorjson, table, hashindex, update) {
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
         if (errorjson.isspec === 0)
         {
-            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
+            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
         } else
         {
             html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';
         }
         html = html + '<td class="level"><div>' + errorjson.levelname + '</div></td>';
 //        html = html + '<td>' + errorjson.hash + " " + errorjson.info.name + '</td>';
-        html = html + '<td><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank">' + errorjson.info.name + '</a></td>';
+        html = html + '<td><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + errorjson.info.name + '</a></td>';
         html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
         html = html + '<td class="message">' + message + '</td>';
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';

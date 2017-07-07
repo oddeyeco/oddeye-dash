@@ -65,7 +65,7 @@
         series.push(serie);
 
         var serie2 = clone_obg(defserie);
-        serie2.name = "Today Data";
+        serie2.name = "Current hour data";
         serie2.type = "line";
         serie2.data = chartsdata;
         serie2.xAxisIndex = 1;
