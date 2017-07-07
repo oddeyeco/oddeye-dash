@@ -143,7 +143,7 @@ public class DashController {
             map.put("activeuser", userDetails);
 
             map.put("title", "My Dashboards");
-            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails, 50));
+//            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails, 50));
             map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails, 50));
             map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails, 50));
 

@@ -87,7 +87,7 @@
                                         <li><a><i class="fa fa-clock-o"></i> Monitoring <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">                                            
                                                 <li><a href="<c:url value="/monitoring"/>">Real Time</a></li>
-                                                <li><a href="<c:url value="/errorsanalysis"/>">Detail</a></li>
+                                                <li><a href="<c:url value="/errorsanalysis"/>">Detailed</a></li>
                                             </ul>
                                         </li>                                        
                                         <li><a><i class="fa fa-desktop"></i> Dashboards <span class="fa fa-chevron-down"></span></a>
