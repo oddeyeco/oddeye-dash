@@ -176,7 +176,7 @@ public class ProfileController {
                             j_point.add(Point.doubleValue());
                             j_data.add("value", j_point);
                             //TODO check host type
-                            j_data.addProperty("unit:", "format_data");
+                            j_data.addProperty("unit", "format_data");
                             DatapointsJSON.add(j_data);
                         }
                     }

@@ -22,6 +22,12 @@
     }
 
     var chartsdata = ${data};
+    var predictstart = ${metric.getRegression().predict(data.get(0).get('value').get(0).getAsLong()/1000)};
+    var predictend = ${metric.getRegression().predict(data.get(data.size()-1).get('value').get(0).getAsLong()/1000)};
+   
+//    console.log(predictend);
+    //Error.getRegression().predict(Long.parseLong(startdate)/1000)    
+    
     var echartLine;
     var series = [];
     var legend = [];
@@ -56,7 +62,7 @@
                     parseFloat($(this).next().attr('value')) + parseFloat($(this).next().next().attr('value')),
                     parseFloat($(this).next().next().next().next().attr('value'))],
                 info: {Average: parseFloat($(this).next().attr('value')), Deviation: parseFloat($(this).next().next().attr('value')), Minimum: parseFloat($(this).next().next().next().attr('value')), Maximum: parseFloat($(this).next().next().next().next().attr('value'))}});
-        })
+        });
 
         var serie = clone_obg(defserie);
         serie.name = "Rule for";
@@ -71,6 +77,13 @@
         serie2.xAxisIndex = 1;
         serie2.tooltip = {trigger: 'axix'};
         series.push(serie2);
+        var serieLinereg = clone_obg(defserie);
+        serieLinereg.name = "Predict by Regression";
+        serieLinereg.type = "line";
+        serieLinereg.data = [{"value":[chartsdata[0].value[0],predictstart],"unit":"format_data"},{"value":[chartsdata[chartsdata.length-1].value[0],predictend],"unit":"format_data"}];
+        serieLinereg.xAxisIndex = 1;
+        serieLinereg.tooltip = {trigger: 'axix'};
+        series.push(serieLinereg);
 
 //console.log(chartsdata);
 
