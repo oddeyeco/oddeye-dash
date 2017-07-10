@@ -132,13 +132,16 @@ public class ProfileController {
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
 
                 map.put("metric", meta);
-                map.put("title", meta.getDisplayName());                
+                map.put("title", meta.getDisplayName());
                 Calendar CalendarObj = Calendar.getInstance();
                 if (timestamp != null) {
                     CalendarObj.setTimeInMillis(timestamp * 1000);
                 }
-                
-                map.put("Date", CalendarObj.getTime()); 
+
+                CalendarObj.set(Calendar.MILLISECOND, 0);
+                CalendarObj.set(Calendar.SECOND, 0);
+                CalendarObj.set(Calendar.MINUTE, 0);
+                map.put("Date", CalendarObj.getTime());
 
 //                String hour = request.getParameter("hour");
 //                if (hour != null) {
@@ -146,13 +149,11 @@ public class ProfileController {
 //                }
                 ArrayList<DataPoints[]> data;
                 if (timestamp != null) {
-                    CalendarObj.set(Calendar.MILLISECOND, 0);
-                    CalendarObj.set(Calendar.SECOND, 0);
-                    CalendarObj.set(Calendar.MINUTE, 0);
-                    String startdate = Long.toString(CalendarObj.getTimeInMillis()) ;
+                    String startdate = Long.toString(CalendarObj.getTimeInMillis());
                     CalendarObj.add(Calendar.HOUR, 1);
-                    String enddate = Long.toString(CalendarObj.getTimeInMillis()) ;
-                    
+                    CalendarObj.add(Calendar.SECOND, -4);
+                    String enddate = Long.toString(CalendarObj.getTimeInMillis());
+
                     data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), startdate, enddate, "", false);
                 } else {
                     data = DataDao.getDatabyQuery(userDetails, meta.getName(), "none", meta.getFullFilter(), "1h-ago", "now", "", false);
@@ -163,8 +164,8 @@ public class ProfileController {
                 Map<String, MetriccheckRule> rules = meta.getRules(CalendarObj, 7, MetaDao.getTablename().getBytes(), BaseTsdb.getClient());
                 map.put("Rules", rules);
 
-
                 JsonArray DatapointsJSON = new JsonArray();
+                JsonArray PredictJSON = new JsonArray();
                 for (DataPoints[] Datapointslist : data) {
                     for (DataPoints Datapoints : Datapointslist) {
                         final SeekableView Datalist = Datapoints.iterator();
@@ -178,10 +179,21 @@ public class ProfileController {
                             //TODO check host type
                             j_data.addProperty("unit", "format_data");
                             DatapointsJSON.add(j_data);
+
+                            JsonArray p_point = new JsonArray();
+                            JsonObject p_data = new JsonObject();
+                            p_point.add(Point.timestamp());
+                            p_point.add(meta.getRegression().predict(Point.timestamp() / 1000));
+                            p_data.add("value", p_point);
+                            //TODO check host type
+                            p_data.addProperty("unit", "format_data");
+
+                            PredictJSON.add(p_data);
                         }
                     }
                 }
                 map.put("data", DatapointsJSON);
+                map.put("p_data", PredictJSON);
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }

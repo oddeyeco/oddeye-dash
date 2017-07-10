@@ -22,8 +22,7 @@
     }
 
     var chartsdata = ${data};
-    var predictstart = ${metric.getRegression().predict(data.get(0).get('value').get(0).getAsLong()/1000)};
-    var predictend = ${metric.getRegression().predict(data.get(data.size()-1).get('value').get(0).getAsLong()/1000)};
+    var p_data = ${p_data};
    
 //    console.log(predictend);
     //Error.getRegression().predict(Long.parseLong(startdate)/1000)    
@@ -80,7 +79,7 @@
         var serieLinereg = clone_obg(defserie);
         serieLinereg.name = "Predict by Regression";
         serieLinereg.type = "line";
-        serieLinereg.data = [{"value":[chartsdata[0].value[0],predictstart],"unit":"format_data"},{"value":[chartsdata[chartsdata.length-1].value[0],predictend],"unit":"format_data"}];
+        serieLinereg.data = p_data;
         serieLinereg.xAxisIndex = 1;
         serieLinereg.tooltip = {trigger: 'axix'};
         series.push(serieLinereg);
@@ -89,7 +88,7 @@
 
         echartLine.setOption({
             title: {
-                text: "",
+                text: ""
             },
             tooltip: {
                 trigger: 'axix'
@@ -102,7 +101,7 @@
                 show: true,
                 feature: {
                     magicType: {
-                        show: false,
+                        show: false
                     },
                     saveAsImage: {
                         show: true,

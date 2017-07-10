@@ -4,7 +4,7 @@
 @color_4: #f1f6f7;
 @color_5: #666666;
 @font_family_1: helvetica;
-@background_color_2: #ffffff;
+@background_color_1: white;
 @background_color_3: #e3e3e3;
 @background_color_4: #ffc0c0;
 @background_color_5: #ffffc0;
@@ -15,6 +15,7 @@
 @border_color_1: transparent;
 @border_color_2: rgba(0, 0, 0, 0.5);
 @border_left_color_1: #cccccc;
+
 
 /*
 To change this license header, choose License Headers in Project Properties.
@@ -267,7 +268,7 @@ and open the template in the editor.
         .select2-results__option[role=group] {
             ul {
                 display: none;
-                background-color: @background_color_2;
+                background-color: @background_color_1;
                 border: 1px solid #aaa;
                 border-radius: 4px 4px 4px 4px;
                 box-sizing: border-box;
@@ -500,7 +501,7 @@ div.jsoneditor {
     display: block;
     width: 80%;
     height: 26px;
-    background-color: @background_color_2;
+    background-color: @background_color_1;
     background-image: none;
     border: 1px solid #ccc;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -729,4 +730,117 @@ i[data-toggle="tooltip"] {
     border: 1px solid rgba(200,200,200,0.5); 
     padding: 2px;
     border-radius: 5px;    
+}
+
+.timelinecontener
+{
+    .horizontaltimeline {
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0px;
+    }
+    a {
+        width: 12%;
+        &:hover {
+            .li.complete {
+                .status {
+                    &:before {
+                        background-color: @background_color_1;                
+                        border: 1px solid #ddd;
+                        transition: all 200ms ease-in;                        
+                    }                
+                }
+            }
+        }
+    }
+    .li {
+        transition: all 200ms ease-in;
+        width: 100%;
+    }
+    .timestamp {
+        margin-bottom: 20px;        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-weight: 100;
+        padding-left: 10px;
+    }
+    .status {
+        padding-left: 10px;
+        display: flex;
+        justify-content: center;
+        border-top: 2px solid #D6DCE0;
+        position: relative;
+        transition: all 200ms ease-in;
+        h4 {
+            font-weight: 600;
+        }
+        &:before {
+            content: "";
+            width: 25px;
+            height: 25px;
+            background-color: @background_color_1;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            position: absolute;
+            top: -15px;
+            left: 42%;
+            transition: all 200ms ease-in;
+        }
+    }
+    .li.complete {
+        .status {
+            border-top: 2px solid #66DC71;
+            &:before {
+                background-color: @color_1;
+                border: none;
+                transition: all 200ms ease-in;
+            }
+            h4 {
+                color: @color_1;
+            }
+        }
+    }
+    button {
+        position: absolute;
+        width: 100px;
+        min-width: 100px;
+        padding: 20px;
+        margin: 20px;
+        font-family: @font_family_1;
+        border: none;
+        color: @color_3;
+        font-size: 16px;
+        text-align: center;
+    }
+    #toggleButton {
+        position: absolute;
+        left: 50px;
+        top: 20px;
+        background-color: @background_color_3;
+    }
+    @media (min-device-width: 320px) and (max-device-width: 700px) {
+        .timeline {
+            list-style-type: none;
+            display: block;
+        }
+        .li {
+            transition: all 200ms ease-in;
+            display: flex;
+            width: inherit;
+        }
+        .timestamp {
+            width: 100px;
+        }
+        .status {
+            &:before {
+                left: -8%;
+                top: 30%;
+                transition: all 200ms ease-in;
+            }
+        }
+    }
+
 }

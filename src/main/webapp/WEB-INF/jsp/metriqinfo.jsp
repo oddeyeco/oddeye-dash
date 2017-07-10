@@ -90,9 +90,33 @@
                         </div>
                     </div> 
                 </c:if>
-            </div>         
-        </div>
+                <div class="x_content timelinecontener"> 
+                    <div class="x_title">
+                        <h2>Time Line</h2>  
+                        <div class="clearfix"></div>
+                    </div>                        
+                    <ul class="horizontaltimeline" id="horizontaltimeline">
+                        <c:forEach var="i" begin="0" end="8" step="1" >
+                            <jsp:useBean id="dateValue" class="java.util.Date"/>
+                            <jsp:setProperty name="dateValue" property="time" value="${(Date.getTime()+(3600000*(i-4) ))}"/>
+                            <a href="${cp}/metriq/${metric.hashCode()}/<fmt:formatNumber type="number" groupingUsed="FALSE" maxFractionDigits="0" value="${dateValue.getTime()/1000}" />"><li class="li complete">
+                                    <div class="timestamp">                                    
+                                        <span class="date">${i-4}</span>
+                                    </div>
+                                    <div class="status"> 
+                                        <h4><fmt:formatDate value="${dateValue}" pattern="HH:mm"/></h4>
+                                    </div>
+                                </li>
+                            </a>
+                        </c:forEach>   
+                    </ul>
+                </div>                
+            </div>    
 
+
+
+
+        </div>
         <c:if test="${metric.getType()!=0}">
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="x_panel">

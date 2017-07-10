@@ -10,7 +10,7 @@ var colorPalette = [
 ];
 
 
-colorPalette.reverse();
+//colorPalette.reverse();
 
 
 var abcformater = function (params) {
@@ -187,8 +187,6 @@ var encodeHTML = function (source) {
                             }
                         } else
                         {
-                            console.log(param.data.unit);
-                            console.log(param);
 //                            value = format_metric(value);
                             if (typeof (value) !== "string")
                             {
