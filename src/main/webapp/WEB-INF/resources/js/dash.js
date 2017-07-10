@@ -1774,6 +1774,7 @@ function repaint(redraw = false, rebuildform = true) {
     }
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");
+    
     if ((request_W_index === null) && (request_R_index === null))
     {
         window.history.pushState({}, "", window.location.pathname);
@@ -1781,14 +1782,14 @@ function repaint(redraw = false, rebuildform = true) {
     } else
     {
         var NoOpt = false;
-        if (typeof (gdd[request_R_index]) === "undefined")
+        if (typeof (gdd.rows[request_R_index]) === "undefined")
         {
             NoOpt = true;
         }
 
         if (!NoOpt)
         {
-            if (typeof (gdd[request_R_index].widgets[request_W_index]) === "undefined")
+            if (typeof (gdd.rows[request_R_index].widgets[request_W_index]) === "undefined")
             {
                 NoOpt = true;
             }
@@ -1800,7 +1801,7 @@ function repaint(redraw = false, rebuildform = true) {
             AutoRefresh(redraw);
         } else
         {
-            clearTimeout(gdd[request_R_index].widgets[request_W_index].timer);
+            clearTimeout(gdd.rows[request_R_index].widgets[request_W_index].timer);
             var action = getParameterByName("action");
             AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", rebuildform, redraw);
             $(".editchartpanel select").select2({minimumResultsForSearch: 15});
