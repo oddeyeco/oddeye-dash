@@ -13,18 +13,19 @@
         </div>    
         <div class="" role="tabpanel" data-example-id="togglable-tabs">
             <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">General</a>
+                                                
+                <li role="presentation" class="<c:if test="${tab == \"general-tab\"}">active</c:if>  "><a href="#general_content" id="general-tab" role="tab" data-toggle="tab" aria-expanded="false">General</a>
                 </li>
-                <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Levels Settings</a>
+                <li role="presentation" class="<c:if test="${tab == \"level-tab\"}">active</c:if>  "><a href="#level_content" role="tab" id="level-tab" data-toggle="tab" aria-expanded="false">Levels Settings</a>
                 </li>
-                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Notifier</a>
+                <li role="presentation" class="<c:if test="${tab == \"notifier-tab\"}">active</c:if>"><a href="#notifier_content" role="tab" id="notifier-tab" data-toggle="tab" aria-expanded="false">Notifier</a>
                 </li>
 <!--                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Security</a>
                 </li>-->
 
             </ul>
             <div id="myTabContent" class="tab-content">
-                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"general-tab\"}">active</c:if> " id="general_content" aria-labelledby="general_content">
                     <div class="x_content">
                         <br>                        
                         <form:form method="post" action="${cp}/profile/saveuser" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">                            
@@ -100,7 +101,7 @@
                     </div>                
 
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"level-tab\"}">active</c:if> " id="level_content" aria-labelledby="level_content">
 
                     <!-- start user projects -->
                     <form:form method="post" action="${cp}/profile/saveuserlevels" commandName="newuserleveldata" modelAttribute="newuserleveldata" novalidate="true" cssClass="form-horizontal form-label-left">                            
@@ -145,7 +146,7 @@
                     <!-- end user projects -->
 
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"notifier-tab\"}">active</c:if>" id="notifier_content" aria-labelledby="notifier_content">
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <form class="form-horizontal form-label-left form-filter" name="send_email" id="email_note">
                             <div class="x_title">                            

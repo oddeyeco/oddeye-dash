@@ -65,9 +65,9 @@ public class LevelsValidator implements Validator {
                     {
                         errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
                     }
-                    if (level.getValue()>10)
+                    if (level.getValue()>15)
                     {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "10value", "Value more than 10.");
+                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "10value", "Value more than 15.");
                     }                    
                 }                                                
             }

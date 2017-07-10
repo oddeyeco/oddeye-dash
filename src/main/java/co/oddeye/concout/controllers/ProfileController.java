@@ -236,6 +236,7 @@ public class ProfileController {
 
         map.put("body", "profileedit");
         map.put("jspart", "profileeditjs");
+        map.put("tab", "general-tab");
 
         return layaut;
     }
@@ -296,6 +297,7 @@ public class ProfileController {
             map.put("curentuser", curentuser);
             map.put("body", "profileedit");
             map.put("jspart", "profileeditjs");
+            map.put("tab", "general-tab");
 
             return "index";
 
@@ -354,11 +356,13 @@ public class ProfileController {
                 }
 
             }
+            map.put("activeuser", curentuser);
             map.put("newuserdata", curentuser);
             map.put("newuserleveldata", newuserdata);
             map.put("curentuser", curentuser);
             map.put("body", "profileedit");
             map.put("jspart", "profileeditjs");
+            map.put("tab", "level-tab");
 
             return "index";
 
