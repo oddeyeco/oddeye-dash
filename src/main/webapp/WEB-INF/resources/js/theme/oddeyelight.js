@@ -207,6 +207,7 @@ var encodeHTML = function (source) {
                     }
                 } else
                 {
+                    
                     var value = params.data.value;
                     if (params.data.isinverse === true)
                     {
@@ -262,6 +263,7 @@ var encodeHTML = function (source) {
 
                             } else
                             {
+                                console.log(params);
                                 value = value[1];
                                 if (params.data.unit)
                                 {
@@ -283,6 +285,9 @@ var encodeHTML = function (source) {
                                     }
 //                                    value = format_metric(value);
                                 }
+                                firstparam = format_date(params.value[0], 0);
+                                out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + firstparam + " " + params.seriesName + ' : ' + value;
+                                return out;                                 
                             }
 
                         } else
