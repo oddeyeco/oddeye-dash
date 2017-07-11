@@ -1217,11 +1217,10 @@ class EditForm {
     makeMetricInput(metricinput, wraper)
     {
         var tags = "";
-        wraper.parents("form").find(".query_tag .text").each(function () {
+        wraper.parents("form").find(".tagspan .text").each(function () {
             tags = tags + $(this).text().replace("*", "(.*)") + ";";
         });
-        var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");
-
+        var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");        
         $.getJSON(uri, null, function (data) {
             metricinput.autocomplete({
                 lookup: data.data,
