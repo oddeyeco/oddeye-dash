@@ -2,19 +2,12 @@
 
 //var colorPalette = ["#DDCCAA","#ADB9D8","#799AF2","#8899AA","#1ABAE9","#776655","#886611","#0082A8","#3F517F","#116688","#883311","#3D494C","#224499","#005566","#004E66","#2B2B2B","#002733","#101011","#000022"];
 
-//var colorPalette = [
-//    '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', '#b6a2de',
-//    '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
-//    '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
-//    '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
-//];
-
-var colorPalette = [ /*gauge danger*/ '#ff4500','#685e06', /*gauge first*/'lime', '#6f5553', '#7f7dcc', 
-    '#e80404', '#454b59',/*gauge midle*/ '#1e90ff', '#dc69aa', '#588dd5', '#f5994e', 
-    '#c05050', '#95706d', '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', 
-    '#b6a2de', '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
-];
-//colorPalette.reverse();
+    var colorPalette = [
+        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
+        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
+        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
+        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
+    ];
 
 
 var abcformater = function (params) {
@@ -558,8 +551,8 @@ var encodeHTML = function (source) {
             },
             axisLine: {
                 lineStyle: {
-                    width: 10,
-                    color: [[0.2, colorPalette[2]], [0.8, colorPalette[7]], [1, colorPalette[0]]],
+                    width: 10,                    
+                    color: [[0.2, '#2ec7c9'],[0.8, '#5ab1ef'],[1, '#d87a80']],
                     shadowColor: colorPalette[1],
                     shadowBlur: 10
                 }
