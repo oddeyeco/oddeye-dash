@@ -1220,7 +1220,8 @@ class EditForm {
         wraper.parents("form").find(".tagspan .text").each(function () {
             tags = tags + $(this).text().replace("*", "(.*)") + ";";
         });
-        var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");        
+        
+        var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");                
         $.getJSON(uri, null, function (data) {
             metricinput.autocomplete({
                 lookup: data.data,
