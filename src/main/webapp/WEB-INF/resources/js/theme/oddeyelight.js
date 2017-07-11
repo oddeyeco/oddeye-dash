@@ -1,15 +1,23 @@
 /* global define, format_date, format_data, format_metric */
 
 //var colorPalette = ["#DDCCAA","#ADB9D8","#799AF2","#8899AA","#1ABAE9","#776655","#886611","#0082A8","#3F517F","#116688","#883311","#3D494C","#224499","#005566","#004E66","#2B2B2B","#002733","#101011","#000022"];
+//
+//    var colorPalette = [
+//        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
+//        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
+//        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
+//        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
+//    ];
 
-    var colorPalette = [
-        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
-        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
-        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
-        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
-    ];
-
-
+var colorPalette = [
+    '#FF1744', '#1E88E5', '#616161',
+    '#039BE5', '#FDD835', '#00ACC1',
+    '#00E5FF', '#009688', '#F4511E',
+    '#004D40', '#558B2F', '#AEEA00',
+    '#795548', '#00C853', '#00B8D4',
+    '#E91E63', '#616161', '#0288D1',
+    '#FF1744', '#D500F9', '#F57F17'
+];
 var abcformater = function (params) {
     var formatter = params.data.unit;
     if (params.data.formatter)
@@ -139,15 +147,15 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
-                
+
                 var out = "";
                 if (params.constructor === Array)
                 {
                     out = params[0].name;
                     for (var ind in params)
                     {
-                       
-                        param = params[ind];                        
+
+                        param = params[ind];
                         if (typeof (param.value) === 'undefined')
                         {
                             continue;
@@ -167,10 +175,10 @@ var encodeHTML = function (source) {
                         {
                             value = value * -1;
                         }
-                        
+
                         if (param.data.unit)
                         {
-                            
+
                             if (typeof (window[param.data.unit]) === "function")
                             {
                                 value = window[param.data.unit](value);
@@ -199,7 +207,7 @@ var encodeHTML = function (source) {
                     }
                 } else
                 {
-                    
+
                     var value = params.data.value;
                     if (params.data.isinverse === true)
                     {
@@ -279,7 +287,7 @@ var encodeHTML = function (source) {
                                 }
                                 firstparam = format_date(params.value[0], 0);
                                 out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + firstparam + " " + params.seriesName + ' : ' + value;
-                                return out;                                 
+                                return out;
                             }
 
                         } else
@@ -348,7 +356,7 @@ var encodeHTML = function (source) {
             handleColor: '#008acd'
         },
 
-        grid: {            
+        grid: {
             left: 0,
             right: 20,
             top: 40,
@@ -551,8 +559,8 @@ var encodeHTML = function (source) {
             },
             axisLine: {
                 lineStyle: {
-                    width: 10,                    
-                    color: [[0.2, '#2ec7c9'],[0.8, '#5ab1ef'],[1, '#d87a80']],
+                    width: 10,
+                    color: [[0.2, '#2ec7c9'], [0.8, '#5ab1ef'], [1, '#d87a80']],
                     shadowColor: colorPalette[1],
                     shadowBlur: 10
                 }
