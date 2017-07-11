@@ -9,8 +9,8 @@
 //    '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
 //];
 
-var colorPalette = [ '#ff4500','#685e06','lime', '#6f5553', '#7f7dcc', 
-    '#e80404', '#454b59', '#1e90ff', '#dc69aa', '#588dd5', '#f5994e', 
+var colorPalette = [ /*gauge danger*/ '#ff4500','#685e06', /*gauge first*/'lime', '#6f5553', '#7f7dcc', 
+    '#e80404', '#454b59',/*gauge midle*/ '#1e90ff', '#dc69aa', '#588dd5', '#f5994e', 
     '#c05050', '#95706d', '#2ec7c9', '#5ab1ef', '#ffb980', '#d87a80', 
     '#b6a2de', '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
 ];
