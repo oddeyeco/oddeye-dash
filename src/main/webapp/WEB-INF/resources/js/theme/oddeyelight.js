@@ -265,7 +265,7 @@ var encodeHTML = function (source) {
 
                             } else
                             {
-                                console.log(params);
+//                                console.log(params);
                                 value = value[1];
                                 if (params.data.unit)
                                 {
@@ -305,7 +305,11 @@ var encodeHTML = function (source) {
                                     {
                                         value = value.toFixed(2);
                                     }
-                                    value = params.data.unit.replace("{value}", value);
+                                    if (param.data.unit.search("{value}") !== -1)
+                                    {
+                                        value = params.data.unit.replace("{value}", value);
+                                    }
+
                                 }
                             }
                         }
