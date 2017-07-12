@@ -147,7 +147,6 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
-
                 var out = "";
                 if (params.constructor === Array)
                 {
@@ -178,7 +177,6 @@ var encodeHTML = function (source) {
 
                         if (param.data.unit)
                         {
-
                             if (typeof (window[param.data.unit]) === "function")
                             {
                                 value = window[param.data.unit](value);
@@ -188,7 +186,11 @@ var encodeHTML = function (source) {
                                 {
                                     value = value.toFixed(2);
                                 }
-                                value = param.data.unit.replace("{value}", value);
+                                if (param.data.unit.search("{value}") !== -1)
+                                {
+                                    value = param.data.unit.replace("{value}", value);
+                                }
+
                             }
                         } else
                         {
