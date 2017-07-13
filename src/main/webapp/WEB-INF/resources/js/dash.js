@@ -1218,8 +1218,12 @@ function replacer(tags) {
     };
 }
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
-    var widget = json.rows[ri].widgets[wi];
-    clearTimeout(widget.timer);
+    var widget = json.rows[ri].widgets[wi];    
+    if (widget.timer)
+    {
+        clearTimeout(widget.timer);
+    }
+
     var chart;
     if (customchart === null)
     {
@@ -1602,6 +1606,8 @@ function redrawAllJSON(dashJSON, redraw = false) {
             appendTo: ".rowcontent",
             cancel: "canvas"
         });
+
+
         var wingetindrag = false;
         $("#row" + ri + " .rowcontent").on('sortstart', function (event, ui) {
             ui.item.find('.inner').css('border', "5px solid rgba(200,200,200,1)");
@@ -1615,7 +1621,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             var ri = ui.item.parents(".widgetraw").index();
             var wi = ui.item.index();
             var tmpwid = (gdd.rows[wingetindrag[0]].widgets[wingetindrag[1]]);
-            if (wingetindrag)
+            if (wingetindrag !== false)
             {
                 gdd.rows[wingetindrag[0]].widgets.splice(wingetindrag[1], 1);
             }
@@ -1827,6 +1833,31 @@ function repaint(redraw = false, rebuildform = true) {
 }
 
 $(document).ready(function () {
+
+    $("#dashcontent").sortable({
+        cursor: "move",
+        appendTo: ".rowcontent",
+        cancel: "canvas"
+    });
+    var rowdrag = false;
+    $("#dashcontent").on('sortstart', function (event, ui) {
+        var ri = ui.item.index();
+        rowdrag = ri;        
+    });
+
+    $("#dashcontent").on('sortstop', function (event, ui) {
+
+
+        var ri = ui.item.index();
+        var tmprow = (gdd.rows[rowdrag]);
+        if (rowdrag !== false)
+        {
+            gdd.rows.splice(rowdrag, 1);
+        }
+        gdd.rows.splice(ri, 0, tmprow);
+        rowdrag = false;
+    });
+
     if (!gdd.rows) //Old style Update te new
     {
         var rows = [];
@@ -2026,16 +2057,23 @@ $(document).ready(function () {
         $(this).parents('.widgetraw').find('.rowcontent').fadeOut();
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = true;
+        for (var lri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[lri].widgets)
+            {
+                if (gdd.rows[lri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
+                }
+            }
+        }        
+        
         redrawAllJSON(gdd);
     });
 
     $('body').on("click", ".expandrow", function () {
-//        $(this).removeClass('expandrow');
-//        $(this).addClass('colapserow');                
-//        $(this).find('i').removeClass('fa-chevron-down');
-//        $(this).find('i').addClass('fa-chevron-up');
         $(this).parents('.widgetraw').find('.rowcontent').fadeIn();
-        var ri = $(this).parents(".widgetraw").index();        
+        var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = false;
         redrawAllJSON(gdd);
     });

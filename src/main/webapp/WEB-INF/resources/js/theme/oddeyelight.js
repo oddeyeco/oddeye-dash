@@ -305,7 +305,7 @@ var encodeHTML = function (source) {
                                     {
                                         value = value.toFixed(2);
                                     }
-                                    if (param.data.unit.search("{value}") !== -1)
+                                    if (params.data.unit.search("{value}") !== -1)
                                     {
                                         value = params.data.unit.replace("{value}", value);
                                     }
