@@ -786,6 +786,10 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                     }
 
                 }
+                if (!val )
+                {
+                    continue;
+                }
                 val.valueformatter = widget.options.yAxis[yAxis].axisLabel.formatter;
 
                 if (widget.label)
