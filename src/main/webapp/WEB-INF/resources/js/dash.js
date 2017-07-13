@@ -1842,6 +1842,16 @@ $(document).ready(function () {
     var rowdrag = false;
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
+        for (var lri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[lri].widgets)
+            {
+                if (gdd.rows[lri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
+                }
+            }
+        }          
         rowdrag = ri;        
     });
 
@@ -1855,6 +1865,7 @@ $(document).ready(function () {
             gdd.rows.splice(rowdrag, 1);
         }
         gdd.rows.splice(ri, 0, tmprow);
+        redrawAllJSON(gdd);
         rowdrag = false;
     });
 
