@@ -786,7 +786,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                     }
 
                 }
-                if (!val )
+                if (!val)
                 {
                     continue;
                 }
@@ -1458,6 +1458,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     for (ri in dashJSON.rows)
     {
         var tmprow = dashJSON.rows[ri];
+
         if (tmprow === null)
         {
             dashJSON.rows.splice(ri, 1);
@@ -1470,6 +1471,16 @@ function redrawAllJSON(dashJSON, redraw = false) {
             var html = $("#rowtemplate").html();
             $("#dashcontent").append(html);
             $("#rowtemplate .widgetraw").attr("id", "row");
+        }
+        if (tmprow.colapsed)
+        {
+            var colapserow = $("#row" + ri).find('.colapserow');
+            colapserow.removeClass('colapserow');
+            colapserow.addClass('expandrow');
+            colapserow.find('i').removeClass('fa-chevron-up');
+            colapserow.find('i').addClass('fa-chevron-down');
+
+            continue;
         }
         for (wi in tmprow.widgets)
         {
@@ -1778,7 +1789,7 @@ function repaint(redraw = false, rebuildform = true) {
     }
     var request_W_index = getParameterByName("widget");
     var request_R_index = getParameterByName("row");
-    
+
     if ((request_W_index === null) && (request_R_index === null))
     {
         window.history.pushState({}, "", window.location.pathname);
@@ -2008,6 +2019,25 @@ $(document).ready(function () {
         gdd.rows.splice(ri, 1);
         redrawAllJSON(gdd);
         $("#deleteConfirm").modal('hide');
+    });
+
+
+    $('body').on("click", ".colapserow", function () {
+        $(this).parents('.widgetraw').find('.rowcontent').fadeOut();
+        var ri = $(this).parents(".widgetraw").index();
+        gdd.rows[ri].colapsed = true;
+        redrawAllJSON(gdd);
+    });
+
+    $('body').on("click", ".expandrow", function () {
+//        $(this).removeClass('expandrow');
+//        $(this).addClass('colapserow');                
+//        $(this).find('i').removeClass('fa-chevron-down');
+//        $(this).find('i').addClass('fa-chevron-up');
+        $(this).parents('.widgetraw').find('.rowcontent').fadeIn();
+        var ri = $(this).parents(".widgetraw").index();        
+        gdd.rows[ri].colapsed = false;
+        redrawAllJSON(gdd);
     });
     $('body').on("click", ".deleterow", function () {
         var ri = $(this).parents(".widgetraw").index();

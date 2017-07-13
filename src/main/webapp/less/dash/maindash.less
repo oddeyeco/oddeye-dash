@@ -56,7 +56,8 @@ and open the template in the editor.
 .form-control[type="number"] {
     padding-right: 0px;
 }
-.chartsection {    
+.chartsection 
+{    
     .controls {
         .btn
         {
@@ -70,9 +71,56 @@ and open the template in the editor.
             cursor: move;
         }
     }
-    /*    border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.5);  Параметры тени */
 }
+
+.widgetraw 
+{    
+    border: 1px solid rgba(200,200,200,0.5); 
+    margin: 2px;
+    border-radius: 5px;   
+    overflow: hidden;
+    .raw-controls {
+        margin: -1px -1px 0;        
+        background-color:rgba(200, 200, 200, 0.6);
+        &:hover
+            {
+            cursor: move;
+        }
+    }    
+
+}
+
+.dash_header
+{
+    margin: -1px -1px 0px;     
+    background-color:rgba(240, 240, 240, 0.6);
+    .btn {
+        font-size: 16px;
+    }
+    input {
+        display: none;
+        height: 23px;
+    }
+    .title_text {
+        span
+        {
+            margin: 0 5px;        
+        }
+        color: #73879C;
+        font-weight: bold;
+        margin:5px 5px 0;    
+    }    
+}
+
+.fulldash
+{
+    padding: 0; 
+    border-radius: 5px;
+}
+.nav-md .container.body .right_col {
+    padding: 5px 5px 0;    
+}
+
 .dataTables_filter {
     float: right;
     text-align: right;
@@ -356,13 +404,7 @@ span.tagspan {
         float: left;
     }
 }
-.rawButton {
-    position: absolute;
-    left: -20px;
-    .btn {
-        padding: 0px 5px;
-    }
-}
+
 .metrictable {
     >tbody {
         >tr {
