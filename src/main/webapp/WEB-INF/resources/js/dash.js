@@ -2395,8 +2395,8 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     if (data.sucsses)
-                    {
-                        var uri = cp + "/dashboard/" + senddata.name;
+                    {                        
+                        var uri =encodeURI(cp + "/dashboard/" + senddata.name);
                         var request_W_index = getParameterByName("widget");
                         var request_R_index = getParameterByName("row");
                         if (request_W_index === null)
