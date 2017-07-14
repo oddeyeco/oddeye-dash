@@ -1436,7 +1436,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 $(chart._dom).parent().find('.error').remove();
                 $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end)).fail(function () {
                     chart.hideLoading();                         
-                    $(chart._dom).before("<h2 class='error'>Invalid Query")                    
+                    $(chart._dom).before("<h2 class='error'>Invalid Query");                    
                 });
 
             }
@@ -1621,7 +1621,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             wingetindrag = [ri, wi];
         });
         $("#row" + ri + " .rowcontent").on('sortstop', function (event, ui) {
-
+            event.stopPropagation();            
             ui.item.find('.inner').removeAttr('style');
             var ri = ui.item.parents(".widgetraw").index();
             var wi = ui.item.index();
@@ -1874,8 +1874,6 @@ $(document).ready(function () {
     });
 
     $("#dashcontent").on('sortstop', function (event, ui) {
-
-
         var ri = ui.item.index();
         var tmprow = (gdd.rows[rowdrag]);
         if (rowdrag !== false)
