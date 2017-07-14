@@ -1433,8 +1433,11 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     maskColor: 'rgba(255, 255, 255, 0)',
                     zlevel: 0
                 });
-
-                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end));
+                $(chart._dom).parent().find('.error').remove();
+                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end)).fail(function () {
+                    chart.hideLoading();                         
+                    $(chart._dom).before("<h2 class='error'>Invalid Query")                    
+                });
 
             }
 
@@ -2395,8 +2398,8 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     if (data.sucsses)
-                    {                        
-                        var uri =encodeURI(cp + "/dashboard/" + senddata.name);
+                    {
+                        var uri = encodeURI(cp + "/dashboard/" + senddata.name);
                         var request_W_index = getParameterByName("widget");
                         var request_R_index = getParameterByName("row");
                         if (request_W_index === null)
@@ -2412,7 +2415,7 @@ $(document).ready(function () {
                         {
                             if (request_R_index !== null)
                             {
-                                uri = uri + "?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit";
+                                uri = uri + encodeURI("?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit");
                                 if (window.location.pathname + window.location.search !== uri)
                                 {
                                     window.location.href = uri;
