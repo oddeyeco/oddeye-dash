@@ -1694,8 +1694,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
     var title = "Edit Chart";
     var W_type = dashJSON.rows[row].widgets[index].type;
-
-    dash_main
     if (W_type === "table")
     {
         title = "Edit Table";
