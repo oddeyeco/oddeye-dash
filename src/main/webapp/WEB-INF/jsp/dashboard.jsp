@@ -37,7 +37,7 @@
 
 <div class="x_panel fulldash" style="display: none">
     <div class="dash_header">
-        <div class="pull-left dash_title" ><div class="title_text"><span>${dashname}</span> <i class="fa fa-pencil"></i></div>  <input type="text" name="name" id="name" value="${dashname}"></div>        
+        <div class="pull-left dash_title" ><div class="title_text"><span>${dashname}</span> <i class="change_title fa fa-pencil"></i></div>  <div class="title_input"><input type="text" name="name" id="name" value="${dashname}"> <i class="savetitle fa fa-check"></i></div></div>        
         <div class="pull-right"> 
             <div class="btn-group"> 
                 <div class="btn-group btn-group-xs">
