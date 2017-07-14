@@ -45,11 +45,13 @@ var scrolltimer;
 
 
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end) {
-    return function (data) {
+    return function (data) {        
+//        console.log(widget.options.xAxis[0]);
         var m_sample = widget.options.xAxis[0].m_sample;
 
         if (data.chartsdata)
         {
+            
             if (Object.keys(data.chartsdata).length > 0)
             {
                 var xAxis_Index = 0;
@@ -62,7 +64,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                     {
                         xAxis_Index = 0;
                     }
-                }
+                }                
                 if (widget.options.xAxis[xAxis_Index].type === "time")
                 {
                     if (end === "now")
@@ -1218,7 +1220,7 @@ function replacer(tags) {
     };
 }
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
-    var widget = json.rows[ri].widgets[wi];    
+    var widget = json.rows[ri].widgets[wi];
     if (widget.timer)
     {
         clearTimeout(widget.timer);
@@ -1689,6 +1691,8 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
     var title = "Edit Chart";
     var W_type = dashJSON.rows[row].widgets[index].type;
+
+    dash_main
     if (W_type === "table")
     {
         title = "Edit Table";
@@ -1708,7 +1712,17 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>');
 
         }
-
+        else
+        {
+            $(".right_col .editpanel").append('<div class="x_title dash_action">' +
+                    '<h1 class="col-md-3">' + title + '</h1>' +
+                    '<div class="pull-right">' +                    
+                    '<a class="btn btn-primary backtodush" type="button">Back to Dash </a>' +
+                    '</div>' +
+                    '<div class="clearfix"></div>' +
+                    '</div>');            
+        }
+        $(".right_col .editpanel").append($("#dash_main"));
         if (W_type === "table")
         {
             $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
@@ -1760,7 +1774,9 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         echartLine.setOption(dashJSON.rows[row].widgets[index].options);
     }
-
+        $('html, body').animate({
+            scrollTop: 0
+        }, 500);
     return;
 }
 function getParameterByName(name, url) {
@@ -1851,8 +1867,8 @@ $(document).ready(function () {
                     clearTimeout(gdd.rows[lri].widgets[wi].timer);
                 }
             }
-        }          
-        rowdrag = ri;        
+        }
+        rowdrag = ri;
     });
 
     $("#dashcontent").on('sortstop', function (event, ui) {
@@ -2077,8 +2093,8 @@ $(document).ready(function () {
                     clearTimeout(gdd.rows[lri].widgets[wi].timer);
                 }
             }
-        }        
-        
+        }
+
         redrawAllJSON(gdd);
     });
 
@@ -2502,13 +2518,14 @@ $(document).ready(function () {
                 }
             }
         }
+        $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();
         delete Edit_Form;
         AutoRefresh();
 
         $('html, body').animate({
-            scrollTop: gdd.rows[request_R_index].widgets[request_W_index].echartLine._dom.getBoundingClientRect().top
+            scrollTop: gdd.rows[request_R_index].widgets[request_W_index].echartLine._dom.getBoundingClientRect().top-25
         }, 500);
         $RIGHT_COL.css('min-height', $(window).height());
     });
