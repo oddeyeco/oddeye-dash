@@ -8,8 +8,10 @@
 /* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor, cp */
 
 class EditForm {
-
-    constructor(formwraper, row, index, dashJSON) {
+    
+    
+    constructor(formwraper, row, index, dashJSON, aftermodifier = null) {        
+        this.aftermodifier = aftermodifier;        
         this.deflist = {};
         this.formwraper = formwraper;
         this.row = row;
@@ -1121,7 +1123,11 @@ class EditForm {
         showsingleWidget(this.row, this.index, this.dashJSON, false, false, false, function () {
 //            var jsonstr = JSON.stringify(opt, jsonmaker);
 //            editor.set(JSON.parse(jsonstr));
-        });
+        });        
+        if (this.aftermodifier)
+        {
+            this.aftermodifier();
+        }        
     }
     getdefvalue(path)
     {

@@ -9,9 +9,9 @@
 class ChartEditForm extends EditForm {
 //    tabcontent = {};
 
-    constructor(chart, formwraper, row, index, dashJSON) {
+    constructor(chart, formwraper, row, index, dashJSON, aftermodifier = null) {
 //        this.chart = chart;
-        super(formwraper, row, index, dashJSON);
+        super(formwraper, row, index, dashJSON,aftermodifier);
         // Add castoms
         this.deflist["options.title.show"] = true;
         this.deflist["max"] = "";
