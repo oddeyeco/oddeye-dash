@@ -1479,9 +1479,13 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
     var opt = gdd.rows[row].widgets[index];
 
     showsingleWidget(row, index, gdd, readonly, rebuildform, redraw, function () {
-        $('html, body').animate({
-            scrollTop: 0
-        }, 500);
+        if (rebuildform)
+        {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 500);
+        }
+
 //        var jsonstr = JSON.stringify(opt, jsonmaker);
 //        editor.set(JSON.parse(jsonstr));
     });
@@ -1791,7 +1795,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
             if (!readonly)
             {
-                $(".right_col .editpanel").append('<div class="x_content edit-form">');                
+                $(".right_col .editpanel").append('<div class="x_content edit-form">');
                 Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
 //                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             }
@@ -2404,7 +2408,7 @@ $(document).ready(function () {
     $('body').on("click", ".savedash", function () {
         var url = cp + "/dashboard/save";
         var senddata = {};
-        var localjson  = clone_obg(gdd);
+        var localjson = clone_obg(gdd);
         if (Object.keys(localjson).length > 0)
         {
             for (var ri in localjson.rows)
@@ -2627,7 +2631,7 @@ $(document).ready(function () {
 
     });
     $('body').on("click", "#refresh", function () {
-        repaint(true);
+        repaint(true, false);
     });
     $('body').on("change", "#refreshtime", function () {
         if (!doapplyjson)
