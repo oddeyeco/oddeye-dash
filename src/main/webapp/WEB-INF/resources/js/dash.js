@@ -45,8 +45,7 @@ var scrolltimer;
 
 
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end) {
-    return function (data) {
-//        console.log(widget.options.xAxis[0]);
+    return function (data) {        
         var m_sample = widget.options.xAxis[0].m_sample;
 
         if (data.chartsdata)
@@ -1451,6 +1450,9 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
     var opt = gdd.rows[row].widgets[index];
 
     showsingleWidget(row, index, gdd, readonly, rebuildform, redraw, function () {
+    $('html, body').animate({
+        scrollTop: 0
+    }, 500);        
 //        var jsonstr = JSON.stringify(opt, jsonmaker);
 //        editor.set(JSON.parse(jsonstr));
     });
@@ -1774,9 +1776,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         echartLine.setOption(dashJSON.rows[row].widgets[index].options);
     }
-    $('html, body').animate({
-        scrollTop: 0
-    }, 500);
     return;
 }
 function getParameterByName(name, url) {
