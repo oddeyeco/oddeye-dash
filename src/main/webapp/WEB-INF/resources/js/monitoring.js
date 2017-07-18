@@ -53,8 +53,7 @@ function reDrawErrorList(listJson, table, errorjson)
                 }
             }
             ;
-        }
-        else
+        } else
         {
             delete listJson[errorjson.hash];
         }
@@ -103,6 +102,7 @@ function reDrawErrorList(listJson, table, errorjson)
         var indexspec = findeByhash(errorjson, array_spec);
         if (filtred)
         {
+            
             if (indexspec === -1)
             {
                 array_spec.push(errorjson);
@@ -110,12 +110,13 @@ function reDrawErrorList(listJson, table, errorjson)
                     var tagident = $("select#ident_tag").val();
                     return compareMetric(a, b, tagident);
                 });
+
                 var index2 = findeByhash(errorjson, array_spec);
                 if (index2 < array_spec.length - 1)
-                {
+                {                    
                     drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
                 } else
-                {
+                {                    
                     drawRaw(array_spec[index2], table, 0);
                 }
             } else
@@ -189,7 +190,7 @@ function DrawErrorList(listJson, table)
                     }
                 } else
                 {
-                    delete listJson[key];                    
+                    delete listJson[key];
                 }
             } else
             {
@@ -274,7 +275,7 @@ function drawRaw(errorjson, table, hashindex, update) {
     var trclass = "level_" + errorjson.level;
     if (errorjson.isspec !== 0)
     {
-        trclass =trclass+" spec";
+        trclass = trclass + " spec";
     }
 
     if (!update)
@@ -483,7 +484,7 @@ $(document).ready(function () {
             {
                 errorlistJson[errorjson.hash] = errorjson;
             }
-            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);            
+            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
             if (Object.keys(errorlistJson).length > 200)
             {
                 $('#manyalert').fadeIn();
