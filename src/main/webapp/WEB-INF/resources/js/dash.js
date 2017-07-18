@@ -1521,8 +1521,9 @@ function redrawAllJSON(dashJSON, redraw = false) {
             var colapserow = $("#row" + ri).find('.colapserow');
             colapserow.removeClass('colapserow');
             colapserow.addClass('expandrow');
-            colapserow.find('i').removeClass('fa-chevron-up');
-            colapserow.find('i').addClass('fa-chevron-down');
+            colapserow.find('.collapsed i').removeClass('fa-chevron-up');
+            colapserow.find('.collapsed i').addClass('fa-chevron-down');
+            colapserow.attr('data-original-title', 'Expand');
 
             continue;
         }
@@ -1681,6 +1682,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             domodifier();
         });
 }
+$('.fulldash .btn').tooltip(); 
 }
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
 
