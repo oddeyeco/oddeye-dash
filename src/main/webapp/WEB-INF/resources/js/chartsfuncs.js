@@ -850,9 +850,8 @@ function clone_obg(obj) {
 
 function paramtoval(params)
 {
-
-    var val = null;
-    if (isNaN(params))
+    var val = null;    
+    if( (typeof params === "object") && (params !== null) )
     {        
         if (isNaN(params.value))
         {
