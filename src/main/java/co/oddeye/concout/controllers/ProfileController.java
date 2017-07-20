@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.controllers;
 
-import static co.oddeye.concout.controllers.dataControlers.LOGGER;
 import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
@@ -20,8 +19,6 @@ import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -45,6 +42,8 @@ import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -54,6 +53,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class ProfileController {
 
+    protected static final Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -195,7 +195,7 @@ public class ProfileController {
                 map.put("data", DatapointsJSON);
                 map.put("p_data", PredictJSON);
             } catch (Exception ex) {
-                Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         }
         map.put("body", "metriqinfo");
@@ -276,19 +276,18 @@ public class ProfileController {
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                         @Override
-                        public void onSuccess(SendResult<Integer, String> result) {
-                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
+                        public void onSuccess(SendResult<Integer, String> result) {                            
+                            LOGGER.info("kafka semaphore saveuser send messge onSuccess");
                         }
 
                         @Override
-                        public void onFailure(Throwable ex) {
-                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
+                        public void onFailure(Throwable ex) {                            
+                            LOGGER.error("kafka semaphore saveuser send messge onFailure "+ ex.getMessage());
                         }
                     });
-
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
-                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.error(globalFunctions.stackTrace(ex));                    
                 }
 
             }
@@ -340,19 +339,19 @@ public class ProfileController {
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                         @Override
-                        public void onSuccess(SendResult<Integer, String> result) {
-                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onSuccess");
+                        public void onSuccess(SendResult<Integer, String> result) {                            
+                            LOGGER.info("kafka semaphore saveuserlevels send messge onSuccess");
                         }
 
                         @Override
-                        public void onFailure(Throwable ex) {
-                            Logger.getLogger(DefaultController.class.getName()).log(Level.SEVERE, "onFailure", ex);
+                        public void onFailure(Throwable ex) {                            
+                            LOGGER.error("kafka semaphore saveuserlevels send messge onFailure "+ ex.getMessage());
                         }
                     });
 
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
-                    Logger.getLogger(ProfileController.class.getName()).log(Level.SEVERE, null, ex);
+                    LOGGER.error(globalFunctions.stackTrace(ex));         
                 }
 
             }
