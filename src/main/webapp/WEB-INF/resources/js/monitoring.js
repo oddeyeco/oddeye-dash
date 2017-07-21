@@ -89,7 +89,7 @@ function reDrawErrorList(listJson, table, errorjson)
             if (indexregular !== -1)
             {
 //                array_regular[indexregular] = errorjson;
-//                errorjson.index = 0;
+                errorjson.index = 0;
                 var hash_r = errorjson.hash;
                 array_regular.splice(indexregular, 1);
                 table.find("tbody tr#" + hash_r).fadeOut(400, function () {
@@ -129,7 +129,7 @@ function reDrawErrorList(listJson, table, errorjson)
             if (indexspec !== -1)
             {
 //                array_spec[indexspec] = errorjson;
-//                errorjson.index = 0;
+                errorjson.index = 0;
                 var hash_s = errorjson.hash;
                 array_spec.splice(indexspec, 1);
                 table.find("tbody tr#" + hash_s).fadeOut(400, function () {
