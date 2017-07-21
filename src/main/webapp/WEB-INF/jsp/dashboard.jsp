@@ -1,6 +1,16 @@
 <%@ page pageEncoding="UTF-8" %>
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
+        <div class="pull-left row_title" >
+            <div class="title_text_row">
+                <span></span> 
+                <i class="change_title_row fa fa-pencil"></i>
+            </div>              
+            <div class="title_input_row">
+                <input class="enter_title_row" type="text" name="row" value="" >
+                <i class="savetitlerow fa fa-check"></i>
+            </div>
+        </div>  
         <div class="raw-controls text-right">
             <div class="btn-group  btn-group-xs">
                 <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fa-line-chart"></i></a>
@@ -38,7 +48,7 @@
 
 <div class="x_panel fulldash" style="display: none">
     <div class="dash_header">
-        <div class="pull-left dash_title" ><div class="title_text"><span>${dashname}</span> <i class="change_title fa fa-pencil"></i></div>  <div class="title_input"><input type="text" name="name" id="name" value="${dashname}"> <i class="savetitle fa fa-check"></i></div></div>        
+        <div class="pull-left dash_title" ><div class="title_text"><span>${dashname}</span> <i class="change_title fa fa-pencil"></i></div>  <div class="title_input"><input class="enter_title" type="text" name="name" id="name" value="${dashname}"> <i class="savetitle fa fa-check"></i></div></div>        
         <div class="pull-right"> 
             <div class="btn-group"> 
                 <div class="btn-group btn-group-xs">

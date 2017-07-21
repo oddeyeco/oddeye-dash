@@ -1573,13 +1573,23 @@ function redrawAllJSON(dashJSON, redraw = false) {
             $("#dashcontent").append(html);
             $("#rowtemplate .widgetraw").attr("id", "row");
         }
+        var name = "";
+        if (tmprow.name)
+        {
+            name = tmprow.name;
+        } else
+        {
+            name = 'row' + ri;
+        }
+        $("#row" + ri).find('.row_title .title_text_row span').html(name);
+        $("#row" + ri).find('.row_title .title_input_row input').attr('value', name);
         if (tmprow.colapsed)
         {
             var colapserow = $("#row" + ri).find('.colapserow');
             colapserow.removeClass('colapserow');
             colapserow.addClass('expandrow');
             colapserow.find('i').removeClass('fa-chevron-up');
-            colapserow.find('i').addClass('fa-chevron-down');            
+            colapserow.find('i').addClass('fa-chevron-down');
             colapserow.attr('data-original-title', 'Expand');
 
             continue;
@@ -1702,7 +1712,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         $("#row" + ri + " .rowcontent").sortable({
             cursor: "move",
             appendTo: ".rowcontent",
-            cancel: "canvas"
+            cancel: "canvas,input"
         });
 
 
@@ -1945,7 +1955,7 @@ $(document).ready(function () {
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
-        cancel: "canvas"
+        cancel: "canvas,input"
     });
     var rowdrag = false;
     $("#dashcontent").on('sortstart', function (event, ui) {
@@ -2443,20 +2453,54 @@ $(document).ready(function () {
         });
 
     });
-// suren
+
+    $('.enter_title_row').keypress(function (e) {
+        if (e.which == 13) {
+            $(this).parents('.row_title').find('.title_text_row').css("display", "block");
+            $(this).parent().css("display", "none");
+            $(this).parents('.row_title').find('span').html($(this).parent().find('input').val());
+            var ri = $(this).parents(".widgetraw").index();
+            gdd.rows[ri].name = $(this).parent().find('input').val();
+            domodifier();
+        }
+    });
+    $('.enter_title').keypress(function (e) {
+        if (e.which == 13) {
+            $(".title_text").css("display", "block");
+            $(".title_input").css("display", "none");
+            $(".title_text span").html($(".title_input input").val());
+            domodifier();
+        }
+    });
+
+    $('body').on("click", ".change_title_row", function () {
+        $(this).parent().css("display", "none");
+        $(this).parents('.row_title').find('.title_input_row').css("display", "block");
+        $(this).parents('.row_title').find('.title_input_row input').focus();
+
+    });
+    $('body').on("click", ".savetitlerow", function () {
+        $(this).parents('.row_title').find('.title_text_row').css("display", "block");
+        $(this).parent().css("display", "none");
+        $(this).parents('.row_title').find('span').html($(this).parent().find('input').val());
+
+        var ri = $(this).parents(".widgetraw").index();
+        gdd.rows[ri].name = $(this).parent().find('input').val();
+        domodifier();
+    });
+
     $('body').on("click", ".change_title", function () {
         $(".title_text").css("display", "none");
         $(".title_input").css("display", "block");
-
     });
+
     $('body').on("click", ".savetitle", function () {
         $(".title_text").css("display", "block");
         $(".title_input").css("display", "none");
         $(".title_text span").html($(".title_input input").val());
         domodifier();
-
     });
-//suren
+
     $('body').on("click", ".deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
@@ -2464,6 +2508,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
         $("#deleteConfirm").modal('show');
     });
+
     $('body').on("click", ".savedash", function () {
         var url = cp + "/dashboard/save";
         var senddata = {};
