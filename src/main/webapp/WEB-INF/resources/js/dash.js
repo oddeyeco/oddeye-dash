@@ -45,7 +45,21 @@ function dounmodifier()
     $('.savedash').parent().find('.btn').removeClass('btn-warning');
 }
 
-
+var doeditTitle = function (e)
+{
+    if (((e.which === 13) && (e.type === 'keypress')) || (e.type === 'click'))
+    {
+        $(this).parents('.item_title').find('.title_text').css("display", "block");
+        $(this).parent().css("display", "none");
+        $(this).parents('.item_title').find('span').html($(this).parent().find('input').val());
+        var ri = $(this).parents(".widgetraw").index();
+        if (ri !== -1)
+        {
+            gdd.rows[ri].name = $(this).parent().find('input').val();
+        }
+        domodifier();
+    }
+};
 
 var defoption = {
     tooltip: {
@@ -1579,10 +1593,10 @@ function redrawAllJSON(dashJSON, redraw = false) {
             name = tmprow.name;
         } else
         {
-            name = 'row' + ri;
+            name = 'Row:' + ri;
         }
-        $("#row" + ri).find('.row_title .title_text_row span').html(name);
-        $("#row" + ri).find('.row_title .title_input_row input').attr('value', name);
+        $("#row" + ri).find('.item_title .title_text span').html(name);
+        $("#row" + ri).find('.item_title .title_input input').val(name);
         if (tmprow.colapsed)
         {
             var colapserow = $("#row" + ri).find('.colapserow');
@@ -2454,52 +2468,13 @@ $(document).ready(function () {
 
     });
 
-    $('.enter_title_row').keypress(function (e) {
-        if (e.which == 13) {
-            $(this).parents('.row_title').find('.title_text_row').css("display", "block");
-            $(this).parent().css("display", "none");
-            $(this).parents('.row_title').find('span').html($(this).parent().find('input').val());
-            var ri = $(this).parents(".widgetraw").index();
-            gdd.rows[ri].name = $(this).parent().find('input').val();
-            domodifier();
-        }
-    });
-    $('.enter_title').keypress(function (e) {
-        if (e.which == 13) {
-            $(".title_text").css("display", "block");
-            $(".title_input").css("display", "none");
-            $(".title_text span").html($(".title_input input").val());
-            domodifier();
-        }
-    });
-
-    $('body').on("click", ".change_title_row", function () {
+    $('body').on("click", ".fulldash .change_title_row, .change_title", function () {
         $(this).parent().css("display", "none");
-        $(this).parents('.row_title').find('.title_input_row').css("display", "block");
-        $(this).parents('.row_title').find('.title_input_row input').focus();
-
+        $(this).parents('.item_title').find('.title_input').css("display", "block");
+        $(this).parents('.item_title').find('.title_input input').focus();
     });
-    $('body').on("click", ".savetitlerow", function () {
-        $(this).parents('.row_title').find('.title_text_row').css("display", "block");
-        $(this).parent().css("display", "none");
-        $(this).parents('.row_title').find('span').html($(this).parent().find('input').val());
-
-        var ri = $(this).parents(".widgetraw").index();
-        gdd.rows[ri].name = $(this).parent().find('input').val();
-        domodifier();
-    });
-
-    $('body').on("click", ".change_title", function () {
-        $(".title_text").css("display", "none");
-        $(".title_input").css("display", "block");
-    });
-
-    $('body').on("click", ".savetitle", function () {
-        $(".title_text").css("display", "block");
-        $(".title_input").css("display", "none");
-        $(".title_text span").html($(".title_input input").val());
-        domodifier();
-    });
+    $('body').on("click", ".fulldash .savetitlerow,.dash_header .savetitle", doeditTitle);
+    $('body').on("keypress", ".fulldash .enter_title_row,.dash_header .enter_title", doeditTitle);
 
     $('body').on("click", ".deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
