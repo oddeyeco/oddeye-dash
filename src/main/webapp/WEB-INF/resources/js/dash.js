@@ -51,6 +51,7 @@ var doeditTitle = function (e)
     {
         $(this).parents('.item_title').find('.title_text').css("display", "block");
         $(this).parent().css("display", "none");
+
         $(this).parents('.item_title').find('span').html($(this).parent().find('input').val());
         var ri = $(this).parents(".widgetraw").index();
         if (ri !== -1)
@@ -1587,16 +1588,18 @@ function redrawAllJSON(dashJSON, redraw = false) {
             $("#dashcontent").append(html);
             $("#rowtemplate .widgetraw").attr("id", "row");
         }
-        var name = "";
-        if (tmprow.name)
-        {
-            name = tmprow.name;
-        } else
+        var name = "";        
+        if (typeof tmprow.name === "undefined")
         {
             name = 'Row:' + ri;
+        } else
+        {
+            name = tmprow.name;
         }
+
         $("#row" + ri).find('.item_title .title_text span').html(name);
         $("#row" + ri).find('.item_title .title_input input').val(name);
+
         if (tmprow.colapsed)
         {
             var colapserow = $("#row" + ri).find('.colapserow');
