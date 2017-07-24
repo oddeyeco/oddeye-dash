@@ -44,11 +44,6 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
         if (userid != null) {
             final User principal = Userdao.getUserByUUID(userid, true);
             final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
-//            String Hederout = "";
-//            for (Map.Entry<String, String> hh:det.getHeadersInfo().entrySet())
-//            {
-//                Hederout =Hederout+ hh.getKey()+" = "+hh.getValue()+"\n";
-//            }
             LOGGER.info(authentication.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
             return auth;
         } else {
