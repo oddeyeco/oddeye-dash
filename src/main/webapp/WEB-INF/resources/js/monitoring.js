@@ -303,8 +303,15 @@ function drawRaw(errorjson, table, hashindex, update) {
         {
             html = html + '<td>' + errorjson.info.name + '</td>';
         }
+        if (errorjson.info.tags[$("select#ident_tag").val()])
+        {
+        html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';                
+        }
+        else
+        {
+        html = html + '<td>NaN</td>';    
+        }
         
-        html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
         html = html + '<td class="message">' + message + '</td>';
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
         html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
