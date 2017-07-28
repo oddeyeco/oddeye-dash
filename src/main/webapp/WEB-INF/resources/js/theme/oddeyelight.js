@@ -19,6 +19,7 @@ var colorPalette = [
     '#FF1744', '#D500F9', '#F57F17'
 ];
 var abcformater = function (params) {
+    
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -62,12 +63,12 @@ var abcformater = function (params) {
         {
             formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
         } else
-        {
-            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), value.toFixed(2)));
+        {            
+            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'),Number.isInteger(value) ? value: value.toFixed(2)));
 
         }
     }
-
+    
     return formatter;
 };
 
@@ -184,7 +185,7 @@ var encodeHTML = function (source) {
                             {
                                 if (typeof (value) !== "string")
                                 {
-                                    value = value.toFixed(2);
+                                    value = Number.isInteger(value) ? value: value.toFixed(2);
                                 }
                                 if (param.data.unit.search("{value}") !== -1)
                                 {
@@ -201,7 +202,7 @@ var encodeHTML = function (source) {
                                 {
                                     value = value * -1;
                                 }
-                                value = value.toFixed(2);
+                                value = Number.isInteger(value) ? value: value.toFixed(2);
                             }
 
                         }
@@ -276,14 +277,14 @@ var encodeHTML = function (source) {
                                     {
                                         if (typeof (value) !== "string")
                                         {
-                                            value = value.toFixed(2);
+                                            value = Number.isInteger(value) ? value: value.toFixed(2);
                                         }
                                     }
                                 } else
                                 {
                                     if (typeof (value) !== "string")
                                     {
-                                        value = value.toFixed(2);
+                                        value = Number.isInteger(value) ? value: value.toFixed(2);
                                     }
 //                                    value = format_metric(value);
                                 }
@@ -303,7 +304,7 @@ var encodeHTML = function (source) {
                                 {
                                     if (typeof (value) !== "string")
                                     {
-                                        value = value.toFixed(2);
+                                        value = Number.isInteger(value) ? value: value.toFixed(2);
                                     }
                                     if (params.data.unit.search("{value}") !== -1)
                                     {

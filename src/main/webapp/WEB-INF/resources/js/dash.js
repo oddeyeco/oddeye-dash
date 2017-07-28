@@ -1212,7 +1212,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                     widget.options.series[ind].unit = widget.options.yAxis[0].unit;
                     if ((widget.type === "bar") || (widget.type === "line"))
                     {
-
+                        widget.options.series[ind].data.sort(function (a, b) {
+                            return compareStrings(a.name, b.name);
+                        });
                         for (var sind in widget.options.series[ind].data)
                         {
                             if (!widget.options.xAxis[xAxisIndex].data)
@@ -1255,9 +1257,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
             }
 
 //*************************************            
-
-
-
             if (redraw)
             {
                 chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
@@ -1588,7 +1587,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             $("#dashcontent").append(html);
             $("#rowtemplate .widgetraw").attr("id", "row");
         }
-        var name = "";        
+        var name = "";
         if (typeof tmprow.name === "undefined")
         {
             name = 'Row:' + ri;
