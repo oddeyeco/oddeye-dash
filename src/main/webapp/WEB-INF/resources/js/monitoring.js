@@ -362,20 +362,20 @@ function drawRaw(errorjson, table, hashindex, update) {
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
         table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + timems(errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) + " Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
-        table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);        
+        table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
         if (errorjson.isspec === 0)
         {
             var valuearrowclass = "fa-long-arrow-down";
             if (errorjson.upstate)
             {
                 valuearrowclass = "fa-long-arrow-up";
-            }            
+            }
             table.find("tbody tr#" + hashindex + " .message").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
         } else
-        {            
+        {
             table.find("tbody tr#" + hashindex + " .message").html(message);
-        }        
-        
+        }
+
 //        table.find("tbody tr#" + hashindex + " .message").html(message);
         if (arrowclass !== "")
         {
@@ -434,6 +434,24 @@ function startlisen()
 }
 var switcherylist = [];
 $(document).ready(function () {
+
+    $("body").on("click", ".hidefilter", function () {
+        if ($(this).hasClass('fa-chevron-up'))
+        {
+            $(this).removeClass('fa-chevron-up');
+            $(this).addClass('fa-chevron-down');
+            $('.profile_left-form').hide();
+            $('.profile_right-table').css('width','100%');
+        } else
+        {
+            $(this).removeClass('fa-chevron-down');
+            $(this).addClass('fa-chevron-up');
+            $('.profile_left-form').show();
+            $('.profile_right-table').removeAttr('style');
+        }
+
+    });
+
     $(".timech").each(function () {
         val = $(this).html();
         time = moment(parseFloat(val));
