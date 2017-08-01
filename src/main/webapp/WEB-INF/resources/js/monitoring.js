@@ -321,7 +321,7 @@ function drawRaw(errorjson, table, hashindex, update) {
             html = html + '<td class="message"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</td>';
         } else
         {
-            html = html + '<td class="message">' + message + 'aaa</td>';
+            html = html + '<td class="message">' + message + '</td>';
         }
 
 
