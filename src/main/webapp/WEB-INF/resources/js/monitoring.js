@@ -102,7 +102,7 @@ function reDrawErrorList(listJson, table, errorjson)
         var indexspec = findeByhash(errorjson, array_spec);
         if (filtred)
         {
-            
+
             if (indexspec === -1)
             {
                 array_spec.push(errorjson);
@@ -113,10 +113,10 @@ function reDrawErrorList(listJson, table, errorjson)
 
                 var index2 = findeByhash(errorjson, array_spec);
                 if (index2 < array_spec.length - 1)
-                {                    
+                {
                     drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
                 } else
-                {                    
+                {
                     drawRaw(array_spec[index2], table, 0);
                 }
             } else
@@ -305,14 +305,26 @@ function drawRaw(errorjson, table, hashindex, update) {
         }
         if (errorjson.info.tags[$("select#ident_tag").val()])
         {
-        html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';                
-        }
-        else
+            html = html + '<td>' + errorjson.info.tags[$("select#ident_tag").val()].value + '</td>';
+        } else
         {
-        html = html + '<td>NaN</td>';    
+            html = html + '<td>NaN</td>';
         }
-        
-        html = html + '<td class="message">' + message + '</td>';
+
+        if (errorjson.isspec === 0)
+        {
+            var valuearrowclass = "fa-long-arrow-down";
+            if (errorjson.upstate)
+            {
+                valuearrowclass = "fa-long-arrow-up";
+            }
+            html = html + '<td class="message"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</td>';
+        } else
+        {
+            html = html + '<td class="message">' + message + 'aaa</td>';
+        }
+
+
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
         html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
         html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
@@ -350,8 +362,21 @@ function drawRaw(errorjson, table, hashindex, update) {
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
         table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + timems(errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) + " Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
-        table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
-        table.find("tbody tr#" + hashindex + " .message").html(message);
+        table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);        
+        if (errorjson.isspec === 0)
+        {
+            var valuearrowclass = "fa-long-arrow-down";
+            if (errorjson.upstate)
+            {
+                valuearrowclass = "fa-long-arrow-up";
+            }            
+            table.find("tbody tr#" + hashindex + " .message").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
+        } else
+        {            
+            table.find("tbody tr#" + hashindex + " .message").html(message);
+        }        
+        
+//        table.find("tbody tr#" + hashindex + " .message").html(message);
         if (arrowclass !== "")
         {
             table.find("tbody tr#" + hashindex + " .icons i.action").attr("class", "action fa " + arrowclass);
@@ -478,6 +503,7 @@ $(document).ready(function () {
     stompClient.connect(headers, function (frame) {
         stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
             var errorjson = JSON.parse(error.body);
+
             if (errorlistJson[errorjson.hash])
             {
                 errorjson.index = errorlistJson[errorjson.hash].index;
@@ -490,7 +516,6 @@ $(document).ready(function () {
             {
                 errorjson.index = 0;
             }
-
             if (errorjson.level === -1)
             {
                 delete errorlistJson[errorjson.hash];
