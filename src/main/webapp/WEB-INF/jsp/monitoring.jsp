@@ -62,7 +62,7 @@
                             <thead>
                                 <tr>
                                     <!--<th>#</th>-->
-                                    <th>
+                                    <th class="actions">
                                         <input type="checkbox" id="check-all" class="flat">
                                         <div class="btn-group">                                        
                                             <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
