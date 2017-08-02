@@ -16,7 +16,7 @@
                 <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fa-line-chart"></i></a>
                 <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title="View row as JSON" ><i class="fa fa-edit"></i></a>
                 <a class="btn btn-default colapserow" data-toggle="tooltip" data-placement="top" title="Collapse" type="button"><i class="fa fa-chevron-up"></i></a>
-                <a class="btn btn-danger deleterow" type="button" data-toggle="tooltip" data-placement="top" title="Delete row"><i class="fa fa-times"></i></a>
+                <a class="btn btn-default deleterow" type="button" data-toggle="tooltip" data-placement="top" title="Delete row"><i class="fa fa-trash"></i></a>
             </div>  
         </div>
         <div class="rowcontent raw">
@@ -37,7 +37,7 @@
                     <a class="btn btn-default csv" type="button" data-toggle="tooltip" data-placement="top" title="Save as csv">asCsv</a>
                     <a class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></a>
                     <a class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></a>
-                    <a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-times"></i></a>
+                    <a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i></a>
                 </div> 
             </div>             
             <div class="echart_line" style="height:300px;"></div>                   
@@ -70,7 +70,7 @@
                     <a class="btn btn-default" type="button" id="addrow" data-toggle="tooltip" data-placement="top" title="Add raw"><i class="fa fa-plus"></i></a>
                 </div>         
                 <div class="btn-group btn-group-xs">
-                    <a class="btn btn-danger deletedash" type="button" data-toggle="tooltip" data-placement="top" title="Delete Dashboard"><i class="fa fa-times"></i></a>
+                    <a class="btn btn-default deletedash" type="button" data-toggle="tooltip" data-placement="top" title="Delete Dashboard"><i class="fa fa-trash"></i></a>
                 </div>
             </div>
         </div>
