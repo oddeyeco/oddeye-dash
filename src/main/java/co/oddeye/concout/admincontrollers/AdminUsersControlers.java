@@ -6,16 +6,19 @@
 package co.oddeye.concout.admincontrollers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
 import java.beans.PropertyEditorSupport;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -231,6 +234,8 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("jspart", "adminjs");
         return "index";
     }
+    @Autowired
+    private mailSender Sender;
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
@@ -243,8 +248,16 @@ public class AdminUsersControlers extends GRUDControler {
         } else {
             map.put("isAuthentication", false);
         }
-
+        
         map.put("model", Userdao.getUserByUUID(UUID.fromString(id), true));
+        
+//                String baseUrl = Sender.getBaseurl(request);
+//        try {        
+//            Userdao.getUserByUUID(UUID.fromString(id)).SendConfirmMail(Sender, baseUrl);
+//        } catch (UnsupportedEncodingException ex) {
+//            
+//        }
+                
         map.put("configMap", getEditConfig());
         map.put("modelname", "User");
         map.put("path", "user");

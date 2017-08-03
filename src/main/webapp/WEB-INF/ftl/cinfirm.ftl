@@ -1,3 +1,4 @@
+<#ftl encoding='UTF-8'>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><head>
     <!--[if gte mso 9]><xml>
      <o:OfficeDocumentSettings>
@@ -191,7 +192,7 @@
 
   <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
                                                         <div style="color:#555555;line-height:150%;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
-                                                            <div><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center">Welcome .</p></div>	
+                                                            <div><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center">Welcome to Oddeye Co.</p></div>	
                                                             </div>
                                                             <!--[if mso]></td></tr></table><![endif]-->
 
@@ -255,7 +256,14 @@
                                                                         </span>
                                                                     </div>
                                                                 </a>
-                                                              <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->
+                                                            <hr>
+                                                                <p>
+                                                                    Button not working? Paste the following link into your browser:<br>
+                                                                        <a href="${uri}/confirm/${id}" target="_blank" rel="noopener">${uri}/confirm/${id}</a>
+                                                                    </p>
+                                                                
+                                                               <p> You`re receiving this email because you recently created a new OddEye account. If this wasn`t you, please ignore this email.</p>
+                                                                                                                              <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->
                                                             </div>
 
 
