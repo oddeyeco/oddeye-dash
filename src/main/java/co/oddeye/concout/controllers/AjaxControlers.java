@@ -723,7 +723,10 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-//                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                if (userDetails.getMetricsMeta()==null)
+                {
+                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+                }                
                 jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
                 jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
                 jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
