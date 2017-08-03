@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
+import java.util.logging.Level;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
@@ -64,7 +65,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     public HbaseUserDao(DatabaseConfig p_config) {
         super(p_config.getUsersTable());
         dashtable = p_config.getDashTable().getBytes();
-        
+
     }
 
     public void addUser(User user) throws Exception {
@@ -222,6 +223,19 @@ public class HbaseUserDao extends HbaseBaseDao {
         return getUserByUUID(uuid, false);
     }
 
+    public User getUserByUUID(UUID uuid, boolean reload , boolean initmeta) {
+        User user =   getUserByUUID(uuid,reload);
+        if (initmeta)
+        {
+            try {
+                user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        }
+        return user;
+    }
+
     public User getUserByUUID(UUID uuid, boolean reload) {
         if (!reload && getUsers().containsKey(uuid)) {
             return getUsers().get(uuid);
@@ -302,12 +316,12 @@ public class HbaseUserDao extends HbaseBaseDao {
                 }
             }
         }
-        
+
         PutHbase(changedata, user);
 
     }
 
-    public void PutHbase(Map<String, HashMap<String, Object>> changedata,User user) throws Exception {
+    public void PutHbase(Map<String, HashMap<String, Object>> changedata, User user) throws Exception {
         if (changedata.size() > 0) {
             for (Map.Entry<String, HashMap<String, Object>> data : changedata.entrySet()) {
                 byte[] family = data.getKey().getBytes();
@@ -376,19 +390,17 @@ public class HbaseUserDao extends HbaseBaseDao {
                                         break;
                                     default:
                                         if ((value == null)) {
-                                            if  (newvalue != null)
-                                            {
+                                            if (newvalue != null) {
                                                 ischange = true;
-                                            }                                            
+                                            }
                                             break;
                                         }
                                         if ((newvalue == null)) {
-                                            if  (value != null)
-                                            {
+                                            if (value != null) {
                                                 ischange = true;
-                                            }                                            
+                                            }
                                             break;
-                                        }                                        
+                                        }
                                         if (!value.equals(newvalue)) {
                                             ischange = true;
                                         }

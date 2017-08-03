@@ -126,7 +126,12 @@
                         if (i==data.specialcount)
                         {
                             table.append("<tr><td colspan='3'> </td></tr>");
-                        }                         
+                        }              
+                        if (val === 'HeartBeat')
+                        {
+                            console.log(val+' '+i);    
+                        }
+                        
                         table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + val + "'><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = "name_" + val;
                         var re = new RegExp("[//.|///]", 'g');

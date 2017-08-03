@@ -42,7 +42,7 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
         //TODO check user in hbase
         UUID userid = Userdao.CheckUserAuthentication(authentication);
         if (userid != null) {
-            final User principal = Userdao.getUserByUUID(userid, true);
+            final User principal = Userdao.getUserByUUID(userid, true,true);
             final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
             LOGGER.info(authentication.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
             return auth;

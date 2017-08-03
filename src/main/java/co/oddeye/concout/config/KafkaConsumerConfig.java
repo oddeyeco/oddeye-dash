@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.config;
 
+import co.oddeye.concout.providers.KafkaMetricLisener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -76,5 +77,11 @@ public class KafkaConsumerConfig {
         propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");//latest
         return propsMap;
     }
+    
+  @Bean
+  public KafkaMetricLisener receiver() {
+    return new KafkaMetricLisener();
+  }    
+    
 
 }
