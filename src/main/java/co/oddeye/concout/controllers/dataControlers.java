@@ -152,6 +152,10 @@ public class dataControlers {
                 int lastlevel = -255;
                 for (KeyValue KV : row) {
                     ErrorState lasterror = ErrorState.createSerializedErrorState(KV.value());
+                    if (lasterror==null)
+                    {
+                        continue;
+                    }
                     if (lastlevel != lasterror.getLevel()) {
                         list.add(lasterror);
                     }
