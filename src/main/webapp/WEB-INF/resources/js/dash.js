@@ -135,10 +135,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                                 {
                                     if (widget.q[q_index].info.alias !== "")
                                     {
-                                        name = widget.q[q_index].info.alias;
-                                        name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                        name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                        name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                        name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
                                     }
                                 }
 
@@ -146,27 +143,13 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                                 {
                                     if (widget.q[q_index].info.alias2 !== "")
                                     {
-                                        name2 = widget.q[q_index].info.alias2;
-                                        name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                        name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                        name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                        name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
                                     }
                                 }
                             }
 
                             var series = clone_obg(defserie);
-//                            for (var skey in oldseries)
-//                            {
-//                                if (oldseries[skey].name === name)
-//                                {
-//                                    series = clone_obg(oldseries[skey]);
-//                                    break;
-//                                }
-//
-//                            }
                             series.data = [];
-//                            if (!widget.manual)
-//                            {
                             if (widget.q[q_index].yAxisIndex)
                             {
                                 series.yAxisIndex = [];
@@ -217,14 +200,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                                 delete series.showSymbol;
                             }
 
-//                            } else
-//                            {
-//                                if (!series.type)
-//                                {
-//                                    series.type = widget.type;
-//                                }
-//                                series.showSymbol = ((series.symbol !== "none") && (typeof (series.symbol) !== "undefined"));
-//                            }
                             series.name = name;
                             var chdata = data.chartsdata[index].data;
                             series.data = [];
@@ -338,10 +313,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                             {
                                 if (widget.q[q_index].info.alias !== "")
                                 {
-                                    name = widget.q[q_index].info.alias;
-                                    name = name.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                    name = name.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                    name = name.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
                                 }
 
                             }
@@ -349,10 +321,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                             {
                                 if (widget.q[q_index].info.alias2 !== "")
                                 {
-                                    name2 = widget.q[q_index].info.alias2;
-                                    name2 = name2.replace(new RegExp("\\{metric\\}", 'g'), data.chartsdata[index].metric);//"$2, $1"
-                                    name2 = name2.replace(new RegExp("\\{\w+\\}", 'g'), replacer(data.chartsdata[index].tags));
-                                    name2 = name2.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(data.chartsdata[index].tags));
+                                    name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
                                 }
                             }
                         }

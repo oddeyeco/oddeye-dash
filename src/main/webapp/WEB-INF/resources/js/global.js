@@ -6,7 +6,13 @@
 
 
 /* global URL, cp, $RIGHT_COL */
-
+function applyAlias(text, object)
+{    
+    text = text.replace(new RegExp("\\{metric\\}", 'g'), object.metric);//"$2, $1"
+    text = text.replace(new RegExp("\\{\w+\\}", 'g'), replacer(object.tags));
+    text = text.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(object.tags));
+    return text;
+}
 function getCookie(name) {
     var matches = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -107,7 +113,7 @@ function exportToCsv(filename, rows) {
     }
 }
 function fullscreenrequest(fullscreen)
-{    
+{
     if (!fullscreen)
     {
         setCookie("fullscreen", true);
@@ -155,15 +161,15 @@ if (fullscreen == 'true')
 }
 
 $(document).ready(function () {
-    $("body").on("click", "input", function (event) {                 
-         ga('send', 'event', 'input click', $(this).attr("name"));
-    });    
-    
-    $("body").on("click", "a", function (event) {        
-         ga('send', 'event', 'link click', $(this).attr("href"));
-    });        
-    
-    $("body").on("click", "#allowedit", function () {        
+    $("body").on("click", "input", function (event) {
+        ga('send', 'event', 'input click', $(this).attr("name"));
+    });
+
+    $("body").on("click", "a", function (event) {
+        ga('send', 'event', 'link click', $(this).attr("href"));
+    });
+
+    $("body").on("click", "#allowedit", function () {
         var uri = cp + "/switchallow";
         $.getJSON(uri, null, function (data) {
             location.reload();
