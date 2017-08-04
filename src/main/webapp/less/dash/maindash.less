@@ -51,10 +51,24 @@ and open the template in the editor.
 }*/
 
 
-.col-xs-12, .col-sm-12, .col-md-12, .col-lg-12
-{
-    float: none
+.top_nav .navbar-right { 
+    width: 100%;
 }
+.toggle {
+    width: 0;
+}
+@media (max-width: 760px) 
+{
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12
+    {
+        float: none
+    } 
+    h1
+    {
+        font-size: 24px;
+    }
+}
+
 
 /*suren*/
 .profile_info {
@@ -928,28 +942,7 @@ i[data-toggle="tooltip"] {
         top: 20px;
         background-color: @background_color_3;
     }
-
-}
-
-h2.error
-{
-    color: red;
-    text-align: center;
-}
-#dash_main
-{
-    padding: 5px 10px;  
-}
-.hidefilter
-{
-    margin-left: 10px;
-    cursor: pointer;
-}
-@media (min-width: 768px) {
-    .x_content {
-/*        .table{
-            font-size: 8px;
-        }*/
+    @media (min-device-width: 320px) and (max-width: 760px) {   
         .status{
             h4 {
                 display: none;
@@ -964,20 +957,32 @@ h2.error
                 color:#fff;
             }
         }
-    }
-    .complete{
-        .timestamp {
-            z-index: 999;
-            position: relative;
-            margin-bottom: -9px;
-            left: 4px;
+        .complete{
+            .timestamp {
+                z-index: 999;
+                position: relative;
+                margin-bottom: -9px;
+                left: 4px;
+            }
+        }
+        .timeline {
+            list-style-type: none;
+            display: block;
         }
     }
-    .li {
-        transition: all 200ms ease-in;
-    }
-    .timeline {
-        list-style-type: none;
-        display: block;
-    }
+
+}
+h2.error
+{
+    color: red;
+    text-align: center;
+}
+#dash_main
+{
+    padding: 5px 10px;  
+}
+.hidefilter
+{
+    margin-left: 10px;
+    cursor: pointer;
 }
