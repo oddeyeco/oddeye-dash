@@ -921,27 +921,6 @@ i[data-toggle="tooltip"] {
         top: 20px;
         background-color: @background_color_3;
     }
-    @media (min-device-width: 320px) and (max-device-width: 700px) {
-        .timeline {
-            list-style-type: none;
-            display: block;
-        }
-        .li {
-            transition: all 200ms ease-in;
-            display: flex;
-            width: inherit;
-        }
-        .timestamp {
-            width: 100px;
-        }
-        .status {
-            &:before {
-                left: -8%;
-                top: 30%;
-                transition: all 200ms ease-in;
-            }
-        }
-    }
 
 }
 
@@ -958,4 +937,38 @@ h2.error
 {
     margin-left: 10px;
     cursor: pointer;
+}
+@media (min-device-width: 320px) and (max-device-width: 700px) {
+    .x_content {
+        .table{
+            font-size: 8px;
+        }
+        .status{
+            h4 {
+                display: none;
+            }
+            &:before {
+                transition: all 200ms ease-in;
+                z-index: 888;
+            }
+        }
+        span{
+            color:#fff;
+        }
+    }
+    .complete{
+        .timestamp {
+            z-index: 999;
+            position: relative;
+            margin-bottom: -9px;
+            left: 4px;
+        }
+    }
+    .li {
+        transition: all 200ms ease-in;
+    }
+    .timeline {
+        list-style-type: none;
+        display: block;
+    }
 }
