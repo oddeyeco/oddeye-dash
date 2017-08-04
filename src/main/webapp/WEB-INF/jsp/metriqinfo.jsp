@@ -125,7 +125,7 @@
                         <div class="clearfix"></div>               
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12">     
-                        <div class="x_content ">                
+                        <div class="x_content table-responsive">                
                             <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
                                 <thead>
                                     <tr>                                                        
