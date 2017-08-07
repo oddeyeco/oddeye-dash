@@ -138,6 +138,9 @@
                         <a data-toggle="tooltip" data-placement="top" title="Settings" href="${cp}/profile/edit">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>                            
+                        <a data-toggle="tooltip" data-placement="top" title="Monitoring" href="<c:url value="/monitoring"/>">
+                            <span class="fa fa-clock-o" aria-hidden="true"></span>
+                        </a>                                                        
                         <!--                        <a data-toggle="tooltip" data-placement="top" title="Lock">
                                                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
                                                 </a>-->

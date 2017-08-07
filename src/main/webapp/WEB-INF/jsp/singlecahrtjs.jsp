@@ -1,7 +1,12 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="${cp}/resources/echarts/dist/echarts.js"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>    
+    var balanse = 0;
+    <c:if test="${curentuser.getBalance()!=null}">
+    balanse = ${curentuser.getBalance()};
+    </c:if>    
     var hashcode = ${metric.hashCode()};
     var merictype = ${metric.getType()};
     var formatter = format_metric;
@@ -32,6 +37,7 @@
         }, interval);
 
         $('#reportrange span').html(pickerlabel);
+        PicerOptionSet1.minDate = getmindate();        
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
 
         $('body').on("click", "#Clear_reg", function () {

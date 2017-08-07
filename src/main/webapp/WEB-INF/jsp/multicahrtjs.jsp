@@ -1,7 +1,13 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
+    
+    var balanse = 0;
+    <c:if test="${curentuser.getBalance()!=null}">
+    balanse = ${curentuser.getBalance()};
+    </c:if>        
     pickerlabel = "Last 1 hour";
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
@@ -16,6 +22,7 @@
     window.onresize = echartLine.resize;
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
+        PicerOptionSet1.minDate = getmindate();        
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
         drawEchart(hashes, echartLine);
     });
