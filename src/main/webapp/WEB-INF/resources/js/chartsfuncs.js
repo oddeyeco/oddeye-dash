@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global moment */
+/* global moment, balanse */
 
 var merticdivator = 1000;
 
@@ -53,7 +53,18 @@ var rangeslabels = {
     'Last 3 day': "3d-ago",
     'Last 7 day': "7d-ago"
 };
-
+function getmindate () {        
+        if (balanse > 0)
+        {
+            return moment().subtract(1, 'year');
+        } else {
+            return moment().subtract(7, 'day');
+        }
+    };
+    
+    
+    
+    
 var PicerOptionSet1 = {
     startDate: moment().subtract(5, 'minute'),
     endDate: moment(),

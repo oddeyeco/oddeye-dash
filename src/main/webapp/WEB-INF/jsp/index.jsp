@@ -163,10 +163,12 @@
                                             <span class=" fa fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                            <li class="">
-                                                <a href="javascript:;" class="user-profile">
-                                                    Balance ${curentuser.getBalance()}                                            
-                                                </a>
+                                            <li class="">         
+                                                <c:if test="${curentuser.getBalance()>0}">
+                                                    <a href="javascript:;" class="user-profile">
+                                                        Balance ${curentuser.getBalance()}    
+                                                    </a>
+                                                </c:if>                                            
                                             </li>                                            
                                             <li>
                                                 <a href="javascript:void(0);" class="cluser-profile" id="allowedit">

@@ -930,6 +930,7 @@ class EditForm {
                 }
             }
         }
+        PicerOptionSet2.minDate = getmindate();
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');

@@ -12,4 +12,5 @@
 <script>
     var gdd = ${dashInfo};
     var Edit_Form;            
+    var balanse = ${curentuser.getBalance()};
 </script>
