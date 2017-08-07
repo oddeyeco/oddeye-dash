@@ -1,9 +1,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<div class="clearfix"></div>
 <div class="page-title">
-    <div class="title_left">
+    <div class="title_text">
         <h2>Real Time monitor (UUID = ${curentuser.getId().toString()})</h2>
     </div>
 </div>    
@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
 
-                    <div class="x_content" style="display: block;">
+                    <div class="x_content table-responsive" style="display: block;">
                         <!-- start List -->
                         <table class="table metrictable table-striped bulk_action">
                             <thead>

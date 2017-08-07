@@ -163,6 +163,11 @@
                                             <span class=" fa fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                            <li class="">
+                                                <a href="javascript:;" class="user-profile">
+                                                    Balance ${curentuser.getBalance()}                                            
+                                                </a>
+                                            </li>                                            
                                             <li>
                                                 <a href="javascript:void(0);" class="cluser-profile" id="allowedit">
                                                     <c:if test="${curentuser.getAlowswitch()}">
@@ -178,11 +183,7 @@
                                             <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i>Logout</a></li>
                                         </ul>
                                     </li>       
-                                    <li class="">
-                                        <a href="javascript:;" class="user-profile">
-                                            Balance ${curentuser.getBalance()}                                            
-                                        </a>
-                                    </li>      
+
                                 </ul>
                             </nav>
                         </div>
@@ -219,7 +220,7 @@
             <script src="<c:url value="/assets/dist/jquery.min.js"/>"></script>    
 
             <script src="${cp}/assets/dist/switchery.min.js"></script>
-            
+
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js"></script>                    
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js"></script>        
             <script src="${cp}/assets/dist/jquery.spincrement.min.js"></script>        

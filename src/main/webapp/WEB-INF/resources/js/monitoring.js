@@ -433,8 +433,13 @@ function startlisen()
     }
 }
 var switcherylist = [];
-$(document).ready(function () {
-
+$(document).ready(function () {    
+    if (!$('.profile_left-form').is(":visible"))
+    {
+        $('.hidefilter').removeClass('fa-chevron-up');
+        $('.hidefilter').addClass('fa-chevron-down');
+        $('.profile_right-table').css('width','100%');
+    }
     $("body").on("click", ".hidefilter", function () {
         if ($(this).hasClass('fa-chevron-up'))
         {
