@@ -9,7 +9,8 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 
-<script>    
+<script>
+    var echartLine;
     var metric_input = '${metric_input}';
     $(document).ready(function () {
         $('body').on("click", "#Save", function () {
@@ -25,7 +26,7 @@
             sendData.filter = JSON.stringify(filterJson);
             var header = $("meta[name='_csrf_header']").attr("content");
             var token = $("meta[name='_csrf']").attr("content");
-            url = cp + "/savefilter/oddeye_base_infrastructure";            
+            url = cp + "/savefilter/oddeye_base_infrastructure";
             $.ajax({
                 dataType: 'json',
                 type: 'POST',
@@ -122,9 +123,23 @@
             var datach = [];
             var datanames = [];
             var links = [];
-            for (var dataindex in data.chartsdata)
-            {
-                for (var tagindexindex in data.chartsdata[dataindex].tags)
+            var x = 0;
+            var y = 0;
+
+            var values = Object.values(data.chartsdata);
+
+            values.sort(function (a, b) {
+                
+                    return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
+                
+//                    return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+                
+            });
+            
+            for (var dataindex in values)
+            {   
+                x++;
+                for (var tagindexindex in values[dataindex].tags)
                 {
                     var size;
                     var symbol;
@@ -133,15 +148,15 @@
                     var index = tagstree.indexOf(tagindexindex);
                     if (index !== -1)
                     {
-                        name = tagindexindex + "~" + data.chartsdata[dataindex].tags[tagindexindex];
+                        name = tagindexindex + "~" + values[dataindex].tags[tagindexindex];
                         size = imgsizes[tagindexindex];
                         symbol = img[tagindexindex];
-                        links.push({"source": tagstree[index - 1] + '~' + data.chartsdata[dataindex].tags[tagstree[index - 1]], "target": name});
+                        links.push({"source": tagstree[index - 1] + '~' + values[dataindex].tags[tagstree[index - 1]], "target": name});
                     }
                     if (name === false)
                     {
                         continue;
-                    }
+                    }               
 
                     if (categories.indexOf(tagindexindex) === -1)
                     {
@@ -150,13 +165,15 @@
                     }
 
                     var val;
-                    for (var ind in data.chartsdata[dataindex].data) {
-                        val = data.chartsdata[dataindex].data[ind][1];
-                    }
+                    for (var ind in values[dataindex].data) {
+                        val = values[dataindex].data[ind][1];
+                    }                    
                     if (datanames.indexOf(name) === -1)
                     {
                         datanames.push(name);
                         datach.push({
+                            "x": x*20,
+                            "y": index * 500,
                             "name": name,
                             "symbolSize": size,
                             "category": tagindexindex,
@@ -170,9 +187,9 @@
             }
             datach.sort(function (a, b) {
                 return compareStrings(a.category, b.category);
-            });            
+            });
             $("#echart_line").css('height', '800px');
-            var echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
+            echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
             var option = {
                 tooltip: {},
                 toolbox: {
@@ -190,7 +207,7 @@
                         data: categories
                     }],
 
-                animationDuration: 1000,
+                animationDuration: 100000,
                 animationEasing: 'quinticInOut',
                 series: [
                     {
@@ -199,8 +216,8 @@
                         type: 'graph',
                         layout: 'force',
                         force: {
-                            initLayout: 'circular',
-                            repulsion: 400,
+                            initLayout: 'none',
+                            repulsion: 2000,
                             edgeLength: 5
                         },
                         data: datach,
@@ -248,6 +265,6 @@
         cluster: [30, 30],
         group: [30, 30],
         location: [30, 30],
-        host: [30,7]
+        host: [30, 7]
     };
 </script>

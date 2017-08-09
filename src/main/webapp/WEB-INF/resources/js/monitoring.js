@@ -434,29 +434,6 @@ function startlisen()
 }
 var switcherylist = [];
 $(document).ready(function () {    
-    if (!$('.profile_left-form').is(":visible"))
-    {
-        $('.hidefilter').removeClass('fa-chevron-up');
-        $('.hidefilter').addClass('fa-chevron-down');
-        $('.profile_right-table').css('width','100%');
-    }
-    $("body").on("click", ".hidefilter", function () {
-        if ($(this).hasClass('fa-chevron-up'))
-        {
-            $(this).removeClass('fa-chevron-up');
-            $(this).addClass('fa-chevron-down');
-            $('.profile_left-form').hide();
-            $('.profile_right-table').css('width','100%');
-        } else
-        {
-            $(this).removeClass('fa-chevron-down');
-            $(this).addClass('fa-chevron-up');
-            $('.profile_left-form').show();
-            $('.profile_right-table').removeAttr('style');
-        }
-
-    });
-
     $(".timech").each(function () {
         val = $(this).html();
         time = moment(parseFloat(val));
