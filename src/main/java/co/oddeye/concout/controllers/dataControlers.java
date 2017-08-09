@@ -142,12 +142,19 @@ public class dataControlers {
                 }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
 
+                GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
+                ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
+                meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+                
                 byte[] historykey = ArrayUtils.addAll(meta.getUUIDKey(), meta.getKey());
                 historykey = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(date));
                 String ss = Hex.encodeHexString(historykey);
 
-                GetRequest getMetric = new GetRequest(ErrorHistoryDao.getTablename().getBytes(), historykey, "h".getBytes());
-                ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
+                getMetric = new GetRequest(ErrorHistoryDao.getTablename().getBytes(), historykey, "h".getBytes());
+                row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
+                
+
+                
                 List<ErrorState> list = new ArrayList<>(row.size());
                 int lastlevel = -255;
                 for (KeyValue KV : row) {
