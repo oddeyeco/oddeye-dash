@@ -66,7 +66,7 @@
         var serie = clone_obg(defserie);
         serie.name = "Rule for";
         serie.data = data;
-        serie.itemStyle = {normal: {borderColor: colorPalette[3], color: "rgba(200, 200, 200, 0.7)", borderWidth: 3}};
+        serie.itemStyle = {normal: {borderColor: colorPalette[4], color: "rgba(200, 200, 200, 0.7)", borderWidth: 3}};
         series.push(serie);
 
         var serie2 = clone_obg(defserie);
