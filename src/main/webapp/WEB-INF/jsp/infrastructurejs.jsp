@@ -129,15 +129,15 @@
             var values = Object.values(data.chartsdata);
 
             values.sort(function (a, b) {
-                
-                    return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
-                
+
+                return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
+
 //                    return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-                
+
             });
-            
+
             for (var dataindex in values)
-            {   
+            {
                 x++;
                 for (var tagindexindex in values[dataindex].tags)
                 {
@@ -156,7 +156,7 @@
                     if (name === false)
                     {
                         continue;
-                    }               
+                    }
 
                     if (categories.indexOf(tagindexindex) === -1)
                     {
@@ -167,17 +167,17 @@
                     var val;
                     for (var ind in values[dataindex].data) {
                         val = values[dataindex].data[ind][1];
-                    }                    
+                    }
                     if (datanames.indexOf(name) === -1)
                     {
                         datanames.push(name);
                         datach.push({
-                            "x": x*20,
+                            "x": x * 20,
                             "y": index * 500,
                             "name": name,
                             "symbolSize": size,
                             "category": tagindexindex,
-                            "symbol": symbol,
+                            "symbol": symbol,                            
                             "draggable": true
 
                         });
@@ -190,6 +190,7 @@
             });
             $("#echart_line").css('height', '800px');
             echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
+
             var option = {
                 tooltip: {},
                 toolbox: {
@@ -206,9 +207,13 @@
                         left: 20,
                         data: categories
                     }],
-
-                animationDuration: 100000,
-                animationEasing: 'quinticInOut',
+                grid: {
+                    x: 0,
+                    x2: 0,
+                    y: 0,
+                    y2: 0
+                },
+                animation: false,
                 series: [
                     {
 //                        color: [ '#ffb980', '#d87a80', '#b6a2de', '#8d98b3'],                        
@@ -218,7 +223,7 @@
                         force: {
                             initLayout: 'none',
                             repulsion: 2000,
-                            edgeLength: 5
+                            gravity: 0.2
                         },
                         data: datach,
                         links: links,
@@ -227,7 +232,7 @@
                         roam: true,
                         label: {
                             normal: {
-                                show: true,
+//                                show: true,
                                 position: 'top',
                                 formatter: function (param)
                                 {
@@ -238,9 +243,6 @@
                         },
                         lineStyle: {
                             normal: {
-                                color: 'target',
-                                curveness: 0,
-                                width: 3,
                                 type: "solid"
                             }
                         }
