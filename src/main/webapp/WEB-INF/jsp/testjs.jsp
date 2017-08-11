@@ -5,98 +5,106 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="${cp}/resources/echarts/dist/echarts.min.js"></script>
+<script src="${cp}/resources/echarts/dist/echarts.js"></script>
+<script src="${cp}/resources/echarts/dist/extension/dataTool.min.js"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>
-    $(document).ready(function () {
-        var url = cp + "/getdata?metrics=sys_load_1;&tags=group=*;&aggregator=max&downsample=1h-max&startdate=1d-ago&enddate=now"
-        var echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
+var echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
 
-        $.getJSON(url, null, function (data) {
-            console.log(data.chartsdata);
-            var ydata = [];
-            var xdata = [];
-            var s_data = [];
-            var yindex = 0;
-            for (var index in data.chartsdata)
-            {
-                var metric = data.chartsdata[index];
-                ydata.push(metric.tags.group);
-                for (var ind in metric.data)
-                {
-                    var times = moment(metric.data[ind][0]);
-                    var h = times.minute();
+var data = echarts.dataTool.prepareBoxplotData([
+    [850, 740, 900, 1070, 930, 850, 950, 980, 980, 880, 1000, 980, 930, 650, 760, 810, 1000, 1000, 960, 960],
+    [960, 940, 960, 940, 880, 800, 850, 880, 900, 840, 830, 790, 810, 880, 880, 830, 800, 790, 760, 800],
+    [880, 880, 880, 860, 720, 720, 620, 860, 970, 950, 880, 910, 850, 870, 840, 840, 850, 840, 840, 840],
+    [890, 810, 810, 820, 800, 770, 760, 740, 750, 760, 910, 920, 890, 860, 880, 720, 840, 850, 850, 780],
+    [890, 840, 780, 810, 760, 810, 790, 810, 820, 850, 870, 870, 810, 740, 810, 940, 950, 800, 810, 870]
+]);
 
-                    if (xdata.indexOf(h) === -1)
-                    {
-                        xdata.push(h);
-//                        xdata.sort(function (a, b) {
-//                            return a - b;
-//                        });
-                    }
+var dataarr = [];
+for (i in data.boxData)
+{
+    var ddd = [];
+    console.log(data.axisData[i]);
+    ddd.push(data.axisData[i]) ;
+    ddd = ddd.concat([0,35,40,45,50]) ;
+    console.log(ddd);    
+    dataarr.push({value:ddd,name:"aaaaa"})
+//    dataarr.push(ddd)
+}
+
+console.log(dataarr);
+
+option = {
+    title: [
+        {
+            text: 'Michelson-Morley Experiment',
+            left: 'center',
+        },
+        {
+            text: 'upper: Q3 + 1.5 * IRQ \nlower: Q1 - 1.5 * IRQ',
+            borderColor: '#999',
+            borderWidth: 1,
+            textStyle: {
+                fontSize: 14
+            },
+            left: '10%',
+            top: '90%'
+        }
+    ],
+    tooltip: {
+        trigger: 'item',
+        axisPointer: {
+            type: 'shadow'
+        }
+    },
+    grid: {
+        left: '10%',
+        right: '10%',
+        bottom: '15%'
+    },
+    xAxis: {
+        type: 'category',
+        data: data.axisData,
+        boundaryGap: true,
+        nameGap: 30,
+        splitArea: {
+            show: false
+        },
+        axisLabel: {
+            formatter: 'expr {value}'
+        },
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        name: 'km/s minus 299,000',
+        splitArea: {
+            show: true
+        }
+    },
+    series: [
+        {
+            name: 'boxplot',
+            type: 'boxplot',
+            data: dataarr,
+            tooltip: {
+                formatter: function (param) {
+                    return [
+                        'Experiment ' + param.name + ': ',
+                        'upper: ' + param.data[4],
+                        'Q3: ' + param.data[3],
+                        'median: ' + param.data[2],
+                        'Q1: ' + param.data[1],
+                        'lower: ' + param.data[0]
+                    ].join('<br/>')
                 }
-
-                for (var ind in metric.data)
-                {
-                    var times = moment(metric.data[ind][0]);
-                    var h = times.minute();
-
-                    var xindex = xdata.indexOf(h);
-                    s_data.push([xindex, yindex,  metric.data[ind][1].toFixed(2)]);
-
-                }
-
-                yindex = yindex + 1;
             }
-            console.log(xdata);
+        }
+    ]
+};
 
-            var option = {
-                tooltip: {},
-                xAxis: {
-                    type: 'category',
-                    data: xdata
-                },
-                yAxis: {
-                    type: 'category',
-                    data: ydata
-                },
-                grid: {
-                    
-                    height: '80%',                    
-                },
-
-                visualMap: {                    
-                    min: 0,
-                    max: 15,
-                    calculable: true,
-                    realtime: false,                    
-                    orient: 'horizontal',
-                    left: 'center',
-                    top: '0',
-                    inRange: {
-                        color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
-                    }
-                },
-                series: [{
-                        name: 'Gaussian',
-                        type: 'heatmap',
-                        data: s_data,
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 20,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'                                
-                            }
-                        },
-                        label: {                            
-                            normal: {
-                                show: true,                                
-                            }
-                        },
-                    }]
-            };
-            echartLine.setOption(option);
-        });
-    });
+ echartLine.setOption(option);
 
 </script>

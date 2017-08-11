@@ -51,16 +51,16 @@
         var data = [];
         var datab = [];
         //TODO check host type for formater
-        $(".time").each(function () {
+        $(".time").each(function (index) {
             dates.push($(this).attr("value"));
             data.push({name: $(this).attr("value"),
                 unit: "format_data",
-                value: [parseFloat($(this).next().next().next().attr('value')),
+                value: [index,parseFloat($(this).next().next().next().attr('value')),
                     parseFloat($(this).next().attr('value')) - parseFloat($(this).next().next().attr('value')),
                     parseFloat($(this).next().attr('value')),
                     parseFloat($(this).next().attr('value')) + parseFloat($(this).next().next().attr('value')),
                     parseFloat($(this).next().next().next().next().attr('value'))],
-                info: {Average: parseFloat($(this).next().attr('value')), Deviation: parseFloat($(this).next().next().attr('value')), Minimum: parseFloat($(this).next().next().next().attr('value')), Maximum: parseFloat($(this).next().next().next().next().attr('value'))}});
+                info: {Minimum: parseFloat($(this).next().next().next().attr('value')), Average: parseFloat($(this).next().attr('value')), Deviation: parseFloat($(this).next().next().attr('value')), Maximum: parseFloat($(this).next().next().next().next().attr('value'))}});
         });
 
         var serie = clone_obg(defserie);
