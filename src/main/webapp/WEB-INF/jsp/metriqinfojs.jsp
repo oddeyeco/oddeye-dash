@@ -66,6 +66,7 @@
         var serie = clone_obg(defserie);
         serie.name = "Rule for";
         serie.data = data;
+        serie.tooltip = {trigger: 'item'};
         serie.itemStyle = {normal: {borderColor: colorPalette[4], color: "rgba(200, 200, 200, 0.7)", borderWidth: 3}};
         series.push(serie);
 
@@ -74,14 +75,14 @@
         serie2.type = "line";
         serie2.data = chartsdata;
         serie2.xAxisIndex = 1;
-        serie2.tooltip = {trigger: 'axix'};
+//        serie2.tooltip = {trigger: 'axis'};
         series.push(serie2);
         var serieLinereg = clone_obg(defserie);
         serieLinereg.name = "Predict by Regression";
         serieLinereg.type = "line";
         serieLinereg.data = p_data;
         serieLinereg.xAxisIndex = 1;
-        serieLinereg.tooltip = {trigger: 'axix'};
+//        serieLinereg.tooltip = {trigger: 'axis'};
         series.push(serieLinereg);
 
 //console.log(chartsdata);
@@ -91,7 +92,10 @@
                 text: ""
             },
             tooltip: {
-                trigger: 'axix'
+                trigger: 'axis',
+                axisPointer: {
+                    type: "line",
+                }
             },
             legend: {
                 data: legend

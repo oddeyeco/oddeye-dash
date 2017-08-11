@@ -640,12 +640,12 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
             switch (widget.type) {
                 case 'bars':
                 {
-                    widget.options.tooltip.trigger = 'axes';
+                    widget.options.tooltip.trigger = 'axis';
                     break;
                 }
                 case 'line':
                 {
-                    widget.options.tooltip.trigger = 'axes';
+                    widget.options.tooltip.trigger = 'axis';
                     break;
                 }
                 default:
@@ -1224,7 +1224,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                 }
                 widget.options.legend.data.push(widget.options.series[ind].name);
             }
-
 //*************************************            
             if (redraw)
             {
