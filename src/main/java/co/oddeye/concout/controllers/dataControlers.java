@@ -13,6 +13,7 @@ import co.oddeye.concout.model.User;
 import co.oddeye.core.ErrorState;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
+import com.google.gson.JsonElement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -48,7 +49,7 @@ public class dataControlers {
     @Autowired
     HbaseMetaDao MetaDao;
     @Autowired
-    HbaseErrorHistoryDao ErrorHistoryDao;    
+    HbaseErrorHistoryDao ErrorHistoryDao;
     @Autowired
     private BaseTsdbConnect BaseTsdb;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
@@ -109,13 +110,14 @@ public class dataControlers {
         }
         return "index";
     }
+
     @RequestMapping(value = "/history/{metricshash}", method = RequestMethod.GET)
     public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
-      return singlehistory(metricshash,System.currentTimeMillis(), map);
+        return singlehistory(metricshash, System.currentTimeMillis(), map);
     }
-    
+
     @RequestMapping(value = "/history/{metricshash}/{date}", method = RequestMethod.GET)
-    public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash,@PathVariable(value = "date") Long date, ModelMap map) {
+    public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash, @PathVariable(value = "date") Long date, ModelMap map) {
         map.put("body", "singlehistory");
         map.put("jspart", "singlehistoryjs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -145,22 +147,26 @@ public class dataControlers {
                 GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
-                
+
                 byte[] historykey = ArrayUtils.addAll(meta.getUUIDKey(), meta.getKey());
                 historykey = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(date));
                 String ss = Hex.encodeHexString(historykey);
 
                 getMetric = new GetRequest(ErrorHistoryDao.getTablename().getBytes(), historykey, "h".getBytes());
                 row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
-                
 
-                
                 List<ErrorState> list = new ArrayList<>(row.size());
                 int lastlevel = -255;
                 for (KeyValue KV : row) {
-                    ErrorState lasterror = ErrorState.createSerializedErrorState(KV.value());
-                    if (lasterror==null)
-                    {
+                    ErrorState lasterror = null;
+                    try {
+                        JsonElement json = globalFunctions.getJsonParser().parse((new String(KV.value())));
+                        lasterror = new ErrorState(json.getAsJsonObject());
+                    } catch (Exception e) {
+                        
+                    }
+
+                    if (lasterror == null) {
                         continue;
                     }
                     if (lastlevel != lasterror.getLevel()) {
@@ -170,7 +176,7 @@ public class dataControlers {
                     lastlevel = lasterror.getLevel();
                 }
                 Collections.reverse(list);
-                map.put("date",new Date(date) );
+                map.put("date", new Date(date));
                 map.put("list", list);
                 map.put("metric", meta);
                 map.put("title", meta.getDisplayName() + "|" + meta.getDisplayTags("|"));
