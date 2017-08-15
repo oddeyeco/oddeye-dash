@@ -1412,8 +1412,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 tmpseries[tk].data = [];
             }
             chart.setOption(widget.options);
-//            chart.setOption({series: tmpseries, legend: {data: []}});
-            
+//            chart.setOption({series: tmpseries, legend: {data: []}});            
             return;
         }
 
