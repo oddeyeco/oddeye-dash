@@ -144,7 +144,7 @@ public class UserController {
                 }
             }
 
-            Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
                 map.put("group_item", iter.next().getKey());
                 map.put("ident_tag", iter.next().getKey());
@@ -293,7 +293,7 @@ public class UserController {
             }
 
             map.put("errorslist", savedErrors);
-            Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
 //                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();
                 map.put("group_item", iter.next().getKey());
@@ -353,7 +353,7 @@ public class UserController {
                     LOGGER.error(globalFunctions.stackTrace(ex));
                 }
             }
-            Iterator<Map.Entry<String, Set<String>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
 //                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();
                 map.put("group_item", iter.next().getKey());

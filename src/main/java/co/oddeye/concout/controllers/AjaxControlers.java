@@ -523,20 +523,20 @@ public class AjaxControlers {
                 if (userDetails.getMetricsMeta() == null) {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 }
-                Map<String, Set<String>> tags = userDetails.getMetricsMeta().getTagsList();
+                Map<String,Map<String, Integer>> tags = userDetails.getMetricsMeta().getTagsList();
                 JsonArray jsondata = new JsonArray();
 
                 if (filter.equals("") || filter.equals("*")) {
-                    for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
-                        jsondata.add(tag.getKey());
+                    for (String tag : tags.keySet()) {
+                        jsondata.add(tag);
                     }
                 } else {
                     Pattern r = Pattern.compile(filter);
 
-                    for (Map.Entry<String, Set<String>> tag : tags.entrySet()) {
-                        Matcher m = r.matcher(tag.getKey());
+                    for (String tag : tags.keySet()) {
+                        Matcher m = r.matcher(tag);
                         if (m.find()) {
-                            jsondata.add(tag.getKey());
+                            jsondata.add(tag);
                         }
                     }
                 }
@@ -582,7 +582,7 @@ public class AjaxControlers {
                 if (userDetails.getMetricsMeta() == null) {
                     userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 }
-                Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key);
+                Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key).keySet();
                 JsonArray jsondata = new JsonArray();
 
                 if (filter.equals("") || filter.equals("*")) {
@@ -697,7 +697,7 @@ public class AjaxControlers {
                 jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
                 jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
                 JsonObject tagaslist = new JsonObject();
-                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
+                for (Map.Entry<String,  Map<String, Integer>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
                     tagaslist.addProperty(item.getKey(), item.getValue().size());
                 }
                 jsonResult.add("tags", tagaslist);
@@ -732,7 +732,7 @@ public class AjaxControlers {
                 jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
                 jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
                 JsonObject tagaslist = new JsonObject();
-                for (Map.Entry<String, Set<String>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
+                for (Map.Entry<String,  Map<String, Integer>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
                     tagaslist.addProperty(item.getKey(), item.getValue().size());
                 }
                 jsonResult.add("tags", tagaslist);
