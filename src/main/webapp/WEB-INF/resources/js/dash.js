@@ -1287,6 +1287,7 @@ function replacer(tags) {
     };
 }
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
+    
     var widget = json.rows[ri].widgets[wi];
     if (widget.timer)
     {
@@ -1310,13 +1311,16 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         widget.options = clone_obg(widget.tmpoptions);
         delete widget.tmpoptions;
     }
+    
     widget.visible = !redraw;
+    
     if (chart)
-    {
+    {    
+        
         if (chart._dom.className !== "echart_line_single")
-        {
+        {            
             if (redraw)
-            {
+            {                
                 if (chart._dom.getBoundingClientRect().bottom < 0)
                 {
                     widget.visible = false;
@@ -1329,7 +1333,8 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 }
             }
         }
-
+        
+        
         var k;
         if (!widget.options.legend)
         {
@@ -1369,6 +1374,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
             }
         }
+        
         var usePersonalTime = false;
         if (widget.times)
         {
@@ -1397,6 +1403,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 count.base--;
             }
         }
+        
         if (count.base === 0)
         {
             var tmpseries = clone_obg(widget.options.series);
@@ -1404,15 +1411,18 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             {
                 tmpseries[tk].data = [];
             }
-            chart.setOption({series: tmpseries, legend: {data: []}});
+            chart.setOption(widget.options);
+//            chart.setOption({series: tmpseries, legend: {data: []}});
+            
             return;
         }
 
         count.value = count.base;
         var oldseries = clone_obg(widget.options.series);
+        
         widget.options.series = [];
         for (k in widget.q)
-        {
+        {            
             if (count.base !== 0)
             {
                 if (widget.q[k].check_disabled)
