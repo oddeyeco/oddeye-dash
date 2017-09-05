@@ -9,9 +9,30 @@
 class ChartEditForm extends EditForm {
 //    tabcontent = {};
 
-    constructor(chart, formwraper, row, index, dashJSON, aftermodifier = null) {
+    opencontent() {
+        var target = $(this).attr('target');
+        var shevron = $(this);
+        if ($(this).hasClass("button_title_adv"))
+        {
+            shevron = $(this).find('i');
+        }
+        $('#' + $(this).attr('target')).fadeToggle(500, function () {
+            if ($('#' + target).css('display') === 'block')
+            {
+                shevron.removeClass("fa-chevron-circle-down");
+                shevron.addClass("fa-chevron-circle-up");
+            } else
+            {
+                shevron.removeClass("fa-chevron-circle-up");
+                shevron.addClass("fa-chevron-circle-down");
+
+            }
+        });
+    }
+    ;
+            constructor(chart, formwraper, row, index, dashJSON, aftermodifier = null) {
 //        this.chart = chart;
-        super(formwraper, row, index, dashJSON,aftermodifier);
+        super(formwraper, row, index, dashJSON, aftermodifier);
         // Add castoms
         this.deflist["options.title.show"] = true;
         this.deflist["max"] = "";
@@ -40,7 +61,7 @@ class ChartEditForm extends EditForm {
             if (contener)
             {
                 contener.find("select").select2({minimumResultsForSearch: 15});
-                contener.find('[data-toggle="tooltip"]').tooltip(); 
+                contener.find('[data-toggle="tooltip"]').tooltip();
             }
 
         });
@@ -144,9 +165,9 @@ class ChartEditForm extends EditForm {
                 ]},
             {tag: "div", class: "raw", content: [
                     {tag: "div", id: "buttons_div", content: [
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "position_block", id: "button_title_position", text: "Positions", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "color_block", id: "button_title_color", text: "Colors", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "border_block", id: "button_title_border", text: "Border", content: [{tag: "i", class: "fa fa-chevron-circle-down"}]}
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "position_block", id: "button_title_position", text: "Positions", content: [{tag: "i", class: "fa fa-chevron-circle-down"}],actions: {click: this.opencontent}},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "color_block", id: "button_title_color", text: "Colors", content: [{tag: "i", class: "fa fa-chevron-circle-down"}],actions: {click: this.opencontent}},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "border_block", id: "button_title_border", text: "Border", content: [{tag: "i", class: "fa fa-chevron-circle-down"}],actions: {click: this.opencontent}}
                         ]}
                 ]},
             {tag: "div", id: "position_block", style: "display: none;", content: [{
@@ -591,7 +612,7 @@ class ChartEditForm extends EditForm {
 
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typepie typefunnel typeline typebars", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts" , info:{text:"Use patterns {a1},{a2},{value},{p} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value},{p} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
                                     {tag: "input", type: "text", class: "form-control query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
