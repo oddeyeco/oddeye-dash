@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate */
 var SingleRedrawtimer;
 var dasheditor;
 var refreshtimes = {
@@ -1287,7 +1287,7 @@ function replacer(tags) {
     };
 }
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
-    
+
     var widget = json.rows[ri].widgets[wi];
     if (widget.timer)
     {
@@ -1311,16 +1311,16 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         widget.options = clone_obg(widget.tmpoptions);
         delete widget.tmpoptions;
     }
-    
+
     widget.visible = !redraw;
-    
+
     if (chart)
-    {    
-        
+    {
+
         if (chart._dom.className !== "echart_line_single")
-        {            
+        {
             if (redraw)
-            {                
+            {
                 if (chart._dom.getBoundingClientRect().bottom < 0)
                 {
                     widget.visible = false;
@@ -1333,8 +1333,8 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 }
             }
         }
-        
-        
+
+
         var k;
         if (!widget.options.legend)
         {
@@ -1374,7 +1374,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
             }
         }
-        
+
         var usePersonalTime = false;
         if (widget.times)
         {
@@ -1403,7 +1403,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 count.base--;
             }
         }
-        
+
         if (count.base === 0)
         {
             var tmpseries = clone_obg(widget.options.series);
@@ -1418,10 +1418,10 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
         count.value = count.base;
         var oldseries = clone_obg(widget.options.series);
-        
+
         widget.options.series = [];
         for (k in widget.q)
-        {            
+        {
             if (count.base !== 0)
             {
                 if (widget.q[k].check_disabled)
@@ -2047,7 +2047,7 @@ $(document).ready(function () {
 
     };
 
-    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {        
         var startdate = "5m-ago";
         var enddate = "now";
         if (gdd.times.pickerlabel === "Custom")
@@ -2101,8 +2101,13 @@ $(document).ready(function () {
         domodifier();
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
-    PicerOptionSet1.minDate = getmindate();
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
+    if (typeof getmindate === "function" )
+    {
+        PicerOptionSet1.minDate = getmindate();        
+    }
+
+
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
 //    $('body').on("click", ".dropdown_button,.button_title_adv", function () {
 //        var target = $(this).attr('target');
