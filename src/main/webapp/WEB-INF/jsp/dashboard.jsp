@@ -1,4 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
+<div class="opensave">
+    <h2>Data saved</h2>
+</div>
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
         <div class="pull-left item_title" >
@@ -52,7 +55,7 @@
         <div class="pull-right"> 
             <div class="btn-group"> 
                 <div class="btn-group btn-group-xs">
-                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash"><i class="fa fa-floppy-o"></i></button>
+                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash Ctrl+S"><i class="fa fa-floppy-o"></i></button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only"></span>

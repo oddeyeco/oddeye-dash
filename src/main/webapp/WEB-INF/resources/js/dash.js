@@ -61,7 +61,105 @@ var doeditTitle = function (e)
         domodifier();
     }
 };
+function opensave() {
+    $('.opensave').css("display", "block");
+    setTimeout(function () {
+        $('.opensave').css("display", "none");
+    }, 3000);
+}
+;
+var savedash = function () {
+    var url = cp + "/dashboard/save";
+    var senddata = {};
+    var localjson = clone_obg(gdd);
+    if (Object.keys(localjson).length > 0)
+    {
+        for (var ri in localjson.rows)
+        {
+            for (var wi in localjson.rows[ri].widgets)
+            {
+                delete localjson.rows[ri].widgets[wi].echartLine;
+                if (localjson.rows[ri].widgets[wi].tmpoptions)
+                {
+                    localjson.rows[ri].widgets[wi].options = clone_obg(gdd.rows[ri].widgets[wi].tmpoptions);
+                    delete localjson.rows[ri].widgets[wi].tmpoptions;
+                }
 
+                for (var k in localjson.rows[ri].widgets[wi].options.series) {
+                    localjson.rows[ri].widgets[wi].options.series[k].data = [];
+                }
+            }
+        }
+
+        senddata.info = JSON.stringify(localjson);
+        senddata.name = $("#name").val();
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            url: url,
+            data: senddata,
+            dataType: 'json',
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                if (data.sucsses)
+                {
+                    var uri = encodeURI(cp + "/dashboard/" + senddata.name);
+                    var request_W_index = getParameterByName("widget");
+                    var request_R_index = getParameterByName("row");
+                    if (request_W_index === null)
+                    {
+                        if (window.location.pathname !== uri)
+                        {
+                            window.location.href = uri;
+                        } else
+                        {
+//                                alert("Data saved");
+                            opensave();
+                        }
+                    } else
+                    {
+                        if (request_R_index !== null)
+                        {
+                            uri = uri + encodeURI("?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit");
+                            if (window.location.pathname + window.location.search !== uri)
+                            {
+                                window.location.href = uri;
+                            } else
+                            {
+//                                    alert("Data saved");
+                                opensave();
+                            }
+                        }
+
+                    }
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr.status + ": " + thrownError);
+            }
+        });
+    }
+    dounmodifier();
+};
+
+$("body").bind('keydown', function (event) {
+    if (event.ctrlKey || event.metaKey) {
+        switch (String.fromCharCode(event.which).toLowerCase()) {
+            case 's':
+                event.preventDefault();
+//            opensave();
+                savedash();
+               $('body').animate({
+                scrollTop: 0
+            }, 500);
+                break;
+
+        }
+    }
+});
 var defoption = {
     tooltip: {
         trigger: 'axis'
@@ -1287,7 +1385,7 @@ function replacer(tags) {
     };
 }
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
-    
+
     var widget = json.rows[ri].widgets[wi];
     if (widget.timer)
     {
@@ -1311,16 +1409,16 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         widget.options = clone_obg(widget.tmpoptions);
         delete widget.tmpoptions;
     }
-    
+
     widget.visible = !redraw;
-    
+
     if (chart)
-    {    
-        
+    {
+
         if (chart._dom.className !== "echart_line_single")
-        {            
+        {
             if (redraw)
-            {                
+            {
                 if (chart._dom.getBoundingClientRect().bottom < 0)
                 {
                     widget.visible = false;
@@ -1333,8 +1431,8 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 }
             }
         }
-        
-        
+
+
         var k;
         if (!widget.options.legend)
         {
@@ -1374,7 +1472,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
             }
         }
-        
+
         var usePersonalTime = false;
         if (widget.times)
         {
@@ -1403,7 +1501,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 count.base--;
             }
         }
-        
+
         if (count.base === 0)
         {
             var tmpseries = clone_obg(widget.options.series);
@@ -1418,10 +1516,10 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
         count.value = count.base;
         var oldseries = clone_obg(widget.options.series);
-        
+
         widget.options.series = [];
         for (k in widget.q)
-        {            
+        {
             if (count.base !== 0)
             {
                 if (widget.q[k].check_disabled)
@@ -2101,7 +2199,7 @@ $(document).ready(function () {
         domodifier();
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
     PicerOptionSet1.minDate = getmindate();
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
 //    $('body').on("click", ".dropdown_button,.button_title_adv", function () {
@@ -2464,80 +2562,7 @@ $(document).ready(function () {
         $("#deleteConfirm").modal('show');
     });
 
-    $('body').on("click", ".savedash", function () {
-        var url = cp + "/dashboard/save";
-        var senddata = {};
-        var localjson = clone_obg(gdd);
-        if (Object.keys(localjson).length > 0)
-        {
-            for (var ri in localjson.rows)
-            {
-                for (var wi in localjson.rows[ri].widgets)
-                {
-                    delete localjson.rows[ri].widgets[wi].echartLine;
-                    if (localjson.rows[ri].widgets[wi].tmpoptions)
-                    {
-                        localjson.rows[ri].widgets[wi].options = clone_obg(gdd.rows[ri].widgets[wi].tmpoptions);
-                        delete localjson.rows[ri].widgets[wi].tmpoptions;
-                    }
-
-                    for (var k in localjson.rows[ri].widgets[wi].options.series) {
-                        localjson.rows[ri].widgets[wi].options.series[k].data = [];
-                    }
-                }
-            }
-
-            senddata.info = JSON.stringify(localjson);
-            senddata.name = $("#name").val();
-            var header = $("meta[name='_csrf_header']").attr("content");
-            var token = $("meta[name='_csrf']").attr("content");
-            $.ajax({
-                url: url,
-                data: senddata,
-                dataType: 'json',
-                type: 'POST',
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader(header, token);
-                },
-                success: function (data) {
-                    if (data.sucsses)
-                    {
-                        var uri = encodeURI(cp + "/dashboard/" + senddata.name);
-                        var request_W_index = getParameterByName("widget");
-                        var request_R_index = getParameterByName("row");
-                        if (request_W_index === null)
-                        {
-                            if (window.location.pathname !== uri)
-                            {
-                                window.location.href = uri;
-                            } else
-                            {
-                                alert("Data saved");
-                            }
-                        } else
-                        {
-                            if (request_R_index !== null)
-                            {
-                                uri = uri + encodeURI("?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit");
-                                if (window.location.pathname + window.location.search !== uri)
-                                {
-                                    window.location.href = uri;
-                                } else
-                                {
-                                    alert("Data saved");
-                                }
-                            }
-
-                        }
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(xhr.status + ": " + thrownError);
-                }
-            });
-        }
-        dounmodifier();
-    });
+    $('body').on("click", ".savedash", savedash);
     $('body').on("click", ".savedashasTemplate", function () {
         var url = cp + "/dashboard/savetemplate";
         var senddata = {};
