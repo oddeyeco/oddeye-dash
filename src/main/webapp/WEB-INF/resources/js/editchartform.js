@@ -705,7 +705,7 @@ class ChartEditForm extends EditForm {
                     {tag: "div", class: "btn btn-danger removeq btn-xs pull-right", id: "{index}_removedatazoom",
                         text: "Remove",
                         actions: {click: function () {
-                                var curindex = parseInt($(this).attr('template_index'));
+                                var curindex = parseInt($(this).attr('template_index'));                                
                                 current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom.splice(curindex, 1);
                                 var contener = $(this).parent().parent();
                                 current.repaintdatazoom(contener, edit_data_zoom.content[0].content);

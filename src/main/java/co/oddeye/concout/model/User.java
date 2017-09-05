@@ -775,7 +775,7 @@ public class User implements UserDetails {
     }
 
     public void SendAdminMail(String action, mailSender Sender) throws UnsupportedEncodingException {
-        Sender.send(action, "User:" + this.getName() + " " + this.getLastname() + "<br/>Sined by email:" + this.getEmail(), "ara@oddeye.co");
+        Sender.send(action, "User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail(), "ara@oddeye.co");
     }
 
     /**
