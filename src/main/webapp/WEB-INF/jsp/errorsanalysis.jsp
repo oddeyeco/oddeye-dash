@@ -112,7 +112,8 @@
                         <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
 
                             <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser,minValue,minPersent,minWeight,minRecurrenceCount,minRecurrenceTimeInterval,minPredictPersent)}" />                            
-                            <c:forEach items="${MetricsMeta.getTagsList().get(group_item)}" var="showgroup" varStatus="loopgrups">   
+                            <c:forEach items="${MetricsMeta.getTagsList().get(group_item)}" var="showgroupmap" varStatus="loopgrups">   
+                                <c:set var="showgroup" value="${showgroupmap.getKey()}" />
                                 <c:set var="showgroup_rp" value="${fn:replace(showgroup, '.', '_')}" />
 
                                 <div class="panel">
