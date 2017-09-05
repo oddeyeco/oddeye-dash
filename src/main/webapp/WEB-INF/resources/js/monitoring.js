@@ -361,7 +361,7 @@ function drawRaw(errorjson, table, hashindex, update) {
 //        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
         table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + timems(errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) + " Repeat " + errorjson.index + ")");
-//        table.find("tbody tr#" + index + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + index + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>")
+//        table.find("tbody tr#" + hashindex + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>");
         table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
         if (errorjson.isspec === 0)
         {
