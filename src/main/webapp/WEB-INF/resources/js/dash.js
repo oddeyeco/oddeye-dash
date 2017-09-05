@@ -1277,15 +1277,6 @@ function datafunc() {
     }
     return d;
 }
-function replacer(tags) {
-    return function (str, p1) {
-        if (typeof tags[p1] === "undefined")
-        {
-            return "tag." + p1;
-        }
-        return tags[p1];
-    };
-}
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
 
     var widget = json.rows[ri].widgets[wi];

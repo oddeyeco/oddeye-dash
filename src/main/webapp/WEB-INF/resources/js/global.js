@@ -7,11 +7,38 @@
 
 /* global URL, cp, $RIGHT_COL, echartLine */
 function applyAlias(text, object)
-{    
+{
     text = text.replace(new RegExp("\\{metric\\}", 'g'), object.metric);//"$2, $1"
     text = text.replace(new RegExp("\\{\w+\\}", 'g'), replacer(object.tags));
-    text = text.replace(new RegExp("\\{tag.([A-Za-z0-9_]*)\\}", 'g'), replacer(object.tags));
+    text = text.replace(new RegExp("\\{tag.(.*)\\}", 'g'), replacer(object.tags));
     return text;
+}
+
+function replacer(tags) {
+    return function (str, p1) {
+        var split_str = p1.split('|');
+//        console.log(split_str[0]);
+        if (typeof tags[split_str[0]] === "undefined")
+        {
+            return "tag." + split_str[0];
+        }
+
+//        var func_rexp = new RegExp("r\(\"(.*)\",\"(.*)\"\)", 'g')
+        if (typeof split_str[1] !== "undefined")
+        {            
+            var func_rexp = new RegExp("r\\(\"(.*)\",\"(.*)\"\\)");
+            if (func_rexp.test(split_str[1]))
+            {
+                var match = split_str[1].match(func_rexp);
+                var inputstr = tags[split_str[0]];                
+                return inputstr.replace (match[1],match[2]);
+            }
+
+        }
+
+
+        return tags[split_str[0]];
+    };
 }
 function getCookie(name) {
     var matches = document.cookie.match(new RegExp(
@@ -165,7 +192,7 @@ $(document).ready(function () {
     {
         $('.hidefilter').removeClass('fa-chevron-up');
         $('.hidefilter').addClass('fa-chevron-down');
-        $('.profile_right-table').css('width','100%');
+        $('.profile_right-table').css('width', '100%');
     }
     $("body").on("click", ".hidefilter", function () {
         if ($(this).hasClass('fa-chevron-up'))
@@ -173,21 +200,21 @@ $(document).ready(function () {
             $(this).removeClass('fa-chevron-up');
             $(this).addClass('fa-chevron-down');
             $('.profile_left-form').hide();
-            $('.profile_right-table').css('width','100%');
+            $('.profile_right-table').css('width', '100%');
         } else
         {
             $(this).removeClass('fa-chevron-down');
             $(this).addClass('fa-chevron-up');
             $('.profile_left-form').show();
-            $('.profile_right-table').removeAttr('style');            
+            $('.profile_right-table').removeAttr('style');
         }
-        
+
         if (typeof echartLine !== 'undefined')
         {
             echartLine.resize();
-        }        
-    });    
-    
+        }
+    });
+
     $("body").on("click", "input", function (event) {
         ga('send', 'event', 'input click', $(this).attr("name"));
     });
