@@ -61,13 +61,15 @@ var doeditTitle = function (e)
         domodifier();
     }
 };
+
 function opensave() {
-    $('.opensave').css("display", "block");
+    $('#myModal').modal('show');
+
     setTimeout(function () {
-        $('.opensave').css("display", "none");
+        $('#myModal').modal('hide');
     }, 3000);
-}
-;
+};
+
 var savedash = function () {
     var url = cp + "/dashboard/save";
     var senddata = {};
@@ -116,7 +118,6 @@ var savedash = function () {
                             window.location.href = uri;
                         } else
                         {
-//                                alert("Data saved");
                             opensave();
                         }
                     } else
@@ -129,7 +130,6 @@ var savedash = function () {
                                 window.location.href = uri;
                             } else
                             {
-//                                    alert("Data saved");
                                 opensave();
                             }
                         }
@@ -150,13 +150,7 @@ $("body").bind('keydown', function (event) {
         switch (String.fromCharCode(event.which).toLowerCase()) {
             case 's':
                 event.preventDefault();
-//            opensave();
                 savedash();
-               $('body').animate({
-                scrollTop: 0
-            }, 500);
-                break;
-
         }
     }
 });
@@ -1902,7 +1896,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             $(".right_col .editpanel").append('<div class="x_title dash_action">' +
                     '<h1 class="col-md-3">' + title + '</h1>' +
                     '<div class="pull-right">' +
-                    '<span><a class="btn btn-primary savedash" type="button">Save </a></span>' +
+                    '<span><a class="btn btn-primary savedash"  type="button">Save </a></span>' +
                     '<a class="btn btn-primary backtodush" type="button">Back to Dash </a>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
@@ -2145,7 +2139,7 @@ $(document).ready(function () {
 
     };
 
-    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {        
+    $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";
         var enddate = "now";
         if (gdd.times.pickerlabel === "Custom")
@@ -2200,9 +2194,9 @@ $(document).ready(function () {
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
-    if (typeof getmindate === "function" )
+    if (typeof getmindate === "function")
     {
-        PicerOptionSet1.minDate = getmindate();        
+        PicerOptionSet1.minDate = getmindate();
     }
 
 

@@ -1,7 +1,26 @@
 <%@ page pageEncoding="UTF-8" %>
-<div class="opensave">
-    <h2>Data saved</h2>
+
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Data Saved</h4>
+      </div>
+      <div class="modal-body">
+        <p>Saved Successfully.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default " data-dismiss="modal">ok</button>
+      </div>
+    </div>
+
+  </div>
 </div>
+
+
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
         <div class="pull-left item_title" >
