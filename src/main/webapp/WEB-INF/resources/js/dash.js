@@ -63,12 +63,14 @@ var doeditTitle = function (e)
 };
 
 function opensave() {
+    $('#myModal .modal-title').text("Successfully  saved");
     $('#myModal').modal('show');
 
     setTimeout(function () {
         $('#myModal').modal('hide');
     }, 3000);
-};
+}
+;
 
 var savedash = function () {
     var url = cp + "/dashboard/save";
@@ -138,7 +140,12 @@ var savedash = function () {
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                console.log(xhr.status + ": " + thrownError);
+                $('#myModal .modal-title').text("Error saving data")
+                $('#myModal').modal('show');                
+                setTimeout(function () {
+                    $('#myModal').modal('hide');
+                }, 3000);
+//                console.log(xhr.status + ": " + thrownError);
             }
         });
     }

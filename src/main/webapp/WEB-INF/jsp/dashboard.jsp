@@ -1,19 +1,13 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-sm">
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header custom-modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Data Saved</h4>
-      </div>
-      <div class="modal-body">
-        <p>Saved Successfully.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default " data-dismiss="modal">ok</button>
+        <h4 class="modal-title">Successfully  saved </h4>
       </div>
     </div>
 
