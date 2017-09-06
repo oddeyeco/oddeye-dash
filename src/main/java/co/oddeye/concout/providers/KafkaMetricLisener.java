@@ -72,7 +72,14 @@ public class KafkaMetricLisener {
                             User user = Userdao.getUserByUUID(UUID.fromString(mtrsc.getTags().get("UUID")));
                             if (user.getMetricsMeta() == null) {
                                 user.setMetricsMeta(new ConcoutMetricMetaList());
-                            }                            
+                            }
+//                            if (mtrscMeta.hashCode() == -1334554093) {                                
+//                                if (user.getMetricsMeta().containsKey(mtrscMeta.hashCode()))
+//                                {
+//                                    System.out.println(mtrscMeta.hashCode() + " " + mtrscMeta.getName()+" "+ mtrscMeta.getLasttime()+" "+(mtrscMeta.getLasttime()-user.getMetricsMeta().get(mtrscMeta.hashCode()).getLasttime()));
+//                                }
+//                                
+//                            }
                             user.getMetricsMeta().add(mtrscMeta);
                         } catch (Exception e) {
                             LOGGER.error("Exception: " + globalFunctions.stackTrace(e));

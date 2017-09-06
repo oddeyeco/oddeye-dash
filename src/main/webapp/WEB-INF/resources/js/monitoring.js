@@ -286,7 +286,7 @@ function drawRaw(errorjson, table, hashindex, update) {
 //            color = "red";
 //        }
         var html = "";
-        html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
+        html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '" time="' + errorjson.time + '">';
         if (errorjson.isspec === 0)
         {
             html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
@@ -327,7 +327,8 @@ function drawRaw(errorjson, table, hashindex, update) {
 
         html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
         html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
-        html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
+//        html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
+
 
         html = html + '</tr>';
         if (hashindex === null)
@@ -360,9 +361,9 @@ function drawRaw(errorjson, table, hashindex, update) {
         table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
 //        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
-        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + timems(errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) + " Repeat " + errorjson.index + ")");
-//        table.find("tbody tr#" + hashindex + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + hashindex + " .timech").attr('time')) / 1000 + " " + errorjson.index + "</div>");
-        table.find("tbody tr#" + hashindex + " .timech").attr('time', errorjson.time);
+//        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) + " Repeat " + errorjson.index + ")");
+//        table.find("tbody tr#" + hashindex + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) / 1000 + " " + errorjson.index + "</div>");
+        table.find("tbody tr#" + hashindex).attr('time', errorjson.time);
         if (errorjson.isspec === 0)
         {
             var valuearrowclass = "fa-long-arrow-down";
@@ -433,12 +434,12 @@ function startlisen()
     }
 }
 var switcherylist = [];
-$(document).ready(function () {    
-    $(".timech").each(function () {
-        val = $(this).html();
-        time = moment(parseFloat(val));
-        $(this).html(time.format(timeformat));
-    });
+$(document).ready(function () {
+//    $(".timech").each(function () {
+//        val = $(this).html();
+//        time = moment(parseFloat(val));
+//        $(this).html(time.format(timeformat));
+//    });
     $('.autocomplete-append-metric').each(function () {
         var input = $(this);
         var uri = cp + "/getfiltredmetricsnames?filter=" + encodeURIComponent("^(.*)$");
@@ -516,14 +517,31 @@ $(document).ready(function () {
             {
                 errorjson.index = 0;
             }
-            if (errorjson.level === -1)
+            if (errorlistJson[errorjson.hash])
             {
-                delete errorlistJson[errorjson.hash];
+                if (errorjson.time > errorlistJson[errorjson.hash].time)
+                {
+                    if (errorjson.level === -1)
+                    {
+                        delete errorlistJson[errorjson.hash];
+                    } else
+                    {
+                        errorlistJson[errorjson.hash] = errorjson;
+                    }
+                    reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+                }
             } else
             {
-                errorlistJson[errorjson.hash] = errorjson;
+                if (errorjson.level === -1)
+                {
+                    delete errorlistJson[errorjson.hash];
+                } else
+                {
+                    errorlistJson[errorjson.hash] = errorjson;
+                }
+                reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+
             }
-            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
             if (Object.keys(errorlistJson).length > 200)
             {
                 $('#manyalert').fadeIn();
@@ -531,6 +549,8 @@ $(document).ready(function () {
             {
                 $('#manyalert').fadeOut();
             }
+//            console.log(errorlistJson[errorjson.hash]);
+
         });
     }, function (message) {
         $("#lostconnection").modal('show');
