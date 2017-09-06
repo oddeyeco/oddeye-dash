@@ -141,7 +141,7 @@ var savedash = function () {
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 $('#myModal .modal-title').text("Error saving data")
-                $('#myModal').modal('show');                
+                $('#myModal').modal('show');
                 setTimeout(function () {
                     $('#myModal').modal('hide');
                 }, 3000);
@@ -1980,8 +1980,8 @@ function repaint(redraw = false, rebuildform = true) {
     doapplyjson = true;
     if (gdd.times.generalds)
     {
-        $('#global-down-sample').val(gdd.times.generalds[0]);
-        $('#global-down-sample-ag').val(gdd.times.generalds[1]).trigger('change');
+        $('#global-down-sample').val(gdd.times.generalds[0]);        
+        $('#global-down-sample-ag').val(gdd.times.generalds[1]).trigger('change');       
         var check = document.getElementById('global-downsampling-switsh');
         if (gdd.times.generalds[2])
         {
@@ -2034,7 +2034,7 @@ function repaint(redraw = false, rebuildform = true) {
 }
 
 $(document).ready(function () {
-
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
@@ -2191,7 +2191,7 @@ $(document).ready(function () {
         domodifier();
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
+//    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
     if (typeof getmindate === "function")
     {
         PicerOptionSet1.minDate = getmindate();
