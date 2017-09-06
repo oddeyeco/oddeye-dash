@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,7 +74,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                         }
                         TagsList.get(tag.getKey()).put(tag.getValue().getValue(), count);
                     } else {
-                        Map<String, Integer> keyset = new HashMap<>();
+                        Map<String, Integer> keyset = new TreeMap<>();
                         keyset.put(tag.getValue().getValue(), 1);
                         TagsList.put(tag.getKey(), keyset);
                     }
