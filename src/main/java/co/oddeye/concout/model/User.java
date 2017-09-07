@@ -15,6 +15,7 @@ import co.oddeye.concout.providers.OddeyeKafkaDataListener;
 import co.oddeye.concout.providers.UserConcurrentMessageListenerContainer;
 import co.oddeye.core.globalFunctions;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -86,7 +87,7 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
     @HbaseColumn(qualifier = "balance", family = "technicalinfo")
-    private Long balance;
+    private Double balance;
     @HbaseColumn(qualifier = "alowswitch", family = "technicalinfo")
     private Boolean alowswitch;
     @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
@@ -98,6 +99,7 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
+    private Double consumption = 0d;
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
     private final Map<String, String[]> sotokenlist = new HashMap<>();
@@ -214,7 +216,7 @@ public class User implements UserDetails {
             return property;
         }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "balance".getBytes())) {
-                this.balance = Bytes.getLong(property.value());
+                this.balance = ByteBuffer.wrap(property.value()).getDouble();//Bytes.getLong(property.value());
             }
             return property;
         }).map((KeyValue property) -> {
@@ -781,14 +783,14 @@ public class User implements UserDetails {
     /**
      * @return the balance
      */
-    public Long getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
     /**
      * @param balance the balance to set
      */
-    public void setBalance(Long balance) {
+    public void setBalance(Double balance) {
         this.balance = balance;
     }
 
@@ -818,5 +820,19 @@ public class User implements UserDetails {
      */
     public void setSwitchUser(User SwitchUser) {
         this.SwitchUser = SwitchUser;
+    }
+
+    /**
+     * @return the consumption
+     */
+    public Double getConsumption() {
+        return consumption;
+    }
+
+    /**
+     * @param consumption the consumption to set
+     */
+    public void setConsumption(Double consumption) {
+        this.consumption = consumption;
     }
 }

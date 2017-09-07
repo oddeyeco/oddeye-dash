@@ -15,6 +15,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -222,10 +223,9 @@ public class HbaseUserDao extends HbaseBaseDao {
         return getUserByUUID(uuid, false);
     }
 
-    public User getUserByUUID(UUID uuid, boolean reload , boolean initmeta) {
-        User user =   getUserByUUID(uuid,reload);
-        if (initmeta)
-        {
+    public User getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
+        User user = getUserByUUID(uuid, reload);
+        if (initmeta) {
             try {
                 user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             } catch (Exception ex) {
@@ -345,6 +345,11 @@ public class HbaseUserDao extends HbaseBaseDao {
                         if (Hbasedata.getValue() instanceof Long) {
                             values[index] = (Bytes.fromLong((Long) Hbasedata.getValue()));
                         }
+                        if (Hbasedata.getValue() instanceof Double) {
+                            byte[] bytes = new byte[8];
+                            ByteBuffer.wrap(bytes).putDouble((Double) Hbasedata.getValue());                        
+                            values[index] = bytes;
+                        }
                         index++;
                     }
                     final PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), family, qualifiers, values);
@@ -433,37 +438,6 @@ public class HbaseUserDao extends HbaseBaseDao {
             }
         }
         PutHbase(changedata, user);
-//        if (changedata.size() > 0) {
-//            for (Map.Entry<String, HashMap<String, Object>> data : changedata.entrySet()) {
-//                byte[] family = data.getKey().getBytes();
-//                if (data.getValue().size() > 0) {
-//                    byte[][] qualifiers = new byte[data.getValue().size()][];
-//                    byte[][] values = new byte[data.getValue().size()][];
-//                    int index = 0;
-//                    for (Map.Entry<String, Object> Hbasedata : data.getValue().entrySet()) {
-//                        qualifiers[index] = Hbasedata.getKey().getBytes();
-//                        if (Hbasedata.getValue() instanceof byte[]) {
-//                            values[index] = (byte[]) Hbasedata.getValue();
-//                        }
-//                        if (Hbasedata.getValue() instanceof String) {
-//                            values[index] = ((String) Hbasedata.getValue()).getBytes();
-//                        }
-//                        if (Hbasedata.getValue() instanceof Collection) {
-//                            values[index] = Hbasedata.getValue().toString().getBytes();
-//                        }
-//                        if (Hbasedata.getValue() instanceof Boolean) {
-//                            values[index] = (Bytes.fromInt((Boolean) Hbasedata.getValue() ? 1 : 0));
-//                        }
-//                        if (Hbasedata.getValue() instanceof Long) {
-//                            values[index] = (Bytes.fromLong((Long) Hbasedata.getValue()));
-//                        }
-//                        index++;
-//                    }
-//                    final PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), family, qualifiers, values);
-//                    BaseTsdb.getClient().put(request);
-//                }
-//            }
-//        }
     }
 
     public void saveUserPersonalinfo(User user, Map<String, Object> changedata) throws Exception {

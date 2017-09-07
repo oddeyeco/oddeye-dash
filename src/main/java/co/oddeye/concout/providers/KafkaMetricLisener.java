@@ -23,11 +23,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import java.util.concurrent.CountDownLatch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 
 /**
  *
  * @author vahan
  */
+@PropertySource("config.properties")
 public class KafkaMetricLisener {
 
     @Autowired
@@ -39,11 +42,15 @@ public class KafkaMetricLisener {
 
     private CountDownLatch latch = new CountDownLatch(1);
 
+    @Value("${dash.messageprice}")
+    private Double messageprice;        
+    
     public CountDownLatch getLatch() {
         return latch;
     }
 
-    @KafkaListener(topics = "oddeyetsdb")
+//    @KafkaListener(topics = "oddeyetsdb")
+    @KafkaListener(topics = "${kafka.metrictopic}")
     public void receive(String payload) {
         LOGGER.info("received payload='{}'", payload);
         JsonArray jsonResult = null;
@@ -60,6 +67,8 @@ public class KafkaMetricLisener {
         } catch (JsonSyntaxException ex) {
             LOGGER.info("payload parse Exception" + ex.toString());
         }
+        User user = null;
+        int metriccount = 0;
         if (jsonResult != null) {
             try {
                 if (jsonResult.size() > 0) {
@@ -69,7 +78,7 @@ public class KafkaMetricLisener {
                         try {
                             final OddeeyMetric mtrsc = new OddeeyMetric(Metric);
                             OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(mtrsc, BaseTsdb.getTsdb());
-                            User user = Userdao.getUserByUUID(UUID.fromString(mtrsc.getTags().get("UUID")));
+                            user = Userdao.getUserByUUID(UUID.fromString(mtrsc.getTags().get("UUID")));
                             if (user.getMetricsMeta() == null) {
                                 user.setMetricsMeta(new ConcoutMetricMetaList());
                             }
@@ -81,6 +90,7 @@ public class KafkaMetricLisener {
 //                                
 //                            }
                             user.getMetricsMeta().add(mtrscMeta);
+                            metriccount++;
                         } catch (Exception e) {
                             LOGGER.error("Exception: " + globalFunctions.stackTrace(e));
                             LOGGER.error("Exception Wits Metriq: " + Metric);
@@ -98,6 +108,11 @@ public class KafkaMetricLisener {
             }
             jsonResult = null;
         }
+//// Ste Chi kareli
+//        if (user != null) {
+//            user.setConsumption(user.getConsumption()+metriccount*messageprice);                
+//            System.out.println(user.getName() + " " + user.getConsumption()+" "+metriccount);
+//        }
 
         latch.countDown();
     }
