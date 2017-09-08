@@ -505,6 +505,7 @@ $(document).ready(function () {
         stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
             var errorjson = JSON.parse(error.body);
 
+//check_oddeye
             if (errorlistJson[errorjson.hash])
             {
                 errorjson.index = errorlistJson[errorjson.hash].index;
@@ -519,7 +520,7 @@ $(document).ready(function () {
             }
             if (errorlistJson[errorjson.hash])
             {
-                if (errorjson.time > errorlistJson[errorjson.hash].time)
+                if (errorjson.time >= errorlistJson[errorjson.hash].time)
                 {
                     if (errorjson.level === -1)
                     {

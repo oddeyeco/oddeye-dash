@@ -140,7 +140,7 @@ var savedash = function () {
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                $('#myModal .modal-title').text("Error saving data")
+                $('#myModal .modal-title').text("Error saving data");
                 $('#myModal').modal('show');
                 setTimeout(function () {
                     $('#myModal').modal('hide');
@@ -217,10 +217,28 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                         widget.options.xAxis[xAxis_Index].max = end;
                     }
 
-
+//                    console.log("***************************************");
+//                    
+//                    var oooo = 0;
                     for (index in data.chartsdata)
                     {
-                        if (Object.keys(data.chartsdata[index].data).length > 0)
+//                        console.log(data.chartsdata[index].data.length);
+
+//                        var last = 0;
+//                        if (oooo === 0)
+//                        {
+//                            console.log(oooo);
+//                            console.log(data.chartsdata[index].tags.host);
+//                            
+//                            for (var iiiii in data.chartsdata[index].data)
+//                            {
+//                                console.log(data.chartsdata[index].data[iiiii][0] - last);
+//                                last = data.chartsdata[index].data[iiiii][0];
+//
+//                            }
+//                        }
+//                        oooo++;
+                        if (data.chartsdata[index].data.length > 0)
                         {
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                             if (widget.options.title)
@@ -1980,8 +1998,8 @@ function repaint(redraw = false, rebuildform = true) {
     doapplyjson = true;
     if (gdd.times.generalds)
     {
-        $('#global-down-sample').val(gdd.times.generalds[0]);        
-        $('#global-down-sample-ag').val(gdd.times.generalds[1]).trigger('change');       
+        $('#global-down-sample').val(gdd.times.generalds[0]);
+        $('#global-down-sample-ag').val(gdd.times.generalds[1]).trigger('change');
         var check = document.getElementById('global-downsampling-switsh');
         if (gdd.times.generalds[2])
         {
@@ -2034,7 +2052,7 @@ function repaint(redraw = false, rebuildform = true) {
 }
 
 $(document).ready(function () {
-    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
+    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
