@@ -68,7 +68,7 @@
                         </li>
                         <li>
                             <span class="name"> Time </span>
-                            <span class="value text-success"><fmt:formatDate value="${Error.getDate()}" pattern="HH:mm Y/M/d"/> </span>
+                            <span class="value text-success"><fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="HH:mm Y/M/d" /> ${curentuser.getTimezone()}</span>
                         </li>                                           
                     </ul>                
 
@@ -206,7 +206,7 @@
                         </thead>                        
                         <c:forEach items="${Rules}" var="rule" varStatus="loop">                            
                             <tr>                                
-                                <td><fmt:formatDate type="both" pattern="H:00 Y/M/d" value="${rule.getValue().getTime().getTime()}"/> </td>                                
+                                <td><fmt:formatDate type="both" pattern="H:00 Y/M/d" value="${rule.getValue().getTime().getTime()}" timeZone="${curentuser.getTimezone()}" /> ${curentuser.getTimezone()}</td>                                
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getAvg()}"/> </td>
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getDev()}"/> </td>
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getMin()}"/> </td>

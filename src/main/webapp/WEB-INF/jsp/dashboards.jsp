@@ -76,7 +76,7 @@
                             <li class="col-lg-12">
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span>${Dush.getName()}</span>
-                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss"/> </span>                                    
+                                    <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss" timeZone="${curentuser.getTimezone()}"/> </span>                                    
                                 </a> 
                             </li>                                
                         </c:forEach>
@@ -101,7 +101,7 @@
                                         <i class="fa fa-dot-circle-o blue"></i>
                                     </c:if>                                         
                                     <span>${Dush.getName()}</span>
-                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss"/> </span>                                    
+                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()} ${curentuser.getTimezone()}</span>                                    
                                 </a> 
                             </li>                                
                         </c:forEach>
