@@ -205,7 +205,7 @@ class ChartEditForm extends EditForm {
                     },
 
                     {tag: "div", class: "form-group form-group-custom ", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: "Title Color", lfor: "title_name_color"},
+                            {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_name_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "TitleColor", id: "title_name_color", name: "title_name_color", key_path: 'options.title.textStyle.color', default: ""},
