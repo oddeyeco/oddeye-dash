@@ -126,7 +126,12 @@ public class ProfileController {
                     }
                 }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(hash);
-
+                if (meta == null) {
+                    map.put("body", "errors/usererror");
+                    map.put("jspart", "errorjs");
+                    map.put("message", "Metric not exist");
+                    return "index";
+                }
                 GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
@@ -276,18 +281,18 @@ public class ProfileController {
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                         @Override
-                        public void onSuccess(SendResult<Integer, String> result) {                            
+                        public void onSuccess(SendResult<Integer, String> result) {
                             LOGGER.info("kafka semaphore saveuser send messge onSuccess");
                         }
 
                         @Override
-                        public void onFailure(Throwable ex) {                            
-                            LOGGER.error("kafka semaphore saveuser send messge onFailure "+ ex.getMessage());
+                        public void onFailure(Throwable ex) {
+                            LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
                         }
                     });
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));                    
+                    LOGGER.error(globalFunctions.stackTrace(ex));
                 }
 
             }
@@ -339,19 +344,19 @@ public class ProfileController {
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                         @Override
-                        public void onSuccess(SendResult<Integer, String> result) {                            
+                        public void onSuccess(SendResult<Integer, String> result) {
                             LOGGER.info("kafka semaphore saveuserlevels send messge onSuccess");
                         }
 
                         @Override
-                        public void onFailure(Throwable ex) {                            
-                            LOGGER.error("kafka semaphore saveuserlevels send messge onFailure "+ ex.getMessage());
+                        public void onFailure(Throwable ex) {
+                            LOGGER.error("kafka semaphore saveuserlevels send messge onFailure " + ex.getMessage());
                         }
                     });
 
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));         
+                    LOGGER.error(globalFunctions.stackTrace(ex));
                 }
 
             }
