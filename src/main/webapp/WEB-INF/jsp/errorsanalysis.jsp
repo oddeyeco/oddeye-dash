@@ -176,7 +176,7 @@
                                                             <td class="time">
                                                                 <jsp:useBean id="dateValue" class="java.util.Date"/>
                                                                 <jsp:setProperty name="dateValue" property="time" value="${metric.getTimestamp()*1000}"/>
-                                                                <fmt:formatDate value="${dateValue}" pattern="MM/dd HH:mm:ss"/></td>
+                                                                <fmt:formatDate value="${dateValue}" pattern="MM/dd HH:mm:ss" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</td>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
