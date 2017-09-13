@@ -650,7 +650,7 @@ class EditForm {
                                 var qitem = clone_obg(current.dashJSON.rows[current.row]["widgets"][current.index].q[curindex]);
                                 current.dashJSON.rows[current.row]["widgets"][current.index].q.splice(curindex, 0, qitem);
                                 var contener = $(this).parent().parent();
-                                current.repaintq(contener, edit_q.content)
+                                current.repaintq(contener, edit_q.content);
 //                                contener.html("");
 //                                current.drawcontent(edit_q.content, contener, current.dashJSON.rows[current.row]["widgets"][current.index]);
                                 current.change($(this));

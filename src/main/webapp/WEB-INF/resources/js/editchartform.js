@@ -281,7 +281,7 @@ class ChartEditForm extends EditForm {
 
                             {tag: "div", class: "titile_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
-                                            {tag: "input", type: "text", class: "form-control ", prop_key: "ycolor", id: "ycolor", name: "ycolor", key_path: 'axisLine.lineStyle.color', default: ""},
+                                            {tag: "input", type: "text", class: "form-control ", prop_key: "ycolor", id: "{index}_ycolor", name: "ycolor", key_path: 'axisLine.lineStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
@@ -382,12 +382,12 @@ class ChartEditForm extends EditForm {
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
                         ]},
                     
-                   {tag: "div", class: "form-group", content: [
+                   {tag: "div", class: "form-group ",content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "X color", lfor: "axes_color_x"},
 
                             {tag: "div", class: "titile_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
-                                            {tag: "input", type: "text", class: "form-control ", prop_key: "xcolor", id: "xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
+                                            {tag: "input", type: "text", class: "form-control axes_select ", prop_key: "xcolor", id: "{index}_xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
