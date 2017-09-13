@@ -870,7 +870,7 @@ class EditForm {
         this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
 
         this.formwraper.find('[data-toggle="tooltip"]').tooltip();
-        this.formwraper.find('.cl_picer_input').colorpicker().on('hidePicker', function () {
+        this.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
 
@@ -1114,9 +1114,8 @@ class EditForm {
 
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
-        {
-
-            if (input.parent().hasClass("cl_picer"))
+        {            
+            if (input.parent().hasClass("cl_picer")&& !input.parent().hasClass("hasdublicatepath"))
             {
                 $('[key_path="' + input.attr('key_path') + '"]').parent().colorpicker('setValue', value);
             }

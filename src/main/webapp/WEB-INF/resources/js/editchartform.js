@@ -275,6 +275,21 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_y"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_y", name: "splitNumber_y", key_path: 'splitNumber', default: ""}
                         ]},
+                    
+                      {tag: "div", class: "form-group  ", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y color", lfor: "axes_color_y"},
+
+                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
+                                            {tag: "input", type: "text", class: "form-control ", prop_key: "ycolor", id: "ycolor", name: "ycolor", key_path: 'axisLine.lineStyle.color', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]}
+                        ]},
+
+                    
+                    
+                    
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesy",
                         text: "Dublicate",
                         actions: {click: function () {
@@ -366,6 +381,21 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
                         ]},
+                    
+                   {tag: "div", class: "form-group", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "X color", lfor: "axes_color_x"},
+
+                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
+                                            {tag: "input", type: "text", class: "form-control ", prop_key: "xcolor", id: "xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]}
+                        ]},   
+                    
+                    
+                    
+                    
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
                         text: "Dublicate",
                         actions: {click: function () {
