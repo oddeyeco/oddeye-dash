@@ -104,7 +104,7 @@
                                         <span class="date">${i-4}</span>
                                     </div>
                                     <div class="status"> 
-                                        <h4><fmt:formatDate value="${dateValue}" pattern="HH:mm" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h4>
+                                        <h4><fmt:formatDate value="${dateValue}" pattern="HH:mm" timeZone="${curentuser.getTimezone()}"/></h4>
                                     </div>
                                 </li>
                             </a>
