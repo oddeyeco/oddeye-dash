@@ -12,7 +12,7 @@
         <div class="x_title">
             <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}"/></span> <b class="caret"></b>
+                <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}" timeZone="${curentuser.getTimezone()}"/></span> <b class="caret"></b>
             </div>
             <h1><a href="${cp}/metriq/${metric.hashCode()}"> ${metric.getDisplayName()} </a>: ${metric.getTypeName()}</h1>
 
@@ -161,8 +161,8 @@
 
                                     </td>                                    
                                     <jsp:setProperty name="dateValue" property="time" value="${listitem.getTime()}"/>
-                                    <td class="time" value ="${listitem.getTime()}">
-                                        <fmt:formatDate type="both" pattern="HH:mm:ss" value="${dateValue}"/>                                                                                                                            
+                                    <td class="time" value ="${listitem.getTime()}">                                        
+                                        <fmt:formatDate type="both" pattern="HH:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>
                                     </td>   
                                     <td class="timeinterval" value ="${lasttime-listitem.getTime()}">                                                                                
                                     </td>                                       
@@ -171,7 +171,7 @@
                                         <c:if test="${listitem.getLevel()>=0}">
                                             <c:if test="${not empty listitem.getStarttimes()[listitem.getLevel()]}">
                                                 <jsp:setProperty name="dateValue" property="time" value="${listitem.getStarttimes()[listitem.getLevel()]}"/>
-                                                <fmt:formatDate type="both" pattern="MM/dd HH:mm:ss" value="${dateValue}"/>                                            
+                                                <fmt:formatDate type="both" pattern="MM/dd HH:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>                                            
                                             </c:if>
                                         </c:if>
                                     </td>       

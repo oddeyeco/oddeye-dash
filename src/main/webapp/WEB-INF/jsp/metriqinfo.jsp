@@ -4,7 +4,7 @@
     <div class="row">
 
         <div class="x_title">            
-            <h1>Metric <a href="${cp}/chart/${metric.hashCode()}">${metric.getName()} </a> State info by <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}"/></h1>
+            <h1>Metric <a href="${cp}/chart/${metric.hashCode()}">${metric.getName()} </a> State info by <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h1>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="x_panel">
@@ -104,7 +104,7 @@
                                         <span class="date">${i-4}</span>
                                     </div>
                                     <div class="status"> 
-                                        <h4><fmt:formatDate value="${dateValue}" pattern="HH:mm"/></h4>
+                                        <h4><fmt:formatDate value="${dateValue}" pattern="HH:mm" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h4>
                                     </div>
                                 </li>
                             </a>
@@ -138,7 +138,7 @@
                                 </thead>                        
                                 <c:forEach items="${Rules}" var="rule" varStatus="loop">                            
                                     <tr>                                
-                                        <td class="time" value ="<fmt:formatDate type="both" pattern="Y/M/d" value="${rule.getValue().getTime().getTime()}"/>"><fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${rule.getValue().getTime().getTime()}"/> </td>                                
+                                        <td class="time" value ="<fmt:formatDate timeZone="UTC" type="both" pattern="Y/M/d" value="${rule.getValue().getTime().getTime()}"/>"><fmt:formatDate timeZone="${curentuser.getTimezone()}" type="both" pattern="HH:00 Y/MM/dd" value="${rule.getValue().getTime().getTime()}"/> ${curentuser.getTimezone()} </td>                                
                                         <td value ="${rule.getValue().getAvg()}"><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getAvg()}"/> </td>
                                         <td value ="${rule.getValue().getDev()}"><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getDev()}"/> </td>
                                         <td value ="${rule.getValue().getMin()}"><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getMin()}"/> </td>
