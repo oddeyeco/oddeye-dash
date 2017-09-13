@@ -176,10 +176,10 @@
                                         <div style="border-collapse: collapse;display: table;width: 100%;">
                                           <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr class="layout-full-width" style="background-color:#FFFFFF;"><![endif]-->
 
-              <!--[if (mso)|(IE)]><td align="center" width="600" style=" width:600px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
+              <!--[if (mso)|(IE)]><td align="center" width="600" style=" width:600px; padding-right: 0px; padding-left: 0px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
                                             <div class="col num12" style="min-width: 320px;max-width: 600px;width: 600px;width: calc(28000% - 167400px);background-color: #FFFFFF;">
                                                 <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
+                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
 
 
                                                         <div align="center" class="img-container center" style="padding-right: 0px;  padding-left: 0px;">
@@ -191,8 +191,18 @@
 
 
   <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
-                                                        <div style="color:#555555;line-height:150%;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
-                                                            <div><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center">Welcome to Oddeye Co.</p></div>	
+                                                        <div style="background-color:#00adee; color:#555555;line-height:150%;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
+                                                            <div>
+
+
+                                                          <div align="center" class="img-container center" style="padding-right: 0px;  padding-left: 0px;">
+    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
+      <img class="center" align="center" border="0" src="https://www.oddeye.co/wp-content/uploads/2017/08/logo_100px.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 100px" width="100">
+    <!--[if mso]></td></tr></table><![endif]-->
+    </div>
+
+
+                                                            <p style="font-size: 20px;line-height: 21px;text-align: center ;margin: 3px">Welcome to OddEye.</p></div>	
                                                             </div>
                                                             <!--[if mso]></td></tr></table><![endif]-->
 
@@ -248,9 +258,9 @@
 
 
                                                         <div align="center" class="button-container center" style="padding-right: 10px; padding-left: 10px; padding-top:25px; padding-bottom:10px;">
-                                                          <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top:25px; padding-bottom:10px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:62px; v-text-anchor:middle; width:238px;" arcsize="7%" strokecolor="#a8bf6f" fillcolor="#a8bf6f"><w:anchorlock/><center style="color:#ffffff; font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; font-size:16px;"><![endif]-->
-                                                            <a href='${uri}/confirm/${id}'>
-                                                                <div style="color: #ffffff; background-color: #a8bf6f; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; max-width: 218px; width: 188px; width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; text-align: center; mso-border-alt: none;">
+                                                          <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top:25px; padding-bottom:10px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:62px; v-text-anchor:middle; width:238px;" arcsize="7%" strokecolor="#00adee" fillcolor="#00adee"><w:anchorlock/><center style="color:#ffffff; font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; font-size:16px;"><![endif]-->
+                                                            <a  style="text-decoration: none" href='${uri}/confirm/${id}'>
+                                                                <div style="color: #ffffff; background-color: #00adee; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; max-width: 218px; width: 188px; width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; text-align: center; mso-border-alt: none;">
                                                                     <span style="font-size:16px;line-height:32px;">
                                                                         ACTIVATE MY ACCOUNT
                                                                         </span>
@@ -338,7 +348,7 @@
 
 
   <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;"><![endif]-->
-                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%;color:#a8bf6f; padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;">	
+                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%;color:#00adee; padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;">	
                                                             <!--<div><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><span style="color: rgb(255, 255, 255); font-size: 12px; line-height: 14px;"><span style="font-size: 12px; line-height: 14px; color: rgb(168, 191, 111);">Tel.:</span> +39 . 000 . 000 . 000</span><br></p></div>-->	
                                                             </div>
                                                             <!--[if mso]></td></tr></table><![endif]-->
@@ -354,7 +364,7 @@
 
 
   <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;"><![endif]-->
-                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%;color:#a8bf6f; padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;">	
+                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%;color:#00adee; padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;">	
                                                             <div><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center">Email <span style="color: rgb(255, 255, 255); font-size: 12px; line-height: 14px;">support@oddeye.co</span></p></div>	
                                                             </div>
                                                             <!--[if mso]></td></tr></table><![endif]-->

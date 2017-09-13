@@ -137,7 +137,7 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'options.title.text', default: ""},
-                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle",actions: {click: this.opencontent}},
+                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subtitle",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_link"},
@@ -152,7 +152,7 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_subtext"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "subtext", id: "title_subtext", name: "title_subtext", key_path: 'options.title.subtext', default: ""},
-                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description",actions: {click: this.opencontent}},
+                    {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subdescription",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_sublink"},
@@ -165,9 +165,9 @@ class ChartEditForm extends EditForm {
                 ]},
             {tag: "div", class: "raw", content: [
                     {tag: "div", id: "buttons_div", content: [
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "position_block", id: "button_title_position", text: "Positions", content: [{tag: "i", class: "fa fa-chevron-circle-down"}],actions: {click: this.opencontent}},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "color_block", id: "button_title_color", text: "Colors", content: [{tag: "i", class: "fa fa-chevron-circle-down"}],actions: {click: this.opencontent}},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "border_block", id: "button_title_border", text: "Border", content: [{tag: "i", class: "fa fa-chevron-circle-down"}],actions: {click: this.opencontent}}
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "position_block", id: "button_title_position", text: "Positions", content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "color_block", id: "button_title_color", text: "Colors", content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "border_block", id: "button_title_border", text: "Border", content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}}
                         ]}
                 ]},
             {tag: "div", id: "position_block", style: "display: none;", content: [{
@@ -185,7 +185,7 @@ class ChartEditForm extends EditForm {
                         ]
                     }]},
             {tag: "div", id: "color_block", style: "display: none;", content: [{
-                        tag: "div", class: "form-group form-group-custom", content: [
+                        tag: "div", class: "form-group form-group-custom",id:"title_color", content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Border", lfor: "title_border_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
@@ -197,6 +197,25 @@ class ChartEditForm extends EditForm {
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "title_background_color", name: "title_background_color", key_path: 'options.title.backgroundColor', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]}
+
+                        ]
+                    },
+
+                    {tag: "div", class: "form-group form-group-custom ", content: [
+                            {tag: "label", class: "control-label control-label-custom", text: "Title Color", lfor: "title_name_color"},
+                            {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
+                                            {tag: "input", type: "text", class: "form-control", prop_key: "TitleColor", id: "title_name_color", name: "title_name_color", key_path: 'options.title.textStyle.color', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]},
+                            {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_description_color"},
+                            {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
+                                            {tag: "input", type: "text", class: "form-control", prop_key: "descriptioncolor", id: "title_description_color", name: "title_description_color", key_path: 'options.title.subtextStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
@@ -705,7 +724,7 @@ class ChartEditForm extends EditForm {
                     {tag: "div", class: "btn btn-danger removeq btn-xs pull-right", id: "{index}_removedatazoom",
                         text: "Remove",
                         actions: {click: function () {
-                                var curindex = parseInt($(this).attr('template_index'));                                
+                                var curindex = parseInt($(this).attr('template_index'));
                                 current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom.splice(curindex, 1);
                                 var contener = $(this).parent().parent();
                                 current.repaintdatazoom(contener, edit_data_zoom.content[0].content);
