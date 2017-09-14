@@ -1244,7 +1244,16 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                             for (var key in oldseries[oldkey]) {
                                 if (key === "data")
                                 {
-                                    continue;
+                                if (oldseries[oldkey].type === "gauge")
+                                {
+                                    for (i = 0; i < widget.options.series[sind].data.length; i++)
+                                    {
+                                        widget.options.series[sind].data[i].subname = widget.options.series[sind].data[i].name;
+                                        widget.options.series[sind].data[i].name = key;
+                                    }
+
+                                }                                    
+                                    continue;                                                                        
                                 }
                                 widget.options.series[sind][key] = oldseries[oldkey][key];
                                 widget.options.series[sind].restored = true;
