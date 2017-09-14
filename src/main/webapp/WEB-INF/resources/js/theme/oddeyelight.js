@@ -122,7 +122,12 @@ var encodeHTML = function (source) {
         },
         toolbox: {
             show: true,
+//            right: 50,
             feature: {
+                saveAsImage: {
+                    show: true,
+                    title: "Save Image"
+                },                
                 magicType: {
                     show: true,
                     title: {
@@ -132,11 +137,8 @@ var encodeHTML = function (source) {
                         tiled: 'Tiled'
                     },
                     type: ['line', 'bar', 'stack', "tiled"]
-                },
-                saveAsImage: {
-                    show: true,
-                    title: "Save Image"
                 }
+
             },
             iconStyle: {
                 normal: {
