@@ -185,7 +185,7 @@ class ChartEditForm extends EditForm {
                         ]
                     }]},
             {tag: "div", id: "color_block", style: "display: none;", content: [{
-                        tag: "div", class: "form-group form-group-custom",id:"title_color", content: [
+                        tag: "div", class: "form-group form-group-custom", id: "title_color", content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Border", lfor: "title_border_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
@@ -275,8 +275,8 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_y"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_y", name: "splitNumber_y", key_path: 'splitNumber', default: ""}
                         ]},
-                    
-                      {tag: "div", class: "form-group  ", content: [
+
+                    {tag: "div", class: "form-group  ", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Y color", lfor: "axes_color_y"},
 
                             {tag: "div", class: "titile_input_midle axes_select ", content: [
@@ -287,9 +287,6 @@ class ChartEditForm extends EditForm {
                                 ]}
                         ]},
 
-                    
-                    
-                    
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesy",
                         text: "Dublicate",
                         actions: {click: function () {
@@ -300,6 +297,9 @@ class ChartEditForm extends EditForm {
                                 contener.html("");
                                 current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.change($(this));
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                    current.change($(this).find("input"));
+                                });
                             }
                         }
                     },
@@ -312,6 +312,9 @@ class ChartEditForm extends EditForm {
                                 contener.html("");
                                 current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.change($(this));
+                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                    current.change($(this).find("input"));
+                                });
                             }
                         }
                     }
@@ -330,6 +333,9 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent();
                                 contener.html("");
                                 current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
+                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                    current.change($(this).find("input"));
+                                });
 
                             }
                         }
@@ -381,8 +387,8 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
                         ]},
-                    
-                   {tag: "div", class: "form-group ",content: [
+
+                    {tag: "div", class: "form-group ", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "X color", lfor: "axes_color_x"},
 
                             {tag: "div", class: "titile_input_midle axes_select ", content: [
@@ -391,11 +397,8 @@ class ChartEditForm extends EditForm {
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
-                        ]},   
-                    
-                    
-                    
-                    
+                        ]},
+
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
                         text: "Dublicate",
                         actions: {click: function () {
@@ -407,6 +410,9 @@ class ChartEditForm extends EditForm {
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
+                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                    current.change($(this).find("input"));
+                                });
                             }
                         }
                     },
@@ -420,6 +426,9 @@ class ChartEditForm extends EditForm {
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
+                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                    current.change($(this).find("input"));
+                                });
                             }
                         }
                     }
@@ -439,6 +448,9 @@ class ChartEditForm extends EditForm {
                                 contener.html("");
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
+                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                    current.change($(this).find("input"));
+                                });
 
                             }
                         }
