@@ -305,7 +305,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                             } else
                             {
                                 delete series.xAxisIndex;
-                            }
+                            }                            
                             series.type = widget.type;
                             if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                             {
@@ -323,7 +323,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                             var yAxis = 0;
                             if (series.yAxisIndex)
                             {
-                                if (series.yAxisIndex === Array)
+                                if (Array.isArray(series.yAxisIndex))
                                 {
                                     yAxis = series.yAxisIndex[0];
                                 } else
@@ -491,7 +491,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                         var yAxis = 0;
                         if (widget.q[q_index].yAxisIndex)
                         {
-                            if (widget.q[q_index].yAxisIndex === Array)
+                            if (Array.isArray(widget.q[q_index].yAxisIndex))
                             {
                                 yAxis = widget.q[q_index].yAxisIndex[0];
                             } else
@@ -908,7 +908,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                 var yAxis = 0;
                 if (ser.yAxisIndex)
                 {
-                    if (ser.yAxisIndex === Array)
+                    if (Array.isArray(ser.yAxisIndex))
                     {
                         yAxis = ser.yAxisIndex[0];
                     } else

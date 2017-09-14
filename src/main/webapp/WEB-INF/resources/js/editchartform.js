@@ -800,9 +800,9 @@ class ChartEditForm extends EditForm {
         var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom-legend", text: "Axis Indexes"},
                 {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
-                {tag: "div", type: "choose_array", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
+                {tag: "div", type: "choose_array",choose_type:"radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
                 {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
-                {tag: "div", type: "choose_array", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
+                {tag: "div", type: "choose_array",choose_type:"radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
             ]};
         var inversef = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom-legend", text: "Inverse"},

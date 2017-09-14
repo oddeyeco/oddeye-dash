@@ -270,7 +270,11 @@ class EditForm {
                                                 checked = "checked=true";
                                             }
                                         }
-                                        jobject.append("<span>" + varsindex + '<input type="checkbox" index="' + varsindex + '" class="flat", name="' + item.name + '[]" ' + checked + ' />');
+                                        if (!item.choose_type)
+                                        {
+                                            item.choose_type = "checkbox";
+                                        }                                        
+                                        jobject.append("<span>" + varsindex + '<input type="'+item.choose_type+'" index="' + varsindex + '" class="flat", name="' + item.name + '[]" ' + checked + ' />');
 
                                     }
                                 }
@@ -1055,6 +1059,9 @@ class EditForm {
             input.find('[type=checkbox]:checked').each(function () {
                 value.push(Number($(this).attr('index')));
             });
+            input.find('[type=radio]:checked').each(function () {
+                value.push(Number($(this).attr('index')));
+            });            
         }
 
 
