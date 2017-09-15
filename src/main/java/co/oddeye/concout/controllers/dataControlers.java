@@ -16,6 +16,7 @@ import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -163,7 +164,7 @@ public class dataControlers {
                         JsonElement json = globalFunctions.getJsonParser().parse((new String(KV.value())));
                         lasterror = new ErrorState(json.getAsJsonObject());
                     } catch (Exception e) {
-                        
+
                     }
 
                     if (lasterror == null) {
@@ -175,7 +176,17 @@ public class dataControlers {
 
                     lastlevel = lasterror.getLevel();
                 }
-                Collections.reverse(list);
+                class RecipeCompare implements Comparator<ErrorState> {
+
+                    @Override
+                    public int compare(ErrorState o1, ErrorState o2) {
+                        // write comparison logic here like below , it's just a sample
+                        return  o1.getTime()<o2.getTime() ? 1 : -1;
+                    }
+                }
+
+                Collections.sort(list, new RecipeCompare());
+                //reverse(list);
                 map.put("date", new Date(date));
                 map.put("list", list);
                 map.put("metric", meta);
