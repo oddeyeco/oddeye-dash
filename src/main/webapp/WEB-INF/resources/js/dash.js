@@ -152,6 +152,30 @@ var savedash = function () {
     dounmodifier();
 };
 
+$('body').on("click", ".btnlock", function () {
+    if (dashmodifier === true) {
+        var r = confirm("Press a button!");
+        if (r == true) {
+            savedash();
+            $('.dash_header,.raw-controls,.btn-group,.lockhide').hide();
+            $('.btnunlock').show();
+
+        } else {
+            return;
+        }
+    } 
+    else {
+        $('.dash_header,.raw-controls,.btn-group,.lockhide').hide();
+        $('.btnunlock').show();
+    }
+});
+$('body').on("click", ".btnunlock", function () {
+    $('.dash_header,.raw-controls,.btn-group,.lockhide').show();
+    $('.btnunlock').hide();
+});
+
+
+
 $("body").bind('keydown', function (event) {
     if (event.ctrlKey || event.metaKey) {
         switch (String.fromCharCode(event.which).toLowerCase()) {

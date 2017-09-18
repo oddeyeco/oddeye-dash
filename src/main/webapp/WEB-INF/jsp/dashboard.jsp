@@ -1,23 +1,23 @@
 <%@ page pageEncoding="UTF-8" %>
 
 <div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-sm">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header custom-modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Successfully  saved </h4>
-      </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header custom-modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Successfully  saved </h4>
+            </div>
+        </div>
+
     </div>
-
-  </div>
 </div>
 
 
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
-        <div class="pull-left item_title" >
+        <div class="pull-left item_title lockhide" >
             <div class="title_text">
                 <span></span> 
                 <i class="change_title_row fa fa-pencil"></i>
@@ -63,10 +63,17 @@
 </div>  
 
 <div class="x_panel fulldash" style="display: none">
+    <div class="unlock" >
+        <button type="button" class="btn btn-default btnunlock" data-toggle="tooltip" data-placement="top" title="Unlock Dashboards"><i class="fa fa-unlock-alt" aria-hidden="true"></i></button>
+    </div>
+    <div style="clear: both"></div>
     <div class="dash_header">
         <div class="pull-left item_title" ><div class="title_text"><span>${dashname}</span> <i class="change_title fa fa-pencil"></i></div>  <div class="title_input"><input class="enter_title" type="text" name="name" id="name" value="${dashname}"> <i class="savetitle fa fa-check"></i></div></div>        
         <div class="pull-right"> 
             <div class="btn-group"> 
+                <div class="btn-group btn-group-xs">
+                    <button type="button" class="btn btn-default btnlock" data-toggle="tooltip" data-placement="top" title="Lock Dashboards"><i class="fa fa-lock" aria-hidden="true"></i></button>
+                </div>
                 <div class="btn-group btn-group-xs">
                     <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash Ctrl+S"><i class="fa fa-floppy-o"></i></button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
