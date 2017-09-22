@@ -58,7 +58,7 @@ var doeditTitle = function (e)
         {
             gdd.rows[ri].name = $(this).parent().find('input').val();
         }
-        domodifier();
+//        domodifier();
     }
 };
 
@@ -145,7 +145,7 @@ var savedash = function () {
                 setTimeout(function () {
                     $('#myModal').modal('hide');
                 }, 3000);
-//                console.log(xhr.status + ": " + thrownError);
+
             }
         });
     }
@@ -159,37 +159,21 @@ $('body').on("click", "#btnlock", function () {
         {
             $(this).parents('.fulldash').toggleClass('locked');
             $('.dash_header,.raw-controls,.btn-group').hide();
-        }
-            
-        $('.dash_header,.raw-controls,.btn-group').show(500, function () {
 
-        });
+        }
+
+        $('.dash_header,.raw-controls,.btn-group').show(500);
         $(this).toggleClass('btnunlock');
+        domodifier();
         $(this).find('i').toggleClass('fa-unlock-alt');
         delete gdd.locked;
+
 
     } else
     {
         if (dashmodifier === true) {
             $('#lockConfirm').modal('show');
-            $('body').on("click", "#savelock", function () {
-                $('#lockConfirm').modal('hide');
-                $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
-                    if (!$(this).parents('.fulldash').hasClass('locked'))
-                        $(this).parents('.fulldash').toggleClass('locked');
-                });
-                $(this).toggleClass('btnunlock');
-                $(this).find('i').toggleClass('fa-unlock-alt');
-                $(this).parents('.fulldash').toggleClass('locked');
-                gdd.locked = true;
-                setTimeout(function () {
-                    savedash();
-                }, 1000);
-
-//            $('.btnlock').hide();
-//            $('.btnunlock').show();
-
-            });
+            btn = $(this);
         } else {
             $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
                 if (!$(this).parents('.fulldash').hasClass('locked'))
@@ -203,28 +187,39 @@ $('body').on("click", "#btnlock", function () {
                 savedash();
             }, 1000);
 
-//        $('.btnlock').hide();
-//        $('.btnunlock').show();
+
         }
     }
 });
+var btn = null;
+$('body').on("click", "#savelock", function () {
+    if (btn===null)
+    {
+        return ;
+    }
+    $('#lockConfirm').modal('hide');
+    $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
+        if (!btn.parents('.fulldash').hasClass('locked'))
+            btn.parents('.fulldash').toggleClass('locked');
+    });
+    btn.toggleClass('btnunlock');
+    btn.find('i').toggleClass('fa-unlock-alt');
+    btn.parents('.fulldash').toggleClass('locked');
+    gdd.locked = true;
+    setTimeout(function () {
+        savedash();
+    }, 1000);
 
-
-//$('body').on("click", ".btnunlock", function () {
-//    console.log("wwwwwwww");
-//    $('.dash_header,.raw-controls,.btn-group').show();
-////    $('.btnunlock').hide();
-////    $('.btnlock').show();
-//});
-
-
+});
 
 $("body").bind('keydown', function (event) {
     if ((event.ctrlKey || event.metaKey) && !$('.fulldash').hasClass('locked')) {
         switch (event.which) {
             case 83:
-                event.preventDefault();
-                savedash();
+                if (dashmodifier === true) {
+                    event.preventDefault();
+                    savedash();
+                }
         }
     }
 });

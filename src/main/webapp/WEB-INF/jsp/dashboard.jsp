@@ -14,19 +14,19 @@
     </div>
 </div>
 <div id="lockConfirm" class="modal fade">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog ">
         <div class="modal-content">
-            <!--            <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title">Confirmation</h4>
-                        </div>-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
             <div class="modal-body">
-                <p>Do you want to save data?</p>
-                <p class="text-warning"></p>
+                <p>Before lock need save dashboard.</p>
+                <p class="text-warning">Save dashboard?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="savelock" class="btn btn-ok">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" id="savelock" class="btn btn-success">Yes</button>
             </div>
         </div>
     </div>
@@ -36,18 +36,18 @@
 
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
-       
+
         <div class="raw-controls text-right">
-             <div class="pull-left item_title " >
-            <div class="title_text">
-                <span></span> 
-                <i class="change_title_row fa fa-pencil"></i>
-            </div>              
-            <div class="title_input">
-                <input class="enter_title_row" type="text" name="row" value="" >
-                <i class="savetitlerow fa fa-check"></i>
-            </div>
-        </div>  
+            <div class="pull-left item_title " >
+                <div class="title_text">
+                    <span></span> 
+                    <i class="change_title_row fa fa-pencil"></i>
+                </div>              
+                <div class="title_input">
+                    <input class="enter_title_row" type="text" name="row" value="" >
+                    <i class="savetitlerow fa fa-check"></i>
+                </div>
+            </div>  
             <div class="btn-group  btn-group-xs">
                 <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fa-line-chart"></i></a>
                 <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title="View row as JSON" ><i class="fa fa-edit"></i></a>
@@ -133,18 +133,14 @@
                 </div>        
             </div>          
 
-<!--            <div id="btnunlock" class="pull-right btnunlock"  data-toggle="tooltip"  title="Unlock Dashboards" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
-                <i class="fa fa-unlock-alt" ></i>
-            </div>-->
-            
-            <div id="btnlock" class="pull-right btnlock"  data-toggle="tooltip"  title="Lock Dashboards" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
+            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  title="Lock Dashboards" data-placement="bottom">                        
                 <i class="fa fa-lock" ></i>
             </div>
-         
-            <div id="refresh" class="pull-right"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
+
+            <div id="refresh" class="pull-right reflock"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" >                        
                 <i class="glyphicon glyphicon-refresh"></i>
             </div>
-            
+
             <div id="refresh_wrap" class="pull-right" >
                 <select id="refreshtime" name="refreshtime" class="select2-hidden-accessible" style="width: 150px">
                     <option value="" selected>Refresh Off</option>
@@ -160,7 +156,7 @@
                     <option value="86400000">Refresh every 1d</option>                
                 </select>            
             </div>
-          
+
             <div id="reportrange" class="pull-right" data-toggle="tooltip"  title="Graph Time Interval" data-placement="bottom"  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                 <span></span> <b class="caret"></b>
