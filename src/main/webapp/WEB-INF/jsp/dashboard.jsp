@@ -13,6 +13,25 @@
 
     </div>
 </div>
+<div id="lockConfirm" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!--            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Confirmation</h4>
+                        </div>-->
+            <div class="modal-body">
+                <p>Do you want to save data?</p>
+                <p class="text-warning"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="savelock" class="btn btn-ok">Save</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
 
 
 <div class="hidden" id="rowtemplate">
@@ -63,17 +82,12 @@
 </div>  
 
 <div class="x_panel fulldash" style="display: none">
-    <div class="unlock" >
-        <button type="button" class="btn btn-default btnunlock" data-toggle="tooltip" data-placement="top" title="Unlock Dashboards"><i class="fa fa-unlock-alt" aria-hidden="true"></i></button>
-    </div>
-    <div style="clear: both"></div>
+
     <div class="dash_header">
         <div class="pull-left item_title" ><div class="title_text"><span>${dashname}</span> <i class="change_title fa fa-pencil"></i></div>  <div class="title_input"><input class="enter_title" type="text" name="name" id="name" value="${dashname}"> <i class="savetitle fa fa-check"></i></div></div>        
         <div class="pull-right"> 
             <div class="btn-group"> 
-                <div class="btn-group btn-group-xs">
-                    <button type="button" class="btn btn-default btnlock" data-toggle="tooltip" data-placement="top" title="Lock Dashboards"><i class="fa fa-lock" aria-hidden="true"></i></button>
-                </div>
+
                 <div class="btn-group btn-group-xs">
                     <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash Ctrl+S"><i class="fa fa-floppy-o"></i></button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
@@ -118,10 +132,18 @@
                 </div>        
             </div>          
 
-
-            <div id="refresh" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
+            <div id="btnunlock" class="pull-right btnunlock"  data-toggle="tooltip"  title="Unlock Dashboards" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
+                <i class="fa fa-unlock-alt" ></i>
+            </div>
+            
+            <div id="btnlock" class="pull-right btnlock"  data-toggle="tooltip"  title="Lock Dashboards" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
+                <i class="fa fa-lock" ></i>
+            </div>
+         
+            <div id="refresh" class="pull-right"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
                 <i class="glyphicon glyphicon-refresh"></i>
             </div>
+            
             <div id="refresh_wrap" class="pull-right" >
                 <select id="refreshtime" name="refreshtime" class="select2-hidden-accessible" style="width: 150px">
                     <option value="" selected>Refresh Off</option>
@@ -137,8 +159,8 @@
                     <option value="86400000">Refresh every 1d</option>                
                 </select>            
             </div>
-
-            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+          
+            <div id="reportrange" class="pull-right" data-toggle="tooltip"  title="Graph Time Interval" data-placement="bottom"  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                 <span></span> <b class="caret"></b>
             </div>     

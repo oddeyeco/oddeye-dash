@@ -154,30 +154,33 @@ var savedash = function () {
 
 $('body').on("click", ".btnlock", function () {
     if (dashmodifier === true) {
-        var r = confirm("Press a button!");
-        if (r == true) {
-            savedash();
-            $('.dash_header,.raw-controls,.btn-group,.lockhide').hide();
+        $('#lockConfirm').modal('show');
+        $('body').on("click", "#savelock", function () {
+            $('#lockConfirm').modal('hide');
+            setTimeout(function () {
+                savedash();
+            }, 1000);
+            $('.dash_header,.raw-controls,.btn-group').hide();
+            $('.btnlock').hide();
             $('.btnunlock').show();
 
-        } else {
-            return;
-        }
-    } 
-    else {
-        $('.dash_header,.raw-controls,.btn-group,.lockhide').hide();
+        });
+    } else {
+        $('.dash_header,.raw-controls,.btn-group').hide();
+        $('.btnlock').hide();
         $('.btnunlock').show();
     }
 });
 $('body').on("click", ".btnunlock", function () {
-    $('.dash_header,.raw-controls,.btn-group,.lockhide').show();
+    $('.dash_header,.raw-controls,.btn-group').show();
     $('.btnunlock').hide();
+    $('.btnlock').show();
 });
 
 
 
 $("body").bind('keydown', function (event) {
-    if (event.ctrlKey || event.metaKey) {
+    if ((event.ctrlKey || event.metaKey) && $('.btnunlock').is(':hidden')) {
         switch (String.fromCharCode(event.which).toLowerCase()) {
             case 's':
                 event.preventDefault();
