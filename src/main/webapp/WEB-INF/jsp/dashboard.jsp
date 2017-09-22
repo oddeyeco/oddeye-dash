@@ -36,7 +36,9 @@
 
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
-        <div class="pull-left item_title lockhide" >
+       
+        <div class="raw-controls text-right">
+             <div class="pull-left item_title " >
             <div class="title_text">
                 <span></span> 
                 <i class="change_title_row fa fa-pencil"></i>
@@ -46,7 +48,6 @@
                 <i class="savetitlerow fa fa-check"></i>
             </div>
         </div>  
-        <div class="raw-controls text-right">
             <div class="btn-group  btn-group-xs">
                 <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fa-line-chart"></i></a>
                 <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title="View row as JSON" ><i class="fa fa-edit"></i></a>

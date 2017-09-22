@@ -160,13 +160,13 @@ $('body').on("click", ".btnlock", function () {
             setTimeout(function () {
                 savedash();
             }, 1000);
-            $('.dash_header,.raw-controls,.btn-group').hide();
+            $('.dash_header,.raw-controls,.btn-group ').hide();
             $('.btnlock').hide();
             $('.btnunlock').show();
 
         });
     } else {
-        $('.dash_header,.raw-controls,.btn-group').hide();
+        $('.dash_header,.raw-controls,.btn-group ').hide();
         $('.btnlock').hide();
         $('.btnunlock').show();
     }
