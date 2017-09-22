@@ -133,9 +133,9 @@
                 </div>        
             </div>          
 
-            <div id="btnunlock" class="pull-right btnunlock"  data-toggle="tooltip"  title="Unlock Dashboards" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
+<!--            <div id="btnunlock" class="pull-right btnunlock"  data-toggle="tooltip"  title="Unlock Dashboards" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
                 <i class="fa fa-unlock-alt" ></i>
-            </div>
+            </div>-->
             
             <div id="btnlock" class="pull-right btnlock"  data-toggle="tooltip"  title="Lock Dashboards" data-placement="bottom" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">                        
                 <i class="fa fa-lock" ></i>
