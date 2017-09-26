@@ -151,52 +151,119 @@ var savedash = function () {
     }
     dounmodifier();
 };
+   var btnlock= function () {
 
-$('body').on("click", "#btnlock", function () {
-    if ($(this).hasClass('btnunlock'))
-    {
-        if ($(this).parents('.fulldash').hasClass('locked'))
-        {
-            $(this).parents('.fulldash').toggleClass('locked');
-            $('.dash_header,.raw-controls,.btn-group').hide();
+                    if ($('#btnlock').hasClass('btnunlock'))
 
-        }
+                    {
+                        if ($('#btnlock').parents('.fulldash').hasClass('locked'))
+                        {
+                            $('#btnlock').parents('.fulldash').toggleClass('locked');
+                            $('.dash_header,.raw-controls,.btn-group').hide();
+                        }
 
-        $('.dash_header,.raw-controls,.btn-group').show(500);
-        $(this).toggleClass('btnunlock');
-        domodifier();
-        $(this).find('i').toggleClass('fa-unlock-alt');
-        delete gdd.locked;
-
-
-    } else
-    {
-        if (dashmodifier === true) {
-            $('#lockConfirm').modal('show');
-            btn = $(this);
-        } else {
-            $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
-                if (!$(this).parents('.fulldash').hasClass('locked'))
-                    $(this).parents('.fulldash').toggleClass('locked');
-            });
-            $(this).toggleClass('btnunlock');
-            $(this).find('i').toggleClass('fa-unlock-alt');
-            $(this).parents('.fulldash').toggleClass('locked');
-            gdd.locked = true;
-            setTimeout(function () {
-                savedash();
-            }, 1000);
+                        $('.dash_header,.raw-controls,.btn-group').show(500);
+                        $('#btnlock').toggleClass('btnunlock');
+                        domodifier();
+                        $('#btnlock').find('i').toggleClass('fa-unlock-alt');
+                        locktooltip();
+                        delete gdd.locked;
+                        console.log('asdasd');
 
 
-        }
-    }
-});
+                    } else
+                    {
+                        if (dashmodifier === true) {
+                            $('#lockConfirm').modal('show');
+                            btn = $('#btnlock');
+                   
+                        } else {
+                            $('.dash_header,.raw-controls,.btn-group').hide(500, function () {
+
+                                if (!$('#btnlock').parents('.fulldash').hasClass('locked')) {
+
+                                    $('#btnlock').parents('.fulldash').toggleClass('locked');
+                                }
+                            });
+
+                            $('#btnlock').toggleClass('btnunlock');
+                            $('#btnlock').find('i').toggleClass('fa-unlock-alt');
+                            locktooltip();
+                            $('#btnlock').parents('.fulldash').toggleClass('locked');
+                            gdd.locked = true;
+                            setTimeout(function () {
+                                savedash();
+
+                            }, 1000);
+                        }
+                    }
+                };
+                
+  var locktooltip = function(){
+          console.log($('btnunlock'));
+      if($('#btnlock').hasClass('btnunlock')){
+          $('#btnlock').attr('data-original-title','Unlock Dashboard');
+          console.log("incha ay anasun");
+      }else{
+          $('#btnlock').attr('data-original-title','Lock Dashboard');
+          console.log("incha ay bess");
+      }
+  };              
+//var btnlock = function () {
+//
+//    if ($(this).hasClass('btnunlock'))
+//
+//    {
+//        if ($(this).parents('.fulldash').hasClass('locked'))
+//        {
+//            $(this).parents('.fulldash').toggleClass('locked');
+//            $('.dash_header,.raw-controls,.btn-group').hide();
+//        }
+//
+//        $('.dash_header,.raw-controls,.btn-group').show(500);
+//        $(this).toggleClass('btnunlock');
+//        domodifier();
+//        $(this).find('i').toggleClass('fa-unlock-alt');
+//        delete gdd.locked;
+//   
+//
+//
+//    } else
+//    {
+//        if (dashmodifier === true) {
+//            $('#lockConfirm').modal('show');
+//            btn = $(this);
+//            console.log(btn);
+//
+//        } else {
+//            $('.dash_header,.raw-controls,.btn-group').hide(500, function () {
+//
+//                if (!$(this).parents('.fulldash').hasClass('locked')) {
+//
+//                    $(this).parents('.fulldash').toggleClass('locked');
+//                }
+//            });
+////            console.log(btn);
+//            $(this).toggleClass('btnunlock');
+//            $(this).find('i').toggleClass('fa-unlock-alt');
+//            $(this).parents('.fulldash').toggleClass('locked');
+//            gdd.locked = true;
+//            setTimeout(function () {
+//                savedash();
+//
+//            }, 1000);
+//        }
+//    }
+//};
+$('body').on("click", "#btnlock", btnlock);
+
 var btn = null;
 $('body').on("click", "#savelock", function () {
-    if (btn===null)
+    if (btn === null)
     {
-        return ;
+        return;
     }
+
     $('#lockConfirm').modal('hide');
     $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
         if (!btn.parents('.fulldash').hasClass('locked'))
@@ -204,6 +271,7 @@ $('body').on("click", "#savelock", function () {
     });
     btn.toggleClass('btnunlock');
     btn.find('i').toggleClass('fa-unlock-alt');
+    locktooltip();
     btn.parents('.fulldash').toggleClass('locked');
     gdd.locked = true;
     setTimeout(function () {
@@ -215,13 +283,25 @@ $('body').on("click", "#savelock", function () {
 $("body").bind('keydown', function (event) {
     if ((event.ctrlKey || event.metaKey) && !$('.fulldash').hasClass('locked')) {
         switch (event.which) {
+
             case 83:
                 if (dashmodifier === true) {
                     event.preventDefault();
                     savedash();
+
                 }
         }
     }
+    if (event.ctrlKey || event.metaKey) {
+        switch (event.which) {
+
+            case 76:
+                event.preventDefault();
+                alert("l_@ anuma");
+                btnlock();
+        }
+    }
+
 });
 var defoption = {
     tooltip: {
@@ -1726,8 +1806,9 @@ function redrawAllJSON(dashJSON, redraw = false) {
     {
         $(".fulldash").addClass('locked');
         $('#btnlock').addClass('btnunlock');
-        $('#btnlock i').addClass('fa-unlock-alt');
+        $('#btnlock i').addClass('fa-unlock-alt');        
     }
+    locktooltip();
     if (!redraw)
     {
         $("#dashcontent").html("");
@@ -2131,6 +2212,7 @@ function repaint(redraw = false, rebuildform = true) {
 }
 
 $(document).ready(function () {
+    
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
     $("#dashcontent").sortable({
         cursor: "move",
