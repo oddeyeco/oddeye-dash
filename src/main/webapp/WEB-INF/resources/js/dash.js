@@ -151,64 +151,64 @@ var savedash = function () {
     }
     dounmodifier();
 };
-   var btnlock= function () {
+var btnlock = function () {
 
-                    if ($('#btnlock').hasClass('btnunlock'))
+    if ($('#btnlock').hasClass('btnunlock'))
 
-                    {
-                        if ($('#btnlock').parents('.fulldash').hasClass('locked'))
-                        {
-                            $('#btnlock').parents('.fulldash').toggleClass('locked');
-                            $('.dash_header,.raw-controls,.btn-group').hide();
-                        }
+    {
+        if ($('#btnlock').parents('.fulldash').hasClass('locked'))
+        {
+            $('#btnlock').parents('.fulldash').toggleClass('locked');
+            $('.dash_header,.raw-controls,.btn-group').hide();
+        }
 
-                        $('.dash_header,.raw-controls,.btn-group').show(500);
-                        $('#btnlock').toggleClass('btnunlock');
-                        domodifier();
-                        $('#btnlock').find('i').toggleClass('fa-unlock-alt');
-                        locktooltip();
-                        delete gdd.locked;
-                        console.log('asdasd');
+        $('.dash_header,.raw-controls,.btn-group').show(500);
+        $('#btnlock').toggleClass('btnunlock');
+        domodifier();
+        $('#btnlock').find('i').toggleClass('fa-unlock-alt');
+        locktooltip();
+        delete gdd.locked;
 
 
-                    } else
-                    {
-                        if (dashmodifier === true) {
-                            $('#lockConfirm').modal('show');
-                            btn = $('#btnlock');
-                   
-                        } else {
-                            $('.dash_header,.raw-controls,.btn-group').hide(500, function () {
 
-                                if (!$('#btnlock').parents('.fulldash').hasClass('locked')) {
+    } else
+    {
+        if (dashmodifier === true) {
+            $('#lockConfirm').modal('show');
+            btn = $('#btnlock');
 
-                                    $('#btnlock').parents('.fulldash').toggleClass('locked');
-                                }
-                            });
+        } else {
+            $('.dash_header,.raw-controls,.btn-group').hide(500, function () {
 
-                            $('#btnlock').toggleClass('btnunlock');
-                            $('#btnlock').find('i').toggleClass('fa-unlock-alt');
-                            locktooltip();
-                            $('#btnlock').parents('.fulldash').toggleClass('locked');
-                            gdd.locked = true;
-                            setTimeout(function () {
-                                savedash();
+                if (!$('#btnlock').parents('.fulldash').hasClass('locked')) {
 
-                            }, 1000);
-                        }
-                    }
-                };
-                
-  var locktooltip = function(){
-          console.log($('btnunlock'));
-      if($('#btnlock').hasClass('btnunlock')){
-          $('#btnlock').attr('data-original-title','Unlock Dashboard');
-          console.log("incha ay anasun");
-      }else{
-          $('#btnlock').attr('data-original-title','Lock Dashboard');
-          console.log("incha ay bess");
-      }
-  };              
+                    $('#btnlock').parents('.fulldash').toggleClass('locked');
+                }
+            });
+
+            $('#btnlock').toggleClass('btnunlock');
+            $('#btnlock').find('i').toggleClass('fa-unlock-alt');
+            locktooltip();
+            $('#btnlock').parents('.fulldash').toggleClass('locked');
+            gdd.locked = true;
+            setTimeout(function () {
+                savedash();
+
+            }, 1000);
+        }
+    }
+};
+
+var locktooltip = function () {
+
+    if ($('#btnlock').hasClass('btnunlock')) {
+        $('#btnlock').attr('data-original-title', 'Unlock Dashboard');
+
+    } else {
+        $('#btnlock').attr('data-original-title', 'Lock Dashboard');
+
+    }
+};
 //var btnlock = function () {
 //
 //    if ($(this).hasClass('btnunlock'))
@@ -297,7 +297,7 @@ $("body").bind('keydown', function (event) {
 
             case 76:
                 event.preventDefault();
-                alert("l_@ anuma");
+
                 btnlock();
         }
     }
@@ -1806,7 +1806,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     {
         $(".fulldash").addClass('locked');
         $('#btnlock').addClass('btnunlock');
-        $('#btnlock i').addClass('fa-unlock-alt');        
+        $('#btnlock i').addClass('fa-unlock-alt');
     }
     locktooltip();
     if (!redraw)
@@ -2212,7 +2212,7 @@ function repaint(redraw = false, rebuildform = true) {
 }
 
 $(document).ready(function () {
-    
+
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
     $("#dashcontent").sortable({
         cursor: "move",

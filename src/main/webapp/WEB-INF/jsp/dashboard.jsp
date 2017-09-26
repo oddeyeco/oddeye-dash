@@ -25,8 +25,8 @@
                 <p class="text-warning">Save dashboard?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                <button type="button" id="savelock" class="btn btn-success">Yes</button>
+                <input  type="button" class="btn btn-default" data-dismiss="modal" value="No">
+                <input id="savelock" type="button"class="btn btn-success" data-dismiss="modal" value="Yes">
             </div>
         </div>
     </div>
@@ -133,7 +133,7 @@
                 </div>        
             </div>          
 
-            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  title="Lock Dashboards" data-placement="bottom">                        
+            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
                 <i class="fa fa-lock" ></i>
             </div>
 
@@ -180,8 +180,8 @@
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="deletedashconfirm" class="btn btn-ok">Delete</button>
+                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
+                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="Close">
             </div>
         </div>
     </div>
@@ -198,8 +198,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="applyrowjson" class="btn btn-ok">Apply</button>
+                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
+                <input type="button" id="applyrowjson" class="btn btn-ok" value="Apply">
             </div>
         </div>
     </div>
