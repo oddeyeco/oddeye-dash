@@ -1058,8 +1058,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                         yAxis = ser.yAxisIndex;
                     }
 
-                }
-                if (!val)
+                }                
+                if (typeof val === "undefined")
                 {
                     continue;
                 }
