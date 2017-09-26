@@ -7,11 +7,30 @@
 
 /* global URL, cp, $RIGHT_COL, echartLine */
 function applyAlias(text, object)
-{
-    text = text.replace(new RegExp("\\{metric\\}", 'g'), object.metric);//"$2, $1"
+{    
+    text = text.replace(new RegExp("\\{metric(.*)\\}", 'g'), replacerM(object.metric));    
     text = text.replace(new RegExp("\\{\w+\\}", 'g'), replacer(object.tags));
-    text = text.replace(new RegExp("\\{tag.(.*)\\}", 'g'), replacer(object.tags));
+    text = text.replace(new RegExp("\\{tag.(.*)\\}", 'g'), replacer(object.tags));    
     return text;
+}
+
+function replacerM(metric) {
+    return function (str, p1) {
+        var split_str = p1.split('|');
+//        var func_rexp = new RegExp("r\(\"(.*)\",\"(.*)\"\)", 'g')
+        if (typeof split_str[1] !== "undefined")
+        {            
+            var func_rexp = new RegExp("r\\(\"(.*)\",\"(.*)\"\\)");
+            if (func_rexp.test(split_str[1]))
+            {
+                var match = split_str[1].match(func_rexp);
+                var inputstr = metric;                
+                return inputstr.replace (match[1],match[2]);
+            }
+
+        }
+        return metric;
+    };
 }
 
 function replacer(tags) {
