@@ -4,7 +4,6 @@
 <script src="${cp}/resources/js/dash.js"></script>
 <script src="${cp}/resources/js/editform.js"></script>
 <script src="${cp}/resources/js/editchartform.js"></script>
-<script src="${cp}/resources/switchery/dist/switchery.min.js"></script>
 <script src="${cp}/resources/numbersjs/src/numbers.min.js"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/jsoneditor/dist/jsoneditor.min.js"></script>
