@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 
-<div id="myModal" class="modal fade" role="dialog">
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
 
         <!-- Modal content-->
@@ -13,7 +13,7 @@
 
     </div>
 </div>
-<div id="lockConfirm" class="modal fade">
+<div id="lockConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
@@ -133,7 +133,7 @@
                 </div>        
             </div>          
 
-            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
+            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="left">                        
                 <i class="fa fa-lock" ></i>
             </div>
 
@@ -168,7 +168,7 @@
 </div>
 
 
-<div id="deleteConfirm" class="modal fade">
+<div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -181,12 +181,12 @@
             </div>
             <div class="modal-footer">
                 <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
-                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="Close">
+                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="Delete">
             </div>
         </div>
     </div>
 </div>                
-<div id="showjson" class="modal  fade">
+<div id="showjson" class="modal  fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
