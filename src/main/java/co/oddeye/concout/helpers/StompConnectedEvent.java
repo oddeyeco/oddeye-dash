@@ -5,11 +5,8 @@
  */
 package co.oddeye.concout.helpers;
 
-import co.oddeye.concout.dao.BaseTsdbConnect;
-import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.model.User;
-import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,11 +36,12 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
     ConsumerFactory consumerFactory;
 
     private final SimpMessagingTemplate template;
+
     @Autowired
     public StompConnectedEvent(SimpMessagingTemplate template) {
         this.template = template;
-    }    
-    
+    }
+
     @Override
     public void onApplicationEvent(SessionConnectedEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
@@ -51,18 +49,28 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
         User userDetails = (User) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal();
         GenericMessage message = (GenericMessage) event.getMessage().getHeaders().get("simpConnectMessage");
 
-        String[] levels = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("levels").get(0).split(",");
-        String sotoken = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("sotoken").get(0); //sha.getNativeHeader("sotoken").get(0);
-        String Sesionid =(String) message.getHeaders().get("simpSessionId");
-        Map <String,Map<String, String[]>> Sesionmap= new HashMap<>();
-        Map<String, String[]> sotokenlevel = new HashMap<String, String[]>() {
-            {
-                put(sotoken, levels);
-            }};
-        
-        Sesionmap.put(Sesionid, sotokenlevel);
-                        
-        userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, Sesionmap);
+        if (((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("sotoken") != null) {
+            String[] levels = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("levels").get(0).split(",");
+            String sotoken = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("sotoken").get(0); //sha.getNativeHeader("sotoken").get(0);
+            String Sesionid = (String) message.getHeaders().get("simpSessionId");
+            Map<String, Map<String, String[]>> Sesionmap = new HashMap<>();
+            Map<String, String[]> sotokenlevel = new HashMap<String, String[]>() {
+                {
+                    put(sotoken, levels);
+                }
+            };
+
+            Sesionmap.put(Sesionid, sotokenlevel);
+            userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, Sesionmap);
+        }
+
+        if (((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("page") != null) {
+
+            String page = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("page").get(0); //sha.getNativeHeader("sotoken").get(0);
+            String Sesionid = (String) message.getHeaders().get("simpSessionId");
+            userDetails.getPagelist().put(Sesionid, page);
+        }
+
         LOGGER.debug("Client connected.");
         // you can use a controller to send your msg here
     }

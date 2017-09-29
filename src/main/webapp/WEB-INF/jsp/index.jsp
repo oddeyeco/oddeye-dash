@@ -221,6 +221,12 @@
                 </div>
             </div>
 
+            <script>
+                var headerName = "${_csrf.headerName}";
+                var token = "${_csrf.token}";
+                var cp = "${cp}";
+            </script>                                         
+
             <!-- jQuery -->
             <script src="<c:url value="/assets/dist/jquery.min.js"/>"></script>    
 
@@ -246,6 +252,9 @@
             <script src="${cp}/resources/build/js/custom.min.js"></script>
             <!-- Select2 -->
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
+
+            <script src="${cp}/assets/dist/sockjs-1.1.1.min.js"></script> 
+            <script src="${cp}/assets/js/stomp.min.js"></script>            
 
             <script src="${cp}/resources/js/global.js"></script>        
 

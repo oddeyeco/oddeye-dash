@@ -6,6 +6,8 @@
 package co.oddeye.concout.helpers;
 
 import co.oddeye.concout.model.User;
+import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -27,11 +29,12 @@ public class StompDisConnectedEvent implements ApplicationListener<SessionDiscon
     public void onApplicationEvent(SessionDisconnectEvent event) {
         User userDetails = (User) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal();
         GenericMessage message = (GenericMessage) event.getMessage();
-        String Sesionid =(String) message.getHeaders().get("simpSessionId");
+        String Sesionid = (String) message.getHeaders().get("simpSessionId");
         userDetails.stopListenerContainer(Sesionid);
+        userDetails.getPagelist().remove(Sesionid);
+
         LOGGER.debug("Client SessionDisconnectEvent.");
         // you can use a controller to send your msg here
     }
-
 
 }

@@ -65,8 +65,12 @@
                                     </c:when>                                                                                                
                                     <c:when test="${config.getValue().type == 'userstatus'}">    
                                         <c:if test="${model.getListenerContainer().isRunning()}">
-                                            <span class="label label-success">looks monitoring ${model.getSotokenlist().size()}</span>
-                                        </c:if>                                          
+                                            <span class="label label-success">looks monitoring ${model.getSotokenlist().size()}</span><br>
+                                        </c:if>   
+                                            
+                                        <c:forEach items="${model.getPagelist() }" var="item">   
+                                            <span class="label label-success">${item.getValue()}</span><br>
+                                        </c:forEach>                                                 
                                     </c:when>                                                                                                                                            
                                     <c:otherwise>
                                     </c:otherwise>

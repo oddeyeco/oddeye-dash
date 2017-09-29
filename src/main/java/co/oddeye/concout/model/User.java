@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
@@ -103,6 +104,7 @@ public class User implements UserDetails {
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
     private final Map <String,Map<String, String[]>> sotokenlist = new HashMap<>();
+    private final Map<String,String> pagelist = new HashMap<>();
 
     public User() {
         this.SwitchUser = null;
@@ -839,5 +841,12 @@ public class User implements UserDetails {
      */
     public void setConsumption(Double consumption) {
         this.consumption = consumption;
+    }
+
+    /**
+     * @return the pagelist
+     */
+    public Map<String,String> getPagelist() {
+        return pagelist;
     }
 }

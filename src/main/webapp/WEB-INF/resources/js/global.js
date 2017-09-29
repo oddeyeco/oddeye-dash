@@ -5,7 +5,17 @@
  */
 
 
-/* global URL, cp, $RIGHT_COL, echartLine */
+/* global URL, cp, $RIGHT_COL, echartLine, token,headerName */
+
+var globalsocket = new SockJS(cp + '/subscribe');
+var globalstompClient = Stomp.over(globalsocket);
+//globalstompClient.debug = null;
+var headers = {};
+headers[headerName] = token;
+headers["page"] = document.URL;
+
+globalstompClient.connect(headers,function (frame){});
+
 function applyAlias(text, object)
 {    
     text = text.replace(new RegExp("\\{metric(.*?)\\}", 'g'), replacerM(object.metric));    

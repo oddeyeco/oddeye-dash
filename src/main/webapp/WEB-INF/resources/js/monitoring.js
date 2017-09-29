@@ -32,7 +32,7 @@ function connectstompClient()
             }
         }
     });
-    headers["levels"] = levels;
+    headers["levels"] = levels;    
     stompClient.connect(headers,
             function (frame) {
                 stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
