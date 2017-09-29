@@ -25,16 +25,16 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
-                .simpDestMatchers("/topic/**").permitAll()
+                .simpDestMatchers("/input/**").permitAll()
                 .simpDestMatchers("/user/{userId}/**").hasRole("USER")
                 .simpDestMatchers("/**").hasRole("ADMIN");        
     }
     
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
+//        config.enableSimpleBroker("/input");
         config.enableSimpleBroker("/user");        
-        config.setApplicationDestinationPrefixes("/app");
+        config.setApplicationDestinationPrefixes("/input");
     }
 
     @Override
@@ -45,5 +45,6 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
     @Bean
     public SocketWebSecurity socketWebSecurity() {
         return new SocketWebSecurity();
-    }    
+    }  
+    
 }

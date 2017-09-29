@@ -63,6 +63,11 @@
                                             <span class="label label-success">${config.getValue().items[item]}</span><br>
                                         </c:forEach>                                                                                                            
                                     </c:when>                                                                                                
+                                    <c:when test="${config.getValue().type == 'userstatus'}">    
+                                        <c:if test="${model.getListenerContainer().isRunning()}">
+                                            <span class="label label-success">looks monitoring ${model.getSotokenlist().size()}</span>
+                                        </c:if>                                          
+                                    </c:when>                                                                                                                                            
                                     <c:otherwise>
                                     </c:otherwise>
                                 </c:choose>                                        

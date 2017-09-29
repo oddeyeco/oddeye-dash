@@ -4,6 +4,7 @@
     var sotoken = ${_sotoken};
     var uuid = "${curentuser.getId()}";
     var filterJson = ${curentuser.getDefaultFilter()};
+    var cp = "${cp}";
 </script> 
 <script src="${cp}/assets/dist/sockjs-1.1.1.min.js"></script> 
 <script src="${cp}/assets/js/stomp.min.js"></script>

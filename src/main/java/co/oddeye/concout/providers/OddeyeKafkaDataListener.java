@@ -30,7 +30,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  * @author vahan
  */
 public class OddeyeKafkaDataListener implements MessageListener<Object, Object>, Serializable {
-    
+
     private final User user;
     private final HbaseMetaDao MetaDao;
     private final Logger log = LoggerFactory.getLogger(OddeyeKafkaDataListener.class);
@@ -46,7 +46,7 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
     public OddeyeKafkaDataListener(User _user, SimpMessagingTemplate _template, HbaseMetaDao _MetaDao) {
         user = _user;
         template = _template;
-        MetaDao=_MetaDao;
+        MetaDao = _MetaDao;
 //        sotokenlist.putAll(sotoken);
     }
 
@@ -59,7 +59,7 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
             log.info("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
         }
 
-        if (System.currentTimeMillis() - record.timestamp() < 60000) {           
+        if (System.currentTimeMillis() - record.timestamp() < 60000) {
             String message;
             JsonElement jsonResult = PARSER.parse(msg);
 
@@ -72,7 +72,7 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
             if (metricMeta == null) {
                 try {
                     byte[] key = Hex.decodeHex(jsonResult.getAsJsonObject().get("key").getAsString().toCharArray());
-                    user.getMetricsMeta().put(hash, MetaDao.getByKey(key)) ;
+                    user.getMetricsMeta().put(hash, MetaDao.getByKey(key));
                     metricMeta = user.getMetricsMeta().get(hash);
                 } catch (Exception ex) {
                     log.info(globalFunctions.stackTrace(ex));
@@ -96,13 +96,23 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                 jsonResult.getAsJsonObject().add("info", metajson);
                 jsonResult.getAsJsonObject().addProperty("isspec", metricMeta.isSpecial() ? 1 : 0);
 
-                for (Map.Entry<String, String[]> sotokenlevel : user.getSotokenlist().entrySet()) {
-                    if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
-                        this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+                for (Map.Entry<String, Map<String, String[]>> sesionsotokenlevel : user.getSotokenlist().entrySet()) {
+                    Map<String, String[]> sotokenlevelmap = sesionsotokenlevel.getValue();
+                    for (Map.Entry<String, String[]> sotokenlevel : sotokenlevelmap.entrySet()) {
+                        if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
+                            this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+                        }
+
                     }
 
                 }
 
+//                for (Map.Entry<String, String[]> sotokenlevel : user.getSotokenlist().entrySet()) {
+//                    if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
+//                        this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+//                    }
+//
+//                }
             }
 
         } else {

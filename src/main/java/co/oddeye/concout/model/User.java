@@ -102,7 +102,7 @@ public class User implements UserDetails {
     private Double consumption = 0d;
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
-    private final Map<String, String[]> sotokenlist = new HashMap<>();
+    private final Map <String,Map<String, String[]>> sotokenlist = new HashMap<>();
 
     public User() {
         this.SwitchUser = null;
@@ -710,7 +710,7 @@ public class User implements UserDetails {
     /**
      * @return the listenerContainer
      */
-    public ConcurrentMessageListenerContainer<Integer, String> getListenerContainer() {
+    public ConcurrentMessageListenerContainer<Integer, String> getListenerContainer() {        
         return listenerContainer;
     }
 
@@ -721,7 +721,12 @@ public class User implements UserDetails {
         this.listenerContainer = listenerContainer;
     }
 
-    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
+    
+  
+    
+//    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
+        public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map <String,Map<String, String[]>> sesionsotoken) {
+        
         if (this.listenerContainer == null) {
             String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];
             for (int i = 0; i < AlertLevel.ALERT_LEVELS_INDEX.length; i++) {
@@ -729,7 +734,7 @@ public class User implements UserDetails {
             }
             ContainerProperties properties = new ContainerProperties(topics);
             properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, _MetaDao));
-            this.sotokenlist.putAll(sotoken);
+            this.sotokenlist.putAll(sesionsotoken);
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setConcurrency(1);
             this.listenerContainer.getContainerProperties().setPollTimeout(3000);
@@ -738,7 +743,7 @@ public class User implements UserDetails {
 //            List<KafkaMessageListenerContainer<Integer, String>> liseners = this.listenerContainer.getContainers();
 //            System.out.println(liseners.size());
 //            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
-            this.sotokenlist.putAll(sotoken);
+            this.sotokenlist.putAll(sesionsotoken);
             if (!this.sotokenlist.isEmpty()) {
                 if (!this.listenerContainer.isRunning()) {
                     this.listenerContainer.start();
@@ -766,7 +771,7 @@ public class User implements UserDetails {
     /**
      * @return the sotokenlist
      */
-    public Map<String, String[]> getSotokenlist() {
+    public Map <String,Map<String, String[]>> getSotokenlist() {
         return sotokenlist;
     }
 

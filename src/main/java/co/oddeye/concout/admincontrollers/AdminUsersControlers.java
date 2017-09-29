@@ -11,14 +11,12 @@ import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
 import java.beans.PropertyEditorSupport;
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -109,7 +107,13 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", " Switch to user");
                 put("type", "actions");
             }
-        });
+        }).AddViewConfig("activity", new HashMap<String, Object>() {
+            {                
+                put("title", " Monitoring conneted");
+                put("type", "userstatus");
+            }
+        })
+                ;
 
         Map<String, String> country = new LinkedHashMap<>();
         Map<String, String> timezones = new LinkedHashMap<>();
