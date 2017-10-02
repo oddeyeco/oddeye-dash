@@ -14,7 +14,10 @@ import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.providers.OddeyeKafkaDataListener;
 import co.oddeye.concout.providers.UserConcurrentMessageListenerContainer;
 import co.oddeye.core.globalFunctions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.UUID;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
@@ -598,6 +602,21 @@ public class User implements UserDetails {
     public Map<String, String> getDushList() {
         return DushList;
     }
+    
+    /**
+     * @return the DushList
+     */
+    public Map<String, Object> getDushListasObject() {
+        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Map<String, Object> result = new TreeMap<>();
+        for (Map.Entry<String, String> dash:DushList.entrySet())
+        {
+            globalFunctions.getJsonParser().parse(dash.getValue());
+            Map<String, Object> dashMap = new Gson().fromJson(dash.getValue(), type);
+            result.put(dash.getKey(),dashMap);
+        }
+        return result;
+    }    
 
     /**
      * @param DushList the DushList to set

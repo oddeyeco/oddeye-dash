@@ -94,9 +94,20 @@
                                         <li><a><i class="fa fa-desktop"></i> Dashboards <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu">                                                                                        
                                                 <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
-                                                    <c:forEach items="${curentuser.getDushList()}" var="Dush">
-                                                    <li><a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>">${Dush.key}</a></li>
-                                                    </c:forEach>
+                                                    <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
+                                                    <li>
+                                                        <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>">                                                         
+                                                            ${Dush.key}
+                                                            <c:if test="${Dush.value.get(\"locked\")==true}">
+                                                                &nbsp; <i class="fa fa-lock"></i>
+                                                            </c:if>                                                               
+                                                            <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                                                &nbsp; <i class="fa fa-unlock"></i>
+                                                            </c:if>                                                                   
+                                                        </a>
+
+                                                    </li>
+                                                </c:forEach>
 
                                             </ul>
                                         </li>

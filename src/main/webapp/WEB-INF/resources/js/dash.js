@@ -163,7 +163,7 @@ var btnlock = function () {
         $('.dash_header,.raw-controls,.btn-group').show(500);
         $('#btnlock').toggleClass('btnunlock');
         domodifier();
-        $('#btnlock').find('i').toggleClass('fa-unlock-alt');
+        $('#btnlock').find('i').toggleClass('fa-unlock');
         locktooltip();
         delete gdd.locked;
 
@@ -182,7 +182,7 @@ var btnlock = function () {
             });
 
             $('#btnlock').toggleClass('btnunlock');
-            $('#btnlock').find('i').toggleClass('fa-unlock-alt');
+            $('#btnlock').find('i').toggleClass('fa-unlock');
             locktooltip();
             $('#btnlock').parents('.fulldash').toggleClass('locked');
             gdd.locked = true;
@@ -220,7 +220,7 @@ $('body').on("click", "#savelock", function () {
             btn.parents('.fulldash').toggleClass('locked');
     });
     btn.toggleClass('btnunlock');
-    btn.find('i').toggleClass('fa-unlock-alt');
+    btn.find('i').toggleClass('fa-unlock');
     locktooltip();
     btn.parents('.fulldash').toggleClass('locked');
     gdd.locked = true;
@@ -1753,7 +1753,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     {
         $(".fulldash").addClass('locked');
         $('#btnlock').addClass('btnunlock');
-        $('#btnlock i').addClass('fa-unlock-alt');
+        $('#btnlock i').addClass('fa-unlock');
     }
     locktooltip();
     if (!redraw)
