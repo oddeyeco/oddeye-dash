@@ -23,10 +23,17 @@
             <div class="x_content">
                 <div>
                     <ul class="gotodash">
-                        <c:forEach items="${activeuser.getDushList()}" var="Dush" varStatus="loop">                                
+                        <c:forEach items="${activeuser.getDushListasObject()}" var="Dush" varStatus="loop">                                
                             <li class="col-md-6">
                                 <!--<input type="checkbox" class="flat">-->
-                                <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">${Dush.getKey()}</a> 
+                                <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">
+                                    <c:if test="${Dush.value.get(\"locked\")==true}">
+                                        &nbsp; <i class="fa fa-lock"></i>
+                                    </c:if>                                                               
+                                    <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                        &nbsp; <i class="fa fa-unlock"></i>
+                                    </c:if>                                      
+                                    ${Dush.getKey()}</a> 
                             </li>                                
                         </c:forEach>
                     </ul>
