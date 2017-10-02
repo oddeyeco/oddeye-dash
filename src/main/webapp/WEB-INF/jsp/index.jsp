@@ -247,6 +247,7 @@
                 var headerName = "${_csrf.headerName}";
                 var token = "${_csrf.token}";
                 var cp = "${cp}";
+                var uuid = "${curentuser.getId()}";
             </script>                                         
 
             <!-- jQuery -->
@@ -293,8 +294,7 @@
                     $MENU_TOGGLE.on('click', function () {
                         $(window).resize();
                     });
-                });
-                var cp = "${cp}";
+                });                
             </script>
             <script>
                 (function (i, s, o, g, r, a, m) {

@@ -5,38 +5,50 @@
  */
 
 
-/* global URL, cp, $RIGHT_COL, echartLine, token,headerName */
+/* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid */
 
 var globalsocket = new SockJS(cp + '/subscribe');
 var globalstompClient = Stomp.over(globalsocket);
-//globalstompClient.debug = null;
+globalstompClient.debug = null;
 var headers = {};
 headers[headerName] = token;
 headers["page"] = document.URL;
 
-globalstompClient.connect(headers,function (frame){});
+globalstompClient.connect(headers, function (frame) {
+    globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
+        //TODO
+    });
+
+    globalstompClient.subscribe('/all/info', function (message) {
+        //TODO
+    });
+}, function (frame) {
+    setTimeout(function () {
+        location.reload();
+    }, 20000);
+
+});
 
 function applyAlias(text, object)
-{    
-    text = text.replace(new RegExp("\\{metric(.*?)\\}", 'g'), replacerM(object.metric));    
+{
+    text = text.replace(new RegExp("\\{metric(.*?)\\}", 'g'), replacerM(object.metric));
     text = text.replace(new RegExp("\\{\w+\\}", 'g'), replacer(object.tags));
-    text = text.replace(new RegExp("\\{tag.(.*?)\\}", 'g'), replacer(object.tags));    
+    text = text.replace(new RegExp("\\{tag.(.*?)\\}", 'g'), replacer(object.tags));
     return text;
 }
 
 function replacerM(metric) {
     return function (str, p1) {
-        console.log(p1);
         var split_str = p1.split('|');
 //        var func_rexp = new RegExp("r\(\"(.*)\",\"(.*)\"\)", 'g')
         if (typeof split_str[1] !== "undefined")
-        {            
+        {
             var func_rexp = new RegExp("r\\(\"(.*)\",\"(.*)\"\\)");
             if (func_rexp.test(split_str[1]))
             {
                 var match = split_str[1].match(func_rexp);
-                var inputstr = metric;                
-                return inputstr.replace (match[1],match[2]);
+                var inputstr = metric;
+                return inputstr.replace(match[1], match[2]);
             }
 
         }
@@ -55,13 +67,13 @@ function replacer(tags) {
 
 //        var func_rexp = new RegExp("r\(\"(.*)\",\"(.*)\"\)", 'g')
         if (typeof split_str[1] !== "undefined")
-        {            
+        {
             var func_rexp = new RegExp("r\\(\"(.*)\",\"(.*)\"\\)");
             if (func_rexp.test(split_str[1]))
             {
                 var match = split_str[1].match(func_rexp);
-                var inputstr = tags[split_str[0]];                
-                return inputstr.replace (match[1],match[2]);
+                var inputstr = tags[split_str[0]];
+                return inputstr.replace(match[1], match[2]);
             }
 
         }

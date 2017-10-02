@@ -26,14 +26,15 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
         messages
                 .simpDestMatchers("/input/**").permitAll()
+                .simpDestMatchers("/all/**").permitAll()
                 .simpDestMatchers("/user/{userId}/**").hasRole("USER")
                 .simpDestMatchers("/**").hasRole("ADMIN");        
     }
     
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-//        config.enableSimpleBroker("/input");
-        config.enableSimpleBroker("/user");        
+//        config.enableSimpleBroker("/all");
+        config.enableSimpleBroker("/all","/user");        
         config.setApplicationDestinationPrefixes("/input");
     }
 
