@@ -82,7 +82,7 @@
                                                 <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                                 <li><a href="<c:url value="/dashboard/"/>"><span>Dashboards</span></a></li>
                                                 <li><a href="<c:url value="/infrastructure/"/>">Infrastructure</a></li>
-                                                <li><a href="https://docs.oddeye.co/" target="_blank">Help</a></li>
+                                                <li><a href="https://www.oddeye.co/documentation/" target="_blank">Help</a></li>
                                             </ul>
                                         </li>
                                         <li><a><i class="fa fa-clock-o"></i> Monitoring <span class="fa fa-chevron-down"></span></a>

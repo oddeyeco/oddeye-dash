@@ -8,6 +8,7 @@ package co.oddeye.concout.model;
 import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.mailSender;
@@ -108,7 +109,7 @@ public class User implements UserDetails {
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
     private final Map <String,Map<String, String[]>> sotokenlist = new HashMap<>();
-    private final Map<String,String> pagelist = new HashMap<>();
+    private final Map<String,PageInfo> pagelist = new HashMap<>();
 
     public User() {
         this.SwitchUser = null;
@@ -865,7 +866,7 @@ public class User implements UserDetails {
     /**
      * @return the pagelist
      */
-    public Map<String,String> getPagelist() {
+    public Map<String,PageInfo> getPagelist() {
         return pagelist;
     }
 }

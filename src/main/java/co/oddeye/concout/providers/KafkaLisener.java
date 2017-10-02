@@ -6,6 +6,7 @@
 package co.oddeye.concout.providers;
 
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.User;
@@ -23,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import java.util.concurrent.CountDownLatch;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 
 /**
@@ -31,23 +31,24 @@ import org.springframework.context.annotation.PropertySource;
  * @author vahan
  */
 @PropertySource("config.properties")
-public class KafkaMetricLisener {
+public class KafkaLisener {
 
     @Autowired
     private HbaseUserDao Userdao;
     @Autowired
     protected BaseTsdbConnect BaseTsdb;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaMetricLisener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaLisener.class);
 
-    private CountDownLatch latch = new CountDownLatch(1);    
+    private final CountDownLatch latch = new CountDownLatch(1);
+
     public CountDownLatch getLatch() {
         return latch;
     }
 
 //    @KafkaListener(topics = "oddeyetsdb")
     @KafkaListener(topics = "${kafka.metrictopic}")
-    public void receive(String payload) {
+    public void receiveMetric(String payload) {
         LOGGER.info("received payload='{}'", payload);
         JsonArray jsonResult = null;
         Date date;
@@ -102,6 +103,45 @@ public class KafkaMetricLisener {
                 LOGGER.error("NumberFormatException: " + globalFunctions.stackTrace(ex));
 //                this.collector.ack(input);
             }
+            jsonResult = null;
+        }
+//// Ste Chi kareli
+//        if (user != null) {
+//            user.setConsumption(user.getConsumption()+metriccount*messageprice);                
+//            System.out.println(user.getName() + " " + user.getConsumption()+" "+metriccount);
+//        }
+
+        latch.countDown();
+    }
+
+    @KafkaListener(topics = "${dash.semaphore.topic}")
+    public void receiveAction(String payload) {
+        LOGGER.info("received payload='{}'", payload);
+        JsonElement jsonResult = null;
+        
+        final JsonParser parser = new JsonParser();        
+        try {
+            jsonResult = parser.parse(payload);
+        } catch (JsonSyntaxException ex) {
+            LOGGER.info("payload parse Exception" + ex.toString());
+        }
+        User user;        
+        if (jsonResult != null) {
+            user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()));
+            String action = jsonResult.getAsJsonObject().get("action").getAsString();
+            String Sesionid = jsonResult.getAsJsonObject().get("SessionId").getAsString();
+
+            switch (action) {
+                case "exitfrompage":
+                    user.getPagelist().remove(Sesionid);
+                    break;
+                case "entertopage":
+                    user.getPagelist().put(Sesionid, new PageInfo(jsonResult.getAsJsonObject().get("page").getAsString(), jsonResult.getAsJsonObject().get("node").getAsString(), jsonResult.getAsJsonObject().get("time").getAsLong()));
+                    break;
+                default:
+                    break;
+            }
+
             jsonResult = null;
         }
 //// Ste Chi kareli

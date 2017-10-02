@@ -5,7 +5,7 @@
  */
 package co.oddeye.concout.config;
 
-import co.oddeye.concout.providers.KafkaMetricLisener;
+import co.oddeye.concout.providers.KafkaLisener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -79,8 +79,8 @@ public class KafkaConsumerConfig {
     }
     
   @Bean
-  public KafkaMetricLisener receiver() {
-    return new KafkaMetricLisener();
+  public KafkaLisener receiver() {
+    return new KafkaLisener();
   }    
     
 
