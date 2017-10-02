@@ -10,7 +10,10 @@ import co.oddeye.concout.helpers.mailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.beans.PropertyEditorSupport;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -22,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -29,6 +35,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -48,6 +56,10 @@ public class AdminUsersControlers extends GRUDControler {
     private HbaseUserDao Userdao;
     @Autowired
     private UserValidator userValidator;
+    @Autowired
+    private KafkaTemplate<Integer, String> conKafkaTemplate;
+    @Value("${dash.semaphore.topic}")
+    private String semaphoretopic;
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(AdminUsersControlers.class);
 
@@ -108,12 +120,11 @@ public class AdminUsersControlers extends GRUDControler {
                 put("type", "actions");
             }
         }).AddViewConfig("activity", new HashMap<String, Object>() {
-            {                
+            {
                 put("title", " Monitoring conneted");
                 put("type", "userstatus");
             }
-        })
-                ;
+        });
 
         Map<String, String> country = new LinkedHashMap<>();
         Map<String, String> timezones = new LinkedHashMap<>();
@@ -252,16 +263,15 @@ public class AdminUsersControlers extends GRUDControler {
         } else {
             map.put("isAuthentication", false);
         }
-        
+
         map.put("model", Userdao.getUserByUUID(UUID.fromString(id), true));
-        
+
 //                String baseUrl = Sender.getBaseurl(request);
 //        try {        
 //            Userdao.getUserByUUID(UUID.fromString(id)).SendConfirmMail(Sender, baseUrl);
 //        } catch (UnsupportedEncodingException ex) {
 //            
 //        }
-                
         map.put("configMap", getEditConfig());
         map.put("modelname", "User");
         map.put("path", "user");
@@ -335,13 +345,36 @@ public class AdminUsersControlers extends GRUDControler {
 
             if (act.equals("Save")) {
                 userValidator.adminvalidate(newUser, result);
-
                 if (result.hasErrors()) {
                     map.put("result", result);
                 } else {
                     User updateuser = Userdao.getUserByUUID(newUser.getId());
                     try {
                         Userdao.saveAll(updateuser, newUser, getEditConfig());
+
+                        JsonObject Jsonchangedata = new JsonObject();
+                        Jsonchangedata.addProperty("UUID", updateuser.getId().toString());
+                        Jsonchangedata.addProperty("action", "updateuser");
+                        InetAddress ia = InetAddress.getLocalHost();
+                        String node = ia.getHostName();
+                        Jsonchangedata.addProperty("node", node);
+                        Gson gson = new Gson();
+                        Jsonchangedata.addProperty("changedata", "{}");
+                        Jsonchangedata.addProperty("fromuser", userDetails.getId().toString());
+                        // Send chenges to kafka
+                        ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                        messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                            @Override
+                            public void onSuccess(SendResult<Integer, String> result) {
+                                LOGGER.info("kafka semaphore saveuser send messge onSuccess");
+                            }
+
+                            @Override
+                            public void onFailure(Throwable ex) {
+                                LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
+                            }
+                        });
+
                     } catch (Exception e) {
                         LOGGER.error(globalFunctions.stackTrace(e));
                     }
