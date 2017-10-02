@@ -28,6 +28,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
@@ -44,6 +45,8 @@ public class KafkaLisener {
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaLisener.class);
 
     private final CountDownLatch latch = new CountDownLatch(1);
+    @Autowired
+    private SimpMessagingTemplate template;
 
     public CountDownLatch getLatch() {
         return latch;
@@ -130,6 +133,7 @@ public class KafkaLisener {
         }
         User user;
         if (jsonResult != null) {
+
             user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()));
             String action = jsonResult.getAsJsonObject().get("action").getAsString();
 
@@ -146,8 +150,9 @@ public class KafkaLisener {
                 }
                 case "deleteuser": {
                     Userdao.deleteUser(user);
+//                    this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                     break;
-                }                
+                }
                 case "updateuser":
                 case "updatelevels": {
                     try {
@@ -156,7 +161,7 @@ public class KafkaLisener {
                         if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
                             user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
                         }
-
+//                        this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                     } catch (UnknownHostException ex) {
                         LOGGER.error(globalFunctions.stackTrace(ex));
                     }
