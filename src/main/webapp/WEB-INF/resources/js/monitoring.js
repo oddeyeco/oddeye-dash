@@ -5,12 +5,91 @@
  */
 /* global moment, cp, headerName, token, uuid, sotoken */
 
-var stompClient = null;
+var socket = new SockJS(cp + '/subscribe');
+var stompClient = Stomp.over(socket);
+stompClient.debug = null;
+
 var timeformat = "DD/MM HH:mm:ss";
 var timeformatsmall = "HH:mm:ss";
 var errorlistJson = {};
 var array_regular = [];
 var array_spec = [];
+
+function connectstompClient()
+{
+
+    var headers = {};
+    headers[headerName] = token;
+    headers["sotoken"] = sotoken;
+    var formData = $("form.form-filter").serializeArray();
+    var levels = [];
+    jQuery.each(formData, function (i, field) {
+        if (field.value === "on")
+        {
+            if (field.name.indexOf("check_level_") === 0)
+            {
+                levels.push(field.name.replace("check_level_", ""));
+            }
+        }
+    });
+    headers["levels"] = levels;    
+    stompClient.connect(headers,
+            function (frame) {
+                stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
+                    var errorjson = JSON.parse(error.body);
+                    if (errorlistJson[errorjson.hash])
+                    {
+                        errorjson.index = errorlistJson[errorjson.hash].index;
+                    }
+                    if (typeof (errorjson.index) !== "undefined")
+                    {
+                        errorjson.index = errorjson.index + 1;
+                    } else
+                    {
+                        errorjson.index = 0;
+                    }
+                    if (errorlistJson[errorjson.hash])
+                    {
+                        if (errorjson.time >= errorlistJson[errorjson.hash].time)
+                        {
+                            if (errorjson.level === -1)
+                            {
+                                delete errorlistJson[errorjson.hash];
+                            } else
+                            {
+                                errorlistJson[errorjson.hash] = errorjson;
+                            }
+                            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+                        }
+                    } else
+                    {
+                        if (errorjson.level === -1)
+                        {
+                            delete errorlistJson[errorjson.hash];
+                        } else
+                        {
+                            errorlistJson[errorjson.hash] = errorjson;
+                        }
+                        reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+
+                    }
+                    if (Object.keys(errorlistJson).length > 200)
+                    {
+                        $('#manyalert').fadeIn();
+                    } else
+                    {
+                        $('#manyalert').fadeOut();
+                    }
+//            console.log(errorlistJson[errorjson.hash]);
+
+                });
+            },
+            function (message) {
+                $("#lostconnection").modal('show');
+            });
+}
+
+
 function findeByhash(element, array) {
     for (var i = 0; i < array.length; i++) {
         if (array[i].hash === element.hash) {
@@ -391,48 +470,48 @@ function drawRaw(errorjson, table, hashindex, update) {
 }
 
 var beginlisen = false;
-function startlisen()
-{
-    if (!beginlisen)
-    {
-        beginlisen = true;
-        var formData = $("form.form-filter").serializeArray();
-        for (var ind in switcherylist)
-        {
-            switcherylist[ind].disable();
-        }
-        var url = cp + "/startlisener";
-        var header = $("meta[name='_csrf_header']").attr("content");
-        var token = $("meta[name='_csrf']").attr("content");
-        var sendData = {};
-        sendData.levels = [];
-        jQuery.each(formData, function (i, field) {
-            if (field.value === "on")
-            {
-                if (field.name.indexOf("check_level_") === 0)
-                {
-                    sendData.levels.push(field.name.replace("check_level_", ""));
-                }
-            }
-        });
-        sendData.sotoken = sotoken;
-        $.ajax({
-            dataType: 'json',
-            type: 'POST',
-            url: url,
-            data: sendData,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            }
-        }).done(function (msg) {
-            beginlisen = false;
-            for (var ind in switcherylist)
-            {
-                switcherylist[ind].enable();
-            }
-        });
-    }
-}
+//function startlisen()
+//{
+//    if (!beginlisen)
+//    {
+//        beginlisen = true;
+//        var formData = $("form.form-filter").serializeArray();
+//        for (var ind in switcherylist)
+//        {
+//            switcherylist[ind].disable();
+//        }
+//        var url = cp + "/startlisener";
+//        var header = $("meta[name='_csrf_header']").attr("content");
+//        var token = $("meta[name='_csrf']").attr("content");
+//        var sendData = {};
+//        sendData.levels = [];
+//        jQuery.each(formData, function (i, field) {
+//            if (field.value === "on")
+//            {
+//                if (field.name.indexOf("check_level_") === 0)
+//                {
+//                    sendData.levels.push(field.name.replace("check_level_", ""));
+//                }
+//            }
+//        });
+//        sendData.sotoken = sotoken;
+//        $.ajax({
+//            dataType: 'json',
+//            type: 'POST',
+//            url: url,
+//            data: sendData,
+//            beforeSend: function (xhr) {
+//                xhr.setRequestHeader(header, token);
+//            }
+//        }).done(function (msg) {
+//            beginlisen = false;
+//            for (var ind in switcherylist)
+//            {
+//                switcherylist[ind].enable();
+//            }
+//        });
+//    }
+//}
 var switcherylist = [];
 $(document).ready(function () {
 //    $(".timech").each(function () {
@@ -482,7 +561,21 @@ $(document).ready(function () {
     $("body").on("change", ".js-switch-small", function () {
         if (!first)
         {
-            startlisen();
+
+            var formData = $("form.form-filter").serializeArray();
+            var levels = [];
+            jQuery.each(formData, function (i, field) {
+                if (field.value === "on")
+                {
+                    if (field.name.indexOf("check_level_") === 0)
+                    {
+                        levels.push(field.name.replace("check_level_", ""));
+                    }
+                }
+            });
+            
+            stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));
+//            connectstompClient();
             first = true;
         } else
         {
@@ -495,85 +588,26 @@ $(document).ready(function () {
     $(".filter-input").each(function () {
         $(this).val(filterJson[$(this).attr("name")]);
     });
-//    DrawErrorList(errorlistJson, $(".metrictable"));    
-    var socket = new SockJS(cp + '/subscribe');
-    var stompClient = Stomp.over(socket);
-    stompClient.debug = null;
-    var headers = {};
-    headers[headerName] = token;
-    stompClient.connect(headers, function (frame) {
-        stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
-            var errorjson = JSON.parse(error.body);
 
-//check_oddeye
-            if (errorlistJson[errorjson.hash])
-            {
-                errorjson.index = errorlistJson[errorjson.hash].index;
-            }
+    connectstompClient();
 
-            if (typeof (errorjson.index) !== "undefined")
-            {
-                errorjson.index = errorjson.index + 1;
-            } else
-            {
-                errorjson.index = 0;
-            }
-            if (errorlistJson[errorjson.hash])
-            {
-                if (errorjson.time >= errorlistJson[errorjson.hash].time)
-                {
-                    if (errorjson.level === -1)
-                    {
-                        delete errorlistJson[errorjson.hash];
-                    } else
-                    {
-                        errorlistJson[errorjson.hash] = errorjson;
-                    }
-                    reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
-                }
-            } else
-            {
-                if (errorjson.level === -1)
-                {
-                    delete errorlistJson[errorjson.hash];
-                } else
-                {
-                    errorlistJson[errorjson.hash] = errorjson;
-                }
-                reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
-
-            }
-            if (Object.keys(errorlistJson).length > 200)
-            {
-                $('#manyalert').fadeIn();
-            } else
-            {
-                $('#manyalert').fadeOut();
-            }
-//            console.log(errorlistJson[errorjson.hash]);
-
-        });
-    }, function (message) {
-        $("#lostconnection").modal('show');
-    });
-
-    startlisen();
-    $(window).bind('beforeunload', function () {
-        var url = cp + "/stoplisener";
-        var header = $("meta[name='_csrf_header']").attr("content");
-        var token = $("meta[name='_csrf']").attr("content");
-        var sendData = {};
-        sendData.sotoken = sotoken;
-        $.ajax({
-            dataType: 'json',
-            type: 'POST',
-            url: url,
-            data: sendData,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader(header, token);
-            }
-        });
-    });
+//    startlisen();
+//    $(window).bind('beforeunload', function (e) {
+//        var url = cp + "/stoplisener";
+//        var header = $("meta[name='_csrf_header']").attr("content");
+//        var token = $("meta[name='_csrf']").attr("content");
+//        var sendData = {};
+//        sendData.sotoken = sotoken;
+//        $.ajax({
+//            dataType: 'json',
+//            type: 'POST',
+//            url: url,
+//            data: sendData,
+//            beforeSend: function (xhr) {
+//                xhr.setRequestHeader(header, token);
+//            }
+//        });
+//    });
     $('body').on("change", "#ident_tag", function () {
         DrawErrorList(errorlistJson, $(".metrictable"));
     });

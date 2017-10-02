@@ -77,44 +77,44 @@ public class UserController {
         this.template = template;
     }
 
-    @RequestMapping(value = "/startlisener", method = RequestMethod.POST)
-    public String startlisener(HttpServletRequest request, ModelMap map) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//    @RequestMapping(value = "/startlisener", method = RequestMethod.POST)
+//    public String startlisener(HttpServletRequest request, ModelMap map) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            User userDetails = (User) SecurityContextHolder.getContext().
+//                    getAuthentication().getPrincipal();
+//
+//            String[] levels = request.getParameterValues("levels[]");
+//            String sotoken = request.getParameter("sotoken");
+//            userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, new HashMap<String, String[]>() {
+//                {
+//                    put(sotoken, levels);
+//                }
+//            });
+//        }
+//        JsonObject jsonResult = new JsonObject();
+//        jsonResult.addProperty("sucsses", Boolean.TRUE);
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+//    }
 
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-
-            String[] levels = request.getParameterValues("levels[]");
-            String sotoken = request.getParameter("sotoken");
-            userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, new HashMap<String, String[]>() {
-                {
-                    put(sotoken, levels);
-                }
-            });
-        }
-        JsonObject jsonResult = new JsonObject();
-        jsonResult.addProperty("sucsses", Boolean.TRUE);
-        map.put("jsonmodel", jsonResult);
-        return "ajax";
-    }
-
-    @RequestMapping(value = "/stoplisener", method = RequestMethod.POST)
-    public String stoplisener(HttpServletRequest request, ModelMap map) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-            String sotoken = request.getParameter("sotoken");
-            userDetails.stopListenerContainer(sotoken);
-//            userDetails.getListenerContainer().stop();
-        }
-        JsonObject jsonResult = new JsonObject();
-        jsonResult.addProperty("sucsses", Boolean.TRUE);
-        map.put("jsonmodel", jsonResult);
-        return "ajax";
-    }
+//    @RequestMapping(value = "/stoplisener", method = RequestMethod.POST)
+//    public String stoplisener(HttpServletRequest request, ModelMap map) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            User userDetails = (User) SecurityContextHolder.getContext().
+//                    getAuthentication().getPrincipal();
+//            String sotoken = request.getParameter("sotoken");
+//            userDetails.stopListenerContainer(sotoken);
+////            userDetails.getListenerContainer().stop();
+//        }
+//        JsonObject jsonResult = new JsonObject();
+//        jsonResult.addProperty("sucsses", Boolean.TRUE);
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+//    }
 
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
