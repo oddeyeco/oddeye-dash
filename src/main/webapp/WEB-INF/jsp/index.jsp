@@ -1,3 +1,4 @@
+<%@page import="java.net.InetAddress"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://htmlcompressor.googlecode.com/taglib/compressor"  prefix="compress"%>
@@ -155,7 +156,8 @@
                                 </div>
 
                                 <ul class="nav navbar-nav navbar-right">
-                                    <li class="">
+
+                                    <li class="">                                        
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <c:if test="${curentuser.getSwitchUser()==null}">
                                                 ${curentuser.getEmail()}    
@@ -187,8 +189,17 @@
                                                 <c:url value="/logout/" var="logoutUrl" />
                                             <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i>Logout</a></li>
                                         </ul>
-                                    </li>       
-
+                                    </li>
+                                    <sec:authorize access="hasRole('ADMIN')">
+                                        <li class=""><a>
+                                                <%
+                                                    InetAddress ia = InetAddress.getLocalHost();
+                                                    String node = ia.getHostName();
+                                                    pageContext.setAttribute("node", node);
+                                                %>          
+                                                Server ${node}
+                                            </a></li>
+                                        </sec:authorize>
                                 </ul>
                             </nav>
                         </div>
