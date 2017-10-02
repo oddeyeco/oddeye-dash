@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.gson.JsonObject;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.servlet.http.HttpServletRequest;
@@ -74,8 +75,7 @@ public class ProfileController {
 
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
-    
-    
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap map) throws Exception {
 
@@ -280,6 +280,9 @@ public class ProfileController {
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
                     Jsonchangedata.addProperty("action", "updateuser");
+                    InetAddress ia = InetAddress.getLocalHost();
+                    String node = ia.getHostName();
+                    Jsonchangedata.addProperty("node", node);
                     Gson gson = new Gson();
                     Jsonchangedata.addProperty("changedata", gson.toJson(changedata));
                     // Send chenges to kafka
@@ -343,7 +346,9 @@ public class ProfileController {
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
                     Jsonchangedata.addProperty("action", "updatelevels");
-
+                    InetAddress ia = InetAddress.getLocalHost();
+                    String node = ia.getHostName();
+                    Jsonchangedata.addProperty("node", node);
                     Jsonchangedata.addProperty("changedata", levelsJSON);
                     // Send chenges to kafka
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());

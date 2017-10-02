@@ -17,12 +17,15 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import java.util.concurrent.CountDownLatch;
+import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 
@@ -118,26 +121,43 @@ public class KafkaLisener {
     public void receiveAction(String payload) {
         LOGGER.info("received payload='{}'", payload);
         JsonElement jsonResult = null;
-        
-        final JsonParser parser = new JsonParser();        
+
+        final JsonParser parser = new JsonParser();
         try {
             jsonResult = parser.parse(payload);
         } catch (JsonSyntaxException ex) {
             LOGGER.info("payload parse Exception" + ex.toString());
         }
-        User user;        
+        User user;
         if (jsonResult != null) {
             user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()));
             String action = jsonResult.getAsJsonObject().get("action").getAsString();
-            String Sesionid = jsonResult.getAsJsonObject().get("SessionId").getAsString();
 
             switch (action) {
-                case "exitfrompage":
+                case "exitfrompage": {
+                    String Sesionid = jsonResult.getAsJsonObject().get("SessionId").getAsString();
                     user.getPagelist().remove(Sesionid);
                     break;
-                case "entertopage":
+                }
+                case "entertopage": {
+                    String Sesionid = jsonResult.getAsJsonObject().get("SessionId").getAsString();
                     user.getPagelist().put(Sesionid, new PageInfo(jsonResult.getAsJsonObject().get("page").getAsString(), jsonResult.getAsJsonObject().get("node").getAsString(), jsonResult.getAsJsonObject().get("time").getAsLong()));
                     break;
+                }
+                case "updateuser":
+                case "updatelevels": {
+                    try {
+                        InetAddress ia = InetAddress.getLocalHost();
+                        String node = ia.getHostName();
+                        if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
+                            user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
+                        }
+
+                    } catch (UnknownHostException ex) {
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
+                    break;
+                }
                 default:
                     break;
             }
