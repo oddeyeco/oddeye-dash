@@ -133,7 +133,7 @@
                 </div>        
             </div>          
 
-            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="left">                        
+            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
                 <i class="fa fa-lock" ></i>
             </div>
 
