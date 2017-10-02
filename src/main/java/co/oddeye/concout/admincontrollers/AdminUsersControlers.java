@@ -14,12 +14,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.beans.PropertyEditorSupport;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -323,69 +325,91 @@ public class AdminUsersControlers extends GRUDControler {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-            map.put("curentuser", userDetails);
-            map.put("isAuthentication", true);
-            String act = request.getParameter("act");
-            if (act.equals("Delete")) {
-                if (newUser.getId().equals(userDetails.getId())) {
+            try {
+                User userDetails = (User) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal();
+                map.put("curentuser", userDetails);
+                map.put("isAuthentication", true);
+                String act = request.getParameter("act");
+                JsonObject Jsonchangedata = new JsonObject();
+                
+                InetAddress ia = InetAddress.getLocalHost();
+                String node = ia.getHostName();
+                Gson gson = new Gson();
+                
+                if (act.equals("Delete")) {
+                    if (newUser.getId().equals(userDetails.getId())) {
+                        map.put("model", newUser);
+                        map.put("configMap", getEditConfig());
+                        map.put("modelname", "User");
+                        map.put("path", "user");
+                        map.put("body", "adminedit");
+                        map.put("jspart", "adminjs");
+                    } else {
+                        Userdao.deleteUser(newUser);
+                            Jsonchangedata.addProperty("UUID", newUser.getId().toString());
+                            Jsonchangedata.addProperty("action", "deleteuser");
+                            Jsonchangedata.addProperty("node", node);                            
+                            Jsonchangedata.addProperty("fromuser", userDetails.getId().toString());
+                            // Send chenges to kafka
+                            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                            messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                                @Override
+                                public void onSuccess(SendResult<Integer, String> result) {
+                                    LOGGER.info("kafka semaphore saveuser send messge onSuccess");
+                                }
+                                
+                                @Override
+                                public void onFailure(Throwable ex) {
+                                    LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
+                                }
+                            });                        
+                        return "redirect:/userslist";
+                    }
+                    
+                }
+                
+                if (act.equals("Save")) {
+                    userValidator.adminvalidate(newUser, result);
+                    if (result.hasErrors()) {
+                        map.put("result", result);
+                    } else {
+                        User updateuser = Userdao.getUserByUUID(newUser.getId());
+                        try {
+                            Userdao.saveAll(updateuser, newUser, getEditConfig());                                                        
+                            Jsonchangedata.addProperty("UUID", updateuser.getId().toString());
+                            Jsonchangedata.addProperty("action", "updateuser");
+                            Jsonchangedata.addProperty("node", node);
+                            Jsonchangedata.addProperty("changedata", "{}");
+                            Jsonchangedata.addProperty("fromuser", userDetails.getId().toString());
+                            // Send chenges to kafka
+                            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                            messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                                @Override
+                                public void onSuccess(SendResult<Integer, String> result) {
+                                    LOGGER.info("kafka semaphore saveuser send messge onSuccess");
+                                }
+                                
+                                @Override
+                                public void onFailure(Throwable ex) {
+                                    LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
+                                }
+                            });
+                            
+                        } catch (Exception e) {
+                            LOGGER.error(globalFunctions.stackTrace(e));
+                        }
+                    }
+                    
                     map.put("model", newUser);
                     map.put("configMap", getEditConfig());
-                    map.put("modelname", "User");
                     map.put("path", "user");
+                    map.put("modelname", "User");
                     map.put("body", "adminedit");
                     map.put("jspart", "adminjs");
-                } else {
-                    Userdao.deleteUser(newUser);
-                    return "redirect:/userslist";
                 }
-
-            }
-
-            if (act.equals("Save")) {
-                userValidator.adminvalidate(newUser, result);
-                if (result.hasErrors()) {
-                    map.put("result", result);
-                } else {
-                    User updateuser = Userdao.getUserByUUID(newUser.getId());
-                    try {
-                        Userdao.saveAll(updateuser, newUser, getEditConfig());
-
-                        JsonObject Jsonchangedata = new JsonObject();
-                        Jsonchangedata.addProperty("UUID", updateuser.getId().toString());
-                        Jsonchangedata.addProperty("action", "updateuser");
-                        InetAddress ia = InetAddress.getLocalHost();
-                        String node = ia.getHostName();
-                        Jsonchangedata.addProperty("node", node);
-                        Gson gson = new Gson();
-                        Jsonchangedata.addProperty("changedata", "{}");
-                        Jsonchangedata.addProperty("fromuser", userDetails.getId().toString());
-                        // Send chenges to kafka
-                        ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-                        messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                            @Override
-                            public void onSuccess(SendResult<Integer, String> result) {
-                                LOGGER.info("kafka semaphore saveuser send messge onSuccess");
-                            }
-
-                            @Override
-                            public void onFailure(Throwable ex) {
-                                LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
-                            }
-                        });
-
-                    } catch (Exception e) {
-                        LOGGER.error(globalFunctions.stackTrace(e));
-                    }
-                }
-
-                map.put("model", newUser);
-                map.put("configMap", getEditConfig());
-                map.put("path", "user");
-                map.put("modelname", "User");
-                map.put("body", "adminedit");
-                map.put("jspart", "adminjs");
+            } catch (UnknownHostException ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         } else {
             map.put("isAuthentication", false);

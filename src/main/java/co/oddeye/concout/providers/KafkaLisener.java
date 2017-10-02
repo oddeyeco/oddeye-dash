@@ -144,6 +144,10 @@ public class KafkaLisener {
                     user.getPagelist().put(Sesionid, new PageInfo(jsonResult.getAsJsonObject().get("page").getAsString(), jsonResult.getAsJsonObject().get("node").getAsString(), jsonResult.getAsJsonObject().get("time").getAsLong()));
                     break;
                 }
+                case "deleteuser": {
+                    Userdao.deleteUser(user);
+                    break;
+                }                
                 case "updateuser":
                 case "updatelevels": {
                     try {
