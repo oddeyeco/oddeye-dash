@@ -21,7 +21,7 @@
                 <h4 class="modal-title">Confirmation</h4>
             </div>
             <div class="modal-body">
-                <p>Before lock need save dashboard.</p>
+                <p>Dashboard needs to be saved before locking.</p>
                 <p class="text-warning">Save dashboard?</p>
             </div>
             <div class="modal-footer">
