@@ -16,12 +16,11 @@ headers["page"] = document.URL;
 
 globalstompClient.connect(headers, function (frame) {
     globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-        console.log(message.body);
+        //TODO
     });
 
     globalstompClient.subscribe('/all/info', function (message) {
-        console.log(message.body);
-
+        //TODO
     });
 }, function (frame) {
     setTimeout(function () {
