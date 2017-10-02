@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 //import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Controller;
@@ -70,6 +71,10 @@ public class AjaxControlers {
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     protected static final Logger LOGGER = LoggerFactory.getLogger(AjaxControlers.class);
 
+
+    @Value("${dash.semaphore.topic}")
+    private String semaphoretopic;
+    
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) Integer hash,
@@ -419,7 +424,7 @@ public class AjaxControlers {
             Jsonchangedata.addProperty("UUID", user.getId().toString());
             Jsonchangedata.addProperty("action", action);
             Jsonchangedata.addProperty("hash", (Integer) hash1);
-            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
             messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                 @Override
                 public void onSuccess(SendResult<Integer, String> result) {
@@ -644,7 +649,7 @@ public class AjaxControlers {
                 Jsonchangedata.addProperty("hash", hash);
 
                 // Send chenges to kafka
-                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                 messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                     @Override
                     public void onSuccess(SendResult<Integer, String> result) {

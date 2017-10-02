@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.controllers;
 
-import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.TemplateType;
 import co.oddeye.concout.dao.HbaseDushboardTemplateDAO;
 import co.oddeye.concout.dao.HbaseMetaDao;
@@ -18,10 +17,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -40,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,6 +59,10 @@ public class DashController {
     private HbaseDushboardTemplateDAO TemplateDAO;
     @Autowired
     HbaseMetaDao MetaDao;
+    
+    @Value("${dash.semaphore.topic}")
+    private String semaphoretopic;
+    
 
     @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
     public String test(ModelMap map) {
@@ -380,7 +382,7 @@ public class DashController {
                 Jsonchangedata.addProperty("filtername", filtername);
 
                 // Send chenges to kafka
-                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                 messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                     @Override
                     public void onSuccess(SendResult<Integer, String> result) {

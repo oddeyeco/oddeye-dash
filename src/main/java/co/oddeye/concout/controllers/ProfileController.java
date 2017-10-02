@@ -44,6 +44,7 @@ import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -71,6 +72,10 @@ public class ProfileController {
     @Autowired
     HbaseDataDao DataDao;
 
+    @Value("${dash.semaphore.topic}")
+    private String semaphoretopic;
+    
+    
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(ModelMap map) throws Exception {
 
@@ -278,7 +283,7 @@ public class ProfileController {
                     Gson gson = new Gson();
                     Jsonchangedata.addProperty("changedata", gson.toJson(changedata));
                     // Send chenges to kafka
-                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send("semaphore", Jsonchangedata.toString());
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                         @Override
                         public void onSuccess(SendResult<Integer, String> result) {

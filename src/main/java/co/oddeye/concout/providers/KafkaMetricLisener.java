@@ -40,11 +40,7 @@ public class KafkaMetricLisener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaMetricLisener.class);
 
-    private CountDownLatch latch = new CountDownLatch(1);
-
-    @Value("${dash.messageprice}")
-    private Double messageprice;        
-    
+    private CountDownLatch latch = new CountDownLatch(1);    
     public CountDownLatch getLatch() {
         return latch;
     }
