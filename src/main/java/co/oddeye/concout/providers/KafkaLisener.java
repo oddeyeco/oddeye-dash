@@ -169,7 +169,7 @@ public class KafkaLisener {
                                 Map.Entry<String, PageInfo> userinfoentry = it.next();
                                 if (userinfoentry.getValue().getNode().equals(node)) {
                                     if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
-                                        TimeUnit.SECONDS.sleep(1);
+                                        TimeUnit.SECONDS.sleep(2);
                                         user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
                                     }
                                     this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
