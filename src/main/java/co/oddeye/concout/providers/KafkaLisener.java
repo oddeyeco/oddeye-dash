@@ -20,11 +20,14 @@ import com.google.gson.JsonSyntaxException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -157,15 +160,27 @@ public class KafkaLisener {
                 case "deletedash":
                 case "editdash":
                 case "updatelevels": {
-                    try {
-                        InetAddress ia = InetAddress.getLocalHost();
-                        String node = ia.getHostName();
-                        if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
-                            user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);                            
+                    Map<String, PageInfo> userpagelist = user.getPagelist();
+                    if (userpagelist.size() > 1) {
+                        try {
+                            InetAddress ia = InetAddress.getLocalHost();
+                            String node = ia.getHostName();
+                            for (Iterator<Map.Entry<String, PageInfo>> it = userpagelist.entrySet().iterator(); it.hasNext();) {
+                                Map.Entry<String, PageInfo> userinfoentry = it.next();
+                                if (userinfoentry.getValue().getNode().equals(node)) {
+                                    if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
+                                        TimeUnit.SECONDS.sleep(1);
+                                        user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
+                                    }
+                                    this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
+                                    break;
+                                }
+                                
+                            }
+
+                        } catch (UnknownHostException | InterruptedException ex) {
+                            LOGGER.error(globalFunctions.stackTrace(ex));
                         }
-                        this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
-                    } catch (UnknownHostException ex) {
-                        LOGGER.error(globalFunctions.stackTrace(ex));
                     }
                     break;
                 }
