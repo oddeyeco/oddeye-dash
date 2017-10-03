@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -88,13 +87,6 @@ public class KafkaLisener {
                             if (user.getMetricsMeta() == null) {
                                 user.setMetricsMeta(new ConcoutMetricMetaList());
                             }
-//                            if (mtrscMeta.hashCode() == -1334554093) {                                
-//                                if (user.getMetricsMeta().containsKey(mtrscMeta.hashCode()))
-//                                {
-//                                    System.out.println(mtrscMeta.hashCode() + " " + mtrscMeta.getName()+" "+ mtrscMeta.getLasttime()+" "+(mtrscMeta.getLasttime()-user.getMetricsMeta().get(mtrscMeta.hashCode()).getLasttime()));
-//                                }
-//                                
-//                            }
                             user.getMetricsMeta().add(mtrscMeta);
                             metriccount++;
                         } catch (Exception e) {
