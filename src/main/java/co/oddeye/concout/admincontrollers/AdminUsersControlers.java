@@ -332,11 +332,11 @@ public class AdminUsersControlers extends GRUDControler {
                 map.put("isAuthentication", true);
                 String act = request.getParameter("act");
                 JsonObject Jsonchangedata = new JsonObject();
-                
+
                 InetAddress ia = InetAddress.getLocalHost();
                 String node = ia.getHostName();
                 Gson gson = new Gson();
-                
+
                 if (act.equals("Delete")) {
                     if (newUser.getId().equals(userDetails.getId())) {
                         map.put("model", newUser);
@@ -347,28 +347,28 @@ public class AdminUsersControlers extends GRUDControler {
                         map.put("jspart", "adminjs");
                     } else {
                         Userdao.deleteUser(newUser);
-                            Jsonchangedata.addProperty("UUID", newUser.getId().toString());
-                            Jsonchangedata.addProperty("action", "deleteuser");
-                            Jsonchangedata.addProperty("node", node);                            
-                            Jsonchangedata.addProperty("fromuser", userDetails.getId().toString());
-                            // Send chenges to kafka
-                            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-                            messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                                @Override
-                                public void onSuccess(SendResult<Integer, String> result) {
-                                    LOGGER.info("kafka semaphore saveuser send messge onSuccess");
-                                }
-                                
-                                @Override
-                                public void onFailure(Throwable ex) {
-                                    LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
-                                }
-                            });                        
+                        Jsonchangedata.addProperty("UUID", newUser.getId().toString());
+                        Jsonchangedata.addProperty("action", "deleteuser");
+                        Jsonchangedata.addProperty("node", node);
+                        Jsonchangedata.addProperty("fromuser", userDetails.getId().toString());
+                        // Send chenges to kafka
+                        ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                        messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                            @Override
+                            public void onSuccess(SendResult<Integer, String> result) {
+                                LOGGER.info("kafka semaphore saveuser send messge onSuccess");
+                            }
+
+                            @Override
+                            public void onFailure(Throwable ex) {
+                                LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
+                            }
+                        });
                         return "redirect:/userslist";
                     }
-                    
+
                 }
-                
+
                 if (act.equals("Save")) {
                     userValidator.adminvalidate(newUser, result);
                     if (result.hasErrors()) {
@@ -376,7 +376,7 @@ public class AdminUsersControlers extends GRUDControler {
                     } else {
                         User updateuser = Userdao.getUserByUUID(newUser.getId());
                         try {
-                            Userdao.saveAll(updateuser, newUser, getEditConfig());                                                        
+                            Userdao.saveAll(updateuser, newUser, getEditConfig());
                             Jsonchangedata.addProperty("UUID", updateuser.getId().toString());
                             Jsonchangedata.addProperty("action", "updateuser");
                             Jsonchangedata.addProperty("node", node);
@@ -389,18 +389,18 @@ public class AdminUsersControlers extends GRUDControler {
                                 public void onSuccess(SendResult<Integer, String> result) {
                                     LOGGER.info("kafka semaphore saveuser send messge onSuccess");
                                 }
-                                
+
                                 @Override
                                 public void onFailure(Throwable ex) {
                                     LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
                                 }
                             });
-                            
+
                         } catch (Exception e) {
                             LOGGER.error(globalFunctions.stackTrace(e));
                         }
                     }
-                    
+
                     map.put("model", newUser);
                     map.put("configMap", getEditConfig());
                     map.put("path", "user");

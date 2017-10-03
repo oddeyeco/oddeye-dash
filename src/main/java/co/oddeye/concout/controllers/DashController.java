@@ -16,9 +16,12 @@ import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -59,10 +62,9 @@ public class DashController {
     private HbaseDushboardTemplateDAO TemplateDAO;
     @Autowired
     HbaseMetaDao MetaDao;
-    
+
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
-    
 
     @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
     public String test(ModelMap map) {
@@ -86,10 +88,9 @@ public class DashController {
 //            taglistprioryty = {"cluster"}
             JsonObject filter = null;
             try {
-                if (user.getFiltertemplateList().containsKey("oddeye_base_infrastructure"))
-                {
+                if (user.getFiltertemplateList().containsKey("oddeye_base_infrastructure")) {
                     filter = (JsonObject) globalFunctions.getJsonParser().parse(user.getFiltertemplateList().get("oddeye_base_infrastructure"));
-                }                
+                }
             } catch (JsonSyntaxException e) {
                 LOGGER.warn("Wrong folter JSON");
             }
@@ -97,17 +98,15 @@ public class DashController {
             map.put("filter", filter);
             ArrayList<String> taglistprioryty = new ArrayList<>();
             if (filter == null) {
-                taglistprioryty.add("cluster") ;
-                taglistprioryty.add("group") ;
-                taglistprioryty.add("location") ;
-                taglistprioryty.add("host") ;
+                taglistprioryty.add("cluster");
+                taglistprioryty.add("group");
+                taglistprioryty.add("location");
+                taglistprioryty.add("host");
             } else {
                 map.put("metric_input", filter.get("metric_input").getAsString());
-                for (Map.Entry<String, JsonElement> f_item: filter.entrySet())
-                {
-                    if (user.getMetricsMeta().getTagsList().containsKey(f_item.getValue().getAsString()) ) 
-                    {
-                        taglistprioryty.add(f_item.getValue().getAsString()) ;
+                for (Map.Entry<String, JsonElement> f_item : filter.entrySet()) {
+                    if (user.getMetricsMeta().getTagsList().containsKey(f_item.getValue().getAsString())) {
+                        taglistprioryty.add(f_item.getValue().getAsString());
                     }
                 }
             }
@@ -281,8 +280,45 @@ public class DashController {
             }
             String DushName = request.getParameter("name").trim();
             String DushInfo = request.getParameter("info").trim();
+            String oldname = request.getParameter("oldname");
+            String unloadRef = request.getParameter("unloadRef");
             if (DushName != null) {
                 userDetails.addDush(DushName, DushInfo, Userdao);
+                if (oldname != null) {
+                    oldname = oldname.trim();
+                    userDetails.removeDush(oldname, Userdao);
+                }
+                String node ="" ;                
+                InetAddress ia;
+                try {
+                    ia = InetAddress.getLocalHost();
+                    node = ia.getHostName();                                
+                } catch (UnknownHostException ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+                
+                JsonObject Jsonchangedata = new JsonObject();
+                Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                Jsonchangedata.addProperty("action", "editdash");
+                Jsonchangedata.addProperty("node", node);
+                Jsonchangedata.addProperty("name", DushName);
+                Jsonchangedata.addProperty("oldname", oldname);
+                Jsonchangedata.addProperty("unloadRef", unloadRef);
+                
+                // Send chenges to kafka
+                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                    @Override
+                    public void onSuccess(SendResult<Integer, String> result) {
+                        LOGGER.info("kafka semaphore editdash send messge onSuccess");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex) {
+                        LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
+                    }
+                });
+
                 jsonResult.addProperty("sucsses", true);
             } else {
                 jsonResult.addProperty("sucsses", false);
@@ -340,6 +376,35 @@ public class DashController {
             String DushName = request.getParameter("name").trim();
             if (DushName != null) {
                 userDetails.removeDush(DushName, Userdao);
+                
+                String node ="" ;                
+                InetAddress ia;
+                try {
+                    ia = InetAddress.getLocalHost();
+                    node = ia.getHostName();                                
+                } catch (UnknownHostException ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+                
+                JsonObject Jsonchangedata = new JsonObject();
+                Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                Jsonchangedata.addProperty("action", "deletedash");
+                Jsonchangedata.addProperty("node", node);
+                Jsonchangedata.addProperty("name", DushName);                
+                // Send chenges to kafka
+                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                    @Override
+                    public void onSuccess(SendResult<Integer, String> result) {
+                        LOGGER.info("kafka semaphore editdash send messge onSuccess");
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex) {
+                        LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
+                    }
+                });                
+                
                 jsonResult.addProperty("sucsses", true);
             } else {
                 jsonResult.addProperty("sucsses", false);

@@ -154,14 +154,16 @@ public class KafkaLisener {
                     break;
                 }
                 case "updateuser":
+                case "deletedash":
+                case "editdash":
                 case "updatelevels": {
                     try {
                         InetAddress ia = InetAddress.getLocalHost();
                         String node = ia.getHostName();
                         if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
-                            user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
+                            user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);                            
                         }
-//                        this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
+                        this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                     } catch (UnknownHostException ex) {
                         LOGGER.error(globalFunctions.stackTrace(ex));
                     }

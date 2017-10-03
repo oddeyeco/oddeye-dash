@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient */
 var SingleRedrawtimer;
 var dasheditor;
 var refreshtimes = {
@@ -95,6 +95,14 @@ var savedash = function () {
 
         senddata.info = JSON.stringify(localjson);
         senddata.name = $("#name").val();
+        
+        senddata.unloadRef = globalstompClient.ws._transport.unloadRef;
+        if (olddashname !== $("#name").val())
+        {
+            senddata.oldname = olddashname;
+        }
+        
+
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({
@@ -1005,7 +1013,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                         yAxis = ser.yAxisIndex;
                     }
 
-                }                
+                }
                 if (typeof val === "undefined")
                 {
                     continue;
@@ -2158,6 +2166,8 @@ function repaint(redraw = false, rebuildform = true) {
     doapplyjson = false;
 }
 
+var olddashname = "";
+
 $(document).ready(function () {
 
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
@@ -2852,6 +2862,7 @@ $(document).ready(function () {
 
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
+    olddashname = $("#name").val();
 });
 window.onscroll = function () {
     clearTimeout(scrolltimer);

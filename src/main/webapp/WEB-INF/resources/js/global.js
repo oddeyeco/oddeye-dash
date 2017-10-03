@@ -13,12 +13,52 @@ globalstompClient.debug = null;
 var headers = {};
 headers[headerName] = token;
 headers["page"] = document.URL;
-
 globalstompClient.connect(headers, function (frame) {
     globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-        //TODO
-    });
+        var event = JSON.parse(message.body);
+        switch (event.action) {
+            case 'editdash':
+            {
+                if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)
+                {
+                    if (window.location.pathname === cp + "/dashboard/" + event.name)
+                    {
+                        location.reload();
+                    }
 
+                    if (event.oldname)
+                    {
+                        if (window.location.pathname === cp + "/dashboard/" + event.oldname)
+                        {
+                            var uri = encodeURI(cp + "/dashboard/" + event.name);
+                            window.location.href = uri;
+                        } else
+                        {
+                            location.reload();
+                        }
+
+                    }
+                }                
+                break;
+            }
+            case 'deletedash':
+            {
+                if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)
+                {
+                    if (window.location.pathname === cp + "/dashboard/" + event.name)
+                    {
+                        window.location = cp + "/dashboard/";
+                    }
+
+                }
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    });
     globalstompClient.subscribe('/all/info', function (message) {
         //TODO
     });
@@ -26,9 +66,7 @@ globalstompClient.connect(headers, function (frame) {
     setTimeout(function () {
         location.reload();
     }, 20000);
-
 });
-
 function applyAlias(text, object)
 {
     text = text.replace(new RegExp("\\{metric(.*?)\\}", 'g'), replacerM(object.metric));
@@ -91,9 +129,7 @@ function getCookie(name) {
 
 function setCookie(name, value, options) {
     options = options || {};
-
     var expires = options.expires;
-
     if (typeof expires == "number" && expires) {
         var d = new Date();
         d.setTime(d.getTime() + expires * 1000);
@@ -104,9 +140,7 @@ function setCookie(name, value, options) {
     }
 
     value = encodeURIComponent(value);
-
     var updatedCookie = name + "=" + value;
-
     for (var propName in options) {
         updatedCookie += "; " + propName;
         var propValue = options[propName];
@@ -158,7 +192,6 @@ function exportToCsv(filename, rows) {
         }
         return finalVal + '\n';
     };
-
     var csvFile = '';
     for (var i = 0; i < rows.length; i++) {
         csvFile += processRow(rows[i]);
@@ -256,27 +289,22 @@ $(document).ready(function () {
             echartLine.resize();
         }
     });
-
     $("body").on("click", "input", function (event) {
         ga('send', 'event', 'input click', $(this).attr("name"));
     });
-
     $("body").on("click", "a", function (event) {
         ga('send', 'event', 'link click', $(this).attr("href"));
     });
-
     $("body").on("click", "#allowedit", function () {
         var uri = cp + "/switchallow";
         $.getJSON(uri, null, function (data) {
             location.reload();
         });
     });
-
     $("body").on("click", "#FullScreen", function () {
         var fullscreen = getCookie('fullscreen');
         fullscreenrequest(fullscreen == 'true');
     });
-
 });
 
 
