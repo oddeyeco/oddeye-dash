@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.providers;
 
+import co.oddeye.concout.core.CoconutParseMetric;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.BaseTsdbConnect;
@@ -22,12 +23,14 @@ import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -50,6 +53,9 @@ public class KafkaLisener {
     @Autowired
     private SimpMessagingTemplate template;
 
+    @Autowired
+    private CoconutParseMetric parser;
+
     public CountDownLatch getLatch() {
         return latch;
     }
@@ -58,59 +64,37 @@ public class KafkaLisener {
     @KafkaListener(topics = "${kafka.metrictopic}")
     public void receiveMetric(String payload) {
         LOGGER.info("received payload='{}'", payload);
-        JsonArray jsonResult = null;
-        Date date;
-        final JsonParser parser = new JsonParser();
-        JsonElement Metric;
-        try {
-            if (parser.parse(payload).isJsonArray()) {
-                jsonResult = parser.parse(payload).getAsJsonArray();
-            } else {
-                jsonResult = null;
-                LOGGER.error("not array:" + payload);
-            }
-        } catch (JsonSyntaxException ex) {
-            LOGGER.info("payload parse Exception" + ex.toString());
-        }
-        User user = null;
-        int metriccount = 0;
-        if (jsonResult != null) {
+        Object o = parser.execute(payload);
+        User user;
+        if (o instanceof OddeeyMetric) {
+            OddeeyMetric Metric = (OddeeyMetric) o;
             try {
-                if (jsonResult.size() > 0) {
-                    LOGGER.debug("Ready count: " + jsonResult.size());
-                    for (int i = 0; i < jsonResult.size(); i++) {
-                        Metric = jsonResult.get(i);
-                        try {
-                            final OddeeyMetric mtrsc = new OddeeyMetric(Metric);
-                            OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(mtrsc, BaseTsdb.getTsdb());
-                            user = Userdao.getUserByUUID(UUID.fromString(mtrsc.getTags().get("UUID")));
-                            if (user.getMetricsMeta() == null) {
-                                user.setMetricsMeta(new ConcoutMetricMetaList());
-                            }
-                            user.getMetricsMeta().add(mtrscMeta);
-                            metriccount++;
-                        } catch (Exception e) {
-                            LOGGER.error("Exception: " + globalFunctions.stackTrace(e));
-                            LOGGER.error("Exception Wits Metriq: " + Metric);
-                            LOGGER.error("Exception Wits Input: " + payload);
-                        }
-
-                    }
+                OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
+                user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
+                if (user.getMetricsMeta() == null) {
+                    user.setMetricsMeta(new ConcoutMetricMetaList());
                 }
-            } catch (JsonSyntaxException ex) {
-                LOGGER.error("JsonSyntaxException: " + globalFunctions.stackTrace(ex));
-//                this.collector.ack(input);
-            } catch (NumberFormatException ex) {
-                LOGGER.error("NumberFormatException: " + globalFunctions.stackTrace(ex));
-//                this.collector.ack(input);
+                user.getMetricsMeta().add(mtrscMeta);
+            } catch (Exception ex) {
+                LOGGER.info(globalFunctions.stackTrace(ex));
             }
-            jsonResult = null;
         }
-//// Ste Chi kareli
-//        if (user != null) {
-//            user.setConsumption(user.getConsumption()+metriccount*messageprice);                
-//            System.out.println(user.getName() + " " + user.getConsumption()+" "+metriccount);
-//        }
+        if (o instanceof TreeMap) {
+            TreeMap<String, OddeeyMetric> metricinfo = (TreeMap<String, OddeeyMetric>) o;
+            for (Map.Entry<String, OddeeyMetric> mtrscEntry : metricinfo.entrySet()) {
+                OddeeyMetric Metric = mtrscEntry.getValue();
+                try {
+                    OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
+                    user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
+                    if (user.getMetricsMeta() == null) {
+                        user.setMetricsMeta(new ConcoutMetricMetaList());
+                    }
+                    user.getMetricsMeta().add(mtrscMeta);
+                } catch (Exception ex) {
+                    LOGGER.info(globalFunctions.stackTrace(ex));
+                }
+            }
+        }
 
         latch.countDown();
     }
@@ -167,7 +151,7 @@ public class KafkaLisener {
                                     this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                                     break;
                                 }
-                                
+
                             }
 
                         } catch (UnknownHostException | InterruptedException ex) {
