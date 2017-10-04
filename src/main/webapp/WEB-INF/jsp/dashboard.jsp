@@ -90,7 +90,7 @@
             <div class="btn-group"> 
 
                 <div class="btn-group btn-group-xs">
-                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash Ctrl+S"><i class="fa fa-floppy-o"></i></button>
+                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash(Ctrl+S)"><i class="fa fa-floppy-o"></i></button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only"></span>

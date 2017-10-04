@@ -24,6 +24,9 @@ var dashmodifier = false;
 window.onbeforeunload = function () {
     if (dashmodifier === true)
     {
+        if ($('#btnlock').hasClass('btnunlock')) {
+            return null;
+        }
         return true;
     }
     return null;
@@ -179,6 +182,9 @@ var btnlock = function () {
     {
         if (dashmodifier === true) {
             $('#lockConfirm').modal('show');
+            $('#lockConfirm').on('shown.bs.modal', function () {
+                $('#savelock').focus();
+            });
             btn = $('#btnlock');
 
         } else {
@@ -205,10 +211,10 @@ var btnlock = function () {
 var locktooltip = function () {
 
     if ($('#btnlock').hasClass('btnunlock')) {
-        $('#btnlock').attr('data-original-title', 'Unlock Dashboard');
+        $('#btnlock').attr('data-original-title', 'Unlock Dashboard(Ctrl+L)');
 
     } else {
-        $('#btnlock').attr('data-original-title', 'Lock Dashboard');
+        $('#btnlock').attr('data-original-title', 'Lock Dashboard(Ctrl+L)');
 
     }
 };
