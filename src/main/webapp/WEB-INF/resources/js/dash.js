@@ -98,13 +98,13 @@ var savedash = function () {
 
         senddata.info = JSON.stringify(localjson);
         senddata.name = $("#name").val();
-        
+
         senddata.unloadRef = globalstompClient.ws._transport.unloadRef;
         if (olddashname !== $("#name").val())
         {
             senddata.oldname = olddashname;
         }
-        
+
 
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
@@ -552,7 +552,7 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                             chdata.push(data.chartsdata[index].data[ind][1]);
                             val = data.chartsdata[index].data[ind][1];
                         }
-                        
+
                         if (widget.q[q_index].xAxisIndex)
                         {
                             if (Array.isArray(widget.q[q_index].xAxisIndex))
@@ -560,9 +560,9 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                                 m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex[0]].m_sample;
                             } else
                             {
-                                m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;                                
+                                m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;
                             }
-                        }                                                
+                        }
                         if (m_sample === "avg")
                         {
                             val = numbers.statistic.mean(chdata);
@@ -941,6 +941,29 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
             for (var i = 1; i <= widget.options.series.length; i++)
             {
 
+
+                switch (widget.type) {
+                    case 'pie':
+                    {                        
+                        widget.options.series[i - 1].data.sort(function (a, b) {
+                            return compareStrings(a.name, b.name);
+                        });
+                        break;
+                    }
+                    case 'funnel':
+                    {                        
+                        widget.options.series[i - 1].data.sort(function (a, b) {
+                            return compareStrings(a.name, b.name);
+                        });
+                        break;
+                    }
+                    
+                    default:
+                    {
+
+                        break
+                    }
+                }
                 if (a > b)
                 {
 
