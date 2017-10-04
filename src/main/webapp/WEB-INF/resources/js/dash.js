@@ -552,7 +552,17 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                             chdata.push(data.chartsdata[index].data[ind][1]);
                             val = data.chartsdata[index].data[ind][1];
                         }
-
+                        
+                        if (widget.q[q_index].xAxisIndex)
+                        {
+                            if (Array.isArray(widget.q[q_index].xAxisIndex))
+                            {
+                                m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex[0]].m_sample;
+                            } else
+                            {
+                                m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;                                
+                            }
+                        }                                                
                         if (m_sample === "avg")
                         {
                             val = numbers.statistic.mean(chdata);
