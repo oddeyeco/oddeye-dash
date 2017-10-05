@@ -1716,7 +1716,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             {
                 chart.showLoading("default", {
                     text: '',
-                    color: 'rgba(240,240,240,0.9)',
+                    color: colorPalette[colorPalette.length],
                     textColor: '#000',
                     maskColor: 'rgba(255, 255, 255, 0)',
                     zlevel: 0
