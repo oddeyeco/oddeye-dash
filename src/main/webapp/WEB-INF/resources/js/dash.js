@@ -237,10 +237,25 @@ function locktooltip() {
 }
 ;
 
-var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end) {
+var queryCallback = function (inputdata) {    
+    var q_index = inputdata[0];
+    var widget = inputdata[1];
+    var oldseries = inputdata[2];
+    var chart = inputdata[3];
+    var count = inputdata[4];
+    var json = inputdata[5];
+    var ri = inputdata[6];
+    var wi = inputdata[7];
+    var url = inputdata[8];
+    var redraw = inputdata[9];
+    var callback = inputdata[10];
+    var customchart = inputdata[11];
+    var end = inputdata[12];
+    var whaitlist = inputdata[13];
+    var uri = inputdata[14];
+
     return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
-
         if (data.chartsdata)
         {
 
@@ -792,6 +807,15 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
             }
 
         }
+        
+        if (whaitlist)
+            if (whaitlist[uri])
+            {
+                for (var uriind in whaitlist[uri])
+                {                    
+                    queryCallback(whaitlist[uri][uriind])(data);
+                }
+            }
 
         count.value--;
 
@@ -1471,8 +1495,11 @@ function datafunc() {
     }
     return d;
 }
-function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
 
+
+function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
+    var prevuri = "";
+    var whaitlist = {};
     var widget = json.rows[ri].widgets[wi];
     if (widget.timer)
     {
@@ -1689,16 +1716,40 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             {
                 chart.showLoading("default", {
                     text: '',
-                    color: colorPalette[colorPalette.length],
+                    color: 'rgba(240,240,240,0.9)',
                     textColor: '#000',
                     maskColor: 'rgba(255, 255, 255, 0)',
                     zlevel: 0
                 });
                 $(chart._dom).parent().find('.error').remove();
-                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end)).fail(function () {
-                    chart.hideLoading();
-                    $(chart._dom).before("<h2 class='error'>Invalid Query");
-                });
+                if (prevuri !== uri)
+                {
+                    var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end, whaitlist, uri];
+                    $.ajax({
+                        dataType: "json",
+                        url: uri,
+                        data: null,
+                        success: queryCallback(inputdata),
+                        fail: function () {
+                            chart.hideLoading();
+                            $(chart._dom).before("<h2 class='error'>Invalid Query");
+                        }
+                    });
+                } else
+                {
+                    if (!whaitlist[uri])
+                    {
+                        whaitlist[uri] = [];
+                    }
+                    whaitlist[uri].push([k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end, null, uri]);
+                }
+                prevuri = uri;
+
+
+//                $.getJSON(uri, null, queryCallback(k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end)).fail(function () {
+//                    chart.hideLoading();
+//                    $(chart._dom).before("<h2 class='error'>Invalid Query");
+//                });
 
             }
 
