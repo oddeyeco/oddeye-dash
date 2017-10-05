@@ -19,25 +19,43 @@ var defserie = {
     data: null
 };
 
+var olddashname = "";
 var dashmodifier = false;
-
-window.onbeforeunload = function () {
-    if (dashmodifier === true)
-    {
-        if ($('#btnlock').hasClass('btnunlock')) {
-            return null;
-        }
-        return true;
-    }
-    return null;
+var defoption = {
+    tooltip: {
+        trigger: 'axis'
+    },
+    toolbox: {},
+    xAxis: [{
+            type: 'time'
+        }],
+    yAxis: [{
+            type: 'value'
+        }],
+    dataZoom: [{
+            type: 'inside',
+            xAxisIndex: 0,
+            show: true,
+            start: 0,
+            end: 100
+        }],
+    series: [defserie]
 };
+var doapplyjson = false;
+var single_ri = 0;
+var single_wi = 0;
+var scrolltimer;
+var btn = null;
 
-var domodifier = function ()
+
+
+function domodifier()
 {
     dashmodifier = true;
     $('.savedash').parent().find('.btn').addClass('btn-warning');
     $('.savedash').parent().find('.btn').removeClass('btn-default');
-};
+}
+;
 
 function dounmodifier()
 {
@@ -46,8 +64,7 @@ function dounmodifier()
     $('.savedash').parent().find('.btn').removeClass('btn-warning');
 }
 
-var doeditTitle = function (e)
-{
+function doeditTitle(e) {
     if (((e.which === 13) && (e.type === 'keypress')) || (e.type === 'click'))
     {
         $(this).parents('.item_title').find('.title_text').css("display", "block");
@@ -61,8 +78,8 @@ var doeditTitle = function (e)
         }
         domodifier();
     }
-};
-
+}
+;
 function opensave() {
     $('#myModal .modal-title').text("Successfully  saved");
     $('#myModal').modal('show');
@@ -72,8 +89,7 @@ function opensave() {
     }, 2000);
 }
 ;
-
-var savedash = function () {
+function savedash() {
     var url = cp + "/dashboard/save";
     var senddata = {};
     var localjson = clone_obg(gdd);
@@ -159,8 +175,9 @@ var savedash = function () {
         });
     }
     dounmodifier();
-};
-var btnlock = function () {
+}
+;
+function btnlock() {
 
     if ($('#btnlock').hasClass('btnunlock'))
 
@@ -206,9 +223,9 @@ var btnlock = function () {
             }, 1000);
         }
     }
-};
-
-var locktooltip = function () {
+}
+;
+function locktooltip() {
 
     if ($('#btnlock').hasClass('btnunlock')) {
         $('#btnlock').attr('data-original-title', 'Unlock Dashboard(Ctrl+L)');
@@ -217,78 +234,8 @@ var locktooltip = function () {
         $('#btnlock').attr('data-original-title', 'Lock Dashboard(Ctrl+L)');
 
     }
-};
-
-$('body').on("click", "#btnlock", btnlock);
-
-var btn = null;
-$('body').on("click", "#savelock", function () {
-    if (btn === null)
-    {
-        return;
-    }
-
-    $('#lockConfirm').modal('hide');
-    $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
-        if (!btn.parents('.fulldash').hasClass('locked'))
-            btn.parents('.fulldash').toggleClass('locked');
-    });
-    btn.toggleClass('btnunlock');
-    btn.find('i').toggleClass('fa-unlock');
-    locktooltip();
-    btn.parents('.fulldash').toggleClass('locked');
-    gdd.locked = true;
-    setTimeout(function () {
-        savedash();
-    }, 1000);
-
-});
-
-$("body").bind('keydown', function (event) {
-    if ((event.ctrlKey || event.metaKey) && !$('.fulldash').hasClass('locked')) {
-        switch (event.which) {
-
-            case 83:
-                if (dashmodifier === true) {
-                    event.preventDefault();
-                    savedash();
-                }
-        }
-    }
-    if (event.ctrlKey || event.metaKey) {
-        switch (event.which) {
-            case 76:
-                event.preventDefault();
-                btnlock();
-        }
-    }
-
-});
-var defoption = {
-    tooltip: {
-        trigger: 'axis'
-    },
-    toolbox: {},
-    xAxis: [{
-            type: 'time'
-        }],
-    yAxis: [{
-            type: 'value'
-        }],
-    dataZoom: [{
-            type: 'inside',
-            xAxisIndex: 0,
-            show: true,
-            start: 0,
-            end: 100
-        }],
-    series: [defserie]
-};
-var doapplyjson = false;
-var single_ri = 0;
-var single_wi = 0;
-var scrolltimer;
-
+}
+;
 
 var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end) {
     return function (data) {
@@ -944,20 +891,20 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
 
                 switch (widget.type) {
                     case 'pie':
-                    {                        
+                    {
                         widget.options.series[i - 1].data.sort(function (a, b) {
                             return compareStrings(a.name, b.name);
                         });
                         break;
                     }
                     case 'funnel':
-                    {                        
+                    {
                         widget.options.series[i - 1].data.sort(function (a, b) {
                             return compareStrings(a.name, b.name);
                         });
                         break;
                     }
-                    
+
                     default:
                     {
 
@@ -2205,11 +2152,11 @@ function repaint(redraw = false, rebuildform = true) {
     doapplyjson = false;
 }
 
-var olddashname = "";
 
 $(document).ready(function () {
 
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
+
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
@@ -2230,7 +2177,6 @@ $(document).ready(function () {
         }
         rowdrag = ri;
     });
-
     $("#dashcontent").on('sortstop', function (event, ui) {
         var ri = ui.item.index();
         var tmprow = (gdd.rows[rowdrag]);
@@ -2243,9 +2189,8 @@ $(document).ready(function () {
         domodifier();
         rowdrag = false;
     });
-
-    if (!gdd.rows) //Old style Update te new
-    {
+//Old style Update te new
+    if (!gdd.rows) {
         var rows = [];
         for (var ri in gdd)
         {
@@ -2264,9 +2209,7 @@ $(document).ready(function () {
         }
         gdd.rows = rows;
     }
-
-    if (gdd.times)
-    {
+    if (gdd.times) {
         if (gdd.times.intervall)
         {
             $("#refreshtime").val(gdd.times.intervall);
@@ -2290,12 +2233,13 @@ $(document).ready(function () {
             PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
         }
 
-    } else
-    {
+    } else {
         gdd.times = {};
         $('#reportrange span').html(pickerlabel);
     }
+
     repaint();
+
     var elem = document.getElementById('global-downsampling-switsh');
     var switchery = new Switchery(elem, {size: 'small', color: '#26B99A'});
     elem.onchange = function () {
@@ -2366,34 +2310,12 @@ $(document).ready(function () {
         domodifier();
     });
     $("#refreshtime").select2({minimumResultsForSearch: 15});
-//    $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});    
-    if (typeof getmindate === "function")
-    {
+
+    if (typeof getmindate === "function") {
         PicerOptionSet1.minDate = getmindate();
     }
 
-
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
-//    $('body').on("click", ".dropdown_button,.button_title_adv", function () {
-//        var target = $(this).attr('target');
-//        var shevron = $(this);
-//        if ($(this).hasClass("button_title_adv"))
-//        {
-//            shevron = $(this).find('i');
-//        }
-//        $('#' + $(this).attr('target')).fadeToggle(500, function () {
-//            if ($('#' + target).css('display') === 'block')
-//            {
-//                shevron.removeClass("fa-chevron-circle-down");
-//                shevron.addClass("fa-chevron-circle-up");
-//            } else
-//            {
-//                shevron.removeClass("fa-chevron-circle-up");
-//                shevron.addClass("fa-chevron-circle-down");
-//
-//            }
-//        });
-//    });
     $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
@@ -2449,8 +2371,6 @@ $(document).ready(function () {
         redrawAllJSON(gdd);
         $("#deleteConfirm").modal('hide');
     });
-
-
     $('body').on("click", ".colapserow", function () {
         $(this).parents('.widgetraw').find('.rowcontent').fadeOut();
         var ri = $(this).parents(".widgetraw").index();
@@ -2469,7 +2389,6 @@ $(document).ready(function () {
         redrawAllJSON(gdd);
         domodifier();
     });
-
     $('body').on("click", ".expandrow", function () {
         $(this).parents('.widgetraw').find('.rowcontent').fadeIn();
         var ri = $(this).parents(".widgetraw").index();
@@ -2624,7 +2543,6 @@ $(document).ready(function () {
         domodifier();
         $("#deleteConfirm").modal('hide');
     });
-
     $('body').on("click", ".deletewidget", function () {
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
@@ -2637,7 +2555,6 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
     });
-
     $('body').on("click", ".dublicate", function () {
         for (var ri in gdd.rows)
         {
@@ -2717,7 +2634,6 @@ $(document).ready(function () {
         });
 
     });
-
     $('body').on("click", ".fulldash .change_title_row, .change_title", function () {
         $(this).parent().css("display", "none");
         $(this).parents('.item_title').find('.title_input').css("display", "block");
@@ -2725,7 +2641,6 @@ $(document).ready(function () {
     });
     $('body').on("click", ".fulldash .savetitlerow,.dash_header .savetitle", doeditTitle);
     $('body').on("keypress", ".fulldash .enter_title_row,.dash_header .enter_title", doeditTitle);
-
     $('body').on("click", ".deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
@@ -2733,7 +2648,6 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
         $("#deleteConfirm").modal('show');
     });
-
     $('body').on("click", ".savedash", savedash);
     $('body').on("click", ".savedashasTemplate", function () {
         var url = cp + "/dashboard/savetemplate";
@@ -2889,6 +2803,53 @@ $(document).ready(function () {
     $('body').on("click", "#refresh", function () {
         repaint(true, false);
     });
+    $('body').on("click", "#btnlock", btnlock);
+    $('body').on("click", "#savelock", function () {
+        if (btn === null)
+        {
+            return;
+        }
+
+        $('#lockConfirm').modal('hide');
+        $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
+            if (!btn.parents('.fulldash').hasClass('locked'))
+                btn.parents('.fulldash').toggleClass('locked');
+        });
+        btn.toggleClass('btnunlock');
+        btn.find('i').toggleClass('fa-unlock');
+        locktooltip();
+        btn.parents('.fulldash').toggleClass('locked');
+        gdd.locked = true;
+        setTimeout(function () {
+            savedash();
+        }, 1000);
+
+    });
+    $("body").on('keydown', function (event) {
+        if ((event.ctrlKey || event.metaKey)) {
+            switch (event.which) {
+                case 83:
+                {
+                    if ((dashmodifier === true) && (!$('.fulldash').hasClass('locked'))) {
+                        event.preventDefault();
+                        savedash();
+                    }
+                    break;
+                }
+                case 76:
+                {
+                    event.preventDefault();
+                    btnlock();
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+
+            }
+        }
+    });
     $('body').on("change", "#refreshtime", function () {
         if (!doapplyjson)
         {
@@ -2903,6 +2864,8 @@ $(document).ready(function () {
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
     olddashname = $("#name").val();
 });
+
+
 window.onscroll = function () {
     clearTimeout(scrolltimer);
     scrolltimer = setTimeout(function () {
@@ -2983,4 +2946,14 @@ window.onresize = function () {
         echartLine.resize();
     }
 
+};
+window.onbeforeunload = function () {
+    if (dashmodifier === true)
+    {
+        if ($('#btnlock').hasClass('btnunlock')) {
+            return null;
+        }
+        return true;
+    }
+    return null;
 };
