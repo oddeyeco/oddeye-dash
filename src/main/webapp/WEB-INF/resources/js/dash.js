@@ -510,6 +510,8 @@ var queryCallback = function (inputdata) {
                                 m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;
                             }
                         }
+                        
+                        
                         if (m_sample === "avg")
                         {
                             val = numbers.statistic.mean(chdata);
@@ -1709,14 +1711,12 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
                 }
             }
-            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-
-
+            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;            
             if (getParameterByName('metrics', uri))
             {
                 chart.showLoading("default", {
                     text: '',
-                    color: colorPalette[colorPalette.length],
+                    color: colorPalette[colorPalette.length-1],
                     textColor: '#000',
                     maskColor: 'rgba(255, 255, 255, 0)',
                     zlevel: 0

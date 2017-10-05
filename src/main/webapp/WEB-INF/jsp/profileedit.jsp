@@ -174,23 +174,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
                     <div class="x_content">                                        
-                        <form:form method="post" action="${cp}/profile/chagelogin" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">
-                            <div class="form-group">
-                                <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Chage Email (Login)</label>
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <form:input path="email" cssClass="form-control" required="" placeholder="email"/>
-                                    <form:errors path="email" />
-                                </div>
-                                <div class="col-md-2 col-sm-2 col-xs-12">
-                                    <button type="reset" class="btn btn-primary">Cancel</button>
-                                    <button type="submit" class="btn btn-success">Submit</button>
-                                </div>                                
-                            </div>
-                        </form:form>
-                    </div>
-
-                    <div class="x_content">                                        
-                        <form:form method="post" action="${cp}/profile/chagepassword" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">
+                        <form:form method="post" action="${cp}/profile/changepassword" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Old Password</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">

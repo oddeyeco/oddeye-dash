@@ -256,6 +256,68 @@ public class ProfileController {
         return "redirect:/profile/edit";
     }
 
+    @RequestMapping(value = "/profile/changepassword", method = RequestMethod.POST)
+    public String updatepass(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if ((curentuser.getSwitchUser() != null)) {
+                if (curentuser.getSwitchUser().getAlowswitch()) {
+                    curentuser = curentuser.getSwitchUser();
+                }
+            }
+            userValidator.updatevalidate(newuserdata, result);
+
+            DefaultController.setLocaleInfo(map);
+
+            DefaultController.setLocaleInfo(map);
+            if (result.hasErrors()) {
+                map.put("result", result);
+            } else {
+                try {
+                    Map<String, Object> changedata = curentuser.updateBaseData(newuserdata);
+                    Userdao.saveUserPersonalinfo(curentuser, changedata);
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
+                    Jsonchangedata.addProperty("action", "updateuser");
+                    InetAddress ia = InetAddress.getLocalHost();
+                    String node = ia.getHostName();
+                    Jsonchangedata.addProperty("node", node);
+                    Gson gson = new Gson();
+                    Jsonchangedata.addProperty("changedata", gson.toJson(changedata));
+                    // Send chenges to kafka
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            LOGGER.info("kafka semaphore saveuser send messge onSuccess");
+                        }
+
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
+                        }
+                    });
+                    return "redirect:/profile/edit";
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+
+            }
+            map.put("newuserdata", newuserdata);
+            map.put("newuserleveldata", curentuser);
+            map.put("curentuser", curentuser);
+            map.put("body", "profileedit");
+            map.put("jspart", "profileeditjs");
+            map.put("tab", "general-tab");
+
+            return "index";
+
+        }
+        return "indexPrime";
+        //else
+    }    
+    
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.POST)
     public String updateuser(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
