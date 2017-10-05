@@ -272,22 +272,6 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
 //                    var oooo = 0;
                     for (index in data.chartsdata)
                     {
-//                        console.log(data.chartsdata[index].data.length);
-
-//                        var last = 0;
-//                        if (oooo === 0)
-//                        {
-//                            console.log(oooo);
-//                            console.log(data.chartsdata[index].tags.host);
-//                            
-//                            for (var iiiii in data.chartsdata[index].data)
-//                            {
-//                                console.log(data.chartsdata[index].data[iiiii][0] - last);
-//                                last = data.chartsdata[index].data[iiiii][0];
-//
-//                            }
-//                        }
-//                        oooo++;
                         if (data.chartsdata[index].data.length > 0)
                         {
                             var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
@@ -396,7 +380,8 @@ var queryCallback = function (q_index, widget, oldseries, chart, count, json, ri
                                 switch (widget.type) {
                                     case 'pie':
                                     {
-                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
+                                        //TODO Mi ban anel
+//                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
                                         break;
                                     }
                                     case 'bar':
