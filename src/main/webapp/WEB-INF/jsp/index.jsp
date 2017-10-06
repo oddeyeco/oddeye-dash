@@ -54,7 +54,7 @@
         <body class="nav-md">
             <div class="container body">
                 <div class="main_container">
-                    <div class="col-md-3 left_col">
+                    <div id="fix" class="col-md-3 left_col">
                         <div class="left_col scroll-view">
                             <div class="navbar nav_title" style="border: 0;">
                                 <a href="<c:url value="/"/>" >
@@ -98,10 +98,10 @@
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
                                                             <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                                &nbsp; <i class="fa fa-lock"></i>
+                                                                &nbsp; <i  type="button" class="fa fa-lock"></i>
                                                             </c:if>                                                               
                                                             <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                                &nbsp; <i class="fa fa-unlock"></i>
+                                                                &nbsp; <i  type="button" class="fa fa-unlock"></i>
                                                             </c:if>                                                                  
                                                             ${Dush.key}                                                             
                                                         </a>
