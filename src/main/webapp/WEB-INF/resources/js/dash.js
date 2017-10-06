@@ -185,10 +185,10 @@ function btnlock() {
         if ($('#btnlock').parents('.fulldash').hasClass('locked'))
         {
             $('#btnlock').parents('.fulldash').toggleClass('locked');
-            $('.dash_header,.raw-controls,.btn-group').hide();
+            $('.dash_header,.text-right').hide();
         }
 
-        $('.dash_header,.raw-controls,.btn-group').show(500);
+        $('.dash_header,.text-right').show(500);
         $('#btnlock').toggleClass('btnunlock');
         domodifier();
         $('#btnlock').find('i').toggleClass('fa-unlock');
@@ -205,7 +205,7 @@ function btnlock() {
             btn = $('#btnlock');
 
         } else {
-            $('.dash_header,.raw-controls,.btn-group').hide(500, function () {
+            $('.dash_header,.text-right').hide(500, function () {
 
                 if (!$('#btnlock').parents('.fulldash').hasClass('locked')) {
                     $('#btnlock').parents('.fulldash').toggleClass('locked');
@@ -1532,7 +1532,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     {
         if (chart._dom.className !== "echart_line_single")
         {
-            if(chart._dom.className + $(chart._dom).css('width') !== $(chart._dom).children().css('width'))
+            if (chart._dom.className + $(chart._dom).css('width') !== $(chart._dom).children().css('width'))
             {
                 chart.resize();
             }
@@ -1549,7 +1549,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     return;
                 }
             }
-        }        
+        }
         var k;
         if (!widget.options.legend)
         {
@@ -1785,6 +1785,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         $(".fulldash").addClass('locked');
         $('#btnlock').addClass('btnunlock');
         $('#btnlock i').addClass('fa-unlock');
+        $('.text-right').hide();
     }
     locktooltip();
     if (!redraw)
@@ -2837,10 +2838,20 @@ $(document).ready(function () {
         exportToCsv(filename + ".csv", csvarray);
 
     });
+    var currentpagelock = function () {
+        if ($('.current-i').hasClass('fa-lock')) {
+            $('.current-i').removeClass('fa-lock').addClass('fa-unlock');
+        } else if ($('.current-i').hasClass('fa-unlock')) {
+            $('.current-i').removeClass('fa-unlock').addClass('fa-lock');
+        }
+    };
     $('body').on("click", "#refresh", function () {
         repaint(true, false);
     });
-    $('body').on("click", "#btnlock", btnlock);
+    $('body').on("click", "#btnlock", function () {
+        btnlock();
+        currentpagelock();
+    });
     $('body').on("click", "#savelock", function () {
         if (btn === null)
         {
@@ -2848,7 +2859,7 @@ $(document).ready(function () {
         }
 
         $('#lockConfirm').modal('hide');
-        $('.dash_header,.raw-controls,.btn-group ').hide(500, function () {
+        $('.dash_header,.text-right').hide(500, function () {
             if (!btn.parents('.fulldash').hasClass('locked'))
                 btn.parents('.fulldash').toggleClass('locked');
         });
@@ -2886,6 +2897,15 @@ $(document).ready(function () {
 
             }
         }
+    });
+    if ($('.text-nowrap').hasClass('current-page')) {
+        $('.current-page').find('i').toggleClass('current-i');
+    }
+    $('.current-i').on("click", function () {
+        currentpagelock();
+        btnlock();
+        return false;
+
     });
     $('body').on("change", "#refreshtime", function () {
         if (!doapplyjson)
