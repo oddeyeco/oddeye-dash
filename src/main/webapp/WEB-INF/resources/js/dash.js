@@ -1532,7 +1532,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     {
         if (chart._dom.className !== "echart_line_single")
         {
-            if(chart._dom.className + $(chart._dom).css('width') != $(chart._dom).children().css('width'))
+            if(chart._dom.className + $(chart._dom).css('width') !== $(chart._dom).children().css('width'))
             {
                 chart.resize();
             }
