@@ -237,7 +237,7 @@ function locktooltip() {
 }
 ;
 
-var queryCallback = function (inputdata) {    
+var queryCallback = function (inputdata) {
     var q_index = inputdata[0];
     var widget = inputdata[1];
     var oldseries = inputdata[2];
@@ -510,8 +510,8 @@ var queryCallback = function (inputdata) {
                                 m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;
                             }
                         }
-                        
-                        
+
+
                         if (m_sample === "avg")
                         {
                             val = numbers.statistic.mean(chdata);
@@ -809,12 +809,12 @@ var queryCallback = function (inputdata) {
             }
 
         }
-        
+
         if (whaitlist)
             if (whaitlist[uri])
             {
                 for (var uriind in whaitlist[uri])
-                {                    
+                {
                     queryCallback(whaitlist[uri][uriind])(data);
                 }
             }
@@ -1530,9 +1530,12 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
     if (chart)
     {
-
         if (chart._dom.className !== "echart_line_single")
         {
+            if(chart._dom.className + $(chart._dom).css('width') != $(chart._dom).children().css('width'))
+            {
+                chart.resize();
+            }
             if (redraw)
             {
                 if (chart._dom.getBoundingClientRect().bottom < 0)
@@ -1546,9 +1549,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     return;
                 }
             }
-        }
-
-
+        }        
         var k;
         if (!widget.options.legend)
         {
@@ -1711,12 +1712,12 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
                 }
             }
-            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;            
+            var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
             if (getParameterByName('metrics', uri))
             {
                 chart.showLoading("default", {
                     text: '',
-                    color: colorPalette[colorPalette.length-1],
+                    color: colorPalette[colorPalette.length - 1],
                     textColor: '#000',
                     maskColor: 'rgba(255, 255, 255, 0)',
                     zlevel: 0
@@ -2972,7 +2973,8 @@ window.onresize = function () {
                             setdatabyQ(gdd, ri, wi, "getdata", false);
                         }
                     }
-                    chart.resize();
+                    if (gdd.rows[ri].widgets[wi].visible)
+                        chart.resize();
                 }
             }
         }
