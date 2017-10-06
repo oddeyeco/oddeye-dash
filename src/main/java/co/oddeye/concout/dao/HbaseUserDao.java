@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
+import java.util.logging.Level;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
@@ -172,6 +173,26 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public User getUserByEmail(String email) {
+
+        try {
+            final Scanner value_scanner = BaseTsdb.getClient().newScanner(table);
+            
+            final ArrayList<ScanFilter> filters = new ArrayList<>(2);
+            filters.add(
+                    new ValueFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
+                            new org.hbase.async.BinaryComparator(email.getBytes())));
+            filters.add(new ColumnPrefixFilter("email"));
+            
+            value_scanner.setFilter(new FilterList(filters));
+            
+            final ArrayList<ArrayList<KeyValue>> value_rows = value_scanner.nextRows().join();
+            if (value_rows.size() == 1) {
+                UUID uuid = UUID.fromString(new String(value_rows.get(0).get(0).key()));
+                return getUserByUUID(uuid);
+            }            
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
         return null;
     }
 
@@ -217,7 +238,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
 
         return null;
-    }   
+    }
 
     public User getUserByUUID(UUID uuid) {
         return getUserByUUID(uuid, false);
@@ -249,7 +270,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                 user = new User();
             }
             byte[] TsdbID;
-            user.inituser(userkvs,this);
+            user.inituser(userkvs, this);
             try {
                 TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
             } catch (NoSuchUniqueName e) {

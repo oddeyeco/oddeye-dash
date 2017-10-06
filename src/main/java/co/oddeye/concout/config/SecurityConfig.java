@@ -11,6 +11,7 @@ package co.oddeye.concout.config;
  */
 import co.oddeye.concout.providers.HbaseAuthenticationProvider;
 import co.oddeye.concout.providers.OddeyeWebAuthenticationDetails;
+import co.oddeye.concout.providers.UserDetailsServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private HbaseAuthenticationProvider authProvider;
-
+    @Autowired
+    private UserDetailsServiceImpl userService;
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
@@ -36,10 +38,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http.userDetailsService(userService);
         http
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout/"))
                 .logoutSuccessUrl("/login/").deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true);
+                .invalidateHttpSession(true).and()
+                .rememberMe().userDetailsService(userService).tokenValiditySeconds(1209600);
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**", "/contact/**", "/gugush.txt").permitAll()
@@ -62,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
 
     }
-    
+
     private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource() {
 
         return new AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails>() {
@@ -73,5 +77,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             }
 
         };
-    }    
+    }
 }

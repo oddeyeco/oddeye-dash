@@ -184,8 +184,8 @@
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">New Password</label>
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <form:input path="password" cssClass="form-control" required="" placeholder="New Password" type="password"/>
+                                <div class="col-md-8 col-sm-8 col-xs-12">                                    
+                                    <input id="password" name="password" class="form-control" placeholder="New Password" type="password" value="">
                                     <form:errors path="password" />
                                 </div>                               
                             </div>

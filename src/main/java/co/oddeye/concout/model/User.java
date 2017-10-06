@@ -336,8 +336,8 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() {
-        String pass = "";
-        return pass;
+//        String pass = "";
+        return getPasswordst();
     }
 
     @Override

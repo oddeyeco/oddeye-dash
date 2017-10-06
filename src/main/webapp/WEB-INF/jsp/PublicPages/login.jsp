@@ -26,6 +26,9 @@
                 <div class="form-group">                
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="">
                 </div>
+                <div class="form-group">                
+                    Remember Me: <input type="checkbox" name="remember-me" />
+                </div>                
                 <input type="hidden"                
                        name="${_csrf.parameterName}"
                        value="${_csrf.token}"/>                           

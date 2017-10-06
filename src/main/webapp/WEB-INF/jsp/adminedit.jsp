@@ -33,7 +33,7 @@
                             </c:if>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <form:input path="${config.getValue().path}" cssClass="form-control" placeholder="${config.getValue().title} "/>
+                            <form:input path="${config.getValue().path}" cssClass="form-control" placeholder="${config.getValue().title} "/>                            
                             <form:errors path="${config.getValue().path}" />
                         </div>
                     </div>  
@@ -72,8 +72,8 @@
                                 <span class="required">*</span>
                             </c:if>
                         </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">                                                        
-                            <form:input path="${config.getValue().path}" type="password" cssClass="form-control" placeholder="${config.getValue().title} "/>                            
+                        <div class="col-md-6 col-sm-6 col-xs-12">          
+                            <input id="password" name="password" class="form-control" placeholder="${config.getValue().title} " type="password" value="">
                             <form:errors path="${config.getValue().path}" />
                         </div>
                     </div>  
