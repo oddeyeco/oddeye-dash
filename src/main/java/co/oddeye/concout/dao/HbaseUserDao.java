@@ -217,7 +217,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
 
         return null;
-    }
+    }   
 
     public User getUserByUUID(UUID uuid) {
         return getUserByUUID(uuid, false);
@@ -249,7 +249,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                 user = new User();
             }
             byte[] TsdbID;
-            user.inituser(userkvs);
+            user.inituser(userkvs,this);
             try {
                 TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
             } catch (NoSuchUniqueName e) {
@@ -347,7 +347,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                         }
                         if (Hbasedata.getValue() instanceof Double) {
                             byte[] bytes = new byte[8];
-                            ByteBuffer.wrap(bytes).putDouble((Double) Hbasedata.getValue());                        
+                            ByteBuffer.wrap(bytes).putDouble((Double) Hbasedata.getValue());
                             values[index] = bytes;
                         }
                         index++;
@@ -429,6 +429,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                                 }
 
                             } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                                LOGGER.error(globalFunctions.stackTrace(e));
                             }
                         }
 

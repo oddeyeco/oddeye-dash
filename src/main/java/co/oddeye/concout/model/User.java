@@ -28,7 +28,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
@@ -76,7 +75,7 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "password", family = "technicalinfo", type = "password")
     private byte[] password;
     private byte[] passwordsecond;
-    private byte[] oldpassword;
+    private String oldpassword;
     @HbaseColumn(qualifier = "solt", family = "technicalinfo")
     private byte[] solt = null;
     @HbaseColumn(qualifier = "country", family = "personalinfo")
@@ -108,9 +107,11 @@ public class User implements UserDetails {
     private Double consumption = 0d;
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
-    private final Map <String,Map<String, String[]>> sotokenlist = new HashMap<>();
-    private final Map<String,PageInfo> pagelist = new HashMap<>();
+    private final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
+    private final Map<String, PageInfo> pagelist = new HashMap<>();
 
+    private HbaseUserDao DAO;
+    
     public User() {
         this.SwitchUser = null;
         this.id = UUID.randomUUID();
@@ -134,19 +135,19 @@ public class User implements UserDetails {
 
     // Developet metods
     public void SendConfirmMail(mailSender Sender, String uri) throws UnsupportedEncodingException {
-            //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
-            HashMap<String,String> model = new HashMap();
-            model.put("userName", this.getName());
-            model.put("userLastName", this.getLastname());
-            model.put("uri", uri);
-            model.put("email", this.getEmail());
-            model.put("id", this.getId().toString());
-            Sender.send("Confirm Email ",this.getEmail(), "cinfirm.ftl",model);
+        //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
+        HashMap<String, String> model = new HashMap();
+        model.put("userName", this.getName());
+        model.put("userLastName", this.getLastname());
+        model.put("uri", uri);
+        model.put("email", this.getEmail());
+        model.put("id", this.getId().toString());
+        Sender.send("Confirm Email ", this.getEmail(), "cinfirm.ftl", model);
 
-        
     }
 
-    public void inituser(ArrayList<KeyValue> userkvs) {
+    public void inituser(ArrayList<KeyValue> userkvs,HbaseUserDao udao) {
+        this.DAO = udao;
         authorities.clear();
         userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
@@ -156,6 +157,16 @@ public class User implements UserDetails {
         }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "email".getBytes())) {
                 this.email = new String(property.value());
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "password".getBytes())) {
+                this.password = property.value();
+            }
+            return property;
+        }).map((property) -> {
+            if (Arrays.equals(property.qualifier(), "solt".getBytes())) {
+                this.solt = property.value();
             }
             return property;
         }).map((property) -> {
@@ -305,10 +316,6 @@ public class User implements UserDetails {
 
     }
 
-    public String getOldpassword() {
-        String pass = "";
-        return pass;
-    }
 
     public void addAuthoritie(String role) {
         authorities.add(new SimpleGrantedAuthority(role));
@@ -603,21 +610,21 @@ public class User implements UserDetails {
     public Map<String, String> getDushList() {
         return DushList;
     }
-    
+
     /**
      * @return the DushList
      */
     public Map<String, Object> getDushListasObject() {
-        Type type = new TypeToken<Map<String, Object>>(){}.getType();
+        Type type = new TypeToken<Map<String, Object>>() {
+        }.getType();
         Map<String, Object> result = new TreeMap<>();
-        for (Map.Entry<String, String> dash:DushList.entrySet())
-        {
+        for (Map.Entry<String, String> dash : DushList.entrySet()) {
             globalFunctions.getJsonParser().parse(dash.getValue());
             Map<String, Object> dashMap = new Gson().fromJson(dash.getValue(), type);
-            result.put(dash.getKey(),dashMap);
+            result.put(dash.getKey(), dashMap);
         }
         return result;
-    }    
+    }
 
     /**
      * @param DushList the DushList to set
@@ -732,7 +739,7 @@ public class User implements UserDetails {
     /**
      * @return the listenerContainer
      */
-    public ConcurrentMessageListenerContainer<Integer, String> getListenerContainer() {        
+    public ConcurrentMessageListenerContainer<Integer, String> getListenerContainer() {
         return listenerContainer;
     }
 
@@ -743,12 +750,9 @@ public class User implements UserDetails {
         this.listenerContainer = listenerContainer;
     }
 
-    
-  
-    
 //    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
-        public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map <String,Map<String, String[]>> sesionsotoken) {
-        
+    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, Map<String, String[]>> sesionsotoken) {
+
         if (this.listenerContainer == null) {
             String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];
             for (int i = 0; i < AlertLevel.ALERT_LEVELS_INDEX.length; i++) {
@@ -793,7 +797,7 @@ public class User implements UserDetails {
     /**
      * @return the sotokenlist
      */
-    public Map <String,Map<String, String[]>> getSotokenlist() {
+    public Map<String, Map<String, String[]>> getSotokenlist() {
         return sotokenlist;
     }
 
@@ -866,7 +870,30 @@ public class User implements UserDetails {
     /**
      * @return the pagelist
      */
-    public Map<String,PageInfo> getPagelist() {
+    public Map<String, PageInfo> getPagelist() {
         return pagelist;
     }
+
+    /**
+     * @return the oldpassword
+     */
+    public String getOldpassword() {
+        return oldpassword;
+    }
+
+    /**
+     * @param oldpassword the oldpassword to set
+     */
+    public void setOldpassword(String oldpassword) {
+        this.oldpassword = oldpassword;
+    }
+    public String getOldpasswordst(User user) {
+        String pst ="";
+        if (!oldpassword.isEmpty()) {
+            pst =new String(get_SHA_512_SecurePassword(oldpassword, user.getSolt()));
+        }        
+        return pst;
+    }
+
+
 }

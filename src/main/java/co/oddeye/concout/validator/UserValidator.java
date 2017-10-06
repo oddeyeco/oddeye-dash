@@ -86,4 +86,22 @@ public class UserValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");                       
 
     }    
+    
+    public void passwordvalidate(Object target,Object selftarget, Errors errors) {
+        User user = (User) target;
+        User selfuser = (User) selftarget;
+        if (selfuser.getEmail().equals("demodemo@oddeye.co"))
+        {
+            errors.rejectValue("oldpassword", "oldpassword.isdemo", "password demodemo@oddeye.co is readonly.");
+        }
+        
+        if (!(user.getOldpasswordst(selfuser)).equals(selfuser.getPasswordst())) {
+            errors.rejectValue("oldpassword", "oldpassword.passwordNotCorrect", "Passwords don't correct.");
+        }        
+        
+        if (!(user.getPasswordst()).equals(user.getPasswordsecondst())) {
+            errors.rejectValue("passwordsecond", "passwordsecond.passwordDontMatch", "Passwords don't match.");
+        }
+
+    }    
 }

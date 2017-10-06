@@ -20,8 +20,8 @@
                 </li>
                 <li role="presentation" class="<c:if test="${tab == \"notifier-tab\"}">active</c:if>"><a href="#notifier_content" role="tab" id="notifier-tab" data-toggle="tab" aria-expanded="false">Notifier</a>
                 </li>
-<!--                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Security</a>
-                </li>-->
+                <li role="presentation" class="<c:if test="${tab == \"pass-tab\"}">active</c:if>"><a href="#tab_pass" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Security</a>
+                </li>
 
             </ul>
             <div id="myTabContent" class="tab-content">
@@ -172,7 +172,7 @@
                         </form>
                     </div>                            
                 </div>
-                <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"pass-tab\"}">active</c:if>" id="tab_pass" aria-labelledby="pass-tab">
                     <div class="x_content">                                        
                         <form:form method="post" action="${cp}/profile/changepassword" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">
                             <div class="form-group">

@@ -37,6 +37,8 @@ import com.google.gson.JsonObject;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import javax.servlet.http.HttpServletRequest;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
@@ -264,9 +266,10 @@ public class ProfileController {
             if ((curentuser.getSwitchUser() != null)) {
                 if (curentuser.getSwitchUser().getAlowswitch()) {
                     curentuser = curentuser.getSwitchUser();
+
                 }
             }
-            userValidator.updatevalidate(newuserdata, result);
+            userValidator.passwordvalidate(newuserdata, curentuser, result);
 
             DefaultController.setLocaleInfo(map);
 
@@ -275,29 +278,17 @@ public class ProfileController {
                 map.put("result", result);
             } else {
                 try {
-                    Map<String, Object> changedata = curentuser.updateBaseData(newuserdata);
-                    Userdao.saveUserPersonalinfo(curentuser, changedata);
-                    JsonObject Jsonchangedata = new JsonObject();
-                    Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
-                    Jsonchangedata.addProperty("action", "updateuser");
-                    InetAddress ia = InetAddress.getLocalHost();
-                    String node = ia.getHostName();
-                    Jsonchangedata.addProperty("node", node);
-                    Gson gson = new Gson();
-                    Jsonchangedata.addProperty("changedata", gson.toJson(changedata));
-                    // Send chenges to kafka
-                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                        @Override
-                        public void onSuccess(SendResult<Integer, String> result) {
-                            LOGGER.info("kafka semaphore saveuser send messge onSuccess");
-                        }
-
-                        @Override
-                        public void onFailure(Throwable ex) {
-                            LOGGER.error("kafka semaphore saveuser send messge onFailure " + ex.getMessage());
+                    final Map<String, Object> EditConfig = new LinkedHashMap<>();
+                    EditConfig.put("password", new HashMap<String, Object>() {
+                        {
+                            put("path", "password");
+                            put("title", "Password");
+                            put("retitle", "Re enter Password");
+                            put("type", "password");
                         }
                     });
+
+                    Userdao.saveAll(curentuser, newuserdata, EditConfig);
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
@@ -305,19 +296,19 @@ public class ProfileController {
 
             }
             map.put("newuserdata", newuserdata);
-            map.put("newuserleveldata", curentuser);
             map.put("curentuser", curentuser);
+            map.put("activeuser", curentuser);
             map.put("body", "profileedit");
             map.put("jspart", "profileeditjs");
-            map.put("tab", "general-tab");
+            map.put("tab", "pass-tab");
 
             return "index";
 
         }
         return "indexPrime";
         //else
-    }    
-    
+    }
+
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.POST)
     public String updateuser(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
