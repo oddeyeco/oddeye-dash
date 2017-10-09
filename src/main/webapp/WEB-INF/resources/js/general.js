@@ -13,4 +13,9 @@ $(document).ready(function () {
     $("body").on("click", "a", function (event) {
         ga('send', 'event', 'link click', $(this).attr("href"));
     });
+
+    $('input.flat').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
 });

@@ -13,7 +13,7 @@
             <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
         </div>    
         <div class=" contactform col-md-6 col-xs-12 login">        
-            <form action="<c:url value="/login/"/>" method="post">                
+            <form action="<c:url value="/login/"/>" method="post" class="form-horizontal">                
                 <c:if test="${param.error != null}">
                     <div class="alert alert-danger" role="alert">
                         <strong>Oh!</strong> Invalid username and password.
@@ -27,7 +27,7 @@
                     <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="">
                 </div>
                 <div class="form-group">                
-                    Remember Me: <input type="checkbox" name="remember-me" />
+                    <input type="checkbox" name="remember-me" class="flat" id="remember-me"/><label for="remember-me" class="remember-me"> Remember Me</label>
                 </div>                
                 <input type="hidden"                
                        name="${_csrf.parameterName}"

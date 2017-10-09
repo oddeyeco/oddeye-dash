@@ -18,7 +18,10 @@
             <!-- Select2 -->
             <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">        
             <!-- Bootstrap core CSS -->
-            <link rel="stylesheet" href="<c:url value="/assets/bootstrap4/css/bootstrap.min.css"/>" />                                    
+            <link rel="stylesheet" href="<c:url value="/assets/bootstrap4/css/bootstrap.min.css"/>" />                                                
+            <!-- iCheck -->
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css" />                  
+            
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css"/>" />
 
         </head>
@@ -49,7 +52,8 @@
 
             <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
             <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->                            
-
+            <!--iCheck--> 
+            <script src="${cp}/resources/iCheck/icheck.min.js"></script>
             <script src="<c:url value="/assets/js/general.min.js"/>"></script>      
             <script>
                 (function (i, s, o, g, r, a, m) {
