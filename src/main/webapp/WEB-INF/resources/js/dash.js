@@ -1107,7 +1107,9 @@ var queryCallback = function (inputdata) {
                                     {
                                         delete ser.label.normal.formatter;
                                     }
-                                    delete ser.label.normal.formatter;
+
+//                                    delete ser.label.normal.formatter;
+//                                    console.log(ser.label.normal);
                                     break
                                 }
                             }
