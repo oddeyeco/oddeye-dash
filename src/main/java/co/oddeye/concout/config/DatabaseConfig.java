@@ -23,7 +23,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * @author vahan
  */
 @Configuration
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+@PropertySource("dash.properties")
 public class DatabaseConfig {
 
     @Value("${hbase.zookeeper.quorum}")

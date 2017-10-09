@@ -36,7 +36,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  *
  * @author vahan
  */
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+@PropertySource("dash.properties")
 public class KafkaLisener {
 
     @Autowired

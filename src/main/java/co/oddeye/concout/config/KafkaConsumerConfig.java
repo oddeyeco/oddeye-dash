@@ -27,13 +27,13 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
  */
 @Configuration
 @EnableKafka
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+@PropertySource("dash.properties")
 public class KafkaConsumerConfig {
     
     @Value("${kafka.consumer.bootstrap.servers}")
     private String consumerServers;        
-    @Value("${kafka.consumer.zookeeper.connect}")
-    private String consumerZookeeperConnect;        
+//    @Value("${kafka.consumer.zookeeper.connect}")
+//    private String consumerZookeeperConnect;        
     @Value("${kafka.consumer.autocommit}")
     private boolean consumerAutocommit;        
     @Value("${kafka.consumer.autocommit.interval}")
@@ -65,7 +65,7 @@ public class KafkaConsumerConfig {
     public Map<String, Object> consumerConfigs() {
         Map<String, Object> propsMap = new HashMap<>();
         propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, consumerServers); //,node1.netangels.net:9092,node2.netangels.net:9092
-        propsMap.put("zookeeper.connect", consumerZookeeperConnect);
+//        propsMap.put("zookeeper.connect", consumerZookeeperConnect);
         propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, consumerAutocommit);
         propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, consumerAutocommitInterval);
         propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, consumerSessionTimeout);

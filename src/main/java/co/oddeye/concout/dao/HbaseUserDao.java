@@ -25,7 +25,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
-import java.util.logging.Level;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.hbase.async.Bytes;
@@ -176,20 +175,20 @@ public class HbaseUserDao extends HbaseBaseDao {
 
         try {
             final Scanner value_scanner = BaseTsdb.getClient().newScanner(table);
-            
+
             final ArrayList<ScanFilter> filters = new ArrayList<>(2);
             filters.add(
                     new ValueFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
                             new org.hbase.async.BinaryComparator(email.getBytes())));
             filters.add(new ColumnPrefixFilter("email"));
-            
+
             value_scanner.setFilter(new FilterList(filters));
-            
+
             final ArrayList<ArrayList<KeyValue>> value_rows = value_scanner.nextRows().join();
             if (value_rows.size() == 1) {
                 UUID uuid = UUID.fromString(new String(value_rows.get(0).get(0).key()));
                 return getUserByUUID(uuid);
-            }            
+            }
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
@@ -404,8 +403,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                                         getter = user.getClass().getDeclaredMethod("getPasswordByte");
                                         value = getter.invoke(user);
                                         newvalue = getter.invoke(newuser);
-                                        if (!Arrays.equals((byte[]) newvalue, (byte[]) value)) {
-                                            ischange = true;
+                                        if (newvalue != null) {
+                                            if (!Arrays.equals((byte[]) newvalue, (byte[]) value)) {
+                                                ischange = true;
+                                            }
                                         }
                                         break;
                                     case "collection":

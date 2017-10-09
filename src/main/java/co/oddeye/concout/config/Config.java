@@ -33,7 +33,7 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
  */
 @Configuration
 @ComponentScan("co.oddeye.concout")
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+@PropertySource("dash.properties")
 @EnableWebMvc
 public class Config extends WebMvcConfigurerAdapter {
 
