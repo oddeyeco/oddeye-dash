@@ -29,14 +29,13 @@ import org.springframework.kafka.annotation.KafkaListener;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
  * @author vahan
  */
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+//@PropertySource("file:/opt/jetty/oddeye/dash.properties")
 public class KafkaLisener {
 
     @Autowired

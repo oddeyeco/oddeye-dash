@@ -11,28 +11,39 @@ package co.oddeye.concout.config;
  */
 import co.oddeye.concout.providers.HbaseAuthenticationProvider;
 import co.oddeye.concout.providers.OddeyeWebAuthenticationDetails;
+import co.oddeye.concout.providers.StickySesionCookieFilter;
 import co.oddeye.concout.providers.UserDetailsServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@PropertySource("file:/opt/jetty/oddeye/dash.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Value("${sesion.cookie.name}")
+    private String cookiename;
+    @Value("${sesion.cookie.value}")
+    private String cookievalue;
+    
+    
     @Autowired
     private HbaseAuthenticationProvider authProvider;
     @Autowired
     private UserDetailsServiceImpl userService;
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider);
+        auth.authenticationProvider(authProvider);        
 
     }
 
@@ -63,7 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .authenticationDetailsSource(authenticationDetailsSource())
                 .loginPage("/login/")
-                .permitAll();
+                .permitAll()
+                .and().addFilterBefore(new StickySesionCookieFilter(cookiename,cookievalue),UsernamePasswordAuthenticationFilter.class);
 
     }
 
