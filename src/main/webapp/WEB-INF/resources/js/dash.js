@@ -1456,6 +1456,7 @@ var queryCallback = function (inputdata) {
             }
 
             chart.hideLoading();
+            lockq[ri + " " + wi] = false;
             if (callback !== null)
             {
                 callback();
@@ -1484,8 +1485,10 @@ var queryCallback = function (inputdata) {
                 }
             }
         }
-    }
-    ;
+        ;
+
+
+    };
 };
 function datafunc() {
     var d = [];
@@ -1500,8 +1503,14 @@ function datafunc() {
     return d;
 }
 
-
+var lockq = {};
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
+    if (lockq[ri + " " + wi])
+    {
+        return;
+    }
+
+    lockq[ri + " " + wi] = true;
     var prevuri = "";
     var whaitlist = {};
     var widget = json.rows[ri].widgets[wi];
