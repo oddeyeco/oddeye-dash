@@ -87,6 +87,7 @@ public class ProfileController {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
 
+//            userDetails.updateConsumption();
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
 

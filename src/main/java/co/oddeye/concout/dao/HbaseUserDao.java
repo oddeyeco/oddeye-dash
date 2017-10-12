@@ -7,6 +7,8 @@ package co.oddeye.concout.dao;
 
 import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.config.DatabaseConfig;
+import co.oddeye.concout.core.CoconutConsumption;
+import co.oddeye.concout.core.ConsumptionList;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.globalFunctions;
 import java.beans.IntrospectionException;
@@ -18,6 +20,7 @@ import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +28,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
+import java.util.logging.Level;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
+import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.Bytes;
 import org.hbase.async.ColumnPrefixFilter;
 import org.hbase.async.DeleteRequest;
@@ -57,7 +62,8 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseUserDao.class);
 
-    byte[] dashtable = "oddeyeDushboards".getBytes();
+    byte[] dashtable;
+    byte[] consumptiontable;
 
     private final Map<UUID, User> usersbyUUID = new HashMap<>();
     private final Map<String, User> usersbyEmail = new HashMap<>();
@@ -65,6 +71,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     public HbaseUserDao(DatabaseConfig p_config) {
         super(p_config.getUsersTable());
         dashtable = p_config.getDashTable().getBytes();
+        consumptiontable = p_config.getConsumptiontable().getBytes();
 
     }
 
@@ -514,6 +521,26 @@ public class HbaseUserDao extends HbaseBaseDao {
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
+    }
+
+    public ConsumptionList getConsumption(User user) {
+        final ConsumptionList result = new ConsumptionList();
+        try {                       
+            Calendar cal = Calendar.getInstance();
+            byte[] year_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.YEAR)).array();
+            byte[] month_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.MONTH)).array();
+            byte[] key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
+            final GetRequest get = new GetRequest(consumptiontable, key);
+            final ArrayList<KeyValue> ConsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
+            ConsList.stream().forEach((cos) -> {
+                CoconutConsumption CoconutCos = new CoconutConsumption(cos);
+                result.put(CoconutCos.getTimestamp(), new CoconutConsumption(cos));
+            });
+      
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+        return result;        
     }
 
 }

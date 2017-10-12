@@ -260,13 +260,16 @@ public class AdminUsersControlers extends GRUDControler {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            map.put("curentuser", userDetails);
+            
+            map.put("curentuser", userDetails);            
             map.put("isAuthentication", true);
         } else {
             map.put("isAuthentication", false);
         }
-
-        map.put("model", Userdao.getUserByUUID(UUID.fromString(id), true));
+        User model = Userdao.getUserByUUID(UUID.fromString(id), true);
+        model.updateConsumption();
+        map.put("model",model);
+        
 
 //                String baseUrl = Sender.getBaseurl(request);
 //        try {        

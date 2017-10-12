@@ -6,8 +6,10 @@
 package co.oddeye.concout.model;
 
 import co.oddeye.concout.annotation.HbaseColumn;
+import co.oddeye.concout.core.CoconutConsumption;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
+import co.oddeye.concout.core.ConsumptionList;
 import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
@@ -97,13 +99,17 @@ public class User implements UserDetails {
     private Boolean alowswitch;
     @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
     private Collection<GrantedAuthority> authorities;
-    private ConcoutMetricMetaList MetricsMetas;
-    private Map<String, String> DushList;
     @HbaseColumn(qualifier = "*", family = "filtertemplates")
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
+    private ConcoutMetricMetaList MetricsMetas;
+    private Map<String, String> DushList;
+
+    private ConsumptionList consumptionList;
+    
+    
     private Double consumption = 0d;
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
@@ -893,6 +899,17 @@ public class User implements UserDetails {
             pst =new String(get_SHA_512_SecurePassword(oldpassword, user.getSolt()));
         }        
         return pst;
+    }
+
+    public void updateConsumption() {
+       consumptionList = DAO.getConsumption(this);
+    }
+
+    /**
+     * @return the ConsumptionList
+     */
+    public ConsumptionList getConsumptionList() {
+        return consumptionList;
     }
 
 

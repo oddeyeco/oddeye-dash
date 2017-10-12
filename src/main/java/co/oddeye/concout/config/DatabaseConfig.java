@@ -53,7 +53,10 @@ public class DatabaseConfig {
     private String errorsTable;
     @Value("${dash.metatable}")
     private String metaTable;
+    @Value("${dash.consumptiontable}")
+    private String consumptiontable;
 
+    
     @Bean
     public BaseTsdbConnect BaseTsdb() {
         return new BaseTsdbConnect(this);
@@ -190,6 +193,13 @@ public class DatabaseConfig {
      */
     public String getMetaTable() {
         return metaTable;
+    }
+
+    /**
+     * @return the consumptiontable
+     */
+    public String getConsumptiontable() {
+        return consumptiontable;
     }
 
 }
