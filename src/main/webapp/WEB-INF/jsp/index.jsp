@@ -182,7 +182,13 @@
                                             <li class="">         
                                                 <c:if test="${curentuser.getBalance()>0}">
                                                     <a href="javascript:;" class="user-profile">
-                                                        Balance ${curentuser.getBalance()}    
+                                                        Balance 
+                                                        <c:if test="${curentuser.getBalance()<Double.MAX_VALUE}">
+                                                        ${curentuser.getBalance()}    
+                                                        </c:if>
+                                                        <c:if test="${curentuser.getBalance()==Double.MAX_VALUE}">
+                                                            <span class="infin"> &infin;</span>
+                                                        </c:if>                                                        
                                                     </a>
                                                 </c:if>                                            
                                             </li>                                            

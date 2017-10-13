@@ -17,6 +17,7 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
 
     private final TreeMap<Long, CoconutConsumption> ConsumptionListHoure = new TreeMap<>(Collections.reverseOrder());
     private final TreeMap<Long, CoconutConsumption> ConsumptionListDaily = new TreeMap<>(Collections.reverseOrder());
+    private final TreeMap<Long, CoconutConsumption> ConsumptionListMonth = new TreeMap<>(Collections.reverseOrder());
 
     public ConsumptionList()
     {
@@ -50,6 +51,18 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
             hvalue = getConsumptionListDaily().get(hkey);
         }        
         hvalue.addConsumption(value.getAmount(),value.getCount());
+        
+        cal.set(Calendar.DAY_OF_MONTH, 0);
+        hkey = cal.getTimeInMillis();        
+        if (!ConsumptionListMonth.containsKey(hkey)) {
+            hvalue = new CoconutConsumption(hkey);
+            getConsumptionListMonth().put(hkey, hvalue);
+        } else {
+            hvalue = getConsumptionListMonth().get(hkey);
+        }        
+        hvalue.addConsumption(value.getAmount(),value.getCount());
+        
+        
         return result;
     }
 
@@ -65,5 +78,12 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
      */
     public TreeMap<Long, CoconutConsumption> getConsumptionListDaily() {
         return ConsumptionListDaily;
+    }
+
+    /**
+     * @return the ConsumptionListMonth
+     */
+    public TreeMap<Long, CoconutConsumption> getConsumptionListMonth() {
+        return ConsumptionListMonth;
     }
 }

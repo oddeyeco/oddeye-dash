@@ -21,7 +21,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
@@ -74,15 +73,15 @@ public class AdminUsersControlers extends GRUDControler {
             }
         }).AddViewConfig("name", new HashMap<String, Object>() {
             {
-                put("path", "name");
-                put("title", " First Name");
+                put("path", "fullname");
+                put("title", "Name");
                 put("type", "String");
             }
-        }).AddViewConfig("lastname", new HashMap<String, Object>() {
+        }).AddViewConfig("balance", new HashMap<String, Object>() {
             {
-                put("path", "lastname");
-                put("title", " Last Name");
-                put("type", "String");
+                put("path", "balance");
+                put("title", "Balance");
+                put("type", "Double");
             }
         }).AddViewConfig("Company", new HashMap<String, Object>() {
             {
@@ -203,6 +202,12 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", "Balance");
                 put("type", "float");
             }
+        }).AddEditConfig("unlimit", new HashMap<String, Object>() {
+            {
+                put("path", "unlimit");
+                put("title", "is Unlimit");
+                put("type", "boolean");
+            }
         }).AddEditConfig("alowswitch", new HashMap<String, Object>() {
             {
                 put("path", "alowswitch");
@@ -260,16 +265,15 @@ public class AdminUsersControlers extends GRUDControler {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
-            
-            map.put("curentuser", userDetails);            
+
+            map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
         } else {
             map.put("isAuthentication", false);
         }
         User model = Userdao.getUserByUUID(UUID.fromString(id), true);
         model.updateConsumption();
-        map.put("model",model);
-        
+        map.put("model", model);
 
 //                String baseUrl = Sender.getBaseurl(request);
 //        try {        

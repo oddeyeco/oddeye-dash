@@ -6,7 +6,6 @@
 package co.oddeye.concout.model;
 
 import co.oddeye.concout.annotation.HbaseColumn;
-import co.oddeye.concout.core.CoconutConsumption;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.ConsumptionList;
@@ -62,8 +61,7 @@ public class User implements UserDetails {
     public final static String ROLE_READONLY = "ROLE_READONLY";
     public final static String ROLE_DELETE = "ROLE_DELETE";
     public final static String ROLE_EDIT = "ROLE_EDIT";
-    public final static String ROLE_CAN_SWICH = "ROLE_CAN_SWICH";
-
+    public final static String ROLE_CAN_SWICH = "ROLE_CAN_SWICH";    
     @Id
     private UUID id;
     @HbaseColumn(qualifier = "lastname", family = "personalinfo")
@@ -91,6 +89,9 @@ public class User implements UserDetails {
 
     private byte[] TsdbID;
     private String StTsdbID;
+    
+    @HbaseColumn(qualifier = "unlimit", family = "technicalinfo")
+    private Boolean unlimit= false;    
     @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
     @HbaseColumn(qualifier = "balance", family = "technicalinfo")
@@ -253,6 +254,16 @@ public class User implements UserDetails {
                 }
             }
             return property;
+        }).map((KeyValue property) -> {
+            if (Arrays.equals(property.qualifier(), "unlimit".getBytes())) {
+                if (property.value().length == 1) {
+                    this.unlimit = property.value()[0] != (byte) 0;
+                }
+                if (property.value().length == 4) {
+                    this.unlimit = Bytes.getInt(property.value()) != 0;
+                }
+            }
+            return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
             if (property.value().length == 1) {
                 this.active = property.value()[0] != (byte) 0;
@@ -260,7 +271,8 @@ public class User implements UserDetails {
             if (property.value().length == 4) {
                 this.active = Bytes.getInt(property.value()) != 0;
             }
-        });
+        })
+                ;
 
         if (AlertLevels == null) {
             AlertLevels = new AlertLevel(true);
@@ -579,6 +591,9 @@ public class User implements UserDetails {
     public void setActive(Boolean active) {
         this.active = active;
     }
+    public String getFullname() {
+        return name+" "+lastname;
+    }
 
     /**
      * @return the lastname
@@ -821,6 +836,10 @@ public class User implements UserDetails {
      * @return the balance
      */
     public Double getBalance() {
+        if (unlimit)
+        {
+            return Double.MAX_VALUE;
+        }
         return balance;
     }
 
@@ -910,6 +929,20 @@ public class User implements UserDetails {
      */
     public ConsumptionList getConsumptionList() {
         return consumptionList;
+    }
+
+    /**
+     * @return the unlimit
+     */
+    public Boolean getUnlimit() {
+        return unlimit;
+    }
+
+    /**
+     * @param unlimit the unlimit to set
+     */
+    public void setUnlimit(Boolean unlimit) {
+        this.unlimit = unlimit;
     }
 
 

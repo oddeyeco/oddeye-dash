@@ -47,6 +47,19 @@
                                     <c:when test="${config.getValue().type == 'String'}">
                                         ${model[config.getValue().path] }
                                     </c:when>                                            
+                                    <c:when test="${config.getValue().type == 'Double'}">      
+                                        <c:if test="${curentuser.getBalance()!=null}">
+                                            <c:if test="${model[config.getValue().path]<Double.MAX_VALUE}">
+                                                <fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${model[config.getValue().path] }" />
+                                            </c:if>
+                                            <c:if test="${model[config.getValue().path]==Double.MAX_VALUE}">
+                                                <span class="infin"> &infin;</span>
+                                            </c:if>                                                        
+                                        </c:if>
+
+
+
+                                    </c:when>                                                         
                                     <c:when test="${config.getValue().type == 'Enum'}">                                        
                                         ${model[config.getValue().path]}
                                     </c:when>  
@@ -67,7 +80,7 @@
                                         <c:if test="${model.getListenerContainer().isRunning()}">
                                             <span class="label label-success">looks monitoring ${model.getSotokenlist().size()}</span><br>
                                         </c:if>   
-                                            
+
                                         <c:forEach items="${model.getPagelist() }" var="item">   
                                             <span class="label label-success">${item.getValue()}</span><br>
                                         </c:forEach>                                                 
