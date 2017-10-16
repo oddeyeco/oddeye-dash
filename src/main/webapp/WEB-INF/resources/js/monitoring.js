@@ -32,11 +32,17 @@ function connectstompClient()
             }
         }
     });
-    headers["levels"] = levels;    
+    headers["levels"] = levels;
     stompClient.connect(headers,
             function (frame) {
                 stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
                     var errorjson = JSON.parse(error.body);
+                    
+//                    if (errorjson.hash == -1254898263)
+//                    {
+//                        console.log(errorjson.levelname + " " + errorjson.flap + " " + moment().format(timeformatsmall) + ' ' + moment(errorjson.time).format(timeformatsmall));
+//                    }
+
                     if (errorlistJson[errorjson.hash])
                     {
                         errorjson.index = errorlistJson[errorjson.hash].index;
@@ -357,6 +363,11 @@ function drawRaw(errorjson, table, hashindex, update) {
         trclass = trclass + " spec";
     }
 
+    if (errorjson.flap > 5)
+    {
+        trclass = trclass + " flapdetect";
+    }
+
     if (!update)
     {
 //        if (arrowclass === "")
@@ -438,7 +449,7 @@ function drawRaw(errorjson, table, hashindex, update) {
     {
         table.find("tbody tr#" + hashindex).attr("class", trclass);
         table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
-//        console.log((table.find("tbody tr#" + index + " .timech").attr('time')-errorjson.time));
+
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
 //        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) + " Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + hashindex + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) / 1000 + " " + errorjson.index + "</div>");
@@ -573,7 +584,7 @@ $(document).ready(function () {
                     }
                 }
             });
-            
+
             stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));
 //            connectstompClient();
             first = true;

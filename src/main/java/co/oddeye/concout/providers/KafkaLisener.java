@@ -85,7 +85,14 @@ public class KafkaLisener {
                     if (user.getMetricsMeta() == null) {
                         user.setMetricsMeta(new ConcoutMetricMetaList());
                     }
-                    user.getMetricsMeta().add(mtrscMeta);
+                    if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
+                        user.getMetricsMeta().add(mtrscMeta);
+                    }
+                    else
+                    {
+                        user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
+                    }
+
                 } catch (Exception ex) {
                     LOGGER.info(globalFunctions.stackTrace(ex));
                 }

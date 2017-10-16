@@ -55,6 +55,7 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
 //        System.out.println(data);
         String msg = (String) record.value();
         String t_level = record.topic().replace(user.getId().toString(), "");
+        Integer i_level = Integer.parseInt(t_level);
         if (log.isInfoEnabled()) {
             log.info("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
         }
@@ -67,7 +68,6 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
             int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
 
             jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
-
             OddeeyMetricMeta metricMeta = user.getMetricsMeta().get(hash);
             if (metricMeta == null) {
                 try {
@@ -80,11 +80,11 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
             }
 
             if (metricMeta != null) {
+
                 if (metricMeta.isSpecial()) {
                     if (jsonResult.getAsJsonObject().get("message") != null) {
                         long time = System.currentTimeMillis();
-                        if (jsonResult.getAsJsonObject().get("reaction").getAsInt()<0)
-                        {
+                        if (jsonResult.getAsJsonObject().get("reaction").getAsInt() < 0) {
                             time = jsonResult.getAsJsonObject().get("time").getAsLong();
                         }
                         long DURATION = time - metricMeta.getLasttime();
@@ -94,17 +94,31 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                     }
                 }
 
+                if (level == i_level) {
+                    metricMeta.getErrorState().setLevel(jsonResult.getAsJsonObject().get("level").getAsInt(), jsonResult.getAsJsonObject().get("time").getAsLong());
+                    user.getMetricsMeta().put(hash, metricMeta);
+                }
+
                 JsonElement metajson = new JsonObject();
                 metajson.getAsJsonObject().add("tags", gson.toJsonTree(metricMeta.getTags()));
                 metajson.getAsJsonObject().addProperty("name", metricMeta.getName());
                 jsonResult.getAsJsonObject().add("info", metajson);
                 jsonResult.getAsJsonObject().addProperty("isspec", metricMeta.isSpecial() ? 1 : 0);
+                jsonResult.getAsJsonObject().addProperty("flap", metricMeta.getErrorState().getFlap());
 
                 for (Map.Entry<String, Map<String, String[]>> sesionsotokenlevel : user.getSotokenlist().entrySet()) {
                     Map<String, String[]> sotokenlevelmap = sesionsotokenlevel.getValue();
                     for (Map.Entry<String, String[]> sotokenlevel : sotokenlevelmap.entrySet()) {
                         if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
-                            this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+
+                            if (level == i_level) {
+                                this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+                            } else {
+                                if (!Arrays.asList(sotokenlevel.getValue()).contains(Integer.toString(level))) {
+                                    this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+                                }
+                            }
+
                         }
 
                     }
