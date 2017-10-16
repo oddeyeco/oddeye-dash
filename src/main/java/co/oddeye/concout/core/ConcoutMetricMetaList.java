@@ -45,25 +45,11 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         super(tsdb, bytes);
     }
 
+    @Override
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
         Integer count = 1;
         if (!this.containsKey(e.hashCode())) {
             getTaghashlist().add(e.getTags().hashCode());
-//            e.getTags().entrySet().stream().forEach((Entry<String, OddeyeTag> tag) -> {
-//                if (!tag.getKey().equals("UUID")) {
-//                    if (TagsList.containsKey(tag.getKey())) {
-//                        if (!TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
-//                            
-//                            TagsList.get(tag.getKey()).add(tag.getValue().getValue());
-//                        }
-//                    } else {
-//                        Set<String> keyset = new TreeSet<>();
-//                        keyset.add(tag.getValue().getValue());
-//                        TagsList.put(tag.getKey(), keyset);
-//                    }
-//                }
-//            });
-
             for (Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
                 if (!tag.getKey().equals("UUID")) {
                     if (TagsList.containsKey(tag.getKey())) {
@@ -101,14 +87,14 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             if (this.containsKey(e.hashCode())) {
                 ConcoutMetricMetaList.LOGGER.info("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
             }
-
-            e.getTags().keySet().stream().filter((tagkey) -> (!Tagkeys.contains(tagkey))).forEach(Tagkeys::add);
-
-            e.getTags().entrySet().stream().filter((tag) -> (!Tagkeyv.contains(tag.getValue().getValue()))).forEach((Map.Entry<String, OddeyeTag> tag) -> {
-                Tagkeyv.add(tag.getValue().getValue());
-            });
-
-            return this.put(e.hashCode(), e);
+            return super.add(e);
+//            e.getTags().keySet().stream().filter((tagkey) -> (!Tagkeys.contains(tagkey))).forEach(Tagkeys::add);
+//
+//            e.getTags().entrySet().stream().filter((tag) -> (!Tagkeyv.contains(tag.getValue().getValue()))).forEach((Map.Entry<String, OddeyeTag> tag) -> {
+//                Tagkeyv.add(tag.getValue().getValue());
+//            });
+//
+//            return this.put(e.hashCode(), e);
         } else {
             return this.replace(e.hashCode(), e);
         }

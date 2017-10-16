@@ -94,6 +94,9 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                     }
                 }
 
+//                if (hash == -1254898263) {
+//                    System.out.println(t_level + " fff");
+//                }
                 if (level == i_level) {
                     metricMeta.getErrorState().setLevel(jsonResult.getAsJsonObject().get("level").getAsInt(), jsonResult.getAsJsonObject().get("time").getAsLong());
                     user.getMetricsMeta().put(hash, metricMeta);
