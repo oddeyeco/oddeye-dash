@@ -10,9 +10,11 @@ import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.SendToKafka;
 import co.oddeye.concout.model.User;
+import co.oddeye.core.AddMeta;
 import co.oddeye.core.InvalidKeyException;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
+import co.oddeye.core.OddeeyMetricMetaList;
 import co.oddeye.core.globalFunctions;
 import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
@@ -22,6 +24,8 @@ import java.util.Calendar;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.opentsdb.query.QueryUtil;
@@ -76,7 +80,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         Scanner scanner = BaseTsdb.getClient().newScanner(table);
         scanner.setServerBlockCache(false);
-        scanner.setMaxNumRows(1000);
+        scanner.setMaxNumRows(10000);
         scanner.setFamily("d".getBytes());
         final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "type".getBytes(), "Regression".getBytes()};
         scanner.setQualifiers(Qualifiers);
@@ -93,26 +97,34 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
         ArrayList<ArrayList<KeyValue>> rows;
-        while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
-            for (final ArrayList<KeyValue> row : rows) {
-                try {
-                    OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
-                    if (meta.getTags().get("UUID").getValue().equals(userid.toString())) {
-                        OddeeyMetricMeta add = result.add(meta);
-                    } else {
-                        LOGGER.info("Oter User ID");
-                    }
-                } catch (InvalidKeyException e) {
-                    LOGGER.warn("InvalidKeyException " + row + " Is deleted");
-                    final DeleteRequest deleterequest = new DeleteRequest(table, row.get(0).key());
-                    BaseTsdb.getClient().delete(deleterequest).joinUninterruptibly();
-                } catch (Exception e) {
-                    LOGGER.warn(globalFunctions.stackTrace(e));
-                    LOGGER.warn("Can not add row to metrics " + row);
+            ExecutorService executor = Executors.newFixedThreadPool(24);
+            while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
+                for (final ArrayList<KeyValue> row : rows) {
+                    executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table,result));
                 }
-
-            }
-        }
+            }      
+        
+//        new OddeeyMetricMetaList.AddMeta()
+//        while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
+//            for (final ArrayList<KeyValue> row : rows) {
+//                try {
+//                    OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+//                    if (meta.getTags().get("UUID").getValue().equals(userid.toString())) {
+//                        OddeeyMetricMeta add = result.add(meta);
+//                    } else {
+//                        LOGGER.info("Oter User ID");
+//                    }
+//                } catch (InvalidKeyException e) {
+//                    LOGGER.warn("InvalidKeyException " + row + " Is deleted");
+//                    final DeleteRequest deleterequest = new DeleteRequest(table, row.get(0).key());
+//                    BaseTsdb.getClient().delete(deleterequest).joinUninterruptibly();
+//                } catch (Exception e) {
+//                    LOGGER.warn(globalFunctions.stackTrace(e));
+//                    LOGGER.warn("Can not add row to metrics " + row);
+//                }
+//
+//            }
+//        }
         getFullmetalist().putAll(result);
         return result;
     }
