@@ -3,6 +3,7 @@
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://htmlcompressor.googlecode.com/taglib/compressor"  prefix="compress"%>
 <compress:html removeIntertagSpaces="true" removeMultiSpaces="true"  compressCss="true" compressJavaScript="true">
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
@@ -184,7 +185,8 @@
                                                     <a href="javascript:;" class="user-profile">
                                                         Balance 
                                                         <c:if test="${curentuser.getBalance()<Double.MAX_VALUE}">
-                                                        ${curentuser.getBalance()}    
+                                                            
+                                                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${curentuser.getBalance()}" />
                                                         </c:if>
                                                         <c:if test="${curentuser.getBalance()==Double.MAX_VALUE}">
                                                             <span class="infin"> &infin;</span>

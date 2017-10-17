@@ -386,7 +386,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
-    public void saveAll(User user, User newuser, Map<String, Object> editConfig) throws Exception {
+    public Map<String, HashMap<String, Object>> saveAll(User user, User newuser, Map<String, Object> editConfig) throws Exception {
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         for (Map.Entry<String, Object> configEntry : editConfig.entrySet()) {
             HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
@@ -468,6 +468,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             }
         }
         PutHbase(changedata, user);
+        return changedata;
     }
 
     public void saveUserPersonalinfo(User user, Map<String, Object> changedata) throws Exception {

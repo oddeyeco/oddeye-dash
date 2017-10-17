@@ -380,14 +380,16 @@ public class AdminUsersControlers extends GRUDControler {
                     userValidator.adminvalidate(newUser, result);
                     if (result.hasErrors()) {
                         map.put("result", result);
+                        map.put("model", newUser);
                     } else {
                         User updateuser = Userdao.getUserByUUID(newUser.getId());
                         try {
-                            Userdao.saveAll(updateuser, newUser, getEditConfig());
+                            Map<String, HashMap<String, Object>> changedata = Userdao.saveAll(updateuser, newUser, getEditConfig());
                             Jsonchangedata.addProperty("UUID", updateuser.getId().toString());
                             Jsonchangedata.addProperty("action", "updateuser");
                             Jsonchangedata.addProperty("node", node);
-                            Jsonchangedata.addProperty("changedata", "{}");
+                            String changedatajson = gson.toJson(changedata);
+                            Jsonchangedata.addProperty("changedata", changedatajson);
                             Jsonchangedata.addProperty("fromuser", userDetails.getId().toString());
                             // Send chenges to kafka
                             ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
@@ -406,9 +408,10 @@ public class AdminUsersControlers extends GRUDControler {
                         } catch (Exception e) {
                             LOGGER.error(globalFunctions.stackTrace(e));
                         }
+                        updateuser.updateConsumption();
+                        map.put("model", updateuser);
                     }
 
-                    map.put("model", newUser);
                     map.put("configMap", getEditConfig());
                     map.put("path", "user");
                     map.put("modelname", "User");
