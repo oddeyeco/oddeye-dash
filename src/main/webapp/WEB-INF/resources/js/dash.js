@@ -1504,13 +1504,11 @@ function datafunc() {
 }
 
 var lockq = {};
-function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
+function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {    
     if (lockq[ri + " " + wi])
     {
         return;
-    }
-
-    lockq[ri + " " + wi] = true;
+    }    
     var prevuri = "";
     var whaitlist = {};
     var widget = json.rows[ri].widgets[wi];
@@ -1621,6 +1619,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         }
 
         var count = {"value": widget.q.length, "base": widget.q.length};
+        lockq[ri + " " + wi] = true;
         for (k in widget.q)
         {
 
