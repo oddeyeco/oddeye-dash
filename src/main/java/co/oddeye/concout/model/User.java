@@ -832,14 +832,19 @@ public class User implements UserDetails {
         Sender.send(action, "User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail(), "ara@oddeye.co");
     }
 
-    /**
-     * @return the balance
-     */
+    public void reload() {
+        if (DAO!= null)
+        {
+            DAO.getUserByUUID(id,true);
+        }
+        
+    }    
+    
     public Double getBalance() {
         if (unlimit)
         {
             return Double.MAX_VALUE;
-        }
+        }               
         return balance;
     }
 

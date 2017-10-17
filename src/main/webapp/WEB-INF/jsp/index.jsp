@@ -180,15 +180,17 @@
                                             <span class=" fa fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                            <li class="">         
-                                                <c:if test="${curentuser.getBalance()>0}">
+                                            <li class="">     
+                                                ${curentuser.reload()}
+                                                <c:set var="balance" value="${curentuser.getBalance()}" />
+                                                <c:if test="${balance>0}">
                                                     <a href="javascript:;" class="user-profile">
                                                         Balance 
-                                                        <c:if test="${curentuser.getBalance()<Double.MAX_VALUE}">
+                                                        <c:if test="${balance<Double.MAX_VALUE}">
                                                             
-                                                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${curentuser.getBalance()}" />
+                                                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
                                                         </c:if>
-                                                        <c:if test="${curentuser.getBalance()==Double.MAX_VALUE}">
+                                                        <c:if test="${balance==Double.MAX_VALUE}">
                                                             <span class="infin"> &infin;</span>
                                                         </c:if>                                                        
                                                     </a>
