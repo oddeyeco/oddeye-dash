@@ -1504,11 +1504,11 @@ function datafunc() {
 }
 
 var lockq = {};
-function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {    
+function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
     if (lockq[ri + " " + wi])
     {
         return;
-    }    
+    }
     var prevuri = "";
     var whaitlist = {};
     var widget = json.rows[ri].widgets[wi];
@@ -2364,7 +2364,30 @@ $(document).ready(function () {
     }
 
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
-    $('body').on("change", "#global-down-sample-ag", function () {
+    var mousemovetimer;
+    $('body').on("mousemove", "canvas", function (e) {
+        var item = e.toElement;
+        if ($(item).parents('.locked').length > 0)
+        {
+            e.stopPropagation();
+            clearTimeout(mousemovetimer);
+
+            mousemovetimer = setTimeout(function () {
+                if (item.tagName.toUpperCase() === 'CANVAS')
+                {
+                    $(item).parents('.chartsection').append("<div class='lockedbuttons' style=''> <div class='btn-group btn-group-xs' style=''> <a class='btn btn-default viewchart' type='button' data-toggle='tooltip' data-placement='top' data-original-title='View' style=''>View</a><a class='btn btn-default csv' type='button' data-toggle='tooltip' data-placement='top' title='' data-original-title='Save as csv'>asCsv</a>");
+                    $(item).parents('.chartsection').find('.lockedbuttons').fadeIn(500);
+                    setTimeout(function () {
+                        $(item).parents('.chartsection').find('.lockedbuttons').fadeOut(500, function () {
+                            $(item).parents('.chartsection').find('.lockedbuttons').remove();
+                        });
+                    }, 5000);
+                }
+            }, 1000);
+        }
+    });
+
+    $('body').on("change", function () {
         if (!doapplyjson)
         {
             if (!gdd.times.generalds)
@@ -2747,6 +2770,7 @@ $(document).ready(function () {
     $('body').on("click", ".editchart", function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
+        lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
         for (var ri in gdd.rows)
         {
@@ -2766,6 +2790,7 @@ $(document).ready(function () {
     $('body').on("click", ".viewchart", function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
+        lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
         for (var ri in gdd.rows)
         {
