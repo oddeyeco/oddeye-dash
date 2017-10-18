@@ -2387,7 +2387,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on("change", function () {
+    $('body').on("change","#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
             if (!gdd.times.generalds)
