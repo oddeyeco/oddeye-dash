@@ -38,7 +38,11 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
@@ -96,7 +100,6 @@ public class UserController {
 //        map.put("jsonmodel", jsonResult);
 //        return "ajax";
 //    }
-
 //    @RequestMapping(value = "/stoplisener", method = RequestMethod.POST)
 //    public String stoplisener(HttpServletRequest request, ModelMap map) {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -113,16 +116,9 @@ public class UserController {
 //        map.put("jsonmodel", jsonResult);
 //        return "ajax";
 //    }
-
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
 
-//        ContainerProperties properties = new ContainerProperties(topics);
-//        properties.setMessageListener(new OddeyeKafkaDataListener());
-//        ConcurrentMessageListenerContainer<Integer, String> listenerContainer = new ConcurrentMessageListenerContainer<>(consumerFactory, properties);
-//        listenerContainer.setConcurrency(3);
-//        listenerContainer.getContainerProperties().setPollTimeout(3000);
-//        listenerContainer.start();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -134,27 +130,25 @@ public class UserController {
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
-//            if (userDetails.getMetricsMeta() == null) {
-//                try {
-//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-//                } catch (Exception ex) {
-//                    LOGGER.error(globalFunctions.stackTrace(ex));
+            Set<Map.Entry<String, Map<String, Integer>>> set = userDetails.getMetricsMeta().getTagsList().entrySet();
+            List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList(set);
+            Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> Integer.valueOf(o2.getValue().size()).compareTo(o1.getValue().size())//                @Override
+//                public int compare(Map.Entry<String, Integer> o1,
+//                        Map.Entry<String, Integer> o2) {
+//                    return o2.getValue().compareTo(o1.getValue());
 //                }
-//            }
+            );
 
-            Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
-            while (iter.hasNext()) {
-                map.put("group_item", iter.next().getKey());
-                map.put("ident_tag", iter.next().getKey());
-                break;
-            }
-
-            if (group_item != null) {
-                map.put("group_item", group_item);
-            }
-            if (group_item != null) {
+            if (ident_tag != null) {
                 map.put("ident_tag", ident_tag);
+            } else {
+                if (userDetails.getMetricsMeta().getTagsList().keySet().contains("host")) {
+                    map.put("ident_tag", "host");
+                } else {
+                    map.put("ident_tag", list.get(0));
+                }
             }
+            map.put("list", list);
 
             String level_item = request.getParameter("level");
 
@@ -198,7 +192,6 @@ public class UserController {
 //                    LOGGER.error(globalFunctions.stackTrace(ex));
 //                }
 //            }
-
             JsonObject savedErrors = new JsonObject();
             String message = null;
             Long time = null;
@@ -291,7 +284,7 @@ public class UserController {
             }
 
             map.put("errorslist", savedErrors);
-            Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            Iterator<Map.Entry<String, Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
 //                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();
                 map.put("group_item", iter.next().getKey());
@@ -351,7 +344,7 @@ public class UserController {
 //                    LOGGER.error(globalFunctions.stackTrace(ex));
 //                }
 //            }
-            Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            Iterator<Map.Entry<String, Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
 //                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();
                 map.put("group_item", iter.next().getKey());
@@ -512,9 +505,8 @@ public class UserController {
                     return startdate;
                 }).forEachOrdered((_item) -> {
                     data.clear();
-                }); 
+                });
 
-                
                 // Get Curent chart data
                 Calendar calobject = Calendar.getInstance();
                 calobject.setTimeInMillis(Long.parseLong(timestamp) * 1000);
@@ -594,8 +586,8 @@ public class UserController {
 //                    DatapointsJSON.addProperty(Long.toString(i), Error.getRegression().predict(i));
 //                }
 
-                DatapointsJSON.addProperty(startdate, Error.getRegression().predict(Long.parseLong(startdate)/1000));
-                DatapointsJSON.addProperty(enddate, Error.getRegression().predict(Long.parseLong(enddate)/1000));
+                DatapointsJSON.addProperty(startdate, Error.getRegression().predict(Long.parseLong(startdate) / 1000));
+                DatapointsJSON.addProperty(enddate, Error.getRegression().predict(Long.parseLong(enddate) / 1000));
 
                 jsonMessage.add("data", DatapointsJSON);
                 jsonMessages.add("predict", jsonMessage);
