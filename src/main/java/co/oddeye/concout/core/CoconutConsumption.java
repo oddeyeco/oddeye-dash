@@ -8,7 +8,6 @@ package co.oddeye.concout.core;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Calendar;
-import java.util.concurrent.locks.ReentrantLock;
 import org.hbase.async.KeyValue;
 
 /**
@@ -18,7 +17,7 @@ import org.hbase.async.KeyValue;
 public class CoconutConsumption implements Serializable {
 
     private Double amount = 0.0;
-    private Integer count = 0;
+    private long count = 0;
     private long timestamp = 0;
     private final Calendar time;    
 
@@ -48,16 +47,16 @@ public class CoconutConsumption implements Serializable {
     /**
      * @return the count
      */
-    public Integer getCount() {
+    public Long getCount() {
         return count;
     }
 
-    public void addConsumption(Double value, Integer _count) {
+    public void addConsumption(Double value, Long _count) {
         amount = amount + value;
         count = count + _count;
     }
 
-    public void doConsumption(Double value, Integer _count) {
+    public void doConsumption(Double value, Long _count) {
         amount = amount + value * _count;
         count = count + _count;
 
