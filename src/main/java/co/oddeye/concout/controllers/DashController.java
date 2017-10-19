@@ -75,13 +75,13 @@ public class DashController {
                 !(auth instanceof AnonymousAuthenticationToken)) {
             user = (User) auth.getPrincipal();
             map.put("curentuser", user);
-            if (user.getMetricsMeta() == null) {
-                try {
-                    user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
-                } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));
-                }
-            }
+//            if (user.getMetricsMeta() == null) {
+//                try {
+//                    user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+//                } catch (Exception ex) {
+//                    LOGGER.error(globalFunctions.stackTrace(ex));
+//                }
+//            }
 
             LinkedHashMap<String, Boolean> taglist = new LinkedHashMap<>();
 //            taglistprioryty = {"cluster"}

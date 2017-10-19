@@ -246,6 +246,10 @@ public class HbaseUserDao extends HbaseBaseDao {
         return null;
     }
 
+    public User getAvalibleUserByUUID(UUID uuid) {
+        return getUsers().get(uuid);
+    }    
+    
     public User getUserByUUID(UUID uuid) {
         return getUserByUUID(uuid, false);
     }
@@ -254,7 +258,8 @@ public class HbaseUserDao extends HbaseBaseDao {
         User user = getUserByUUID(uuid, reload);
         if (initmeta) {
             try {
-                user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+                user.getMetricsMeta().putAll(MetaDao.getByUUID(user.getId()));
+//                user.setMetricsMeta();
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
             }

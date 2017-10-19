@@ -126,13 +126,13 @@ public class ProfileController {
 
                 map.put("activeuser", userDetails);
 
-                if (userDetails.getMetricsMeta() == null) {
-                    try {
-                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                    } catch (Exception ex) {
-                        LOGGER.error(globalFunctions.stackTrace(ex));
-                    }
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    try {
+//                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                    } catch (Exception ex) {
+//                        LOGGER.error(globalFunctions.stackTrace(ex));
+//                    }
+//                }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(hash);
                 if (meta == null) {
                     map.put("body", "errors/usererror");

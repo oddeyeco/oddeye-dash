@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.opentsdb.core.DataPoint;
@@ -240,9 +239,9 @@ public class AjaxControlers {
                         tagsMap.put(tgitem[0], tgitem[1]);
                     }
                 }
-                if (userDetails.getMetricsMeta() == null) {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                }
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 if (filter.equals("") || filter.equals("*")) {
                     filter = "^(.*)$";
@@ -309,9 +308,9 @@ public class AjaxControlers {
                         tagsMap.put(tgitem[0], tgitem[1]);
                     }
                 }
-                if (userDetails.getMetricsMeta() == null) {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                }
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 if (filter.equals("") || filter.equals("*")) {
                     filter = "^(.*)$";
@@ -525,9 +524,9 @@ public class AjaxControlers {
             }
             try {
 
-                if (userDetails.getMetricsMeta() == null) {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                }
                 Map<String,Map<String, Integer>> tags = userDetails.getMetricsMeta().getTagsList();
                 JsonArray jsondata = new JsonArray();
 
@@ -584,9 +583,9 @@ public class AjaxControlers {
             }
             try {
 
-                if (userDetails.getMetricsMeta() == null) {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                }
                 Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key).keySet();
                 JsonArray jsondata = new JsonArray();
 
@@ -728,10 +727,10 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if (userDetails.getMetricsMeta()==null)
-                {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                }                
+//                if (userDetails.getMetricsMeta()==null)
+//                {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                }                
                 jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
                 jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
                 jsonResult.addProperty("count", userDetails.getMetricsMeta().size());

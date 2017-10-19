@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
@@ -39,7 +38,6 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Random;
 
 import org.hbase.async.KeyValue;
@@ -136,13 +134,13 @@ public class UserController {
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
-            if (userDetails.getMetricsMeta() == null) {
-                try {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));
-                }
-            }
+//            if (userDetails.getMetricsMeta() == null) {
+//                try {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                } catch (Exception ex) {
+//                    LOGGER.error(globalFunctions.stackTrace(ex));
+//                }
+//            }
 
             Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
@@ -193,13 +191,13 @@ public class UserController {
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
-            if (userDetails.getMetricsMeta() == null) {
-                try {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));
-                }
-            }
+//            if (userDetails.getMetricsMeta() == null) {
+//                try {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                } catch (Exception ex) {
+//                    LOGGER.error(globalFunctions.stackTrace(ex));
+//                }
+//            }
 
             JsonObject savedErrors = new JsonObject();
             String message = null;
@@ -346,13 +344,13 @@ public class UserController {
 
             String ident_tag = request.getParameter("ident_tag");
 
-            if (userDetails.getMetricsMeta() == null) {
-                try {
-                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));
-                }
-            }
+//            if (userDetails.getMetricsMeta() == null) {
+//                try {
+//                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                } catch (Exception ex) {
+//                    LOGGER.error(globalFunctions.stackTrace(ex));
+//                }
+//            }
             Iterator<Map.Entry<String,  Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
             while (iter.hasNext()) {
 //                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();

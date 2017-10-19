@@ -105,7 +105,7 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
-    private ConcoutMetricMetaList MetricsMetas;
+    private final ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
 
     private ConsumptionList consumptionList;
@@ -123,7 +123,7 @@ public class User implements UserDetails {
         this.SwitchUser = null;
         this.id = UUID.randomUUID();
         this.authorities = new ArrayList<>();
-        this.MetricsMetas = null;
+//        this.MetricsMetas = null;
     }
 
     public static Map<SimpleGrantedAuthority, String> getAllRoles() {
@@ -617,13 +617,13 @@ public class User implements UserDetails {
         return MetricsMetas;
     }
 
-    /**
-     * @param MetricsMeta the MetricsMetas to set
-     */
-    public void setMetricsMeta(ConcoutMetricMetaList MetricsMeta) {
-        this.MetricsMetas = MetricsMeta;
-//        MetricsMetas.equals(id)
-    }
+//    /**
+//     * @param MetricsMeta the MetricsMetas to set
+//     */
+//    public void setMetricsMeta(ConcoutMetricMetaList MetricsMeta) {
+//        this.MetricsMetas = MetricsMeta;
+////        MetricsMetas.equals(id)
+//    }
 
     /**
      * @return the DushList

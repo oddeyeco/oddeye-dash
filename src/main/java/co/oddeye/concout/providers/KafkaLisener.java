@@ -50,7 +50,7 @@ public class KafkaLisener {
     private SimpMessagingTemplate template;
 
     @Autowired
-    private CoconutParseMetric parser;
+    private CoconutParseMetric metricparser;
 
     public CountDownLatch getLatch() {
         return latch;
@@ -60,16 +60,16 @@ public class KafkaLisener {
     @KafkaListener(topics = "${kafka.metrictopic}")
     public void receiveMetric(String payload) {
         LOGGER.info("received payload='{}'", payload);
-        Object o = parser.execute(payload);
+        Object o = metricparser.execute(payload);
         User user;
         if (o instanceof OddeeyMetric) {
             OddeeyMetric Metric = (OddeeyMetric) o;
             try {
                 OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
                 user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
-                if (user.getMetricsMeta() == null) {
-                    user.setMetricsMeta(new ConcoutMetricMetaList());
-                }
+//                if (user.getMetricsMeta() == null) {
+//                    user.setMetricsMeta(new ConcoutMetricMetaList());
+//                }
                 user.getMetricsMeta().add(mtrscMeta);
             } catch (Exception ex) {
                 LOGGER.info(globalFunctions.stackTrace(ex));
@@ -82,9 +82,9 @@ public class KafkaLisener {
                 try {
                     OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
                     user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
-                    if (user.getMetricsMeta() == null) {
-                        user.setMetricsMeta(new ConcoutMetricMetaList());
-                    }
+//                    if (user.getMetricsMeta() == null) {
+//                        user.setMetricsMeta(new ConcoutMetricMetaList());
+//                    }
                     if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
                         user.getMetricsMeta().add(mtrscMeta);
                     }
@@ -169,11 +169,6 @@ public class KafkaLisener {
 
             jsonResult = null;
         }
-//// Ste Chi kareli
-//        if (user != null) {
-//            user.setConsumption(user.getConsumption()+metriccount*messageprice);                
-//            System.out.println(user.getName() + " " + user.getConsumption()+" "+metriccount);
-//        }
 
         latch.countDown();
     }

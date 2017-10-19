@@ -90,13 +90,13 @@ public class dataControlers {
                 }
 
                 map.put("activeuser", userDetails);
-                if (userDetails.getMetricsMeta() == null) {
-                    try {
-                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                    } catch (Exception ex) {
-                        LOGGER.error(globalFunctions.stackTrace(ex));
-                    }
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    try {
+//                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                    } catch (Exception ex) {
+//                        LOGGER.error(globalFunctions.stackTrace(ex));
+//                    }
+//                }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
 
                 GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
@@ -136,13 +136,13 @@ public class dataControlers {
                 }
 
                 map.put("activeuser", userDetails);
-                if (userDetails.getMetricsMeta() == null) {
-                    try {
-                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                    } catch (Exception ex) {
-                        LOGGER.error(globalFunctions.stackTrace(ex));
-                    }
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    try {
+//                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                    } catch (Exception ex) {
+//                        LOGGER.error(globalFunctions.stackTrace(ex));
+//                    }
+//                }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
 
                 GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
@@ -208,13 +208,13 @@ public class dataControlers {
                 User userDetails = (User) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal();
                 map.put("curentuser", userDetails);
-                if (userDetails.getMetricsMeta() == null) {
-                    try {
-                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-                    } catch (Exception ex) {
-                        LOGGER.error(globalFunctions.stackTrace(ex));
-                    }
-                }
+//                if (userDetails.getMetricsMeta() == null) {
+//                    try {
+//                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
+//                    } catch (Exception ex) {
+//                        LOGGER.error(globalFunctions.stackTrace(ex));
+//                    }
+//                }
                 String hashes = request.getParameter("hashes");
                 String hashesarr = "[" + hashes.replaceAll(";", ",") + "]";
                 map.put("hashes", hashesarr);
