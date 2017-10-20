@@ -38,7 +38,7 @@ globalstompClient.connect(headers, function (frame) {
                         }
 
                     }
-                }                
+                }
                 break;
             }
             case 'deletedash':
@@ -89,6 +89,20 @@ function replacerM(metric) {
                 return inputstr.replace(match[1], match[2]);
             }
 
+            var func_rexp = new RegExp("s\\(\"(.*)\"\\)");
+            if (func_rexp.test(split_str[1]))
+            {
+                var match = split_str[1].match(func_rexp);
+                var inputstr = metric;
+                var len = inputstr.indexOf(match[1]);
+                if (len === -1)
+                {
+                    return inputstr;
+                }
+                return inputstr.substr(0, len);
+            }
+
+
         }
         return metric;
     };
@@ -112,6 +126,20 @@ function replacer(tags) {
                 var match = split_str[1].match(func_rexp);
                 var inputstr = tags[split_str[0]];
                 return inputstr.replace(match[1], match[2]);
+            }
+
+            var func_rexp = new RegExp("s\\(\"(.*)\"\\)");
+            if (func_rexp.test(split_str[1]))
+            {
+
+                var match = split_str[1].match(func_rexp);                
+                var inputstr = tags[split_str[0]];
+                var len = inputstr.indexOf(match[1]);
+                if (len === -1)
+                {
+                    return inputstr;
+                }
+                return inputstr.substr(0, len);
             }
 
         }
