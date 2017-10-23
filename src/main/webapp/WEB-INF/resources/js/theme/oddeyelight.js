@@ -173,11 +173,13 @@ var encodeHTML = function (source) {
                         {
                             value = param.value;
                         }
+                        
+                        
                         if (param.data.isinverse === true)
                         {
                             value = value * -1;
                         }
-
+                        
                         if (param.data.unit)
                         {
                             if (typeof (window[param.data.unit]) === "function")
@@ -195,19 +197,20 @@ var encodeHTML = function (source) {
                                 }
 
                             }
-                        } else
+                        } 
+                        else
                         {
-//                            value = format_metric(value);
                             if (typeof (value) !== "string")
                             {
-                                if (param.data.isinverse === true)
-                                {
-                                    value = value * -1;
-                                }
+//                                if (param.data.isinverse === true)
+//                                {
+//                                    value = value * -1;
+//                                }
                                 value = Number.isInteger(value) ? value: value.toFixed(2);
                             }
 
                         }
+                        
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value;
                     }
                 } else
