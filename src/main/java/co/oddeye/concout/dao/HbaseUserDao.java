@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
-import java.util.logging.Level;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.apache.commons.lang.ArrayUtils;

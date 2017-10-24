@@ -44,7 +44,12 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public ConcoutMetricMetaList(TSDB tsdb, byte[] bytes) {
         super(tsdb, bytes);
     }
-
+    
+    public void putAll(ConcoutMetricMetaList m) {
+        m.entrySet().forEach((e) -> {
+            add(e.getValue());
+        });
+    }
     @Override
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
         Integer count = 1;
