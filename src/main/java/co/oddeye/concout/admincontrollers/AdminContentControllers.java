@@ -7,7 +7,12 @@ package co.oddeye.concout.admincontrollers;
 
 import co.oddeye.concout.model.SitePage;
 import co.oddeye.concout.model.User;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,77 +31,77 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AdminContentControllers extends GRUDControler {
 
     public AdminContentControllers() {
-        AddViewConfig("email", new HashMap<String, Object>() {
-            {
-                put("path", "title");
-                put("title", "Title");
-                put("type", "String");
-            }
-        }).AddViewConfig("actions", new HashMap<String, Object>() {
-            {
-                put("path", "actions");
-                put("title", " Actions");
-                put("type", "actions");
-            }
-        });
-        
-        AddEditConfig("slug", new HashMap<String, Object>() {
-            {
-                put("path", "slug");
-                put("title", "Slug");
-                put("type", "String");
-                put("required", true);
 
-            }
-        }).AddEditConfig("title", new HashMap<String, Object>() {
-            {
-                put("path", "title");
-                put("title", "Display text");
-                put("type", "String");
-                put("required", true);
+        Map<String, String> aa = Collections.unmodifiableMap(Stream.of(
+                new SimpleEntry<>("path", "title"),
+                new SimpleEntry<>("title", "Title"),
+                new SimpleEntry<>("type", "String"))
+                .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())));
 
-            }
-        }).AddEditConfig("fulltitle", new HashMap<String, Object>() {
-            {
-                put("path", "fulltitle");
-                put("title", "Title");
-                put("type", "String");
-                put("required", true);
+        AddViewConfig(
+                "email", Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "title"),
+                        new SimpleEntry<>("title", "Title"),
+                        new SimpleEntry<>("type", "String"))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        ).AddViewConfig("actions",
+                Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "actions"),
+                        new SimpleEntry<>("title", "Actions"),
+                        new SimpleEntry<>("type", "actions"))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        );
 
-            }
-        }).AddEditConfig("content", new HashMap<String, Object>() {
-            {
-                put("path", "content");
-                put("title", "Text");
-                put("type", "Text");
-                put("rows", 30);
-                put("required", false);
-
-            }
-        }).AddEditConfig("description", new HashMap<String, Object>() {
-            {
-                put("path", "description");
-                put("title", "Description");
-                put("type", "Text");
-                put("rows", 5);
-                put("required", false);
-            }
-        }).AddEditConfig("keywords", new HashMap<String, Object>() {
-            {
-                put("path", "keywords");
-                put("title", "Keywords");
-                put("type", "String");
-                put("required", false);
-
-            }
-        })                 
-                .AddEditConfig("actions", new HashMap<String, Object>() {
-            {
-                put("path", "actions");
-                put("title", " Actions");
-                put("type", "actions");
-            }
-        });
+        AddEditConfig("slug", Collections.unmodifiableMap(Stream.of(
+                new SimpleEntry<>("path", "slug"),
+                new SimpleEntry<>("title", "Slug"),
+                new SimpleEntry<>("type", "String"),
+                new SimpleEntry<>("required", true))
+                .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        ).AddEditConfig(
+                "title", Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "title"),
+                        new SimpleEntry<>("title", "Display text"),
+                        new SimpleEntry<>("type", "String"),
+                        new SimpleEntry<>("required", true))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        ).AddEditConfig(
+                "fulltitle", Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "fulltitle"),
+                        new SimpleEntry<>("title", "Title"),
+                        new SimpleEntry<>("type", "String"),
+                        new SimpleEntry<>("required", true))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        ).AddEditConfig(
+                "content", Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "content"),
+                        new SimpleEntry<>("title", "Text"),
+                        new SimpleEntry<>("type", "Text"),
+                        new SimpleEntry<>("rows", 30),
+                        new SimpleEntry<>("required", false))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        ).AddEditConfig(
+                "description", Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "description"),
+                        new SimpleEntry<>("title", "Description"),
+                        new SimpleEntry<>("type", "Text"),
+                        new SimpleEntry<>("rows", 5),
+                        new SimpleEntry<>("required", false))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        ).AddEditConfig(
+                "keywords", Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "keywords"),
+                        new SimpleEntry<>("title", "Keywords"),
+                        new SimpleEntry<>("type", "String"),
+                        new SimpleEntry<>("required", false))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        ).AddEditConfig(
+                "actions", Collections.unmodifiableMap(Stream.of(
+                        new SimpleEntry<>("path", "actions"),
+                        new SimpleEntry<>("title", " Actions"),
+                        new SimpleEntry<>("type", "actions"))
+                        .collect(Collectors.toMap((e) -> e.getKey(), (e) -> e.getValue())))
+        );
     }
 
     @RequestMapping(value = "/pages", method = RequestMethod.GET)
@@ -140,9 +145,9 @@ public class AdminContentControllers extends GRUDControler {
         map.put("path", "pages");
         return "index";
     }
-    
+
     @RequestMapping(value = "/pages/new/", method = RequestMethod.POST)
-    public String addpage(@ModelAttribute("model") SitePage sitePage,ModelMap map, HttpServletRequest request) {
+    public String addpage(@ModelAttribute("model") SitePage sitePage, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
@@ -161,5 +166,5 @@ public class AdminContentControllers extends GRUDControler {
         }
         map.put("path", "pages");
         return "index";
-    }    
+    }
 }

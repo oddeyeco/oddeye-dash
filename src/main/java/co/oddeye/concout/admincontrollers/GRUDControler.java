@@ -31,13 +31,13 @@ abstract class GRUDControler {
         return EditConfig;
     }
     
-    final protected GRUDControler AddViewConfig (final String key,  final HashMap<String, Object> config)
+    final protected GRUDControler AddViewConfig (final String key,  final Map<String, Object> config)
     {
         ViewConfig.put(key, config);
         return this;
     }
     
-    final protected GRUDControler AddEditConfig (final String key,  final HashMap<String, Object> config)
+    final protected GRUDControler AddEditConfig (final String key,  final Map<String, Object> config)
     {
         EditConfig.put(key, config);
         return this;

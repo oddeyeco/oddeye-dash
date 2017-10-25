@@ -39,7 +39,6 @@ import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -131,13 +130,8 @@ public class UserController {
             String ident_tag = request.getParameter("ident_tag");
 
             Set<Map.Entry<String, Map<String, Integer>>> set = userDetails.getMetricsMeta().getTagsList().entrySet();
-            List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList(set);
-            Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> Integer.valueOf(o2.getValue().size()).compareTo(o1.getValue().size())//                @Override
-//                public int compare(Map.Entry<String, Integer> o1,
-//                        Map.Entry<String, Integer> o2) {
-//                    return o2.getValue().compareTo(o1.getValue());
-//                }
-            );
+            List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList<>(set);
+            Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> Integer.valueOf(o2.getValue().size()).compareTo(o1.getValue().size()));
 
             if (ident_tag != null) {
                 map.put("ident_tag", ident_tag);

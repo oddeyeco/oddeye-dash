@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
  * @author vahan
  */
 public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
+    private static final long serialVersionUID = 465895478L;
 
     private final Map<String, Map<String, Integer>> TagsList = new HashMap<>();
     static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);

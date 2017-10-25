@@ -51,6 +51,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author vahan
  */
 public class User implements UserDetails {
+    private static final long serialVersionUID = 465895478L;
 
     public final static String ROLE_ADMIN = "ROLE_ADMIN";
     public final static String ROLE_CONTENTMANAGER = "ROLE_CONTENTMANAGER";
@@ -143,7 +144,7 @@ public class User implements UserDetails {
     // Developet metods
     public void SendConfirmMail(mailSender Sender, String uri) throws UnsupportedEncodingException {
         //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
-        HashMap<String, String> model = new HashMap();
+        HashMap<String, String> model = new HashMap<>();
         model.put("userName", this.getName());
         model.put("userLastName", this.getLastname());
         model.put("uri", uri);
@@ -772,7 +773,7 @@ public class User implements UserDetails {
     }
 
 //    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
-    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, Map<String, String[]>> sesionsotoken) {
+    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory<Integer, String> consumerFactory, SimpMessagingTemplate _template, Map<String, Map<String, String[]>> sesionsotoken) {
 
         if (this.listenerContainer == null) {
             String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];

@@ -124,10 +124,10 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
 
 //        Date.setTimeInMillis((time * 1000)+1);
-        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time + 1).array());
+        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong(time + 1).array());
 
 //        Date.add(Calendar.MINUTE, -60);
-        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) time - (60 * 60)).array());
+        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong(time - (60 * 60)).array());
 
         Scanner scanner = client.newScanner(table);
         scanner.setServerBlockCache(false);
@@ -206,10 +206,10 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
         Calendar Date = Calendar.getInstance();
         Date.add(Calendar.SECOND, minRecurrenceTimeInterval);
-        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+        end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((Date.getTimeInMillis() / 1000)).array());
 
         Date.add(Calendar.SECOND, -2 * minRecurrenceTimeInterval);
-        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+        start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((Date.getTimeInMillis() / 1000)).array());
 
         Scanner scanner = client.newScanner(table);
         scanner.setServerBlockCache(false);
@@ -292,16 +292,16 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         try {
             client = BaseTsdb.getClient();
 
-            ArrayList<MetricErrorMeta> result = new ArrayList();
+            ArrayList<MetricErrorMeta> result = new ArrayList<>();
             final byte[] start_row;
             final byte[] end_row;
 //        final Map<Long, ConcoutMetricMetaList> result = new TreeMap<>();
             Calendar Date = Calendar.getInstance();
             Date.add(Calendar.SECOND, 0);
-            end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+            end_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((Date.getTimeInMillis() / 1000)).array());
 
             Date.add(Calendar.SECOND, -1000);
-            start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((long) (Date.getTimeInMillis() / 1000)).array());
+            start_row = ArrayUtils.addAll(user.getTsdbID(), ByteBuffer.allocate(8).putLong((Date.getTimeInMillis() / 1000)).array());
 
             Scanner scanner = client.newScanner(table);
             scanner.setServerBlockCache(false);

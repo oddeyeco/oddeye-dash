@@ -393,7 +393,8 @@ public class HbaseUserDao extends HbaseBaseDao {
     public Map<String, HashMap<String, Object>> saveAll(User user, User newuser, Map<String, Object> editConfig) throws Exception {
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         for (Map.Entry<String, Object> configEntry : editConfig.entrySet()) {
-            HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
+//            HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
+            HashMap<?, ?> config = (HashMap<?, ?>) configEntry.getValue();
             String name = (String) config.get("path");
             try {
                 Field field = user.getClass().getDeclaredField(name);

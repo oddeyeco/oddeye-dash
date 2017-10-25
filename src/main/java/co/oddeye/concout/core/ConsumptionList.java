@@ -14,6 +14,7 @@ import java.util.TreeMap;
  * @author vahan
  */
 public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
+    private static final long serialVersionUID = 465895478L;
 
     private final TreeMap<Long, CoconutConsumption> ConsumptionListHoure = new TreeMap<>(Collections.reverseOrder());
     private final TreeMap<Long, CoconutConsumption> ConsumptionListDaily = new TreeMap<>(Collections.reverseOrder());

@@ -6,7 +6,6 @@
 package co.oddeye.concout.providers;
 
 import co.oddeye.concout.core.CoconutParseMetric;
-import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseUserDao;
@@ -76,9 +75,9 @@ public class KafkaLisener {
             }
         }
         if (o instanceof TreeMap) {
-            TreeMap<String, OddeeyMetric> metricinfo = (TreeMap<String, OddeeyMetric>) o;
-            for (Map.Entry<String, OddeeyMetric> mtrscEntry : metricinfo.entrySet()) {
-                OddeeyMetric Metric = mtrscEntry.getValue();
+            TreeMap<?, ?> metricinfo = (TreeMap<?, ?>) o;
+            for ( Map.Entry<?, ?> mtrscEntry : metricinfo.entrySet()) {
+                OddeeyMetric Metric = (OddeeyMetric) mtrscEntry.getValue();
                 try {
                     OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
                     user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));

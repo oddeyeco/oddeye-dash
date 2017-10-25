@@ -15,6 +15,7 @@ import org.hbase.async.KeyValue;
  * @author vahan
  */
 public class CoconutConsumption implements Serializable {
+    private static final long serialVersionUID = 465895478L;
 
     private Double amount = 0.0;
     private long count = 0;

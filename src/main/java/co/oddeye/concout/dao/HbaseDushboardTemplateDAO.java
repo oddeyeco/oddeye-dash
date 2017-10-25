@@ -224,7 +224,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         if (Arrays.equals(template.getKey(), oldtemplate.getKey())) {
             for (Map.Entry<String, Object> configEntry : editConfig.entrySet()) {
-                HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
+                HashMap<?, ?> config = (HashMap<?, ?>) configEntry.getValue();
                 String name = (String) config.get("path");
                 try {
                     Field field = template.getClass().getDeclaredField(name);

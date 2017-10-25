@@ -56,6 +56,7 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onApplicationEvent(SessionConnectedEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
 

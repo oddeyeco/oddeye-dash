@@ -307,21 +307,6 @@
                             <goal>minify</goal>
                         </goals>
                     </execution>
-                    <!--                    <execution>
-                        <id>jquery-minify</id>
-                        <configuration>
-                            <webappSourceDir>${basedir}/src/main/webapp/WEB-INF/resources/socket/dist/</webappSourceDir>
-                            <webappTargetDir>${basedir}/src/main/webapp/WEB-INF/assets/</webappTargetDir>                            
-                            <skipMerge>true</skipMerge>                            
-                            <jsSourceDir>/</jsSourceDir>                            
-                            <jsSourceFiles>                                               
-                                <jsSourceFile>sockjs-1.1.1.js</jsSourceFile>
-                            </jsSourceFiles>
-                        </configuration>                        
-                        <goals>
-                            <goal>minify</goal>
-                        </goals>
-                    </execution>                    -->
                 </executions>
             </plugin>
 
@@ -374,6 +359,20 @@
                     </execution>
                 </executions>
             </plugin>
+            
+<!--            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-Xlint:unchecked</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>            -->
+            
         </plugins>
     </build>
 

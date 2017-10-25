@@ -31,8 +31,9 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class); 
+        servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class);
         super.onStartup(servletContext);
     }
 

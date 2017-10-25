@@ -24,6 +24,7 @@ import org.springframework.kafka.listener.config.ContainerProperties;
  * @param <V> the value type.
  */
 public class UserConcurrentMessageListenerContainer<K, V> extends ConcurrentMessageListenerContainer<K, V> implements Serializable{
+    private static final long serialVersionUID = 465895478L;
     
     public UserConcurrentMessageListenerContainer(ConsumerFactory<K, V> consumerFactory, ContainerProperties containerProperties) {
         super(consumerFactory, containerProperties);

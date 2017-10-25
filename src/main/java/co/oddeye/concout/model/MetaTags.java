@@ -16,7 +16,7 @@ public class MetaTags {
     private final ArrayList<String> datakeys;
 
     public MetaTags() {
-        this.datakeys = new ArrayList();
+        this.datakeys = new ArrayList<>();
     }    
 
     /**
