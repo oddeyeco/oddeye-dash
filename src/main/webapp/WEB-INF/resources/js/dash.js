@@ -1381,7 +1381,8 @@ var queryCallback = function (inputdata) {
                     }
                 }
             }
-
+            var tmpLegend = [];
+            var tmpLegendSer = [];
             for (var ind in widget.options.series)
             {
 
@@ -1398,6 +1399,17 @@ var queryCallback = function (inputdata) {
                     xAxisIndex = 0;
                 }
 
+//                if (widget.options.legend.data.filter(function (element) {
+//                    return element.name === widget.options.series[ind].name;
+//                }).length === 0)
+//                {
+//                    widget.options.legend.data.push({name: widget.options.series[ind].name});
+//                }
+
+                if (tmpLegendSer.indexOf(widget.options.series[ind].name) === -1)
+                {
+                    tmpLegendSer.push(widget.options.series[ind].name);
+                }
                 if (widget.options.xAxis[xAxisIndex].type === "category")
                 {
                     widget.options.series[ind].unit = widget.options.yAxis[0].unit;
@@ -1424,9 +1436,9 @@ var queryCallback = function (inputdata) {
                     {
                         for (var sind in widget.options.series[ind].data)
                         {
-                            if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
+                            if (tmpLegend.indexOf(widget.options.series[ind].data[sind].name) === -1)
                             {
-                                widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
+                                tmpLegend.push(widget.options.series[ind].data[sind].name);
                             }
 
                         }
@@ -1444,7 +1456,24 @@ var queryCallback = function (inputdata) {
                     }
 
                 }
-                widget.options.legend.data.push(widget.options.series[ind].name);
+//                console.log(widget.options.legend.data);
+            }
+
+            if ((widget.options.series[ind].type === "pie") || (widget.options.series[ind].type === "funnel"))
+            {
+                tmpLegend.sort();
+                for (var sind in tmpLegend)
+                {
+                    widget.options.legend.data.push({name: tmpLegend[sind]});
+                }
+                for (var sind in tmpLegendSer)
+                {
+                    widget.options.legend.data.push({name: tmpLegendSer[sind], icon: 'diamond'});
+                }
+
+            } else
+            {
+                widget.options.legend.data = tmpLegendSer;
             }
 //*************************************            
             if (redraw)
@@ -2387,7 +2416,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on("change","#global-down-sample-ag", function () {
+    $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
             if (!gdd.times.generalds)
