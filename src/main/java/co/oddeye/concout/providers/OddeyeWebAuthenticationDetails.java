@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 public class OddeyeWebAuthenticationDetails extends WebAuthenticationDetails {
 
     private final Map<String, String> HeadersInfo = new HashMap<>();
-    private final HttpServletRequest _request;
+    private transient final HttpServletRequest _request;
 
     public OddeyeWebAuthenticationDetails(HttpServletRequest request) {
         super(request);

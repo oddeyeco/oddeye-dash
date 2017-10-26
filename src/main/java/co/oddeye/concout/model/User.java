@@ -118,7 +118,7 @@ public class User implements UserDetails {
     private final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
 
-    private HbaseUserDao DAO;
+    private transient HbaseUserDao DAO;
     
     public User() {
         this.SwitchUser = null;

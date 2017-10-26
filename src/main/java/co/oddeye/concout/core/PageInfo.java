@@ -5,12 +5,15 @@
  */
 package co.oddeye.concout.core;
 
+import java.io.Serializable;
+
 /**
  *
  * @author vahan
  */
-public class PageInfo {
-
+public class PageInfo implements Serializable{
+    private static final long serialVersionUID = 465895478L;
+    
     private final String page;
     private final String node;
     private final Long timestamp;
