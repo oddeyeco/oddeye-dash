@@ -12,7 +12,7 @@ import co.oddeye.concout.core.ConsumptionList;
 import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.helpers.mailSender;
+import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.providers.OddeyeKafkaDataListener;
 import co.oddeye.concout.providers.UserConcurrentMessageListenerContainer;
 import co.oddeye.core.globalFunctions;
@@ -142,7 +142,7 @@ public class User implements UserDetails {
     }
 
     // Developet metods
-    public void SendConfirmMail(mailSender Sender, String uri) throws UnsupportedEncodingException {
+    public void SendConfirmMail(OddeyeMailSender Sender, String uri) throws UnsupportedEncodingException {
         //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
         HashMap<String, String> model = new HashMap<>();
         model.put("userName", this.getName());
@@ -150,7 +150,7 @@ public class User implements UserDetails {
         model.put("uri", uri);
         model.put("email", this.getEmail());
         model.put("id", this.getId().toString());
-        Sender.send("Confirm Email ", this.getEmail(), "cinfirm.ftl", model);
+        Sender.send("Confirm Your Email", this.getEmail(), "confirmhtml.ftl","confirmtxt.ftl", model);
 
     }
 
@@ -829,8 +829,8 @@ public class User implements UserDetails {
         return Result;
     }
 
-    public void SendAdminMail(String action, mailSender Sender) throws UnsupportedEncodingException {
-        Sender.send(action, "User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail(), "ara@oddeye.co");
+    public void SendAdminMail(String action, OddeyeMailSender Sender) throws UnsupportedEncodingException {
+        Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail()+"</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), "ara@oddeye.co");
     }
 
     public void reload() {

@@ -170,11 +170,14 @@ public class HbaseUserDao extends HbaseBaseDao {
         value_scanner.setFilter(new FilterList(filters));
 
         final ArrayList<ArrayList<KeyValue>> value_rows = value_scanner.nextRows().join();
-        if (value_rows.size() == 1) {
-            UUID uuid = UUID.fromString(new String(value_rows.get(0).get(0).key()));
-            return (!user.getId().equals(uuid));
+        if (value_rows != null) {
+            if (value_rows.size() == 1) {
+                UUID uuid = UUID.fromString(new String(value_rows.get(0).get(0).key()));
+                return (!user.getId().equals(uuid));
+            }
+            return value_rows.size() == 1;
         }
-        return value_rows.size() == 1;
+        return false;
     }
 
     public User getUserByEmail(String email) {
@@ -247,8 +250,8 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     public User getAvalibleUserByUUID(UUID uuid) {
         return getUsers().get(uuid);
-    }    
-    
+    }
+
     public User getUserByUUID(UUID uuid) {
         return getUserByUUID(uuid, false);
     }
@@ -531,7 +534,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     public ConsumptionList getConsumption(User user) {
         final ConsumptionList result = new ConsumptionList();
-        try {                       
+        try {
             Calendar cal = Calendar.getInstance();
             byte[] year_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.YEAR)).array();
             byte[] month_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.MONTH)).array();
@@ -542,11 +545,11 @@ public class HbaseUserDao extends HbaseBaseDao {
                 CoconutConsumption CoconutCos = new CoconutConsumption(cos);
                 result.put(CoconutCos.getTimestamp(), new CoconutConsumption(cos));
             });
-      
+
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-        return result;        
+        return result;
     }
 
 }

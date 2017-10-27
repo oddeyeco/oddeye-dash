@@ -6,7 +6,7 @@
 package co.oddeye.concout.admincontrollers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.helpers.mailSender;
+import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
@@ -256,8 +256,8 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("jspart", "adminjs");
         return "index";
     }
-    @Autowired
-    private mailSender Sender;
+//    @Autowired
+//    private OddeyeMailSender mailSender;
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {

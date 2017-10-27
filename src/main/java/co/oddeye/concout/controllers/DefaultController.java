@@ -6,7 +6,7 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.helpers.mailSender;
+import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
@@ -46,7 +46,7 @@ public class DefaultController {
     @Autowired
     private HbaseUserDao Userdao;
     @Autowired
-    private mailSender Sender;
+    private OddeyeMailSender mailSender;
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
@@ -183,7 +183,7 @@ public class DefaultController {
 
         try {
             Userdao.addUser(user);
-            user.SendAdminMail("User Confirm Email", Sender);
+            user.SendAdminMail("User Confirm Email", mailSender);
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
@@ -206,9 +206,9 @@ public class DefaultController {
             map.put("jspart", "signupjs");
         } else {
             try {
-                String baseUrl = Sender.getBaseurl(request);
-                newUser.SendConfirmMail(Sender, baseUrl);
-                newUser.SendAdminMail("User Sined", Sender);
+                String baseUrl = mailSender.getBaseurl(request);
+                newUser.SendConfirmMail(mailSender, baseUrl);
+                newUser.SendAdminMail("User Sined", mailSender);
                 newUser.addAuthoritie(User.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);
