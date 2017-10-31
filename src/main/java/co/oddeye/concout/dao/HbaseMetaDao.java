@@ -11,11 +11,8 @@ import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.SendToKafka;
 import co.oddeye.concout.model.User;
 import co.oddeye.core.AddMeta;
-import co.oddeye.core.InvalidKeyException;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
-import co.oddeye.core.OddeeyMetricMetaList;
-import co.oddeye.core.globalFunctions;
 import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
 import java.nio.charset.Charset;
@@ -97,7 +94,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
         ArrayList<ArrayList<KeyValue>> rows;
-            ExecutorService executor = Executors.newFixedThreadPool(24);
+            ExecutorService executor = Executors.newFixedThreadPool(8);
             while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {
                     executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table,result));

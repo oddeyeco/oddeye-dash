@@ -34,12 +34,12 @@ public class CoconutParseMetric {
         parser = new JsonParser();
     }
 
-    protected TreeMap<String, OddeeyMetric> prepareJsonObjectV2(JsonElement json, String msg) {
+    protected TreeMap<Integer, OddeeyMetric> prepareJsonObjectV2(JsonElement json, String msg) {
         JsonObject jsonResult = json.getAsJsonObject().get("data").getAsJsonObject();
 
         if (jsonResult.size() > 0) {
             LOGGER.debug("Ready count: " + jsonResult.size());
-            final TreeMap<String, OddeeyMetric> MetricList = new TreeMap<>();
+            final TreeMap<Integer, OddeeyMetric> MetricList = new TreeMap<>();
 
 //            for (int i = 0; i < jsonResult.size(); i++) 
             for (Map.Entry<String, JsonElement> JsonEntry : jsonResult.entrySet()) {
@@ -114,7 +114,7 @@ public class CoconutParseMetric {
                     }
                     date = new Date(mtrsc.getTimestamp());
                     LOGGER.trace("Time " + date + " Metris: " + mtrsc.getName() + " Host: " + mtrsc.getTags().get("host"));
-                    MetricList.put(mtrsc.getName(), mtrsc);
+                    MetricList.put(mtrsc.hashCode(), mtrsc);
 
                 } catch (Exception e) {
                     LOGGER.error("Exception: " + globalFunctions.stackTrace(e));
@@ -176,11 +176,11 @@ public class CoconutParseMetric {
     }
 
     ;
-    protected TreeMap<String, OddeeyMetric> parseforArray(JsonArray jsonResult, String msg) {
+    protected TreeMap<Integer, OddeeyMetric> parseforArray(JsonArray jsonResult, String msg) {
         JsonElement Metric;
         if (jsonResult.size() > 0) {
             LOGGER.debug("Ready count: " + jsonResult.size());
-            final TreeMap<String, OddeeyMetric> MetricList = new TreeMap<>();
+            final TreeMap<Integer, OddeeyMetric> MetricList = new TreeMap<>();
             for (int i = 0; i < jsonResult.size(); i++) {
                 Metric = jsonResult.get(i);
                 try {
@@ -207,7 +207,7 @@ public class CoconutParseMetric {
                     }
                     date = new Date(mtrsc.getTimestamp());
                     LOGGER.trace("Time " + date + " Metris: " + mtrsc.getName() + " Host: " + mtrsc.getTags().get("host"));
-                    MetricList.put(mtrsc.getName(), mtrsc);
+                    MetricList.put(mtrsc.hashCode(), mtrsc);
 
                 } catch (Exception e) {
                     LOGGER.error("Exception: " + globalFunctions.stackTrace(e));
