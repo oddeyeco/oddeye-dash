@@ -34,7 +34,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  *
  * @author vahan
  */
-
 public class KafkaLisener {
 
     @Autowired
@@ -58,12 +57,11 @@ public class KafkaLisener {
 //    @KafkaListener(topics = "oddeyetsdb")
     @KafkaListener(topics = "${kafka.metrictopic}")
     public void receiveMetric(String payload) {
-        LOGGER.info("received payload='{}'", payload);
-        
-        if (payload.indexOf("Vahan")>0)
+        if (LOGGER.isInfoEnabled())
         {
             LOGGER.info("received payload='{}'", payload);
         }
+
         Object o = metricparser.execute(payload);
         User user;
         if (o instanceof OddeeyMetric) {
@@ -81,23 +79,17 @@ public class KafkaLisener {
         }
         if (o instanceof TreeMap) {
             TreeMap<?, ?> metricinfo = (TreeMap<?, ?>) o;
-            for ( Map.Entry<?, ?> mtrscEntry : metricinfo.entrySet()) {
+            for (Map.Entry<?, ?> mtrscEntry : metricinfo.entrySet()) {
                 OddeeyMetric Metric = (OddeeyMetric) mtrscEntry.getValue();
                 try {
                     OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
-                    if (Metric.getTags().get("UUID").equals("9c9d4578-e47e-4e49-add2-0d258ac7b94b"))
-                    {
-                        LOGGER.info("received payload='{}'", payload);
-                    }
                     user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
 //                    if (user.getMetricsMeta() == null) {
 //                        user.setMetricsMeta(new ConcoutMetricMetaList());
 //                    }
                     if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
                         user.getMetricsMeta().add(mtrscMeta);
-                    }
-                    else
-                    {
+                    } else {
                         user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
                     }
 
