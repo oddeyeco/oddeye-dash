@@ -158,7 +158,7 @@ function getCookie(name) {
 function setCookie(name, value, options) {
     options = options || {};
     var expires = options.expires;
-    if (typeof expires == "number" && expires) {
+    if (typeof expires === "number" && expires) {
         var d = new Date();
         d.setTime(d.getTime() + expires * 1000);
         expires = options.expires = d;
@@ -269,7 +269,8 @@ function fullscreenrequest(fullscreen)
             $(".right_col").attr('style', getCookie('right_col_style'));
             $(".profile_right,.widgetraw,.fulldash").removeAttr('style');
             $RIGHT_COL.css('min-height', $(window).height());
-        } else
+        } 
+        else
         {
             location.reload();
         }
@@ -289,6 +290,7 @@ if (fullscreen == 'true')
     $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
     $(".profile_right").css("width", "100%");
 }
+
 function smallrequest(small)
 {
     if (!small)
@@ -301,9 +303,6 @@ function smallrequest(small)
             $(' ul.nav.child_menu').hide();
             $('.nav.side-menu li.active').removeClass('active');
             console.log('aaaaa');
-        } else
-        {
-//            location.reload();
         }
     } else
     {
@@ -311,9 +310,6 @@ function smallrequest(small)
         if ($("body").hasClass('nav-sm'))
         {
             $("body").removeClass('nav-sm').addClass('nav-md');
-        } else
-        {
-//            location.reload();
         }
 
     }
@@ -322,15 +318,12 @@ function smallrequest(small)
 
 
 $(document).ready(function () {
-    
-var small = getCookie('small');
-if (small == 'true')
-{
-    $("body").removeClass('nav-md').addClass('nav-sm');
-    $(' ul.nav.child_menu').hide();
-    $('.nav.side-menu li.active').removeClass('active');
-    console.log('ARA');
-}    
+
+//    var small = getCookie('small');
+    if (getCookie('small') == 'true')
+    {
+        $(' ul.nav.child_menu').hide();
+    }
     if (!$('.profile_left-form').is(":visible"))
     {
         $('.hidefilter').removeClass('fa-chevron-up');
@@ -369,15 +362,12 @@ if (small == 'true')
             location.reload();
         });
     });
-    $("body").on("click", "#FullScreen", function () {
-        var fullscreen = getCookie('fullscreen');
-        fullscreenrequest(fullscreen == 'true');
+    $("body").on("click", "#FullScreen", function () {        
+        fullscreenrequest(getCookie('fullscreen') == 'true');
     });
 
-    $("body").on("click", "#menu_toggle", function () {
-        var small = getCookie('small');
-        smallrequest(small == 'true');
-
+    $("body").on("click", "#menu_toggle", function () {        
+        smallrequest(getCookie('small') == 'true');
     });
 
 

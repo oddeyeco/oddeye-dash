@@ -52,7 +52,7 @@
 
         </head>
 
-        <body class="nav-md">
+        <body class="<c:if test="${cookie['small'].value != 'true'}">nav-md</c:if> <c:if test="${cookie['small'].value == 'true'}">nav-sm</c:if>">
             <div class="container body">
                 <div class="main_container">
                     <div id="fix" class="col-md-3 left_col">
@@ -79,7 +79,7 @@
                                     <!--<h3>Navigation</h3>-->
                                     <ul class="nav side-menu">
                                         <li><a><i class="fa fa-info "></i> Personal <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">                                            
+                                            <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                                 <li><a href="<c:url value="/dashboard/"/>"><span>Dashboards</span></a></li>
                                                 <li><a href="<c:url value="/infrastructure/"/>">Infrastructure</a></li>
@@ -87,13 +87,13 @@
                                             </ul>
                                         </li>
                                         <li><a><i class="fa fa-clock-o"></i> Monitoring <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">                                            
+                                            <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/monitoring"/>">Real Time</a></li>
                                                 <li><a href="<c:url value="/errorsanalysis"/>">Detailed</a></li>
                                             </ul>
                                         </li>                                        
                                         <li><a><i class="fa fa-desktop"></i> Dashboards (${curentuser.getDushList().size()}) <span class="fa fa-chevron-down"></span></a>
-                                            <ul class="nav child_menu">                                                                                        
+                                            <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                 <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
                                                     <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                                     <li class="text-nowrap">
@@ -114,7 +114,7 @@
                                         </li>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <li><a><i class="fa fa-edit"></i> Managment <span class="fa fa-chevron-down"></span></a>
-                                                <ul class="nav child_menu">                                                                                        
+                                                <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
                                                         <li><a href="<c:url value="/userslist"/>" >Users</a></li>
                                                         </sec:authorize>
@@ -172,7 +172,7 @@
                                     <li class="">                                        
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <c:if test="${curentuser.getSwitchUser()==null}">
-                                                ${curentuser.getEmail()}    
+                                                ${curentuser.getEmail()}                                                                                                                                              
                                             </c:if>
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
                                                 <b>Switched to ${curentuser.getSwitchUser().getEmail()}</b>
@@ -187,8 +187,8 @@
                                                     <a href="javascript:;" class="user-profile">
                                                         Balance 
                                                         <c:if test="${balance<Double.MAX_VALUE}">
-                                                            
-                                                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
+
+                                                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
                                                         </c:if>
                                                         <c:if test="${balance==Double.MAX_VALUE}">
                                                             <span class="infin"> &infin;</span>
@@ -304,7 +304,7 @@
                     $MENU_TOGGLE.on('click', function () {
                         $(window).resize();
                     });
-                });                
+                });
             </script>
             <script>
                 (function (i, s, o, g, r, a, m) {
