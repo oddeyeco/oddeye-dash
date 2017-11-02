@@ -2985,9 +2985,37 @@ $(document).ready(function () {
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
     olddashname = $("#name").val();
 });
-
+$('body').on("click", '#minimize', function () {
+    $('.filter').css('display', 'none');
+    $('#maximize').css('display', 'block');
+});
+$('body').on("click", '#maximize', function () {
+    $('.filter').css('display', 'block');
+    $('#maximize').css('display', 'none');
+});
 
 window.onscroll = function () {
+    if ($(document).scrollTop() >= $('#dash_main').offset().top) {
+        $('.filter').css('position', 'fixed');
+        $('.filter').css('left', $(".nav_menu").position().left);
+        $('#minimize').css('display', 'block');
+        $('#maximize').css('top', '0');
+    } else {
+        if ($('#maximize').css('display') === 'block')
+        {
+            $('.filter').css('display', 'none');
+            $('.filter').css('position', '');
+            $('#minimize').css('display', 'none');
+            $('#maximize').css('top', 'auto');
+        } else {
+
+            $('.filter').css('position', '');
+            $('.filter').css('display', 'block');
+            $('#minimize').css('display', 'none');
+            $('#maximize').css('display', 'none');
+        }
+    }
+
     clearTimeout(scrolltimer);
     scrolltimer = setTimeout(function () {
         if ($(".fulldash").is(':visible'))

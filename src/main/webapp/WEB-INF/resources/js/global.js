@@ -269,8 +269,7 @@ function fullscreenrequest(fullscreen)
             $(".right_col").attr('style', getCookie('right_col_style'));
             $(".profile_right,.widgetraw,.fulldash").removeAttr('style');
             $RIGHT_COL.css('min-height', $(window).height());
-        } 
-        else
+        } else
         {
             location.reload();
         }
@@ -302,7 +301,6 @@ function smallrequest(small)
             $("body").removeClass('nav-md').addClass('nav-sm');
             $(' ul.nav.child_menu').hide();
             $('.nav.side-menu li.active').removeClass('active');
-            console.log('aaaaa');
         }
     } else
     {
@@ -318,8 +316,6 @@ function smallrequest(small)
 
 
 $(document).ready(function () {
-
-//    var small = getCookie('small');
     if (getCookie('small') == 'true')
     {
         $(' ul.nav.child_menu').hide();
@@ -362,14 +358,12 @@ $(document).ready(function () {
             location.reload();
         });
     });
-    $("body").on("click", "#FullScreen", function () {        
+    $("body").on("click", "#FullScreen", function () {
         fullscreenrequest(getCookie('fullscreen') == 'true');
     });
 
-    $("body").on("click", "#menu_toggle", function () {        
+    $("body").on("click", "#menu_toggle", function () {
         smallrequest(getCookie('small') == 'true');
     });
-
-
 });
 

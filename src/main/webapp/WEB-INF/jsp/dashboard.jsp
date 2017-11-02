@@ -115,6 +115,10 @@
         <div class="clearfix"></div>        
     </div>        
 
+    <div id="maximize" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title='Show Filter'>                        
+        <i class="fa fa fa-eye" ></i>
+    </div>
+
     <div id="dash_main">
         <div class="filter">
             <div class="form-group-custom pull-left form-horizontal">
@@ -133,10 +137,12 @@
                 </div>        
             </div>          
 
+            <div id="minimize" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title='Hide Filter'>                        
+                <i class="fa fa fa-eye-slash" ></i>
+            </div>
             <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
                 <i class="fa fa-lock" ></i>
             </div>
-
             <div id="refresh" class="pull-right reflock"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" >                        
                 <i class="glyphicon glyphicon-refresh"></i>
             </div>
