@@ -94,7 +94,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
         ArrayList<ArrayList<KeyValue>> rows;
-            ExecutorService executor = Executors.newFixedThreadPool(8);
+            ExecutorService executor = Executors.newCachedThreadPool();
             while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {
                     executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table,result));
