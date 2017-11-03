@@ -44,13 +44,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HbaseMetaDao extends HbaseBaseDao {
 
-    private final ConcoutMetricMetaList fullmetalist = new ConcoutMetricMetaList();    
+    private final ConcoutMetricMetaList fullmetalist = new ConcoutMetricMetaList();
 //    private ConcoutMetricMetaList MtrscList;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
 
     public HbaseMetaDao(DatabaseConfig p_config) {
-        super(p_config.getMetaTable());         
-    }    
+        super(p_config.getMetaTable());
+    }
 
     public Map<String, MetriccheckRule> getErrorRules(MetricErrorMeta meta, long time) throws Exception {
         Calendar CalendarObj = Calendar.getInstance();
@@ -94,13 +94,13 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
         ArrayList<ArrayList<KeyValue>> rows;
-            ExecutorService executor = Executors.newCachedThreadPool();
-            while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
-                for (final ArrayList<KeyValue> row : rows) {
-                    executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table,result));
-                }
-            }      
-        
+        ExecutorService executor = Executors.newCachedThreadPool();
+        while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
+            for (final ArrayList<KeyValue> row : rows) {
+                executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
+            }
+        }
+        executor.shutdown();
 //        new OddeeyMetricMetaList.AddMeta()
 //        while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
 //            for (final ArrayList<KeyValue> row : rows) {
@@ -235,7 +235,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     public ArrayList<Deferred<Object>> deleteMetaByList(ConcoutMetricMetaList MtrList, User user, SendToKafka sk) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
-        for ( Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
+        for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
             OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
@@ -243,11 +243,9 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
             final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
-                Callback<Object, Object> cb = new Callback<Object, Object> ()
-                {
+                Callback<Object, Object> cb = new Callback<Object, Object>() {
                     @Override
-                    public Object call
-                    (Object t) throws Exception {                        
+                    public Object call(Object t) throws Exception {
                         sk.run(user, "deletemetricbyhash", meta.hashCode());
                         return t;
                     }
