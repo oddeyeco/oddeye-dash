@@ -48,6 +48,15 @@ var scrolltimer;
 var btn = null;
 
 
+function currentpagelock() {
+    if ($('.current-i').hasClass('fa-lock')) {
+        $('.current-i').removeClass('fa-lock').addClass('fa-unlock');
+    } else if ($('.current-i').hasClass('fa-unlock')) {
+        $('.current-i').removeClass('fa-unlock').addClass('fa-lock');
+    }
+}
+;
+
 
 function domodifier()
 {
@@ -2416,6 +2425,10 @@ $(document).ready(function () {
         }
     });
 
+    if ($('.text-nowrap').hasClass('current-page')) {
+        $('.current-page').find('i').toggleClass('current-i');
+    }
+
     $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
@@ -2902,13 +2915,6 @@ $(document).ready(function () {
         exportToCsv(filename + ".csv", csvarray);
 
     });
-    var currentpagelock = function () {
-        if ($('.current-i').hasClass('fa-lock')) {
-            $('.current-i').removeClass('fa-lock').addClass('fa-unlock');
-        } else if ($('.current-i').hasClass('fa-unlock')) {
-            $('.current-i').removeClass('fa-unlock').addClass('fa-lock');
-        }
-    };
     $('body').on("click", "#refresh", function () {
         repaint(true, false);
     });
@@ -2962,14 +2968,10 @@ $(document).ready(function () {
             }
         }
     });
-    if ($('.text-nowrap').hasClass('current-page')) {
-        $('.current-page').find('i').toggleClass('current-i');
-    }
-    $('.current-i').on("click", function () {
+    $("body").on("click", '.current-i', function () {
         currentpagelock();
         btnlock();
         return false;
-
     });
     $('body').on("change", "#refreshtime", function () {
         if (!doapplyjson)
@@ -2980,23 +2982,22 @@ $(document).ready(function () {
         }
 
     });
-
+    $('body').on("click", '#minimize', function () {
+        filtershow = false;
+        $('#filter').fadeOut(500);
+        $('#maximize').fadeIn(500);
+    });
+    $('body').on("click", '#maximize', function () {
+        filtershow = true;
+        $('#filter').fadeIn(500);
+        $('#maximize').fadeOut(500);
+    });
+    
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
     olddashname = $("#name").val();
 });
 var filtershow = true;
-
-$('body').on("click", '#minimize', function () {
-    filtershow = false;
-    $('#filter').fadeOut(500) ;
-    $('#maximize').fadeIn(500);
-});
-$('body').on("click", '#maximize', function () {
-    filtershow = true;
-    $('#filter').fadeIn(500);
-    $('#maximize').fadeOut(500) ;
-});
 
 $(document).on('scroll', function () {
     clearTimeout(scrolltimer);
@@ -3014,7 +3015,7 @@ $(document).on('scroll', function () {
                 $('#filter').fadeIn();
             } else
             {
-                
+
                 $('#maximize').css('display', 'block');
             }
 
