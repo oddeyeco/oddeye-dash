@@ -120,7 +120,7 @@
     </div>
 
     <div id="dash_main">
-        <div class="filter">
+        <div id="filter" class="filter">
             <div class="form-group-custom pull-left form-horizontal">
                 <label class="control-label control-label-top" for="global-down-sample">Down sample 
                 </label>
