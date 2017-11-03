@@ -2989,13 +2989,13 @@ var filtershow = true;
 
 $('body').on("click", '#minimize', function () {
     filtershow = false;
-    $('#filter').css('display', 'none');
-    $('#maximize').css('display', 'block');
+    $('#filter').fadeOut(500) ;
+    $('#maximize').fadeIn(500);
 });
 $('body').on("click", '#maximize', function () {
     filtershow = true;
-    $('#filter').css('display', 'block');
-    $('#maximize').css('display', 'none');
+    $('#filter').fadeIn(500);
+    $('#maximize').fadeOut(500) ;
 });
 
 $(document).on('scroll', function () {

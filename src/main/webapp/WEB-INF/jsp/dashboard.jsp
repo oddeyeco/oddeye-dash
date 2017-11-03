@@ -121,7 +121,7 @@
 
     <div id="dash_main">
         <div id="filter" class="filter">
-            <div class="form-group-custom pull-left form-horizontal">
+            <div class="form-group-custom pull-left form-horizontal filtermargin">
                 <label class="control-label control-label-top" for="global-down-sample">Down sample 
                 </label>
                 <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
