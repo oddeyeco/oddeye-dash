@@ -54,7 +54,10 @@
             <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->                            
             <!--iCheck--> 
             <script src="${cp}/resources/iCheck/icheck.min.js"></script>
-            <script src="<c:url value="/assets/js/general.min.js"/>"></script>      
+            <script src="<c:url value="/assets/js/general.min.js"/>"></script>    
+            <!-- moment.js -->
+            <script src="${cp}/resources/js/moment/moment.min.js"></script>                    
+            <script src="${cp}/resources/js/moment/moment-timezone-with-data.min.js"></script>        
             <script>
                 (function (i, s, o, g, r, a, m) {
                     i['GoogleAnalyticsObject'] = r;
