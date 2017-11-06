@@ -51,6 +51,21 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author vahan
  */
 public class User implements UserDetails {
+
+    /**
+     * @return the recaptcha
+     */
+    public String getRecaptcha() {
+        return recaptcha;
+    }
+
+    /**
+     * @param recaptcha the recaptcha to set
+     */
+    public void setRecaptcha(String recaptcha) {
+        this.recaptcha = recaptcha;
+    }
+
     private static final long serialVersionUID = 465895478L;
 
     public final static String ROLE_ADMIN = "ROLE_ADMIN";
@@ -62,7 +77,7 @@ public class User implements UserDetails {
     public final static String ROLE_READONLY = "ROLE_READONLY";
     public final static String ROLE_DELETE = "ROLE_DELETE";
     public final static String ROLE_EDIT = "ROLE_EDIT";
-    public final static String ROLE_CAN_SWICH = "ROLE_CAN_SWICH";    
+    public final static String ROLE_CAN_SWICH = "ROLE_CAN_SWICH";
     @Id
     private UUID id;
     @HbaseColumn(qualifier = "lastname", family = "personalinfo")
@@ -90,9 +105,9 @@ public class User implements UserDetails {
 
     private byte[] TsdbID;
     private String StTsdbID;
-    
+
     @HbaseColumn(qualifier = "unlimit", family = "technicalinfo")
-    private Boolean unlimit= false;    
+    private Boolean unlimit = false;
     @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
     @HbaseColumn(qualifier = "balance", family = "technicalinfo")
@@ -110,16 +125,15 @@ public class User implements UserDetails {
     private Map<String, String> DushList;
 
     private ConsumptionList consumptionList;
-    
-    
+
     private Double consumption = 0d;
     private User SwitchUser;
     private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
     private final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
-
+    private String recaptcha;
     private transient HbaseUserDao DAO;
-    
+
     public User() {
         this.SwitchUser = null;
         this.id = UUID.randomUUID();
@@ -150,11 +164,11 @@ public class User implements UserDetails {
         model.put("uri", uri);
         model.put("email", this.getEmail());
         model.put("id", this.getId().toString());
-        Sender.send("Confirm Your Email", this.getEmail(), "confirmhtml.ftl","confirmtxt.ftl", model);
+        Sender.send("Confirm Your Email", this.getEmail(), "confirmhtml.ftl", "confirmtxt.ftl", model);
 
     }
 
-    public void inituser(ArrayList<KeyValue> userkvs,HbaseUserDao udao) {
+    public void inituser(ArrayList<KeyValue> userkvs, HbaseUserDao udao) {
         this.DAO = udao;
         authorities.clear();
         userkvs.stream().map((property) -> {
@@ -272,8 +286,7 @@ public class User implements UserDetails {
             if (property.value().length == 4) {
                 this.active = Bytes.getInt(property.value()) != 0;
             }
-        })
-                ;
+        });
 
         if (AlertLevels == null) {
             AlertLevels = new AlertLevel(true);
@@ -334,7 +347,6 @@ public class User implements UserDetails {
         this.StTsdbID = Hex.encodeHexString(TsdbID);
 
     }
-
 
     public void addAuthoritie(String role) {
         authorities.add(new SimpleGrantedAuthority(role));
@@ -592,8 +604,9 @@ public class User implements UserDetails {
     public void setActive(Boolean active) {
         this.active = active;
     }
+
     public String getFullname() {
-        return name+" "+lastname;
+        return name + " " + lastname;
     }
 
     /**
@@ -625,7 +638,6 @@ public class User implements UserDetails {
 //        this.MetricsMetas = MetricsMeta;
 ////        MetricsMetas.equals(id)
 //    }
-
     /**
      * @return the DushList
      */
@@ -830,22 +842,20 @@ public class User implements UserDetails {
     }
 
     public void SendAdminMail(String action, OddeyeMailSender Sender) throws UnsupportedEncodingException {
-        Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail()+"</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), "ara@oddeye.co");
+        Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail() + "</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), "ara@oddeye.co");
     }
 
     public void reload() {
-        if (DAO!= null)
-        {
-            DAO.getUserByUUID(id,true);
+        if (DAO != null) {
+            DAO.getUserByUUID(id, true);
         }
-        
-    }    
-    
+
+    }
+
     public Double getBalance() {
-        if (unlimit)
-        {
+        if (unlimit) {
             return Double.MAX_VALUE;
-        }               
+        }
         return balance;
     }
 
@@ -918,16 +928,17 @@ public class User implements UserDetails {
     public void setOldpassword(String oldpassword) {
         this.oldpassword = oldpassword;
     }
+
     public String getOldpasswordst(User user) {
-        String pst ="";
+        String pst = "";
         if (!oldpassword.isEmpty()) {
-            pst =new String(get_SHA_512_SecurePassword(oldpassword, user.getSolt()));
-        }        
+            pst = new String(get_SHA_512_SecurePassword(oldpassword, user.getSolt()));
+        }
         return pst;
     }
 
     public void updateConsumption() {
-       consumptionList = DAO.getConsumption(this);
+        consumptionList = DAO.getConsumption(this);
     }
 
     /**
@@ -950,6 +961,5 @@ public class User implements UserDetails {
     public void setUnlimit(Boolean unlimit) {
         this.unlimit = unlimit;
     }
-
 
 }

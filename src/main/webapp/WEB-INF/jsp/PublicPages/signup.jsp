@@ -7,7 +7,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <style>
-   
+
 </style>    
 
 <div id="main"></div>
@@ -76,7 +76,13 @@
                 <div class="form-group">                    
                     <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                        
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="timezone" />
-                </div>                
+                </div>
+                <div class="form-group">                    
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
+                    <div id="recaptcha" data-sitekey="6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY"></div>                
+                </div>
+
+
                 <div class="form-group">                
                     <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-out"></i> Sine Up</button>
                 </div>
@@ -84,7 +90,7 @@
                 <div class="separator">
                     <p class="change_link">Already a member?<a class="btn btn-href btn-sm" href="<c:url value="/login/" />" > Log in </a>
                     </p>
-                </div>
+                </div>                    
             </form:form>           
         </div>
     </div>

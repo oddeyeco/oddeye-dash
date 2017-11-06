@@ -9,12 +9,15 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.User;
 import co.oddeye.concout.validator.UserValidator;
+import co.oddeye.core.OddeyeHttpURLConnection;
 import co.oddeye.core.globalFunctions;
+import com.google.gson.JsonElement;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -196,8 +199,34 @@ public class DefaultController {
 
     @RequestMapping(value = "/signup/", method = RequestMethod.POST)
     public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
-        userValidator.validate(newUser, result);
 
+        userValidator.validate(newUser, result);
+        if (request.getParameter("g-recaptcha-response") != null) {
+            if (!request.getParameter("g-recaptcha-response").isEmpty()) {
+                String ip = request.getHeader("X-Real-IP");
+                if (ip == null) {
+                    ip = request.getRemoteAddr();
+                    try {
+                        JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", "secret=6LfUVzcUAAAAAIMxs6jz0GhGxgTCUD360UhcSbYr&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip);
+                        if (capchaRequest.getAsJsonObject().get("success") == null) {
+                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                        } else {
+                            if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
+                                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                            }
+                        }
+                    } catch (Exception ex) {
+                        result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
+                }
+
+            } else {
+                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+            }
+        } else {
+            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+        }
         if (result.hasErrors()) {
             setLocaleInfo(map);
             map.put("newUser", newUser);
@@ -205,6 +234,7 @@ public class DefaultController {
             map.put("body", "signup");
             map.put("jspart", "signupjs");
         } else {
+
             try {
                 String baseUrl = mailSender.getBaseurl(request);
                 newUser.SendConfirmMail(mailSender, baseUrl);
