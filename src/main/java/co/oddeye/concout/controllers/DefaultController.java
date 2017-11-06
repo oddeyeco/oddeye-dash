@@ -255,7 +255,7 @@ public class DefaultController {
                 map.put("message", ex.toString());
             }
         }
-
+        map.put("title", "Sine Up");
         return "indexPrime";
         //else
 
