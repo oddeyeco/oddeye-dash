@@ -24,7 +24,7 @@
                 <br>Password: 123456
             </div>
         </div>    
-        <div class=" contactform col-lg-6 col-xs-12">              
+        <div class=" contactform col-lg-6 col-xs-12">               
             <form:form method="post" commandName="newUser" action="${cp}/signup/" modelAttribute="newUser" novalidate="true">            
                 <c:if test="${not empty message}" >
                     <div class="alert alert-danger alert-dismissible fadein" role="alert">
@@ -80,12 +80,9 @@
                 <div class="form-group">                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
                     <div id="recaptcha" data-sitekey="6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY"></div>                
+                    <button class="btn btn-primary btn-block SineUp" type="submit">Sine Up</button>
                 </div>
 
-
-                <div class="form-group">                
-                    <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-out"></i> Sine Up</button>
-                </div>
                 <div class="clearfix"></div>
                 <div class="separator">
                     <p class="change_link">Already a member?<a class="btn btn-href btn-sm" href="<c:url value="/login/" />" > Log in </a>

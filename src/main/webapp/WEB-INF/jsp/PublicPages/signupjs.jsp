@@ -12,7 +12,7 @@
 <script>
     var onloadCallback = function () {        
         grecaptcha.render('recaptcha', {
-          'sitekey' : '6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY'
+          'sitekey' : '6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY',          
         });        
     };
     $(document).ready(function () {
