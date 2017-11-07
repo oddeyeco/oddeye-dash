@@ -12,6 +12,13 @@ import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
+import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.maxmind.geoip2.model.CityResponse;
+import com.maxmind.geoip2.model.CountryResponse;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -50,6 +57,8 @@ public class DefaultController {
     private HbaseUserDao Userdao;
     @Autowired
     private OddeyeMailSender mailSender;
+    @Autowired
+    private DatabaseReader geoip;
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
@@ -127,7 +136,7 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "/{slug}/", method = RequestMethod.GET)
-    public String bytemplate(@PathVariable(value = "slug") String slug, ModelMap map) {
+    public String bytemplate(@PathVariable(value = "slug") String slug, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "indexPrime";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -157,6 +166,23 @@ public class DefaultController {
             map.put("slug", slug);
             map.put("body", slug);
             map.put("jspart", slug + "js");
+
+            try {
+                String ip = request.getHeader("X-Real-IP");
+                if (ip == null) {
+                    ip = request.getRemoteAddr();
+                }
+                InetAddress ipAddress = InetAddress.getByName(ip);
+                
+                CityResponse city = geoip.city(ipAddress);
+                newUser.setCity(city.getCity().getName());
+                newUser.setCountry(city.getCountry().getIsoCode());
+//                CountryResponse country = geoip.country(ipAddress);
+                map.put("country", city.getCountry().getNames());                        
+                map.put("city", city.getCity().getName());        
+            } catch (GeoIp2Exception | IOException ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
 
             setLocaleInfo(map);
         }
@@ -206,19 +232,19 @@ public class DefaultController {
                 String ip = request.getHeader("X-Real-IP");
                 if (ip == null) {
                     ip = request.getRemoteAddr();
-                    try {
-                        JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", "secret=6LfUVzcUAAAAAIMxs6jz0GhGxgTCUD360UhcSbYr&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip);
-                        if (capchaRequest.getAsJsonObject().get("success") == null) {
-                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                        } else {
-                            if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
-                                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                            }
-                        }
-                    } catch (Exception ex) {
+                }
+                try {
+                    JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", "secret=6LfUVzcUAAAAAIMxs6jz0GhGxgTCUD360UhcSbYr&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip);
+                    if (capchaRequest.getAsJsonObject().get("success") == null) {
                         result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    } else {
+                        if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
+                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                        }
                     }
+                } catch (Exception ex) {
+                    result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                    LOGGER.error(globalFunctions.stackTrace(ex));
                 }
 
             } else {

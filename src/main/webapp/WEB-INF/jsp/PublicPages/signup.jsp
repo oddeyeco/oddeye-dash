@@ -61,12 +61,12 @@
                     <form:input path="company" cssClass="form-control" placeholder="Company name"/>
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="company" />
                 </div>
-                <div class="form-group">   
+                <div class="form-group">
                     <form:select path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1"/>                                        
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="country" />                    
                 </div>
                 <div class="form-group">
-                    <form:input path="city" cssClass="form-control" placeholder="City"/>
+                    <form:input path="city" cssClass="form-control" placeholder="City" />
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="city" />                    
                 </div>
                 <div class="form-group">

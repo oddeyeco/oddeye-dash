@@ -5,7 +5,9 @@
  */
 package co.oddeye.concout.config;
 
+import com.maxmind.geoip2.DatabaseReader;
 import freemarker.template.TemplateException;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +45,9 @@ public class Config extends WebMvcConfigurerAdapter {
     private String producerKeySerializer;        
     @Value("${kafka.producer.value.serializer}")
     private String producerValueSerializer;   
+    
+    @Value("${geoipfile}")
+    private String geoipfile;       
     
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Config.class);
 
@@ -86,4 +91,12 @@ public class Config extends WebMvcConfigurerAdapter {
         result.setTemplateLoaderPaths("/WEB-INF/ftl/"); // prevents FreeMarkerConfigurer from using its default path allowing setPrefix to work as expected
         return result;
     }
+    
+//    geoipfile
+    @Bean(name = "geoip")
+    public DatabaseReader getGeoip() throws IOException {
+        File database = new File(geoipfile);
+        DatabaseReader dbReader = new DatabaseReader.Builder(database).build();        
+        return dbReader;
+    }            
 }
