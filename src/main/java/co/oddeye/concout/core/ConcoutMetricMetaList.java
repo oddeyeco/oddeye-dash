@@ -94,13 +94,6 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 ConcoutMetricMetaList.LOGGER.info("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
             }
             return super.add(e);
-//            e.getTags().keySet().stream().filter((tagkey) -> (!Tagkeys.contains(tagkey))).forEach(Tagkeys::add);
-//
-//            e.getTags().entrySet().stream().filter((tag) -> (!Tagkeyv.contains(tag.getValue().getValue()))).forEach((Map.Entry<String, OddeyeTag> tag) -> {
-//                Tagkeyv.add(tag.getValue().getValue());
-//            });
-//
-//            return this.put(e.hashCode(), e);
         } else {
             return this.replace(e.hashCode(), e);
         }

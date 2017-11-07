@@ -13,6 +13,7 @@ import co.oddeye.concout.model.User;
 import co.oddeye.core.AddMeta;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
 import java.nio.charset.Charset;
@@ -23,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.opentsdb.query.QueryUtil;
@@ -92,18 +94,21 @@ public class HbaseMetaDao extends HbaseBaseDao {
         QueryUtil.addId(buffer, key, true);
         scanner.setKeyRegexp(buffer.toString(), Charset.forName("ISO-8859-1"));
 
-        final ConcoutMetricMetaList result = new ConcoutMetricMetaList();        
-        ExecutorService executor = Executors.newFixedThreadPool(8);
-        // Callback class to keep scanning recursively.
+        final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
+        ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
+                .setNameFormat("AddMeta-thread-%d-"+userid.toString()).setPriority(10)
+                .build();
+        ExecutorService executor = Executors.newFixedThreadPool(8,namedThreadFactory);
+        // Callback class to keep scanning recursively.        
         class cb implements Callback<Object, ArrayList<ArrayList<KeyValue>>> {
             @Override
             public Object call(final ArrayList<ArrayList<KeyValue>> rows) {
                 if (rows == null) {
                     return null;
                 }
-                try {
-                    for (final ArrayList<KeyValue> row : rows) {
-                        executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
+                try {                    
+                    for (final ArrayList<KeyValue> row : rows) {                        
+                        executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));                        
                     }
 //                    return rows;
                     return scanner.nextRows().addCallback(this);
@@ -114,7 +119,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
 
         try {
-            scanner.nextRows().addCallbacks(new cb(), Callback.PASSTHROUGH).join();
+            scanner.nextRows().addCallbacks(new cb(), Callback.PASSTHROUGH).join();            
         } finally {
             scanner.close().join();
             executor.shutdown();

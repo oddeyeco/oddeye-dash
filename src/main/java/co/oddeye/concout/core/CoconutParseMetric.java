@@ -30,7 +30,7 @@ public class CoconutParseMetric {
     private final JsonParser parser;
     public static final Logger LOGGER = LoggerFactory.getLogger(CoconutParseMetric.class);
 
-    public CoconutParseMetric() {        
+    public CoconutParseMetric() {
         parser = new JsonParser();
     }
 
@@ -184,6 +184,13 @@ public class CoconutParseMetric {
             for (int i = 0; i < jsonResult.size(); i++) {
                 Metric = jsonResult.get(i);
                 try {
+                    try {
+                        Metric.getAsJsonObject().get("value").getAsDouble();
+                    } catch (Exception e) {
+                        LOGGER.warn("VALOOD mtrsc.getValue()==null " + Metric);
+                        continue;
+                    }
+
                     final OddeeyMetric mtrsc = new OddeeyMetric(Metric);
                     if (mtrsc.getName() == null) {
                         LOGGER.warn("mtrsc.getName()==null " + Metric);

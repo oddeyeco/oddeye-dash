@@ -54,7 +54,7 @@ public class KafkaLisener {
         return latch;
     }
 
-//    @KafkaListener(topics = "oddeyetsdb")
+
     @KafkaListener(topics = "${kafka.metrictopic}")
     public void receiveMetric(String payload) {
         if (LOGGER.isInfoEnabled())
@@ -69,9 +69,6 @@ public class KafkaLisener {
             try {
                 OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
                 user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
-//                if (user.getMetricsMeta() == null) {
-//                    user.setMetricsMeta(new ConcoutMetricMetaList());
-//                }
                 user.getMetricsMeta().add(mtrscMeta);
             } catch (Exception ex) {
                 LOGGER.info(globalFunctions.stackTrace(ex));
