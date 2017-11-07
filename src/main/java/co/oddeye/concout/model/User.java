@@ -121,7 +121,7 @@ public class User implements UserDetails {
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
 
-    private final ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
+    private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
 
     private ConsumptionList consumptionList;
@@ -634,10 +634,9 @@ public class User implements UserDetails {
 //    /**
 //     * @param MetricsMeta the MetricsMetas to set
 //     */
-//    public void setMetricsMeta(ConcoutMetricMetaList MetricsMeta) {
-//        this.MetricsMetas = MetricsMeta;
-////        MetricsMetas.equals(id)
-//    }
+    public void setMetricsMeta(ConcoutMetricMetaList MetricsMeta) {
+        this.MetricsMetas = MetricsMeta;
+    }
     /**
      * @return the DushList
      */

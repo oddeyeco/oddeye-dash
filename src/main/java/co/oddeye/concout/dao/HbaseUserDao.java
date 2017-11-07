@@ -260,8 +260,8 @@ public class HbaseUserDao extends HbaseBaseDao {
         User user = getUserByUUID(uuid, reload);
         if (initmeta) {
             try {
-                user.getMetricsMeta().putAll(MetaDao.getByUUID(user.getId()));
-//                user.setMetricsMeta();
+//                user.getMetricsMeta().putAll(MetaDao.getByUUID(user.getId()));
+                user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
             }

@@ -92,15 +92,41 @@ public class HbaseMetaDao extends HbaseBaseDao {
         QueryUtil.addId(buffer, key, true);
         scanner.setKeyRegexp(buffer.toString(), Charset.forName("ISO-8859-1"));
 
-        final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
-        ArrayList<ArrayList<KeyValue>> rows;
-        ExecutorService executor = Executors.newCachedThreadPool();
-        while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
-            for (final ArrayList<KeyValue> row : rows) {
-                executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
+        final ConcoutMetricMetaList result = new ConcoutMetricMetaList();        
+        ExecutorService executor = Executors.newFixedThreadPool(8);
+        // Callback class to keep scanning recursively.
+        class cb implements Callback<Object, ArrayList<ArrayList<KeyValue>>> {
+            @Override
+            public Object call(final ArrayList<ArrayList<KeyValue>> rows) {
+                if (rows == null) {
+                    return null;
+                }
+                try {
+                    for (final ArrayList<KeyValue> row : rows) {
+                        executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
+                    }
+//                    return rows;
+                    return scanner.nextRows().addCallback(this);
+                } catch (AssertionError e) {
+                    throw new RuntimeException("Asynchronous failure", e);
+                }
             }
         }
-        executor.shutdown();
+
+        try {
+            scanner.nextRows().addCallbacks(new cb(), Callback.PASSTHROUGH).join();
+        } finally {
+            scanner.close().join();
+            executor.shutdown();
+        }
+
+//        ExecutorService executor = Executors.newCachedThreadPool();
+//        while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
+//            for (final ArrayList<KeyValue> row : rows) {
+//                executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
+//            }
+//        }                
+//        executor.shutdown();
 //        new OddeeyMetricMetaList.AddMeta()
 //        while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
 //            for (final ArrayList<KeyValue> row : rows) {
@@ -122,7 +148,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
 //
 //            }
 //        }
-        getFullmetalist().putAll(result);
+//        getFullmetalist().putAll(result);
         return result;
     }
 
