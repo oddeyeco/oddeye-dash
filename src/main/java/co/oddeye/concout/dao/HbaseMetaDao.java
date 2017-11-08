@@ -123,6 +123,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         } finally {
             scanner.close().join();
             executor.shutdown();
+            
         }
 
 //        ExecutorService executor = Executors.newCachedThreadPool();
