@@ -28,6 +28,7 @@ import org.slf4j.LoggerFactory;
  * @author vahan
  */
 public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
+
     private static final long serialVersionUID = 465895478L;
 
     private final Map<String, Map<String, Integer>> TagsList = new HashMap<>();
@@ -45,31 +46,38 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public ConcoutMetricMetaList(TSDB tsdb, byte[] bytes) {
         super(tsdb, bytes);
     }
-    
+
     public void putAll(ConcoutMetricMetaList m) {
         m.entrySet().forEach((e) -> {
             add(e.getValue());
         });
     }
+
     @Override
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
-        Integer count = 1;
+        Integer count;
         if (!this.containsKey(e.hashCode())) {
             getTaghashlist().add(e.getTags().hashCode());
             for (Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
-                if (!tag.getKey().equals("UUID")) {
-                    if (TagsList.containsKey(tag.getKey())) {
-                        count = 1;
-                        if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
-                            count = TagsList.get(tag.getKey()).get(tag.getValue().getValue()) + 1;
+                try {
+                    if (!tag.getKey().equals("UUID")) {
+                        if (TagsList.containsKey(tag.getKey())) {
+                            count = 1;
+                            if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                                count = TagsList.get(tag.getKey()).get(tag.getValue().getValue()) + 1;
+                            }
+                            TagsList.get(tag.getKey()).put(tag.getValue().getValue(), count);
+                        } else {
+                            Map<String, Integer> keyset = new TreeMap<>();
+                            keyset.put(tag.getValue().getValue(), 1);
+                            TagsList.put(tag.getKey(), keyset);
                         }
-                        TagsList.get(tag.getKey()).put(tag.getValue().getValue(), count);
-                    } else {
-                        Map<String, Integer> keyset = new TreeMap<>();
-                        keyset.put(tag.getValue().getValue(), 1);
-                        TagsList.put(tag.getKey(), keyset);
                     }
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                    LOGGER.warn("Add metric Error for tag "+tag.getKey()+" vs tags "+e.getTags());
                 }
+
             }
             count = 1;
             if (NameMap.containsKey(e.getName())) {
