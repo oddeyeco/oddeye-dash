@@ -54,7 +54,7 @@ public class KafkaLisener {
         return latch;
     }
 
-
+/*
     @KafkaListener(topics = "${kafka.metrictopic}")
     public void receiveMetric(String payload) {
         if (LOGGER.isInfoEnabled())
@@ -98,7 +98,7 @@ public class KafkaLisener {
 
         latch.countDown();
     }
-
+*/
     @KafkaListener(topics = "${dash.semaphore.topic}")
     public void receiveAction(String payload) {
         LOGGER.info("received payload='{}'", payload);
