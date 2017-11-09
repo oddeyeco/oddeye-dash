@@ -583,29 +583,31 @@ public class AjaxControlers {
             try {
                 if (userDetails.getMetricsMeta() != null) {
                     if (userDetails.getMetricsMeta().getTagsList() != null) {
-                        Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key).keySet();
-                        JsonArray jsondata = new JsonArray();
+                        if (userDetails.getMetricsMeta().getTagsList().get(key) != null) {
+                            Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key).keySet();
+                            JsonArray jsondata = new JsonArray();
 
-                        if (filter.equals("") || filter.equals("*")) {
-                            tags.forEach((tag) -> {
-                                jsondata.add(tag);
-                            });
-                        } else {
-                            Pattern r = Pattern.compile(filter);
-                            if (tags != null) {
+                            if (filter.equals("") || filter.equals("*")) {
                                 tags.forEach((tag) -> {
-                                    Matcher m = r.matcher(tag);
-                                    if (m.find()) {
-                                        jsondata.add(tag);
-                                    }
+                                    jsondata.add(tag);
                                 });
+                            } else {
+                                Pattern r = Pattern.compile(filter);
+                                if (tags != null) {
+                                    tags.forEach((tag) -> {
+                                        Matcher m = r.matcher(tag);
+                                        if (m.find()) {
+                                            jsondata.add(tag);
+                                        }
+                                    });
+                                }
+
                             }
 
+                            jsonResult.add("data", jsondata);
+
+                            jsonResult.addProperty("sucsses", true);
                         }
-
-                        jsonResult.add("data", jsondata);
-
-                        jsonResult.addProperty("sucsses", true);
                     }
                 }
 
