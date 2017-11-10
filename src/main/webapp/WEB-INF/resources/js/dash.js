@@ -2992,7 +2992,7 @@ $(document).ready(function () {
         $('#filter').fadeIn(500);
         $('#maximize').fadeOut(500);
     });
-    
+
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
     olddashname = $("#name").val();
@@ -3005,7 +3005,6 @@ $(document).on('scroll', function () {
 
         if (!$('#filter').hasClass("fix"))
         {
-            console.log(filtershow);
             $('#filter').css('left', $(".nav_menu").position().left);
             $('#filter').addClass("fix");
             $('#minimize').css('display', 'block');

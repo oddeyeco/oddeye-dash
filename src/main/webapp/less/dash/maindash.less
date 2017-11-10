@@ -1109,8 +1109,21 @@ h2.error
     margin: 8px;
 }
 .filtermargin{
-    margin: -3px 0px;
+    margin: -1px 0px;
 }
 .nav_menu{
     z-index: 9999;
+}
+.nav-md ul.nav.child_menu li{
+    &:before{
+        left: 13px;
+    }
+    &:after{
+        left: 17px
+    }
+    padding-left: 19px;
+}
+.y-overflow{   
+    overflow-y: auto;
+    overflow-x: hidden;
 }

@@ -14,7 +14,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>User (UUID = ${activeuser.getId().toString()}) </h2>
+                <h2 class="text-justify">User (UUID = ${activeuser.getId().toString()}) </h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -71,7 +71,7 @@
 
                         </c:forEach>--%>   
                     </div>
-                    <div id="listtablediv">
+                    <div id="listtablediv" class="table-responsive">
                         <table id="listtable" class="table projects">
 
                         </table>                    
