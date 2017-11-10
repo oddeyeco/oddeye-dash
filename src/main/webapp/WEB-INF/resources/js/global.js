@@ -67,6 +67,24 @@ globalstompClient.connect(headers, function (frame) {
         location.reload();
     }, 20000);
 });
+
+function menuscroll() {
+    var $LEFT_COL = $('.left_col');
+    $LEFT_COL.eq(1).css("max-height", $(".sidebar-footer").offset().top);
+    if ($('body').hasClass('nav-sm')) {
+        $("#sidebar-menu").removeClass('y-overflow');
+        if ($('li').hasClass('active')) {
+            $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active .nav.child_menu").offset().top);
+            $("li.active .nav.child_menu").addClass('y-overflow');
+        }
+    } else {
+        $("#sidebar-menu").css("max-height", $(".sidebar-footer").offset().top - $("#sidebar-menu").offset().top);
+        $("li.active .nav.child_menu").removeClass('y-overflow');
+        $("li.active .nav.child_menu").css("max-height", "");
+        $("#sidebar-menu").addClass('y-overflow');
+    }
+}
+
 function applyAlias(text, object)
 {
     text = text.replace(new RegExp("\\{metric(.*?)\\}", 'g'), replacerM(object.metric));
@@ -372,23 +390,6 @@ $(document).ready(function () {
 $(window).load(function () {
     menuscroll();
 });
-
-function menuscroll() {
-    var $LEFT_COL = $('.left_col');
-    $LEFT_COL.eq(1).css("max-height", $(".sidebar-footer").offset().top);
-    if ($('body').hasClass('nav-sm')) {
-        $("#sidebar-menu").removeClass('y-overflow');
-        if ($('li').hasClass('active')) {
-            $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active .nav.child_menu").offset().top)
-            $("li.active .nav.child_menu").addClass('y-overflow');
-        }
-    } else {
-        $("#sidebar-menu").css("max-height", $(".sidebar-footer").offset().top - $("#sidebar-menu").offset().top);
-        $("li.active .nav.child_menu").removeClass('y-overflow');
-        $("li.active .nav.child_menu").css("max-height", "");
-        $("#sidebar-menu").addClass('y-overflow');
-    }
-}
 
 $(window).resize(function () {
     menuscroll();
