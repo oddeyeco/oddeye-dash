@@ -41,6 +41,20 @@ var jsonmaker = function (k, v)
 //    }
     return v;
 };
+
+var subtractlist = {
+    "5m-ago":[5,"minute"],
+    "15m-ago":[15,"minute"],
+    "30m-ago":[30,"minute"],
+    "1h-ago":[1, 'hour'],
+    "3h-ago":[3, 'hour'],
+    "6h-ago":[6, 'hour'],
+    "12h-ago":[12, 'hour'],
+    "24h-ago":[24, 'hour'],
+    "3d-ago":[3, 'day'],
+    "7d-ago":[7, 'day']
+};
+
 var rangeslabels = {
     'Last 5 minutes': "5m-ago",
     'Last 15 minutes': "15m-ago",
