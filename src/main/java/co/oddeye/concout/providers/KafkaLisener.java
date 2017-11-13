@@ -55,7 +55,7 @@ public class KafkaLisener {
     }
 
 
-    @KafkaListener(topics = "${kafka.metrictopic}")
+    @KafkaListener(id="receiveMetric", topics = "${kafka.metrictopic}")
     public void receiveMetric(String payload) {
         if (LOGGER.isInfoEnabled())
         {
@@ -99,7 +99,7 @@ public class KafkaLisener {
         latch.countDown();
     }
 
-    @KafkaListener(topics = "${dash.semaphore.topic}")
+    @KafkaListener(id="receiveAction", topics = "${dash.semaphore.topic}")
     public void receiveAction(String payload) {
         LOGGER.info("received payload='{}'", payload);
         JsonElement jsonResult = null;
