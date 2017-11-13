@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist */
 var SingleRedrawtimer;
 var dasheditor;
 var refreshtimes = {
@@ -258,42 +258,32 @@ var queryCallback = function (inputdata) {
     var url = inputdata[8];
     var redraw = inputdata[9];
     var callback = inputdata[10];
-    var customchart = inputdata[11];
-    var end = inputdata[12];
-    var whaitlist = inputdata[13];
-    var uri = inputdata[14];
+    var customchart = inputdata[11];    
+    var start = inputdata[12];
+    var end = inputdata[13];
+    var whaitlist = inputdata[14];
+    var uri = inputdata[15];
 
     return function (data) {
         var m_sample = widget.options.xAxis[0].m_sample;
         if (data.chartsdata)
         {
-
+            var xAxis_Index = 0;
+            {
+                if (widget.q[q_index].xAxisIndex)
+                {
+                    xAxis_Index = widget.q[q_index].xAxisIndex[0];
+                }
+                if (!widget.options.xAxis[xAxis_Index])
+                {
+                    xAxis_Index = 0;
+                }
+            }
             if (Object.keys(data.chartsdata).length > 0)
             {
-                var xAxis_Index = 0;
-                {
-                    if (widget.q[q_index].xAxisIndex)
-                    {
-                        xAxis_Index = widget.q[q_index].xAxisIndex[0];
-                    }
-                    if (!widget.options.xAxis[xAxis_Index])
-                    {
-                        xAxis_Index = 0;
-                    }
-                }
+
                 if (widget.options.xAxis[xAxis_Index].type === "time")
                 {
-                    if (end === "now")
-                    {
-                        widget.options.xAxis[xAxis_Index].max = new Date().getTime();
-                    } else
-                    {
-                        widget.options.xAxis[xAxis_Index].max = end;
-                    }
-
-//                    console.log("***************************************");
-//                    
-//                    var oooo = 0;
                     for (index in data.chartsdata)
                     {
                         if (data.chartsdata[index].data.length > 0)
@@ -817,6 +807,17 @@ var queryCallback = function (inputdata) {
 
             }
 
+            if (widget.options.xAxis[xAxis_Index].type === "time")
+            {
+                if (end === "now")
+                {
+                    widget.options.xAxis[xAxis_Index].max = new Date().getTime();
+                } else
+                {
+                    widget.options.xAxis[xAxis_Index].max = end;
+                }
+                widget.options.xAxis[xAxis_Index].min = moment(widget.options.xAxis[xAxis_Index].max).subtract(subtractlist[start][0],subtractlist[start][1]).valueOf();
+            }
         }
 
         if (whaitlist)
@@ -1467,23 +1468,26 @@ var queryCallback = function (inputdata) {
                 }
 //                console.log(widget.options.legend.data);
             }
-
-            if ((widget.options.series[ind].type === "pie") || (widget.options.series[ind].type === "funnel"))
+            if (widget.options.series[ind])
             {
-                tmpLegend.sort();
-                for (var sind in tmpLegend)
+                if ((widget.options.series[ind].type === "pie") || (widget.options.series[ind].type === "funnel"))
                 {
-                    widget.options.legend.data.push({name: tmpLegend[sind]});
-                }
-                for (var sind in tmpLegendSer)
-                {
-                    widget.options.legend.data.push({name: tmpLegendSer[sind], icon: 'diamond'});
-                }
+                    tmpLegend.sort();
+                    for (var sind in tmpLegend)
+                    {
+                        widget.options.legend.data.push({name: tmpLegend[sind]});
+                    }
+                    for (var sind in tmpLegendSer)
+                    {
+                        widget.options.legend.data.push({name: tmpLegendSer[sind], icon: 'diamond'});
+                    }
 
-            } else
-            {
-                widget.options.legend.data = tmpLegendSer;
+                } else
+                {
+                    widget.options.legend.data = tmpLegendSer;
+                }
             }
+
 //*************************************            
             if (redraw)
             {
@@ -1773,7 +1777,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 $(chart._dom).parent().find('.error').remove();
                 if (prevuri !== uri)
                 {
-                    var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end, whaitlist, uri];
+                    var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start,end, whaitlist, uri];
                     $.ajax({
                         dataType: "json",
                         url: uri,
@@ -2863,6 +2867,7 @@ $(document).ready(function () {
                 }
             }
         }
+        lockq = [];
         $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();

@@ -10,10 +10,18 @@
 <div class="container center logincontener" >    
     <div class="row">
         <div class="col-md-6 col-xs-12 logo">
+            <div class="progress-wrap">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar"
+                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                        Loading...
+                    </div>
+                </div>            
+            </div>            
             <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
         </div>    
-        <div class=" contactform col-md-6 col-xs-12 login">        
-            <form action="<c:url value="/login/"/>" method="post" class="form-horizontal">                
+        <div class=" contactform col-md-6 col-xs-12 login"> 
+            <form action="<c:url value="/login/"/>" method="post" class="form-horizontal" id="loginform">                
                 <c:if test="${param.error != null}">
                     <div class="alert alert-danger" role="alert">
                         <strong>Oh!</strong> Invalid username and password.
@@ -28,12 +36,14 @@
                 </div>
                 <div class="form-group">                
                     <input type="checkbox" name="remember-me" class="flat" id="remember-me"/><label for="remember-me" class="remember-me"> Remember Me</label>
-                </div>                
-                <input type="hidden"                
-                       name="${_csrf.parameterName}"
-                       value="${_csrf.token}"/>                           
-                <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-in"></i> Log in </button>
-                <div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"> Create Account </a>                
+                </div>  
+                <div class="form-group">  
+                    <input type="hidden"                
+                           name="${_csrf.parameterName}"
+                           value="${_csrf.token}"/>                           
+                    <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-in"></i> Log in </button>
+                    <div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"> Create Account </a>                
+                    </div>              
                 </div>              
             </form>
 
