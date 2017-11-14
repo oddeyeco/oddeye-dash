@@ -9,7 +9,7 @@
 
 <div class="container center logincontener" >    
     <div class="row">
-        <div class="col-md-6 col-xs-12 logo">
+        <div class="col-sm-6 col-xs-12 logo">
             <div class="progress-wrap">
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped active" role="progressbar"
@@ -20,7 +20,7 @@
             </div>            
             <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
         </div>    
-        <div class=" contactform col-md-6 col-xs-12 login"> 
+        <div class=" contactform col-sm-6 col-xs-12 login"> 
             <form action="<c:url value="/login/"/>" method="post" class="form-horizontal" id="loginform">                
                 <c:if test="${param.error != null}">
                     <div class="alert alert-danger" role="alert">

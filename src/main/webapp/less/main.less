@@ -64,6 +64,41 @@ a
     margin-right: 10px;
 }
 
+.logo
+{
+    .progress-wrap
+    {
+        display: none;
+    }        
+}
+@media (max-width: 760px)
+{
+    .col-xs-12.logo
+    {
+        .progress-wrap
+        {
+            width: 100%;
+            position: absolute;
+            bottom: -40px;
+            right: 0px;
+            padding: 0px 15px;
+            .progress
+            {
+                .progress-bar
+                {
+                    border-radius: 4px;
+                }
+                border-radius: 4px;
+            }            
+        }
+        text-align: center;
+    }   
+    .col-xs-12.login
+    {
+        text-align: center;
+        padding: 30px;
+    }    
+}
 @media (min-width: 768px)
 {
     .col-xs-12.logo
@@ -79,14 +114,10 @@ a
     {
         .progress-wrap
         {
-            /*            width: 280px;    
-                        margin: 106px -15px 0px;*/
             width: 178px;
             position: absolute;
             bottom: -9px;
             right: 47px;
-            display: none;
-            /*margin: 111px -240px 0;*/
             .progress
             {
                 .progress-bar
@@ -98,7 +129,7 @@ a
                 height: 53px;
                 border-radius: 7px;
             }
-            
+
         }        
     }    
 
