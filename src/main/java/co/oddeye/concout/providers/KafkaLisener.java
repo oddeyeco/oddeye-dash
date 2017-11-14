@@ -47,8 +47,8 @@ public class KafkaLisener {
     @Autowired
     private CoconutParseMetric metricparser;
 
-    public CountDownLatch countDownReceiveMetric = new CountDownLatch(1);
-    public CountDownLatch countDownReceiveAction = new CountDownLatch(1);
+    public CountDownLatch countDownReceiveMetric = new CountDownLatch(6);
+    public CountDownLatch countDownReceiveAction = new CountDownLatch(6);
 
     @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}")
     public void receiveMetric(List<String> list) {
@@ -114,6 +114,11 @@ public class KafkaLisener {
                 String action = jsonResult.getAsJsonObject().get("action").getAsString();
 
                 switch (action) {
+                    
+                    case "deletemetricbyhash": {                        
+                        user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
+                        break;
+                    }                        
                     case "exitfrompage": {
                         String Sesionid = jsonResult.getAsJsonObject().get("SessionId").getAsString();
                         user.getPagelist().remove(Sesionid);

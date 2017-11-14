@@ -159,7 +159,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                         }
                     }
 
-                    if (TagsList.get(tag.getKey()).size() == 0) {
+                    if (TagsList.get(tag.getKey()).isEmpty()) {
                         TagsList.remove(tag.getKey());
                     }
                 }
