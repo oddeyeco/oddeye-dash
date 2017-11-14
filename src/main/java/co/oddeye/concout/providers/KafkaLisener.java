@@ -47,8 +47,8 @@ public class KafkaLisener {
     @Autowired
     private CoconutParseMetric metricparser;
 
-    public CountDownLatch countDownReceiveMetric = new CountDownLatch(4);
-    public CountDownLatch countDownReceiveAction = new CountDownLatch(4);
+    public CountDownLatch countDownReceiveMetric = new CountDownLatch(1);
+    public CountDownLatch countDownReceiveAction = new CountDownLatch(1);
 
     @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}")
     public void receiveMetric(List<String> list) {
@@ -78,9 +78,6 @@ public class KafkaLisener {
                     try {
                         OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
                         user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
-//                    if (user.getMetricsMeta() == null) {
-//                        user.setMetricsMeta(new ConcoutMetricMetaList());
-//                    }
                         if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
                             user.getMetricsMeta().add(mtrscMeta);
                         } else {

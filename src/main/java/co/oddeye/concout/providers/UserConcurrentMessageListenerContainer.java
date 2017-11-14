@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.providers;
 
-
 import java.io.Serializable;
 import org.apache.kafka.common.TopicPartition;
 
@@ -15,19 +14,20 @@ import org.springframework.kafka.listener.config.ContainerProperties;
 
 /**
  * Creates 1 or more {@link KafkaMessageListenerContainer}s based on
- * {@link #setConcurrency(int) concurrency}. If the
- * {@link ContainerProperties} is configured with {@link TopicPartition}s,
- * the {@link TopicPartition}s are distributed evenly across the
- * instances.
+ * {@link #setConcurrency(int) concurrency}. If the {@link ContainerProperties}
+ * is configured with {@link TopicPartition}s, the {@link TopicPartition}s are
+ * distributed evenly across the instances.
  *
  * @param <K> the key type.
  * @param <V> the value type.
  */
-public class UserConcurrentMessageListenerContainer<K, V> extends ConcurrentMessageListenerContainer<K, V> implements Serializable{
+public class UserConcurrentMessageListenerContainer<K, V> extends ConcurrentMessageListenerContainer<K, V> implements Serializable {
+
     private static final long serialVersionUID = 465895478L;
-    
-    public UserConcurrentMessageListenerContainer(ConsumerFactory<K, V> consumerFactory, ContainerProperties containerProperties) {
-        super(consumerFactory, containerProperties);
+
+
+    public UserConcurrentMessageListenerContainer(ConsumerFactory<K, V> consumerFactory, ContainerProperties containerProperties) {        
+        super(consumerFactory, containerProperties);        
     }
-    
+
 }
