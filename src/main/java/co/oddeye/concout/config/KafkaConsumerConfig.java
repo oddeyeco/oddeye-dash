@@ -78,10 +78,10 @@ public class KafkaConsumerConfig {
         return propsMap;
     }
     
-  @Bean
-  public KafkaLisener receiver() {
-    return new KafkaLisener();
-  }    
+//  @Bean
+//  public KafkaLisener receiver() {
+//    return new KafkaLisener();
+//  }    
     
 
 }
