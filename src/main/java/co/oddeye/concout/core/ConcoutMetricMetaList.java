@@ -57,6 +57,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
         Integer count;
         if (!this.containsKey(e.hashCode())) {
+            OddeeyMetricMeta result = super.add(e);
             getTaghashlist().add(e.getTags().hashCode());
             for (Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
                 try {
@@ -101,7 +102,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             if (this.containsKey(e.hashCode())) {
                 ConcoutMetricMetaList.LOGGER.info("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
             }
-            return super.add(e);
+            return result;
         } else {
             return this.replace(e.hashCode(), e);
         }
@@ -158,7 +159,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                         }
                     }
 
-                    if (TagsList.get(tag.getKey()).size() == 0) {
+                    if (TagsList.get(tag.getKey()).isEmpty()) {
                         TagsList.remove(tag.getKey());
                     }
                 }
