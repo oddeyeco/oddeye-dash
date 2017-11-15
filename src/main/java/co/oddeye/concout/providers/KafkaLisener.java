@@ -97,7 +97,7 @@ public class KafkaLisener {
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
 //        System.out.println("receiveAction list.size : " + list.size());
-        for (String payload : list) {
+        for (String payload : list) {            
             LOGGER.info("received payload='{}'", payload);
             JsonElement jsonResult = null;
 
