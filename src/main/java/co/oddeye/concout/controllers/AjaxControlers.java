@@ -275,6 +275,49 @@ public class AjaxControlers {
         return "ajax";
     }
 
+    @RequestMapping(value = {"/getmetricsnamesinfo"})
+    public String GetMetricsNamesInfo(ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+        JsonObject jsondata = new JsonObject();
+//        List<String> data = new ArrayList<>();
+        User userDetails = null;
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = (User) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal();
+        }
+
+        if (userDetails != null) {
+            try {
+                if ((userDetails.getSwitchUser() != null)) {
+                    if (userDetails.getSwitchUser().getAlowswitch()) {
+                        userDetails = userDetails.getSwitchUser();
+                    }
+                }
+
+                ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
+                jsonResult.addProperty("sucsses", true);
+
+                Map<String, Integer> data = new HashMap<>();
+
+                Gson gson = new Gson();
+
+                jsonResult.addProperty("count", data.size());
+                jsonResult.add("dataspecial", gson.toJsonTree(Metriclist.getSpecialNameMapSorted()).getAsJsonObject());
+                jsonResult.add("dataregular", gson.toJsonTree(Metriclist.getRegularNameMapSorted()).getAsJsonObject());
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
     @RequestMapping(value = {"/getfiltredmetrics"})
     public String GetMetricsLarge(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
@@ -580,28 +623,30 @@ public class AjaxControlers {
                     userDetails = userDetails.getSwitchUser();
                 }
             }
+
+            Gson gson = new Gson();
+
+//                jsonResult.addProperty("count", data.size());
+//                jsonResult.add("dataspecial", gson.toJsonTree(Metriclist.getSpecialNameMapSorted()).getAsJsonObject());
             try {
                 if (userDetails.getMetricsMeta() != null) {
                     if (userDetails.getMetricsMeta().getTagsList() != null) {
                         if (userDetails.getMetricsMeta().getTagsList().get(key) != null) {
-                            Set<String> tags = userDetails.getMetricsMeta().getTagsList().get(key).keySet();
-                            JsonArray jsondata = new JsonArray();
+                            Map<String, Integer> tags = userDetails.getMetricsMeta().getTagsList().get(key);
+                            JsonObject jsondata = new JsonObject();
 
                             if (filter.equals("") || filter.equals("*")) {
-                                tags.forEach((tag) -> {
-                                    jsondata.add(tag);
-                                });
+                                jsondata = gson.toJsonTree(tags).getAsJsonObject();
                             } else {
                                 Pattern r = Pattern.compile(filter);
                                 if (tags != null) {
-                                    tags.forEach((tag) -> {
-                                        Matcher m = r.matcher(tag);
+                                    for (Map.Entry<String, Integer> tag : tags.entrySet()) {
+                                        Matcher m = r.matcher(tag.getKey());
                                         if (m.find()) {
-                                            jsondata.add(tag);
+                                            jsondata.addProperty(tag.getKey(), tag.getValue());
                                         }
-                                    });
+                                    }
                                 }
-
                             }
 
                             jsonResult.add("data", jsondata);

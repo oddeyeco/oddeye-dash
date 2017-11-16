@@ -80,7 +80,7 @@ public class KafkaLisener {
                         user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
                         if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
                             user.getMetricsMeta().add(mtrscMeta);
-                        } else {
+                        } else {                            
                             user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
                         }
 

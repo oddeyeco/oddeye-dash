@@ -118,10 +118,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
                     return null;
                 }
                 try {
-                    for (final ArrayList<KeyValue> row : rows) {
-                        
+                    for (final ArrayList<KeyValue> row : rows) {                        
                         for (KeyValue cell : row) {
-//                            executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
                             if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                                 long lasttime = cell.timestamp();
                                 

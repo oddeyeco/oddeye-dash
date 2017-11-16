@@ -39,8 +39,8 @@
                         sttags = sttags + "<div>" + ind + ":\"" + tag + "\"</div>";
                     }
                     input = input.replace("{tags}", sttags);
-                    input = input.replace(new RegExp("{hash}", 'g') , JSON.stringify(metric.hash));                                                            
-                    input = input.replace("{type}", JSON.stringify(metric.typename));                                        
+                    input = input.replace(new RegExp("{hash}", 'g'), JSON.stringify(metric.hash));
+                    input = input.replace("{type}", JSON.stringify(metric.typename));
                     input = input.replace("{lasttime}", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));
                     biginput = biginput + input;
                 }
@@ -81,12 +81,12 @@
                 if (data.sucsses)
                 {
                     jQuery.each(data.data, function (i, val) {
-                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + val + "'><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
-                        var id = key + "_" + val;
+                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + i + "'><td>" + i + "</td><td class='count'> "+val+"</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        var id = key + "_" + i;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
                         $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
-                        getmetrics(key, val, i);
+//                        getmetrics(key, val, i);
                     });
 //                    $("#listtable").treetable({expandable: true});
                     $("#listtable").treetable({expandable: true, onNodeCollapse: NodeCollapse, onNodeExpand: NodeExpand});
@@ -99,16 +99,9 @@
         });
     }
 
-    function getmetanames(tablename, tags) {
-        if (!tags)
-        {
-            var url = cp + "/getfiltredmetricsnames?all=true";
-            tags = 'name';
-        } else
-        {
-            var url = cp + "/getfiltredmetricsnames?all=true&tags=" + tags;
-        }
-
+    function getmetanames(tablename) {
+        var url = cp + "/getmetricsnamesinfo";
+        var tags = 'name';
 
         $.ajax({
             url: url,
@@ -120,28 +113,49 @@
             success: function (data) {
                 $("#listtablediv").html('<table id="listtable" class="table projects" key="' + tags + '"></table>');
                 if (data.sucsses)
-                {                    
-                    jQuery.each(data.data, function (i, val) {                       
+                {
+                    for (var i in data.dataspecial)
+                    {
+                        var val = data.dataspecial[i];
                         var table = $(tablename);
-                        if (i===data.specialcount)
-                        {
-                            table.append("<tr><td colspan='3'> </td></tr>");
-                        }                                      
-                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + val + "'><td>" + val + "</td><td class='count'> <img src='${cp}/assets/images/loading.gif' height='25px'>  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
-                        var id = "name_" + val;
+                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        var id = "name_" + i;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
-                        if (i< data.specialcount)
-                        { //Special
-                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
-                        } 
-                        else
-                        {
-                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
-                        }
-                        
-                        getmetrics("name", val, i);                        
-                    });
+                        table.append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
+                    }
+                    table.append("<tr><td colspan='3'> </td></tr>");
+                    for (var i in data.dataregular)
+                    {
+                        var val = data.dataregular[i];
+                        var table = $(tablename);
+                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        var id = "name_" + i;
+                        var re = new RegExp("[//.|///]", 'g');
+                        id = id.replace(re, "_");
+                        table.append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
+                    }
+//                    jQuery.each(data.dataspecial, function (i, val) {                       
+//                        var table = $(tablename);
+//                        if (i===data.specialcount)
+//                        {
+//                            table.append("<tr><td colspan='3'> </td></tr>");
+//                        }                                      
+//                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> "+val+"  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+//                        var id = "name_" + i;
+//                        var re = new RegExp("[//.|///]", 'g');
+//                        id = id.replace(re, "_");
+//                        if (i< data.specialcount)
+//                        { //Special
+//                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
+//                        } 
+//                        else
+//                        {
+//                            $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Type</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
+//                        }
+//                        
+////                        getmetrics("name", val, i);                        
+//                    });
 
 
                     $(tablename).treetable({expandable: true, onNodeCollapse: NodeCollapse, onNodeExpand: NodeExpand});
@@ -185,7 +199,7 @@
                     $('#tags').html(data.tagscount);
                     $('#count').html(data.count);
 //                    $('#uniqtagscount').html(data.uniqtagscount);
-                    
+
                     $("#tagslist").html('');
 
 
@@ -198,7 +212,7 @@
                     });
 
                     $('.count').spincrement({duration: 2000});
-                    
+
                     if (!tagkey)
                     {
                         getmetanames("#listtable");
