@@ -272,4 +272,15 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         Collections.sort(list);
         return list;
     }
+    public Map<String, Integer> getSpecialNameMapSorted() {
+//        List<String> list = new ArrayList<>(SpecialNameMap.keySet());
+//        Collections.sort(list);
+        return new TreeMap<>(SpecialNameMap);
+    }   
+    public Map<String, Integer> getRegularNameMapSorted() {
+//        List<String> list = new ArrayList<>(SpecialNameMap.keySet());
+//        Collections.sort(list);
+        return new TreeMap<>(RegularNameMap);
+    }       
+    
 }

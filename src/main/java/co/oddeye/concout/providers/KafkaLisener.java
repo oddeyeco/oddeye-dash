@@ -80,7 +80,7 @@ public class KafkaLisener {
                         user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
                         if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
                             user.getMetricsMeta().add(mtrscMeta);
-                        } else {
+                        } else {                            
                             user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
                         }
 
@@ -97,7 +97,7 @@ public class KafkaLisener {
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
 //        System.out.println("receiveAction list.size : " + list.size());
-        for (String payload : list) {
+        for (String payload : list) {            
             LOGGER.info("received payload='{}'", payload);
             JsonElement jsonResult = null;
 
