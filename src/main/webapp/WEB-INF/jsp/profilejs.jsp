@@ -80,11 +80,15 @@
                 $("#listtablediv").html('<table id="listtable" class="table projects" key="' + key + '"></table>');
                 if (data.sucsses)
                 {
-                    jQuery.each(data.data, function (i, val) {
-                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + i + "'><td>" + i + "</td><td class='count'> "+val+"</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
-                        var id = key + "_" + i;
+                    jQuery.each(data.data, function (ikey, val) {
+                        
+                        
+                        
                         var re = new RegExp("[//.|///]", 'g');
+                        var i = ikey.replace(re, "_");
+                        var id = key + "_" + i;
                         id = id.replace(re, "_");
+                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + ikey + "'><td>" + ikey + "</td><td class='count'> "+val+"</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
 //                        getmetrics(key, val, i);
                     });
@@ -170,8 +174,6 @@
 
 
     var NodeExpand = function () {
-
-
         var key = $("[data-tt-id=" + this.id + "]").attr("key");
         var val = $("[data-tt-id=" + this.id + "]").attr("value");
         getmetrics(key, val, this.id, true);
