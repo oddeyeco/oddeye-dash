@@ -30,14 +30,13 @@ import org.slf4j.LoggerFactory;
 public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
     private static final long serialVersionUID = 465895478L;
-
-    private final Map<String, Map<String, Integer>> TagsList = new HashMap<>();
     static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
-    private final Set<Integer> Taghashlist = new HashSet<>();
 
-    private final Map<String, Integer> RegularNameMap = new HashMap<>();
-    private final Map<String, Integer> SpecialNameMap = new HashMap<>();
-    private final Map<String, Integer> NameMap = new HashMap<>();
+    private Map<String, Map<String, Integer>> TagsList = new HashMap<>();    
+    private Set<Integer> Taghashlist = new HashSet<>();
+    private Map<String, Integer> RegularNameMap = new HashMap<>();
+    private Map<String, Integer> SpecialNameMap = new HashMap<>();
+    private Map<String, Integer> NameMap = new HashMap<>();
 
     public ConcoutMetricMetaList() {
         super();
@@ -62,16 +61,16 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             for (Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
                 try {
                     if (!tag.getKey().equals("UUID")) {
-                        if (TagsList.containsKey(tag.getKey())) {
+                        if (getTagsList().containsKey(tag.getKey())) {
                             count = 1;
-                            if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
-                                count = TagsList.get(tag.getKey()).get(tag.getValue().getValue()) + 1;
+                            if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                                count = getTagsList().get(tag.getKey()).get(tag.getValue().getValue()) + 1;
                             }
-                            TagsList.get(tag.getKey()).put(tag.getValue().getValue(), count);
+                            getTagsList().get(tag.getKey()).put(tag.getValue().getValue(), count);
                         } else {
                             Map<String, Integer> keyset = new TreeMap<>();
                             keyset.put(tag.getValue().getValue(), 1);
-                            TagsList.put(tag.getKey(), keyset);
+                            getTagsList().put(tag.getKey(), keyset);
                         }
                     }
                 } catch (Exception ex) {
@@ -147,22 +146,22 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
         for (Entry<String, OddeyeTag> tag : obg.getTags().entrySet()) {
             if (!tag.getKey().equals("UUID")) {
-                if (TagsList.containsKey(tag.getKey())) {
-                    if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                if (getTagsList().containsKey(tag.getKey())) {
+                    if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
                         count = 0;
-                        if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
-                            count = TagsList.get(tag.getKey()).get(tag.getValue().getValue()) - 1;
+                        if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                            count = getTagsList().get(tag.getKey()).get(tag.getValue().getValue()) - 1;
                         }
 
                         if (count == 0) {
-                            TagsList.get(tag.getKey()).remove(tag.getValue().getValue());
+                            getTagsList().get(tag.getKey()).remove(tag.getValue().getValue());
                         } else {
-                            TagsList.get(tag.getKey()).put(tag.getValue().getValue(), count);
+                            getTagsList().get(tag.getKey()).put(tag.getValue().getValue(), count);
                         }
                     }
 
-                    if (TagsList.get(tag.getKey()).isEmpty()) {
-                        TagsList.remove(tag.getKey());
+                    if (getTagsList().get(tag.getKey()).isEmpty()) {
+                        getTagsList().remove(tag.getKey());
                     }
                 }
             }
@@ -285,6 +284,41 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 //        List<String> list = new ArrayList<>(SpecialNameMap.keySet());
 //        Collections.sort(list);
         return new TreeMap<>(RegularNameMap);
+    }
+
+    /**
+     * @param TagsList the TagsList to set
+     */
+    public void setTagsList(Map<String, Map<String, Integer>> TagsList) {
+        this.TagsList = TagsList;
+    }
+
+    /**
+     * @param Taghashlist the Taghashlist to set
+     */
+    public void setTaghashlist(Set<Integer> Taghashlist) {
+        this.Taghashlist = Taghashlist;
+    }
+
+    /**
+     * @param RegularNameMap the RegularNameMap to set
+     */
+    public void setRegularNameMap(Map<String, Integer> RegularNameMap) {
+        this.RegularNameMap = RegularNameMap;
+    }
+
+    /**
+     * @param SpecialNameMap the SpecialNameMap to set
+     */
+    public void setSpecialNameMap(Map<String, Integer> SpecialNameMap) {
+        this.SpecialNameMap = SpecialNameMap;
+    }
+
+    /**
+     * @param NameMap the NameMap to set
+     */
+    public void setNameMap(Map<String, Integer> NameMap) {
+        this.NameMap = NameMap;
     }
 
 }
