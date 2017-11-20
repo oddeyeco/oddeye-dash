@@ -117,10 +117,10 @@ public class HbaseMetaDao extends HbaseBaseDao {
                         for (KeyValue cell : row) {
                             if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                                 long lasttime = cell.timestamp();                                
-                                if (lasttime<(System.currentTimeMillis()-60000))
-                                {
+//                                if (lasttime<(System.currentTimeMillis()-60000))
+//                                {
                                     executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
-                                }
+//                                }
                             }
 
                         }

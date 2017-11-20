@@ -132,16 +132,18 @@ public class UserController {
             Set<Map.Entry<String, Map<String, Integer>>> set = userDetails.getMetricsMeta().getTagsList().entrySet();
             List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList<>(set);
             Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> Integer.valueOf(o2.getValue().size()).compareTo(o1.getValue().size()));
-
-            if (ident_tag != null) {
-                map.put("ident_tag", ident_tag);
-            } else {
-                if (userDetails.getMetricsMeta().getTagsList().keySet().contains("host")) {
-                    map.put("ident_tag", "host");
+            if (list.size() > 0) {
+                if (ident_tag != null) {
+                    map.put("ident_tag", ident_tag);
                 } else {
-                    map.put("ident_tag", list.get(0));
+                    if (userDetails.getMetricsMeta().getTagsList().keySet().contains("host")) {
+                        map.put("ident_tag", "host");
+                    } else {
+                        map.put("ident_tag", list.get(0));
+                    }
                 }
             }
+
             map.put("list", list);
 
             String level_item = request.getParameter("level");
