@@ -128,7 +128,9 @@ public class User implements UserDetails {
 
     private Double consumption = 0d;
     private User SwitchUser;
-    private UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
+    
+    private transient UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
+    
     private final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
     private String recaptcha;
