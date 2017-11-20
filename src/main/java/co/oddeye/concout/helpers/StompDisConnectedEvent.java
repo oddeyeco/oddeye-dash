@@ -63,13 +63,13 @@ public class StompDisConnectedEvent implements ApplicationListener<SessionDiscon
                     @Override
                     public void onSuccess(SendResult<Integer, String> result) {
                         if (LOGGER.isInfoEnabled()) {
-                            LOGGER.info("Kafka resetregresion onSuccess");
+                            LOGGER.info("Kafka Send exitfrompage onSuccess");
                         }
                     }
                     
                     @Override
                     public void onFailure(Throwable ex) {
-                        LOGGER.error("Kafka resetregresion onFailure:" + ex);
+                        LOGGER.error("Kafka Send exitfrompage onFailure:" + ex);
                     }
                 });
                 

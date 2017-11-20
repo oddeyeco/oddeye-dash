@@ -118,10 +118,10 @@
                 $("#listtablediv").html('<table id="listtable" class="table projects" key="' + tags + '"></table>');
                 if (data.sucsses)
                 {
+                    var table = $(tablename);
                     for (var i in data.dataspecial)
                     {
-                        var val = data.dataspecial[i];
-                        var table = $(tablename);
+                        var val = data.dataspecial[i];                        
                         table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = "name_" + i;
                         var re = new RegExp("[//.|///]", 'g');
