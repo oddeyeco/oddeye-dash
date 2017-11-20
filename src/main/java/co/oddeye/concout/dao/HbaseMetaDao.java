@@ -16,7 +16,6 @@ import co.oddeye.core.OddeeyMetricMeta;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
-import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,15 +32,11 @@ import net.opentsdb.query.QueryUtil;
 import net.opentsdb.uid.UniqueId;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
-import org.hbase.async.BinaryComparator;
-import org.hbase.async.CompareFilter;
 import org.hbase.async.DeleteRequest;
 import org.hbase.async.GetRequest;
 import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
-import org.hbase.async.RowFilter;
 import org.hbase.async.Scanner;
-import org.hbase.async.ValueFilter;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
@@ -64,12 +59,12 @@ public class HbaseMetaDao extends HbaseBaseDao {
         Calendar CalendarObj = Calendar.getInstance();
         CalendarObj.setTimeInMillis(time * 1000);
         CalendarObj.add(Calendar.DATE, -1);
-        return meta.getRules(CalendarObj, 7, table, BaseTsdb.getClient());
+        return meta.getRules(CalendarObj, 7, table, BaseTsdb.getClientSecondary());
     }
     
     public OddeeyMetricMeta getByKey(byte[] key) throws Exception {
         GetRequest request = new GetRequest(table, key, "d".getBytes());
-        ArrayList<KeyValue> row = BaseTsdb.getClient().get(request).joinUninterruptibly();
+        ArrayList<KeyValue> row = BaseTsdb.getClientSecondary().get(request).joinUninterruptibly();
         if (row.size() > 0) {
             final OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
             fullmetalist.put(meta.hashCode(), meta);
@@ -83,7 +78,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     
     public ConcoutMetricMetaList getByUUID(UUID userid) throws Exception {
         
-        Scanner scanner = BaseTsdb.getClient().newScanner(table);
+        Scanner scanner = BaseTsdb.getClientSecondary().newScanner(table);
         scanner.setServerBlockCache(false);
 //        scanner.setMaxTimestamp(System.currentTimeMillis() - 60000 * 15);
         scanner.setMaxNumRows(10000);
@@ -108,7 +103,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("AddMeta-thread-%d-" + userid.toString()).setPriority(10)
                 .build();
-        ExecutorService executor = Executors.newFixedThreadPool(8, namedThreadFactory);
+        ExecutorService executor = Executors.newCachedThreadPool(namedThreadFactory);
         // Callback class to keep scanning recursively.        
         class cb implements Callback<Object, ArrayList<ArrayList<KeyValue>>> {
             
@@ -121,8 +116,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                     for (final ArrayList<KeyValue> row : rows) {                        
                         for (KeyValue cell : row) {
                             if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
-                                long lasttime = cell.timestamp();
-                                
+                                long lasttime = cell.timestamp();                                
                                 if (lasttime<(System.currentTimeMillis()-60000))
                                 {
                                     executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
@@ -142,39 +136,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
             scanner.nextRows().addCallbacks(new cb(), Callback.PASSTHROUGH).join();
         } finally {
             scanner.close().join();
-            executor.shutdown();
-            
+            executor.shutdown();            
         }
-
-//        ExecutorService executor = Executors.newCachedThreadPool();
-//        while ((rows = scanner.nextRows().joinUninterruptibly()) != null) {
-//            for (final ArrayList<KeyValue> row : rows) {
-//                executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
-//            }
-//        }                
-//        executor.shutdown();
-//        new OddeeyMetricMetaList.AddMeta()
-//        while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
-//            for (final ArrayList<KeyValue> row : rows) {
-//                try {
-//                    OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
-//                    if (meta.getTags().get("UUID").getValue().equals(userid.toString())) {
-//                        OddeeyMetricMeta add = result.add(meta);
-//                    } else {
-//                        LOGGER.info("Oter User ID");
-//                    }
-//                } catch (InvalidKeyException e) {
-//                    LOGGER.warn("InvalidKeyException " + row + " Is deleted");
-//                    final DeleteRequest deleterequest = new DeleteRequest(table, row.get(0).key());
-//                    BaseTsdb.getClient().delete(deleterequest).joinUninterruptibly();
-//                } catch (Exception e) {
-//                    LOGGER.warn(globalFunctions.stackTrace(e));
-//                    LOGGER.warn("Can not add row to metrics " + row);
-//                }
-//
-//            }
-//        }
-//        getFullmetalist().putAll(result);
         return result;
     }
     

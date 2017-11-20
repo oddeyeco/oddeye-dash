@@ -76,7 +76,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                     }
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
-                    LOGGER.warn("Add metric Error for tag "+tag.getKey()+" vs tags "+e.getTags());
+                    LOGGER.warn("Add metric Error for tag " + tag.getKey() + " vs tags " + e.getTags());
                 }
 
             }
@@ -99,9 +99,11 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 }
                 RegularNameMap.put(e.getName(), count);
             }
-            if (this.containsKey(e.hashCode())) {
-                ConcoutMetricMetaList.LOGGER.info("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
-            }
+//            if (this.containsKey(e.hashCode())) {
+//                ConcoutMetricMetaList.LOGGER.info("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
+//                LOGGER.info("OddeeyMetricMeta vs hashcode e infa " + e.getName() + " tags " + e.getTags());
+//                LOGGER.info("OddeeyMetricMeta vs hashcode c infa " + this.get(e.hashCode()).getName() + " tags " + this.get(e.hashCode()).getTags());
+//            }
             return result;
         } else {
             return this.replace(e.hashCode(), e);
@@ -272,15 +274,17 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         Collections.sort(list);
         return list;
     }
+
     public Map<String, Integer> getSpecialNameMapSorted() {
 //        List<String> list = new ArrayList<>(SpecialNameMap.keySet());
 //        Collections.sort(list);
         return new TreeMap<>(SpecialNameMap);
-    }   
+    }
+
     public Map<String, Integer> getRegularNameMapSorted() {
 //        List<String> list = new ArrayList<>(SpecialNameMap.keySet());
 //        Collections.sort(list);
         return new TreeMap<>(RegularNameMap);
-    }       
-    
+    }
+
 }

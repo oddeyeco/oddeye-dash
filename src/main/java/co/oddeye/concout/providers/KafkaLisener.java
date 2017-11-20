@@ -55,8 +55,8 @@ public class KafkaLisener {
 //        String payload = list.get(0);
 //        System.out.println("receiveMetric list.size : " + list.size());
         for (String payload : list) {
-            if (LOGGER.isInfoEnabled()) {
-                LOGGER.info("received payload='{}'", payload);
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("received payload='{}'", payload);
             }
 
             Object o = metricparser.execute(payload);
@@ -98,7 +98,11 @@ public class KafkaLisener {
 //        String payload = list.get(0);
 //        System.out.println("receiveAction list.size : " + list.size());
         for (String payload : list) {            
-            LOGGER.info("received payload='{}'", payload);
+            if (LOGGER.isDebugEnabled())
+            {
+                LOGGER.debug("received payload='{}'", payload);
+            }
+            
             JsonElement jsonResult = null;
 
             final JsonParser parser = new JsonParser();

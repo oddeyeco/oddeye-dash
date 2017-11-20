@@ -101,13 +101,13 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
                     @Override
                     public void onSuccess(SendResult<Integer, String> result) {
                         if (LOGGER.isInfoEnabled()) {
-                            LOGGER.info("Kafka resetregresion onSuccess");
+                            LOGGER.info("Kafka Send entertopage onSuccess");
                         }
                     }
                     
                     @Override
                     public void onFailure(Throwable ex) {
-                        LOGGER.error("Kafka resetregresion onFailure:" + ex);
+                        LOGGER.error("Kafka Send entertopage onFailure:" + ex);
                     }
                 });
                 

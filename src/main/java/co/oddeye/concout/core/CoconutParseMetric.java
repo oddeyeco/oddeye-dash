@@ -126,7 +126,10 @@ public class CoconutParseMetric {
 
             if (MetricList.size() > 0) {
                 final OddeeyMetric firstmetric = MetricList.firstEntry().getValue();
-                LOGGER.info(" first metric: Hash " + firstmetric.hashCode() + " list Size: " + MetricList.size() + " Tags hash " + firstmetric.getTags().hashCode() + " Name " + firstmetric.getName() + " Tags " + firstmetric.getTags() + " full json:" + msg);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(" first metric: Hash " + firstmetric.hashCode() + " list Size: " + MetricList.size() + " Tags hash " + firstmetric.getTags().hashCode() + " Name " + firstmetric.getName() + " Tags " + firstmetric.getTags() + " full json:" + msg);
+                }
+
                 return MetricList;
 //                Compare.execute(MetricList);
 //                        collector.emit(new Values(MetricList));
@@ -226,7 +229,9 @@ public class CoconutParseMetric {
 
             if (MetricList.size() > 0) {
                 final OddeeyMetric firstmetric = MetricList.firstEntry().getValue();
-                LOGGER.info(" first metric: Hash " + firstmetric.hashCode() + " list Size: " + MetricList.size() + " Tags hash " + firstmetric.getTags().hashCode() + " Name " + firstmetric.getName() + " Tags " + firstmetric.getTags() + " full json:" + msg);
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(" first metric: Hash " + firstmetric.hashCode() + " list Size: " + MetricList.size() + " Tags hash " + firstmetric.getTags().hashCode() + " Name " + firstmetric.getName() + " Tags " + firstmetric.getTags() + " full json:" + msg);
+                }
 //                Compare.execute(MetricList);
                 return MetricList;
 //                        collector.emit(new Values(MetricList));

@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 public final class BaseTsdbConnect {
 
     private org.hbase.async.HBaseClient client;
+    private org.hbase.async.HBaseClient clientSecondary;
     private TSDB tsdb;
     private DatabaseConfig config;
     protected static final Logger LOGGER = LoggerFactory.getLogger(BaseTsdbConnect.class);
@@ -33,6 +34,7 @@ public final class BaseTsdbConnect {
         clientconf.overrideConfig("hbase.rpcs.batch.size", config.getHbaseBatchSize());
 
         this.client = new org.hbase.async.HBaseClient(clientconf);
+        this.clientSecondary = new org.hbase.async.HBaseClient(clientconf);
         try {
             Config openTsdbConfig = new net.opentsdb.utils.Config(false);
             openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", config.getTsdbAutoCreateMetrics());
@@ -53,6 +55,13 @@ public final class BaseTsdbConnect {
     public org.hbase.async.HBaseClient getClient() {
         return client;
     }
+    
+    /**
+     * @return the clientSecondary
+     */
+    public org.hbase.async.HBaseClient getClientSecondary() {
+        return clientSecondary;
+    }    
 
     /**
      * @return the tsdb
@@ -66,6 +75,7 @@ public final class BaseTsdbConnect {
         try {
             tsdb.shutdown().joinUninterruptibly();
             client.shutdown().joinUninterruptibly();
+            clientSecondary.shutdown().joinUninterruptibly();
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
