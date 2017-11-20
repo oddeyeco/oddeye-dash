@@ -16,11 +16,19 @@ import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -138,6 +146,44 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             User userDetails = (User) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal();
+
+//            byte[] yourBytes = null;
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            ObjectOutput out = null;
+//            try {
+//                out = new ObjectOutputStream(bos);
+//                out.writeObject(userDetails);
+//                out.flush();
+//                yourBytes = bos.toByteArray();
+//            } catch (IOException ex) {
+//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
+//            } finally {
+//                try {
+//                    bos.close();
+//                } catch (IOException ex) {
+//                    // ignore close exception
+//                }
+//            }
+//            Object o;
+//            ByteArrayInputStream bis = new ByteArrayInputStream(yourBytes);
+//            ObjectInput in = null;
+//            try {
+//                in = new ObjectInputStream(bis);
+//                o = in.readObject();
+//            } catch (IOException ex) {
+//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
+//            } catch (ClassNotFoundException ex) {
+//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
+//            } finally {
+//                try {
+//                    if (in != null) {
+//                        in.close();
+//                    }
+//                } catch (IOException ex) {
+//                    // ignore close exception
+//                }
+//            }
+
             map.put("curentuser", userDetails);
 
             map.put("activeuser", userDetails);
@@ -287,15 +333,15 @@ public class DashController {
                     oldname = oldname.trim();
                     userDetails.removeDush(oldname, Userdao);
                 }
-                String node ="" ;                
+                String node = "";
                 InetAddress ia;
                 try {
                     ia = InetAddress.getLocalHost();
-                    node = ia.getHostName();                                
+                    node = ia.getHostName();
                 } catch (UnknownHostException ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
                 }
-                
+
                 JsonObject Jsonchangedata = new JsonObject();
                 Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
                 Jsonchangedata.addProperty("action", "editdash");
@@ -303,7 +349,7 @@ public class DashController {
                 Jsonchangedata.addProperty("name", DushName);
                 Jsonchangedata.addProperty("oldname", oldname);
                 Jsonchangedata.addProperty("unloadRef", unloadRef);
-                
+
                 // Send chenges to kafka
                 ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                 messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
@@ -375,21 +421,21 @@ public class DashController {
             String DushName = request.getParameter("name").trim();
             if (DushName != null) {
                 userDetails.removeDush(DushName, Userdao);
-                
-                String node ="" ;                
+
+                String node = "";
                 InetAddress ia;
                 try {
                     ia = InetAddress.getLocalHost();
-                    node = ia.getHostName();                                
+                    node = ia.getHostName();
                 } catch (UnknownHostException ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
                 }
-                
+
                 JsonObject Jsonchangedata = new JsonObject();
                 Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
                 Jsonchangedata.addProperty("action", "deletedash");
                 Jsonchangedata.addProperty("node", node);
-                Jsonchangedata.addProperty("name", DushName);                
+                Jsonchangedata.addProperty("name", DushName);
                 // Send chenges to kafka
                 ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                 messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
@@ -402,8 +448,8 @@ public class DashController {
                     public void onFailure(Throwable ex) {
                         LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
                     }
-                });                
-                
+                });
+
                 jsonResult.addProperty("sucsses", true);
             } else {
                 jsonResult.addProperty("sucsses", false);

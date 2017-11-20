@@ -9,6 +9,7 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeeyMetricMetaList;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.opentsdb.core.TSDB;
@@ -32,11 +34,11 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     private static final long serialVersionUID = 465895478L;
     static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
 
-    private Map<String, Map<String, Integer>> TagsList = new HashMap<>();    
+    private ConcurrentHashMap<String, Map<String, Integer>> TagsList = new ConcurrentHashMap<>();
     private Set<Integer> Taghashlist = new HashSet<>();
-    private Map<String, Integer> RegularNameMap = new HashMap<>();
-    private Map<String, Integer> SpecialNameMap = new HashMap<>();
-    private Map<String, Integer> NameMap = new HashMap<>();
+    private ConcurrentHashMap<String, Integer> RegularNameMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Integer> SpecialNameMap = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Integer> NameMap = new ConcurrentHashMap<>();
 
     public ConcoutMetricMetaList() {
         super();
@@ -289,7 +291,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     /**
      * @param TagsList the TagsList to set
      */
-    public void setTagsList(Map<String, Map<String, Integer>> TagsList) {
+    public void setTagsList(ConcurrentHashMap<String, Map<String, Integer>> TagsList) {
         this.TagsList = TagsList;
     }
 
@@ -303,22 +305,21 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     /**
      * @param RegularNameMap the RegularNameMap to set
      */
-    public void setRegularNameMap(Map<String, Integer> RegularNameMap) {
+    public void setRegularNameMap(ConcurrentHashMap<String, Integer> RegularNameMap) {
         this.RegularNameMap = RegularNameMap;
     }
 
     /**
      * @param SpecialNameMap the SpecialNameMap to set
      */
-    public void setSpecialNameMap(Map<String, Integer> SpecialNameMap) {
+    public void setSpecialNameMap(ConcurrentHashMap<String, Integer> SpecialNameMap) {
         this.SpecialNameMap = SpecialNameMap;
     }
 
     /**
      * @param NameMap the NameMap to set
      */
-    public void setNameMap(Map<String, Integer> NameMap) {
+    public void setNameMap(ConcurrentHashMap<String, Integer> NameMap) {
         this.NameMap = NameMap;
     }
-
 }
