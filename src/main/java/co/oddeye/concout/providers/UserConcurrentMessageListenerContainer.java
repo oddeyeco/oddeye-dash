@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.providers;
 
-import java.io.Serializable;
 import org.apache.kafka.common.TopicPartition;
 
 import org.springframework.kafka.core.ConsumerFactory;

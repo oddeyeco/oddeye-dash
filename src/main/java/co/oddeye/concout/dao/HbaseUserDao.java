@@ -259,7 +259,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     public OddeyeUserDetails getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
         OddeyeUserModel user = getUserByUUID(uuid, reload);
-        OddeyeUserDetails result = new OddeyeUserDetails(user, this);
+        OddeyeUserDetails result = new OddeyeUserDetails(uuid, this);
         if (initmeta) {
             try {
                 user.setMetricsMeta(MetaDao.getByUUID(user.getId()));

@@ -9,7 +9,6 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.Id;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,13 +17,13 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author vahan
  */
 public class OddeyeUserDetails implements UserDetails {
-    
+    private static final long serialVersionUID = 465895478L;
     @Id
-    private final UUID id;        
+    private UUID id;        
     private final transient HbaseUserDao Userdao;
 
-    public OddeyeUserDetails(OddeyeUserModel user, HbaseUserDao aThis) {
-        id = user.getId();
+    public OddeyeUserDetails(UUID uid, HbaseUserDao aThis) {
+        id = uid;
         Userdao = aThis;
     }
     
