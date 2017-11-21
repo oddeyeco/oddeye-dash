@@ -120,8 +120,8 @@ public class User implements UserDetails {
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
-
-    private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
+    // todo Jamanakavor
+    private transient ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
 
     private ConsumptionList consumptionList;
