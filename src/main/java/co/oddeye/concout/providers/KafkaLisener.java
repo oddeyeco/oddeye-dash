@@ -50,46 +50,46 @@ public class KafkaLisener {
     public CountDownLatch countDownReceiveMetric = new CountDownLatch(6);
     public CountDownLatch countDownReceiveAction = new CountDownLatch(6);
 
-//    @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}")
-//    public void receiveMetric(List<String> list) {
-//        for (String payload : list) {
-//            if (LOGGER.isDebugEnabled()) {
-//                LOGGER.debug("received payload='{}'", payload);
-//            }
-//
-//            Object o = metricparser.execute(payload);
-//            OddeyeUserModel user;
-//            if (o instanceof OddeeyMetric) {
-//                OddeeyMetric Metric = (OddeeyMetric) o;
-//                try {
-//                    OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
-//                    user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
-//                    user.getMetricsMeta().add(mtrscMeta);
-//                } catch (Exception ex) {
-//                    LOGGER.info(globalFunctions.stackTrace(ex));
-//                }
-//            }
-//            if (o instanceof TreeMap) {
-//                TreeMap<?, ?> metricinfo = (TreeMap<?, ?>) o;
-//                for (Map.Entry<?, ?> mtrscEntry : metricinfo.entrySet()) {
-//                    OddeeyMetric Metric = (OddeeyMetric) mtrscEntry.getValue();
-//                    try {
-//                        OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
-//                        user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
-//                        if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
-//                            user.getMetricsMeta().add(mtrscMeta);
-//                        } else {                            
-//                            user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
-//                        }
-//
-//                    } catch (Exception ex) {
-//                        LOGGER.info(globalFunctions.stackTrace(ex));
-//                    }
-//                }
-//            }
-//        }
-//        countDownReceiveMetric.countDown();
-//    }
+    @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}")
+    public void receiveMetric(List<String> list) {
+        for (String payload : list) {
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("received payload='{}'", payload);
+            }
+
+            Object o = metricparser.execute(payload);
+            OddeyeUserModel user;
+            if (o instanceof OddeeyMetric) {
+                OddeeyMetric Metric = (OddeeyMetric) o;
+                try {
+                    OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
+                    user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
+                    user.getMetricsMeta().add(mtrscMeta);
+                } catch (Exception ex) {
+                    LOGGER.info(globalFunctions.stackTrace(ex));
+                }
+            }
+            if (o instanceof TreeMap) {
+                TreeMap<?, ?> metricinfo = (TreeMap<?, ?>) o;
+                for (Map.Entry<?, ?> mtrscEntry : metricinfo.entrySet()) {
+                    OddeeyMetric Metric = (OddeeyMetric) mtrscEntry.getValue();
+                    try {
+                        OddeeyMetricMeta mtrscMeta = new OddeeyMetricMeta(Metric, BaseTsdb.getTsdb());
+                        user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
+                        if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
+                            user.getMetricsMeta().add(mtrscMeta);
+                        } else {                            
+                            user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
+                        }
+
+                    } catch (Exception ex) {
+                        LOGGER.info(globalFunctions.stackTrace(ex));
+                    }
+                }
+            }
+        }
+        countDownReceiveMetric.countDown();
+    }
     @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}")
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
@@ -115,10 +115,10 @@ public class KafkaLisener {
 
                 switch (action) {
                     case "login": {
-                        LOGGER.warn("login messge OK");
+//                        LOGGER.warn("login messge OK");
                         Userdao.updateMetaList(user);                        
                         this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
-                        LOGGER.warn("login messge Fin");
+//                        LOGGER.warn("login messge Fin");
 //                        user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
                         break;
                     }
