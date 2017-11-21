@@ -10,7 +10,8 @@ import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.validator.LevelsValidator;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.MetriccheckRule;
@@ -84,8 +85,8 @@ public class ProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "index";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
 
 //            userDetails.updateConsumption();
             map.put("curentuser", userDetails);
@@ -114,13 +115,14 @@ public class ProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User cuentuser = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
-                map.put("curentuser", cuentuser);
-                User userDetails = cuentuser;
-                if ((cuentuser.getSwitchUser() != null)) {
-                    if (cuentuser.getSwitchUser().getAlowswitch()) {
-                        userDetails = cuentuser.getSwitchUser();
+                OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal()).getUserModel();
+
+                map.put("curentuser", currentUser);
+                OddeyeUserModel userDetails = currentUser;
+                if ((currentUser.getSwitchUser() != null)) {
+                    if (currentUser.getSwitchUser().getAlowswitch()) {
+                        userDetails = currentUser.getSwitchUser();
                     }
                 }
 
@@ -225,8 +227,8 @@ public class ProfileController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "index";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
 
@@ -255,22 +257,23 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.GET)
-    public String createuserGet(@ModelAttribute("curentuser") User newcurentuser, BindingResult result, ModelMap map) {
+    public String createuserGet(@ModelAttribute("curentuser") OddeyeUserModel newcurentuser, BindingResult result, ModelMap map) {
         return "redirect:/profile/edit";
     }
 
     @RequestMapping(value = "/profile/changepassword", method = RequestMethod.POST)
-    public String updatepass(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
+    public String updatepass(@ModelAttribute("newuserdata") OddeyeUserModel newuserdata, BindingResult result, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if ((curentuser.getSwitchUser() != null)) {
-                if (curentuser.getSwitchUser().getAlowswitch()) {
-                    curentuser = curentuser.getSwitchUser();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {            
+            OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();            
+            if ((currentUser.getSwitchUser() != null)) {
+                if (currentUser.getSwitchUser().getAlowswitch()) {
+                    currentUser = currentUser.getSwitchUser();
 
                 }
             }
-            userValidator.passwordvalidate(newuserdata, curentuser, result);
+            userValidator.passwordvalidate(newuserdata, currentUser, result);
 
             DefaultController.setLocaleInfo(map);
 
@@ -289,7 +292,7 @@ public class ProfileController {
                         }
                     });
 
-                    Userdao.saveAll(curentuser, newuserdata, EditConfig);
+                    Userdao.saveAll(currentUser, newuserdata, EditConfig);
                     return "redirect:/profile/edit";
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
@@ -297,8 +300,8 @@ public class ProfileController {
 
             }
             map.put("newuserdata", newuserdata);
-            map.put("curentuser", curentuser);
-            map.put("activeuser", curentuser);
+            map.put("curentuser", currentUser);
+            map.put("activeuser", currentUser);
             map.put("body", "profileedit");
             map.put("jspart", "profileeditjs");
             map.put("tab", "pass-tab");
@@ -311,13 +314,14 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.POST)
-    public String updateuser(@ModelAttribute("newuserdata") User newuserdata, BindingResult result, ModelMap map) {
+    public String updateuser(@ModelAttribute("newuserdata") OddeyeUserModel newuserdata, BindingResult result, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if ((curentuser.getSwitchUser() != null)) {
-                if (curentuser.getSwitchUser().getAlowswitch()) {
-                    curentuser = curentuser.getSwitchUser();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {            
+            OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();            
+            if ((currentUser.getSwitchUser() != null)) {
+                if (currentUser.getSwitchUser().getAlowswitch()) {
+                    currentUser = currentUser.getSwitchUser();
                 }
             }
             userValidator.updatevalidate(newuserdata, result);
@@ -329,10 +333,10 @@ public class ProfileController {
                 map.put("result", result);
             } else {
                 try {
-                    Map<String, Object> changedata = curentuser.updateBaseData(newuserdata);
-                    Userdao.saveUserPersonalinfo(curentuser, changedata);
+                    Map<String, Object> changedata = currentUser.updateBaseData(newuserdata);
+                    Userdao.saveUserPersonalinfo(currentUser, changedata);
                     JsonObject Jsonchangedata = new JsonObject();
-                    Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
+                    Jsonchangedata.addProperty("UUID", currentUser.getId().toString());
                     Jsonchangedata.addProperty("action", "updateuser");
                     InetAddress ia = InetAddress.getLocalHost();
                     String node = ia.getHostName();
@@ -359,8 +363,8 @@ public class ProfileController {
 
             }
             map.put("newuserdata", newuserdata);
-            map.put("newuserleveldata", curentuser);
-            map.put("curentuser", curentuser);
+            map.put("newuserleveldata", currentUser);
+            map.put("curentuser", currentUser);
             map.put("body", "profileedit");
             map.put("jspart", "profileeditjs");
             map.put("tab", "general-tab");
@@ -373,13 +377,14 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/saveuserlevels", method = RequestMethod.POST)
-    public String updatelevels(@ModelAttribute("newuserleveldata") User newuserdata, BindingResult result, ModelMap map) {
+    public String updatelevels(@ModelAttribute("newuserleveldata") OddeyeUserModel newuserdata, BindingResult result, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User curentuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if ((curentuser.getSwitchUser() != null)) {
-                if (curentuser.getSwitchUser().getAlowswitch()) {
-                    curentuser = curentuser.getSwitchUser();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {            
+            OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();            
+            if ((currentUser.getSwitchUser() != null)) {
+                if (currentUser.getSwitchUser().getAlowswitch()) {
+                    currentUser = currentUser.getSwitchUser();
                 }
             }
             levelsValidator.validate(newuserdata, result);
@@ -392,13 +397,13 @@ public class ProfileController {
             } else {
                 try {
 
-                    curentuser.setAlertLevels(newuserdata.getAlertLevels());
-//                    Map<String, Object> changedata = curentuser.getAlertLevels().updateBaseData(newuserdata);
+                    currentUser.setAlertLevels(newuserdata.getAlertLevels());
+//                    Map<String, Object> changedata = currentUser.getAlertLevels().updateBaseData(newuserdata);
                     Gson gson = new Gson();
-                    String levelsJSON = gson.toJson(curentuser.getAlertLevels());
-                    Userdao.saveAlertLevels(curentuser, levelsJSON);
+                    String levelsJSON = gson.toJson(currentUser.getAlertLevels());
+                    Userdao.saveAlertLevels(currentUser, levelsJSON);
                     JsonObject Jsonchangedata = new JsonObject();
-                    Jsonchangedata.addProperty("UUID", curentuser.getId().toString());
+                    Jsonchangedata.addProperty("UUID", currentUser.getId().toString());
                     Jsonchangedata.addProperty("action", "updatelevels");
                     InetAddress ia = InetAddress.getLocalHost();
                     String node = ia.getHostName();
@@ -424,10 +429,10 @@ public class ProfileController {
                 }
 
             }
-            map.put("activeuser", curentuser);
-            map.put("newuserdata", curentuser);
+            map.put("activeuser", currentUser);
+            map.put("newuserdata", currentUser);
             map.put("newuserleveldata", newuserdata);
-            map.put("curentuser", curentuser);
+            map.put("curentuser", currentUser);
             map.put("body", "profileedit");
             map.put("jspart", "profileeditjs");
             map.put("tab", "level-tab");

@@ -5,7 +5,8 @@
  */
 package co.oddeye.concout.helpers;
 
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
 import java.net.InetAddress;
@@ -36,50 +37,49 @@ public class StompDisConnectedEvent implements ApplicationListener<SessionDiscon
     @Autowired
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Value("${dash.semaphore.topic}")
-    private String semaphoretopic;    
-    
+    private String semaphoretopic;
+
     @Override
     public void onApplicationEvent(SessionDisconnectEvent event) {
-        User userDetails = (User) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal();
+        
+        OddeyeUserModel userDetails = ((OddeyeUserDetails) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()).getUserModel();
         GenericMessage message = (GenericMessage) event.getMessage();
         String Sesionid = (String) message.getHeaders().get("simpSessionId");
         userDetails.stopListenerContainer(Sesionid);
-        
-        
-            try {
-                InetAddress ia = InetAddress.getLocalHost();
-                String node = ia.getHostName();
-                
-                JsonObject Jsonchangedata = new JsonObject();
-                Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
-                Jsonchangedata.addProperty("action", "exitfrompage");                
-                Jsonchangedata.addProperty("SessionId", Sesionid);
-                Jsonchangedata.addProperty("node", node);
-                Jsonchangedata.addProperty("time", System.currentTimeMillis());
-                
-                // Send chenges to kafka
-                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                    @Override
-                    public void onSuccess(SendResult<Integer, String> result) {
-                        if (LOGGER.isInfoEnabled()) {
-                            LOGGER.info("Kafka Send exitfrompage onSuccess");
-                        }
-                    }
-                    
-                    @Override
-                    public void onFailure(Throwable ex) {
-                        LOGGER.error("Kafka Send exitfrompage onFailure:" + ex);
-                    }
-                });
-                
-//                userDetails.getPagelist().put(Sesionid, page);
-            } catch (UnknownHostException ex) {
-                LOGGER.error(globalFunctions.stackTrace(ex));                
-            }        
-        
-//        userDetails.getPagelist().remove(Sesionid);
 
+        try {
+            InetAddress ia = InetAddress.getLocalHost();
+            String node = ia.getHostName();
+
+            JsonObject Jsonchangedata = new JsonObject();
+            Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+            Jsonchangedata.addProperty("action", "exitfrompage");
+            Jsonchangedata.addProperty("SessionId", Sesionid);
+            Jsonchangedata.addProperty("node", node);
+            Jsonchangedata.addProperty("time", System.currentTimeMillis());
+
+            // Send chenges to kafka
+            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+            messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                @Override
+                public void onSuccess(SendResult<Integer, String> result) {
+                    if (LOGGER.isInfoEnabled()) {
+                        LOGGER.info("Kafka Send exitfrompage onSuccess");
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable ex) {
+                    LOGGER.error("Kafka Send exitfrompage onFailure:" + ex);
+                }
+            });
+
+//                userDetails.getPagelist().put(Sesionid, page);
+        } catch (UnknownHostException ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+
+//        userDetails.getPagelist().remove(Sesionid);
         LOGGER.debug("Client SessionDisconnectEvent.");
         // you can use a controller to send your msg here
     }

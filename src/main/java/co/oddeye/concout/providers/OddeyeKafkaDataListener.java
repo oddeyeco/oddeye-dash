@@ -6,7 +6,7 @@
 package co.oddeye.concout.providers;
 
 import co.oddeye.concout.dao.HbaseMetaDao;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
@@ -31,7 +31,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
  */
 public class OddeyeKafkaDataListener implements MessageListener<Object, Object>, Serializable {
 
-    private final User user;
+    private final OddeyeUserModel user;
     private final HbaseMetaDao MetaDao;
     private final Logger log = LoggerFactory.getLogger(OddeyeKafkaDataListener.class);
 
@@ -43,7 +43,7 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
     private final SimpMessagingTemplate template;
 //    private final Map<String, String[]> sotokenlist = new HashMap<>();
 
-    public OddeyeKafkaDataListener(User _user, SimpMessagingTemplate _template, HbaseMetaDao _MetaDao) {
+    public OddeyeKafkaDataListener(OddeyeUserModel _user, SimpMessagingTemplate _template, HbaseMetaDao _MetaDao) {
         user = _user;
         template = _template;
         MetaDao = _MetaDao;

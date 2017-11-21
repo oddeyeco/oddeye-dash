@@ -7,7 +7,8 @@ package co.oddeye.concout.admincontrollers;
 
 import co.oddeye.concout.dao.HbaseDushboardTemplateDAO;
 import co.oddeye.concout.model.DashboardTemplate;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.validator.TemplateValidator;
 import co.oddeye.core.globalFunctions;
 import java.util.HashMap;
@@ -105,8 +106,8 @@ public class AdminTemplateControlers extends GRUDControler {
     public String showlist(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
         } else {
@@ -126,8 +127,8 @@ public class AdminTemplateControlers extends GRUDControler {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (!(auth instanceof AnonymousAuthenticationToken)) {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
                 map.put("curentuser", userDetails);
                 map.put("isAuthentication", true);
             } else {
@@ -152,8 +153,8 @@ public class AdminTemplateControlers extends GRUDControler {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
 //            map.put("isAuthentication", true);
         } else {

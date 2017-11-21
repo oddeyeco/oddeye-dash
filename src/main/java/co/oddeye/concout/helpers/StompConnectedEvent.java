@@ -6,7 +6,8 @@
 package co.oddeye.concout.helpers;
 
 import co.oddeye.concout.dao.HbaseMetaDao;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
 import java.net.InetAddress;
@@ -60,7 +61,7 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
     public void onApplicationEvent(SessionConnectedEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
 
-        User userDetails = (User) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal();
+        OddeyeUserModel userDetails = ((OddeyeUserDetails) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()).getUserModel();
         GenericMessage message = (GenericMessage) event.getMessage().getHeaders().get("simpConnectMessage");
 
         if (((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("sotoken") != null) {

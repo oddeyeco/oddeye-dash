@@ -10,7 +10,7 @@ import co.oddeye.concout.config.DatabaseConfig;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import co.oddeye.concout.model.DashboardTemplate;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
 import com.stumbleupon.async.Deferred;
 import java.beans.IntrospectionException;
@@ -90,7 +90,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         return put(changedata, template.getKey());
     }
 
-    public ArrayList<DashboardTemplate> getRecomendTemplates(User user, int limit) {
+    public ArrayList<DashboardTemplate> getRecomendTemplates(OddeyeUserModel user, int limit) {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
          // TODO use Deferred
         try {
@@ -121,7 +121,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         return result;
     }
 
-    public ArrayList<DashboardTemplate> getLasttemplates(User user,int limit) {
+    public ArrayList<DashboardTemplate> getLasttemplates(OddeyeUserModel user,int limit) {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
@@ -144,7 +144,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         return result;
     }
 
-    public ArrayList<DashboardTemplate> getLastUsertemplates(User user,int limit) {
+    public ArrayList<DashboardTemplate> getLastUsertemplates(OddeyeUserModel user,int limit) {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);

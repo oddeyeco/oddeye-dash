@@ -44,13 +44,12 @@ import org.springframework.kafka.listener.config.ContainerProperties;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
  * @author vahan
  */
-public class User implements UserDetails {
+public class OddeyeUserModel {
 
     /**
      * @return the recaptcha
@@ -120,23 +119,22 @@ public class User implements UserDetails {
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
-    // todo Jamanakavor
-    private transient ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
+    private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
 
     private ConsumptionList consumptionList;
 
     private Double consumption = 0d;
-    private User SwitchUser;
-    
+    private OddeyeUserModel SwitchUser;
+
     private transient UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
-    
+
     private transient final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
     private String recaptcha;
     private transient HbaseUserDao DAO;
 
-    public User() {
+    public OddeyeUserModel() {
         this.SwitchUser = null;
         this.id = UUID.randomUUID();
         this.authorities = new ArrayList<>();
@@ -145,14 +143,14 @@ public class User implements UserDetails {
 
     public static Map<SimpleGrantedAuthority, String> getAllRoles() {
         final Map<SimpleGrantedAuthority, String> roles = new LinkedHashMap<>();
-        roles.put(new SimpleGrantedAuthority(User.ROLE_USER), "User");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_ADMIN), "Admin");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_CONTENTMANAGER), "Content manager");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_USERMANAGER), "User manager");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_SUPERADMIN), "Root");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_DELETE), "Can delete");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_EDIT), "Can Edit");
-        roles.put(new SimpleGrantedAuthority(User.ROLE_CAN_SWICH), "Can Switch to users");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USER), "User");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_ADMIN), "Admin");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_CONTENTMANAGER), "Content manager");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USERMANAGER), "User manager");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN), "Root");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE), "Can delete");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT), "Can Edit");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_CAN_SWICH), "Can Switch to users");
 
         return roles;
     }
@@ -352,50 +350,6 @@ public class User implements UserDetails {
 
     public void addAuthoritie(String role) {
         authorities.add(new SimpleGrantedAuthority(role));
-    }
-
-    // Override metods
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities;
-    }
-
-    /**
-     * @param authorities the authorities to set
-     */
-    public void setAuthorities(Collection<GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
-
-    @Override
-    public String getPassword() {
-//        String pass = "";
-        return getPasswordst();
-    }
-
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return this.active;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return this.active;
     }
 
     // Modified get sets
@@ -629,8 +583,7 @@ public class User implements UserDetails {
      * @return the MetricsMetas
      */
     public ConcoutMetricMetaList getMetricsMeta() {
-        if (MetricsMetas==null)
-        {
+        if (MetricsMetas == null) {
             MetricsMetas = new ConcoutMetricMetaList();
         }
         return MetricsMetas;
@@ -642,6 +595,7 @@ public class User implements UserDetails {
     public void setMetricsMeta(ConcoutMetricMetaList MetricsMeta) {
         this.MetricsMetas = MetricsMeta;
     }
+
     /**
      * @return the DushList
      */
@@ -685,7 +639,7 @@ public class User implements UserDetails {
         return StTsdbID;
     }
 
-    public Map<String, Object> updateBaseData(User newcurentuser) {
+    public Map<String, Object> updateBaseData(OddeyeUserModel newcurentuser) {
         Map<String, Object> updatesdata = new HashMap<>();
         if (!newcurentuser.getName().equals(this.name)) {
             this.name = newcurentuser.getName();
@@ -800,7 +754,7 @@ public class User implements UserDetails {
             properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, _MetaDao));
             this.sotokenlist.putAll(sesionsotoken);
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
-            this.listenerContainer.setBeanName(this.getEmail()+"_ErrorLisener");
+            this.listenerContainer.setBeanName(this.getEmail() + "_ErrorLisener");
             this.listenerContainer.setConcurrency(1);
             this.listenerContainer.getContainerProperties().setPollTimeout(3000);
             this.listenerContainer.start();
@@ -888,14 +842,14 @@ public class User implements UserDetails {
     /**
      * @return the SwitchUser
      */
-    public User getSwitchUser() {
+    public OddeyeUserModel getSwitchUser() {
         return SwitchUser;
     }
 
     /**
      * @param SwitchUser the SwitchUser to set
      */
-    public void setSwitchUser(User SwitchUser) {
+    public void setSwitchUser(OddeyeUserModel SwitchUser) {
         this.SwitchUser = SwitchUser;
     }
 
@@ -934,7 +888,7 @@ public class User implements UserDetails {
         this.oldpassword = oldpassword;
     }
 
-    public String getOldpasswordst(User user) {
+    public String getOldpasswordst(OddeyeUserModel user) {
         String pst = "";
         if (!oldpassword.isEmpty()) {
             pst = new String(get_SHA_512_SecurePassword(oldpassword, user.getSolt()));
@@ -967,4 +921,11 @@ public class User implements UserDetails {
         this.unlimit = unlimit;
     }
 
+    public void setAuthorities(Collection<GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public Collection<GrantedAuthority> getAuthorities() {
+        return this.authorities;
+    }
 }

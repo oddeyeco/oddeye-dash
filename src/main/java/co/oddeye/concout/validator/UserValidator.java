@@ -6,11 +6,10 @@
 package co.oddeye.concout.validator;
 
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.model.OddeyeUserModel;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
-
-import co.oddeye.concout.model.User;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.validation.Validator;
@@ -28,12 +27,12 @@ public class UserValidator implements Validator {
     
     @Override
     public boolean supports(Class<?> clazz) {
-        return User.class.isAssignableFrom(clazz);
+        return OddeyeUserModel.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User) target;
+        OddeyeUserModel user = (OddeyeUserModel) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");
         String username = user.getName();
@@ -58,7 +57,7 @@ public class UserValidator implements Validator {
     }
     
     public void adminvalidate(Object target, Errors errors) {
-        User user = (User) target;
+        OddeyeUserModel user = (OddeyeUserModel) target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");
         String username = user.getName();
@@ -82,14 +81,14 @@ public class UserValidator implements Validator {
     }    
     
     public void updatevalidate(Object target, Errors errors) {
-        User user = (User) target;
+        OddeyeUserModel user = (OddeyeUserModel) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");                       
 
     }    
     
     public void passwordvalidate(Object target,Object selftarget, Errors errors) {
-        User user = (User) target;
-        User selfuser = (User) selftarget;
+        OddeyeUserModel user = (OddeyeUserModel) target;
+        OddeyeUserModel selfuser = (OddeyeUserModel) selftarget;
         if (selfuser.getEmail().equals("demodemo@oddeye.co"))
         {
             errors.rejectValue("oldpassword", "oldpassword.isdemo", "password demodemo@oddeye.co is readonly.");

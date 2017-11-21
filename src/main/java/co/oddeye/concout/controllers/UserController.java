@@ -10,7 +10,8 @@ import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.MetriccheckRule;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -83,7 +84,7 @@ public class UserController {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //
 //        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            User userDetails = (User) SecurityContextHolder.getContext().
+//            UserModel userDetails = (UserModel) SecurityContextHolder.getContext().
 //                    getAuthentication().getPrincipal();
 //
 //            String[] levels = request.getParameterValues("levels[]");
@@ -104,7 +105,7 @@ public class UserController {
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //
 //        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            User userDetails = (User) SecurityContextHolder.getContext().
+//            UserModel userDetails = (UserModel) SecurityContextHolder.getContext().
 //                    getAuthentication().getPrincipal();
 //            String sotoken = request.getParameter("sotoken");
 //            userDetails.stopListenerContainer(sotoken);
@@ -121,8 +122,8 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
             map.put("title", "Real Time monitoring");
@@ -174,8 +175,8 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
 
             String group_item = request.getParameter("group_item");
@@ -323,8 +324,9 @@ public class UserController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
             map.put("ErrorsDao", ErrorsDao);
@@ -433,8 +435,9 @@ public class UserController {
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
                 map.put("curentuser", userDetails);
                 JsonObject jsonMessages = new JsonObject();
                 MetricErrorMeta Error = ErrorsDao.getErrorMeta(userDetails, Hex.decodeHex(metriqkey.toCharArray()), Long.parseLong(timestamp));

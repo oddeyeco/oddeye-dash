@@ -6,8 +6,8 @@
 package co.oddeye.concout.admincontrollers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.helpers.OddeyeMailSender;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
@@ -106,7 +106,7 @@ public class AdminUsersControlers extends GRUDControler {
                 put("path", "authorities");
                 put("title", " Authorities");
                 put("type", "Collection");
-                put("items", User.getAllRoles());
+                put("items", OddeyeUserModel.getAllRoles());
             }
         }).AddViewConfig("actions", new HashMap<String, Object>() {
             {
@@ -219,7 +219,7 @@ public class AdminUsersControlers extends GRUDControler {
                 put("path", "authorities");
                 put("title", " Authorities");
                 put("type", "MultiSelect");
-                put("items", User.getAllRoles());
+                put("items", OddeyeUserModel.getAllRoles());
             }
         }).AddEditConfig("active", new HashMap<String, Object>() {
             {
@@ -241,8 +241,8 @@ public class AdminUsersControlers extends GRUDControler {
     public String showlist(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
         } else {
@@ -263,15 +263,14 @@ public class AdminUsersControlers extends GRUDControler {
     public String edit(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
         } else {
             map.put("isAuthentication", false);
         }
-        User model = Userdao.getUserByUUID(UUID.fromString(id), true);
+        OddeyeUserModel model = Userdao.getUserByUUID(UUID.fromString(id), true);
         model.updateConsumption();
         map.put("model", model);
 
@@ -307,8 +306,8 @@ public class AdminUsersControlers extends GRUDControler {
     public String userswitch(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             userDetails.setSwitchUser(Userdao.getUserByUUID(UUID.fromString(id), true));
         }
         return "redirect:/dashboard/";
@@ -319,8 +318,8 @@ public class AdminUsersControlers extends GRUDControler {
     public String userswitchoff(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             userDetails.setSwitchUser(null);
         }
         return "redirect:/dashboard/";
@@ -328,13 +327,13 @@ public class AdminUsersControlers extends GRUDControler {
     }
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("model") User newUser, BindingResult result, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    public String edit(@ModelAttribute("model") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+                OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal()).getUserModel();
                 map.put("curentuser", userDetails);
                 map.put("isAuthentication", true);
                 String act = request.getParameter("act");
@@ -382,7 +381,7 @@ public class AdminUsersControlers extends GRUDControler {
                         map.put("result", result);
                         map.put("model", newUser);
                     } else {
-                        User updateuser = Userdao.getUserByUUID(newUser.getId());
+                        OddeyeUserModel updateuser = Userdao.getUserByUUID(newUser.getId());
                         try {
                             Map<String, HashMap<String, Object>> changedata = Userdao.saveAll(updateuser, newUser, getEditConfig());
                             Jsonchangedata.addProperty("UUID", updateuser.getId().toString());

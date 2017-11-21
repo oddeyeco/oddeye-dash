@@ -11,7 +11,8 @@ import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.exception.ResourceNotFoundException;
 import co.oddeye.concout.model.DashboardTemplate;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -76,12 +77,12 @@ public class DashController {
     @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
     public String test(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user;
+        OddeyeUserModel user;
         if (auth != null
                 && auth.isAuthenticated()
                 && //when Anonymous Authentication is enabled
                 !(auth instanceof AnonymousAuthenticationToken)) {
-            user = (User) auth.getPrincipal();
+            user = ((OddeyeUserDetails) auth.getPrincipal()).getUserModel();
             map.put("curentuser", user);
 //            if (user.getMetricsMeta() == null) {
 //                try {
@@ -144,8 +145,8 @@ public class DashController {
     public String getDashboards(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
 
 //            byte[] yourBytes = null;
 //            ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -183,7 +184,6 @@ public class DashController {
 //                    // ignore close exception
 //                }
 //            }
-
             map.put("curentuser", userDetails);
 
             map.put("activeuser", userDetails);
@@ -214,8 +214,8 @@ public class DashController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+                OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal()).getUserModel();
                 map.put("curentuser", userDetails);
                 map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
                 DashboardTemplate Dash = TemplateDAO.getbyKey(Hex.decodeHex(dashkey.toCharArray()));
@@ -243,8 +243,9 @@ public class DashController {
     public String NewDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
             map.put("curentuser", userDetails);
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
@@ -267,8 +268,8 @@ public class DashController {
 //	public String handleEmployeeNotFoundException(ModelMap map, HttpServletRequest request, HttpServletResponse response,Exception ex)
     public ModelAndView handleDushNotFoundException(HttpServletRequest request, Exception ex) {
 
-        User userDetails = (User) SecurityContextHolder.getContext().
-                getAuthentication().getPrincipal();
+        OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                getAuthentication().getPrincipal()).getUserModel();
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("curentuser", userDetails);
@@ -285,8 +286,9 @@ public class DashController {
     public String ShowDash(@PathVariable(value = "dashname") String dashname, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
             map.put("curentuser", userDetails);
 
             if ((userDetails.getSwitchUser() != null)) {
@@ -316,8 +318,9 @@ public class DashController {
         JsonObject jsonResult = new JsonObject();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     userDetails = userDetails.getSwitchUser();
@@ -381,8 +384,9 @@ public class DashController {
         JsonObject jsonResult = new JsonObject();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     userDetails = userDetails.getSwitchUser();
@@ -411,8 +415,9 @@ public class DashController {
         JsonObject jsonResult = new JsonObject();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     userDetails = userDetails.getSwitchUser();
@@ -466,12 +471,12 @@ public class DashController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User userDetails;
+        OddeyeUserModel userDetails;
         JsonObject jsonResult = new JsonObject();
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     userDetails = userDetails.getSwitchUser();
@@ -497,13 +502,13 @@ public class DashController {
                     @Override
                     public void onSuccess(SendResult<Integer, String> result) {
                         if (LOGGER.isInfoEnabled()) {
-                            LOGGER.info("Kafka resetregresion onSuccess");
+                            LOGGER.info("Kafka savemonitoringsetings onSuccess");
                         }
                     }
 
                     @Override
                     public void onFailure(Throwable ex) {
-                        LOGGER.error("Kafka resetregresion onFailure:" + ex);
+                        LOGGER.error("Kafka savemonitoringsetings onFailure:" + ex);
                     }
                 });
 
