@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.config;
 
+import co.oddeye.concout.providers.ApplicationContextProvider;
 import com.maxmind.geoip2.DatabaseReader;
 import freemarker.template.TemplateException;
 import java.io.File;
@@ -99,4 +100,10 @@ public class Config extends WebMvcConfigurerAdapter {
         DatabaseReader dbReader = new DatabaseReader.Builder(database).build();        
         return dbReader;
     }            
+    
+    @Bean
+    public ApplicationContextProvider contextApplicationContextProvider()
+    {
+        return new ApplicationContextProvider();
+    }
 }

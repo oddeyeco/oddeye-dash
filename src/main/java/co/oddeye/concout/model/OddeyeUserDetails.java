@@ -9,28 +9,34 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import java.util.Collection;
 import java.util.UUID;
 import javax.persistence.Id;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import co.oddeye.concout.providers.AppContext;
 
 /**
  *
  * @author vahan
  */
 public class OddeyeUserDetails implements UserDetails {
+
     private static final long serialVersionUID = 465895478L;
     @Id
-    private UUID id;        
-    private final transient HbaseUserDao Userdao;
+    private final UUID id;
+//    private final transient HbaseUserDao Userdao;
 
     public OddeyeUserDetails(UUID uid, HbaseUserDao aThis) {
         id = uid;
-        Userdao = aThis;
+//        Userdao = aThis;
     }
-    
-    public OddeyeUserModel getUserModel()
-    {
-        return Userdao.getUserByUUID(getId());
+
+    public OddeyeUserModel getUserModel() {
+
+        ApplicationContext ctx = AppContext.getApplicationContext();
+        Object Userdao = ctx.getBean("Userdao");
+        return ((HbaseUserDao) Userdao).getUserByUUID(getId());
     }
+
     // Override metods
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -41,7 +47,7 @@ public class OddeyeUserDetails implements UserDetails {
      * @param authorities the authorities to set
      */
     public void setAuthorities(Collection<GrantedAuthority> authorities) {
-       getUserModel().setAuthorities(authorities);
+        getUserModel().setAuthorities(authorities);
     }
 
     @Override
@@ -62,17 +68,17 @@ public class OddeyeUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return  getUserModel().getActive();
+        return getUserModel().getActive();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return  getUserModel().getActive();
+        return getUserModel().getActive();
     }
 
     @Override
     public boolean isEnabled() {
-        return  getUserModel().getActive();
+        return getUserModel().getActive();
     }
 
     /**
@@ -81,5 +87,5 @@ public class OddeyeUserDetails implements UserDetails {
     public UUID getId() {
         return id;
     }
-    
+
 }
