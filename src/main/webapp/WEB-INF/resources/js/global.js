@@ -14,8 +14,7 @@ headers[headerName] = token;
 headers["page"] = document.URL;
 globalstompClient.connect(headers, function (frame) {
     globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-        var event = JSON.parse(message.body);
-        console.log(event);
+        var event = JSON.parse(message.body);        
         switch (event.action) {            
             case 'editdash':
             {
