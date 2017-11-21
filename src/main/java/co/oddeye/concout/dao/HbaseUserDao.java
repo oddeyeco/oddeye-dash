@@ -9,7 +9,8 @@ import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.core.CoconutConsumption;
 import co.oddeye.concout.core.ConsumptionList;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -64,8 +65,8 @@ public class HbaseUserDao extends HbaseBaseDao {
     byte[] dashtable;
     byte[] consumptiontable;
 
-    private final Map<UUID, User> usersbyUUID = new HashMap<>();
-    private final Map<String, User> usersbyEmail = new HashMap<>();
+    private final Map<UUID, OddeyeUserModel> usersbyUUID = new HashMap<>();
+    private final Map<String, OddeyeUserModel> usersbyEmail = new HashMap<>();
 
     public HbaseUserDao(DatabaseConfig p_config) {
         super(p_config.getUsersTable());
@@ -74,7 +75,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     }
 
-    public void addUser(User user) throws Exception {
+    public void addUser(OddeyeUserModel user) throws Exception {
         //TODO change for put qualifuers[][]
         UUID uuid = user.getId();
         final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
@@ -131,11 +132,11 @@ public class HbaseUserDao extends HbaseBaseDao {
         BaseTsdb.getClient().put(putlastname).join();
     }
 
-    public List<User> getAllUsers() {
+    public List<OddeyeUserModel> getAllUsers() {
         return getAllUsers(false);
     }
 
-    public List<User> getAllUsers(boolean reload) {
+    public List<OddeyeUserModel> getAllUsers(boolean reload) {
         if (reload) {
             try {
                 final Scanner scanner = BaseTsdb.getClient().newScanner(table);
@@ -156,7 +157,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         return new ArrayList<>(getUsers().values());
     }
 
-    public Boolean checkUserByEmail(User user) throws Exception {
+    public Boolean checkUserByEmail(OddeyeUserModel user) throws Exception {
 //        this.client.get(null);
         String email = user.getEmail();
         final Scanner value_scanner = BaseTsdb.getClient().newScanner(table);
@@ -180,7 +181,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         return false;
     }
 
-    public User getUserByEmail(String email) {
+    public OddeyeUserDetails getUserByEmail(String email) {
 
         try {
             final Scanner value_scanner = BaseTsdb.getClient().newScanner(table);
@@ -196,7 +197,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             final ArrayList<ArrayList<KeyValue>> value_rows = value_scanner.nextRows().join();
             if (value_rows.size() == 1) {
                 UUID uuid = UUID.fromString(new String(value_rows.get(0).get(0).key()));
-                return getUserByUUID(uuid);
+                return getUserByUUID(uuid, false, false);
             }
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
@@ -233,7 +234,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
                 byte[] pass = passkv.value();
                 byte[] solt = soltkv.value();
-                byte[] tmppassword = User.get_SHA_512_SecurePassword(password, solt);
+                byte[] tmppassword = OddeyeUserModel.get_SHA_512_SecurePassword(password, solt);
                 if (Arrays.equals(tmppassword, pass)) {
 
                     return UUID.fromString(new String(bUUID));
@@ -248,39 +249,48 @@ public class HbaseUserDao extends HbaseBaseDao {
         return null;
     }
 
-    public User getAvalibleUserByUUID(UUID uuid) {
+    public OddeyeUserModel getAvalibleUserByUUID(UUID uuid) {
         return getUsers().get(uuid);
     }
 
-    public User getUserByUUID(UUID uuid) {
+    public OddeyeUserModel getUserByUUID(UUID uuid) {
         return getUserByUUID(uuid, false);
     }
 
-    public User getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
-        User user = getUserByUUID(uuid, reload);
+    public OddeyeUserDetails getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
+        OddeyeUserModel user = getUserByUUID(uuid, reload);
+        OddeyeUserDetails result = new OddeyeUserDetails(uuid, this);
         if (initmeta) {
             try {
-                user.getMetricsMeta().putAll(MetaDao.getByUUID(user.getId()));
-//                user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+                user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
             }
         }
-        return user;
+
+        return result;
     }
 
-    public User getUserByUUID(UUID uuid, boolean reload) {
+    public void updateMetaList(OddeyeUserModel user) {
+        try {
+            user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+    }
+
+    public OddeyeUserModel getUserByUUID(UUID uuid, boolean reload) {
         if (!reload && getUsers().containsKey(uuid)) {
             return getUsers().get(uuid);
         }
         try {
             GetRequest get = new GetRequest(table, uuid.toString().getBytes());
             final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
-            User user;
+            OddeyeUserModel user;
             if (getUsers().containsKey(uuid)) {
                 user = getUsers().get(uuid);
             } else {
-                user = new User();
+                user = new OddeyeUserModel();
             }
             byte[] TsdbID;
             user.inituser(userkvs, this);
@@ -326,13 +336,13 @@ public class HbaseUserDao extends HbaseBaseDao {
         return result;
     }
 
-    public void saveField(User user, String name) throws Exception {
+    public void saveField(OddeyeUserModel user, String name) throws Exception {
         Field field = user.getClass().getDeclaredField(name);
         Annotation[] Annotations = field.getDeclaredAnnotations();
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         for (Annotation annotation : Annotations) {
             if (annotation.annotationType().equals(HbaseColumn.class)) {
-                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), User.class);
+                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
                 Method getter = PDescriptor.getReadMethod();
                 Object newvalue = getter.invoke(user);
                 Method setter = PDescriptor.getWriteMethod();
@@ -354,7 +364,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     }
 
-    public void PutHbase(Map<String, HashMap<String, Object>> changedata, User user) throws Exception {
+    public void PutHbase(Map<String, HashMap<String, Object>> changedata, OddeyeUserModel user) throws Exception {
         if (changedata.size() > 0) {
             for (Map.Entry<String, HashMap<String, Object>> data : changedata.entrySet()) {
                 byte[] family = data.getKey().getBytes();
@@ -393,7 +403,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
-    public Map<String, HashMap<String, Object>> saveAll(User user, User newuser, Map<String, Object> editConfig) throws Exception {
+    public Map<String, HashMap<String, Object>> saveAll(OddeyeUserModel user, OddeyeUserModel newuser, Map<String, Object> editConfig) throws Exception {
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         for (Map.Entry<String, Object> configEntry : editConfig.entrySet()) {
 //            HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
@@ -406,7 +416,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                     for (Annotation annotation : Annotations) {
                         if (annotation.annotationType().equals(HbaseColumn.class)) {
                             try {
-                                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), User.class);
+                                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
                                 Method getter = PDescriptor.getReadMethod();
                                 Object value = getter.invoke(user);
                                 Object newvalue = getter.invoke(newuser);
@@ -479,7 +489,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         return changedata;
     }
 
-    public void saveUserPersonalinfo(User user, Map<String, Object> changedata) throws Exception {
+    public void saveUserPersonalinfo(OddeyeUserModel user, Map<String, Object> changedata) throws Exception {
         if (changedata.size() > 0) {
             byte[][] qualifiers = new byte[changedata.size()][];
             byte[][] values = new byte[changedata.size()][];
@@ -508,7 +518,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
-    public void saveAlertLevels(User curentuser, String levelsJSON) {
+    public void saveAlertLevels(OddeyeUserModel curentuser, String levelsJSON) {
         final PutRequest put = new PutRequest(table, curentuser.getId().toString().getBytes(), "technicalinfo".getBytes(), "AL".getBytes(), levelsJSON.getBytes());
         BaseTsdb.getClient().put(put);
     }
@@ -516,11 +526,11 @@ public class HbaseUserDao extends HbaseBaseDao {
     /**
      * @return the usersbyUUID
      */
-    public Map<UUID, User> getUsers() {
+    public Map<UUID, OddeyeUserModel> getUsers() {
         return usersbyUUID;
     }
 
-    public void deleteUser(User newUser) {
+    public void deleteUser(OddeyeUserModel newUser) {
 
         try {
             final DeleteRequest delete = new DeleteRequest(table, newUser.getId().toString().getBytes());
@@ -532,7 +542,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
-    public ConsumptionList getConsumption(User user) {
+    public ConsumptionList getConsumption(OddeyeUserModel user) {
         final ConsumptionList result = new ConsumptionList();
         try {
             Calendar cal = Calendar.getInstance();

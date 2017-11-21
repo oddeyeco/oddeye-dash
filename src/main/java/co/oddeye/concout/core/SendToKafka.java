@@ -5,12 +5,12 @@
  */
 package co.oddeye.concout.core;
 
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 
 /**
  *
  * @author vahan
  */
 public interface SendToKafka {   
-   void run(User user,String action,Object hash);    
+   void run(OddeyeUserModel user,String action,Object hash);    
 }

@@ -6,7 +6,7 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.config.DatabaseConfig;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +35,7 @@ public class HbaseDataDao extends HbaseBaseDao {
         super(p_config.getTsdbDataTable());                
     }    
 
-    public short getLastAlertLevel(User user, String metric, String tagsquery) throws Exception {
+    public short getLastAlertLevel(OddeyeUserModel user, String metric, String tagsquery) throws Exception {
         KeyValue lastekv = getLastbyQuery(user, metric, tagsquery);
         if (lastekv == null) {
             return -100;
@@ -44,7 +44,7 @@ public class HbaseDataDao extends HbaseBaseDao {
         return Short.parseShort(tags_list.get("alert_level"));
     }
 
-    public KeyValue getLastbyQuery(User user, String metric, String tagsquery) throws Exception {
+    public KeyValue getLastbyQuery(OddeyeUserModel user, String metric, String tagsquery) throws Exception {
 
         final TSQuery tsquery = new TSQuery();
         tsquery.setStart("5s-ago");
@@ -99,13 +99,13 @@ public class HbaseDataDao extends HbaseBaseDao {
         return lastekv;
     }
 
-    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String tagsquery) {
+    public ArrayList<DataPoints[]> getDatabyQuery(OddeyeUserModel user, String metrics, String tagsquery) {
         String Startdate = "5m-ago";
         String Enddate = "now";
         return getDatabyQuery(user, metrics, "none", tagsquery, Startdate, Enddate, "",false);
     }
 
-    public ArrayList<DataPoints[]> getDatabyQuery(User user, String metrics, String aggregator, String tagsquery, String Startdate, String Enddate, String Downsample, Boolean rate) {
+    public ArrayList<DataPoints[]> getDatabyQuery(OddeyeUserModel user, String metrics, String aggregator, String tagsquery, String Startdate, String Enddate, String Downsample, Boolean rate) {
 
         try {
             final TSQuery tsquery = new TSQuery();

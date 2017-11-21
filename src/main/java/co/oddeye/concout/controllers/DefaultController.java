@@ -7,7 +7,8 @@ package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import co.oddeye.core.globalFunctions;
@@ -15,16 +16,13 @@ import com.google.gson.JsonElement;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
-import com.maxmind.geoip2.model.CountryResponse;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -71,7 +69,7 @@ public class DefaultController {
 //        map.put("jspart", "homepagejs");
 //        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            User userDetails = (User) SecurityContextHolder.getContext().
+//            UserModel userDetails = (UserModel) SecurityContextHolder.getContext().
 //                    getAuthentication().getPrincipal();
 //            map.put("curentuser", userDetails);
 //            map.put("isAuthentication", true);
@@ -95,12 +93,12 @@ public class DefaultController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        org.springframework.security.access.AccessDeniedException;
 //ExecutorSubscribableChannel
-        User user;
+        OddeyeUserModel user;
         if (auth != null
                 && auth.isAuthenticated()
                 && //when Anonymous Authentication is enabled
                 !(auth instanceof AnonymousAuthenticationToken)) {
-            user = (User) auth.getPrincipal();
+            user = ((OddeyeUserDetails) auth.getPrincipal()).getUserModel();
             map.put("curentuser", user);
         }
         map.put("body", "test");
@@ -140,8 +138,8 @@ public class DefaultController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "indexPrime";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            User userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
             layaut = "index";
@@ -160,7 +158,7 @@ public class DefaultController {
             if (!(auth instanceof AnonymousAuthenticationToken)) {
                 return redirecttodashboard();
             }
-            User newUser = new User();
+            OddeyeUserModel newUser = new OddeyeUserModel();
             map.put("newUser", newUser);
             map.put("title", slug);
             map.put("slug", slug);
@@ -173,13 +171,13 @@ public class DefaultController {
                     ip = request.getRemoteAddr();
                 }
                 InetAddress ipAddress = InetAddress.getByName(ip);
-                
+
                 CityResponse city = geoip.city(ipAddress);
                 newUser.setCity(city.getCity().getName());
                 newUser.setCountry(city.getCountry().getIsoCode());
 //                CountryResponse country = geoip.country(ipAddress);
-                map.put("country", city.getCountry().getNames());                        
-                map.put("city", city.getCity().getName());        
+                map.put("country", city.getCountry().getNames());
+                map.put("city", city.getCity().getName());
             } catch (GeoIp2Exception | IOException ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
             }
@@ -196,23 +194,22 @@ public class DefaultController {
 
     @RequestMapping(value = "/confirm/{uuid}", method = RequestMethod.GET)
     public String confirmuser(@PathVariable(value = "uuid") String uuid, ModelMap map) {
-        User user = null;
+        OddeyeUserModel userDetails = null;
         if (SecurityContextHolder.getContext().getAuthentication() != null
                 && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
                 && //when Anonymous Authentication is enabled
                 !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            user = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
-
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
         } else {
-            user = Userdao.getUserByUUID(UUID.fromString(uuid));
+            userDetails = Userdao.getUserByUUID(UUID.fromString(uuid));
         }
 
-        user.setActive(Boolean.TRUE);
+        userDetails.setActive(Boolean.TRUE);
 
         try {
-            Userdao.addUser(user);
-            user.SendAdminMail("User Confirm Email", mailSender);
+            Userdao.addUser(userDetails);
+            userDetails.SendAdminMail("User Confirm Email", mailSender);
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
@@ -224,7 +221,7 @@ public class DefaultController {
     }
 
     @RequestMapping(value = "/signup/", method = RequestMethod.POST)
-    public String createuser(@ModelAttribute("newUser") User newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
+    public String createuser(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
 
         userValidator.validate(newUser, result);
         if (request.getParameter("g-recaptcha-response") != null) {
@@ -265,7 +262,7 @@ public class DefaultController {
                 String baseUrl = mailSender.getBaseurl(request);
                 newUser.SendConfirmMail(mailSender, baseUrl);
                 newUser.SendAdminMail("User Sined", mailSender);
-                newUser.addAuthoritie(User.ROLE_USER);
+                newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);
 //                return redirecttodashboard();

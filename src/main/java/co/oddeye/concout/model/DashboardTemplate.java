@@ -43,7 +43,7 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
     @HbaseColumn(qualifier = "type", family = "d")
     private TemplateType type;
     @HbaseColumn(qualifier = "user", family = "d", identfield = "id")
-    private User user;
+    private OddeyeUserModel user;
     @HbaseColumn(qualifier = "Recomended", family = "d")
     private boolean Recomended;
     @HbaseColumn(qualifier = "version", family = "d")
@@ -123,11 +123,11 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
         return json;
     }
 
-    public DashboardTemplate(String _name, String json, User user, TemplateType _type) {
+    public DashboardTemplate(String _name, String json, OddeyeUserModel user, TemplateType _type) {
         this(_name, globalFunctions.getJsonParser().parse(json).getAsJsonObject(), user, _type);
     }
 
-    public DashboardTemplate(String _name, JsonObject json, User _user, TemplateType _type) {
+    public DashboardTemplate(String _name, JsonObject json, OddeyeUserModel _user, TemplateType _type) {
         infojson = clearjson(json);
         user = _user;
         name = _name;
@@ -243,14 +243,14 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
     /**
      * @return the user
      */
-    public User getUser() {
+    public OddeyeUserModel getUser() {
         return user;
     }
 
     /**
      * @param user the user to set
      */
-    public void setUser(User user) {
+    public void setUser(OddeyeUserModel user) {
         this.user = user;
     }
 

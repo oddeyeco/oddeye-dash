@@ -9,7 +9,7 @@ import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.core.SendToKafka;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.AddMeta;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
@@ -117,10 +117,10 @@ public class HbaseMetaDao extends HbaseBaseDao {
                         for (KeyValue cell : row) {
                             if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                                 long lasttime = cell.timestamp();                                
-                                if (lasttime<(System.currentTimeMillis()-60000))
-                                {
+//                                if (lasttime<(System.currentTimeMillis()-60000))
+//                                {
                                     executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
-                                }
+//                                }
                             }
 
                         }
@@ -141,14 +141,14 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return result;
     }
     
-    public OddeeyMetricMeta deleteMeta(Integer hash, User user) {
+    public OddeeyMetricMeta deleteMeta(Integer hash, OddeyeUserModel user) {
         if (user.getMetricsMeta().get(hash) != null) {
             return deleteMeta(user.getMetricsMeta().get(hash), user);
         }
         return null;
     }
     
-    public OddeeyMetricMeta deleteMeta(OddeeyMetricMeta meta, User user) {
+    public OddeeyMetricMeta deleteMeta(OddeeyMetricMeta meta, OddeyeUserModel user) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         final DeleteRequest req = new DeleteRequest(table, meta.getKey());
         
@@ -165,7 +165,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return user.getMetricsMeta().remove(meta.hashCode());
     }
     
-    public boolean deleteMetaByTag(String tagK, String tagV, User user) {
+    public boolean deleteMetaByTag(String tagK, String tagV, OddeyeUserModel user) {
         
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         
@@ -210,7 +210,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return fullmetalist;
     }
     
-    public boolean deleteMetaByName(String name, User user) {
+    public boolean deleteMetaByName(String name, OddeyeUserModel user) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         
         ConcoutMetricMetaList MtrList;
@@ -247,7 +247,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return true;
     }
     
-    public ArrayList<Deferred<Object>> deleteMetaByList(ConcoutMetricMetaList MtrList, User user, SendToKafka sk) {
+    public ArrayList<Deferred<Object>> deleteMetaByList(ConcoutMetricMetaList MtrList, OddeyeUserModel user, SendToKafka sk) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
         for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {

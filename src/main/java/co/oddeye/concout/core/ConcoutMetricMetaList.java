@@ -9,6 +9,7 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeeyMetricMetaList;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,11 +31,10 @@ import org.slf4j.LoggerFactory;
 public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
     private static final long serialVersionUID = 465895478L;
+    static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
 
     private final Map<String, Map<String, Integer>> TagsList = new HashMap<>();
-    static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
     private final Set<Integer> Taghashlist = new HashSet<>();
-
     private final Map<String, Integer> RegularNameMap = new HashMap<>();
     private final Map<String, Integer> SpecialNameMap = new HashMap<>();
     private final Map<String, Integer> NameMap = new HashMap<>();
@@ -62,16 +62,16 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             for (Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
                 try {
                     if (!tag.getKey().equals("UUID")) {
-                        if (TagsList.containsKey(tag.getKey())) {
+                        if (getTagsList().containsKey(tag.getKey())) {
                             count = 1;
-                            if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
-                                count = TagsList.get(tag.getKey()).get(tag.getValue().getValue()) + 1;
+                            if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                                count = getTagsList().get(tag.getKey()).get(tag.getValue().getValue()) + 1;
                             }
-                            TagsList.get(tag.getKey()).put(tag.getValue().getValue(), count);
+                            getTagsList().get(tag.getKey()).put(tag.getValue().getValue(), count);
                         } else {
                             Map<String, Integer> keyset = new TreeMap<>();
                             keyset.put(tag.getValue().getValue(), 1);
-                            TagsList.put(tag.getKey(), keyset);
+                            getTagsList().put(tag.getKey(), keyset);
                         }
                     }
                 } catch (Exception ex) {
@@ -147,22 +147,22 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
         for (Entry<String, OddeyeTag> tag : obg.getTags().entrySet()) {
             if (!tag.getKey().equals("UUID")) {
-                if (TagsList.containsKey(tag.getKey())) {
-                    if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                if (getTagsList().containsKey(tag.getKey())) {
+                    if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
                         count = 0;
-                        if (TagsList.get(tag.getKey()).containsKey(tag.getValue().getValue())) {
-                            count = TagsList.get(tag.getKey()).get(tag.getValue().getValue()) - 1;
+                        if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                            count = getTagsList().get(tag.getKey()).get(tag.getValue().getValue()) - 1;
                         }
 
                         if (count == 0) {
-                            TagsList.get(tag.getKey()).remove(tag.getValue().getValue());
+                            getTagsList().get(tag.getKey()).remove(tag.getValue().getValue());
                         } else {
-                            TagsList.get(tag.getKey()).put(tag.getValue().getValue(), count);
+                            getTagsList().get(tag.getKey()).put(tag.getValue().getValue(), count);
                         }
                     }
 
-                    if (TagsList.get(tag.getKey()).isEmpty()) {
-                        TagsList.remove(tag.getKey());
+                    if (getTagsList().get(tag.getKey()).isEmpty()) {
+                        getTagsList().remove(tag.getKey());
                     }
                 }
             }

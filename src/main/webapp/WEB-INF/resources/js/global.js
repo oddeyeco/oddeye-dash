@@ -6,7 +6,6 @@
 
 
 /* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid */
-
 var globalsocket = new SockJS(cp + '/subscribe');
 var globalstompClient = Stomp.over(globalsocket);
 globalstompClient.debug = null;
@@ -15,8 +14,8 @@ headers[headerName] = token;
 headers["page"] = document.URL;
 globalstompClient.connect(headers, function (frame) {
     globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-        var event = JSON.parse(message.body);
-        switch (event.action) {
+        var event = JSON.parse(message.body);        
+        switch (event.action) {            
             case 'editdash':
             {
                 if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)

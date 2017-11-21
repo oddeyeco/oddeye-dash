@@ -6,7 +6,7 @@
 package co.oddeye.concout.providers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -29,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     
     @Override
     public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        User user = UserDao.getUserByEmail(string);
+        OddeyeUserDetails user = UserDao.getUserByEmail(string);
         return user;
     }
 

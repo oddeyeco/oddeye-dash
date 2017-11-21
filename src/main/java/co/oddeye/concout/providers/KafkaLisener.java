@@ -9,7 +9,7 @@ import co.oddeye.concout.core.CoconutParseMetric;
 import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.OddeeyMetric;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
@@ -52,15 +52,13 @@ public class KafkaLisener {
 
     @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}")
     public void receiveMetric(List<String> list) {
-//        String payload = list.get(0);
-//        System.out.println("receiveMetric list.size : " + list.size());
         for (String payload : list) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("received payload='{}'", payload);
             }
 
             Object o = metricparser.execute(payload);
-            User user;
+            OddeyeUserModel user;
             if (o instanceof OddeeyMetric) {
                 OddeeyMetric Metric = (OddeeyMetric) o;
                 try {
@@ -92,17 +90,15 @@ public class KafkaLisener {
         }
         countDownReceiveMetric.countDown();
     }
-
     @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}")
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
 //        System.out.println("receiveAction list.size : " + list.size());
-        for (String payload : list) {            
-            if (LOGGER.isDebugEnabled())
-            {
+        for (String payload : list) {
+            if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("received payload='{}'", payload);
             }
-            
+
             JsonElement jsonResult = null;
 
             final JsonParser parser = new JsonParser();
@@ -111,18 +107,26 @@ public class KafkaLisener {
             } catch (JsonSyntaxException ex) {
                 LOGGER.info("payload parse Exception" + ex.toString());
             }
-            User user;
+            OddeyeUserModel user;
             if (jsonResult != null) {
 
                 user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()));
                 String action = jsonResult.getAsJsonObject().get("action").getAsString();
 
                 switch (action) {
-                    
-                    case "deletemetricbyhash": {                        
+                    case "login": {
+//                        LOGGER.warn("login messge OK");
+                        Userdao.updateMetaList(user);                        
+                        this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
+//                        LOGGER.warn("login messge Fin");
+//                        user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
+                        break;
+                    }
+
+                    case "deletemetricbyhash": {
                         user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
                         break;
-                    }                        
+                    }
                     case "exitfrompage": {
                         String Sesionid = jsonResult.getAsJsonObject().get("SessionId").getAsString();
                         user.getPagelist().remove(Sesionid);

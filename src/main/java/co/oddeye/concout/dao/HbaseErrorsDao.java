@@ -8,7 +8,7 @@ package co.oddeye.concout.dao;
 import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.core.MetricErrorMeta;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import java.nio.ByteBuffer;
@@ -58,7 +58,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         TABLENAME_LAST = p_config.getErrorsLastTable();
     }
 
-    public ArrayList<ArrayList<KeyValue>> getActiveErrors(User user) throws Exception {
+    public ArrayList<ArrayList<KeyValue>> getActiveErrors(OddeyeUserModel user) throws Exception {
         client = BaseTsdb.getClient();
         Scanner scanner = client.newScanner(TABLENAME_LAST);
         scanner.setServerBlockCache(false);
@@ -88,7 +88,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 //        buf.append((char) (1 & 0xFF));
     }
 
-    public MetricErrorMeta getErrorMeta(User user, byte[] key, long time) throws Exception {
+    public MetricErrorMeta getErrorMeta(OddeyeUserModel user, byte[] key, long time) throws Exception {
         Calendar Date = Calendar.getInstance();
         Date.setTimeInMillis(time);
         client = BaseTsdb.getClient();
@@ -198,7 +198,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         return e;
     }
 
-    public ConcoutMetricMetaList getLast(User user, Double minValue, Double minPersent, short minWeight, short minRecurrenceCount, int minRecurrenceTimeInterval, Double minPredictPersent) {
+    public ConcoutMetricMetaList getLast(OddeyeUserModel user, Double minValue, Double minPersent, short minWeight, short minRecurrenceCount, int minRecurrenceTimeInterval, Double minPredictPersent) {
         client = BaseTsdb.getClient();
 
         final byte[] start_row;
@@ -288,7 +288,7 @@ public class HbaseErrorsDao extends HbaseBaseDao {
         return Ts;
     }
 
-    public ArrayList<MetricErrorMeta> getErrorList(User user, OddeeyMetricMeta metriq) {
+    public ArrayList<MetricErrorMeta> getErrorList(OddeyeUserModel user, OddeeyMetricMeta metriq) {
         try {
             client = BaseTsdb.getClient();
 

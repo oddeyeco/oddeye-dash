@@ -9,11 +9,12 @@ import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
 import co.oddeye.concout.core.SendToKafka;
+import co.oddeye.concout.model.OddeyeUserDetails;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -23,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -84,10 +84,10 @@ public class AjaxControlers {
             @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
             ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
         }
 
         Gson gson = new Gson();
@@ -213,11 +213,11 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
 //        List<String> data = new ArrayList<>();
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         boolean all = Boolean.valueOf(s_all);
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
         }
 
         if (userDetails != null) {
@@ -281,11 +281,12 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();
 //        List<String> data = new ArrayList<>();
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
         }
 
         if (userDetails != null) {
@@ -326,10 +327,10 @@ public class AjaxControlers {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
         }
 
         if (userDetails != null) {
@@ -402,9 +403,8 @@ public class AjaxControlers {
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
-
+                OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal()).getUserModel();
                 if ((userDetails.getSwitchUser() != null)) {
                     if (userDetails.getSwitchUser().getAlowswitch()) {
                         userDetails = userDetails.getSwitchUser();
@@ -460,7 +460,7 @@ public class AjaxControlers {
             ModelMap map
     ) {
 
-        SendToKafka KafkaLocalSender = (User user, String action, Object hash1) -> {
+        SendToKafka KafkaLocalSender = (OddeyeUserModel user, String action, Object hash1) -> {
             JsonObject Jsonchangedata = new JsonObject();
             Jsonchangedata.addProperty("UUID", user.getId().toString());
             Jsonchangedata.addProperty("action", action);
@@ -486,8 +486,8 @@ public class AjaxControlers {
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-                User userDetails = (User) SecurityContextHolder.getContext().
-                        getAuthentication().getPrincipal();
+                OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal()).getUserModel();
                 if ((userDetails.getSwitchUser() != null)) {
                     if (userDetails.getSwitchUser().getAlowswitch()) {
                         userDetails = userDetails.getSwitchUser();
@@ -552,10 +552,11 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
         }
 
         if (userDetails != null) {
@@ -611,10 +612,12 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
         }
 
         if (userDetails != null) {
@@ -676,10 +679,12 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
         }
 
         if (userDetails != null) {
@@ -729,10 +734,11 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
         }
 
         if (userDetails != null) {
@@ -769,7 +775,7 @@ public class AjaxControlers {
     @RequestMapping(value = {"/getmetastat/{uuid}"})
     public String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
         JsonObject jsonResult = new JsonObject();
-        User userDetails;
+        OddeyeUserModel userDetails;
         userDetails = UserDao.getUserByUUID(UUID.fromString(uuid));
 
         if (userDetails != null) {
@@ -806,10 +812,11 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        User userDetails = null;
+        OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
-            userDetails = (User) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal();
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
         }
 
         if (userDetails != null) {

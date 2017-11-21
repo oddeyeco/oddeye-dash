@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 package co.oddeye.concout.validator;
-
-import co.oddeye.concout.model.User;
+import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.AlertLevel;
 import java.util.Map;
+import java.util.Objects;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -27,28 +27,28 @@ public class LevelsValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        User user = (User) o;
+        OddeyeUserModel user = (OddeyeUserModel) o;
 
         for (Map.Entry<Integer, Map<Integer, Double>> levelEntry : user.getAlertLevels().entrySet()) {
             for (Map.Entry<Integer, Double> level : levelEntry.getValue().entrySet()) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "empty.value", "Value must not be empty.");
                 
 
-                if (level.getKey()==AlertLevel.ALERT_PARAM_PECENT)
+                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_PECENT))
                 {
                     if (level.getValue()<0)
                     {
                         errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
                     }
                 }
-                if (level.getKey()==AlertLevel.ALERT_PARAM_PREDICTPERSENT)
+                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_PREDICTPERSENT))
                 {
                     if (level.getValue()<0)
                     {
                         errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
                     }
                 }                
-                if (level.getKey()==AlertLevel.ALERT_PARAM_WEIGTH)
+                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_WEIGTH))
                 {
                     if (level.getValue()<0)
                     {
@@ -59,7 +59,7 @@ public class LevelsValidator implements Validator {
                         errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "16value", "Value more than 16.");
                     }                    
                 }                                
-                if (level.getKey()==AlertLevel.ALERT_PARAM_RECCOUNT)
+                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_RECCOUNT))
                 {
                     if (level.getValue()<0)
                     {
