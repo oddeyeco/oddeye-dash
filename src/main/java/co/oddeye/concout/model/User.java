@@ -629,7 +629,10 @@ public class User implements UserDetails {
      * @return the MetricsMetas
      */
     public ConcoutMetricMetaList getMetricsMeta() {
-
+        if (MetricsMetas==null)
+        {
+            MetricsMetas = new ConcoutMetricMetaList();
+        }
         return MetricsMetas;
     }
 
