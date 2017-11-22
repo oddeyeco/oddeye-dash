@@ -258,7 +258,7 @@ var queryCallback = function (inputdata) {
     var url = inputdata[8];
     var redraw = inputdata[9];
     var callback = inputdata[10];
-    var customchart = inputdata[11];    
+    var customchart = inputdata[11];
     var start = inputdata[12];
     var end = inputdata[13];
     var whaitlist = inputdata[14];
@@ -815,8 +815,16 @@ var queryCallback = function (inputdata) {
                 } else
                 {
                     widget.options.xAxis[xAxis_Index].max = end;
+                }                
+                if (subtractlist[start])
+                {
+                    widget.options.xAxis[xAxis_Index].min = moment(widget.options.xAxis[xAxis_Index].max).subtract(subtractlist[start][0], subtractlist[start][1]).valueOf();
                 }
-                widget.options.xAxis[xAxis_Index].min = moment(widget.options.xAxis[xAxis_Index].max).subtract(subtractlist[start][0],subtractlist[start][1]).valueOf();
+                else
+                {
+                    widget.options.xAxis[xAxis_Index].min = start
+                }
+
             }
         }
 
@@ -1601,6 +1609,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 }
             }
         }
+        //Cheto kaskacelija ****************************************************
         var k;
         if (!widget.options.legend)
         {
@@ -1622,6 +1631,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         {
             widget.options.toolbox = {};
         }
+        //Cheto kaskacelija ****************************************************
         var start = "5m-ago";
         var end = "now";
 
@@ -1654,6 +1664,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
                 {
                     start = rangeslabels[widget.times.pickerlabel];
+                    end = "now";
                     usePersonalTime = true;
                 }
 
@@ -1777,7 +1788,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 $(chart._dom).parent().find('.error').remove();
                 if (prevuri !== uri)
                 {
-                    var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start,end, whaitlist, uri];
+                    var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
                     $.ajax({
                         dataType: "json",
                         url: uri,
