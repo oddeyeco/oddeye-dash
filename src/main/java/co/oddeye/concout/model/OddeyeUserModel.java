@@ -383,6 +383,11 @@ public class OddeyeUserModel {
         return pass;
     }
 
+    public String getPassword() {
+//        String pass = "";
+        return getPasswordst();
+    }
+    
     /**
      * @param password the password to set
      */

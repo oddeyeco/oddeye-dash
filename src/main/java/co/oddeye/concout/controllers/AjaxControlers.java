@@ -124,6 +124,14 @@ public class AjaxControlers {
             Long start_time = DateTime.parseDateTimeString(startdate, null);
             Long end_time = DateTime.parseDateTimeString(enddate, null);
             Long starttime = System.currentTimeMillis();
+            if (start_time > end_time) {
+
+                jsonResult.addProperty("sucsses", Boolean.FALSE);
+                jsonResult.addProperty("message", " End time [" + enddate + "] must be greater than the start time [" + startdate + "]");
+                map.put("jsonmodel", jsonResult);
+                return "ajax";
+
+            }
             ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
             Long getinterval = System.currentTimeMillis() - starttime;
             starttime = System.currentTimeMillis();
