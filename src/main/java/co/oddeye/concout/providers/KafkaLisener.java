@@ -66,7 +66,7 @@ public class KafkaLisener {
                     user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
                     user.getMetricsMeta().add(mtrscMeta);
                 } catch (Exception ex) {
-                    LOGGER.info(globalFunctions.stackTrace(ex));
+                    LOGGER.error(globalFunctions.stackTrace(ex));
                 }
             }
             if (o instanceof TreeMap) {
@@ -83,7 +83,7 @@ public class KafkaLisener {
                         }
 
                     } catch (Exception ex) {
-                        LOGGER.info(globalFunctions.stackTrace(ex));
+                        LOGGER.error(globalFunctions.stackTrace(ex));
                     }
                 }
             }
@@ -105,7 +105,7 @@ public class KafkaLisener {
             try {
                 jsonResult = parser.parse(payload);
             } catch (JsonSyntaxException ex) {
-                LOGGER.info("payload parse Exception" + ex.toString());
+                LOGGER.error("payload parse Exception" + ex.toString());
             }
             OddeyeUserModel user;
             if (jsonResult != null) {
