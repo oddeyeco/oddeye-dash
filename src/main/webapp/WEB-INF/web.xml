@@ -4,7 +4,6 @@
 	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	 version="3.0">
     <display-name>OddeyeCoconut</display-name>
-    <distributable/>
     <session-config>
         <session-timeout>0</session-timeout>        
     </session-config>   
