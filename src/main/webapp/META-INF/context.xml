@@ -1,17 +1,2 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/OddeyeCoconut">
-       <Ref name="Server" id="Server">
-           <Call id="hazelcastIdMgr" name="getSessionIdManager"/>
-       </Ref>
-       <Set name="sessionHandler">
-           <New class="org.eclipse.jetty.server.session.SessionHandler">
-               <Arg>
-                   <New id="hazelcastMgr" class="com.hazelcast.session.HazelcastSessionManager">
-                       <Set name="idManager">
-                           <Ref id="hazelcastIdMgr"/>
-                       </Set>
-                   </New>
-               </Arg>
-           </New>
-       </Set>
-</Context>   
+<Context path="/OddeyeCoconut"/>
