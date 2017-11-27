@@ -116,7 +116,7 @@ public class KafkaLisener {
                 switch (action) {
                     case "login": {
 //                        LOGGER.warn("login messge OK");
-                        Userdao.updateMetaList(user);                        
+//                        Userdao.updateMetaList(user);                        
                         this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
 //                        LOGGER.warn("login messge Fin");
 //                        user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
