@@ -59,37 +59,9 @@ and open the template in the editor.
 .toggle {
     width: 40px;
 }
-@media (max-width: 1025px) {
-    .nav-md .container.body .right_col, .nav-md .container.body .top_nav {
-        width: 100%;
-        margin: 0; }
-
-    .nav-md .container.body .col-md-3.left_col {
-        display: none; }
-
-    .nav-md .container.body .right_col {
-        width: 100%;
-        padding-right: 0; }
-
-    .right_col {
-        padding: 10px !important; } 
-    .profile_left-form {
-        display: none;
-    }
-}
 
 
-@media (max-width: 760px) 
-{
-    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12
-    {
-        float: none
-    } 
-    h1
-    {
-        font-size: 24px;
-    }
-}
+
 
 
 /*suren*/
@@ -253,6 +225,9 @@ and open the template in the editor.
     margin-bottom: -20px;
 }
 .form-horizontal {
+    .control-label{
+        padding-top: 0;
+    }
     .control-label-custom-legend2 {
         padding: 2px;
         text-align: right;
@@ -411,6 +386,7 @@ and open the template in the editor.
         }
     }
     .select2-selection--single {
+        margin-bottom: 2px;
         min-height: 30px;
         height: 31px;
         .select2-selection__rendered {
@@ -820,7 +796,13 @@ ul.lastdash {
         width: 345px;        
     }    
 }
-#reportrange,
+#reportrange
+{
+    span {
+        margin: 5px;
+    }    
+    background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;
+}
 #reportrange_private
 {
     span {
@@ -875,11 +857,7 @@ i[data-toggle="tooltip"] {
     -webkit-border-radius: 5px 5px 0px 0px;
     background-color: #fff;     
 }
-@media (max-width: 600px) {
-    .editchartpanel {
-        width: auto;
-    }
-}
+
 
 .rowcontent .chartsection
 {
@@ -981,34 +959,6 @@ i[data-toggle="tooltip"] {
         left: 50px;
         top: 20px;
         background-color: @background_color_3;
-    }
-    @media (min-device-width: 320px) and (max-width: 760px) {   
-        .status{
-            h4 {
-                display: none;
-            }
-            &:before {
-                transition: all 200ms ease-in;
-                z-index: 888;
-            }
-        }
-        .timestamp{
-            span{
-                color:#fff;
-            }
-        }
-        .complete{
-            .timestamp {
-                z-index: 999;
-                position: relative;
-                margin-bottom: -9px;
-                left: 4px;
-            }
-        }
-        .timeline {
-            list-style-type: none;
-            display: block;
-        }
     }
 
 }
@@ -1126,4 +1076,196 @@ h2.error
 .y-overflow{   
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.select2wraper
+{
+    display: inline-block;
+}
+.filtermargin
+{
+    div
+    {
+        display: inline-block;            
+    }    
+    #global-down-sample,.global-down-sample-ag-wraper
+    {
+        width: 80px;       
+    }       
+}
+
+#refreshtime{
+    width: 140px;
+}  
+
+.refresh-block 
+{
+    float:right;
+
+    div
+    {
+        display: inline-block;    
+    }
+
+}
+
+@media( max-width: 1292px){
+    .filtermargin
+    {
+        padding: 0px;
+    }
+}
+@media (max-width: 1025px) {
+    .nav-md .container.body .right_col, .nav-md .container.body .top_nav {
+        width: 100%;
+        margin: 0; }
+
+    .nav-md .container.body .col-md-3.left_col {
+        display: none; }
+
+    .nav-md .container.body .right_col {
+        width: 100%;
+        padding-right: 0; }
+
+    .right_col {
+        padding: 10px !important; } 
+    .profile_left-form {
+        display: none;
+    }
+}
+@media( max-width: 769px){
+    .status{
+        h4 {
+            display: none;
+        }
+        &:before {
+            transition: all 200ms ease-in;
+            z-index: 888;
+        }
+    }
+    .timestamp{
+        span{
+            color:#fff;
+        }
+    }
+    .complete{
+        .timestamp {
+            z-index: 999;
+            position: relative;
+            margin-bottom: -9px;
+            left: 4px;
+        }
+    }
+    .timeline {
+        list-style-type: none;
+        display: block;
+    }
+    .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12
+    {
+        float: none
+    } 
+    h1
+    {
+        font-size: 24px;
+    }
+    .filtermargin
+    {
+        div
+        {            
+            .control-label
+            {
+                display: block;
+                margin: 0px 2px;
+                text-align: left;
+                height: 27px;
+                line-height: 27px;
+            }
+            #global-down-sample
+            {
+                display: block;    
+                width: 100%
+
+            }
+            .global-down-sample-ag-wraper
+            {
+                display: block;    
+                width: 100%
+            }
+            &.small
+            {
+                width :15%;    
+            }
+            &.large
+            {
+                width :40%;    
+            }            
+
+            margin: 2px 4px 2px 0px;
+        }
+
+    }
+}
+@media(max-width:  626px){
+    .refresh-block 
+    {
+        float:left;
+    }  
+}
+@media (max-width: 600px) {
+    .editchartpanel {
+        width: auto;
+    }
+}
+@media(max-width:  375px){
+
+    #reportrange
+    {
+        .caret{
+            float: right;
+            margin: 7px 0px;
+        }
+        width: 100%;    
+    }  
+    #refresh_wrap{
+
+        width:88%;
+    }
+    #refresh{
+        width: 12%
+    }
+    .daterangepicker{
+        width: unset;
+    }
+
+    .filtermargin
+    {
+        div
+        {            
+            &.small
+            {
+                width :15%;    
+            }
+            &.large
+            {
+                width :38%;    
+            }
+
+        }
+
+    }    
+}
+@media(max-width:  321px){
+    .filtermargin
+    {
+        div
+        {
+            .down-sample-label {
+                margin: 0 -2px;
+            }
+        }
+    }
+    #refresh{
+        padding: 5px 7px;
+    }
+
 }

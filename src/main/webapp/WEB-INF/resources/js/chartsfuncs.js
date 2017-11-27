@@ -103,7 +103,7 @@ var PicerOptionSet1 = {
         'Last 1 day': [moment().subtract(24, 'hour'), moment()],
         'Last 3 day': [moment().subtract(3, 'day'), moment()]
     },
-    opens: 'left',
+    opens: 'right',
     buttonClasses: ['btn btn-default'],
     applyClass: 'btn-small btn-primary',
     cancelClass: 'btn-small',

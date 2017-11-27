@@ -120,53 +120,64 @@
     </div>
 
     <div id="dash_main">
-        <div id="filter" class="filter">
-            <div class="form-group-custom pull-left form-horizontal filtermargin">
-                <label class="control-label control-label-top" for="global-down-sample">Down sample 
-                </label>
-                <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
-                <label class="control-label control-label-top" for="global-down-sample-ag">Aggregator
-                </label>        
-                <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input">
-                </select>        
-                <label class="control-label control-label-top" for="global-downsampling-switsh">
-                    Enable downsampling
-                </label>
-                <div class="checkbox" style="display: inline-block">
-                    <input type="checkbox" style="display: none" class="js-switch-general" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh" /> 
-                </div>        
+        <div id="filter" class="filter raw">
+            <div class="pull-right">
+                <div id="minimize" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title='Hide Filter'>                        
+                    <i class="fa fa fa-eye-slash" ></i>
+                </div>
+                <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
+                    <i class="fa fa-lock" ></i>
+                </div>
+            </div>            
+            <div class="form-group-custom pull-left form-horizontal filtermargin col-sm-6">
+                <div class="large">
+                    <label class="control-label control-label-top text-nowrap down-sample-label" for="global-down-sample">Down sample 
+                    </label>
+                    <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
+                </div>
+                <div class="large">
+                    <label class="control-label control-label-top" for="global-down-sample-ag">Aggregator
+                    </label>        
+                    <div class="select2wraper global-down-sample-ag-wraper">
+                        <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input" data-width="100%">                        
+                        </select>        
+                    </div>
+                </div>
+                <div class="small">
+                    <label id="downsampling_label" class="control-label control-label-top" for="global-downsampling-switsh">
+                        Enabled
+                    </label>
+                    <div class="checkbox" style="display: inline-block">
+                        <input type="checkbox" style="display: none" class="js-switch-general" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh" /> 
+                    </div>        
+                </div>
             </div>          
+            <div class="refresh-block">
+                <div id="reportrange" class="" data-toggle="tooltip"  title="Graph Time Interval" data-placement="bottom" >
+                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                    <span></span> <b class="caret"></b>
+                </div>                  
+                <div id="refresh_wrap" class="">
+                    <select id="refreshtime" name="refreshtime" class="form-control query_input" data-width="100%">
+                        <option value="" selected>Refresh Off</option>
+                        <option value="5000">Refresh every 5s</option>
+                        <option value="10000">Refresh every 10s</option>
+                        <option value="30000">Refresh every 30s</option>
+                        <option value="60000">Refresh every 1m</option>
+                        <option value="300000">Refresh every 5m</option>
+                        <option value="900000">Refresh every 15m</option>
+                        <option value="1800000">Refresh every 30m</option>
+                        <option value="3600000">Refresh every 1h</option>
+                        <option value="7200000">Refresh every 2h</option>
+                        <option value="86400000">Refresh every 1d</option>                
+                    </select>            
+                </div>
+                <div id="refresh" class="reflock"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" >                        
+                    <i class="glyphicon glyphicon-refresh"></i>
+                </div>
 
-            <div id="minimize" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title='Hide Filter'>                        
-                <i class="fa fa fa-eye-slash" ></i>
-            </div>
-            <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
-                <i class="fa fa-lock" ></i>
-            </div>
-            <div id="refresh" class="pull-right reflock"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" >                        
-                <i class="glyphicon glyphicon-refresh"></i>
             </div>
 
-            <div id="refresh_wrap" class="pull-right" >
-                <select id="refreshtime" name="refreshtime" class="select2-hidden-accessible" style="width: 150px">
-                    <option value="" selected>Refresh Off</option>
-                    <option value="5000">Refresh every 5s</option>
-                    <option value="10000">Refresh every 10s</option>
-                    <option value="30000">Refresh every 30s</option>
-                    <option value="60000">Refresh every 1m</option>
-                    <option value="300000">Refresh every 5m</option>
-                    <option value="900000">Refresh every 15m</option>
-                    <option value="1800000">Refresh every 30m</option>
-                    <option value="3600000">Refresh every 1h</option>
-                    <option value="7200000">Refresh every 2h</option>
-                    <option value="86400000">Refresh every 1d</option>                
-                </select>            
-            </div>
-
-            <div id="reportrange" class="pull-right" data-toggle="tooltip"  title="Graph Time Interval" data-placement="bottom"  style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
-                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                <span></span> <b class="caret"></b>
-            </div>     
         </div>  
     </div>                
     <div class="x_content" id="dashcontent">        
