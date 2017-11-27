@@ -10,6 +10,7 @@ import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -108,9 +109,6 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
     @Override
     protected void additionalAuthenticationChecks(UserDetails ud, UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-
-        Object salt = null;
-
         if (upat.getCredentials() == null) {
             LOGGER.debug("Authentication failed: no credentials provided");
 
@@ -127,6 +125,38 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
             throw new BadCredentialsException(messages.getMessage(
                     "AbstractUserDetailsAuthenticationProvider.badCredentials",
                     "Bad credentials"));
+        } else {
+            try {
+                final OddeyeUserDetails principal =(OddeyeUserDetails) ud;
+                InetAddress ia = InetAddress.getLocalHost();
+                String node = ia.getHostName();
+
+                JsonObject Jsonchangedata = new JsonObject();
+                Jsonchangedata.addProperty("UUID", principal.getId().toString());
+                Jsonchangedata.addProperty("action", "login");
+                Jsonchangedata.addProperty("node", node);
+                Jsonchangedata.addProperty("time", System.currentTimeMillis());
+
+                // Send chenges to kafka
+                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                    @Override
+                    public void onSuccess(SendResult<Integer, String> result) {
+                        if (LOGGER.isInfoEnabled()) {
+                            LOGGER.info("Kafka Send Login onSuccess");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable ex) {
+                        LOGGER.error("Kafka Send Login onFailure:" + ex);
+                    }
+                });
+            } catch (UnknownHostException ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+            OddeyeWebAuthenticationDetails det = (OddeyeWebAuthenticationDetails) upat.getDetails();
+            LOGGER.info(upat.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
         }
     }
 
