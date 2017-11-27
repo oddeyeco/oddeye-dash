@@ -16,9 +16,11 @@ import co.oddeye.concout.providers.UserDetailsServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
@@ -37,16 +39,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String cookievalue;
     
     
-    @Autowired
-    private HbaseAuthenticationProvider authProvider;
+//    @Autowired
+//    private HbaseAuthenticationProvider authProvider;
     @Autowired
     private UserDetailsServiceImpl userService;
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider);        
-
+        auth.userDetailsService(userService);
+        auth.authenticationProvider(authProvider());        
     }
 
+    @Bean
+    public HbaseAuthenticationProvider authProvider() {
+        HbaseAuthenticationProvider authenticationProvider = new HbaseAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userService);
+//        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }    
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        http.userDetailsService(userService);
@@ -58,10 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**", "/contact/**", "/gugush.txt").permitAll()
-                .antMatchers("/getfiltredmetrics*").permitAll()
-                .antMatchers("/getdata*").permitAll()
-                .antMatchers("/gettagkey*").permitAll()
-                .antMatchers("/gettagvalue*").permitAll()
+//                .antMatchers("/getfiltredmetrics*").permitAll()
+//                .antMatchers("/getdata*").permitAll()
+//                .antMatchers("/gettagkey*").permitAll()
+//                .antMatchers("/gettagvalue*").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/subscribe/**").permitAll()
                 .antMatchers("/userslist*").hasAnyAuthority("ROLE_USERMANAGER")

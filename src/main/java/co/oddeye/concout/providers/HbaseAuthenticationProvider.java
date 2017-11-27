@@ -10,20 +10,23 @@ import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.security.core.AuthenticationException;
 import java.util.UUID;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
@@ -32,7 +35,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
  * @author vahan
  */
 @Component
-public class HbaseAuthenticationProvider implements AuthenticationProvider {
+public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
     @Autowired
     private HbaseUserDao Userdao;
@@ -40,6 +43,8 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
+    
+    private UserDetailsService userDetailsService;
 
     
     private final Logger LOGGER = LoggerFactory.getLogger(HbaseAuthenticationProvider.class);
@@ -97,8 +102,55 @@ public class HbaseAuthenticationProvider implements AuthenticationProvider {
         }
     }
 
+//    @Override
+//    public boolean supports(Class<?> authentication) {
+//        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+//    }
+
     @Override
-    public boolean supports(Class<?> authentication) {
-        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    protected void additionalAuthenticationChecks(UserDetails ud, UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
+		UserDetails loadedUser;
+
+		try {
+			loadedUser = this.getUserDetailsService().loadUserByUsername(username);
+		}
+		catch (UsernameNotFoundException notFound) {
+			if (upat.getCredentials() != null) {
+// TODO                            
+//				String presentedPassword = upat.getCredentials().toString();
+//				passwordEncoder.isPasswordValid(userNotFoundEncodedPassword,
+//						presentedPassword, null);
+			}
+			throw notFound;
+		}
+		catch (Exception repositoryProblem) {
+			throw new InternalAuthenticationServiceException(
+					repositoryProblem.getMessage(), repositoryProblem);
+		}
+
+		if (loadedUser == null) {
+			throw new InternalAuthenticationServiceException(
+					"UserDetailsService returned null, which is an interface contract violation");
+		}
+		return loadedUser;
+    }
+
+    /**
+     * @return the userDetailsService
+     */
+    public UserDetailsService getUserDetailsService() {
+        return userDetailsService;
+    }
+
+    /**
+     * @param userDetailsService the userDetailsService to set
+     */
+    public void setUserDetailsService(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
     }
 }
