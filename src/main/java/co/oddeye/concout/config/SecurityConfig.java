@@ -81,22 +81,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .authenticationDetailsSource(authenticationDetailsSource())
+                .authenticationDetailsSource(authenticationDetailsSource())
                 .loginPage("/login/")
                 .permitAll()
                 .and().addFilterBefore(new StickySesionCookieFilter(cookiename,cookievalue),UsernamePasswordAuthenticationFilter.class);
 
     }
 
-//    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource() {
-//
-//        return new AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails>() {
-//            @Override
-//            public OddeyeWebAuthenticationDetails buildDetails(
-//                    HttpServletRequest request) {
-//                return new OddeyeWebAuthenticationDetails(request);
-//            }
-//
-//        };
-//    }
+    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource() {
+
+        return new AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails>() {
+            @Override
+            public OddeyeWebAuthenticationDetails buildDetails(
+                    HttpServletRequest request) {
+                return new OddeyeWebAuthenticationDetails(request);
+            }
+
+        };
+    }
 }
