@@ -23,11 +23,11 @@ public class OddeyeUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 465895478L;
     @Id
-    private final UUID id;
+    private final String id;
 //    private final transient HbaseUserDao Userdao;
 
     public OddeyeUserDetails(UUID uid, HbaseUserDao aThis) {
-        id = uid;
+        id = uid.toString();
 //        Userdao = aThis;
     }
     
@@ -94,7 +94,7 @@ public class OddeyeUserDetails implements UserDetails {
     /**
      * @return the id
      */
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
