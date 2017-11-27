@@ -155,8 +155,8 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
             } catch (UnknownHostException ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
             }
-            OddeyeWebAuthenticationDetails det = (OddeyeWebAuthenticationDetails) upat.getDetails();
-            LOGGER.info(upat.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
+//            OddeyeWebAuthenticationDetails det = (OddeyeWebAuthenticationDetails) upat.getDetails();
+//            LOGGER.info(upat.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
         }
     }
 
