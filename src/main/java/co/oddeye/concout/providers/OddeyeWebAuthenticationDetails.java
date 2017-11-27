@@ -16,7 +16,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
  * @author vahan
  */
 public class OddeyeWebAuthenticationDetails extends WebAuthenticationDetails {
-
+    private static final long serialVersionUID = 420L;
+    
     private final Map<String, String> HeadersInfo = new HashMap<>();
     private transient final HttpServletRequest _request;
 

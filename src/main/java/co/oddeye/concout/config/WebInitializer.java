@@ -13,7 +13,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  *
  * @author vahan
  * JETTY-i aranc sra chi asxatum
- */
+ */                                 
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
@@ -34,7 +34,7 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     @SuppressWarnings("deprecation")
     public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class);
+//        servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class);
         super.onStartup(servletContext);
     }
 

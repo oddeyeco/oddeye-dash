@@ -16,6 +16,7 @@ import co.oddeye.concout.providers.UserDetailsServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
@@ -37,16 +38,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private String cookievalue;
     
     
-    @Autowired
-    private HbaseAuthenticationProvider authProvider;
+//    @Autowired
+//    private HbaseAuthenticationProvider authProvider;
     @Autowired
     private UserDetailsServiceImpl userService;
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider);        
-
+        auth.userDetailsService(userService);
+        auth.authenticationProvider(authProvider());        
     }
 
+    @Bean
+    public HbaseAuthenticationProvider authProvider() {
+        HbaseAuthenticationProvider authenticationProvider = new HbaseAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userService);
+//        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }    
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        http.userDetailsService(userService);
@@ -58,10 +67,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**", "/contact/**", "/gugush.txt").permitAll()
-                .antMatchers("/getfiltredmetrics*").permitAll()
-                .antMatchers("/getdata*").permitAll()
-                .antMatchers("/gettagkey*").permitAll()
-                .antMatchers("/gettagvalue*").permitAll()
+//                .antMatchers("/getfiltredmetrics*").permitAll()
+//                .antMatchers("/getdata*").permitAll()
+//                .antMatchers("/gettagkey*").permitAll()
+//                .antMatchers("/gettagvalue*").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/subscribe/**").permitAll()
                 .antMatchers("/userslist*").hasAnyAuthority("ROLE_USERMANAGER")
@@ -72,22 +81,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .authenticationDetailsSource(authenticationDetailsSource())
+//                .authenticationDetailsSource(authenticationDetailsSource())
                 .loginPage("/login/")
                 .permitAll()
                 .and().addFilterBefore(new StickySesionCookieFilter(cookiename,cookievalue),UsernamePasswordAuthenticationFilter.class);
 
     }
 
-    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource() {
-
-        return new AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails>() {
-            @Override
-            public OddeyeWebAuthenticationDetails buildDetails(
-                    HttpServletRequest request) {
-                return new OddeyeWebAuthenticationDetails(request);
-            }
-
-        };
-    }
+//    private AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource() {
+//
+//        return new AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails>() {
+//            @Override
+//            public OddeyeWebAuthenticationDetails buildDetails(
+//                    HttpServletRequest request) {
+//                return new OddeyeWebAuthenticationDetails(request);
+//            }
+//
+//        };
+//    }
 }

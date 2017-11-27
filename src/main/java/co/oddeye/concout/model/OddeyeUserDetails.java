@@ -13,6 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import co.oddeye.concout.providers.AppContext;
+import javax.persistence.Transient;
 
 /**
  *
@@ -29,7 +30,8 @@ public class OddeyeUserDetails implements UserDetails {
         id = uid;
 //        Userdao = aThis;
     }
-
+    
+    @Transient
     public OddeyeUserModel getUserModel() {
 
         ApplicationContext ctx = AppContext.getApplicationContext();
@@ -38,6 +40,7 @@ public class OddeyeUserDetails implements UserDetails {
     }
 
     // Override metods
+    @Transient
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getUserModel().getAuthorities();
@@ -46,36 +49,43 @@ public class OddeyeUserDetails implements UserDetails {
     /**
      * @param authorities the authorities to set
      */
+    @Transient
     public void setAuthorities(Collection<GrantedAuthority> authorities) {
         getUserModel().setAuthorities(authorities);
     }
 
+    @Transient
     @Override
     public String getPassword() {
 //        String pass = "";
         return getUserModel().getPasswordst();
     }
 
+    @Transient
     @Override
     public String getUsername() {
         return getUserModel().getEmail();
     }
 
+    @Transient
     @Override
     public boolean isAccountNonExpired() {
         return getUserModel().getActive();
     }
 
+    @Transient
     @Override
     public boolean isAccountNonLocked() {
         return getUserModel().getActive();
     }
 
+    @Transient
     @Override
     public boolean isCredentialsNonExpired() {
         return getUserModel().getActive();
     }
 
+    @Transient
     @Override
     public boolean isEnabled() {
         return getUserModel().getActive();
