@@ -1100,13 +1100,16 @@ h2.error
 
 .refresh-block 
 {
-    float:right;
-
     div
     {
         display: inline-block;    
     }
-
+    float:right;
+}
+.filtermargin{
+    .small{
+        font-size: 100%;
+    }
 }
 
 @media( max-width: 1292px){
@@ -1134,7 +1137,10 @@ h2.error
     }
 }
 @media( max-width: 769px){
- .modal{
+    .smpadding{
+        padding-left: 27px;
+    }
+    .modal{
         right: auto;
         left: auto;
     }
@@ -1210,8 +1216,7 @@ h2.error
     }
 }
 @media(max-width:  626px){
-   
-  
+
     .refresh-block 
     {
         float:left;

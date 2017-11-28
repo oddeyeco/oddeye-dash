@@ -121,7 +121,7 @@
 
     <div id="dash_main">
         <div id="filter" class="filter raw">
-            <div class="pull-right">
+            <div class="pull-right smpadding">
                 <div id="minimize" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title='Hide Filter'>                        
                     <i class="fa fa fa-eye-slash" ></i>
                 </div>
