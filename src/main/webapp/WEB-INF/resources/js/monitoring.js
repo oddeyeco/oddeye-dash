@@ -35,66 +35,68 @@ function connectstompClient()
     headers["levels"] = levels;
     stompClient.connect(headers,
             function (frame) {
-                stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', function (error) {
-                    var errorjson = JSON.parse(error.body);
-                    
+                stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors',aftersubscribe);
+            },
+            function (message) {
+                console.log(message);                
+                $("#lostconnection").modal('show');
+            });
+}
+
+function aftersubscribe(error) {
+    var errorjson = JSON.parse(error.body);
+
 //                    if (errorjson.hash == -1254898263)
 //                    {
 //                        console.log(errorjson.levelname + " " + errorjson.flap + " " + moment().format(timeformatsmall) + ' ' + moment(errorjson.time).format(timeformatsmall));
 //                    }
 
-                    if (errorlistJson[errorjson.hash])
-                    {
-                        errorjson.index = errorlistJson[errorjson.hash].index;
-                    }
-                    if (typeof (errorjson.index) !== "undefined")
-                    {
-                        errorjson.index = errorjson.index + 1;
-                    } else
-                    {
-                        errorjson.index = 0;
-                    }
-                    if (errorlistJson[errorjson.hash])
-                    {
-                        if (errorjson.time >= errorlistJson[errorjson.hash].time)
-                        {
-                            if (errorjson.level === -1)
-                            {
-                                delete errorlistJson[errorjson.hash];
-                            } else
-                            {
-                                errorlistJson[errorjson.hash] = errorjson;
-                            }
-                            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
-                        }
-                    } else
-                    {
-                        if (errorjson.level === -1)
-                        {
-                            delete errorlistJson[errorjson.hash];
-                        } else
-                        {
-                            errorlistJson[errorjson.hash] = errorjson;
-                        }
-                        reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+    if (errorlistJson[errorjson.hash])
+    {
+        errorjson.index = errorlistJson[errorjson.hash].index;
+    }
+    if (typeof (errorjson.index) !== "undefined")
+    {
+        errorjson.index = errorjson.index + 1;
+    } else
+    {
+        errorjson.index = 0;
+    }
+    if (errorlistJson[errorjson.hash])
+    {
+        if (errorjson.time >= errorlistJson[errorjson.hash].time)
+        {
+            if (errorjson.level === -1)
+            {
+                delete errorlistJson[errorjson.hash];
+            } else
+            {
+                errorlistJson[errorjson.hash] = errorjson;
+            }
+            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+        }
+    } else
+    {
+        if (errorjson.level === -1)
+        {
+            delete errorlistJson[errorjson.hash];
+        } else
+        {
+            errorlistJson[errorjson.hash] = errorjson;
+        }
+        reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
 
-                    }
-                    if (Object.keys(errorlistJson).length > 200)
-                    {
-                        $('#manyalert').fadeIn();
-                    } else
-                    {
-                        $('#manyalert').fadeOut();
-                    }
+    }
+    if (Object.keys(errorlistJson).length > 200)
+    {
+        $('#manyalert').fadeIn();
+    } else
+    {
+        $('#manyalert').fadeOut();
+    }
 //            console.log(errorlistJson[errorjson.hash]);
 
-                });
-            },
-            function (message) {
-                $("#lostconnection").modal('show');
-            });
 }
-
 
 function findeByhash(element, array) {
     for (var i = 0; i < array.length; i++) {
