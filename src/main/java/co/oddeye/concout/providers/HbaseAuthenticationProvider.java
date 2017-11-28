@@ -127,7 +127,7 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
                     "Bad credentials"));
         } else {
             try {
-                final OddeyeUserDetails principal =(OddeyeUserDetails) ud;
+                final OddeyeUserDetails principal = (OddeyeUserDetails) ud;
                 InetAddress ia = InetAddress.getLocalHost();
                 String node = ia.getHostName();
 
@@ -155,8 +155,11 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
             } catch (UnknownHostException ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
             }
-//            OddeyeWebAuthenticationDetails det = (OddeyeWebAuthenticationDetails) upat.getDetails();
-//            LOGGER.info(upat.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
+            if (LOGGER.isInfoEnabled()) {
+                OddeyeWebAuthenticationDetails det = (OddeyeWebAuthenticationDetails) upat.getDetails();
+                LOGGER.info(upat.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
+            }
+
         }
     }
 
