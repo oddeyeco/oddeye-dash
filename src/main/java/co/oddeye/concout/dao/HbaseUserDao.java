@@ -257,6 +257,9 @@ public class HbaseUserDao extends HbaseBaseDao {
         return getUserByUUID(uuid, false);
     }
 
+    public OddeyeUserModel getUserByUUID(String uuid) {
+        return getUserByUUID(UUID.fromString(uuid), false);
+    }    
     public OddeyeUserDetails getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
         OddeyeUserModel user = getUserByUUID(uuid, reload);
         OddeyeUserDetails result = new OddeyeUserDetails(uuid, this);
