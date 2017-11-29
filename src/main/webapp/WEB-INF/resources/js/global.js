@@ -67,6 +67,7 @@ function globalconnect(head)
             //TODO
         });
     }, function (frame) {        
+        console.log("connect fail Do reconnect");
         globalconnect(head);
     });
 }

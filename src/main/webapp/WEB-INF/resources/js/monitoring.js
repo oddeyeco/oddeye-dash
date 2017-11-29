@@ -41,9 +41,11 @@ function realtimeconnect(head)
     stompClient.connect(head,
             function (frame) {
                 stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors',aftersubscribe);
+                console.log("connect OK");
 //                console.log(frame);
             },
             function (message) {                              
+                console.log("connect fail Do reconnect");
                 realtimeconnect(head);
             });    
 }
