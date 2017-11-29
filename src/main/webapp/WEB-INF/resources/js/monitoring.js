@@ -38,6 +38,7 @@ function connectstompClient()
 
 function realtimeconnect(head)
 {
+    console.log("connect START");
     stompClient.connect(head,
             function (frame) {
                 stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors',aftersubscribe);
