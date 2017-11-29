@@ -14,26 +14,26 @@
         <link href='//fonts.googleapis.com/css?family=Roboto:400,300,700' rel='stylesheet' type="text/css">
 
         <!-- Bootstrap -->
-        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css" />    
+        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />    
         <!-- Font Awesome -->
-        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css" />        
+        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css?v=${version}" />        
 
         <!-- animate.css -->
-        <link rel="stylesheet" href="${cp}/resources/assets/animate/animate.css" />
-        <link rel="stylesheet" href="${cp}/resources/assets/animate/set.css" />
+        <link rel="stylesheet" href="${cp}/resources/assets/animate/animate.css?v=${version}" />
+        <link rel="stylesheet" href="${cp}/resources/assets/animate/set.css?v=${version}" />
 
         <!-- gallery -->
-        <link rel="stylesheet" href="${cp}/resources/assets/gallery/blueimp-gallery.min.css">
+        <link rel="stylesheet" href="${cp}/resources/assets/gallery/blueimp-gallery.min.css?v=${version}">
 
         <!-- favicon -->
         <link rel="shortcut icon" href="${cp}/resources/images/favicon.ico" type="image/x-icon">
         <link rel="icon" href="${cp}/resources/images/favicon.ico" type="image/x-icon">
 
 
-        <link rel="stylesheet" href="${cp}/resources/assets/style.css">      
+        <link rel="stylesheet" href="${cp}/resources/assets/style.css?v=${version}">      
 
 
-        <link rel="stylesheet" href="${cp}/assets/css/main.css">    
+        <link rel="stylesheet" href="${cp}/assets/css/main.css?v=${version}">    
     </head>
 
     <body>

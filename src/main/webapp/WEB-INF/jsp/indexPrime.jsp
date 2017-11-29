@@ -17,15 +17,15 @@
             <link rel="shortcut icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
             <link rel="icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
             <!-- Select2 -->
-            <link href="${cp}/resources/select2/dist/css/select2.min.css" rel="stylesheet">        
+            <link href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}" rel="stylesheet">        
             <!-- Bootstrap -->
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css" />      
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />      
             <!-- bootstrap-progressbar -->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" />            
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css?v=${version}" />            
             <!-- iCheck -->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css" />                  
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />                  
             
-            <link rel="stylesheet" href="<c:url value="/assets/css/main.css"/>" />
+            <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
 
         </head>
 

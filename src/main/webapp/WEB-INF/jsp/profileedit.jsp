@@ -2,8 +2,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css" />        
-<link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css" />
+<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}" />        
+<link rel="stylesheet" type="text/css" href="${cp}/resources//switchery/dist/switchery.min.css?v=${version}" />
 
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
