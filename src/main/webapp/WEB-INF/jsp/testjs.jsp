@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script src="${cp}/resources/echarts/dist/echarts.js"></script>
-<script src="${cp}/resources/echarts/dist/extension/dataTool.min.js"></script>
+<script src="${cp}/resources/echarts/dist/extension/dataTool.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js"></script>
 <script src="${cp}/resources/js/chartsfuncs.js"></script>
 <script>

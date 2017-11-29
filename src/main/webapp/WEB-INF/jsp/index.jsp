@@ -2,11 +2,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib uri="http://htmlcompressor.googlecode.com/taglib/compressor"  prefix="compress"%>
-<compress:html removeIntertagSpaces="true" removeMultiSpaces="true"  compressCss="true" compressJavaScript="true">
+<compress:html removeIntertagSpaces="true" removeMultiSpaces="true"  compressCss="true" compressJavaScript="true">    
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
+    <c:set var="version" value="0.0.1"/>
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
     <!DOCTYPE html>
     <html lang="en">
@@ -261,33 +262,33 @@
             </script>                                         
 
             <!-- jQuery -->
-            <script src="<c:url value="/assets/dist/jquery.min.js"/>"></script>    
+            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
 
-            <script src="${cp}/assets/dist/switchery.min.js"></script>
+            <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
 
-            <script src="${cp}/assets/dist/jquery-ui.custom.min.js"></script>                    
-            <script src="${cp}/assets/dist/jquery.autocomplete.min.js"></script>        
-            <script src="${cp}/assets/dist/jquery.spincrement.min.js"></script>        
+            <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>                    
+            <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
+            <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>        
 
             <!-- Bootstrap -->
-            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>
             <!-- moment.js -->
-            <script src="${cp}/resources/js/moment/moment.min.js"></script>        
+            <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>        
             <!--bootstrap-progressbar--> 
-            <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+            <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js?v=${version}"></script>
             <!--iCheck--> 
-            <script src="${cp}/resources/iCheck/icheck.min.js"></script>
+            <script src="${cp}/resources/iCheck/icheck.min.js?v=${version}"></script>
             <!-- Bootstrap Colorpicker -->
-            <script src="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js"></script>
+            <script src="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js?v=${version}"></script>
             <!-- Bootstrap bootstrap-daterangepicker -->
             <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js"></script>        
             <!-- Custom Theme Scripts -->
-            <script src="${cp}/resources/build/js/custom.min.js"></script>
+            <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>
             <!-- Select2 -->
-            <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
+            <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 
-            <script src="${cp}/assets/dist/sockjs-1.1.1.min.js"></script> 
-            <script src="${cp}/assets/js/stomp.min.js"></script>            
+            <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script> 
+            <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>            
 
             <script src="${cp}/resources/js/global.js"></script>        
 

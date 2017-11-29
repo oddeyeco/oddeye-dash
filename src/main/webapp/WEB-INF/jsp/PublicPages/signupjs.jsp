@@ -5,7 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script src="<c:url value="/assets/dist/particles.min.js"/>"></script>    
+<script src="<c:url value="/assets/dist/particles.min.js?v=${version}"/>"></script>    
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
         async defer>
     </script>

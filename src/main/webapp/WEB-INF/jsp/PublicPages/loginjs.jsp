@@ -4,7 +4,7 @@
     Author     : vahan
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script src="<c:url value="/assets/dist/particles.min.js"/>"></script>    
+<script src="<c:url value="/assets/dist/particles.min.js?v=${version}"/>"></script>    
 <script>
     $(document).ready(function () {
         $('body').on('submit','#loginform',function (e){                     

@@ -1,4 +1,4 @@
-<script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
+<script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 <script>
     var emailfilterJson = ${activeuser.getEmailFilter()};
     var telegramfilterJson = ${activeuser.getTelegramFilter()};

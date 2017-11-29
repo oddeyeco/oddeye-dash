@@ -3,7 +3,7 @@
     Created on : Jun 13, 2016, 4:58:19 PM
     Author     : vahan
 --%>
-<script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
+<script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 
 <script>
     $(document).ready(function () {

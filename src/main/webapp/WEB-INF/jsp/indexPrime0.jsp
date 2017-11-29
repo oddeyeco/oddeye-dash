@@ -136,18 +136,18 @@
         <script src="${cp}/resources/assets/jquery.js"></script>
 
         <!-- wow script -->
-        <script src="${cp}/resources/assets/wow/wow.min.js"></script>
+        <script src="${cp}/resources/assets/wow/wow.min.js?v=${version}"></script>
 
 
         <!-- boostrap -->
         <script src="${cp}/resources/assets/bootstrap/js/bootstrap.js" type="text/javascript" ></script>
 
         <!-- jquery mobile -->
-        <script src="${cp}/resources/assets/mobile/touchSwipe.min.js"></script>
+        <script src="${cp}/resources/assets/mobile/touchSwipe.min.js?v=${version}"></script>
         <script src="${cp}/resources/assets/respond/respond.js"></script>
 
         <!-- gallery -->
-        <script src="${cp}/resources/assets/gallery/jquery.blueimp-gallery.min.js"></script>
+        <script src="${cp}/resources/assets/gallery/jquery.blueimp-gallery.min.js?v=${version}"></script>
 
         <!-- custom script -->
         <script src="${cp}/resources/assets/script.js"></script>

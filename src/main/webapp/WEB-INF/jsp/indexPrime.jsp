@@ -4,6 +4,7 @@
 <compress:html removeIntertagSpaces="true" removeMultiSpaces="true"  compressCss="true" compressJavaScript="true">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
+    <c:set var="version" value="0.0.1"/>
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -46,20 +47,20 @@
 
                 </footer>
             </div>
-            <script src="<c:url value="/assets/dist/jquery.min.js"/>"></script>    
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-            <script src="<c:url value="/assets/bootstrap4/js/bootstrap.min.js"/>"></script>
+            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js?v=${version}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+            <script src="<c:url value="/assets/bootstrap4/js/bootstrap.min.js?v=${version}"/>"></script>
             <!-- Select2 -->
-            <script src="${cp}/resources/select2/dist/js/select2.full.min.js"></script>
+            <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 
             <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
             <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->                            
             <!--iCheck--> 
-            <script src="${cp}/resources/iCheck/icheck.min.js"></script>
-            <script src="<c:url value="/assets/js/general.min.js"/>"></script>    
+            <script src="${cp}/resources/iCheck/icheck.min.js?v=${version}"></script>
+            <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    
             <!-- moment.js -->
-            <script src="${cp}/resources/js/moment/moment.min.js"></script>                    
-            <script src="${cp}/resources/js/moment/moment-timezone-with-data.min.js"></script>        
+            <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>                    
+            <script src="${cp}/resources/js/moment/moment-timezone-with-data.min.js?v=${version}"></script>        
             <script>
                 (function (i, s, o, g, r, a, m) {
                     i['GoogleAnalyticsObject'] = r;

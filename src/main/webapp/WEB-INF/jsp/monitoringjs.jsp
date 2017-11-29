@@ -6,6 +6,6 @@
     var filterJson = ${curentuser.getDefaultFilter()};
     var cp = "${cp}";
 </script> 
-<script src="${cp}/assets/js/chartsfuncs.min.js"></script>
-<script src="${cp}/assets/js/monitoring.min.js"></script>
+<script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
+<script src="${cp}/assets/js/monitoring.min.js?v=${version}"></script>
 

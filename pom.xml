@@ -4,7 +4,7 @@
 
     <groupId>oddeye.concout</groupId>
     <artifactId>OddeyeCoconut</artifactId>
-    <version>0.6</version>
+    <version>0.7.1</version>
     <packaging>war</packaging>
 
     <name>OddeyeCoconut</name>
