@@ -8,7 +8,6 @@
 /* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid */
 var globalsocket;
 var globalstompClient;
-globalstompClient.debug = null;
 var headers = {};
 headers[headerName] = token;
 headers["page"] = document.URL;

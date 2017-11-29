@@ -7,8 +7,6 @@
 
 var socket;
 var stompClient;
-stompClient.debug = null;
-
 var timeformat = "DD/MM HH:mm:ss";
 var timeformatsmall = "HH:mm:ss";
 var errorlistJson = {};
