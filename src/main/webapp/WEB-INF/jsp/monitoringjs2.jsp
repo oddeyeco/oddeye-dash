@@ -314,7 +314,7 @@
                     lookup: data.data,
                     appendTo: '.autocomplete-container-metric'
                 });
-            })
+            });
         });
 
         $('.autocomplete-append').each(function () {
@@ -322,7 +322,7 @@
             var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=^(.*)$";
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
-                    lookup: data.data,
+                    lookup: Object.keys(data.data),
                     appendTo: '.autocomplete-container_' + input.attr("tagkey")
                 });
             })

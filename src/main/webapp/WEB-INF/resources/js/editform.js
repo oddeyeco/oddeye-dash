@@ -1254,7 +1254,7 @@ class EditForm {
                 var uri = cp + "/gettagvalue?key=" + tagkinput.val();
                 $.getJSON(uri, null, function (data) {
                     tagvinput.autocomplete({
-                        lookup: data.data,
+                        lookup: Object.keys(data.data),
                         minChars: 0
                     });
                 });
@@ -1266,7 +1266,7 @@ class EditForm {
                     var uri = cp + "/gettagvalue?key=" + suggestion.value;
                     $.getJSON(uri, null, function (data) {
                         tagvinput.autocomplete({
-                            lookup: data.data,
+                            lookup: Object.keys(data.data),
                             minChars: 0
                         });
                     });

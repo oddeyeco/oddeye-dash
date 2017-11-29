@@ -81,9 +81,6 @@
                 if (data.sucsses)
                 {
                     jQuery.each(data.data, function (ikey, val) {
-                        
-                        
-                        
                         var re = new RegExp("[//.|///]", 'g');
                         var i = ikey.replace(re, "_");
                         var id = key + "_" + i;

@@ -82,7 +82,7 @@
             var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=" + encodeURIComponent("^(.*)$");
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
-                    lookup: data.data,
+                    lookup: Object.keys(data.data),
                     appendTo: '.autocomplete-container_' + input.attr("tagkey")
                 });
             });
