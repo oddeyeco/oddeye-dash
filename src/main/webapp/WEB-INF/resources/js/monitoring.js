@@ -5,8 +5,8 @@
  */
 /* global moment, cp, headerName, token, uuid, sotoken */
 
-var socket = new SockJS(cp + '/subscribe');
-var stompClient = Stomp.over(socket);
+var socket;
+var stompClient;
 stompClient.debug = null;
 
 var timeformat = "DD/MM HH:mm:ss";
@@ -609,24 +609,7 @@ $(document).ready(function () {
     });
 
     connectstompClient();
-
-//    startlisen();
-//    $(window).bind('beforeunload', function (e) {
-//        var url = cp + "/stoplisener";
-//        var header = $("meta[name='_csrf_header']").attr("content");
-//        var token = $("meta[name='_csrf']").attr("content");
-//        var sendData = {};
-//        sendData.sotoken = sotoken;
-//        $.ajax({
-//            dataType: 'json',
-//            type: 'POST',
-//            url: url,
-//            data: sendData,
-//            beforeSend: function (xhr) {
-//                xhr.setRequestHeader(header, token);
-//            }
-//        });
-//    });
+    
     $('body').on("change", "#ident_tag", function () {
         DrawErrorList(errorlistJson, $(".metrictable"));
     });

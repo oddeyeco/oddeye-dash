@@ -6,8 +6,8 @@
 
 
 /* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid */
-var globalsocket = new SockJS(cp + '/subscribe');
-var globalstompClient = Stomp.over(globalsocket);
+var globalsocket;
+var globalstompClient;
 globalstompClient.debug = null;
 var headers = {};
 headers[headerName] = token;
@@ -17,6 +17,10 @@ globalconnect(headers);
 
 function globalconnect(head)
 {
+    globalsocket = new SockJS(cp + '/subscribe');
+    globalstompClient = Stomp.over(globalsocket);
+    globalstompClient.debug = null;
+
     globalstompClient.connect(head, function (frame) {
         globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
             var event = JSON.parse(message.body);
@@ -66,8 +70,8 @@ function globalconnect(head)
         globalstompClient.subscribe('/all/info', function (message) {
             //TODO
         });
-    }, function (frame) {        
-        console.log("connect fail Do reconnect");
+    }, function (frame) {
+        console.log("global connect fail Do reconnect");
         globalconnect(head);
     });
 }
