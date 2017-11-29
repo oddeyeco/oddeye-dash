@@ -38,7 +38,7 @@ function connectstompClient()
                 stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors',aftersubscribe);
             },
             function (message) {
-//                console.log(message);                
+                console.log(message);                
                 $("#lostconnection").modal('show');
             });
 }

@@ -63,6 +63,7 @@ globalstompClient.connect(headers, function (frame) {
     });
 }, function (frame) {
     console.log(frame);
+    alert("aaaaaaaaa");
 //    setTimeout(function () {
 //        location.reload();
 //    }, 20000);
