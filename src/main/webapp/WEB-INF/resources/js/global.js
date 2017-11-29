@@ -14,8 +14,8 @@ headers[headerName] = token;
 headers["page"] = document.URL;
 globalstompClient.connect(headers, function (frame) {
     globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-        var event = JSON.parse(message.body);        
-        switch (event.action) {            
+        var event = JSON.parse(message.body);
+        switch (event.action) {
             case 'editdash':
             {
                 if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)
@@ -207,8 +207,11 @@ function compareStrings(a, b) {
 function compareMetric(a, b, tagident) {
     var _aname = a.info.name.toLowerCase();
     var _bname = b.info.name.toLowerCase();
-    var _atag = a.info.tags[tagident].value.toLowerCase();
-    var _btag = b.info.tags[tagident].value.toLowerCase();
+    if (a.info.tags[tagident])
+    {
+        var _atag = a.info.tags[tagident].value.toLowerCase();
+        var _btag = b.info.tags[tagident].value.toLowerCase();
+    }
     var _atime = a.time;
     var _btime = b.time;
 //    return ((_aname < _bname) && (_atag < _btag) && (_atime < _btime)) ? -1 : ((_aname > _bname) && (_atag > _btag) && (_atime > _btime)) ? 1 : 0;
