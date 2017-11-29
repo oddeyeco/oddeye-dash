@@ -32,25 +32,25 @@ function connectstompClient()
             }
         }
     });
-    headers["levels"] = levels;
-    stompClient.connect(headers,
-            function (frame) {
-                stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors',aftersubscribe);
-            },
-            function (message) {
-                console.log(message);                
-                $("#lostconnection").modal('show');
-            });
+    headers["levels"] = levels;        
+    realtimeconnect(headers);
 }
 
-function aftersubscribe(error) {
+function realtimeconnect(head)
+{
+    stompClient.connect(head,
+            function (frame) {
+                stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors',aftersubscribe);
+//                console.log(frame);
+            },
+            function (message) {                              
+                realtimeconnect(head);
+            });    
+}
+
+function aftersubscribe(error) {    
+    $(".metrictable").find("tr.wait").remove();
     var errorjson = JSON.parse(error.body);
-
-//                    if (errorjson.hash == -1254898263)
-//                    {
-//                        console.log(errorjson.levelname + " " + errorjson.flap + " " + moment().format(timeformatsmall) + ' ' + moment(errorjson.time).format(timeformatsmall));
-//                    }
-
     if (errorlistJson[errorjson.hash])
     {
         errorjson.index = errorlistJson[errorjson.hash].index;

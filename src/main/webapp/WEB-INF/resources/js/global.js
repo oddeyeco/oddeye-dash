@@ -12,62 +12,64 @@ globalstompClient.debug = null;
 var headers = {};
 headers[headerName] = token;
 headers["page"] = document.URL;
-globalstompClient.connect(headers, function (frame) {
-    globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-        var event = JSON.parse(message.body);
-        switch (event.action) {
-            case 'editdash':
-            {
-                if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)
-                {
-                    if (window.location.pathname === cp + "/dashboard/" + event.name)
-                    {
-                        location.reload();
-                    }
 
-                    if (event.oldname)
+globalconnect(headers);
+
+function globalconnect(head)
+{
+    globalstompClient.connect(head, function (frame) {
+        globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
+            var event = JSON.parse(message.body);
+            switch (event.action) {
+                case 'editdash':
+                {
+                    if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)
                     {
-                        if (window.location.pathname === cp + "/dashboard/" + event.oldname)
-                        {
-                            var uri = encodeURI(cp + "/dashboard/" + event.name);
-                            window.location.href = uri;
-                        } else
+                        if (window.location.pathname === cp + "/dashboard/" + event.name)
                         {
                             location.reload();
                         }
 
-                    }
-                }
-                break;
-            }
-            case 'deletedash':
-            {
-                if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)
-                {
-                    if (window.location.pathname === cp + "/dashboard/" + event.name)
-                    {
-                        window.location = cp + "/dashboard/";
-                    }
+                        if (event.oldname)
+                        {
+                            if (window.location.pathname === cp + "/dashboard/" + event.oldname)
+                            {
+                                var uri = encodeURI(cp + "/dashboard/" + event.name);
+                                window.location.href = uri;
+                            } else
+                            {
+                                location.reload();
+                            }
 
+                        }
+                    }
+                    break;
                 }
-                break;
+                case 'deletedash':
+                {
+                    if (event.unloadRef !== globalstompClient.ws._transport.unloadRef)
+                    {
+                        if (window.location.pathname === cp + "/dashboard/" + event.name)
+                        {
+                            window.location = cp + "/dashboard/";
+                        }
+
+                    }
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
             }
-            default:
-            {
-                break;
-            }
-        }
+        });
+        globalstompClient.subscribe('/all/info', function (message) {
+            //TODO
+        });
+    }, function (frame) {        
+        globalconnect(head);
     });
-    globalstompClient.subscribe('/all/info', function (message) {
-        //TODO
-    });
-}, function (frame) {
-    console.log(frame);
-    alert("aaaaaaaaa");
-//    setTimeout(function () {
-//        location.reload();
-//    }, 20000);
-});
+}
 
 function menuscroll() {
     var $LEFT_COL = $('.left_col');
