@@ -32,26 +32,29 @@ function connectstompClient()
             }
         }
     });
-    headers["levels"] = levels;        
+    headers["levels"] = levels;
     realtimeconnect(headers);
 }
 
 function realtimeconnect(head)
 {
     console.log("connect START");
+    socket = new SockJS(cp + '/subscribe');
+    stompClient = Stomp.over(socket);
+    stompClient.debug = null;
     stompClient.connect(head,
             function (frame) {
                 console.log("connect OK");
-                stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors',aftersubscribe);                
+                stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', aftersubscribe);
 //                console.log(frame);
             },
-            function (message) {                              
+            function (message) {
                 console.log("connect fail Do reconnect");
                 realtimeconnect(head);
-            });    
+            });
 }
 
-function aftersubscribe(error) {    
+function aftersubscribe(error) {
     $(".metrictable").find("tr.wait").remove();
     var errorjson = JSON.parse(error.body);
     if (errorlistJson[errorjson.hash])

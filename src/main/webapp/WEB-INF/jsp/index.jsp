@@ -7,7 +7,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
-    <c:set var="version" value="0.2.8" scope="request"/>
+    <c:set var="version" value="0.2.9" scope="request"/>
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
     <!DOCTYPE html>
     <html lang="en">
