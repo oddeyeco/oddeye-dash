@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="${cp}/resources/echarts/dist/echarts.min.js?v=${version}"></script>
-<script src="${cp}/resources/js/theme/oddeyelight.js"></script>
-<!--<script src="${cp}/resources/js/chartsfuncs.js"></script>-->
+<script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
+<!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
 <script>
     var merictype = ${metric.getType()};

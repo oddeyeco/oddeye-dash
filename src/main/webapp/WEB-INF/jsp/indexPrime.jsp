@@ -54,7 +54,7 @@
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 
             <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-            <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>-->                            
+            <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js?v=${version}"></script>-->                            
             <!--iCheck--> 
             <script src="${cp}/resources/iCheck/icheck.min.js?v=${version}"></script>
             <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    

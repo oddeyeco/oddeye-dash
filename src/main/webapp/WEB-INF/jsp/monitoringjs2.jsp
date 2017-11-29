@@ -1,5 +1,5 @@
-<script src="${cp}/assets/js/socket/dist/sockjs-1.1.1.js"></script>    
-<script src="${cp}/assets/js/socket/stomp.js"></script>
+<script src="${cp}/assets/js/socket/dist/sockjs-1.1.1.js?v=${version}"></script>    
+<script src="${cp}/assets/js/socket/stomp.js?v=${version}"></script>
 
 <script>
     var stompClient = null;

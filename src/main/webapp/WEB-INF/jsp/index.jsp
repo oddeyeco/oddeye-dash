@@ -281,7 +281,7 @@
             <!-- Bootstrap Colorpicker -->
             <script src="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js?v=${version}"></script>
             <!-- Bootstrap bootstrap-daterangepicker -->
-            <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js"></script>        
+            <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js?v=${version}"></script>        
             <!-- Custom Theme Scripts -->
             <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>
             <!-- Select2 -->
@@ -290,7 +290,7 @@
             <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script> 
             <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>            
 
-            <script src="${cp}/resources/js/global.js"></script>        
+            <script src="${cp}/resources/js/global.js?v=${version}"></script>        
 
             <c:catch var="e">
                 <c:import url="${jspart}.jsp" />
