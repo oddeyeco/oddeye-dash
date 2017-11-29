@@ -62,9 +62,10 @@ globalstompClient.connect(headers, function (frame) {
         //TODO
     });
 }, function (frame) {
-    setTimeout(function () {
-        location.reload();
-    }, 20000);
+    console.log(frame);
+//    setTimeout(function () {
+//        location.reload();
+//    }, 20000);
 });
 
 function menuscroll() {
