@@ -62,8 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout/"))
                 .logoutSuccessUrl("/login/").deleteCookies("JSESSIONID")
-                .invalidateHttpSession(true).and()
-                .rememberMe().userDetailsService(userService).tokenValiditySeconds(1209600);
+                .invalidateHttpSession(true);
         http
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**", "/contact/**", "/gugush.txt").permitAll()
@@ -82,9 +81,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .authenticationDetailsSource(authenticationDetailsSource())
-                .loginPage("/login/")
-                .permitAll()
-                .and().addFilterBefore(new StickySesionCookieFilter(cookiename,cookievalue),UsernamePasswordAuthenticationFilter.class);
+                .loginPage("/login/").permitAll()
+                .and().rememberMe().userDetailsService(userService).tokenValiditySeconds(1209600)
+                .and().csrf();
+//                .and().addFilterBefore(new StickySesionCookieFilter(cookiename,cookievalue),UsernamePasswordAuthenticationFilter.class);
 
     }
 
