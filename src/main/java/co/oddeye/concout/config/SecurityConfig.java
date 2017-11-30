@@ -29,7 +29,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+@PropertySource("file:/etc/oddeye/dash.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${sesion.cookie.name}")

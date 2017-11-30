@@ -17,7 +17,7 @@ import org.springframework.context.annotation.PropertySource;
  * @author vahan
  */
 @Configuration
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+@PropertySource("file:/etc/oddeye/dash.properties")
 public class MailConfig {
 
     @Value("${mail.user}")

@@ -7,15 +7,15 @@
         <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
     </div>    
     <label class="col-md-12 col-sm-12 col-xs-12">By Tag</label>
-    <c:forEach items="${activeuser.getMetricsMeta().getTagsList()}" var="tagitem">   
+    <c:forEach items="${activeuser.getMetricsMeta().getTagsKeysSort()}" var="tagitem">   
         <div class="form-group">
             <label class=" col-lg-12 col-sm-12 col-xs-12">
-                ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}
-                <input type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem.key}" name="check_${tagitem.key}" value="${tagitem.key}"/> 
+                ${fn:toUpperCase(fn:substring(tagitem, 0, 1))}${fn:toLowerCase(fn:substring(tagitem, 1,fn:length(tagitem)))}
+                <input type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem}" name="check_${tagitem}" value="${tagitem}"/> 
             </label>
             <div class="col-lg-12 col-sm-12 col-xs-12">
-                <input class="form-control autocomplete-append filter-input" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="">
-                <div class="autocomplete-container_${tagitem.key}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
+                <input class="form-control autocomplete-append filter-input" type="text" name="${tagitem}_input" id="${tagitem}_input" tagkey="${tagitem}" value="">
+                <div class="autocomplete-container_${tagitem}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
             </div>
         </div>
     </c:forEach>

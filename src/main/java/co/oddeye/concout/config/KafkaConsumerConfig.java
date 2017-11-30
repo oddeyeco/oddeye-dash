@@ -27,7 +27,7 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
  */
 @Configuration
 @EnableKafka
-@PropertySource("file:/opt/jetty/oddeye/dash.properties")
+@PropertySource("file:/etc/oddeye/dash.properties")
 public class KafkaConsumerConfig {
     
     @Value("${kafka.consumer.bootstrap.servers}")

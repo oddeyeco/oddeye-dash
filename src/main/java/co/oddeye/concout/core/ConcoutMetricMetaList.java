@@ -200,6 +200,12 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public Map<String, Map<String, Integer>> getTagsList() {
         return TagsList;
     }
+    
+    public List<String> getTagsKeysSort() {
+        List<String> keys =new ArrayList<>(TagsList.keySet()) ;
+        Collections.sort(keys);
+        return keys;
+    }    
 
     public ConcoutMetricMetaList getbyTags(Map<String, String> tagsMap, String filter) {
         ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();

@@ -215,13 +215,18 @@ function compareStrings(a, b) {
 function compareMetric(a, b, tagident) {
     var _aname = a.info.name.toLowerCase();
     var _bname = b.info.name.toLowerCase();
+    var _atag = "NaN";
+    var _btag = "NaN";
     if (a.info.tags[tagident])
     {
-        var _atag = a.info.tags[tagident].value.toLowerCase();
-        var _btag = b.info.tags[tagident].value.toLowerCase();
+        _atag = a.info.tags[tagident].value.toLowerCase();
     }
-    var _atime = a.time;
-    var _btime = b.time;
+    if (b.info.tags[tagident])
+    {
+        _btag = b.info.tags[tagident].value.toLowerCase();
+    }
+//    var _atime = a.time;
+//    var _btime = b.time;
 //    return ((_aname < _bname) && (_atag < _btag) && (_atime < _btime)) ? -1 : ((_aname > _bname) && (_atag > _btag) && (_atime > _btime)) ? 1 : 0;
 //    if (_atag == _btag)
 //    {
