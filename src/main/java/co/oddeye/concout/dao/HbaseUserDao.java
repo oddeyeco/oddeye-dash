@@ -322,10 +322,10 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
-    public void removeDush(UUID id, String DushName) {
+    public void removeDush(UUID id, String DushName) throws Exception {
         if (DushName != null) {
             final DeleteRequest put = new DeleteRequest(dashtable, id.toString().getBytes(), "data".getBytes(), DushName.getBytes());
-            BaseTsdb.getClient().delete(put);
+            BaseTsdb.getClient().delete(put).join();
         }
     }
 

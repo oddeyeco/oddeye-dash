@@ -428,37 +428,42 @@ public class DashController {
             }
             String DushName = request.getParameter("name").trim();
             if (DushName != null) {
-                userDetails.removeDush(DushName, Userdao);
-
-                String node = "";
-                InetAddress ia;
                 try {
-                    ia = InetAddress.getLocalHost();
-                    node = ia.getHostName();
-                } catch (UnknownHostException ex) {
+                    userDetails.removeDush(DushName, Userdao);
+                    
+                    String node = "";
+                    InetAddress ia;
+                    try {
+                        ia = InetAddress.getLocalHost();
+                        node = ia.getHostName();
+                    } catch (UnknownHostException ex) {
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
+                    
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                    Jsonchangedata.addProperty("action", "deletedash");
+                    Jsonchangedata.addProperty("node", node);
+                    Jsonchangedata.addProperty("name", DushName);
+                    // Send chenges to kafka
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            LOGGER.info("kafka semaphore editdash send messge onSuccess");
+                        }
+                        
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
+                        }
+                    });
+                    
+                    jsonResult.addProperty("sucsses", true);
+                } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
+                    jsonResult.addProperty("sucsses", false);
                 }
-
-                JsonObject Jsonchangedata = new JsonObject();
-                Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
-                Jsonchangedata.addProperty("action", "deletedash");
-                Jsonchangedata.addProperty("node", node);
-                Jsonchangedata.addProperty("name", DushName);
-                // Send chenges to kafka
-                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                    @Override
-                    public void onSuccess(SendResult<Integer, String> result) {
-                        LOGGER.info("kafka semaphore editdash send messge onSuccess");
-                    }
-
-                    @Override
-                    public void onFailure(Throwable ex) {
-                        LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
-                    }
-                });
-
-                jsonResult.addProperty("sucsses", true);
             } else {
                 jsonResult.addProperty("sucsses", false);
             }

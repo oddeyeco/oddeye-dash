@@ -328,7 +328,7 @@ public class OddeyeUserModel {
         return DushList;
     }
 
-    public Map<String, String> removeDush(String DushName, HbaseUserDao Userdao) {
+    public Map<String, String> removeDush(String DushName, HbaseUserDao Userdao) throws Exception {
         DushList.remove(DushName);
         Userdao.removeDush(id, DushName);
         return DushList;
