@@ -78,7 +78,7 @@ public class KafkaLisener {
                         user = Userdao.getUserByUUID(UUID.fromString(Metric.getTags().get("UUID")));
                         if (!user.getMetricsMeta().containsKey(mtrscMeta.hashCode())) {
                             user.getMetricsMeta().add(mtrscMeta);
-                        } else {                            
+                        } else {
                             user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
                         }
 
@@ -90,6 +90,7 @@ public class KafkaLisener {
         }
         countDownReceiveMetric.countDown();
     }
+
     @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}")
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
@@ -142,32 +143,40 @@ public class KafkaLisener {
 //                    this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                         break;
                     }
-                    case "updateuser":
                     case "deletedash":
-                    case "editdash":
+                    case "editdash": {
+                        try {
+                            user.setDushList(Userdao.getAllDush(user.getId()));
+                            this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
+                        } catch (Exception ex) {
+                            LOGGER.error(globalFunctions.stackTrace(ex));
+                        }
+                        break;
+                    }
+                    case "updateuser":
                     case "updatelevels": {
                         Map<String, PageInfo> userpagelist = user.getPagelist();
-                        if (userpagelist.size() > 1) {
-                            try {
-                                InetAddress ia = InetAddress.getLocalHost();
-                                String node = ia.getHostName();
-                                for (Iterator<Map.Entry<String, PageInfo>> it = userpagelist.entrySet().iterator(); it.hasNext();) {
-                                    Map.Entry<String, PageInfo> userinfoentry = it.next();
-                                    if (userinfoentry.getValue().getNode().equals(node)) {
-                                        if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
-                                            TimeUnit.SECONDS.sleep(2);
-                                            user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
-                                        }
-                                        this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
-                                        break;
+//                        if (userpagelist.size() > 1) {
+                        try {
+                            InetAddress ia = InetAddress.getLocalHost();
+                            String node = ia.getHostName();
+                            for (Iterator<Map.Entry<String, PageInfo>> it = userpagelist.entrySet().iterator(); it.hasNext();) {
+                                Map.Entry<String, PageInfo> userinfoentry = it.next();
+                                if (userinfoentry.getValue().getNode().equals(node)) {
+                                    if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
+                                        TimeUnit.SECONDS.sleep(2);
+                                        user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
                                     }
-
+                                    this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
+                                    break;
                                 }
 
-                            } catch (UnknownHostException | InterruptedException ex) {
-                                LOGGER.error(globalFunctions.stackTrace(ex));
                             }
+
+                        } catch (UnknownHostException | InterruptedException ex) {
+                            LOGGER.error(globalFunctions.stackTrace(ex));
                         }
+//                        }
                         break;
                     }
                     default:
