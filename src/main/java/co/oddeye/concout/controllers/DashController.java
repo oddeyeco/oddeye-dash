@@ -331,19 +331,18 @@ public class DashController {
             String oldname = request.getParameter("oldname");
             String unloadRef = request.getParameter("unloadRef");
             if (DushName != null) {
-                userDetails.addDush(DushName, DushInfo, Userdao);
-                if (oldname != null) {
-                    oldname = oldname.trim();
-                    userDetails.removeDush(oldname, Userdao);
-                }
-                String node = "";
-                InetAddress ia;
                 try {
+                    userDetails.addDush(DushName, DushInfo, Userdao);
+                    if (oldname != null) {
+                        oldname = oldname.trim();
+                        userDetails.removeDush(oldname, Userdao);
+                    }
+                    String node = "";
+                    InetAddress ia;
+
                     ia = InetAddress.getLocalHost();
                     node = ia.getHostName();
-                } catch (UnknownHostException ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));
-                }
+
 
                 JsonObject Jsonchangedata = new JsonObject();
                 Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
@@ -368,6 +367,10 @@ public class DashController {
                 });
 
                 jsonResult.addProperty("sucsses", true);
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                    jsonResult.addProperty("sucsses", false);
+                }                
             } else {
                 jsonResult.addProperty("sucsses", false);
             }
@@ -395,7 +398,7 @@ public class DashController {
             String DushName = request.getParameter("name").trim();
             String DushInfo = request.getParameter("info").trim();
             if (DushName != null) {
-                userDetails.addDush(DushName, DushInfo, Userdao);
+//                userDetails.addDush(DushName, DushInfo, Userdao);
                 DashboardTemplate template = new DashboardTemplate(DushName, DushInfo, userDetails, TemplateType.Dushboard);
                 TemplateDAO.add(template);
                 jsonResult.addProperty("sucsses", true);

@@ -322,7 +322,7 @@ public class OddeyeUserModel {
      * @param Userdao
      * @return the DushList
      */
-    public Map<String, String> addDush(String DushName, String DushInfo, HbaseUserDao Userdao) {
+    public Map<String, String> addDush(String DushName, String DushInfo, HbaseUserDao Userdao) throws Exception {
         DushList.put(DushName, DushInfo);
         Userdao.saveDush(id, DushName, DushInfo);
         return DushList;

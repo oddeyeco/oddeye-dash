@@ -315,10 +315,10 @@ public class HbaseUserDao extends HbaseBaseDao {
         return null;
     }
 
-    public void saveDush(UUID id, String DushName, String DushInfo) {
+    public void saveDush(UUID id, String DushName, String DushInfo) throws Exception {
         if (DushName != null) {
             final PutRequest put = new PutRequest(dashtable, id.toString().getBytes(), "data".getBytes(), DushName.getBytes(), DushInfo.getBytes());
-            BaseTsdb.getClient().put(put);
+            BaseTsdb.getClient().put(put).join();
         }
     }
 
