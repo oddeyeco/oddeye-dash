@@ -147,9 +147,8 @@ public class DefaultController {
             map.put("jspart", slug + "js");
         } else {
             map.put("isAuthentication", false);
-            map.put("body", "standartpage");
-            map.put("jspart", "standartpagejs");
-
+            map.put("body", slug);
+            map.put("jspart", slug + "js");
         }
         map.put("title", slug);
         map.put("slug", slug);

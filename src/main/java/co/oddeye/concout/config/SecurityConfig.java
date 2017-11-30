@@ -11,7 +11,6 @@ package co.oddeye.concout.config;
  */
 import co.oddeye.concout.providers.HbaseAuthenticationProvider;
 import co.oddeye.concout.providers.OddeyeWebAuthenticationDetails;
-import co.oddeye.concout.providers.StickySesionCookieFilter;
 import co.oddeye.concout.providers.UserDetailsServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -65,7 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/assets/**", "/signup/", "/", "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", "/faq/**", "/contact/**", "/gugush.txt").permitAll()
+                .antMatchers("/calculator/**","/resources/**", "/assets/**", "/signup/", "/", 
+                        "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", 
+                        "/faq/**", "/contact/**", "/gugush.txt").permitAll()
 //                .antMatchers("/getfiltredmetrics*").permitAll()
 //                .antMatchers("/getdata*").permitAll()
 //                .antMatchers("/gettagkey*").permitAll()

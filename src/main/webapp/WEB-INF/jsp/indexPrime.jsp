@@ -37,7 +37,7 @@
                 </header>    
                 <main>            
                     <c:catch var="e">
-                        <c:import url="PublicPages/${body}.jsp" />
+                        <c:import url="${body}.jsp" />
                     </c:catch>
                     <c:if test="${!empty e}">
                         ${body} <c:import url="errors/pageerror.jsp" />
@@ -80,7 +80,7 @@
             </script>               
             
             <c:catch var="e">
-                <c:import url="PublicPages/${jspart}.jsp" />
+                <c:import url="${jspart}.jsp" />
             </c:catch>
         </body>
 
