@@ -815,12 +815,11 @@ var queryCallback = function (inputdata) {
                 } else
                 {
                     widget.options.xAxis[xAxis_Index].max = end;
-                }                
+                }
                 if (subtractlist[start])
                 {
                     widget.options.xAxis[xAxis_Index].min = moment(widget.options.xAxis[xAxis_Index].max).subtract(subtractlist[start][0], subtractlist[start][1]).valueOf();
-                }
-                else
+                } else
                 {
                     widget.options.xAxis[xAxis_Index].min = start
                 }
@@ -1563,9 +1562,10 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     var whaitlist = {};
     var widget = json.rows[ri].widgets[wi];
     if (widget.timer)
-    {
-        clearTimeout(widget.timer);
-    }
+        if (widget.timer)
+        {
+            clearTimeout(widget.timer);
+        }
 
     var chart;
     if (customchart === null)
@@ -2493,7 +2493,9 @@ $(document).ready(function () {
             }
         }
 
-        var ri = $(this).index();
+        var ri = $(this).attr("index");
+//        console.log($(this).attr("index"));
+//        console.log(gdd.rows);
         gdd.rows.splice(ri, 1);
         domodifier();
         redrawAllJSON(gdd);
@@ -2529,7 +2531,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Row?");
+        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete row " + $(this).parents(".raw-controls").find(".title_text span").text() + "?");
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
         domodifier();
@@ -2679,7 +2681,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
         $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this Panel?");
+        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + gdd.rows[ri].widgets[wi].options.title.text + " ?");
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
     });
