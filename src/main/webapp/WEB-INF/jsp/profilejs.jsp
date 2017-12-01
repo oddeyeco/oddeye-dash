@@ -85,7 +85,7 @@
                         var i = ikey.replace(re, "_");
                         var id = key + "_" + i;
                         id = id.replace(re, "_");
-                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + ikey + "'><td>" + ikey + "</td><td class='count'> "+val+"</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + ikey + "'><td>" + ikey + "</td><td class='count'> "+val+"</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + ikey + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         $("#listtable").append('<tr data-tt-id="' + i + '_2" data-tt-parent-id="' + i + '" class="metricinfo" id="' + id + '" style="display: none"><td colspan="3"> <span><table class="table table-striped"> <thead><tr><th><div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li><li><a href="#" class="deletemetricgroup">Delete</a></li></ul></div> </th><th>Metric name</th><th>Tags</th><th>Last Time</th><th></th></tr></thead><tbody></tbody></table></span></td></tr>');
 //                        getmetrics(key, val, i);
                     });
@@ -119,7 +119,7 @@
                     for (var i in data.dataspecial)
                     {
                         var val = data.dataspecial[i];                        
-                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + i + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = "name_" + i;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
@@ -130,7 +130,7 @@
                     {
                         var val = data.dataregular[i];
                         var table = $(tablename);
-                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + val + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
+                        table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + i + "'><i class='fa fa-trash-o'></i> Delete All</a></td></tr>");
                         var id = "name_" + i;
                         var re = new RegExp("[//.|///]", 'g');
                         id = id.replace(re, "_");
@@ -241,6 +241,7 @@
 
         $('body').on("click", ".deletemetrics", function () {
             var key = $(this).attr("key");
+            console.log($(this).attr("value"));
             $.getJSON("deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
                 getmetainfo(key);
             });
