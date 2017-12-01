@@ -46,22 +46,22 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HbaseMetaDao extends HbaseBaseDao {
-    
+
     private final ConcoutMetricMetaList fullmetalist = new ConcoutMetricMetaList();
 //    private ConcoutMetricMetaList MtrscList;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(HbaseMetaDao.class);
-    
+
     public HbaseMetaDao(DatabaseConfig p_config) {
         super(p_config.getMetaTable());
     }
-    
+
     public Map<String, MetriccheckRule> getErrorRules(MetricErrorMeta meta, long time) throws Exception {
         Calendar CalendarObj = Calendar.getInstance();
         CalendarObj.setTimeInMillis(time * 1000);
         CalendarObj.add(Calendar.DATE, -1);
         return meta.getRules(CalendarObj, 7, table, BaseTsdb.getClientSecondary());
     }
-    
+
     public OddeeyMetricMeta getByKey(byte[] key) throws Exception {
         GetRequest request = new GetRequest(table, key, "d".getBytes());
         ArrayList<KeyValue> row = BaseTsdb.getClientSecondary().get(request).joinUninterruptibly();
@@ -73,11 +73,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
             LOGGER.warn("Key " + Hex.encodeHexString(key) + " Not Found in database");
         }
         return null;
-        
+
     }
-    
+
     public ConcoutMetricMetaList getByUUID(UUID userid) throws Exception {
-        
+
         Scanner scanner = BaseTsdb.getClientSecondary().newScanner(table);
         scanner.setServerBlockCache(false);
 //        scanner.setMaxTimestamp(System.currentTimeMillis() - 60000 * 15);
@@ -86,72 +86,92 @@ public class HbaseMetaDao extends HbaseBaseDao {
         final byte[][] Qualifiers = new byte[][]{"timestamp".getBytes(), "type".getBytes()};
 //        final byte[][] Qualifiers = new byte[][]{"timestamp".getBytes()};
         scanner.setQualifiers(Qualifiers);
-        
+
 //        ValueFilter filter = new ValueFilter(CompareFilter.CompareOp.LESS_OR_EQUAL, new BinaryComparator(ByteBuffer.allocate(8).putLong(System.currentTimeMillis() - 60000 * 15).array()));
 //        scanner.setFilter(filter);
         byte[] key = new byte[0];
-        
+
         key = ArrayUtils.addAll(key, BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGK, "UUID"));
         key = ArrayUtils.addAll(key, BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, userid.toString()));
-        
+
         StringBuilder buffer = new StringBuilder();
         buffer.append("\\Q");
         QueryUtil.addId(buffer, key, true);
         scanner.setKeyRegexp(buffer.toString(), Charset.forName("ISO-8859-1"));
-        
+
         final ConcoutMetricMetaList result = new ConcoutMetricMetaList();
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("AddMeta-thread-%d-" + userid.toString()).setPriority(10)
                 .build();
         ExecutorService executor = Executors.newCachedThreadPool(namedThreadFactory);
         // Callback class to keep scanning recursively.        
-        class cb implements Callback<Object, ArrayList<ArrayList<KeyValue>>> {
-            
-            @Override
-            public Object call(final ArrayList<ArrayList<KeyValue>> rows) {
-                if (rows == null) {
-                    return null;
-                }
-                try {
-                    for (final ArrayList<KeyValue> row : rows) {                        
-                        for (KeyValue cell : row) {
-                            if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
-                                long lasttime = cell.timestamp();                                
+//        class cb implements Callback<Object, ArrayList<ArrayList<KeyValue>>> {
+//            
+//            @Override
+//            public Object call(final ArrayList<ArrayList<KeyValue>> rows) {
+//                if (rows == null) {
+//                    return null;
+//                }
+//                try {
+//                    for (final ArrayList<KeyValue> row : rows) {                        
+//                        for (KeyValue cell : row) {
+//                            if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
+//                                long lasttime = cell.timestamp();                                
+////                                if (lasttime<(System.currentTimeMillis()-60000))
+////                                {
+//                                    executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
+////                                }
+//                            }
+//
+//                        }
+//                    }
+//                    return scanner.nextRows().addCallback(this);
+//                } catch (AssertionError e) {
+//                    throw new RuntimeException("Asynchronous failure", e);
+//                }
+//            }
+//        }
+
+        try {
+            ArrayList<ArrayList<KeyValue>> allrows = new ArrayList();
+            ArrayList<ArrayList<KeyValue>> rows;
+            while ((rows = scanner.nextRows().join()) != null) {
+                allrows.addAll(rows);
+            }
+
+            if (allrows.size() > 0) {
+                for (final ArrayList<KeyValue> row : allrows) {
+                    for (KeyValue cell : row) {
+                        if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
+                            long lasttime = cell.timestamp();
 //                                if (lasttime<(System.currentTimeMillis()-60000))
 //                                {
-                                    executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
+                            executor.submit(new AddMeta(row, BaseTsdb.getTsdb(), BaseTsdb.getClient(), table, result));
 //                                }
-                            }
-
                         }
+
                     }
-                    return scanner.nextRows().addCallback(this);
-                } catch (AssertionError e) {
-                    throw new RuntimeException("Asynchronous failure", e);
                 }
+
             }
-        }
-        
-        try {
-            scanner.nextRows().addCallbacks(new cb(), Callback.PASSTHROUGH).join();
         } finally {
             scanner.close().join();
-            executor.shutdown();            
+            executor.shutdown();
         }
         return result;
     }
-    
+
     public OddeeyMetricMeta deleteMeta(Integer hash, OddeyeUserModel user) {
         if (user.getMetricsMeta().get(hash) != null) {
             return deleteMeta(user.getMetricsMeta().get(hash), user);
         }
         return null;
     }
-    
+
     public OddeeyMetricMeta deleteMeta(OddeeyMetricMeta meta, OddeyeUserModel user) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         final DeleteRequest req = new DeleteRequest(table, meta.getKey());
-        
+
         if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
             return meta;
         }
@@ -164,11 +184,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
         getFullmetalist().remove(meta.hashCode());
         return user.getMetricsMeta().remove(meta.hashCode());
     }
-    
+
     public boolean deleteMetaByTag(String tagK, String tagV, OddeyeUserModel user) {
-        
+
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
-        
+
         ConcoutMetricMetaList MtrList;
         try {
             MtrList = user.getMetricsMeta().getbyTag(tagK, tagV);
@@ -176,14 +196,14 @@ public class HbaseMetaDao extends HbaseBaseDao {
             Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
         for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
             OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
             }
-            
+
             final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
                 result.add(client.delete(req));
@@ -209,10 +229,10 @@ public class HbaseMetaDao extends HbaseBaseDao {
     public ConcoutMetricMetaList getFullmetalist() {
         return fullmetalist;
     }
-    
+
     public boolean deleteMetaByName(String name, OddeyeUserModel user) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
-        
+
         ConcoutMetricMetaList MtrList;
         try {
             MtrList = user.getMetricsMeta().getbyName(name);
@@ -220,14 +240,14 @@ public class HbaseMetaDao extends HbaseBaseDao {
             Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-        
+
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
         for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
             OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
             }
-            
+
             final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
                 result.add(client.delete(req));
@@ -246,7 +266,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
         return true;
     }
-    
+
     public ArrayList<Deferred<Object>> deleteMetaByList(ConcoutMetricMetaList MtrList, OddeyeUserModel user, SendToKafka sk) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
@@ -255,7 +275,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
             }
-            
+
             final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
                 Callback<Object, Object> cb = new Callback<Object, Object>() {
@@ -282,10 +302,10 @@ public class HbaseMetaDao extends HbaseBaseDao {
 //        }
 //        return null;
     }
-    
+
     public OddeeyMetricMeta updateMeta(OddeeyMetricMeta metric) {
         metric.update(table, BaseTsdb.getTsdb().getClient());
         return metric;
     }
-    
+
 }
