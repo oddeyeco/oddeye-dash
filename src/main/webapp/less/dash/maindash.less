@@ -255,6 +255,16 @@ and open the template in the editor.
     }
     .form-group-custom {
         margin: 2px 0px 4px;
+        .control-label-custom2 {
+            width: 60px;
+            text-align: left;
+        }
+        .control-label_Y {
+            padding-left: 65px;
+        }
+        .axis_imput-size{
+            width: 47px;
+        }
     }
     .control-label-custom-axes {
         padding: 0px;
@@ -268,7 +278,7 @@ and open the template in the editor.
     margin-bottom: -25px;
 }
 .title_input_large {
-    width: 510px;
+    width: 345px;
     display: inline-block;
 }
 .dimensions_input {
@@ -280,7 +290,7 @@ and open the template in the editor.
     display: inline-block;
 }
 .title_select {
-    width: 95px;
+    width: 65px;
     display: inline-block;
 }
 .form_main_block {
@@ -292,12 +302,7 @@ and open the template in the editor.
 .float-left {
     float: left;
 }
-.control-label-custom2 {
-    width: 57px;
-}
-.control-label_Y {
-    margin-left: 67px;
-}
+
 .control-label-custom4 {
     width: 20px;
 }
@@ -1115,6 +1120,18 @@ tr.wait td
 {
     text-align: center;
 }
+.general_font{
+    width: 65px;
+    display: inline-block;
+}
+#edit_dimensions{
+    padding-top: 7px;
+}
+#border_block{
+    .form-group-custom{
+        padding-top: 6px
+    }
+}
 @media( max-width: 1292px){
     .filtermargin
     {
@@ -1142,10 +1159,6 @@ tr.wait td
 @media( max-width: 769px){
     .smpadding{
         padding-left: 27px;
-    }
-    .modal{
-        right: auto;
-        left: auto;
     }
     .status{
         h4 {
@@ -1224,12 +1237,15 @@ tr.wait td
     {
         float:left;
     }  
-}
-@media (max-width: 600px) {
     .editchartpanel {
         width: auto;
     }
+    .modal{
+        right: auto;
+        left: auto;
+    }
 }
+
 @media(max-width:  375px){
 
 

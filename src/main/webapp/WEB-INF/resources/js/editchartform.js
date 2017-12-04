@@ -137,6 +137,8 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'options.title.text', default: ""},
+                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "title_font"},
+                    {tag: "input", type: "text", class: "form-control title_input_large general_font", prop_key: "text", id: "title_font", name: "title_font", key_path: 'options.title.textStyle.fontSize', default: ""},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subtitle",
                         content: [
@@ -152,6 +154,8 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_subtext"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "subtext", id: "title_subtext", name: "title_subtext", key_path: 'options.title.subtext', default: ""},
+                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "title_font"},
+                    {tag: "input", type: "text", class: "form-control title_input_large general_font", prop_key: "text", id: "description_font", name: "description_font", key_path: 'options.title.subtextStyle.fontSize', default: ""},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subdescription",
                         content: [
@@ -286,6 +290,13 @@ class ChartEditForm extends EditForm {
                                         ]}
                                 ]}
                         ]},
+                      {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Axes Font Px", lfor: "axes_size_y"},
+                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "size_y", id: "{index}_axes_size_y", name: "axes_size_y", key_path: 'axisLabel.fontSize', default: ""},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label Font Px", lfor: "label_size_y"},
+                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "label_size_y", id: "{index}_label_size_y", name: "label_size_y", key_path: 'nameTextStyle.fontSize', default: ""}    
+                        ]},
+//                   
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesy",
                         text: "Dublicate",
@@ -312,7 +323,7 @@ class ChartEditForm extends EditForm {
                                 contener.html("");
                                 current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.change($(this));
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
                             }
@@ -333,7 +344,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent();
                                 contener.html("");
                                 current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
 
@@ -398,6 +409,13 @@ class ChartEditForm extends EditForm {
                                         ]}
                                 ]}
                         ]},
+                      {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Axes Font Px", lfor: "axes_size_x"},
+                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_axes_size_x", name: "axes_size_x", key_path: 'axisLabel.fontSize', default: ""},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label Font Px", lfor: "label_size_x"},
+                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "label_size_x", id: "{index}_label_size_x", name: "label_size_x", key_path: 'nameTextStyle.fontSize', default: ""}    
+                        ]},
+                    
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
                         text: "Dublicate",
@@ -410,7 +428,7 @@ class ChartEditForm extends EditForm {
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
                             }
@@ -426,7 +444,7 @@ class ChartEditForm extends EditForm {
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
                             }
@@ -448,7 +466,7 @@ class ChartEditForm extends EditForm {
                                 contener.html("");
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
 
@@ -800,9 +818,9 @@ class ChartEditForm extends EditForm {
         var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom-legend", text: "Axis Indexes"},
                 {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
-                {tag: "div", type: "choose_array",choose_type:"radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
+                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
                 {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
-                {tag: "div", type: "choose_array",choose_type:"radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
+                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
             ]};
         var inversef = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom-legend", text: "Inverse"},
