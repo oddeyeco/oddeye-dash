@@ -138,14 +138,14 @@ class ChartEditForm extends EditForm {
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'options.title.text', default: ""},
                     {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "title_font"},
-                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "title_font", name: "title_font", key_path: 'options.title.textStyle.fontSize', default: ""},
+                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "title_font", name: "title_font", key_path: 'options.title.textStyle.fontSize', default: "18"},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subtitle",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_link"},
                             {tag: "input", type: "text", class: "form-control title_input", prop_key: "link", id: "title_link", name: "title_link", key_path: 'options.title.link', default: ""},
                             {tag: "label", class: "control-label control-label-custom2", text: "Target", lfor: "title_target"},
-                            {tag: "select", class: "form-control title_select", prop_key: "target", id: "title_target", name: "title_target", key_path: 'options.title.target', default: "", options: this.targetoptions}
+                            {tag: "select", class: "form-control title_select_gen", prop_key: "target", id: "title_target", name: "title_target", key_path: 'options.title.target', default: "", options: this.targetoptions}
                         ]
                     }
 
@@ -155,14 +155,14 @@ class ChartEditForm extends EditForm {
                     {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_subtext"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "subtext", id: "title_subtext", name: "title_subtext", key_path: 'options.title.subtext', default: ""},
                     {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "description_font"},
-                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "description_font", name: "description_font", key_path: 'options.title.subtextStyle.fontSize', default: ""},
+                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "description_font", name: "description_font", key_path: 'options.title.subtextStyle.fontSize', default: "12"},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subdescription",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_sublink"},
                             {tag: "input", type: "text", class: "form-control title_input", prop_key: "sublink", id: "title_sublink", name: "title_sublink", key_path: 'options.title.sublink', default: ""},
                             {tag: "label", class: "control-label control-label-custom2", text: "Target", lfor: "title_subtarget"},
-                            {tag: "select", class: "form-control title_select", prop_key: "subtarget", id: "title_subtarget", name: "title_subtarget", key_path: 'options.title.subtarget', default: "", options: this.targetoptions}
+                            {tag: "select", class: "form-control title_select_gen ", prop_key: "subtarget", id: "title_subtarget", name: "title_subtarget", key_path: 'options.title.subtarget', default: "", options: this.targetoptions}
                         ]
                     }
 
@@ -281,7 +281,7 @@ class ChartEditForm extends EditForm {
                                         ]}
                                 ]}
                         ]},
-                   {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_y"},
                             {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_label_size_y", name: "lable_size_y", key_path: 'axisLabel.fontSize', default: "12"},
                             {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
@@ -373,16 +373,6 @@ class ChartEditForm extends EditForm {
                             {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
                         ]},
 
-                    {tag: "div", class: "form-group form-group-custom only-Series", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Value", lfor: "axes_value_x"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "m_sample", id: "{index}_axes_value_x", name: "axes_value_x", key_path: 'm_sample', default: "", options: {"avg": "Avg",
-                                    "min": "Min",
-                                    "max": "Max",
-                                    "total": "Total",
-                                    "count": "Count",
-                                    "current": "Current",
-                                    "product": "Product"}}
-                        ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
@@ -413,6 +403,16 @@ class ChartEditForm extends EditForm {
                                             $(this).parent().parent().find('.only-Series').fadeOut();
                                         }
                                     }}}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom only-Series", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Value", lfor: "axes_value_x"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "m_sample", id: "{index}_axes_value_x", name: "axes_value_x", key_path: 'm_sample', default: "", options: {"avg": "Avg",
+                                    "min": "Min",
+                                    "max": "Max",
+                                    "total": "Total",
+                                    "count": "Count",
+                                    "current": "Current",
+                                    "product": "Product"}}
                         ]},
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
@@ -558,7 +558,7 @@ class ChartEditForm extends EditForm {
                     {tag: "div", class: "form_main_block pull-left", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Chart Type", lfor: "display_charttype"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "type", id: "display_charttype", name: "display_charttype", key_path: 'type', default: "", options: {"line": "Lines",
+                                    {tag: "select", class: "form-control title_input_small", prop_key: "type", id: "display_charttype", name: "display_charttype", key_path: 'type', default: "", options: {"line": "Lines",
                                             "bar": "Bars",
                                             "pie": "Pie",
                                             "gauge": "Gauge",
@@ -690,7 +690,7 @@ class ChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typepie typefunnel typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value},{p} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
-                                    {tag: "input", type: "text", class: "form-control query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
+                                    {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
                             {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
@@ -742,7 +742,7 @@ class ChartEditForm extends EditForm {
 
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Type", lfor: "datazoom_type"},
-                            {tag: "select", class: "form-control query_input", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "slider",
+                            {tag: "select", class: "form-control query_input datazoom_type_width", prop_key: "type", id: "{index}_datazoom_type", name: "datazoom_type", key_path: 'type', default: "slider",
                                 options: {"slider": "Slider", "inside": "Inside"}
                                 , actions: {"change": function () {
                                         if ($(this).val() === 'slider') {
