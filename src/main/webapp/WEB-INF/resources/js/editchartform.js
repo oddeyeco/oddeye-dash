@@ -138,7 +138,7 @@ class ChartEditForm extends EditForm {
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'options.title.text', default: ""},
                     {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "title_font"},
-                    {tag: "input", type: "text", class: "form-control title_input_large general_font", prop_key: "text", id: "title_font", name: "title_font", key_path: 'options.title.textStyle.fontSize', default: ""},
+                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "title_font", name: "title_font", key_path: 'options.title.textStyle.fontSize', default: ""},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subtitle",
                         content: [
@@ -154,8 +154,8 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_subtext"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "subtext", id: "title_subtext", name: "title_subtext", key_path: 'options.title.subtext', default: ""},
-                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "title_font"},
-                    {tag: "input", type: "text", class: "form-control title_input_large general_font", prop_key: "text", id: "description_font", name: "description_font", key_path: 'options.title.subtextStyle.fontSize', default: ""},
+                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "description_font"},
+                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "description_font", name: "description_font", key_path: 'options.title.subtextStyle.fontSize', default: ""},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subdescription",
                         content: [
@@ -257,18 +257,9 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_y"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
                         ]},
+
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y-Min", lfor: "axes_min_y"},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "min", id: "{index}_axes_min_y", name: "axes_min_y", key_path: 'min', default: ""},
-                            {tag: "label", class: "control-label control-label-custom-axes", text: "Y-Max", lfor: "axes_max_y"},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "max", id: "{index}_axes_max_y", name: "axes_max_y", key_path: 'max', default: ""}
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Text", lfor: "axes_name_y"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_y", name: "axes_name_y", key_path: 'name', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
@@ -290,11 +281,21 @@ class ChartEditForm extends EditForm {
                                         ]}
                                 ]}
                         ]},
-                      {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Axes Font Px", lfor: "axes_size_y"},
-                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "size_y", id: "{index}_axes_size_y", name: "axes_size_y", key_path: 'axisLabel.fontSize', default: ""},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label Font Px", lfor: "label_size_y"},
-                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "label_size_y", id: "{index}_label_size_y", name: "label_size_y", key_path: 'nameTextStyle.fontSize', default: ""}    
+                   {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_y"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_label_size_y", name: "lable_size_y", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "text_size_y", id: "{index}_text_size_y", name: "text_size_y", key_path: 'nameTextStyle.fontSize', default: "12"}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y-Min", lfor: "axes_min_y"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "min", id: "{index}_axes_min_y", name: "axes_min_y", key_path: 'min', default: ""},
+                            {tag: "label", class: "control-label control-label-custom-axes", text: "Y-Max", lfor: "axes_max_y"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "max", id: "{index}_axes_max_y", name: "axes_max_y", key_path: 'max', default: ""}
                         ]},
 //                   
 
@@ -363,27 +364,15 @@ class ChartEditForm extends EditForm {
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Text", lfor: "axes_name_x"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_x", name: "axes_name_x", key_path: 'name', default: ""}
                         ]},
-//                    {tag: "div", class: "form-group form-group-custom", content: [
-//                            {tag: "label", class: "control-label control-label-custom-legend", text: "Location", lfor: "axes_nameLocation_x"},
-//                            {tag: "input", type: "text", class: "form-control axes_select", prop_key: "nameLocation", id: "{index}_axes_nameLocation_x", name: "axes_nameLocation_x", key_path: 'nameLocation', default: ""}
-//                        ]},                    
+
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_x"},
                             {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
                         ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "time", options: {time: "Time", category: "Series"}, actions: {"change": function () {
-                                        if ($(this).val() === 'category') {
-                                            $(this).parent().parent().find('.only-Series').fadeIn();
-                                        } else {
-                                            $(this).parent().parent().find('.only-Series').fadeOut();
-                                        }
-                                    }}}
-                        ]},
+
                     {tag: "div", class: "form-group form-group-custom only-Series", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Value", lfor: "axes_value_x"},
                             {tag: "select", class: "form-control axes_select", prop_key: "m_sample", id: "{index}_axes_value_x", name: "axes_value_x", key_path: 'm_sample', default: "", options: {"avg": "Avg",
@@ -409,13 +398,22 @@ class ChartEditForm extends EditForm {
                                         ]}
                                 ]}
                         ]},
-                      {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Axes Font Px", lfor: "axes_size_x"},
-                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_axes_size_x", name: "axes_size_x", key_path: 'axisLabel.fontSize', default: ""},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label Font Px", lfor: "label_size_x"},
-                            {tag: "input", type: "text", class: "form-control axes_select axis_imput-size", prop_key: "label_size_x", id: "{index}_label_size_x", name: "label_size_x", key_path: 'nameTextStyle.fontSize', default: ""}    
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_label_size_x", name: "lable_size_x", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "text_size_x", id: "{index}_text_size_x", name: "text_size_x", key_path: 'nameTextStyle.fontSize', default: "12"}
                         ]},
-                    
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "time", options: {time: "Time", category: "Series"}, actions: {"change": function () {
+                                        if ($(this).val() === 'category') {
+                                            $(this).parent().parent().find('.only-Series').fadeIn();
+                                        } else {
+                                            $(this).parent().parent().find('.only-Series').fadeOut();
+                                        }
+                                    }}}
+                        ]},
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
                         text: "Dublicate",
