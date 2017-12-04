@@ -203,8 +203,16 @@ public class DefaultController {
         } else {
             userDetails = Userdao.getUserByUUID(UUID.fromString(uuid));
         }
-
+        if (userDetails == null) {
+            return "redirect:/signup/?invalidconfirmcode";
+        }
         userDetails.setActive(Boolean.TRUE);
+        boolean confirm=false;
+        if (userDetails.getMailconfirm()==null) {
+            userDetails.setFirstlogin(Boolean.TRUE);
+            userDetails.setMailconfirm(Boolean.TRUE);
+            confirm=true;
+        }
 
         try {
             Userdao.addUser(userDetails);
@@ -213,7 +221,8 @@ public class DefaultController {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
         //TODO Send refresh messge to kafka
-        return redirecttodashboard();
+//        return redirecttodashboard();
+        return "redirect:/login?confirm="+confirm;
 //        map.put("curentuser", user);
 //        map.put("body", templatename);
 //        return "index";

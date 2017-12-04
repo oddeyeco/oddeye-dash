@@ -23,9 +23,9 @@
             <!-- bootstrap-progressbar -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css?v=${version}" />            
             <!-- iCheck -->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />                  
-            
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />                              
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
+            
 
         </head>
 
@@ -49,7 +49,7 @@
             </div>
             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
             <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js?v=${version}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-            <script src="<c:url value="/assets/bootstrap4/js/bootstrap.min.js?v=${version}"/>"></script>
+            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>
             <!-- Select2 -->
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 

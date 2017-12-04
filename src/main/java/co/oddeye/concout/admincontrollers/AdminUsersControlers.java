@@ -227,6 +227,18 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", "is Active");
                 put("type", "boolean");
             }
+        }).AddEditConfig("firstlogin", new HashMap<String, Object>() {
+            {
+                put("path", "firstlogin");
+                put("title", "Firstlogin");
+                put("type", "boolean");
+            }
+        }).AddEditConfig("mailconfirm", new HashMap<String, Object>() {
+            {
+                put("path", "mailconfirm");
+                put("title", "is Mailconfirm");
+                put("type", "boolean");
+            }
         }).AddEditConfig("actions", new HashMap<String, Object>() {
             {
                 put("path", "actions");

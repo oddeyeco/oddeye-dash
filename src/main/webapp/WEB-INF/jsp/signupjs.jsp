@@ -136,6 +136,10 @@
             "retina_detect": false
         };
         particlesJS('main', particlejson);
+        if (getParameterByName("invalidconfirmcode")!==null)
+        {
+            $("#confirmError").modal('show');            
+        }
     }
     );
 </script>
