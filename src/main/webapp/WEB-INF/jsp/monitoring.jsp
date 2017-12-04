@@ -93,7 +93,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="wait"><td colspan="7">Wait connect response...</td></tr>
+                                <tr class="wait"><td colspan="7">Wait...</td></tr>
                             </tbody>
                         </table>
                         <!-- end of List -->                        

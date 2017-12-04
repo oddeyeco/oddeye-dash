@@ -109,6 +109,10 @@ public class OddeyeUserModel {
     private Boolean unlimit = false;
     @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
+    @HbaseColumn(qualifier = "firstlogin", family = "technicalinfo")
+    private Boolean firstlogin;    
+    @HbaseColumn(qualifier = "mailconfirm", family = "technicalinfo")
+    private Boolean mailconfirm;        
     @HbaseColumn(qualifier = "balance", family = "technicalinfo")
     private Double balance;
     @HbaseColumn(qualifier = "alowswitch", family = "technicalinfo")
@@ -276,6 +280,26 @@ public class OddeyeUserModel {
                 }
                 if (property.value().length == 4) {
                     this.unlimit = Bytes.getInt(property.value()) != 0;
+                }
+            }
+            return property;
+        }).map((KeyValue property) -> {
+            if (Arrays.equals(property.qualifier(), "firstlogin".getBytes())) {
+                if (property.value().length == 1) {
+                    this.firstlogin = property.value()[0] != (byte) 0;
+                }
+                if (property.value().length == 4) {
+                    this.firstlogin = Bytes.getInt(property.value()) != 0;
+                }
+            }
+            return property;
+        }).map((KeyValue property) -> {
+            if (Arrays.equals(property.qualifier(), "mailconfirm".getBytes())) {
+                if (property.value().length == 1) {
+                    this.mailconfirm = property.value()[0] != (byte) 0;
+                }
+                if (property.value().length == 4) {
+                    this.mailconfirm = Bytes.getInt(property.value()) != 0;
                 }
             }
             return property;
@@ -932,5 +956,33 @@ public class OddeyeUserModel {
 
     public Collection<GrantedAuthority> getAuthorities() {
         return this.authorities;
+    }
+
+    /**
+     * @return the firstlogin
+     */
+    public Boolean getFirstlogin() {
+        return firstlogin;
+    }
+
+    /**
+     * @param firstlogin the firstlogin to set
+     */
+    public void setFirstlogin(Boolean firstlogin) {
+        this.firstlogin = firstlogin;
+    }
+
+    /**
+     * @return the mailconfirm
+     */
+    public Boolean getMailconfirm() {
+        return mailconfirm;
+    }
+
+    /**
+     * @param mailconfirm the mailconfirm to set
+     */
+    public void setMailconfirm(Boolean mailconfirm) {
+        this.mailconfirm = mailconfirm;
     }
 }

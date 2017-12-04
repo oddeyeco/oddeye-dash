@@ -289,7 +289,7 @@
 
             <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script> 
             <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>            
-
+            <script src="${cp}/resources/js/general.js?v=${version}"></script>        
             <script src="${cp}/resources/js/global.js?v=${version}"></script>        
 
             <c:catch var="e">
