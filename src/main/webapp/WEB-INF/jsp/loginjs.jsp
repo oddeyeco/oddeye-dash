@@ -7,12 +7,12 @@
 <script src="<c:url value="/assets/dist/particles.min.js?v=${version}"/>"></script>    
 <script>
     $(document).ready(function () {
-        $('body').on('submit','#loginform',function (e){                     
+        $('body').on('submit', '#loginform', function (e) {
             $(this).find("button").hide();
-            $(".progress-wrap").show();            
+            $(".progress-wrap").show();
         })
-        
-        
+
+
         var particlejson = {
             "particles": {
                 "number": {
@@ -124,6 +124,18 @@
             "retina_detect": false
         };
         particlesJS('main', particlejson);
+        if (getParameterByName("confirm") !== null)
+        {
+            if (getParameterByName("confirm"))
+            {
+                $("#confirmTrue").modal('show');
+            } else
+            {
+                $("#confirmFalse").modal('show');
+            }
+        }
     }
+
+
     );
 </script>

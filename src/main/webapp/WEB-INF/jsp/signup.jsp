@@ -10,9 +10,26 @@
 
 </style>    
 
+<div id="confirmError" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation failed</h4>
+            </div>
+            <div class="modal-body">
+                <p>Confirmation code is not exist.</p>
+                <p>Please sign up, or check your email for confirmation instructions.</p>
+                <p class="text-warning"></p>
+            </div>
+            <div class="modal-footer">
+                <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="main"></div>
-
-
 <div class="container center" style="padding-top: 100px;">    
     <h2 class="text-center">Create Account.</h2>        
     <div class="row">

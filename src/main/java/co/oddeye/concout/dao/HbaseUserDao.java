@@ -122,6 +122,14 @@ public class HbaseUserDao extends HbaseBaseDao {
             BaseTsdb.getClient().put(putactive);
         }
 
+        if (user.getFirstlogin() != null) {
+            final PutRequest firstlogin = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "firstlogin".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
+            BaseTsdb.getClient().put(firstlogin);
+        }        
+        if (user.getMailconfirm()!= null) {
+            final PutRequest mailconfirm = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "mailconfirm".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
+            BaseTsdb.getClient().put(mailconfirm);
+        }                
         if (user.getAuthorities() != null) {
             final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
             BaseTsdb.getClient().put(putAuthorities);

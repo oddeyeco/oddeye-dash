@@ -6,6 +6,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <div id="main"></div>
+<div id="confirmTrue" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation succeed</h4>
+            </div>
+            <div class="modal-body">
+                <p>Your email address has been successfully confirmed.</p>
+                <p>Please use your credentials to login.</p>
+                <p class="text-warning"></p>
+            </div>
+            <div class="modal-footer">
+                <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="confirmFalse" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation failed</h4>
+            </div>
+            <div class="modal-body">
+                <p>Your email address has already been confirmed.</p>
+                <p>Please use your credentials to login.</p>
+                <p class="text-warning"></p>
+            </div>
+            <div class="modal-footer">
+                <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="container center logincontener" >    
     <div class="row">
