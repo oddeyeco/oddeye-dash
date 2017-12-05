@@ -137,13 +137,15 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'options.title.text', default: ""},
+                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "title_font"},
+                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "title_font", name: "title_font", key_path: 'options.title.textStyle.fontSize', default: "18"},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subtitle",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_link"},
                             {tag: "input", type: "text", class: "form-control title_input", prop_key: "link", id: "title_link", name: "title_link", key_path: 'options.title.link', default: ""},
                             {tag: "label", class: "control-label control-label-custom2", text: "Target", lfor: "title_target"},
-                            {tag: "select", class: "form-control title_select", prop_key: "target", id: "title_target", name: "title_target", key_path: 'options.title.target', default: "", options: this.targetoptions}
+                            {tag: "select", class: "form-control title_select_gen", prop_key: "target", id: "title_target", name: "title_target", key_path: 'options.title.target', default: "", options: this.targetoptions}
                         ]
                     }
 
@@ -152,13 +154,15 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_subtext"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "subtext", id: "title_subtext", name: "title_subtext", key_path: 'options.title.subtext', default: ""},
+                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "description_font"},
+                    {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "description_font", name: "description_font", key_path: 'options.title.subtextStyle.fontSize', default: "12"},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subdescription",
                         content: [
                             {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_sublink"},
                             {tag: "input", type: "text", class: "form-control title_input", prop_key: "sublink", id: "title_sublink", name: "title_sublink", key_path: 'options.title.sublink', default: ""},
                             {tag: "label", class: "control-label control-label-custom2", text: "Target", lfor: "title_subtarget"},
-                            {tag: "select", class: "form-control title_select", prop_key: "subtarget", id: "title_subtarget", name: "title_subtarget", key_path: 'options.title.subtarget', default: "", options: this.targetoptions}
+                            {tag: "select", class: "form-control title_select_gen ", prop_key: "subtarget", id: "title_subtarget", name: "title_subtarget", key_path: 'options.title.subtarget', default: "", options: this.targetoptions}
                         ]
                     }
 
@@ -253,18 +257,9 @@ class ChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_y"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
                         ]},
+
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y-Min", lfor: "axes_min_y"},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "min", id: "{index}_axes_min_y", name: "axes_min_y", key_path: 'min', default: ""},
-                            {tag: "label", class: "control-label control-label-custom-axes", text: "Y-Max", lfor: "axes_max_y"},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "max", id: "{index}_axes_max_y", name: "axes_max_y", key_path: 'max', default: ""}
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Text", lfor: "axes_name_y"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_y", name: "axes_name_y", key_path: 'name', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
@@ -286,6 +281,23 @@ class ChartEditForm extends EditForm {
                                         ]}
                                 ]}
                         ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_y"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_label_size_y", name: "lable_size_y", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "text_size_y", id: "{index}_text_size_y", name: "text_size_y", key_path: 'nameTextStyle.fontSize', default: "12"}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y-Min", lfor: "axes_min_y"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "min", id: "{index}_axes_min_y", name: "axes_min_y", key_path: 'min', default: ""},
+                            {tag: "label", class: "control-label control-label-custom-axes", text: "Y-Max", lfor: "axes_max_y"},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "max", id: "{index}_axes_max_y", name: "axes_max_y", key_path: 'max', default: ""}
+                        ]},
+//                   
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesy",
                         text: "Dublicate",
@@ -312,7 +324,7 @@ class ChartEditForm extends EditForm {
                                 contener.html("");
                                 current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.change($(this));
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
                             }
@@ -333,7 +345,7 @@ class ChartEditForm extends EditForm {
                                 var contener = $(this).parent();
                                 contener.html("");
                                 current.drawcontent(edit_axes_y.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
 
@@ -352,16 +364,35 @@ class ChartEditForm extends EditForm {
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Label", lfor: "axes_name_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Text", lfor: "axes_name_x"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_x", name: "axes_name_x", key_path: 'name', default: ""}
                         ]},
-//                    {tag: "div", class: "form-group form-group-custom", content: [
-//                            {tag: "label", class: "control-label control-label-custom-legend", text: "Location", lfor: "axes_nameLocation_x"},
-//                            {tag: "input", type: "text", class: "form-control axes_select", prop_key: "nameLocation", id: "{index}_axes_nameLocation_x", name: "axes_nameLocation_x", key_path: 'nameLocation', default: ""}
-//                        ]},                    
+
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_x"},
                             {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
+                        ]},
+
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
+                        ]},
+
+                    {tag: "div", class: "form-group ", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: "X color", lfor: "axes_color_x"},
+
+                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
+                                            {tag: "input", type: "text", class: "form-control axes_select ", prop_key: "xcolor", id: "{index}_xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_label_size_x", name: "lable_size_x", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "text_size_x", id: "{index}_text_size_x", name: "text_size_x", key_path: 'nameTextStyle.fontSize', default: "12"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
@@ -383,21 +414,6 @@ class ChartEditForm extends EditForm {
                                     "current": "Current",
                                     "product": "Product"}}
                         ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
-                            {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
-                        ]},
-
-                    {tag: "div", class: "form-group ", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "X color", lfor: "axes_color_x"},
-
-                            {tag: "div", class: "titile_input_midle axes_select ", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
-                                            {tag: "input", type: "text", class: "form-control axes_select ", prop_key: "xcolor", id: "{index}_xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
-                                        ]}
-                                ]}
-                        ]},
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
                         text: "Dublicate",
@@ -410,7 +426,7 @@ class ChartEditForm extends EditForm {
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
                             }
@@ -426,7 +442,7 @@ class ChartEditForm extends EditForm {
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
                                 current.change($(this));
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
                             }
@@ -448,7 +464,7 @@ class ChartEditForm extends EditForm {
                                 contener.html("");
                                 current.drawcontent(edit_axes_x.content[0].content, contener, current.dashJSON.rows[current.row].widgets[current.index]);
                                 current.axesmode();
-                                 current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
+                                current.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
                                     current.change($(this).find("input"));
                                 });
 
@@ -542,7 +558,7 @@ class ChartEditForm extends EditForm {
                     {tag: "div", class: "form_main_block pull-left", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: "Chart Type", lfor: "display_charttype"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "type", id: "display_charttype", name: "display_charttype", key_path: 'type', default: "", options: {"line": "Lines",
+                                    {tag: "select", class: "form-control title_input_small", prop_key: "type", id: "display_charttype", name: "display_charttype", key_path: 'type', default: "", options: {"line": "Lines",
                                             "bar": "Bars",
                                             "pie": "Pie",
                                             "gauge": "Gauge",
@@ -674,7 +690,7 @@ class ChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typepie typefunnel typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value},{p} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
-                                    {tag: "input", type: "text", class: "form-control query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
+                                    {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
                             {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
@@ -726,7 +742,7 @@ class ChartEditForm extends EditForm {
 
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Type", lfor: "datazoom_type"},
-                            {tag: "select", class: "form-control query_input", prop_key: "type", id: "datazoom_type", name: "datazoom_type", key_path: 'type', default: "slider",
+                            {tag: "select", class: "form-control query_input datazoom_type_width", prop_key: "type", id: "{index}_datazoom_type", name: "datazoom_type", key_path: 'type', default: "slider",
                                 options: {"slider": "Slider", "inside": "Inside"}
                                 , actions: {"change": function () {
                                         if ($(this).val() === 'slider') {
@@ -800,9 +816,9 @@ class ChartEditForm extends EditForm {
         var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom-legend", text: "Axis Indexes"},
                 {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
-                {tag: "div", type: "choose_array",choose_type:"radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
+                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
                 {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
-                {tag: "div", type: "choose_array",choose_type:"radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
+                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
             ]};
         var inversef = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom-legend", text: "Inverse"},
