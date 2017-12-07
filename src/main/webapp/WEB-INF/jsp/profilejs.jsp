@@ -10,7 +10,7 @@
         var re = new RegExp("[//.|///]", 'g');
         id = id.replace(re, "_");
         var html = maetricrawHTML;
-        var url = "getmetrics?key=" + key + "&value=" + idvalue;
+        var url = cp+"/getmetrics?key=" + key + "&value=" + idvalue;
         if (draw)
         {
             $("#" + id).find("td").append("<img src='${cp}/assets/images/loading.gif' height='50px'> ");
@@ -100,7 +100,7 @@
         });
     }
 
-    function getmetanames(tablename) {
+    function getmetanames(tablename) {        
         var url = cp + "/getmetricsnamesinfo";
         var tags = 'name';
 
