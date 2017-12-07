@@ -91,7 +91,7 @@ var PicerOptionSet1 = {
     showWeekNumbers: true,
     timePicker: true,
     timePicker24Hour: true,
-    timePickerIncrement: 15,
+    timePickerIncrement: 5,
     ranges: {
         'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
         'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
@@ -101,9 +101,10 @@ var PicerOptionSet1 = {
         'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
         'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
         'Last 1 day': [moment().subtract(24, 'hour'), moment()],
-        'Last 3 day': [moment().subtract(3, 'day'), moment()]
+        'Last 3 day': [moment().subtract(3, 'day'), moment()],
+        'Last 7 day': [moment().subtract(7, 'day'), moment()]
     },
-    opens: 'right',
+    opens: 'left',
     buttonClasses: ['btn btn-default'],
     applyClass: 'btn-small btn-primary',
     cancelClass: 'btn-small',
@@ -146,7 +147,8 @@ var PicerOptionSet2 = {
         'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
         'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
         'Last 1 day': [moment().subtract(24, 'hour'), moment()],
-        'Last 3 day': [moment().subtract(3, 'day'), moment()]
+        'Last 3 day': [moment().subtract(3, 'day'), moment()],
+        'Last 7 day': [moment().subtract(7, 'day'), moment()]
     },
 //    opens: 'left',
 //    drops: 'up',
