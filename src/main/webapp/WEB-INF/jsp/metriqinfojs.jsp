@@ -47,14 +47,14 @@
 
 
     function drawEchart(data)
-    {
+    {        
         var data = [];
         var datab = [];
         //TODO check host type for formater
         $(".time").each(function (index) {
             dates.push($(this).attr("value"));
             data.push({name: $(this).attr("value"),
-                unit: "format_data",
+                unit: s_formatter,
                 value: [index,parseFloat($(this).next().next().next().attr('value')),
                     parseFloat($(this).next().attr('value')) - parseFloat($(this).next().next().attr('value')),
                     parseFloat($(this).next().attr('value')),

@@ -181,6 +181,16 @@ public class ProfileController {
 
                 JsonArray DatapointsJSON = new JsonArray();
                 JsonArray PredictJSON = new JsonArray();
+                String s_formatter = "format_metric";
+                switch (meta.getType()) {
+                    case 4: {
+                        s_formatter = "{value} %";
+                        break;
+                    }
+                    default:
+                        s_formatter = "format_metric";
+                        break;
+                }
                 for (DataPoints[] Datapointslist : data) {
                     for (DataPoints Datapoints : Datapointslist) {
                         final SeekableView Datalist = Datapoints.iterator();
@@ -192,7 +202,7 @@ public class ProfileController {
                             j_point.add(Point.doubleValue());
                             j_data.add("value", j_point);
                             //TODO check host type
-                            j_data.addProperty("unit", "format_data");
+                            j_data.addProperty("unit", s_formatter);
                             DatapointsJSON.add(j_data);
 
                             JsonArray p_point = new JsonArray();
@@ -201,7 +211,7 @@ public class ProfileController {
                             p_point.add(meta.getRegression().predict(Point.timestamp() / 1000));
                             p_data.add("value", p_point);
                             //TODO check host type
-                            p_data.addProperty("unit", "format_data");
+                            p_data.addProperty("unit", s_formatter);
 
                             PredictJSON.add(p_data);
                         }
@@ -222,7 +232,8 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/edit", method = RequestMethod.GET)
-    public String profileedit(ModelMap map) {
+    public String profileedit(ModelMap map
+    ) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "index";
@@ -257,16 +268,20 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.GET)
-    public String createuserGet(@ModelAttribute("curentuser") OddeyeUserModel newcurentuser, BindingResult result, ModelMap map) {
+    public String createuserGet(@ModelAttribute("curentuser") OddeyeUserModel newcurentuser, BindingResult result,
+            ModelMap map
+    ) {
         return "redirect:/profile/edit";
     }
 
     @RequestMapping(value = "/profile/changepassword", method = RequestMethod.POST)
-    public String updatepass(@ModelAttribute("newuserdata") OddeyeUserModel newuserdata, BindingResult result, ModelMap map) {
+    public String updatepass(@ModelAttribute("newuserdata") OddeyeUserModel newuserdata, BindingResult result,
+            ModelMap map
+    ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {            
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();            
+                    getAuthentication().getPrincipal()).getUserModel();
             if ((currentUser.getSwitchUser() != null)) {
                 if (currentUser.getSwitchUser().getAlowswitch()) {
                     currentUser = currentUser.getSwitchUser();
@@ -314,11 +329,13 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/saveuser", method = RequestMethod.POST)
-    public String updateuser(@ModelAttribute("newuserdata") OddeyeUserModel newuserdata, BindingResult result, ModelMap map) {
+    public String updateuser(@ModelAttribute("newuserdata") OddeyeUserModel newuserdata, BindingResult result,
+            ModelMap map
+    ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {            
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();            
+                    getAuthentication().getPrincipal()).getUserModel();
             if ((currentUser.getSwitchUser() != null)) {
                 if (currentUser.getSwitchUser().getAlowswitch()) {
                     currentUser = currentUser.getSwitchUser();
@@ -377,11 +394,13 @@ public class ProfileController {
     }
 
     @RequestMapping(value = "/profile/saveuserlevels", method = RequestMethod.POST)
-    public String updatelevels(@ModelAttribute("newuserleveldata") OddeyeUserModel newuserdata, BindingResult result, ModelMap map) {
+    public String updatelevels(@ModelAttribute("newuserleveldata") OddeyeUserModel newuserdata, BindingResult result,
+            ModelMap map
+    ) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {            
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();            
+                    getAuthentication().getPrincipal()).getUserModel();
             if ((currentUser.getSwitchUser() != null)) {
                 if (currentUser.getSwitchUser().getAlowswitch()) {
                     currentUser = currentUser.getSwitchUser();
