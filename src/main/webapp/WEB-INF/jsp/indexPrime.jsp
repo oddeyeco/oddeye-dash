@@ -25,7 +25,7 @@
             <!-- iCheck -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />                              
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
-            
+
 
         </head>
 
@@ -35,13 +35,18 @@
                 <header class="container" style="text-align: center">                       
                     <!--<a href="${cp}/"><img src="${cp}/assets/images/logo.png" alt="logo"></a>-->                
                 </header>    
-                <main>            
-                    <c:catch var="e">
-                        <c:import url="${body}.jsp" />
-                    </c:catch>
-                    <c:if test="${!empty e}">
-                        ${body} <c:import url="errors/pageerror.jsp" />
+                <main>  
+                    <c:if test="${!empty wraper}">                        
+                        <c:import url="${wraper}.jsp" />
                     </c:if>             
+                    <c:if test="${empty wraper}">
+                        <c:catch var="e">
+                            <c:import url="${body}.jsp" />
+                        </c:catch>
+                        <c:if test="${!empty e}">
+                            ${body} <c:import url="errors/pageerror.jsp" />
+                        </c:if>             
+                    </c:if>
                 </main>
                 <footer>
 
@@ -76,9 +81,9 @@
 
                 ga('create', 'UA-101325828-1', 'auto');
                 ga('send', 'pageview');
-                setTimeout("ga('send', 'event', '10 seconds', 'read')",10000);
+                setTimeout("ga('send', 'event', '10 seconds', 'read')", 10000);
             </script>               
-            
+
             <c:catch var="e">
                 <c:import url="${jspart}.jsp" />
             </c:catch>

@@ -147,6 +147,9 @@ public class DefaultController {
             map.put("jspart", slug + "js");
         } else {
             map.put("isAuthentication", false);
+            if (!slug.equals("signup")) {
+                map.put("wraper", "noautwraper");
+            }
             map.put("body", slug);
             map.put("jspart", slug + "js");
         }
@@ -207,11 +210,11 @@ public class DefaultController {
             return "redirect:/signup/?invalidconfirmcode";
         }
         userDetails.setActive(Boolean.TRUE);
-        boolean confirm=false;
-        if (userDetails.getMailconfirm()==null) {
+        boolean confirm = false;
+        if (userDetails.getMailconfirm() == null) {
             userDetails.setFirstlogin(Boolean.TRUE);
             userDetails.setMailconfirm(Boolean.TRUE);
-            confirm=true;
+            confirm = true;
         }
 
         try {
@@ -222,7 +225,7 @@ public class DefaultController {
         }
         //TODO Send refresh messge to kafka
 //        return redirecttodashboard();
-        return "redirect:/login?confirm="+confirm;
+        return "redirect:/login?confirm=" + confirm;
 //        map.put("curentuser", user);
 //        map.put("body", templatename);
 //        return "index";
