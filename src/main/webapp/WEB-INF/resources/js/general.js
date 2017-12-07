@@ -14,10 +14,10 @@ $(document).ready(function () {
         ga('send', 'event', 'link click', $(this).attr("href"));
     });
 
-    $('input.flat').iCheck({
-        checkboxClass: 'icheckbox_flat-green',
-        radioClass: 'iradio_flat-green'
-    });
+//    $('input.flat').iCheck({
+//        checkboxClass: 'icheckbox_flat-green',
+//        radioClass: 'iradio_flat-green'
+//    });
 });
 
 function getParameterByName(name, url) {

@@ -328,6 +328,7 @@
                             <jsSourceFiles>                                               
                                 <jsSourceFile>login.js</jsSourceFile>
                                 <jsSourceFile>general.js</jsSourceFile>                                                                
+                                <jsSourceFile>public.js</jsSourceFile>                                                                
                                 <jsSourceFile>chartsfuncs.js</jsSourceFile>                                                                
                                 <jsSourceFile>monitoring.js</jsSourceFile>                                                                
                                 <jsSourceFile>stomp.js</jsSourceFile>                                                                
