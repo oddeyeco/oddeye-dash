@@ -242,13 +242,13 @@
         $('body').on("click", ".deletemetrics", function () {
             var key = $(this).attr("key");
             console.log($(this).attr("value"));
-            $.getJSON("/deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
+            $.getJSON(cp+"/deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
                 getmetainfo(key);
             });
         });
         $('body').on("click", ".deletemetric", function () {
             var key = $(this).parents("#listtable").attr("key");
-            $.getJSON("/deletemetrics?hash=" + $(this).attr("value"), function (data) {
+            $.getJSON(cp+"/deletemetrics?hash=" + $(this).attr("value"), function (data) {
                 getmetainfo(key);
             });
         });
@@ -263,7 +263,7 @@
             $(this).parents('table').find("tbody input[name='table_records']:checked").each(function () {
                 var sendData = {};
                 sendData.hash = $(this).parents("tr").attr("id");
-                $.getJSON("/deletemetrics?hash=" + sendData.hash, function (data) {
+                $.getJSON(cp+"/deletemetrics?hash=" + sendData.hash, function (data) {
 
                 });
             });
