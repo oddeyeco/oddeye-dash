@@ -326,7 +326,7 @@ public class DashController {
                     userDetails = userDetails.getSwitchUser();
                 }
             }
-            String DushName = request.getParameter("name").trim();
+            String DushName = request.getParameter("name").trim().replaceAll(" +", " ");            
             String DushInfo = request.getParameter("info").trim();
             String oldname = request.getParameter("oldname");
             String unloadRef = request.getParameter("unloadRef");
