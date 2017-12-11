@@ -240,8 +240,7 @@
         getmetainfo();
 
         $('body').on("click", ".deletemetrics", function () {
-            var key = $(this).attr("key");
-            console.log($(this).attr("value"));
+            var key = $(this).attr("key");            
             $.getJSON(cp+"/deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
                 getmetainfo(key);
             });
