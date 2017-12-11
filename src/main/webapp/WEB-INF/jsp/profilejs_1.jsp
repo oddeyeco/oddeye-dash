@@ -88,13 +88,13 @@
 
         $('body').on("click", ".deletemetric", function () {
             alert($(this).attr("value"));
-            $.getJSON("deletemetrics?hash=" + $(this).attr("value"), function (data) {
+            $.getJSON("/deletemetrics?hash=" + $(this).attr("value"), function (data) {
                 //TODO Chage in js
                 location.reload();
             });
         });
         $('body').on("click", ".deletemetrics", function () {
-            $.getJSON("deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
+            $.getJSON("/deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {
                 //TODO Chage in js
                 location.reload();
             });
