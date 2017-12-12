@@ -824,8 +824,7 @@ var queryCallback = function (inputdata) {
                     if (moment(start).isValid())
                     {
                         widget.options.xAxis[xAxis_Index].min = start
-                    }
-                    else
+                    } else
                     {
                         delete(widget.options.xAxis[xAxis_Index].min);
                     }
@@ -2266,7 +2265,14 @@ $(document).ready(function () {
     var rowdrag = false;
     if (getParameterByName("startdate"))
     {
-        gdd.times.pickerstart = getParameterByName("startdate")*1;
+        if ($.isNumeric(getParameterByName("startdate")))
+        {
+            gdd.times.pickerstart = getParameterByName("startdate") * 1;
+        } else
+        {
+            gdd.times.pickerstart = getParameterByName("startdate");
+        }
+
         if (moment(gdd.times.pickerstart).isValid())
         {
             gdd.times.pickerlabel = "Custom";
@@ -2287,7 +2293,14 @@ $(document).ready(function () {
     }
     if (getParameterByName("enddate"))
     {
-        gdd.times.pickerend = getParameterByName("enddate")*1;
+        if ($.isNumeric(getParameterByName("enddate")))
+        {
+            gdd.times.pickerend = getParameterByName("enddate") * 1;
+        } else
+        {
+            gdd.times.pickerend = getParameterByName("enddate");
+        }
+
     }
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
