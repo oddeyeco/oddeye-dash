@@ -69,7 +69,7 @@
                                     </c:when>  
 
                                     <c:when test="${config.getValue().type == 'Date'}">    
-                                        <fmt:formatDate value="${model[config.getValue().path]}" pattern="MM/dd/yyyy HH:mm:ss"/>                                        
+                                        <fmt:formatDate value="${model[config.getValue().path]}" pattern="YY MM dd HH:mm:ss"/>                                        
                                     </c:when>                                            
                                     <c:when test="${config.getValue().type == 'Collection'}">                                        
                                         <c:forEach items="${model[config.getValue().path] }" var="item">   

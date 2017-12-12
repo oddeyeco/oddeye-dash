@@ -125,6 +125,12 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", " Monitoring conneted");
                 put("type", "userstatus");
             }
+        }).AddViewConfig("Sinedate", new HashMap<String, Object>() {
+            {
+                put("path", "sinedate");
+                put("title", " Sinedate");
+                put("type", "Date");
+            }
         });
 
         Map<String, String> country = new LinkedHashMap<>();

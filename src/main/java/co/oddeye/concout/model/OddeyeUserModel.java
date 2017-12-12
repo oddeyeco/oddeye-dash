@@ -27,6 +27,7 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -123,6 +124,8 @@ public class OddeyeUserModel {
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
+    
+    private Date sinedate;
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
 
@@ -178,8 +181,9 @@ public class OddeyeUserModel {
         userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
                 this.id = UUID.fromString(new String(property.value()));
+                this.sinedate = new Date(property.timestamp());
             }
-            return property;
+            return property;            
         }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "email".getBytes())) {
                 this.email = new String(property.value());
@@ -984,5 +988,12 @@ public class OddeyeUserModel {
      */
     public void setMailconfirm(Boolean mailconfirm) {
         this.mailconfirm = mailconfirm;
+    }
+
+    /**
+     * @return the Sinedate
+     */
+    public Date getSinedate() {
+        return sinedate;
     }
 }
