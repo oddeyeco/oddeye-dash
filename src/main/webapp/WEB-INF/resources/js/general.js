@@ -19,6 +19,10 @@ $(document).ready(function () {
 //        radioClass: 'iradio_flat-green'
 //    });
 });
+var getQueryString = function (url ) {   
+    var href = url ? url : window.location.href;        
+    return string ? string[1] : null;
+};
 
 function getParameterByName(name, url) {
     if (!url)

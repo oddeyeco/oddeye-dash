@@ -821,7 +821,15 @@ var queryCallback = function (inputdata) {
                     widget.options.xAxis[xAxis_Index].min = moment(widget.options.xAxis[xAxis_Index].max).subtract(subtractlist[start][0], subtractlist[start][1]).valueOf();
                 } else
                 {
-                    widget.options.xAxis[xAxis_Index].min = start
+                    if (moment(start).isValid())
+                    {
+                        widget.options.xAxis[xAxis_Index].min = start
+                    }
+                    else
+                    {
+                        delete(widget.options.xAxis[xAxis_Index].min);
+                    }
+//                    console.log(widget.options.xAxis[xAxis_Index].min); 
                 }
 
             }
@@ -1494,7 +1502,6 @@ var queryCallback = function (inputdata) {
                     widget.options.legend.data = tmpLegendSer;
                 }
             }
-
 //*************************************            
             if (redraw)
             {
@@ -1646,8 +1653,10 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
                 {
                     start = rangeslabels[json.times.pickerlabel];
+                } else
+                {
+                    start = json.times.pickerstart;
                 }
-
             }
         }
 
@@ -2208,7 +2217,8 @@ function repaint(redraw = false, rebuildform = true) {
 
     if ((request_W_index === null) && (request_R_index === null))
     {
-        window.history.pushState({}, "", window.location.pathname);
+//        console.log(window.location.search.substring(1));        
+//        window.history.pushState({}, "", window.location.pathname);
         AutoRefresh(redraw);
     } else
     {
@@ -2228,6 +2238,7 @@ function repaint(redraw = false, rebuildform = true) {
 
         if (NoOpt)
         {
+            console.log("balala");
             window.history.pushState({}, "", window.location.pathname);
             AutoRefresh(redraw);
         } else
@@ -2253,6 +2264,31 @@ $(document).ready(function () {
         cancel: "canvas,input"
     });
     var rowdrag = false;
+    if (getParameterByName("startdate"))
+    {
+        gdd.times.pickerstart = getParameterByName("startdate")*1;
+        if (moment(gdd.times.pickerstart).isValid())
+        {
+            gdd.times.pickerlabel = "Custom";
+        } else
+        {
+            gdd.times.pickerlabel = gdd.times.pickerstart;
+        }
+
+        for (var label in rangeslabels)
+        {
+            if (rangeslabels[label] === gdd.times.pickerstart)
+            {
+                gdd.times.pickerlabel = label;
+            }
+
+        }
+
+    }
+    if (getParameterByName("enddate"))
+    {
+        gdd.times.pickerend = getParameterByName("enddate")*1;
+    }
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
         for (var lri in gdd.rows)
@@ -2319,8 +2355,11 @@ $(document).ready(function () {
 
         } else
         {
-            PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
-            PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+            if (PicerOptionSet1.ranges[label])
+            {
+                PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
+                PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+            }
         }
 
     } else {
@@ -2358,6 +2397,9 @@ $(document).ready(function () {
             if (typeof (rangeslabels[gdd.times.pickerlabel]) !== "undefined")
             {
                 startdate = rangeslabels[gdd.times.pickerlabel];
+            } else
+            {
+                startdate = gdd.times.pickerstart;
             }
 
         }
@@ -2371,9 +2413,12 @@ $(document).ready(function () {
                 }
             }
         }
-        $('#global-down-sample').val(gdd.times.generalds[0]);
-        $('#global-down-sample-ag').val(gdd.times.generalds[1]);
 
+        $('#global-down-sample').val(gdd.times.generalds[0]);
+        if ($('#global-down-sample-ag').val() === "")
+        {
+            $('#global-down-sample-ag').val(gdd.times.generalds[1]);
+        }
         //TODO Fix redraw
         var check = document.getElementById('global-downsampling-switsh');
         if (gdd.times.generalds[2])
@@ -2579,8 +2624,11 @@ $(document).ready(function () {
 
         } else
         {
-            PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
-            PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+            if (PicerOptionSet1.ranges[label])
+            {
+                PicerOptionSet1.startDate = PicerOptionSet1.ranges[label][0];
+                PicerOptionSet1.endDate = PicerOptionSet1.ranges[label][1];
+            }
         }
 
         $("#showjson").modal('hide');
@@ -2858,6 +2906,7 @@ $(document).ready(function () {
         $(".fulldash").show();
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
+        console.log("kalalal");
         window.history.pushState({}, "", window.location.pathname);
         for (var ri in gdd.rows)
         {
