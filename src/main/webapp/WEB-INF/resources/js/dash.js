@@ -1680,10 +1680,9 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         }
 
         var count = {"value": widget.q.length, "base": widget.q.length};
-        lockq[ri + " " + wi] = true;
+        
         for (k in widget.q)
         {
-
             if (widget.q[k].check_disabled || (!widget.q[k].info) || (!widget.q[k].info.metrics))
             {
                 count.base--;
@@ -1701,7 +1700,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 //            chart.setOption({series: tmpseries, legend: {data: []}});            
             return;
         }
-
+        lockq[ri + " " + wi] = true;
         count.value = count.base;
         var oldseries = clone_obg(widget.options.series);
 
@@ -2236,8 +2235,7 @@ function repaint(redraw = false, rebuildform = true) {
         }
 
         if (NoOpt)
-        {
-            console.log("balala");
+        {            
             window.history.pushState({}, "", window.location.pathname);
             AutoRefresh(redraw);
         } else
@@ -2918,8 +2916,7 @@ $(document).ready(function () {
 
         $(".fulldash").show();
         var request_W_index = getParameterByName("widget");
-        var request_R_index = getParameterByName("row");
-        console.log("kalalal");
+        var request_R_index = getParameterByName("row");        
         window.history.pushState({}, "", window.location.pathname);
         for (var ri in gdd.rows)
         {
