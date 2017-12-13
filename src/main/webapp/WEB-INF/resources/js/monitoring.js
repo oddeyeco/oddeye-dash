@@ -419,9 +419,8 @@ function drawRaw(errorjson, table, hashindex, update) {
         {
             html = html + '<td class="message">' + message + '</td>';
         }
-
-
-        html = html + '<td class="">' + moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat) + '</td>';
+        var st = errorjson.starttimes[errorjson.level]? errorjson.starttimes[errorjson.level]:errorjson.time;
+        html = html + '<td class="starttime">' + moment(st * 1).format(timeformat) + '</td>';
         html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
 //        html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
 
@@ -455,7 +454,11 @@ function drawRaw(errorjson, table, hashindex, update) {
     {
         table.find("tbody tr#" + hashindex).attr("class", trclass);
         table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
-
+        if (errorjson.starttimes[errorjson.level])
+        {
+            table.find("tbody tr#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level]*1).format(timeformatsmall));    
+        }
+        
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
 //        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) + " Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + hashindex + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) / 1000 + " " + errorjson.index + "</div>");
@@ -607,7 +610,7 @@ $(document).ready(function () {
     });
 
     connectstompClient();
-    
+
     $('body').on("change", "#ident_tag", function () {
         DrawErrorList(errorlistJson, $(".metrictable"));
     });
