@@ -1368,7 +1368,7 @@ echarts.registerMap('jiangxi', geoJson);
             subtext: '',
             x: 'center',
             textStyle: {
-                color: '#ccc'
+                color: '#000'
             }
         },
         tooltip: {
@@ -1460,7 +1460,8 @@ echarts.registerMap('jiangxi', geoJson);
                 normal: {
                     formatter: '{b}',
                     position: 'right',
-                    show: true
+                    show: true,
+                    color: '#000'
                 },
                 emphasis: {
                     show: true
@@ -1503,7 +1504,7 @@ echarts.registerMap('jiangxi', geoJson);
             data: data
         },
         {
-            name: '点',
+            name: 'AM',
             type: 'scatter',
             coordinateSystem: 'geo',
             symbol: 'pin',
@@ -1549,6 +1550,7 @@ echarts.registerMap('jiangxi', geoJson);
                 normal: {
                     formatter: '{b}',
                     position: 'right',
+                    color: '#000',
                     show: true
                 }
             },
