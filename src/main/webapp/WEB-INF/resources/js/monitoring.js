@@ -419,7 +419,7 @@ function drawRaw(errorjson, table, hashindex, update) {
         {
             html = html + '<td class="message">' + message + '</td>';
         }
-        var st = errorjson.starttimes[errorjson.level]? errorjson.starttimes[errorjson.level]:errorjson.time;
+        var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
         html = html + '<td class="starttime">' + moment(st * 1).format(timeformat) + '</td>';
         html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
 //        html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
@@ -456,9 +456,9 @@ function drawRaw(errorjson, table, hashindex, update) {
         table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
         if (errorjson.starttimes[errorjson.level])
         {
-            table.find("tbody tr#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level]*1).format(timeformatsmall));    
+            table.find("tbody tr#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformatsmall));
         }
-        
+
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
 //        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) + " Repeat " + errorjson.index + ")");
 //        table.find("tbody tr#" + hashindex + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) / 1000 + " " + errorjson.index + "</div>");
@@ -534,11 +534,7 @@ var beginlisen = false;
 //}
 var switcherylist = [];
 $(document).ready(function () {
-//    $(".timech").each(function () {
-//        val = $(this).html();
-//        time = moment(parseFloat(val));
-//        $(this).html(time.format(timeformat));
-//    });
+
     $('.autocomplete-append-metric').each(function () {
         var input = $(this);
         var uri = cp + "/getfiltredmetricsnames?filter=" + encodeURIComponent("^(.*)$");
@@ -560,14 +556,18 @@ $(document).ready(function () {
         });
     });
     var elems = document.querySelectorAll('.js-switch-small');
+    var visibletags = 0;
     for (var i = 0; i < elems.length; i++) {
         if (typeof (filterJson[elems[i].id]) !== "undefined")
             if (filterJson[elems[i].id] !== "")
             {
+                $(elems[i]).parents(".tagfilter").show();
+                visibletags++;
                 if (!elems[i].checked)
                     $(elems[i]).trigger('click');
             } else
             {
+
                 if (elems[i].checked)
                     $(elems[i]).trigger('click');
             }
@@ -577,6 +577,7 @@ $(document).ready(function () {
             DrawErrorList(errorlistJson, $(".metrictable"));
         };
     }
+
     var first = true;
     $("body").on("change", ".js-switch-small", function () {
         if (!first)

@@ -6,9 +6,9 @@
         <input class="form-control autocomplete-append-metric filter-input" type="text" name="metric_input" id="metric_input" tagkey="metric" value="">
         <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
     </div>    
-    <label class="col-md-12 col-sm-12 col-xs-12">By Tag</label>
+    <label class="col-md-12 col-sm-12 col-xs-12 taglabel">By Tag <button class="btn btn-success Addtagq btn-xs" id="addtagq" type="button">Edit tag filer</button></label> 
     <c:forEach items="${activeuser.getMetricsMeta().getTagsKeysSort()}" var="tagitem">   
-        <div class="form-group">
+        <div class="form-group tagfilter" id="div_${tagitem}" style="display: none" >
             <label class=" col-lg-12 col-sm-12 col-xs-12">
                 ${fn:toUpperCase(fn:substring(tagitem, 0, 1))}${fn:toLowerCase(fn:substring(tagitem, 1,fn:length(tagitem)))}
                 <input type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem}" name="check_${tagitem}" value="${tagitem}"/> 
@@ -18,7 +18,7 @@
                 <div class="autocomplete-container_${tagitem}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
             </div>
         </div>
-    </c:forEach>
+    </c:forEach>    
 </div>
 <div class="form-group">
     <label class="col-md-12 col-sm-12 col-xs-12">Level</label>

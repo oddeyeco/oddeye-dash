@@ -6,6 +6,20 @@
 var test = false;
 
 $(document).ready(function () {
+    $("body").on("click", "#addtagq", function () {
+        if ($(this).hasClass("hider"))
+        {
+            $(this).parents(".form-group").find(".tagfilter").hide();
+            $(this).text("Edit tag filer");
+            $(this).removeClass("hider");            
+        } else
+        {
+            $(this).parents(".form-group").find(".tagfilter").show();
+            $(this).text("Hide");
+            $(this).addClass("hider");
+        }
+    });    
+    
     $("body").on("click", "input", function (event) {
         ga('send', 'event', 'input click', $(this).attr("name"));
     });
