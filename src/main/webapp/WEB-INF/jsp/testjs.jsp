@@ -14,27 +14,25 @@ geoJson= {
 	"title": "Armenia",
 	"version": "1.1.2",
 	"type": "FeatureCollection",
-	"copyright": "Copyright (c) 2015 Highsoft AS, Based on data from Natural Earth",
-	"copyrightShort": "Natural Earth",
-	"copyrightUrl": "http://www.naturalearthdata.com",
-	"crs": {
-		"type": "name",
-		"properties": {
-			"name": "urn:ogc:def:crs:EPSG:32638"
-		}
-	},
-	"hc-transform": {
-		"default": {
-			"crs": "+proj=utm +zone=38 +datum=WGS84 +units=m +no_defs",
-			"scale": 0.00259546189063,
-			"jsonres": 15.5,
-			"jsonmarginX": -999,
-			"jsonmarginY": 9851.0,
-			"xoffset": 368653.243489,
-			"yoffset": 4571000.84883
-		}
-	},
-	"features": [{
+//	"crs": {
+//		"type": "name",
+//		"properties": {
+//			"name": "urn:ogc:def:crs:EPSG:32638"
+//		}
+//	},
+//	"hc-transform": {
+//		"default": {
+//			"crs": "+proj=utm +zone=38 +datum=WGS84 +units=m +no_defs",
+//			"scale": 0.00259546189063,
+//			"jsonres": 15.5,
+//			"jsonmarginX": -999,
+//			"jsonmarginY": 9851.0,
+//			"xoffset": 368653.243489,
+//			"yoffset": 4571000.84883
+//		}
+//	},
+	"features": [
+            {
 		"type": "Feature",
 		"id": "AM.GR",
 		"properties": {
@@ -152,7 +150,8 @@ geoJson= {
 				]
 			]
 		}
-	}, {
+	},
+        {
 		"type": "Feature",
 		"id": "AM.AV",
 		"properties": {
@@ -246,7 +245,8 @@ geoJson= {
 				]
 			]
 		}
-	}, {
+	}, 
+        {
 		"type": "Feature",
 		"id": "AM.SH",
 		"properties": {
@@ -382,7 +382,8 @@ geoJson= {
 				]
 			]
 		}
-	}, {
+	}, 
+        {
 		"type": "Feature",
 		"id": "AM.AR",
 		"properties": {
@@ -482,7 +483,8 @@ geoJson= {
 				]
 			]
 		}
-	}, {
+	}, 
+        {
 		"type": "Feature",
 		"id": "AM.TV",
 		"properties": {
@@ -612,25 +614,6 @@ geoJson= {
 					[3873, 9544],
 					[3792, 9552]
 				],
-				[
-					[5031, 8461],
-					[4934, 8545],
-					[4885, 8527],
-					[4917, 8424],
-					[4996, 8412],
-					[5031, 8461]
-				],
-				[
-					[4386, 8761],
-					[4349, 8888],
-					[4216, 8920],
-					[4163, 8883],
-					[4152, 8821],
-					[4173, 8754],
-					[4216, 8700],
-					[4338, 8658],
-					[4386, 8761]
-				]
 			]
 		}
 	}, {
@@ -1503,41 +1486,41 @@ echarts.registerMap('jiangxi', geoJson);
             animation: false,
             data: data
         },
-        {
-            name: 'AM',
-            type: 'scatter',
-            coordinateSystem: 'geo',
-            symbol: 'pin',
-            symbolSize: function (val) {
-                var a = (maxSize4Pin - minSize4Pin) / (max - min);
-                var b = minSize4Pin - a*min;
-                b = maxSize4Pin - a*max;
-                return a*val[2]+b;
-            },
-            label: {
-                normal: {
-                    show: true,
-                    textStyle: {
-                        color: '#fff',
-                        fontSize: 9,
-                    }
-                }
-            },
-            itemStyle: {
-                normal: {
-                    color: '#F62157', //标志颜色
-                }
-            },
-            zlevel: 6,
-            data: convertData(data),
-        },
+//        {
+//            name: 'AM',
+//            type: 'scatter',
+//            coordinateSystem: 'geo',
+//            symbol: 'pin',
+//            symbolSize: function (val) {
+//                var a = (maxSize4Pin - minSize4Pin) / (max - min);
+//                var b = minSize4Pin - a*min;
+//                b = maxSize4Pin - a*max;
+//                return a*val[2]+b;
+//            },
+//            label: {
+//                normal: {
+//                    show: true,
+//                    textStyle: {
+//                        color: '#fff',
+//                        fontSize: 9,
+//                    }
+//                }
+//            },
+//            itemStyle: {
+//                normal: {
+//                    color: '#F62157', //标志颜色
+//                }
+//            },
+//            zlevel: 6,
+//            data: convertData(data),
+//        },
         {
             name: 'Top 5',
             type: 'effectScatter',
             coordinateSystem: 'geo',
             data: convertData(data.sort(function (a, b) {
                 return b.value - a.value;
-            }).slice(0, 5)),
+            }).slice(0, 2)),
             symbolSize: function (val) {
                 return val[2] / 10;
             },
