@@ -559,7 +559,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         final ConsumptionList result = new ConsumptionList();
         Scanner scanner = BaseTsdb.getClientSecondary().newScanner(consumptiontable);
         try {
-            LOGGER.warn(user.getEmail()+":"+startYear+"/"+startMonth+" "+endYear+"/"+endMonth);
+            LOGGER.info(user.getEmail()+":"+startYear+"/"+startMonth+" "+endYear+"/"+endMonth);
             byte[] year_key = ByteBuffer.allocate(4).putInt(startYear).array();
             byte[] month_key = ByteBuffer.allocate(4).putInt(startMonth).array();
             byte[] start_key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
