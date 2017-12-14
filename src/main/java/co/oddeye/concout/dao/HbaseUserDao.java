@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.util.UUID;
+import java.util.logging.Level;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.apache.commons.lang.ArrayUtils;
@@ -125,11 +126,11 @@ public class HbaseUserDao extends HbaseBaseDao {
         if (user.getFirstlogin() != null) {
             final PutRequest firstlogin = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "firstlogin".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
             BaseTsdb.getClient().put(firstlogin);
-        }        
-        if (user.getMailconfirm()!= null) {
+        }
+        if (user.getMailconfirm() != null) {
             final PutRequest mailconfirm = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "mailconfirm".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
             BaseTsdb.getClient().put(mailconfirm);
-        }                
+        }
         if (user.getAuthorities() != null) {
             final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
             BaseTsdb.getClient().put(putAuthorities);
@@ -267,7 +268,8 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     public OddeyeUserModel getUserByUUID(String uuid) {
         return getUserByUUID(UUID.fromString(uuid), false);
-    }    
+    }
+
     public OddeyeUserDetails getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
         OddeyeUserModel user = getUserByUUID(uuid, reload);
         OddeyeUserDetails result = new OddeyeUserDetails(uuid, this);
@@ -553,12 +555,73 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
+    public ConsumptionList getConsumption(OddeyeUserModel user, int startYear, int startMonth, int endYear, int endMonth) throws Exception {
+        final ConsumptionList result = new ConsumptionList();
+        Scanner scanner = BaseTsdb.getClientSecondary().newScanner(consumptiontable);
+        try {
+            byte[] year_key = ByteBuffer.allocate(4).putInt(startYear).array();
+            byte[] month_key = ByteBuffer.allocate(4).putInt(startMonth).array();
+            byte[] start_key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
+
+            year_key = ByteBuffer.allocate(4).putInt(endYear).array();
+            month_key = ByteBuffer.allocate(4).putInt(endMonth).array();
+            byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
+            
+//            final GetRequest get = new GetRequest(consumptiontable, key);
+            scanner.setStartKey(end_key);
+            scanner.setStopKey(start_key);
+            ArrayList<ArrayList<KeyValue>> rows;
+            while ((rows = scanner.nextRows().join()) != null) {
+                rows.stream().forEach((row) -> {
+                    row.stream().forEach((cos) -> {
+                        CoconutConsumption CoconutCos = new CoconutConsumption(cos);
+                        result.put(CoconutCos.getTimestamp(), new CoconutConsumption(cos));
+                    });
+                });
+            }
+
+//            final ArrayList<KeyValue> ConsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
+//            ConsList.stream().forEach((cos) -> {
+//                CoconutConsumption CoconutCos = new CoconutConsumption(cos);
+//                result.put(CoconutCos.getTimestamp(), new CoconutConsumption(cos));
+//            });
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        } finally {
+            scanner.close().join();
+        }
+
+        return result;
+    }
+
+    public ConsumptionList getConsumption(OddeyeUserModel user, int Year, int Month) {
+        final ConsumptionList result = new ConsumptionList();
+        try {
+            byte[] year_key = ByteBuffer.allocate(4).putInt(Year).array();
+            byte[] month_key = ByteBuffer.allocate(4).putInt(Month).array();
+
+            byte[] key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
+            final GetRequest get = new GetRequest(consumptiontable, key);
+            final ArrayList<KeyValue> ConsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
+            ConsList.stream().forEach((cos) -> {
+                CoconutConsumption CoconutCos = new CoconutConsumption(cos);
+                result.put(CoconutCos.getTimestamp(), new CoconutConsumption(cos));
+            });
+
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+        return result;
+    }
+
     public ConsumptionList getConsumption(OddeyeUserModel user) {
         final ConsumptionList result = new ConsumptionList();
         try {
             Calendar cal = Calendar.getInstance();
+
             byte[] year_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.YEAR)).array();
             byte[] month_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.MONTH)).array();
+
             byte[] key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
             final GetRequest get = new GetRequest(consumptiontable, key);
             final ArrayList<KeyValue> ConsList = BaseTsdb.getClient().get(get).joinUninterruptibly();

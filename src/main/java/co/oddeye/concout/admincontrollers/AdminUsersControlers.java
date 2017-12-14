@@ -289,7 +289,7 @@ public class AdminUsersControlers extends GRUDControler {
             map.put("isAuthentication", false);
         }
         OddeyeUserModel model = Userdao.getUserByUUID(UUID.fromString(id), true);
-        model.updateConsumption();
+        model.updateConsumptionYear();
         map.put("model", model);
 
 //                String baseUrl = Sender.getBaseurl(request);
@@ -425,7 +425,7 @@ public class AdminUsersControlers extends GRUDControler {
                         } catch (Exception e) {
                             LOGGER.error(globalFunctions.stackTrace(e));
                         }
-                        updateuser.updateConsumption();
+                        updateuser.updateConsumptionYear();
                         map.put("model", updateuser);
                     }
 

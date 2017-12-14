@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,10 +36,12 @@ import java.util.Random;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.UUID;
+import java.util.logging.Logger;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.config.ContainerProperties;
@@ -51,21 +54,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  * @author vahan
  */
 public class OddeyeUserModel {
-
-    /**
-     * @return the recaptcha
-     */
-    public String getRecaptcha() {
-        return recaptcha;
-    }
-
-    /**
-     * @param recaptcha the recaptcha to set
-     */
-    public void setRecaptcha(String recaptcha) {
-        this.recaptcha = recaptcha;
-    }
-
+    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class); 
     private static final long serialVersionUID = 465895478L;
 
     public final static String ROLE_ADMIN = "ROLE_ADMIN";
@@ -139,8 +128,8 @@ public class OddeyeUserModel {
     private transient final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
     private String recaptcha;
-    private transient HbaseUserDao DAO;
-
+    private transient HbaseUserDao DAO;    
+    
     public OddeyeUserModel() {
         this.SwitchUser = null;
         this.id = UUID.randomUUID();
@@ -148,6 +137,21 @@ public class OddeyeUserModel {
 //        this.MetricsMetas = null;
     }
 
+    
+    /**
+     * @return the recaptcha
+     */
+    public String getRecaptcha() {
+        return recaptcha;
+    }
+
+    /**
+     * @param recaptcha the recaptcha to set
+     */
+    public void setRecaptcha(String recaptcha) {
+        this.recaptcha = recaptcha;
+    }
+    
     public static Map<SimpleGrantedAuthority, String> getAllRoles() {
         final Map<SimpleGrantedAuthority, String> roles = new LinkedHashMap<>();
         roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USER), "User");
@@ -929,6 +933,21 @@ public class OddeyeUserModel {
         return pst;
     }
 
+    public void updateConsumptionYear() {
+        try {
+            Calendar cal = Calendar.getInstance();
+            int startYear = cal.get(Calendar.YEAR);
+            int startMonth = cal.get(Calendar.MONTH);
+            cal.add(Calendar.YEAR, -1);
+            if (cal.getTimeInMillis()<sinedate.getTime())
+            {
+                cal.setTime(sinedate);
+            }
+            consumptionList = DAO.getConsumption(this,startYear,startMonth,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH));
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+    }        
     public void updateConsumption() {
         consumptionList = DAO.getConsumption(this);
     }
