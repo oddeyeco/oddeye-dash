@@ -576,7 +576,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                 rows.stream().forEach((row) -> {
                     row.stream().forEach((cos) -> {
                         CoconutConsumption CoconutCos = new CoconutConsumption(cos);
-                        result.put(CoconutCos.getTimestamp(), new CoconutConsumption(cos));
+                        result.put(CoconutCos.getTimestamp(), CoconutCos);
                     });
                 });
             }

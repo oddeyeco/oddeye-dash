@@ -34,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -185,7 +186,7 @@ public class OddeyeUserModel {
         userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
                 this.id = UUID.fromString(new String(property.value()));
-                this.sinedate = new Date(property.timestamp());
+                this.sinedate = new Date(property.timestamp());                
             }
             return property;            
         }).map((property) -> {
@@ -935,16 +936,17 @@ public class OddeyeUserModel {
 
     public void updateConsumptionYear() {
         try {
-            Calendar cal = Calendar.getInstance();
+            TimeZone timeZone = TimeZone.getTimeZone("UTC");
+            Calendar cal = Calendar.getInstance(timeZone);
             int startYear = cal.get(Calendar.YEAR);
-            int startMonth = cal.get(Calendar.MONTH);
+            int startMonth = cal.get(Calendar.MONTH)+1;
             LOGGER.warn(this.getEmail()+":"+startYear+"/"+startMonth+" "+cal.getTime());
             cal.add(Calendar.YEAR, -1);
             if (cal.getTimeInMillis()<sinedate.getTime())
             {
                 cal.setTime(sinedate);
             }
-            consumptionList = DAO.getConsumption(this,startYear,startMonth,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH));
+            consumptionList = DAO.getConsumption(this,startYear,startMonth,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
