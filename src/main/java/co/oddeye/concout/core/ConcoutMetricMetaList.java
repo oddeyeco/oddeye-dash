@@ -75,7 +75,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                     }
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
-                    LOGGER.warn("Add metric Error for tag " + tag.getKey() + " vs tags " + e.getTags());
+                    LOGGER.warn("Add metric "+e.hashCode()+" Error for tag \"" + tag.getKey() + "\" vs tags " + e.getTags());
                 }
 
             }
