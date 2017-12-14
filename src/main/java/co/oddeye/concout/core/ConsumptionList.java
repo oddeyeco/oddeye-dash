@@ -7,6 +7,7 @@ package co.oddeye.concout.core;
 
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 /**
@@ -28,7 +29,8 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
     @Override
     public CoconutConsumption put(Long key, CoconutConsumption value) {
         CoconutConsumption result = super.put(key, value);
-        Calendar cal = Calendar.getInstance(); // locale-specific
+        TimeZone timeZone = TimeZone.getTimeZone("UTC");
+        Calendar cal = Calendar.getInstance(timeZone);
         cal.setTimeInMillis(value.getTimestamp());
 //        cal.add(Calendar.HOUR, 1);
         cal.set(Calendar.MINUTE, 0);

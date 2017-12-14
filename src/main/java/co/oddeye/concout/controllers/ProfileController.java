@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
@@ -148,7 +149,7 @@ public class ProfileController {
 
                 map.put("metric", meta);
                 map.put("title", meta.getDisplayName());
-                Calendar CalendarObj = Calendar.getInstance();
+                Calendar CalendarObj = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 if (timestamp != null) {
                     CalendarObj.setTimeInMillis(timestamp * 1000);
                 }

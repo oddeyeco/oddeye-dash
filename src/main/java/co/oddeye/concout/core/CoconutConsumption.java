@@ -8,6 +8,7 @@ package co.oddeye.concout.core;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Calendar;
+import java.util.TimeZone;
 import org.hbase.async.KeyValue;
 
 /**
@@ -26,13 +27,13 @@ public class CoconutConsumption implements Serializable {
         amount = 0.0;
         count = 0;
         timestamp = times;
-        time = Calendar.getInstance();
+        time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         time.setTimeInMillis(timestamp);
     }
 
     public CoconutConsumption(KeyValue cos) {
         timestamp = ByteBuffer.wrap(cos.qualifier()).getLong();
-        time = Calendar.getInstance();
+        time = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         time.setTimeInMillis(timestamp);
         amount = ByteBuffer.wrap(cos.value()).getDouble();
         count = ByteBuffer.wrap(cos.value()).getInt(8);
