@@ -456,7 +456,7 @@ function drawRaw(errorjson, table, hashindex, update) {
         table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
         if (errorjson.starttimes[errorjson.level])
         {
-            table.find("tbody tr#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformatsmall));
+            table.find("tbody tr#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat));
         }
 
         table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
