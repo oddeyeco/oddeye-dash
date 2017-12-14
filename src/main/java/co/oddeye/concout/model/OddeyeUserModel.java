@@ -938,6 +938,7 @@ public class OddeyeUserModel {
             Calendar cal = Calendar.getInstance();
             int startYear = cal.get(Calendar.YEAR);
             int startMonth = cal.get(Calendar.MONTH);
+            LOGGER.warn(this.getEmail()+":"+startYear+"/"+startMonth+" "+cal);
             cal.add(Calendar.YEAR, -1);
             if (cal.getTimeInMillis()<sinedate.getTime())
             {
