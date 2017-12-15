@@ -762,7 +762,7 @@ public class AjaxControlers {
                 jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
                 jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
                 JsonObject tagaslist = new JsonObject();
-                for (Map.Entry<String, Map<String, Integer>> item : userDetails.getMetricsMeta().getTagsList().entrySet()) {
+                for (Map.Entry<String, Map<String, Integer>> item : userDetails.getMetricsMeta().getTagsListSorted().entrySet()) {
                     tagaslist.addProperty(item.getKey(), item.getValue().size());
                 }
                 jsonResult.add("tags", tagaslist);

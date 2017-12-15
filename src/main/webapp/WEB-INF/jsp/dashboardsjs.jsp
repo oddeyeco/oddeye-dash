@@ -5,7 +5,7 @@
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<script>    
+<script>
     $(document).ready(function () {
 //        $("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
 
@@ -21,19 +21,17 @@
             },
             success: function (data) {
                 if (data.sucsses)
-                {                    
+                {
                     $('#metrics').html(data.names);
                     $('#tags').html(data.tagscount);
-                    $('#count').html(data.count);
-                    
-
+                    $('#count').html(data.count);                    
                     jQuery.each(data.tags, function (i, val) {
-                        $("#tagslist").append('<div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">'+
+                        $("#tagslist").append('<div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">' +
                                 '<span class="count_top"><i class="fa fa-th-list"></i> Tag "' + i + '" count </span>' +
-                                '<div class="count">'+val+'</div>'+                                
-                            '</div>');
+                                '<div class="count">' + val + '</div>' +
+                                '</div>');
                     });
-                    $('.count').spincrement({duration:5000});
+                    $('.count').spincrement({duration: 5000});
                 }
                 ;
             },

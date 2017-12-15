@@ -9,6 +9,7 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeeyMetricMetaList;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
+import com.google.gwt.user.client.ui.Tree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -199,6 +200,10 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public Map<String, Map<String, Integer>> getTagsList() {
         return TagsList;
     }
+    
+    public Map<String, Map<String, Integer>> getTagsListSorted() {
+        return new TreeMap<String, Map<String, Integer>>(TagsList);
+    }    
     
     public List<String> getTagsKeysSort() {
         List<String> keys =new ArrayList<>(TagsList.keySet()) ;
