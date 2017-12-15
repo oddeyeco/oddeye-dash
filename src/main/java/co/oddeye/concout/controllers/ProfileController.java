@@ -80,8 +80,8 @@ public class ProfileController {
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
 
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile(ModelMap map) throws Exception {
+    @RequestMapping(value = {"/profile/page/{page}", "/profile"}, method = RequestMethod.GET)
+    public String profile(@PathVariable(value = "page" , required = false) Integer page,ModelMap map) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "index";
@@ -92,6 +92,11 @@ public class ProfileController {
 //            userDetails.updateConsumption();
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
+            if (page==null)
+            {
+                page = 1;
+            }
+            map.put("page", page);
 
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
