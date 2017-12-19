@@ -465,6 +465,7 @@ var queryCallback = function (inputdata) {
                 {
 
                     delete widget.options.xAxis[xAxis_Index].max;
+                    delete widget.options.xAxis[xAxis_Index].min;
                     var sdata = [];
                     var tmp_series_1 = {};
 
