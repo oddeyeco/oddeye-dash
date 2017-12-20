@@ -509,7 +509,7 @@
                           align="center">
                             <div class="logo-left" align="left" id="emb-email-header">
                               <a style="text-decoration: none;transition: opacity 0.1s ease-in;color: #41637e;" href="https://www.oddeye.co/">
-								<img align="left" border="0" src="http://localhost:8080/OddeyeCoconut/assets/images/email/logo_100px.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 100px;float: left" width="100">
+								<img align="left" border="0" src="${uri}/assets/images/email/logo_100px.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 100px;float: left" width="100">
 								<p style="font-size: 30px;line-height: 21px;text-align: center ;margin: 3px;float: left;">Welcome to OddEye.</p>
 								<p style="font-size: 20px;line-height: 40px;text-align: center ;margin: 3px;float: left; color:#8BC53F">World's the most advanced monitoring platform.</p>
 
@@ -603,21 +603,21 @@
                                         <td class="emb-web-links" style="padding: 0;width: 26px;">
                                           <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #999;"
                                           href="https://www.facebook.com/OddEye.co/">
-                                            <img style="border: 0;" src="http://localhost:8080/OddeyeCoconut/assets/images/email/Facebook.png"
+                                            <img style="border: 0;" src="${uri}/assets/images/email/Facebook.png"
                                             width="26" height="26">
                                           </a>
                                         </td>
                                         <td class="emb-web-links" style="padding: 0 0 0 3px;width: 26px;">
                                           <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #999;"
                                           href="https://www.linkedin.com/company/18190142/">
-                                            <img style="border: 0;" src="http://localhost:8080/OddeyeCoconut/assets/images/email/Linkedin.png"
+                                            <img style="border: 0;" src="${uri}/assets/images/email/Linkedin.png"
                                             width="26" height="26">
                                           </a>
                                         </td>
                                         <td class="emb-web-links" style="padding: 0 0 0 3px;width: 26px;">
                                           <a style="text-decoration: 
 underline;transition: opacity 0.1s ease-in;color: #999;" href="https://github.com/oddeyeco">
-                                            <img style="border: 0;" src="http://localhost:8080/OddeyeCoconut/assets/images/email/Github.png"
+                                            <img style="border: 0;" src="${uri}/assets/images/email/Github.png"
                                             width="26" height="26">
                                           </a>
                                         </td>
