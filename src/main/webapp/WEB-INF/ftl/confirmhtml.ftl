@@ -1,416 +1,657 @@
-<#ftl encoding='UTF-8'>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office"><head>
-    <!--[if gte mso 9]><xml>
-     <o:OfficeDocumentSettings>
-      <o:AllowPNG/>
-      <o:PixelsPerInch>96</o:PixelsPerInch>
-     </o:OfficeDocumentSettings>
-    </xml><![endif]-->
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-            <meta name="viewport" content="width=device-width">
-            <!--[if !mso]><!--><meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
-                    <title></title>
-                    <!--[if !mso]><!-- -->
-                    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
-                    <!--<![endif]-->
-
-                        <style type="text/css" id="media-query">
-                            body {
-                                margin: 0;
-                                padding: 0; }
-
-                            table, tr, td {
-                                vertical-align: top;
-                                border-collapse: collapse; }
-
-                            .ie-browser table, .mso-container table {
-                                table-layout: fixed; }
-
-                            * {
-                                line-height: inherit; }
-
-                            a[x-apple-data-detectors=true] {
-                                color: inherit !important;
-                                text-decoration: none !important; }
-
-                            [owa] .img-container div, [owa] .img-container button {
-                                display: block !important; }
-
-                            [owa] .fullwidth button {
-                                width: 100% !important; }
-
-                            [owa] .block-grid .col {
-                                display: table-cell;
-                                float: none !important;
-                                vertical-align: top; }
-
-                            .ie-browser .num12, .ie-browser .block-grid, [owa] .num12, [owa] .block-grid {
-                                width: 600px !important; }
-
-                            .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-                                line-height: 100%; }
-
-                            .ie-browser .mixed-two-up .num4, [owa] .mixed-two-up .num4 {
-                                width: 200px !important; }
-
-                            .ie-browser .mixed-two-up .num8, [owa] .mixed-two-up .num8 {
-                                width: 400px !important; }
-
-                            .ie-browser .block-grid.two-up .col, [owa] .block-grid.two-up .col {
-                                width: 300px !important; }
-
-                            .ie-browser .block-grid.three-up .col, [owa] .block-grid.three-up .col {
-                                width: 200px !important; }
-
-                            .ie-browser .block-grid.four-up .col, [owa] .block-grid.four-up .col {
-                                width: 150px !important; }
-
-                            .ie-browser .block-grid.five-up .col, [owa] .block-grid.five-up .col {
-                                width: 120px !important; }
-
-                            .ie-browser .block-grid.six-up .col, [owa] .block-grid.six-up .col {
-                                width: 100px !important; }
-
-                            .ie-browser .block-grid.seven-up .col, [owa] .block-grid.seven-up .col {
-                                width: 85px !important; }
-
-                            .ie-browser .block-grid.eight-up .col, [owa] .block-grid.eight-up .col {
-                                width: 75px !important; }
-
-                            .ie-browser .block-grid.nine-up .col, [owa] .block-grid.nine-up .col {
-                                width: 66px !important; }
-
-                            .ie-browser .block-grid.ten-up .col, [owa] .block-grid.ten-up .col {
-                                width: 60px !important; }
-
-                            .ie-browser .block-grid.eleven-up .col, [owa] .block-grid.eleven-up .col {
-                                width: 54px !important; }
-
-                            .ie-browser .block-grid.twelve-up .col, [owa] .block-grid.twelve-up .col {
-                                width: 50px !important; }
-
-                            @media only screen and (min-width: 620px) {
-                                .block-grid {
-                                    width: 600px !important; }
-                                .block-grid .col {
-                                    display: table-cell;
-                                    Float: none !important;
-                                    vertical-align: top; }
-                                .block-grid .col.num12 {
-                                    width: 600px !important; }
-                                .block-grid.mixed-two-up .col.num4 {
-                                    width: 200px !important; }
-                                .block-grid.mixed-two-up .col.num8 {
-                                    width: 400px !important; }
-                                .block-grid.two-up .col {
-                                    width: 300px !important; }
-                                .block-grid.three-up .col {
-                                    width: 200px !important; }
-                                .block-grid.four-up .col {
-                                    width: 150px !important; }
-                                .block-grid.five-up .col {
-                                    width: 120px !important; }
-                                .block-grid.six-up .col {
-                                    width: 100px !important; }
-                                .block-grid.seven-up .col {
-                                    width: 85px !important; }
-                                .block-grid.eight-up .col {
-                                    width: 75px !important; }
-                                .block-grid.nine-up .col {
-                                    width: 66px !important; }
-                                .block-grid.ten-up .col {
-                                    width: 60px !important; }
-                                .block-grid.eleven-up .col {
-                                    width: 54px !important; }
-                                .block-grid.twelve-up .col {
-                                    width: 50px !important; } }
-
-                            @media (max-width: 620px) {
-                                .block-grid, .col {
-                                    min-width: 320px !important;
-                                    max-width: 100% !important; }
-                                .block-grid {
-                                    width: calc(100% - 40px) !important; }
-                                .col {
-                                    width: 100% !important; }
-                                .col > div {
-                                    margin: 0 auto; }
-                                img.fullwidth {
-                                    max-width: 100% !important; } }
-
-                            </style>
-                        </head>
-                        <body class="clean-body" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;background-color: #e2eace">
-
-  <!--[if IE]><div class="ie-browser"><![endif]-->
-  <!--[if mso]><div class="mso-container"><![endif]-->
-                            <div class="nl-container" style="min-width: 320px;Margin: 0 auto;background-color: #e2eace">
-                              <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" style="background-color: #e2eace;"><![endif]-->
-
-                                <div style="background-color:transparent;">
-                                    <div style="Margin: 0 auto;min-width: 320px;max-width: 600px;width: 600px;width: calc(29000% - 179200px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
-                                        <div style="border-collapse: collapse;display: table;width: 100%;">
-                                          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
-
-              <!--[if (mso)|(IE)]><td align="center" width="600" style=" width:600px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:0px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
-                                            <div class="col num12" style="min-width: 320px;max-width: 600px;width: 600px;width: calc(28000% - 167400px);background-color: transparent;">
-                                                <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
-
-
-                                                        <div align="center" class="img-container center fullwidth" style="padding-right: 0px;  padding-left: 0px;">
-                                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-                                                            <!--<div style="line-height:25px;font-size:1px">&nbsp;</div>  <img class="center fullwidth" align="center" border="0" src="images/rounder-up.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 600px" width="600">-->
-                                                            <!--[if mso]></td></tr></table><![endif]-->
-                                                            </div>
-
-
-<!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                                                    </div>
-                                                </div>
-                                              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-                                            </div>
-                                        </div>
-                                    </div>    <div style="background-color:transparent;">
-                                    <div style="Margin: 0 auto;min-width: 320px;max-width: 600px;width: 600px;width: calc(29000% - 179200px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #FFFFFF;" class="block-grid ">
-                                        <div style="border-collapse: collapse;display: table;width: 100%;">
-                                          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr class="layout-full-width" style="background-color:#FFFFFF;"><![endif]-->
-
-              <!--[if (mso)|(IE)]><td align="center" width="600" style=" width:600px; padding-right: 0px; padding-left: 0px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
-                                            <div class="col num12" style="min-width: 320px;max-width: 600px;width: 600px;width: calc(28000% - 167400px);background-color: #FFFFFF;">
-                                                <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
-
-
-                                                        <div align="center" class="img-container center" style="padding-right: 0px;  padding-left: 0px;">
-                                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-                                      <!--<img class="center" align="center" border="0" src="images/4ccdd621659342935a1460a1303c0ba1.jpeg" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 250px" width="250">-->
-                                    <!--[if mso]></td></tr></table><![endif]-->
-                                                            </div>
-
-
-
-  <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
-                                                        <div style="background-color:#00adee; color:#555555;line-height:150%;font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
-                                                            <div>
-
-
-                                                                <div align="center" class="img-container center" style="padding-right: 0px;  padding-left: 0px;">
-          <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-                                                                    <img class="center" align="center" border="0" src="https://www.oddeye.co/wp-content/uploads/2017/08/logo_100px.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 100px" width="100">
-                                                                  <!--[if mso]></td></tr></table><![endif]-->
-                                                                    </div>
-
-
-                                                                <p style="font-size: 20px;line-height: 21px;text-align: center ;margin: 3px">Welcome to OddEye.</p></div>	
-                                                            </div>
-                                                            <!--[if mso]></td></tr></table><![endif]-->
-
-
-<!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                                                    </div>
-                                                </div>
-                                              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-                                            </div>
-                                        </div>
-                                    </div>    <div style="background-color:transparent;">
-                                    <div style="Margin: 0 auto;min-width: 320px;max-width: 600px;width: 600px;width: calc(29000% - 179200px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #FFFFFF;" class="block-grid ">
-                                        <div style="border-collapse: collapse;display: table;width: 100%;">
-                                          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr class="layout-full-width" style="background-color:#FFFFFF;"><![endif]-->
-
-              <!--[if (mso)|(IE)]><td align="center" width="600" style=" width:600px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
-                                            <div class="col num12" style="min-width: 320px;max-width: 600px;width: 600px;width: calc(28000% - 167400px);background-color: #FFFFFF;">
-                                                <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:0px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
-
-
-  <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
-                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%;color:#0D0D0D; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
-                                                            <div><p style="margin: 0;font-size: 14px;line-height: 17px;text-align: center"><span style="font-size: 28px; line-height: 33px;"><strong><span style="line-height: 33px; font-size: 28px;">Hello ${userName} ${userLastName},</span></strong></span><br><span style="font-size: 28px; line-height: 33px;">Registration completed</span></p></div>	
-                                                            </div>
-                                                            <!--[if mso]></td></tr></table><![endif]-->
-
-
-
-                                                        <div align="center" class="img-container center" style="padding-right: 0px;  padding-left: 0px;">
-                                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-                                                            <!--<img class="center" align="center" border="0" src="images/divider.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 316px" width="316">-->
-                                                          <!--[if mso]></td></tr></table><![endif]-->
-                                                            </div>
-
-
-
-  <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;"><![endif]-->
-                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:150%;color:#555555; padding-right: 10px; padding-left: 10px; padding-top: 10px; padding-bottom: 10px;">	
-                                                            <div><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center">Thanks so much for joining Our Site!<br>Your username is: <span style="color: rgb(168, 191, 111); font-size: 14px; line-height: 21px;"><strong>${email}<br></strong></span></p></div>	
-                                                            </div>
-                                                            <!--[if mso]></td></tr></table><![endif]-->
-
-
-
-  <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top: 20px; padding-bottom: 10px;"><![endif]-->
-                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:150%;color:#0D0D0D; padding-right: 10px; padding-left: 10px; padding-top: 20px; padding-bottom: 10px;">	
-                                                            <div><p style="margin: 0;font-size: 14px;line-height: 21px;text-align: center">TO FINISH SIGNING UP AND ACTIVATE YOUR ACCOUNT<br>YOU JUST NEED CONFIRM E-MAIL</p></div>	
-                                                            </div>
-                                                            <!--[if mso]></td></tr></table><![endif]-->
-
-
-
-
-                                                        <div align="center" class="button-container center" style="padding-right: 10px; padding-left: 10px; padding-top:25px; padding-bottom:10px;">
-                                                          <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding-right: 10px; padding-left: 10px; padding-top:25px; padding-bottom:10px;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:62px; v-text-anchor:middle; width:238px;" arcsize="7%" strokecolor="#00adee" fillcolor="#00adee"><w:anchorlock/><center style="color:#ffffff; font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; font-size:16px;"><![endif]-->
-                                                            <a  style="text-decoration: none" href='${uri}/confirm/${id}'>
-                                                                <div style="color: #ffffff; background-color: #00adee; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; max-width: 218px; width: 188px; width: auto; border-top: 0px solid transparent; border-right: 0px solid transparent; border-bottom: 0px solid transparent; border-left: 0px solid transparent; padding-top: 15px; padding-right: 15px; padding-bottom: 15px; padding-left: 15px; font-family: 'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif; text-align: center; mso-border-alt: none;">
-                                                                    <span style="font-size:16px;line-height:32px;">
-                                                                        ACTIVATE MY ACCOUNT
-                                                                        </span>
-                                                                    </div>
-                                                                </a>
-                                                            <hr>
-                                                                <p>
-                                                                    Button not working? Paste the following link into your browser:<br>
-                                                                        <a href="${uri}/confirm/${id}" target="_blank" rel="noopener">${uri}/confirm/${id}</a>
-                                                                    </p>
-
-                                                                <p> You`re receiving this email because you recently created a new OddEye account. If this wasn`t you, please ignore this email.</p>
-                                                                                                                               <!--[if mso]></center></v:roundrect></td></tr></table><![endif]-->
-                                                            </div>
-
-
-
-                                                        <div style="padding-right: 10px; padding-left: 10px; padding-top: 30px; padding-bottom: 10px;">
-                                      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 10px;padding-left: 10px; padding-top: 30px; padding-bottom: 10px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
-                                                            <div align="center"><div style="border-top: 0px solid transparent; width:100%; line-height:0px; height:0px; font-size:0px;">&nbsp;</div></div>
-                                                            <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
-                                                            </div>
-
-
-<!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                                                    </div>
-                                                </div>
-                                              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-                                            </div>
-                                        </div>
-                                    </div>    <div style="background-color:transparent;">
-                                    <div style="Margin: 0 auto;min-width: 320px;max-width: 600px;width: 600px;width: calc(29000% - 179200px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: #525252;" class="block-grid three-up">
-                                        <div style="border-collapse: collapse;display: table;width: 100%;">
-                                          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr class="layout-full-width" style="background-color:#525252;"><![endif]-->
-
-              <!--[if (mso)|(IE)]><td align="center" width="200" style=" width:200px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:0px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
-                                            <div class="col num4" style="Float: left;max-width: 320px;min-width: 200px;width: 200px;width: calc(72200px - 12000%);background-color: #525252;">
-                                                <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:0px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
-
-
-
-                                                        <div align="center" style="padding-right: 0px; padding-left: 0px; padding-bottom: 0px;">
-                                                            <div style="line-height:15px;font-size:1px">&nbsp;</div>
-                                                            <div style="display: table; max-width:131;">
-                                                            <!--[if (mso)|(IE)]><table width="131" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-collapse:collapse; padding-right: 0px; padding-left: 0px; padding-bottom: 0px;"  align="center"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; mso-table-lspace: 0pt;mso-table-rspace: 0pt; width:131px;"><tr><td width="32" style="width:32px; padding-right: 5px;" valign="top"><![endif]-->
-                                                                <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;Margin-right: 5px">
-                                                                    <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-                                                                                <a href="https://www.facebook.com/OddEye.co" title="Facebook" target="_blank">
-                                                                                    <img src="images/facebook@2x.png" alt="Facebook" title="Facebook" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-                                                                                    </a>
-                                                                                <div style="line-height:5px;font-size:1px">&nbsp;</div>
-                                                                                </td></tr>
-                                                                        </tbody></table>
-                                                                          <!--[if (mso)|(IE)]></td><td width="32" style="width:32px; padding-right: 5px;" valign="top"><![endif]-->
-                                                                <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;Margin-right: 5px">
-                                                                    <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-<!--                                                                                <a href="https://twitter.com/" title="Twitter" target="_blank">
-                                                                                    <img src="images/twitter@2x.png" alt="Twitter" title="Twitter" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-                                                                                    </a>-->
-                                                                                <div style="line-height:5px;font-size:1px">&nbsp;</div>
-                                                                                </td></tr>
-                                                                        </tbody></table>
-                                                                          <!--[if (mso)|(IE)]></td><td width="32" style="width:32px; padding-right: 0;" valign="top"><![endif]-->
-                                                                <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;Margin-right: 0">
-                                                                    <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-<!--                                                                                <a href="https://plus.google.com/" title="Google+" target="_blank">
-                                                                                    <img src="images/googleplus@2x.png" alt="Google+" title="Google+" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-                                                                                    </a>-->
-                                                                                <div style="line-height:5px;font-size:1px">&nbsp;</div>
-                                                                                </td></tr>
-                                                                        </tbody></table>
-                                                                        <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-                                                                </div>
-                                                            </div>
-
-
-<!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                                                    </div>
-                                                </div>
-                                                  <!--[if (mso)|(IE)]></td><td align="center" width="200" style=" width:200px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
-                                            <div class="col num4" style="Float: left;max-width: 320px;min-width: 200px;width: 200px;width: calc(72200px - 12000%);background-color: #525252;">
-                                                <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
-
-
-  <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;"><![endif]-->
-                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%;color:#00adee; padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;">	
-                                                            <!--<div><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center"><span style="color: rgb(255, 255, 255); font-size: 12px; line-height: 14px;"><span style="font-size: 12px; line-height: 14px; color: rgb(168, 191, 111);">Tel.:</span> +39 . 000 . 000 . 000</span><br></p></div>-->	
-                                                            </div>
-                                                            <!--[if mso]></td></tr></table><![endif]-->
-
-
-<!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                                                    </div>
-                                                </div>
-                                                  <!--[if (mso)|(IE)]></td><td align="center" width="200" style=" width:200px; padding-right: 0px; padding-left: 0px; padding-top:5px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
-                                            <div class="col num4" style="Float: left;max-width: 320px;min-width: 200px;width: 200px;width: calc(72200px - 12000%);background-color: #525252;">
-                                                <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
-
-
-  <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;"><![endif]-->
-                                                        <div style="font-family:'Montserrat', 'Trebuchet MS', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Tahoma, sans-serif;line-height:120%;color:#00adee; padding-right: 0px; padding-left: 0px; padding-top: 20px; padding-bottom: 0px;">	
-                                                            <div><p style="margin: 0;font-size: 12px;line-height: 14px;text-align: center">Email <span style="color: rgb(255, 255, 255); font-size: 12px; line-height: 14px;">support@oddeye.co</span></p></div>	
-                                                            </div>
-                                                            <!--[if mso]></td></tr></table><![endif]-->
-
-
-<!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                                                    </div>
-                                                </div>
-                                              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-                                            </div>
-                                        </div>
-                                    </div>    <div style="background-color:transparent;">
-                                    <div style="Margin: 0 auto;min-width: 320px;max-width: 600px;width: 600px;width: calc(29000% - 179200px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;" class="block-grid ">
-                                        <div style="border-collapse: collapse;display: table;width: 100%;">
-                                          <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="background-color:transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width: 600px;"><tr class="layout-full-width" style="background-color:transparent;"><![endif]-->
-
-              <!--[if (mso)|(IE)]><td align="center" width="600" style=" width:600px; padding-right: 0px; padding-left: 0px; padding-top:0px; padding-bottom:5px; border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent;" valign="top"><![endif]-->
-                                            <div class="col num12" style="min-width: 320px;max-width: 600px;width: 600px;width: calc(28000% - 167400px);background-color: transparent;">
-                                                <div style="background-color: transparent; width: 100% !important;">
-                                                <!--[if (!mso)&(!IE)]><!--><div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:0px; padding-bottom:5px; padding-right: 0px; padding-left: 0px;"><!--<![endif]-->
-
-
-                                                        <div align="center" class="img-container center fullwidth" style="padding-right: 0px;  padding-left: 0px;">
-                                    <!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
-                                                            <!--<img class="center fullwidth" align="center" border="0" src="images/rounder-dwn.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 600px" width="600">-->
-                                                          <!--[if mso]></td></tr></table><![endif]-->
-                                                            </div>
-
-
-
-                                                        <div style="padding-right: 30px; padding-left: 30px; padding-top: 30px; padding-bottom: 30px;">
-                                      <!--[if (mso)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding-right: 30px;padding-left: 30px; padding-top: 30px; padding-bottom: 30px;"><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
-                                                            <div align="center"><div style="border-top: 0px solid transparent; width:100%; line-height:0px; height:0px; font-size:0px;">&nbsp;</div></div>
-                                                            <!--[if (mso)]></td></tr></table></td></tr></table><![endif]-->
-                                                            </div>
-
-
-<!--[if (!mso)&(!IE)]><!--></div><!--<![endif]-->
-                                                    </div>
-                                                </div>
-                                              <!--[if (mso)|(IE)]></td></tr></table></td></tr></table><![endif]-->
-                                            </div>
-                                        </div>
-                                      </div>   <!--[if (mso)|(IE)]></td></tr></table><![endif]-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--[if IE]>
+  <html xmlns="http://www.w3.org/1999/xhtml" class="ie">
+  <![endif]-->
+  <!--[if !IE]><!-->
+    <html style="margin: 0;padding: 0;" xmlns="http://www.w3.org/1999/xhtml">
+    <!--<![endif]-->
+    
+    <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title></title>
+      <!--[if !mso]>
+        <!-->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <!--<![endif]-->
+      <meta name="viewport" content="width=device-width">
+      <style type="text/css">
+        @media only screen and (min-width: 620px){.wrapper{min-width:600px !important}.wrapper h1{}.wrapper h1{font-size:26px !important;line-height:34px !important}.wrapper h2{}.wrapper h2{font-size:20px !important;line-height:28px !important}.wrapper h3{}.column{}.wrapper .size-8{font-size:8px !important;line-height:14px !important}.wrapper .size-9{font-size:9px !important;line-height:16px !important}.wrapper .size-10{font-size:10px !important;line-height:18px !important}.wrapper .size-11{font-size:11px !important;line-height:19px !important}.wrapper .size-12{font-size:12px !important;line-height:19px !important}.wrapper .size-13{font-size:13px !important;line-height:21px !important}.wrapper .size-14{font-size:14px !important;line-height:21px !important}.wrapper .size-15{font-size:15px !important;line-height:23px !important}.wrapper .size-16{font-size:16px !important;line-height:24px 
+        !important}.wrapper .size-17{font-size:17px !important;line-height:26px !important}.wrapper .size-18{font-size:18px !important;line-height:26px !important}.wrapper .size-20{font-size:20px !important;line-height:28px !important}.wrapper .size-22{font-size:22px !important;line-height:31px !important}.wrapper .size-24{font-size:24px !important;line-height:32px !important}.wrapper .size-26{font-size:26px !important;line-height:34px !important}.wrapper .size-28{font-size:28px !important;line-height:36px !important}.wrapper .size-30{font-size:30px !important;line-height:38px !important}.wrapper .size-32{font-size:32px !important;line-height:40px !important}.wrapper .size-34{font-size:34px !important;line-height:43px !important}.wrapper .size-36{font-size:36px !important;line-height:43px !important}.wrapper .size-40{font-size:40px !important;line-height:47px !important}.wrapper 
+        .size-44{font-size:44px !important;line-height:50px !important}.wrapper .size-48{font-size:48px !important;line-height:54px !important}.wrapper .size-56{font-size:56px !important;line-height:60px !important}.wrapper .size-64{font-size:64px !important;line-height:63px !important}}
+      </style>
+      <style type="text/css">
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        table {
+          border-collapse: collapse;
+          table-layout: fixed;
+        }
+        * {
+          line-height: inherit;
+        }
+        [x-apple-data-detectors],
+        [href^="tel"],
+        [href^="sms"] {
+          color: inherit !important;
+          text-decoration: none !important;
+        }
+        .wrapper .footer__share-button a:hover,
+        .wrapper .footer__share-button a:focus {
+          color: #ffffff !important;
+        }
+        .btn a:hover,
+        .btn a:focus,
+        .footer__share-button a:hover,
+        .footer__share-button a:focus,
+        .email-footer__links a:hover,
+        .email-footer__links a:focus {
+          opacity: 0.8;
+        }
+        .preheader,
+        .header,
+        .layout,
+        .column {
+          transition: width 0.25s ease-in-out, max-width 0.25s ease-in-out;
+        }
+        .layout,
+        div.header {
+          max-width: 400px !important;
+          -fallback-width: 95% !important;
+          width: calc(100% - 20px) !important;
+        }
+        div.preheader {
+          max-width: 360px !important;
+          -fallback-width: 90% !important;
+          width: calc(100% - 60px) !important;
+        }
+        .snippet,
+        .webversion {
+          Float: none !important;
+        }
+        .column {
+          max-width: 400px !important;
+          width: 100% !important;
+        }
+        .fixed-width.has-border {
+          max-width: 402px !important;
+        }
+        .fixed-width.has-border .layout__inner {
+          box-sizing: border-box;
+        }
+        .snippet,
+        .webversion {
+          width: 50% !important;
+        }
+        .ie .btn {
+          width: 100%;
+        }
+        [owa] .column div,
+        [owa] .column button {
+          display: block !important;
+        }
+        .ie .column,
+        [owa] .column,
+        .ie .gutter,
+        [owa] .gutter {
+          display: table-cell;
+          float: none !important;
+          vertical-align: top;
+        }
+        .ie div.preheader,
+        [owa] div.preheader,
+        .ie .email-footer,
+        [owa] .email-footer {
+          max-width: 560px !important;
+          width: 560px !important;
+        }
+        .ie .snippet,
+        [owa] .snippet,
+        .ie .webversion,
+        [owa] .webversion {
+          width: 280px !important;
+        }
+        .ie div.header,
+        [owa] div.header,
+        .ie .layout,
+        [owa] .layout,
+        .ie .one-col .column,
+        [owa] .one-col .column {
+          max-width: 600px !important;
+          width: 600px !important;
+        }
+        .ie .fixed-width.has-border,
+        [owa] .fixed-width.has-border,
+        .ie .has-gutter.has-border,
+        [owa] .has-gutter.has-border {
+          max-width: 602px !important;
+          width: 602px !important;
+        }
+        .ie .two-col .column,
+        [owa] .two-col .column {
+          max-width: 300px !important;
+          width: 300px !important;
+        }
+        .ie .three-col .column,
+        [owa] .three-col .column,
+        .ie .narrow,
+        [owa] .narrow {
+          max-width: 200px !important;
+          width: 200px !important;
+        }
+        .ie .wide,
+        [owa] .wide {
+          width: 400px !important;
+        }
+        .ie .two-col.has-gutter .column,
+        [owa] .two-col.x_has-gutter .column {
+          max-width: 290px !important;
+          width: 290px !important;
+        }
+        .ie .three-col.has-gutter .column,
+        [owa] .three-col.x_has-gutter .column,
+        .ie .has-gutter .narrow,
+        [owa] .has-gutter .narrow {
+          max-width: 188px !important;
+          width: 188px !important;
+        }
+        .ie .has-gutter .wide,
+        [owa] .has-gutter .wide {
+          max-width: 394px !important;
+          width: 394px !important;
+        }
+        .ie .two-col.has-gutter.has-border .column,
+        [owa] .two-col.x_has-gutter.x_has-border .column {
+          max-width: 292px !important;
+          width: 292px !important;
+        }
+        .ie .three-col.has-gutter.has-border .column,
+        [owa] .three-col.x_has-gutter.x_has-border .column,
+        .ie .has-gutter.has-border .narrow,
+        [owa] .has-gutter.x_has-border .narrow {
+          max-width: 190px !important;
+          width: 190px !important;
+        }
+        .ie .has-gutter.has-border .wide,
+        [owa] .has-gutter.x_has-border .wide {
+          max-width: 396px !important;
+          width: 396px !important;
+        }
+        .ie .fixed-width .layout__inner {
+          border-left: 0 none white !important;
+          border-right: 0 none white !important;
+        }
+        .ie .layout__edges {
+          display: none;
+        }
+        .mso .layout__edges {
+          font-size: 0;
+        }
+        .layout-fixed-width,
+        .mso .layout-full-width {
+          background-color: #ffffff;
+        }
+        @media only screen and (min-width: 620px) {
+          .column,
+          .gutter {
+            display: table-cell;
+            Float: none !important;
+            vertical-align: top;
+          }
+          div.preheader,
+          .email-footer {
+            max-width: 560px !important;
+            width: 560px !important;
+          }
+          .snippet,
+          .webversion {
+            width: 280px !important;
+          }
+          div.header,
+          .layout,
+          .one-col .column {
+            max-width: 600px !important;
+            width: 600px !important;
+          }
+          .fixed-width.has-border,
+          .fixed-width.ecxhas-border,
+          .has-gutter.has-border,
+          .has-gutter.ecxhas-border {
+            max-width: 602px !important;
+            width: 602px !important;
+          }
+          .two-col .column {
+            max-width: 300px !important;
+            width: 300px !important;
+          }
+          .three-col .column,
+          .column.narrow {
+            max-width: 200px !important;
+            width: 200px !important;
+          }
+          .column.wide {
+            width: 400px !important;
+          }
+          .two-col.has-gutter .column,
+          .two-col.ecxhas-gutter .column {
+            max-width: 290px !important;
+            width: 290px !important;
+          }
+          .three-col.has-gutter .column,
+          .three-col.ecxhas-gutter .column,
+          .has-gutter .narrow {
+            max-width: 188px !important;
+            width: 188px !important;
+          }
+          .has-gutter .wide {
+            max-width: 394px !important;
+            width: 394px !important;
+          }
+          .two-col.has-gutter.has-border .column,
+          .two-col.ecxhas-gutter.ecxhas-border .column {
+            max-width: 292px !important;
+            width: 292px !important;
+          }
+          .three-col.has-gutter.has-border .column,
+          .three-col.ecxhas-gutter.ecxhas-border .column,
+          .has-gutter.has-border .narrow,
+          .has-gutter.ecxhas-border .narrow {
+            max-width: 190px !important;
+            width: 190px !important;
+          }
+          .has-gutter.has-border .wide,
+          .has-gutter.ecxhas-border .wide {
+            max-width: 396px !important;
+            width: 396px !important;
+          }
+        }
+        @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min--moz-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi), only screen and (min-resolution: 2dppx) {
+          .fblike {
+            background-image: url(http://i3.cmail20.com/static/eb/master/13-the-blueprint-3/images/fblike@2x.png) !important;
+          }
+          .tweet {
+            background-image: url(http://i4.cmail20.com/static/eb/master/13-the-blueprint-3/images/tweet@2x.png) !important;
+          }
+          .linkedinshare {
+            background-image: url(http://i5.cmail20.com/static/eb/master/13-the-blueprint-3/images/lishare@2x.png) !important;
+          }
+          .forwardtoafriend {
+            background-image: url(http://i6.cmail20.com/static/eb/master/13-the-blueprint-3/images/forward@2x.png) !important;
+          }
+        }
+        @media (max-width: 321px) {
+          .fixed-width.has-border .layout__inner {
+            border-width: 1px 0 !important;
+          }
+          .layout,
+          .column {
+            min-width: 320px !important;
+            width: 320px !important;
+          }
+          .border {
+            display: none;
+          }
+        }
+        .mso div {
+          border: 0 none white !important;
+        }
+        .mso .w560 .divider {
+          Margin-left: 260px !important;
+          Margin-right: 260px !important;
+        }
+        .mso .w360 .divider {
+          Margin-left: 160px !important;
+          Margin-right: 160px !important;
+        }
+        .mso .w260 .divider {
+          Margin-left: 110px !important;
+          Margin-right: 110px !important;
+        }
+        .mso .w160 .divider {
+          Margin-left: 60px !important;
+          Margin-right: 60px !important;
+        }
+        .mso .w354 .divider {
+          Margin-left: 157px !important;
+          Margin-right: 157px !important;
+        }
+        .mso .w250 .divider {
+          Margin-left: 105px !important;
+          Margin-right: 105px !important;
+        }
+        .mso .w148 .divider {
+          Margin-left: 54px !important;
+          Margin-right: 54px !important;
+        }
+        .mso .footer__share-button p {
+          margin: 0;
+        }
+        .mso .size-8,
+        .ie .size-8 {
+          font-size: 8px !important;
+          line-height: 14px !important;
+        }
+        .mso .size-9,
+        .ie .size-9 {
+          font-size: 9px !important;
+          line-height: 16px !important;
+        }
+        .mso .size-10,
+        .ie .size-10 {
+          font-size: 10px !important;
+          line-height: 18px !important;
+        }
+        .mso .size-11,
+        .ie .size-11 {
+          font-size: 11px !important;
+          line-height: 19px !important;
+        }
+        .mso .size-12,
+        .ie .size-12 {
+          font-size: 12px !important;
+          line-height: 19px !important;
+        }
+        .mso .size-13,
+        .ie .size-13 {
+          font-size: 13px !important;
+          line-height: 21px !important;
+        }
+        .mso .size-14,
+        .ie .size-14 {
+          font-size: 14px !important;
+          line-height: 21px !important;
+        }
+        .mso .size-15,
+        .ie .size-15 {
+          font-size: 15px !important;
+          line-height: 23px !important;
+        }
+        .mso .size-16,
+        .ie .size-16 {
+          font-size: 16px !important;
+          line-height: 24px !important;
+        }
+        .mso .size-17,
+        .ie .size-17 {
+          font-size: 17px !important;
+          line-height: 26px !important;
+        }
+        .mso .size-18,
+        .ie .size-18 {
+          font-size: 18px !important;
+          line-height: 26px !important;
+        }
+        .mso .size-20,
+        .ie .size-20 {
+          font-size: 20px !important;
+          line-height: 28px !important;
+        }
+        .mso .size-22,
+        .ie .size-22 {
+          font-size: 22px !important;
+          line-height: 31px !important;
+        }
+        .mso .size-24,
+        .ie .size-24 {
+          font-size: 24px !important;
+          line-height: 32px !important;
+        }
+        .mso .size-26,
+        .ie .size-26 {
+          font-size: 26px !important;
+          line-height: 34px !important;
+        }
+        .mso .size-28,
+        .ie .size-28 {
+          font-size: 28px !important;
+          line-height: 36px !important;
+        }
+        .mso .size-30,
+        .ie .size-30 {
+          font-size: 30px !important;
+          line-height: 38px !important;
+        }
+        .mso .size-32,
+        .ie .size-32 {
+          font-size: 32px !important;
+          line-height: 40px !important;
+        }
+        .mso .size-34,
+        .ie .size-34 {
+          font-size: 34px !important;
+          line-height: 43px !important;
+        }
+        .mso .size-36,
+        .ie .size-36 {
+          font-size: 36px !important;
+          line-height: 43px !important;
+        }
+        .mso .size-40,
+        .ie .size-40 {
+          font-size: 40px !important;
+          line-height: 47px !important;
+        }
+        .mso .size-44,
+        .ie .size-44 {
+          font-size: 44px !important;
+          line-height: 50px !important;
+        }
+        .mso .size-48,
+        .ie .size-48 {
+          font-size: 48px !important;
+          line-height: 54px !important;
+        }
+        .mso .size-56,
+        .ie .size-56 {
+          font-size: 56px !important;
+          line-height: 60px !important;
+        }
+        .mso .size-64,
+        .ie .size-64 {
+          font-size: 64px !important;
+          line-height: 63px !important;
+        }
+        .footer__share-button p {
+          margin: 0;
+        }
+      </style>
+      <style type="text/css">
+        body{background-color:#fff}.logo a:hover,.logo a:focus{color:#1e2e3b !important}.mso .layout-has-border{border-top:1px solid #ccc;border-bottom:1px solid #ccc}.mso .layout-has-bottom-border{border-bottom:1px solid #ccc}.mso .border,.ie .border{background-color:#ccc}.mso h1,.ie h1{}.mso h1,.ie h1{font-size:26px !important;line-height:34px !important}.mso h2,.ie h2{}.mso h2,.ie h2{font-size:20px !important;line-height:28px !important}.mso h3,.ie h3{}.mso .layout__inner,.ie .layout__inner{}.mso .footer__share-button p{}.mso .footer__share-button p{font-family:Georgia,serif}
+      </style>
+    </head>
+    <!--[if mso]>
+      
+      <body class="mso">
+      <![endif]-->
+      <!--[if !mso]>
+        <!-->
+        
+        <body class="no-padding" style="margin: 0;padding: 0;-webkit-text-size-adjust: 100%;">
+        <!--<![endif]-->
+        <table class="wrapper" style="border-collapse: collapse;table-layout: fixed;min-width: 320px;width: 100%;background-color: #fff;"
+        cellpadding="0" cellspacing="0" role="presentation">
+          <tbody>
+            <tr>
+              <td>
+                <div role="banner">
+                  <div class="preheader" style="Margin: 0 auto;max-width: 560px;min-width: 280px; width: 280px;width: calc(28000% - 167440px);">
+                    <div style="border-collapse: collapse;display: table;width: 100%;">
+                      <!--[if (mso)|(IE)]>
+                        <table align="center" class="preheader" cellpadding="0" cellspacing="0" role="presentation">
+                          <tr>
+                            <td style="width: 280px" valign="top">
+                            <![endif]-->
+                            <div class="snippet" style="display: table-cell;Float: left;font-size: 12px;line-height: 19px;max-width: 280px;min-width: 140px; width: 140px;width: calc(14000% - 78120px);padding: 10px 0 5px 0;color: #999;font-family: Georgia,serif;">
+                              <div style="mso-hide:all;position:fixed;height:0;max-height:0;overflow:hidden;font-size:0;">You need to click inside this email to officially subscribe! It only takes 10
+                                seconds.</div>
+                            </div>
+                            <!--[if (mso)|(IE)]>
+                            </td>
+                            <td style="width: 280px" valign="top">
+                            <![endif]-->
+                            <div class="webversion" style="display: table-cell;Float: left;font-size: 12px;line-height: 19px;max-width: 280px;min-width: 139px; width: 139px;width: calc(14100% - 78680px);padding: 10px 0 5px 0;text-align: right;color: #999;font-family: Georgia,serif;"></div>
+                            <!--[if (mso)|(IE)]>
+                            </td>
+                          </tr>
+                        </table>
+                      <![endif]-->
+                    </div>
+                  </div>
+                  <div class="header" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);"
+                  id="emb-email-header-container">
+                    <!--[if (mso)|(IE)]>
+                      <table align="center" class="header" cellpadding="0" cellspacing="0" role="presentation">
+                        <tr>
+                          <td style="width: 600px">
+                          <![endif]-->
+                          <div class="logo emb-logo-margin-box" style="font-size: 26px;line-height: 32px;Margin-top: 25px;Margin-bottom: 25px;color: #41637e;font-family: Avenir,sans-serif;Margin-left: 20px;Margin-right: 20px;"
+                          align="center">
+                            <div class="logo-left" align="left" id="emb-email-header">
+                              <a style="text-decoration: none;transition: opacity 0.1s ease-in;color: #41637e;" href="https://www.oddeye.co/">
+								<img align="left" border="0" src="http://localhost:8080/OddeyeCoconut/assets/images/email/logo_100px.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 100px;float: left" width="100">
+								<p style="font-size: 30px;line-height: 21px;text-align: center ;margin: 3px;float: left;">Welcome to OddEye.</p>
+								<p style="font-size: 20px;line-height: 40px;text-align: center ;margin: 3px;float: left; color:#8BC53F">World's the most advanced monitoring platform.</p>
+
+                              </a>
+                            </div>
+				<hr style="clear: both">  
+                          </div>
+                          <!--[if (mso)|(IE)]>
+                          </td>
+                        </tr>
+                      </table>
+                    <![endif]-->
+                  </div>
+                </div>              
+
+                <div role="section">
+                  <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                    <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
+                      <!--[if (mso)|(IE)]>
+                        <table align="center" cellpadding="0" cellspacing="0" role="presentation">
+                          <tr class="layout-fixed-width" style="background-color: #ffffff;">
+                            <td style="width: 600px" class="w560">
+                            <![endif]-->
+                            <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
+                              <div style="Margin-left: 20px;Margin-right: 20px;">
+                                <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong> Thanks for signing up! </h2>
+                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">To completed registration, please click on activate account buttton below:</h3>
+                              </div>
+                              <div style="Margin-left: 20px;Margin-right: 20px;">
+                                <div class="btn fullwidth btn--shadow btn--large" style="text-align: center;">
+                                  <![if !mso]>
+                                    <a style="border-radius: 4px;display: block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px 13px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.2);font-family: Georgia, serif;    background: #26B99A;    border: 1px solid #169F85;"
+                                    href="${uri}/confirm/${id}">Activate Account</a>
+                                  <![endif]>
+                                  <!--[if mso]>
+                                    <p style="line-height:0;margin:0;">&nbsp;</p>
+                                    <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="#"
+                                    style="width:560px" arcsize="9%" fillcolor="#EE3322" stroke="f">
+                                      <v:shadow on="t" color="#BE291B" offset="0,2px"></v:shadow>
+                                      <v:textbox style="mso-fit-shape-to-text:t" inset="0px,11px,0px,10px">
+                                        <center style="font-size:14px;line-height:24px;color:#FFFFFF;font-family:Georgia,serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:4px">Yes, I&#39;m a real person!</center>
+                                      </v:textbox>
+                                    </v:roundrect>
+                                  <![endif]-->
                                 </div>
-                                <!--[if (mso)|(IE)]></div><![endif]-->
-
-
-                            </body></html>
+                              </div>
+                            </div>
+                            <!--[if (mso)|(IE)]>
+                            </td>
+                          </tr>
+                        </table>
+                      <![endif]-->
+                    </div>
+                  </div>
+                  <div style="line-height:20px;font-size:20px;">&nbsp;</div>
+                  <div class="layout one-col fixed-width" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                    <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;background-color: #ffffff;">
+                      <!--[if (mso)|(IE)]>
+                        <table align="center" cellpadding="0" cellspacing="0" role="presentation">
+                          <tr class="layout-fixed-width" style="background-color: #ffffff;">
+                            <td style="width: 600px" class="w560">
+                            <![endif]-->
+                            <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
+                              <div style="Margin-left: 20px;Margin-right: 20px;">
+                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">If the button not working, please copy/paste the following link into your browser</h3>
+                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;"><a href="${uri}/confirm/${id}">${uri}/confirm/${id}</a>.</h3>
+                              </div>
+                            </div>
+                            <!--[if (mso)|(IE)]>
+                            </td>
+                          </tr>
+                        </table>
+                      <![endif]-->
+                    </div>
+                  </div>
+                  <div style="line-height:20px;font-size:20px;">&nbsp;</div>
+                  <div role="contentinfo">
+                    <div class="layout email-footer" style="Margin: 0 auto;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;">
+                      <div class="layout__inner" style="border-collapse: collapse;display: table;width: 100%;">
+                        <!--[if (mso)|(IE)]>
+                          <table align="center" cellpadding="0" cellspacing="0" role="presentation">
+                            <tr class="layout-email-footer">
+                              <td style="width: 400px;" valign="top" class="w360">
+                              <![endif]-->
+                              <div class="column wide" style="text-align: left;font-size: 12px;line-height: 19px;color: #999;font-family: Georgia,serif;Float: left;max-width: 400px;min-width: 320px; width: 320px;width: calc(8000% - 47600px);">
+                                <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 10px;Margin-bottom: 10px;">
+                                  <table class="email-footer__links emb-web-links" style="border-collapse: collapse;table-layout: fixed;"
+                                  role="presentation">
+                                    <tbody>
+                                      <tr role="navigation">
+                                        <td class="emb-web-links" style="padding: 0;width: 26px;">
+                                          <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #999;"
+                                          href="https://www.facebook.com/OddEye.co/">
+                                            <img style="border: 0;" src="http://localhost:8080/OddeyeCoconut/assets/images/email/Facebook.png"
+                                            width="26" height="26">
+                                          </a>
+                                        </td>
+                                        <td class="emb-web-links" style="padding: 0 0 0 3px;width: 26px;">
+                                          <a style="text-decoration: underline;transition: opacity 0.1s ease-in;color: #999;"
+                                          href="https://www.linkedin.com/company/18190142/">
+                                            <img style="border: 0;" src="http://localhost:8080/OddeyeCoconut/assets/images/email/Linkedin.png"
+                                            width="26" height="26">
+                                          </a>
+                                        </td>
+                                        <td class="emb-web-links" style="padding: 0 0 0 3px;width: 26px;">
+                                          <a style="text-decoration: 
+underline;transition: opacity 0.1s ease-in;color: #999;" href="https://github.com/oddeyeco">
+                                            <img style="border: 0;" src="http://localhost:8080/OddeyeCoconut/assets/images/email/Github.png"
+                                            width="26" height="26">
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <div style="font-size: 12px;line-height: 19px;Margin-top: 20px;">
+                                    <div>OddEye, OU.
+                                      <br>Narva mnt 5, 10117.
+                                      <br>Tallinn, Estonia</div>
+                                  </div>
+                                  <div style="font-size: 12px;line-height: 19px;Margin-top: 18px;"></div>
+                                </div>
+                              </div>
+                              <!--[if (mso)|(IE)]>
+                              </td>
+                              <td style="width: 200px;" valign="top" class="w160">
+                              <![endif]-->
+                              <div class="column narrow" style="text-align: left;font-size: 12px;line-height: 19px;color: #999;font-family: Georgia,serif;Float: left;max-width: 320px;min-width: 200px; width: 320px;width: calc(72200px - 12000%);">
+                                <div style="Margin-left: 20px;Margin-right: 20px;Margin-top: 10px;Margin-bottom: 10px;"></div>
+                              </div>
+                              <!--[if (mso)|(IE)]>
+                              </td>
+                            </tr>
+                          </table>
+                        <![endif]-->
+                      </div>
+                    </div>
+                  </div>
+                  <div style="line-height:40px;font-size:40px;">&nbsp;</div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>        
+        </body>    
+    </html>

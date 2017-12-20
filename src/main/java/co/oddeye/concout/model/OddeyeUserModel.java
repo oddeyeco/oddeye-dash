@@ -176,7 +176,7 @@ public class OddeyeUserModel {
         model.put("uri", uri);
         model.put("email", this.getEmail());
         model.put("id", this.getId().toString());
-        Sender.send("Confirm Your Email", this.getEmail(), "confirmhtml.ftl", "confirmtxt.ftl", model);
+        Sender.send("Please confirm your email address", this.getEmail(), "confirmhtml.ftl", "confirmtxt.ftl", model);
 
     }
 

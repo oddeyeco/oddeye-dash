@@ -6,6 +6,7 @@
 package co.oddeye.concout.admincontrollers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.validator.UserValidator;
@@ -13,6 +14,7 @@ import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.beans.PropertyEditorSupport;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -274,8 +276,8 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("jspart", "adminjs");
         return "index";
     }
-//    @Autowired
-//    private OddeyeMailSender mailSender;
+    @Autowired
+    private OddeyeMailSender mailSender;
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.GET)
     public String edit(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
@@ -292,11 +294,11 @@ public class AdminUsersControlers extends GRUDControler {
         model.updateConsumptionYear();
         map.put("model", model);
 
-//                String baseUrl = Sender.getBaseurl(request);
-//        try {        
-//            Userdao.getUserByUUID(UUID.fromString(id)).SendConfirmMail(Sender, baseUrl);
+//        String baseUrl = mailSender.getBaseurl(request);
+//        try {
+//            Userdao.getUserByUUID(UUID.fromString(id)).SendConfirmMail(mailSender, baseUrl);
 //        } catch (UnsupportedEncodingException ex) {
-//            
+//
 //        }
         map.put("configMap", getEditConfig());
         map.put("modelname", "User");
