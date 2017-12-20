@@ -43,7 +43,9 @@
         </div>    
         <div class="x_panel">    
             <div class="x_title">
-                <h2>Statistic</h2>                
+                <h2>Statistic</h2>         
+                <a class="btn btn-success btn-sm pull-right" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true" />" target="_blank" >Get Agent</a>
+                <a class="btn btn-success btn-sm pull-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/"  htmlEscape="true"/>" target="_blank">Agent Guide</a>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
