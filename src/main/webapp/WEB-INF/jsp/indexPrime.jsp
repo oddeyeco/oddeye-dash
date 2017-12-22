@@ -25,6 +25,8 @@
             <!-- iCheck -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />                              
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
+            <!-- font-awesome -->
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css?v=${version}" />
 
 
         </head>

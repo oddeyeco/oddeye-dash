@@ -86,11 +86,30 @@ a
     font-size: 13px;
     font-weight: 400;
     line-height: 1.471;    
-    
+
 }
 
 @media (max-width: 760px)
 {
+    .navbar-inverse{
+        .navbar-nav 
+        {
+            .open
+            { 
+                .dropdown-menu
+                {
+                    li
+                    {
+                        a{color: #fff !important}
+                    }
+                }
+            }
+        }
+    }
+    .selectTd{
+        min-width: 250px;
+    }
+
     .col-xs-12.logo
     {
         .progress-wrap
@@ -119,6 +138,7 @@ a
 }
 @media (min-width: 768px)
 {
+
     .col-xs-12.logo
     {
         text-align: right;
@@ -166,4 +186,166 @@ a
         top: 30%; 
         width: 100%
     }    
+}
+//Hovo
+
+.calc_font {
+    width: 50px;
+    font-size: 11px;
+    display: inline-block;
+}
+.reflock{
+    background: #fff; 
+    cursor: pointer;
+    padding: 3px 7px;
+    border: 1px solid #ccc;
+}
+
+
+
+.multiTd{
+    label {
+        float: left;
+    }
+    .multiDiv{
+        height: 25px;
+        label{
+            padding-top: 5px;
+        }
+        .icheckbox_flat-green{
+            margin: 5px;
+        }
+    }
+    input {
+        float: right;
+    }
+    .checkbox {
+        float: left;
+        margin: 10px;
+    }
+    min-width: 200px;
+}
+.selectTd{
+    width:55% ;
+    .select2-selection--multiple {
+        border: 1px solid #ccc;
+
+        border-radius: 0;
+    }
+    span{
+        line-height: 18px ;
+    }
+    .select2-selection__rendered{
+        .select2-selection__choice{
+            border-radius: 0px;
+            margin-right: 3px;
+            margin-top: 3px;
+            color:#fff;
+            background-color:#1abb9c !important;
+            .select2-selection__choice__remove{
+                float: right;
+                color: #fff;
+                padding: 1px 5px 0 5px;
+            }
+        }
+    }
+
+}   
+.checkList{
+    max-height: 25px;
+    width: 100%;
+    /*display: flex;*/
+}
+.prices{
+    width: 65px;
+
+}
+table{
+    tfoot{
+        .buttonTd{
+            td{
+                border-top:none;
+            }
+
+        }
+    }   
+}
+.calc{
+    margin-left: 0;
+    font-size: 11px;
+    color: #555;
+    .form-control{
+        padding: 0;
+        font-size: 11px;
+        height: 22px;
+        border-radius: 0;
+    }
+}
+h3{
+    color: #555;
+    padding-left: 10px;
+}
+/*body{
+
+    position: absolute;
+        top:0;
+        bottom: 0;
+    width: 100%;
+    min-height: 100%;
+    background-repeat: repeat-y;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-image: url("https://www.oddeye.co/wp-content/uploads/2017/07/bg4.jpg");
+
+}*/
+.calc-button {
+    &:hover {
+        background-color:  #62f406  !important;
+        color:  #000 !important;
+        text-decoration: none;
+    }
+    text-decoration: none; 
+    background-color: transparent;
+    padding: 3px 10px;
+    border: 2px solid #62f406;
+    color: #62f406 !important;
+    font-size: 15px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.calc-logo{
+    padding-top: 0 !important;
+}
+.title_left{
+    padding: 45px 60px;
+}
+.navbar-inverse{
+
+    .navbar-nav{
+        .open{
+            a{
+                &:focus ,&:hover{
+                    background-color: #00adee;
+                    color: #000;
+                }
+            }
+        }
+        li{
+            a{
+                &:hover{
+                    color: #000;
+                }
+                color: #fff;
+            }
+        }
+    }
+    background-color: #00adee;
+    border-color:#1995dc;
+}
+.dropdown-menu{
+    background-color: #00adee;
+}
+.modal_margin{
+    margin: 50px;
 }
