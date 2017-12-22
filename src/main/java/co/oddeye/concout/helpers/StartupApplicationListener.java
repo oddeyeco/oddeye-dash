@@ -36,7 +36,7 @@ public class StartupApplicationListener implements
             List<OddeyeUserModel> users = Userdao.getAllUsers(true);
             users.forEach((user) -> {
                 LOGGER.warn("Start Read "+user.getEmail());
-                Userdao.updateMetaList(user);
+//                Userdao.updateMetaList(user);
                 LOGGER.warn("End Read "+user.getEmail());
             });
         }
