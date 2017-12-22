@@ -289,7 +289,7 @@ public class DefaultController {
                 map.put("message", ex.toString());
             }
         }
-        map.put("title", "Sine Up");
+        map.put("title", "Sign Up");
         return "indexPrime";
         //else
 

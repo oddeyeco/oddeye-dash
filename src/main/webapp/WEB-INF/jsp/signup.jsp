@@ -97,7 +97,7 @@
                 <div class="form-group">                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
                     <div id="recaptcha" data-sitekey="6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY"></div>                
-                    <button class="btn btn-primary btn-block SineUp" type="submit">Sine Up</button>
+                    <button class="btn btn-primary btn-block SineUp" type="submit">Sign Up</button>
                 </div>
 
                 <div class="clearfix"></div>

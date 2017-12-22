@@ -54,58 +54,6 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
         super();
     }
 
-//    @Override
-//    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-////        String name = authentication.getName();
-//        String password = authentication.getCredentials().toString();
-//        OddeyeWebAuthenticationDetails det = (OddeyeWebAuthenticationDetails) authentication.getDetails();
-//
-////        System.out.println(request.getHeaderNames());
-//        //TODO check user in hbase
-//        UUID userid = Userdao.CheckUserAuthentication(authentication);
-//        if (userid != null) {
-//            final OddeyeUserDetails principal = Userdao.getUserByUUID(userid, true, false);
-//            final Authentication auth = new UsernamePasswordAuthenticationToken(principal, password, principal.getAuthorities());
-//            try {
-//                InetAddress ia = InetAddress.getLocalHost();
-//                String node = ia.getHostName();
-//
-//                JsonObject Jsonchangedata = new JsonObject();
-//                Jsonchangedata.addProperty("UUID", principal.getId().toString());
-//                Jsonchangedata.addProperty("action", "login");                                
-//                Jsonchangedata.addProperty("node", node);
-//                Jsonchangedata.addProperty("time", System.currentTimeMillis());
-//
-//                // Send chenges to kafka
-//                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-//                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-//                    @Override
-//                    public void onSuccess(SendResult<Integer, String> result) {
-//                        if (LOGGER.isInfoEnabled()) {
-//                            LOGGER.info("Kafka Send entertopage onSuccess");
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Throwable ex) {
-//                        LOGGER.error("Kafka Send entertopage onFailure:" + ex);
-//                    }
-//                });
-//            } catch (Exception ex) {
-//                LOGGER.error(globalFunctions.stackTrace(ex));
-//            }
-//
-//            LOGGER.info(authentication.getName() + " login sucsses " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
-//            return auth;
-//        } else {
-//            LOGGER.info(authentication.getName() + " login fail " + det.getRequest().getRemoteAddr() + " " + det.getRequest().getHeader("X-Real-IP"));
-//            return null;
-//        }
-//    }
-//    @Override
-//    public boolean supports(Class<?> authentication) {
-//        return authentication.equals(UsernamePasswordAuthenticationToken.class);
-//    }
     @Override
     protected void additionalAuthenticationChecks(UserDetails ud, UsernamePasswordAuthenticationToken upat) throws AuthenticationException {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
