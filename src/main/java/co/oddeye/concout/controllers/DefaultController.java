@@ -146,6 +146,7 @@ public class DefaultController {
             map.put("body", slug);
             map.put("jspart", slug + "js");
         } else {
+            request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
             map.put("isAuthentication", false);
             if (!slug.equals("signup")) {
                 map.put("wraper", "noautwraper");
