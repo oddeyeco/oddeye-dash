@@ -11,6 +11,7 @@ package co.oddeye.concout.config;
  */
 import co.oddeye.concout.providers.HbaseAuthenticationProvider;
 import co.oddeye.concout.providers.OddeyeWebAuthenticationDetails;
+import co.oddeye.concout.providers.RefererRedirectionAuthenticationSuccessHandler;
 import co.oddeye.concout.providers.UserDetailsServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .authenticationDetailsSource(authenticationDetailsSource())
+                .successHandler(new RefererRedirectionAuthenticationSuccessHandler())
                 .loginPage("/login/").permitAll()
                 .and().rememberMe().userDetailsService(userService).tokenValiditySeconds(1209600)
                 .and().csrf();
