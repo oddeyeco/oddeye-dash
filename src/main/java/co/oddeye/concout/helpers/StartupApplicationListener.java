@@ -8,6 +8,7 @@ package co.oddeye.concout.helpers;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.OddeyeUserModel;
 import java.util.List;
+import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,10 @@ public class StartupApplicationListener implements
         if (counter==0)
         {
             List<OddeyeUserModel> users = Userdao.getAllUsers(true);
-            users.forEach((user) -> {
+            users.forEach((OddeyeUserModel user) -> {
+                LOGGER.warn("Start Read "+user.getEmail());
                 Userdao.updateMetaList(user);
+                LOGGER.warn("End Read "+user.getEmail());
             });
         }
         counter++;

@@ -66,7 +66,7 @@
                 </div>                
                 <div class="form-group">
                     <!--<input type="submit" class="btn btn-default submit" value="Submit"/>-->
-                    <button class="btn btn-primary" type="submit"><i class="fa fa-2x fa-sign-out"></i> Sine Up</button>
+                    <button class="btn btn-primary" type="submit"><i class="fa fa-2x fa-sign-out"></i>Sign Up</button>
                 </div>
                 <div class="clearfix"></div>
 
