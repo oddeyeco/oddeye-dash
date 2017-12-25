@@ -40,7 +40,9 @@ public class StartupApplicationListener implements
                 Userdao.updateMetaList(user);
                 LOGGER.warn("End Read "+user.getEmail());
             });
+            LOGGER.warn("End Read FOR ALL USERS");
         }
         counter++;
+        
     }
 }
