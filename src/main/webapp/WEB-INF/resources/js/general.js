@@ -27,11 +27,10 @@ $(document).ready(function () {
     $("body").on("click", "a", function (event) {
         ga('send', 'event', 'link click', $(this).attr("href"));
     });
-
-//    $('input.flat').iCheck({
-//        checkboxClass: 'icheckbox_flat-green',
-//        radioClass: 'iradio_flat-green'
-//    });
+    
+    $("body").on("click", "a.idcheck", function (event) {
+        ga('send', 'event', $(this).attr("id"), $(this).text());
+    });    
 });
 var getQueryString = function (url ) {   
     var href = url ? url : window.location.href;        
