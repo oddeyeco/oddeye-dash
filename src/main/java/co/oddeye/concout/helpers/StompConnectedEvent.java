@@ -60,7 +60,18 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
     @SuppressWarnings("unchecked")
     public void onApplicationEvent(SessionConnectedEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-
+        if (event.getMessage().getHeaders().get("simpUser")==null)
+        {
+            LOGGER.error("simpUser is null");
+            return;
+        }
+        
+        if (((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()==null)
+        {
+            LOGGER.error("getPrincipal is null");
+            return;
+        } 
+        
         OddeyeUserModel userDetails = ((OddeyeUserDetails) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()).getUserModel();
         GenericMessage message = (GenericMessage) event.getMessage().getHeaders().get("simpConnectMessage");
 
