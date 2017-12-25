@@ -5,10 +5,13 @@
  */
 package co.oddeye.concout.helpers;
 
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.core.globalFunctions;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,24 +26,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class StartupApplicationListener implements
         ApplicationListener<ContextRefreshedEvent> {
- 
+
     private final Logger LOGGER = LoggerFactory.getLogger(StompConnectedEvent.class);
- 
+
     public static int counter;
     @Autowired
-    private HbaseUserDao Userdao;    
- 
-    @Override public void onApplicationEvent(ContextRefreshedEvent event) {
-//        LOGGER.info("Increment counter");        
-        if (counter==0)
-        {
-            List<OddeyeUserModel> users = Userdao.getAllUsers(true);
-            users.forEach((OddeyeUserModel user) -> {
-                LOGGER.warn("Start Read "+user.getEmail());
-                Userdao.updateMetaList(user);
-                LOGGER.warn("End Read "+user.getEmail());
-            });
+    private HbaseUserDao Userdao;
+    @Autowired
+    private HbaseMetaDao Metadao;
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        if (counter == 0) {
+            try {
+                LOGGER.warn("Start Read FOR ALL USERS");        
+                Metadao.getForUsers();
+                LOGGER.warn("End Read FOR ALL USERS");
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
         }
         counter++;
+
     }
 }

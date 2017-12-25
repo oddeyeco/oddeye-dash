@@ -20,6 +20,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import java.util.Map;
 import java.util.UUID;
@@ -38,6 +39,7 @@ import org.hbase.async.HBaseClient;
 import org.hbase.async.KeyValue;
 import org.hbase.async.Scanner;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -46,6 +48,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class HbaseMetaDao extends HbaseBaseDao {
+
+    @Autowired
+    private HbaseUserDao Userdao;
 
     private final ConcoutMetricMetaList fullmetalist = new ConcoutMetricMetaList();
 //    private ConcoutMetricMetaList MtrscList;
@@ -74,6 +79,34 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
         return null;
 
+    }
+
+    public void getForUsers() throws Exception {
+
+        Scanner scanner = BaseTsdb.getClientSecondary().newScanner(table);
+        scanner.setServerBlockCache(false);
+//        scanner.setMaxNumRows(10000);
+        scanner.setFamily("d".getBytes());
+        final byte[][] Qualifiers = new byte[][]{"timestamp".getBytes(), "type".getBytes()};
+
+        scanner.setQualifiers(Qualifiers);
+     
+        try {
+            ArrayList<ArrayList<KeyValue>> rows;
+            while ((rows = scanner.nextRows().join()) != null) {
+                for (final ArrayList<KeyValue> row : rows) {
+                    for (KeyValue cell : row) {
+                        if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
+                            OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+                            Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
+                        }
+
+                    }
+                }
+            }
+        } finally {
+            scanner.close().join();
+        }
     }
 
     public ConcoutMetricMetaList getByUUID(UUID userid) throws Exception {

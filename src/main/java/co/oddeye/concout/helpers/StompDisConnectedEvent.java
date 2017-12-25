@@ -42,6 +42,17 @@ public class StompDisConnectedEvent implements ApplicationListener<SessionDiscon
     @Override
     public void onApplicationEvent(SessionDisconnectEvent event) {
         
+        if (event.getMessage().getHeaders().get("simpUser")==null)
+        {
+            LOGGER.error("simpUser is null");
+            return;
+        }
+        
+        if (((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()==null)
+        {
+            LOGGER.error("getPrincipal is null");
+            return;
+        }        
         OddeyeUserModel userDetails = ((OddeyeUserDetails) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()).getUserModel();
         GenericMessage message = (GenericMessage) event.getMessage();
         String Sesionid = (String) message.getHeaders().get("simpSessionId");
