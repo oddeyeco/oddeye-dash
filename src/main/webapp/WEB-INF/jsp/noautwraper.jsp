@@ -6,34 +6,7 @@
 
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!--<div >
-    <a href="https://www.oddeye.co/"><img src="/OddeyeCoconut/assets/images/logowhite.png" alt="logo" width="120px" style="float: left"></a>
-    <div style="float: right">
-        <a class="calc-button" data-toggle="modal" href="#myModal" >Log In</a>
-        <a class="calc-button calc-button-margin " href="https://app.oddeye.co/OddeyeCoconut/signup/" >Create Account</a>
-    </div>
-</div>-->
 
-<!--<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-
-         Modal content
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
-            </div>
-            <div class="modal-body">
-                <p>Some text in the modal.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-
-
-    </div>
-</div>-->
 
 <nav class="navbar navbar-oddeye navbar-inverse  navbar-fixed-top"  role="navigation" >
 
@@ -45,32 +18,32 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="calc-logo navbar-brand" href="https://www.oddeye.co/"><img src="/OddeyeCoconut/assets/images/logowhite.png" alt="logo" width="70px" style="float: left"></a>
+            <a class="calc-logo navbar-brand" href="https://www.oddeye.co/"><img src="/OddeyeCoconut/assets/images/logowhite.png" alt="logo" width="65px" style="float: left"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
 
                 <li><a   href="https://www.oddeye.co/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a></li>
                 <li><a href="https://www.oddeye.co/documentation/"> <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About</a></li>
-                <li class="dropdown">
+<!--                <li class="dropdown">
                     <a href="index.html" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
                         <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span> Documentation <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="https://www.oddeye.co/documentation/barlus/">Api</a></li>
                         <li><a href="https://www.oddeye.co/documentation/app/account/">App</a></li>
                         <li><a href="https://www.oddeye.co/documentation/puypuy/puypuy/">Agent</a></li>
-                        <!--<li><a href="contactus.html#">SQl</a></li>-->
-                        <!--                        <li role="separator" class="divider"></li>
-                                                <li class="dropdown-header">PHP</li>
-                                                <li><a href="contactus.html#">MySQl</a></li>-->
+                        <li><a href="contactus.html#">SQl</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">PHP</li>
+                        <li><a href="contactus.html#">MySQl</a></li>
 
                     </ul>
-                </li>
+                </li>-->
                 <!--<li><a href="#"><span class="fa fa-envelope-o"></span> Contact</a></li>-->
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> login</a></li>
-                <li><a  data-toggle="modal" class="calc-button" data-target="#signupModal" >Try Now Free!</a></li>
+                <li><a class="calc-button  " href="https://app.oddeye.co/OddeyeCoconut/signup/" >Try Now Free!</a></li>
             </ul>
 
         </div>
@@ -82,10 +55,10 @@
         <div class="modal-content modal_margin">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"> &times;</button>
-                <h4>Oddeye Login</h4>
+                <h4>Login</h4>
             </div>
-            <div class="modal-body modal_margin">
-                <form action="<c:url value="/login/"/>" method="post" class="form-horizontal" id="loginform"> 
+            <div class="modal-body modal_margin ">
+                <form action="<c:url value="/login/"/>" method="post" class="form-horizontal" id="loginform">                
                     <c:if test="${param.error != null}">
                         <div class="alert alert-danger" role="alert">
                             <strong>Oh!</strong> Invalid username and password.
@@ -106,37 +79,15 @@
                                name="${_csrf.parameterName}"
                                value="${_csrf.token}"/>    
 
-                        <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-in"></i> Log in </button>
+                        <button class="btn btn-primary btn-block" type="submit"> Log in </button>
                         <!--<div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"> Create Account </a>-->                
                     </div>              
-                </form>             
-            </div> 
+            </div>              
+            </form>
         </div>
-        <!--
-                    <div class="modal-footer">
-                        <div style="padding:10px"></div>
-                    </div>
-        -->
+
     </div>
 </div>
-
-<div id="signupModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content modal_margin">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"> &times;</button>
-                <h4>Oddeye Login</h4>
-            </div>
-            <div class="modal-body modal_margin">
-                <div>rrrrrrrrrrrrr</div>
-            </div> 
-        </div>
-        <!--
-                    <div class="modal-footer">
-                        <div style="padding:10px"></div>
-                    </div>
-        -->
-    </div>
 </div>
 
 

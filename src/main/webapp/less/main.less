@@ -88,9 +88,14 @@ a
     line-height: 1.471;    
 
 }
-
+.modal_margin{
+    margin: 0px 50px;
+}
 @media (max-width: 760px)
 {
+    .modal_margin{
+        margin: 0px 20px;
+    }
     .navbar-inverse{
         .navbar-nav 
         {
@@ -306,9 +311,11 @@ h3{
     }
     text-decoration: none; 
     background-color: transparent;
-    padding: 3px 10px;
-    border: 2px solid #62f406;
-    color: #62f406 !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 3px;
+    border: 2px solid #fff;
+    /*color: #62f406 !important;*/
     font-size: 15px;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
@@ -345,7 +352,4 @@ h3{
 }
 .dropdown-menu{
     background-color: #00adee;
-}
-.modal_margin{
-    margin: 50px;
 }

@@ -78,7 +78,7 @@
                     <input type="hidden"                
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>                           
-                    <button class="btn btn-primary btn-block" type="submit"><i class="fa fa-2x fa-sign-in"></i> Log in </button>
+                    <button class="btn btn-primary btn-block" type="submit"></i> Log in </button>
                     <div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"> Create Account </a>                
                     </div>              
                 </div>              
