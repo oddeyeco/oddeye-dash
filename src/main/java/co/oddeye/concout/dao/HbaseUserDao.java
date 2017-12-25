@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import java.util.UUID;
@@ -618,7 +619,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     public ConsumptionList getConsumption(OddeyeUserModel user) {
         final ConsumptionList result = new ConsumptionList();
         try {
-            Calendar cal = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
             byte[] year_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.YEAR)).array();
             byte[] month_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.MONTH)).array();

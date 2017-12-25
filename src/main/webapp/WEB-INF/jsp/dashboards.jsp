@@ -53,16 +53,16 @@
 
                     <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
                         <span class="count_top"><i class="fa fa-list"></i> Metric Names</span>
-                        <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
+                        <div class="count spincrement" id="metrics"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
                     </div>                                                
                     <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
                         <span class="count_top"><i class="fa fa-folder"></i> Total Tags</span>
-                        <div class="count" id="tags"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
+                        <div class="count spincrement" id="tags"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
                         <!--<span class="count_bottom"><i class="green">4% </i> From last Week</span>-->
                     </div>         
                     <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
                         <span class="count_top"><i class="fa fa-folder"></i> Total Metrics</span>
-                        <div class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
+                        <div class="count spincrement" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                         <span class="count_bottom">&nbsp;</span>
                     </div>                         
                 </div>
@@ -72,7 +72,46 @@
         </div>                 
 
     </div>    
+
     <div class="col-md-4">
+        <div class="x_panel">          
+            <div class="x_title">
+                <h2>Balance</h2>
+                <a class="btn btn-success btn-sm pull-right" href="<spring:url value="/paypal/"  htmlEscape="true"/>" >Bay more points</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="row tile_count">
+                <div class="col-sm-6 col-xs-12 tile_stats_count">
+                    <span class="count_top"> Available Points</span>
+                    <div class="count">
+                        <c:set var="balance" value="${curentuser.getBalance()}" />
+                        <c:if test="${balance<Double.MAX_VALUE}">
+                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
+                        </c:if>                    
+                    </div>
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
+                    <span class="count_bottom">
+                        Using
+                        <i class="green">
+                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                        </i> Today
+                    </span> 
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
+                    <span class="count_bottom">                        
+                        <i class="green">
+                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                        </i> Yesterday
+                    </span>                         
+                </div>
+                <div class="col-sm-6 col-xs-12 tile_stats_count">
+                    <span class="count_top"> Using this month</span>
+                    <div class="count">
+                        <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
+                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                        
+                    </div>                         
+                </div>                         
+            </div>                       
+        </div>         
         <div class="x_panel">          
             <div class="x_title">
                 <h2>Available templates</h2>
@@ -118,7 +157,7 @@
                 </div>
             </div>                                     
 
-        </div>    
+        </div>         
     </div> 
 </div>
 

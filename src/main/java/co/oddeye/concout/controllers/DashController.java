@@ -139,43 +139,8 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-
-//            byte[] yourBytes = null;
-//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//            ObjectOutput out = null;
-//            try {
-//                out = new ObjectOutputStream(bos);
-//                out.writeObject(userDetails);
-//                out.flush();
-//                yourBytes = bos.toByteArray();
-//            } catch (IOException ex) {
-//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
-//            } finally {
-//                try {
-//                    bos.close();
-//                } catch (IOException ex) {
-//                    // ignore close exception
-//                }
-//            }
-//            Object o;
-//            ByteArrayInputStream bis = new ByteArrayInputStream(yourBytes);
-//            ObjectInput in = null;
-//            try {
-//                in = new ObjectInputStream(bis);
-//                o = in.readObject();
-//            } catch (IOException ex) {
-//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (ClassNotFoundException ex) {
-//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
-//            } finally {
-//                try {
-//                    if (in != null) {
-//                        in.close();
-//                    }
-//                } catch (IOException ex) {
-//                    // ignore close exception
-//                }
-//            }
+            
+            userDetails.updateConsumption();
             map.put("curentuser", userDetails);
 
             map.put("activeuser", userDetails);

@@ -188,7 +188,6 @@
                                                     <a href="javascript:;" class="user-profile">
                                                         Balance 
                                                         <c:if test="${balance<Double.MAX_VALUE}">
-
                                                             <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
                                                         </c:if>
                                                         <c:if test="${balance==Double.MAX_VALUE}">

@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.core;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.TimeZone;
@@ -84,6 +85,10 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
     public TreeMap<Long, CoconutConsumption> getConsumptionListDaily() {
         return ConsumptionListDaily;
     }
+    
+    public CoconutConsumption getConsumptionListDay(int day) {
+        return new ArrayList<>(ConsumptionListDaily.entrySet()).get(day).getValue();
+    }    
 
     /**
      * @return the ConsumptionListMonth
@@ -91,4 +96,7 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
     public TreeMap<Long, CoconutConsumption> getConsumptionListMonth() {
         return ConsumptionListMonth;
     }
+    public CoconutConsumption getConsumptionListMonth(int Month) {
+        return new ArrayList<>(ConsumptionListMonth.entrySet()).get(Month).getValue();
+    }     
 }
