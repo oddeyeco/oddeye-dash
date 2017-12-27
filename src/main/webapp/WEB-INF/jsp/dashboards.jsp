@@ -76,8 +76,7 @@
     <div class="col-md-4">
         <div class="x_panel">          
             <div class="x_title">
-                <h2>Balance</h2>
-                <a class="btn btn-success btn-sm pull-right" href="<spring:url value="/paypal/"  htmlEscape="true"/>" >Bay more points</a>
+                <h2>Balance</h2>                               
                 <div class="clearfix"></div>
             </div>
             <div class="row tile_count">
@@ -88,18 +87,31 @@
                         <c:if test="${balance<Double.MAX_VALUE}">
                             <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
                         </c:if>                    
+                        <c:if test="${balance==Double.MAX_VALUE}">
+                            &infin; 
+                        </c:if>                          
                     </div>
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
                     <span class="count_bottom">
                         Using
                         <i class="green">
-                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if>                            
                         </i> Today
                     </span> 
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
                     <span class="count_bottom">                        
                         <i class="green">
-                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if> 
                         </i> Yesterday
                     </span>                         
                 </div>
@@ -107,9 +119,51 @@
                     <span class="count_top"> Using this month</span>
                     <div class="count">
                         <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
-                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                        
+                        <c:if test="${Consumption!=null}">
+                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                        </c:if>
+                        <c:if test="${Consumption==null}">
+                            0                            
+                        </c:if> 
                     </div>                         
-                </div>                         
+                </div>  
+                <div class="clearfix"></div>
+                <!--<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="F5L9FW2Q6K9ZW">
+                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>-->
+
+                <div class="">
+                    <div for="quantity"> More points </div>
+                    <div class="clearfix"></div>
+                    <div class="pull-left col-sm-6 col-xs-12 od">                        
+                        <br>
+                        <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1"> USD<br>
+                        <label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1"> Points
+                    </div>
+                    <div class="pull-right col-sm-6 col-xs-12 pp">
+                        <form action="${paypal_url}" method="post" >
+
+                            <input type="hidden" name="cmd" value="_xclick">
+                            <input type="hidden" name="business" value="${paypal_email}">
+                            <input id="paypalItemName" type="hidden" name="item_name" value="oddeyepoints">                            
+                            <input id="paypalAmmount" type="hidden" name="amount" value="">                            
+                            <input type="hidden" name="custom" value="${curentuser.getId()}">
+                            <input type="hidden" name="no_shipping" value="1">
+                            <input type="hidden" name="return" value="${paypal_returnurl}">
+                            <input type="hidden" name="notify_url" value="${paypal_notifyurl}">
+                            <input type="hidden" name="image_url" value="https://app.oddeye.co/OddeyeCoconut/assets/images/email/logo_100px.png">
+                            <input type="hidden" name="currency_code" value="USD">                        
+                            <input type="hidden" name="bn" value="PP-BuyNowBF">
+                            
+                            <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                        </form>        
+                    </div>
+                </div>
+
+
             </div>                       
         </div>         
         <div class="x_panel">          

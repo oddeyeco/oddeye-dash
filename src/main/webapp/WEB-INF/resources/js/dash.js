@@ -2490,6 +2490,7 @@ $(document).ready(function () {
         $('.current-page').find('i').toggleClass('current-i');
     }
 
+     
     $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
