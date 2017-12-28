@@ -154,8 +154,7 @@
                             <input type="hidden" name="notify_url" value="${paypal_notifyurl}">
                             <input type="hidden" name="image_url" value="https://app.oddeye.co/OddeyeCoconut/assets/images/email/logo_100px.png">
                             <input type="hidden" name="currency_code" value="USD">                        
-                            <input type="hidden" name="bn" value="PP-BuyNowBF">
-                            
+                            <input type="hidden" name="bn" value="PP-BuyNowBF">                            
                             <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                         </form>        
                     </div>

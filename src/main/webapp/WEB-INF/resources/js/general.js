@@ -10,6 +10,7 @@ $(document).ready(function () {
     $("#oddeyeQuantity").val(value.toFixed(2));
     value = value + value * 2 / 100 + 0.3;
     $("#oddeyeAmmount").val(value.toFixed(2));
+    $("#paypalAmmount").val($("#oddeyeAmmount").val());
 
     $('body').on("blur", "#oddeyeQuantity", function () {
         var value = Number($(this).val());

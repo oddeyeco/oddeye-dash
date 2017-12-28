@@ -6,6 +6,7 @@
 package co.oddeye.concout.controllers;
 
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import co.oddeye.core.globalFunctions;
@@ -42,6 +43,12 @@ public class PaymentController {
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Value("${paypal.url}")
     private String paypal_url;
+    
+    @Value("${barlus.url}")
+    private String barlus_url;
+    @Value("${barlus.uuids}")
+    private String barlus_uuids;    
+    
     @Autowired
     private HbaseUserDao Userdao;
     
@@ -56,21 +63,20 @@ public class PaymentController {
         for (Map.Entry<String, String[]> dd : postdata.entrySet()) {
             req = req + "&" + dd.getKey() + "=" + dd.getValue()[0];
         }
-        boolean isvalid = false;
-        Gson gson = new Gson();
+        boolean isvalid = false;        
         JsonObject jsonResult = new JsonObject();
         try {
             String data = OddeyeHttpURLConnection.getPost(paypal_url, req);
             isvalid = data.equals("VERIFIED");
             if (isvalid) {
-                OddeyeUserModel user = Userdao.getUserByUUID(UUID.fromString(postdata.get("custom")[0]) ,true);
-                double amount = Double.parseDouble(postdata.get("payment_gross")[0]);
-                amount = (amount - 0.3)/(1+2.0/100);        
-                user.setBalance(user.getBalance()+amount);
+                OddeyeUserModel user = Userdao.getUserByUUID(UUID.fromString(postdata.get("custom")[0]) ,true);   
+                OddeyePayModel pay = new OddeyePayModel(postdata,user);
+                Userdao.addPayment(user, pay);
+                user.setBalance(user.getBalance()+pay.getPoints());
                 Userdao.saveField(user, "balance");
-                JsonElement json = gson.toJsonTree(postdata);    
+                
                 //TODO Write paymants to DB
-                jsonResult.add("data", json);
+                jsonResult.add("data", pay.getJson());
             }
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
