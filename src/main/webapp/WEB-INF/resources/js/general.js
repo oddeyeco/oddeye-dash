@@ -6,18 +6,22 @@
 var test = false;
 
 $(document).ready(function () {
-    console.log("fsdfsdfsd");
+    var value = 10;
+    $("#oddeyeQuantity").val(value.toFixed(2));
+    value = value + value * 2 / 100 + 0.3;
+    $("#oddeyeAmmount").val(value.toFixed(2));
+
     $('body').on("blur", "#oddeyeQuantity", function () {
         var value = Number($(this).val());
-        value = value+value*2/100+0.3;        
-        $("#oddeyeAmmount").val(value.toFixed(2) );
+        value = value + value * 2 / 100 + 0.3;
+        $("#oddeyeAmmount").val(value.toFixed(2));
         $("#paypalAmmount").val($("#oddeyeAmmount").val());
     });
 
     $('body').on("blur", "#oddeyeAmmount", function () {
         var value = Number($(this).val());
-        value = (value - 0.3)/(1+2/100);        
-        $("#oddeyeQuantity").val(value.toFixed(2) );
+        value = (value - 0.3) / (1 + 2 / 100);
+        $("#oddeyeQuantity").val(value.toFixed(2));
         $("#paypalAmmount").val($("#oddeyeAmmount").val());
     });
 

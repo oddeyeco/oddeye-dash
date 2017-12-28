@@ -136,16 +136,14 @@
                 </form>-->
 
                 <div class="">
-                    <div for="quantity"> More points </div>
+                    <h3>Get more points </h3>
                     <div class="clearfix"></div>
-                    <div class="pull-left col-sm-6 col-xs-12 od">                        
-                        <br>
+                    <div class="pull-left col-sm-6 col-xs-12 od">                                                
                         <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1"> USD<br>
                         <label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1"> Points
                     </div>
                     <div class="pull-right col-sm-6 col-xs-12 pp">
                         <form action="${paypal_url}" method="post" >
-
                             <input type="hidden" name="cmd" value="_xclick">
                             <input type="hidden" name="business" value="${paypal_email}">
                             <input id="paypalItemName" type="hidden" name="item_name" value="oddeyepoints">                            
