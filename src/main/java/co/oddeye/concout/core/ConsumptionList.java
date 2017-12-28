@@ -87,16 +87,18 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
     }
 
     public CoconutConsumption getConsumptionListDay(int day) {
-        CoconutConsumption cc = new ArrayList<>(ConsumptionListDaily.entrySet()).get(day).getValue();
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        if (!ConsumptionListDaily.entrySet().isEmpty()) {
+            CoconutConsumption cc = new ArrayList<>(ConsumptionListDaily.entrySet()).get(day).getValue();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 //        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.DATE, -1 * day);
-        if (cc.getTimestamp() == cal.getTimeInMillis()) {
-            return cc;
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            cal.add(Calendar.DATE, -1 * day);
+            if (cc.getTimestamp() == cal.getTimeInMillis()) {
+                return cc;
+            }
         }
         return null;
 
@@ -110,17 +112,19 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
     }
 
     public CoconutConsumption getConsumptionListMonth(int Month) {
-        CoconutConsumption cc = new ArrayList<>(ConsumptionListMonth.entrySet()).get(Month).getValue();
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        if (!ConsumptionListDaily.entrySet().isEmpty()) {
+            CoconutConsumption cc = new ArrayList<>(ConsumptionListMonth.entrySet()).get(Month).getValue();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 //        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 0);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        cal.add(Calendar.MONTH, -1 * Month);
-        if (cc.getTimestamp() == cal.getTimeInMillis()) {
-            return cc;
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            cal.add(Calendar.MONTH, -1 * Month);
+            if (cc.getTimestamp() == cal.getTimeInMillis()) {
+                return cc;
+            }
         }
         return null;
 

@@ -90,6 +90,9 @@
                         <c:if test="${balance==Double.MAX_VALUE}">
                             &infin; 
                         </c:if>                          
+                        <c:if test="${balance==null}">
+                            0
+                        </c:if>                             
                     </div>
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
                     <span class="count_bottom">
