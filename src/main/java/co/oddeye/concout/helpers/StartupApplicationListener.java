@@ -7,11 +7,7 @@ package co.oddeye.concout.helpers;
 
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
-import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

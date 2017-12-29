@@ -9,6 +9,7 @@ import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.core.TemplateType;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.core.globalFunctions;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
@@ -48,6 +49,9 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
     private boolean Recomended;
     @HbaseColumn(qualifier = "version", family = "d")
     private String version;
+
+    private ArrayList<String> usedtags;
+    private ArrayList<String> usednames;
 
     private long timestamp;
 
@@ -89,6 +93,70 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
                 this.user = Userdao.getUserByUUID(UUID.fromString(new String(property.value())));
             }
         }
+        usedtags = new ArrayList<>();
+        usednames = new ArrayList<>();
+        JsonArray rows = this.infojson.get("rows").getAsJsonArray();
+        for (JsonElement _row : rows) {
+            JsonArray widgets = _row.getAsJsonObject().get("widgets").getAsJsonArray();
+            for (JsonElement widget : widgets) {
+                JsonArray qs = widget.getAsJsonObject().get("q").getAsJsonArray();
+                for (JsonElement q : qs) {
+                    if (q.getAsJsonObject().get("info").getAsJsonObject().has("metrics")) {
+                        String metrics = q.getAsJsonObject().get("info").getAsJsonObject().get("metrics").getAsString();
+                        String[] _metrics = metrics.split(";");
+                        for (String mm : _metrics) {
+                            if (!mm.isEmpty()) {
+                                if (!usednames.contains(mm)) {
+                                    usednames.add(mm);
+                                }
+                            }
+                        }
+                    }
+                    if (q.getAsJsonObject().get("info").getAsJsonObject().has("tags")) {
+                        String tags = q.getAsJsonObject().get("info").getAsJsonObject().get("tags").getAsString();
+                        String[] _tags = tags.split(";");
+                        for (String tt : _tags) {
+                            if (!tt.isEmpty()) {
+                                if (!usedtags.contains(tt)) {
+                                    usedtags.add(tt);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+//        while (elementIterator.hasNext()) {
+//            if (element.getKey().equals("metrics")) {
+//               String metrics = element.getValue().getAsString();
+//               String[] _metrics = metrics.split(";");
+//               for (String mm:_metrics)
+//               {
+//                   if (!mm.isEmpty())
+//                   {
+//                       if (!usednames.contains(mm))
+//                       {
+//                           usednames.add(mm);
+//                       }                       
+//                   }                   
+//               }               
+//            }
+//            if (element.getKey().equals("tags")) {
+//               String tags = element.getValue().getAsString();
+//               String[] _tags = tags.split(";");
+//               for (String tt:_tags)
+//               {
+//                   if (!tt.isEmpty())
+//                   {
+//                       if (!usedtags.contains(tt))
+//                       {
+//                           usedtags.add(tt);
+//                       }                       
+//                   }                    
+//               }               
+//            }
+//            
+//        }        
 
     }
 
@@ -134,6 +202,7 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
         key = ArrayUtils.addAll(user.getId().toString().getBytes(), name.getBytes());
         type = _type;
         Recomended = false;
+
     }
 
     /**
@@ -307,11 +376,24 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
     @Override
     public int compareTo(DashboardTemplate o) {
         int result = (timestamp < o.getTimestamp() ? -1 : (timestamp == o.getTimestamp() ? 0 : 1));
-        if (result == 0)
-        {
+        if (result == 0) {
             result = getName().compareTo(o.getName());
         }
         return result;
+    }
+
+    /**
+     * @return the usedtags
+     */
+    public ArrayList<String> getUsedtags() {
+        return usedtags;
+    }
+
+    /**
+     * @return the usednames
+     */
+    public ArrayList<String> getUsednames() {
+        return usednames;
     }
 
 }

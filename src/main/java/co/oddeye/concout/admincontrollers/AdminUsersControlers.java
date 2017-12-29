@@ -14,7 +14,6 @@ import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.beans.PropertyEditorSupport;
-import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
