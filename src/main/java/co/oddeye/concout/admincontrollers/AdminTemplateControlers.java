@@ -107,9 +107,9 @@ public class AdminTemplateControlers extends GRUDControler {
                 put("required", false);
 
             }
-        }).AddEditConfig("infojson", new HashMap<String, Object>() {
+        }).AddEditConfig("infoSjson", new HashMap<String, Object>() {
             {
-                put("path", "infojson");
+                put("path", "infoSjson");
                 put("title", "JSON");
                 put("type", "Text");
                 put("required", false);
@@ -195,6 +195,7 @@ public class AdminTemplateControlers extends GRUDControler {
             return "redirect:/templatelist";
         }
         if (act.equals("Save")) {
+            template.setInfojson(template.getInfoSjson());
             TemplateValidator.validate(template, result);
 
             if (result.hasErrors()) {
