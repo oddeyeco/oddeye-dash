@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.BinaryPrefixComparator;
@@ -52,8 +53,8 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseDushboardTemplateDAO.class);
 
     public HbaseDushboardTemplateDAO(DatabaseConfig p_config) {
-        super(p_config.getDushboardsTemplatesTable());                
-    }   
+        super(p_config.getDushboardsTemplatesTable());
+    }
 
     public Deferred<Object> add(DashboardTemplate template) {
         final Field[] fields = template.getClass().getDeclaredFields();
@@ -92,7 +93,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
 
     public ArrayList<DashboardTemplate> getRecomendTemplates(OddeyeUserModel user, int limit) {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
-         // TODO use Deferred
+        // TODO use Deferred
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
             scanner.setMaxNumRows(limit);
@@ -102,7 +103,7 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
                     new ValueFilter(org.hbase.async.CompareFilter.CompareOp.NOT_EQUAL,
                             new org.hbase.async.BinaryComparator(Bytes.fromInt(0))));
             filters.add(new ColumnPrefixFilter("Recomended"));
-            
+
             filters.add(new RowFilter(CompareFilter.CompareOp.NOT_EQUAL, new BinaryPrefixComparator(user.getId().toString().getBytes())));
 
             scanner.setFilter(new FilterList(filters));
@@ -110,8 +111,15 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
             rows = scanner.nextRows(limit).joinUninterruptibly();
             for (final ArrayList<KeyValue> row : rows) {
                 GetRequest gettemplate = new GetRequest(table, row.get(0).key());
-                ArrayList<KeyValue> s_row = BaseTsdb.getClient().get(gettemplate).join();                
-                result.add(new DashboardTemplate(s_row, Userdao));
+                ArrayList<KeyValue> s_row = BaseTsdb.getClient().get(gettemplate).join();
+                DashboardTemplate template = new DashboardTemplate(s_row, Userdao);
+
+                List<String> sourceList = new ArrayList<>(template.getUsednames());
+                sourceList.removeAll(user.getMetricsMeta().GetNames());
+                if (sourceList.isEmpty()) {
+                    result.add(template);
+                }
+
             }
 
         } catch (Exception ex) {
@@ -121,16 +129,16 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         return result;
     }
 
-    public ArrayList<DashboardTemplate> getLasttemplates(OddeyeUserModel user,int limit) {
+    public ArrayList<DashboardTemplate> getLasttemplates(OddeyeUserModel user, int limit) {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
-            scanner.setMaxNumRows(limit);            
+            scanner.setMaxNumRows(limit);
             scanner.setReversed(true);
-            final ArrayList<ScanFilter> filters = new ArrayList<>();            
+            final ArrayList<ScanFilter> filters = new ArrayList<>();
             filters.add(new RowFilter(CompareFilter.CompareOp.NOT_EQUAL, new BinaryPrefixComparator(user.getId().toString().getBytes())));
-            scanner.setFilter(new FilterList(filters));            
-            
+            scanner.setFilter(new FilterList(filters));
+
             ArrayList<ArrayList<KeyValue>> rows;
             rows = scanner.nextRows(limit).joinUninterruptibly();
             for (final ArrayList<KeyValue> row : rows) {
@@ -144,16 +152,16 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         return result;
     }
 
-    public ArrayList<DashboardTemplate> getLastUsertemplates(OddeyeUserModel user,int limit) {
+    public ArrayList<DashboardTemplate> getLastUsertemplates(OddeyeUserModel user, int limit) {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
         try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
-            scanner.setMaxNumRows(limit);            
+            scanner.setMaxNumRows(limit);
             scanner.setReversed(true);
-            final ArrayList<ScanFilter> filters = new ArrayList<>();            
+            final ArrayList<ScanFilter> filters = new ArrayList<>();
             filters.add(new RowFilter(CompareFilter.CompareOp.EQUAL, new BinaryPrefixComparator(user.getId().toString().getBytes())));
-            scanner.setFilter(new FilterList(filters));            
-            
+            scanner.setFilter(new FilterList(filters));
+
             ArrayList<ArrayList<KeyValue>> rows;
             rows = scanner.nextRows(limit).joinUninterruptibly();
             for (final ArrayList<KeyValue> row : rows) {
@@ -165,8 +173,8 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
         }
         Collections.reverse(result);
         return result;
-    }    
-    
+    }
+
     public ArrayList<DashboardTemplate> getAll() {
         ArrayList<DashboardTemplate> result = new ArrayList<>();
         try {
@@ -239,11 +247,18 @@ public class HbaseDushboardTemplateDAO extends HbaseBaseDao {
                                     Object newvalue = getter.invoke(template);
                                     boolean ischange = false;
                                     switch (((HbaseColumn) annotation).type()) {
-                                        default:
-                                            if (!value.equals(newvalue)) {
-                                                ischange = true;
+                                        default: {
+                                            if (value == null) {
+                                                ischange = newvalue!=null;
+                                            } else {
+                                                if (!value.equals(newvalue)) {
+                                                    ischange = true;
+                                                }
+
                                             }
                                             break;
+
+                                        }
                                     }
 
                                     if (ischange) {

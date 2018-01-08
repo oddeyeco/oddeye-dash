@@ -77,6 +77,18 @@ public class AdminTemplateControlers extends GRUDControler {
                 put("title", " Actions");
                 put("type", "actions");
             }
+        }).AddViewConfig("tags", new HashMap<String, Object>() {
+            {
+                put("title", " Tags");
+                put("path", "usedtags");                
+                put("type", "List");
+            }
+        }).AddViewConfig("metrics", new HashMap<String, Object>() {
+            {
+                put("title", " Metrics");
+                put("path", "usednames");                
+                put("type", "List");
+            }
         });
 
         AddEditConfig("name", new HashMap<String, Object>() {
@@ -85,6 +97,22 @@ public class AdminTemplateControlers extends GRUDControler {
                 put("title", "Name");
                 put("type", "String");
                 put("required", true);
+
+            }
+        }).AddEditConfig("description", new HashMap<String, Object>() {
+            {
+                put("path", "description");
+                put("title", "description");
+                put("type", "Text");
+                put("required", false);
+
+            }
+        }).AddEditConfig("infojson", new HashMap<String, Object>() {
+            {
+                put("path", "infojson");
+                put("title", "JSON");
+                put("type", "Text");
+                put("required", false);
 
             }
         }).AddEditConfig("Recomended", new HashMap<String, Object>() {

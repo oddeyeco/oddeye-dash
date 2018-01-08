@@ -71,11 +71,17 @@
                                     <c:when test="${config.getValue().type == 'Date'}">    
                                         <fmt:formatDate value="${model[config.getValue().path]}" pattern="YY MM dd HH:mm:ss"/>                                        
                                     </c:when>                                            
-                                    <c:when test="${config.getValue().type == 'Collection'}">                                        
-                                        <c:forEach items="${model[config.getValue().path] }" var="item">   
+                                    <c:when test="${config.getValue().type == 'Collection'}">                                                                                
+                                        <c:forEach items="${model[config.getValue().path] }" var="item">                                               
                                             <span class="label label-success">${config.getValue().items[item]}</span><br>
                                         </c:forEach>                                                                                                            
                                     </c:when>                                                                                                
+                                    <c:when test="${config.getValue().type == 'List'}">                                                                                
+                                        <c:forEach items="${model[config.getValue().path] }" var="item">                                               
+                                            <span class="label label-success">${item}</span><br>
+                                        </c:forEach>                                                                                                            
+                                    </c:when>                                                                                                
+                                            
                                     <c:when test="${config.getValue().type == 'userstatus'}">    
                                         <c:if test="${model.getListenerContainer().isRunning()}">
                                             <span class="label label-success">looks monitoring ${model.getSotokenlist().size()}</span><br>

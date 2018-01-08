@@ -1649,18 +1649,21 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 start = json.times.pickerstart;
                 end = json.times.pickerend;
             } else
-            {
-                if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
+            {                
+                if (json.times.pickerlabel)
                 {
-                    start = rangeslabels[json.times.pickerlabel];
-                } else
-                {
-                    start = json.times.pickerstart;
+                    if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
+                    {
+                        start = rangeslabels[json.times.pickerlabel];
+                    } else
+                    {
+                        start = json.times.pickerstart;
+                    }
                 }
             }
         }
-
         var usePersonalTime = false;
+
         if (widget.times)
         {
             if (widget.times.pickerlabel === "Custom")
@@ -1681,7 +1684,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         }
 
         var count = {"value": widget.q.length, "base": widget.q.length};
-        
+
         for (k in widget.q)
         {
             if (widget.q[k].check_disabled || (!widget.q[k].info) || (!widget.q[k].info.metrics))
@@ -2236,7 +2239,7 @@ function repaint(redraw = false, rebuildform = true) {
         }
 
         if (NoOpt)
-        {            
+        {
             window.history.pushState({}, "", window.location.pathname);
             AutoRefresh(redraw);
         } else
@@ -2732,13 +2735,12 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
         if (gdd.rows[ri].widgets[wi].options.title)
         {
-        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + gdd.rows[ri].widgets[wi].options.title.text + " ?");    
-        }
-        else
+            $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + gdd.rows[ri].widgets[wi].options.title.text + " ?");
+        } else
         {
             $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + wi + " ?");
         }
-        
+
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
     });
@@ -2925,7 +2927,7 @@ $(document).ready(function () {
 
         $(".fulldash").show();
         var request_W_index = getParameterByName("widget");
-        var request_R_index = getParameterByName("row");        
+        var request_R_index = getParameterByName("row");
         window.history.pushState({}, "", window.location.pathname);
         for (var ri in gdd.rows)
         {

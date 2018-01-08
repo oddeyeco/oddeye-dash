@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="row">
     <div class="page-title"><div class="title_left"><h1>Dashboards</h1></div></div>
 </div>
@@ -84,8 +85,11 @@
                         <c:forEach items="${recomend}" var="Dush" varStatus="loop">                                
                             <li class="col-lg-12">
                                 <!--<input type="checkbox" class="flat">-->
-                                <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span>${Dush.getName()}</span>
-                                    <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</span>                                    
+                                <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span> 
+                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-html="true" data-placement="top" title="" data-delay='{"hide":"2000"}' data-original-title="${fn:escapeXml(Dush.getDescription())} <div> Metrics-${Dush.getUsednames().size()}<br>Tag Filters-${Dush.getUsedtags().size()}</div>"></i>
+                                        
+                                        ${Dush.getName()}</span>
+                                    <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/></span>                                    
                                 </a> 
                             </li>                                
                         </c:forEach>
@@ -110,7 +114,7 @@
                                         <i class="fa fa-dot-circle-o blue"></i>
                                     </c:if>                                         
                                     <span>${Dush.getName()}</span>
-                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</span>                                    
+                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/></span>                                    
                                 </a> 
                             </li>                                
                         </c:forEach>
