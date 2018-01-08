@@ -48,7 +48,8 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
     @HbaseColumn(qualifier = "Recomended", family = "d")
     private boolean Recomended;
     @HbaseColumn(qualifier = "version", family = "d")
-    private String version;
+    private String version;    
+    private String infoSjson;    
 
     private ArrayList<String> usedtags;
     private ArrayList<String> usednames;
@@ -73,7 +74,8 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
                 this.description = new String(property.value());
             }
             if (Arrays.equals(property.qualifier(), "infojson".getBytes())) {
-                this.infojson = (JsonObject) globalFunctions.getJsonParser().parse(new String(property.value()));
+                this.infojson = globalFunctions.getJsonParser().parse(new String(property.value())).getAsJsonObject();
+                this.infoSjson = new String(property.value());
             }
 
             if (Arrays.equals(property.qualifier(), "Recomended".getBytes())) {
@@ -197,6 +199,7 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
 
     public DashboardTemplate(String _name, JsonObject json, OddeyeUserModel _user, TemplateType _type) {
         infojson = clearjson(json);
+        infoSjson=infojson.toString();
         user = _user;
         name = _name;
         key = ArrayUtils.addAll(user.getId().toString().getBytes(), name.getBytes());
@@ -289,10 +292,12 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
      */
     public void setInfojson(JsonObject infojson) {
         this.infojson = infojson;
-    }
+        this.infoSjson = infojson.toString();        
+    }        
 
     public void setInfojson(String sjson) {
         this.infojson = globalFunctions.getJsonParser().parse(sjson).getAsJsonObject();
+        this.infoSjson = sjson;        
     }
 
     /**
@@ -394,6 +399,21 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
      */
     public ArrayList<String> getUsednames() {
         return usednames;
+    }
+
+    /**
+     * @return the infoSjson
+     */
+    public String getInfoSjson() {
+        return infoSjson;
+    }
+
+    /**
+     * @param infoSjson the infoSjson to set
+     */
+    public void setInfoSjson(String infoSjson) {
+        this.infoSjson = infoSjson;
+        this.infojson = globalFunctions.getJsonParser().parse(infoSjson).getAsJsonObject();
     }
 
 }
