@@ -93,26 +93,9 @@ a
 }
 @media (max-width: 760px)
 {
+   
     .modal_margin{
         margin: 0px 20px;
-    }
-    .navbar-inverse{
-        .navbar-nav 
-        {
-            .open
-            { 
-                .dropdown-menu
-                {
-                    li
-                    {
-                        a{color: #fff !important}
-                    }
-                }
-            }
-        }
-    }
-    .selectTd{
-        min-width: 250px;
     }
 
     .col-xs-12.logo
@@ -143,7 +126,9 @@ a
 }
 @media (min-width: 768px)
 {
-
+ .navbar-right{
+        padding-right: 45px ;
+    }
     .col-xs-12.logo
     {
         text-align: right;
@@ -192,164 +177,100 @@ a
         width: 100%
     }    
 }
-//Hovo
 
-.calc_font {
-    width: 50px;
-    font-size: 11px;
-    display: inline-block;
-}
-.reflock{
-    background: #fff; 
-    cursor: pointer;
-    padding: 3px 7px;
-    border: 1px solid #ccc;
-}
-
-
-
-.multiTd{
-    label {
-        float: left;
-    }
-    .multiDiv{
-        height: 25px;
-        label{
-            padding-top: 5px;
-        }
-        .icheckbox_flat-green{
-            margin: 5px;
-        }
-    }
-    input {
-        float: right;
-    }
-    .checkbox {
-        float: left;
-        margin: 10px;
-    }
-    min-width: 200px;
-}
-.selectTd{
-    width:55% ;
-    .select2-selection--multiple {
-        border: 1px solid #ccc;
-
-        border-radius: 0;
-    }
-    span{
-        line-height: 18px ;
-    }
-    .select2-selection__rendered{
-        .select2-selection__choice{
-            border-radius: 0px;
-            margin-right: 3px;
-            margin-top: 3px;
-            color:#fff;
-            background-color:#1abb9c !important;
-            .select2-selection__choice__remove{
-                float: right;
-                color: #fff;
-                padding: 1px 5px 0 5px;
+#wrapper {
+    #sidebar-wrapper {
+        .sidebar-nav {
+            li{
+                a{
+                    &:hover{
+                        background: rgba(255,255,255,0.2);
+                        text-decoration: none;
+                        border-right: 5px solid #1ABB9C;
+                    }
+                    i{
+                        font-size: 25px; 
+                        text-align: center;
+                        width: 100% ;
+                    }
+                    color: #E7E7E7;
+                    display: block;
+                    text-decoration: none;
+                }
+                line-height: 20px;
+                text-align: center;
+                font-size: 11px;
+                margin-bottom: 15px;
             }
-        }
-    }
-
-}   
-.checkList{
-    max-height: 25px;
-    width: 100%;
-    /*display: flex;*/
-}
-.prices{
-    width: 65px;
-
-}
-table{
-    tfoot{
-        .buttonTd{
-            td{
-                border-top:none;
+            .sidebar-brand {
+                height: 65px;
+                line-height: 60px;
+                font-size: 13px;
             }
-
+            display: block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
-    }   
-}
-.calc{
-    margin-left: 0;
-    font-size: 11px;
-    color: #555;
-    .form-control{
-        padding: 0;
-        font-size: 11px;
-        height: 22px;
-        border-radius: 0;
+        width: 70px;
+        background: #2A3F54;
+        position: fixed;
+        height: 100%;
+        /*z-index: 10000;*/
+        transition: all .4s ease 0s;
     }
-}
-h3{
-    color: #555;
-    padding-left: 10px;
-}
-/*body{
-
-    position: absolute;
-        top:0;
-        bottom: 0;
-    width: 100%;
-    min-height: 100%;
-    background-repeat: repeat-y;
-    background-size: cover;
-    background-position: 50% 50%;
-    background-image: url("https://www.oddeye.co/wp-content/uploads/2017/07/bg4.jpg");
-
-}*/
-.calc-button {
-    &:hover {
-        background-color:  #62f406  !important;
-        color:  #000 !important;
-        text-decoration: none;
-    }
-    text-decoration: none; 
-    background-color: transparent;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    margin-top: 3px;
-    border: 2px solid #fff;
-    /*color: #62f406 !important;*/
-    font-size: 15px;
-    -webkit-transition: all 0.3s;
-    transition: all 0.3s;
+    height: 100%
 }
 
-.calc-logo{
-    padding-top: 0 !important;
-}
-.title_left{
-    padding: 45px 60px;
-}
-.navbar-inverse{
-
+.navbar-inverse {
     .navbar-nav{
-        .open{
-            a{
-                &:focus ,&:hover{
-                    background-color: #00adee;
-                    color: #000;
-                }
-            }
-        }
         li{
-            a{
-                &:hover{
-                    color: #000;
-                }
+            .calc-button{
                 color: #fff;
+                background-color: #00adee;
+                &:hover{
+                    color:  #e7e7e7;
+                    background-color: #00a1d1;
+                }
             }
+            a{
+
+                &:hover{
+                    cursor: pointer;
+                    color: #515356;
+
+                    background-color: rgb(217, 222, 228);
+
+                }
+                color: #515356;
+            }
+
+
         }
     }
-    background-color: #00adee;
-    border-color:#1995dc;
+    .navbar-toggle{
+        .icon-bar {
+            background-color:#2a3f54;
+        }
+        &:focus,&:hover {
+            .icon-bar {
+                background-color:#fff;
+            }
+            background-color:#2a3f54; 
+        }
+        border-color: #2a3f54;
+    }
+    .navbar-collapse{
+        border-color: #2a3f54;
+    }
+
+    background-color:#EDEDED;
+    border-color: #D9DEE4;
+    margin-left: 70px;
 }
-.dropdown-menu{
-    background-color: #00adee;
+.page-body
+{
+    color: #0c0c0c;
+    padding-left: 70px;
+    padding-top: 50px;        
 }

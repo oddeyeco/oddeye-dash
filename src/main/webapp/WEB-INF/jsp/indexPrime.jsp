@@ -32,11 +32,7 @@
         </head>
 
         <body>        
-            <!--<header class="">-->
-            <div>
-                <header class="container" style="text-align: center">                       
-                    <!--<a href="${cp}/"><img src="${cp}/assets/images/logo.png" alt="logo"></a>-->                
-                </header>    
+            <div>  
                 <main>  
                     <c:if test="${!empty wraper}">                        
                         <c:import url="${wraper}.jsp" />
