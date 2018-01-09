@@ -341,11 +341,6 @@ public class OddeyeUserModel {
             if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT))) {
                 authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
             }
-//            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
         }
     }
 
