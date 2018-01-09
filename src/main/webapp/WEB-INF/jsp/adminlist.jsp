@@ -50,10 +50,10 @@
                                     <c:when test="${config.getValue().type == 'Double'}">      
                                         <c:if test="${curentuser.getBalance()!=null}">
                                             <c:if test="${model[config.getValue().path]<Double.MAX_VALUE}">
-                                                ${model[config.getValue().path] }                                                
+                                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="4" value=" ${model[config.getValue().path] }" />
                                             </c:if>
                                             <c:if test="${model[config.getValue().path]==Double.MAX_VALUE}">
-                                                <span class="infin">000000000</span>
+                                                <span class="infin"> 0000000000</span>
                                             </c:if>                                                        
                                         </c:if>
 
