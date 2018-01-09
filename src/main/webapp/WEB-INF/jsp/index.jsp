@@ -54,12 +54,12 @@
         </head>
 
         <body class="<c:if test="${cookie['small'].value != 'true'}">nav-md</c:if> <c:if test="${cookie['small'].value == 'true'}">nav-sm</c:if>">
-            <div class="container body">
-                <div class="main_container">
-                    <div id="fix" class="col-md-3 left_col">
-                        <div class="left_col scroll-view">
-                            <div class="navbar nav_title" style="border: 0;">
-                                <a href="<c:url value="/"/>" >
+                <div class="container body">
+                    <div class="main_container">
+                        <div id="fix" class="col-md-3 left_col">
+                            <div class="left_col scroll-view">
+                                <div class="navbar nav_title" style="border: 0;">
+                                        <a href="<c:url value="/"/>" >
                                     <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
                                     <span class="site_title" style="width: auto">Home</span> </a>
                             </div>
@@ -253,12 +253,43 @@
                     <!-- /footer content -->
                 </div>
             </div>
-
+            <%--<c:if test="${activeuser.getFirstlogin()==true}">--%>
+            <c:if test="${false==true}">
+                <div id="welcomemessage" class="modal  fade" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h4 class="modal-title">Welcome to OddEye smart monitoring and data analitic system</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>  Для начала работы мы с радостью предоставляем вам 50 OddEye Coin -ов (в дальнейшем OC ). Чтобы продолжить   нужно установить агент OddEye для этого можно скачать и запустить агент для linux или windows или воспользоваться API и отправлять данные из любой удобной вам среды.</p>
+                                <p>Подробнее можно узнать по ссылкам</p>
+                                <ul>
+                                    <li><a href="#"> скачать Агент linux</a> </li>
+                                    <li><a href="#">скачать Агент windows</a></li>
+                                    <li><a href="#">описание  API</a></li>
+                                    <li><a href="#">как установить Агент linux</a></li>
+                                    <li><a href="#">как установить Агент windows</a></li>
+                                    <li><a href="#">Калькулятор стоимости </a></li>
+                                    <li><a href="#">Основная страница</a></li>
+                                    <li><a href="#">Настройка мониторинга</a></li>
+                                    <li><a href="#">Создание графиков </a>  </li>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">                                
+                            </div>
+                        </div>
+                    </div>
+                </div>                        
+            </c:if>
             <script>
                 var headerName = "${_csrf.headerName}";
                 var token = "${_csrf.token}";
                 var cp = "${cp}";
                 var uuid = "${curentuser.getId()}";
+                var Firstlogin = ${activeuser.getFirstlogin()}
             </script>                                         
 
             <!-- jQuery -->
@@ -288,8 +319,8 @@
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 
             <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script> 
-            <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>            
-            <script src="${cp}/resources/js/general.js?v=${version}"></script>        
+            <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>                        
+            <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    
             <script src="${cp}/resources/js/global.js?v=${version}"></script>        
 
             <c:catch var="e">

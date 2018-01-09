@@ -214,6 +214,7 @@ public class DefaultController {
         boolean confirm = false;
         if (userDetails.getMailconfirm() == null) {
             userDetails.setFirstlogin(Boolean.TRUE);
+            userDetails.setBalance(50.0);
             userDetails.setMailconfirm(Boolean.TRUE);
             confirm = true;
         }
