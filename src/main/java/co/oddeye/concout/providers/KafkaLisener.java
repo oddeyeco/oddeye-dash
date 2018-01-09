@@ -8,6 +8,7 @@ package co.oddeye.concout.providers;
 import co.oddeye.concout.core.CoconutParseMetric;
 import co.oddeye.concout.core.PageInfo;
 import co.oddeye.concout.dao.BaseTsdbConnect;
+import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.OddeeyMetric;
@@ -39,6 +40,8 @@ public class KafkaLisener {
 
     @Autowired
     private HbaseUserDao Userdao;
+    @Autowired
+    private HbaseMetaDao MetaDao;    
     @Autowired
     protected BaseTsdbConnect BaseTsdb;
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaLisener.class);
@@ -81,6 +84,7 @@ public class KafkaLisener {
                         } else {
                             user.getMetricsMeta().get(mtrscMeta.hashCode()).update(mtrscMeta);
                         }
+                        MetaDao.getFullmetalist().add(mtrscMeta);
 
                     } catch (Exception ex) {
                         LOGGER.error(globalFunctions.stackTrace(ex));

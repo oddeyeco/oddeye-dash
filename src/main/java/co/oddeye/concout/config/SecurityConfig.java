@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/calculator/**","/resources/**", "/assets/**", "/signup/", "/", 
                         "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", 
                         "/faq/**", "/contact/**","/login/**", "/gugush.txt").permitAll()
-//                .antMatchers("/getfiltredmetrics*").permitAll()
+                .antMatchers("/getstat*").permitAll()
 //                .antMatchers("/getdata*").permitAll()
 //                .antMatchers("/gettagkey*").permitAll()
 //                .antMatchers("/gettagvalue*").permitAll()

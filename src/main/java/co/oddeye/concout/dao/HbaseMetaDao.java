@@ -99,6 +99,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                         if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                             OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
                             Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
+                            fullmetalist.add(metric);
                         }
 
                     }

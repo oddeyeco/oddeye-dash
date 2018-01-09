@@ -15,6 +15,7 @@ import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
 import co.oddeye.concout.core.SendToKafka;
 import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.core.OddeyeHttpURLConnection;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -72,6 +73,9 @@ public class AjaxControlers {
 
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
+
+    @Value("${storm.url}")
+    private String stormurl;
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
@@ -730,6 +734,62 @@ public class AjaxControlers {
             }
         } else {
             jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
+    @RequestMapping(value = {"/getstat"})
+    public String getstat(ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        try {
+            jsonResult.addProperty("metriccount", MetaDao.getFullmetalist().size());
+            jsonResult.addProperty("uniqtagscount", MetaDao.getFullmetalist().getTaghashlist().size());
+            jsonResult.addProperty("sucsses", true);
+            String uri = stormurl+"topology/summary";
+            JsonElement summary = OddeyeHttpURLConnection.getGetJSON(uri);
+            for (JsonElement tps:summary.getAsJsonObject().get("topologies").getAsJsonArray())
+            {
+                
+                if (tps.getAsJsonObject().get("name").getAsString().equals("OddeyeTimeSeriesTopology"))
+                {
+                    long uptimeSeconds = tps.getAsJsonObject().get("uptimeSeconds").getAsLong();
+                    String tid = tps.getAsJsonObject().get("id").getAsString();
+                    
+                    uri = stormurl+"topology/"+tid+"/component/CompareBolt";
+                    JsonElement KafkaSpoutSum = OddeyeHttpURLConnection.getGetJSON(uri);
+                    for (JsonElement ksst:KafkaSpoutSum.getAsJsonObject().get("outputStats").getAsJsonArray())
+                    {
+                        if (ksst.getAsJsonObject().get("stream").getAsString().equals("default"))
+                        {                            
+                            double ps = ksst.getAsJsonObject().get("emitted").getAsDouble()*30/uptimeSeconds;
+                            jsonResult.addProperty("Messagepersec",ps );
+                        }
+                    }
+                    
+                    uri = stormurl+"topology/"+tid+"/component/SendNotifierBolt";
+                    JsonElement ErrorboltSum = OddeyeHttpURLConnection.getGetJSON(uri);
+                    for (JsonElement ksst:ErrorboltSum.getAsJsonObject().get("inputStats").getAsJsonArray())
+                    {
+                        if (ksst.getAsJsonObject().get("stream").getAsString().equals("default"))
+                        {
+                            if (ksst.getAsJsonObject().get("component").getAsString().equals("CompareBolt"))
+                            {
+                                jsonResult.addProperty("Alertpersec", ksst.getAsJsonObject().get("executed").getAsDouble()/6/uptimeSeconds);
+                            }
+
+                            
+
+                        }
+                    }                    
+                    
+                }
+            }
+        } catch (Exception ex) {
+            jsonResult.addProperty("sucsses", false);
+            LOGGER.error(globalFunctions.stackTrace(ex));
         }
 
         map.put("jsonmodel", jsonResult);
