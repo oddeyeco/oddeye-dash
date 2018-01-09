@@ -229,7 +229,7 @@
                     <!-- /top navigation -->
 
                     <!-- page content -->
-                    <div class="right_col" role="main">                    
+                    <div class="right_col" role="main">                         
                         <c:if test="${!curentuser.getActive()}">
                             <div class="clearfix"></div>
                             <div class="alert alert-danger alert-dismissible fade in " role="alert">
@@ -289,7 +289,7 @@
                 var token = "${_csrf.token}";
                 var cp = "${cp}";
                 var uuid = "${curentuser.getId()}";
-                var Firstlogin = ${activeuser.getFirstlogin()}
+                var Firstlogin = ${curentuser.getFirstlogin()};
             </script>                                         
 
             <!-- jQuery -->
