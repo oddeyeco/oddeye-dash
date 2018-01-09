@@ -5,7 +5,7 @@
  */
 
 
-/* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid */
+/* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid, Firstlogin */
 var globalsocket;
 var globalstompClient;
 var headers = {};
@@ -349,6 +349,11 @@ function smallrequest(small)
 
 
 $(document).ready(function () {
+    if (Firstlogin)
+    {
+        $("#welcomemessage").modal('show');
+    }
+
     if (getCookie('small') == 'true')
     {
         $(' ul.nav.child_menu').hide();
