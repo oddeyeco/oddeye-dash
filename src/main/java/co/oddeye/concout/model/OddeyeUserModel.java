@@ -988,6 +988,10 @@ public class OddeyeUserModel {
      * @return the firstlogin
      */
     public Boolean getFirstlogin() {
+        if (firstlogin==null)
+        {
+            return false;
+        }        
         return firstlogin;
     }
 
