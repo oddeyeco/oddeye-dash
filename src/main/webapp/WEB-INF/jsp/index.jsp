@@ -253,7 +253,8 @@
                     <!-- /footer content -->
                 </div>
             </div>
-            <c:if test="${activeuser.getFirstlogin()==true}">
+            <%--<c:if test="${activeuser.getFirstlogin()==true}">--%>
+            <c:if test="${false==true}">
                 <div id="welcomemessage" class="modal  fade" tabindex="-1">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">

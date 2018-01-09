@@ -351,7 +351,7 @@ function smallrequest(small)
 $(document).ready(function () {
     if (Firstlogin)
     {
-        $("#welcomemessage").modal('show');
+//        $("#welcomemessage").modal('show');
     }
 
     if (getCookie('small') == 'true')
