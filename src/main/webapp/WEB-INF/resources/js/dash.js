@@ -570,12 +570,12 @@ var queryCallback = function (inputdata) {
                     }
 
                     if (widget.type === "treemap")
-                    {                        
+                    {
                         var series = clone_obg(defserie);
                         series.data = [];
                         series.type = widget.type;
                         data = [];
-                        series.breadcrumb={show:false};
+                        series.breadcrumb = {show: false};
                         for (var key in tmp_series_1)
                         {
                             var val = 0;
@@ -590,7 +590,7 @@ var queryCallback = function (inputdata) {
                         }
                         series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;
                         series.data = data;
-                        series.upperLabel = {"normal": {"show": true, "height": 20}};                        
+                        series.upperLabel = {"normal": {"show": true, "height": 20}};
                         widget.options.series.push(series);
                     } else
                     {
@@ -672,6 +672,8 @@ var queryCallback = function (inputdata) {
                                     for (i = 0; i < series.data.length; i++)
                                     {
                                         series.data[i].subname = series.data[i].name;
+                                        key = key.replace("\\n", '\n');
+                                        key = key.replace("\\r", '\r');
                                         series.data[i].name = key;
                                     }
 
@@ -708,6 +710,14 @@ var queryCallback = function (inputdata) {
                                 {
                                     yAxis = series.yAxisIndex[0];
                                 }
+                                var xAxis = 0;
+                                if (series.xAxisIndex)
+                                {
+                                    xAxis = series.xAxisIndex[0];
+                                }
+
+//                                console.log(yAxis);
+
                                 if (typeof widget.options.yAxis[yAxis].min !== "undefined")
                                 {
                                     series.min = widget.options.yAxis[yAxis].min;
@@ -723,6 +733,42 @@ var queryCallback = function (inputdata) {
                                 {
                                     delete(series.max);
                                 }
+                                series.title = {color: null};
+                                if (typeof widget.options.yAxis[yAxis].axisLine !== "undefined")
+                                {
+                                    if (typeof widget.options.yAxis[yAxis].axisLine.lineStyle.color !== "undefined")
+                                    {
+                                        series.title.color = widget.options.yAxis[yAxis].axisLine.lineStyle.color;
+                                    }
+
+                                }
+                                if (typeof widget.options.yAxis[yAxis].nameTextStyle !== "undefined")
+                                {
+                                    if (typeof widget.options.yAxis[yAxis].nameTextStyle.fontSize !== "undefined")
+                                    {
+                                        series.title.fontSize = widget.options.yAxis[yAxis].nameTextStyle.fontSize;
+                                    }
+                                }
+                                if (typeof widget.options.yAxis[yAxis].axisLabel !== "undefined")
+                                {
+                                    if (typeof widget.options.yAxis[yAxis].axisLabel.fontSize !== "undefined")
+                                    {
+                                        series.axisLabel.fontSize = widget.options.yAxis[yAxis].axisLabel.fontSize;
+                                    }
+                                }
+                                if (typeof widget.options.xAxis[xAxis].nameTextStyle !== "undefined")
+                                {
+                                    if (typeof widget.options.xAxis[xAxis].nameTextStyle.fontSize !== "undefined")
+                                    {
+                                        if (!series.detail)
+                                        {
+                                            series.detail = {};
+                                        }
+                                        series.detail.fontSize = widget.options.xAxis[xAxis].nameTextStyle.fontSize;
+                                    }
+                                }
+
+
                                 if (typeof widget.options.yAxis[yAxis].splitNumber !== "undefined")
                                 {
                                     series.splitNumber = widget.options.yAxis[0].splitNumber;
@@ -742,11 +788,13 @@ var queryCallback = function (inputdata) {
                                 if (widget.options.series[s_index].name === series.name)
                                 {
                                     dublicatename = true;
-                                    widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data);
-
-                                    widget.options.series[s_index].data.sort(function (a, b) {
-                                        return compareStrings(a.name, b.name);
-                                    });
+                                    if (widget.options.series[s_index].data = widget.options.series[s_index].data)
+                                    {
+                                        widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data);
+                                        widget.options.series[s_index].data.sort(function (a, b) {
+                                            return compareStrings(a.name, b.name);
+                                        });
+                                    }
                                     break;
                                 }
                             }
@@ -1037,7 +1085,7 @@ var queryCallback = function (inputdata) {
 
                 if (ser.type === 'gauge')
                 {
-                    if (!ser.detail)
+                    if (!ser.axisLabel)
                     {
                         ser.axisLabel = {};
                     }
@@ -1310,7 +1358,7 @@ var queryCallback = function (inputdata) {
                 }
                 col++;
             }
-            
+
             if (widget.manual)
             {
 
@@ -1421,16 +1469,16 @@ var queryCallback = function (inputdata) {
                         }
                     } else if (widget.options.series[ind].type === "treemap")
                     {
-                        widget.options.series[ind].levels = getLevelOption(widget.options.series.length,widget.options.series[ind].data[0].children.length);                        
+                        widget.options.series[ind].levels = getLevelOption(widget.options.series.length, widget.options.series[ind].data[0].children.length);
                         for (var sind in widget.options.series[ind].data)
-                        {                            
+                        {
                             if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
                             {
                                 widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
                             }
 
                         }
-                        
+
                     }
 
                 }
@@ -1454,7 +1502,7 @@ var queryCallback = function (inputdata) {
                 {
                     widget.options.legend.data = tmpLegendSer;
                 }
-            }            
+            }
 //*************************************            
 //            console.log(widget.options.series);
 //            console.log(redraw);
