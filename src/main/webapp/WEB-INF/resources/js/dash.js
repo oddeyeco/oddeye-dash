@@ -570,31 +570,12 @@ var queryCallback = function (inputdata) {
                     }
 
                     if (widget.type === "treemap")
-                    {
-                        name = "All";
+                    {                        
                         var series = clone_obg(defserie);
-
-//                        for (var skey in oldseries)
-//                        {
-//                            if (oldseries[skey].name === name)
-//                            {
-//                                series = clone_obg(oldseries[skey]);
-//
-//                                break;
-//                            }
-//                        }
                         series.data = [];
-//                        if (!widget.manual)
-//                        {
                         series.type = widget.type;
-//                        } else
-//                        {
-//                            if (!series.type)
-//                            {
-//                                series.type = widget.type;
-//                            }
-//                        }
                         data = [];
+                        series.breadcrumb={show:false};
                         for (var key in tmp_series_1)
                         {
                             var val = 0;
@@ -602,43 +583,22 @@ var queryCallback = function (inputdata) {
                             for (var ind in tmp_series_1[key])
                             {
                                 val = val + tmp_series_1[key][ind].value;
-                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name, unit: series.unit});
+                                cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name, unit: widget.options.yAxis[yAxis].unit});
                             }
 
-                            data.push({value: val, name: key, children: cildren});
+                            data.push({value: val, name: key, children: cildren, unit: widget.options.yAxis[yAxis].unit});
                         }
-                        series.name = "All";
-//                        widget.options.tooltip.trigger = 'item';
+                        series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;
                         series.data = data;
+                        series.upperLabel = {"normal": {"show": true, "height": 20}};                        
                         widget.options.series.push(series);
-
-//                        console.log(widget.options.series[0].data);
-
                     } else
                     {
                         for (var key in tmp_series_1)
                         {
                             var series = clone_obg(defserie);
 
-//                            for (var skey in oldseries)
-//                            {
-//                                if (oldseries[skey].name === key)
-//                                {
-//                                    series = clone_obg(oldseries[skey]);
-//                                    break;
-//                                }
-//                                if (!oldseries[skey].name)
-//                                {
-//
-//                                    oldseries[skey].name = key;
-//                                    series = clone_obg(oldseries[skey]);
-//                                    break;
-//                                }
-//                            }
-
                             series.data = [];
-//                            if (!widget.manual)
-//                            {
                             series.type = widget.type;
                             var yAxis = 0;
                             if (series.yAxisIndex)
@@ -692,13 +652,6 @@ var queryCallback = function (inputdata) {
                             {
                                 delete series.xAxisIndex;
                             }
-//                            } else
-//                            {
-//                                if (!series.type)
-//                                {
-//                                    series.type = widget.type;
-//                                }
-//                            }
                             series.name = key;
 
 //                        console.log(key);
@@ -848,6 +801,7 @@ var queryCallback = function (inputdata) {
 
         if (count.value === 0)
         {
+
 //            if (!widget.manual)
 //            {
             switch (widget.type) {
@@ -1258,7 +1212,7 @@ var queryCallback = function (inputdata) {
                     ser.center = [col * a - a / 2 + left, row * b - b / 2 + top];
 //                    }
                 }
-                if (ser.type === "funnel")
+                if ((ser.type === "funnel") || (ser.type === "treemap"))
                 {
 //                    if (!widget.manual)
 //                    {
@@ -1322,9 +1276,17 @@ var queryCallback = function (inputdata) {
                         ser.height = b - 10;
                     }
 
+
                     if (!ser.width)
                     {
-                        ser.width = a / 1.5;
+                        if (ser.type === "treemap")
+                        {
+                            ser.width = a;
+                        } else
+                        {
+                            ser.width = a / 1.5;
+                        }
+
                         if (ser.label)
                         {
                             if (ser.label.normal)
@@ -1345,13 +1307,10 @@ var queryCallback = function (inputdata) {
 
                     ser.x = (col - 1) * a + left + 10;
                     ser.y = (row - 1) * b + top + 10;
-//                    }
-
                 }
-
                 col++;
-
             }
+            
             if (widget.manual)
             {
 
@@ -1424,13 +1383,6 @@ var queryCallback = function (inputdata) {
                     xAxisIndex = 0;
                 }
 
-//                if (widget.options.legend.data.filter(function (element) {
-//                    return element.name === widget.options.series[ind].name;
-//                }).length === 0)
-//                {
-//                    widget.options.legend.data.push({name: widget.options.series[ind].name});
-//                }
-
                 if (tmpLegendSer.indexOf(widget.options.series[ind].name) === -1)
                 {
                     tmpLegendSer.push(widget.options.series[ind].name);
@@ -1469,15 +1421,16 @@ var queryCallback = function (inputdata) {
                         }
                     } else if (widget.options.series[ind].type === "treemap")
                     {
-
+                        widget.options.series[ind].levels = getLevelOption(widget.options.series.length,widget.options.series[ind].data[0].children.length);                        
                         for (var sind in widget.options.series[ind].data)
-                        {
+                        {                            
                             if (widget.options.legend.data.indexOf(widget.options.series[ind].data[sind].name) === -1)
                             {
                                 widget.options.legend.data.push(widget.options.series[ind].data[sind].name);
                             }
 
                         }
+                        
                     }
 
                 }
@@ -1501,11 +1454,20 @@ var queryCallback = function (inputdata) {
                 {
                     widget.options.legend.data = tmpLegendSer;
                 }
-            }
+            }            
 //*************************************            
+//            console.log(widget.options.series);
+//            console.log(redraw);
             if (redraw)
             {
-                chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
+                var datalist = [];
+                for (var key in widget.options.series)
+                {
+                    var ss = widget.options.series[key];
+                    datalist.push({data: ss.data});
+                }
+                chart.setOption({series: datalist, xAxis: widget.options.xAxis});
+
             } else
             {
                 chart.setOption(widget.options, true);
@@ -1649,7 +1611,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 start = json.times.pickerstart;
                 end = json.times.pickerend;
             } else
-            {                
+            {
                 if (json.times.pickerlabel)
                 {
                     if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
