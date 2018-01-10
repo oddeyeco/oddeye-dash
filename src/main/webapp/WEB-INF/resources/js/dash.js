@@ -771,7 +771,7 @@ var queryCallback = function (inputdata) {
 
                                 if (typeof widget.options.yAxis[yAxis].splitNumber !== "undefined")
                                 {
-                                    series.splitNumber = widget.options.yAxis[0].splitNumber;
+                                    series.splitNumber = widget.options.yAxis[yAxis].splitNumber;
                                 } else
                                 {
                                     delete(series.splitNumber);

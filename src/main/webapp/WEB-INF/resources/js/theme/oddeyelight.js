@@ -577,8 +577,9 @@ var encodeHTML = function (source) {
                         }
 
                     }
-
-                    return '<span style="font-size:16px;color:#fff">' + params.seriesName + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
+                    key = params.seriesName.replace("\\n", ' ');
+                    key = key.replace("\\r", '');
+                    return '<span style="font-size:16px;color:#fff">' + key + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
                 }
             },
             axisLine: {
@@ -612,7 +613,7 @@ var encodeHTML = function (source) {
 }));
 
 
-function getLevelOption(serieslen,l2) {
+function getLevelOption(serieslen, l2) {
     return [
         {
             itemStyle: {
@@ -624,7 +625,7 @@ function getLevelOption(serieslen,l2) {
             },
             upperLabel: {
                 normal: {
-                    show: serieslen>1
+                    show: serieslen > 1
                 }
             }
         },
@@ -632,14 +633,14 @@ function getLevelOption(serieslen,l2) {
             colorSaturation: [0.35, 0.5],
             itemStyle: {
                 normal: {
-                    borderWidth: l2>1?5:0,
+                    borderWidth: l2 > 1 ? 5 : 0,
                     gapWidth: 1,
                     borderColorSaturation: 0.7
                 }
             },
             upperLabel: {
                 normal: {
-                    show: l2>1
+                    show: l2 > 1
                 }
             }
         },
