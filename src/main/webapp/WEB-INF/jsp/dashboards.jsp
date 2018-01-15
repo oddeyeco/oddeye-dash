@@ -150,7 +150,7 @@
                         <form action="${paypal_url}" method="post" >
                             <input type="hidden" name="cmd" value="_xclick">
                             <input type="hidden" name="business" value="${paypal_email}">
-                            <input id="paypalItemName" type="hidden" name="item_name" value="oddeyepoints">                            
+                            <input id="paypalItemName" type="hidden" name="item_name" value="Oddeye Points">                            
                             <input id="paypalAmmount" type="hidden" name="amount" value="">                            
                             <input type="hidden" name="custom" value="${curentuser.getId()}">
                             <input type="hidden" name="no_shipping" value="1">

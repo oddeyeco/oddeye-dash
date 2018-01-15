@@ -6,8 +6,34 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <script>
+    var pp=${paypal_percent};
+    var pf= ${paypal_fix};
     $(document).ready(function () {
 //        $("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+
+        var value = 10;
+        $("#oddeyeQuantity").val(value.toFixed(2));
+        value = value + value * pp / 100 + pf;
+        $("#oddeyeAmmount").val(value.toFixed(2));
+        $("#paypalAmmount").val($("#oddeyeAmmount").val());
+        $("#paypalItemName").val($("#oddeyeQuantity").val()+" Oddeye Points");
+        
+
+        $('body').on("blur", "#oddeyeQuantity", function () {
+            var value = Number($(this).val());
+            value = value + value * pp / 100 + pf;
+            $("#oddeyeAmmount").val(value.toFixed(2));
+            $("#paypalAmmount").val($("#oddeyeAmmount").val());
+            $("#paypalItemName").val($("#oddeyeQuantity").val()+" Oddeye Points");
+        });
+
+        $('body').on("blur", "#oddeyeAmmount", function () {
+            var value = Number($(this).val());
+            value = (value - 0.3) / (1 + 2 / 100);
+            $("#oddeyeQuantity").val(value.toFixed(2));
+            $("#paypalAmmount").val($("#oddeyeAmmount").val());
+            $("#paypalItemName").val($("#oddeyeQuantity").val()+" Oddeye Points");
+        });
 
         url = cp + "/getmetastat";
         var header = $("meta[name='_csrf_header']").attr("content");
@@ -24,7 +50,7 @@
                 {
                     $('#metrics').html(data.names);
                     $('#tags').html(data.tagscount);
-                    $('#count').html(data.count);                    
+                    $('#count').html(data.count);
                     jQuery.each(data.tags, function (i, val) {
                         $("#tagslist").append('<div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">' +
                                 '<span class="count_top"><i class="fa fa-th-list"></i> Tag "' + i + '" count </span>' +

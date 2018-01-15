@@ -74,6 +74,11 @@ public class DashController {
     private String paypal_returnurl;
     @Value("${paypal.notifyurl}")
     private String paypal_notifyurl;
+    
+    @Value("${paypal.percent}")
+    private String paypal_percent;
+    @Value("${paypal.fix}")
+    private String paypal_fix;    
 
     @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
     public String test(ModelMap map) {
@@ -161,6 +166,9 @@ public class DashController {
             map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails, 50));
             map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails, 50));
 
+            map.put("paypal_percent", paypal_percent);
+            map.put("paypal_fix", paypal_fix);               
+            
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     map.put("activeuser", userDetails.getSwitchUser());

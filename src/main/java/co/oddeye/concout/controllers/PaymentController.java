@@ -10,14 +10,9 @@ import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import co.oddeye.core.globalFunctions;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.slf4j.LoggerFactory;
@@ -43,15 +38,19 @@ public class PaymentController {
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Value("${paypal.url}")
     private String paypal_url;
-    
+
     @Value("${barlus.url}")
     private String barlus_url;
     @Value("${barlus.uuids}")
-    private String barlus_uuids;    
-    
+    private String barlus_uuids;
+
+    @Value("${paypal.percent}")
+    private String paypal_percent;
+    @Value("${paypal.fix}")
+    private String paypal_fix;
+
     @Autowired
     private HbaseUserDao Userdao;
-    
 
     @RequestMapping(value = "/paypal/ipn/", method = RequestMethod.POST)
     public String paypalipn(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
@@ -63,18 +62,21 @@ public class PaymentController {
         for (Map.Entry<String, String[]> dd : postdata.entrySet()) {
             req = req + "&" + dd.getKey() + "=" + dd.getValue()[0];
         }
-        boolean isvalid = false;        
+        boolean isvalid = false;
         JsonObject jsonResult = new JsonObject();
         try {
             String data = OddeyeHttpURLConnection.getPost(paypal_url, req);
             isvalid = data.equals("VERIFIED");
             if (isvalid) {
-                OddeyeUserModel user = Userdao.getUserByUUID(UUID.fromString(postdata.get("custom")[0]) ,true);   
-                OddeyePayModel pay = new OddeyePayModel(postdata,user);
-                Userdao.addPayment(user, pay);
-                user.setBalance(user.getBalance()+pay.getPoints());
-                Userdao.saveField(user, "balance");
-                
+                OddeyeUserModel user = Userdao.getUserByUUID(UUID.fromString(postdata.get("custom")[0]), true);
+                OddeyePayModel pay = new OddeyePayModel(postdata, user, paypal_percent, paypal_fix);
+                if (Userdao.isPaymentNew(user, pay)) {
+                    Userdao.addPayment(user, pay);
+                    user.setBalance(user.getBalance() + pay.getPoints());
+                    Userdao.saveField(user, "balance");
+
+                }
+
                 //TODO Write paymants to DB
                 jsonResult.add("data", pay.getJson());
             }

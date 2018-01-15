@@ -646,6 +646,18 @@ public class HbaseUserDao extends HbaseBaseDao {
         return result;
     }
 
+    public boolean isPaymentNew(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
+        byte[] family = "c".getBytes();
+        byte[][] qualifiers = new byte[10][];
+        byte[][] values = new byte[10][];
+        byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), payment.getIpn_track_id().getBytes());      
+
+        
+        final GetRequest request = new GetRequest(paymentstable, end_key);
+        ArrayList<KeyValue> paymentt = BaseTsdb.getClient().get(request).join();
+        return paymentt.size()==0;
+    }    
+    
     public void addPayment(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
         byte[] family = "c".getBytes();
         byte[][] qualifiers = new byte[10][];
@@ -693,6 +705,6 @@ public class HbaseUserDao extends HbaseBaseDao {
 
         
         final PutRequest request = new PutRequest(paymentstable, end_key, family, qualifiers, values);
-        BaseTsdb.getClient().put(request);
+        BaseTsdb.getClient().put(request).join();
     }
 }

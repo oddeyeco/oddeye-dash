@@ -57,7 +57,7 @@ public class OddeyePayModel {
     private  OddeyeUserModel user;
     private JsonElement json;
 
-    public OddeyePayModel(Map<String, String[]> postdata,OddeyeUserModel _user) {
+    public OddeyePayModel(Map<String, String[]> postdata, OddeyeUserModel _user, String paypal_percent, String paypal_fix) {
         try {
             Gson gson = new Gson();
             json = gson.toJsonTree(postdata);    
@@ -76,7 +76,10 @@ public class OddeyePayModel {
             protection_eligibility= postdata.get("protection_eligibility")[0];
             verify_sign= postdata.get("verify_sign")[0];
             payer_status= postdata.get("payer_status")[0];
-            test_ipn= postdata.get("test_ipn")[0];
+            if (postdata.get("test_ipn")!=null)
+            {
+                test_ipn= postdata.get("test_ipn")[0];
+            }            
             payer_email= postdata.get("payer_email")[0];
             txn_id= postdata.get("txn_id")[0];
             quantity= Double.parseDouble( postdata.get("quantity")[0]);
@@ -95,11 +98,12 @@ public class OddeyePayModel {
             notify_version= postdata.get("notify_version")[0];
             ipn_track_id= postdata.get("ipn_track_id")[0];
             
-            points=  (mc_gross - 0.3)/(1+2.0/100);
+            points=  (mc_gross - Double.parseDouble(paypal_fix))/(1+ Double.parseDouble(paypal_percent)/100);
         } catch (ParseException ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
     }
+
 
     /**
      * @return the transaction_subject
