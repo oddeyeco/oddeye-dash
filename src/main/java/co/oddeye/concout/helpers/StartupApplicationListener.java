@@ -27,8 +27,6 @@ public class StartupApplicationListener implements
 
     public static int counter;
     @Autowired
-    private HbaseUserDao Userdao;
-    @Autowired
     private HbaseMetaDao Metadao;
 
     @Override

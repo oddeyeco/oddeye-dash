@@ -30,7 +30,7 @@ var colorPalette = [
 ];
 
 var abcformater = function (params) {
-    
+
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -74,12 +74,12 @@ var abcformater = function (params) {
         {
             formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
         } else
-        {            
-            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'),Number.isInteger(value) ? value: value.toFixed(2)));
+        {
+            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2)));
 
         }
     }
-    
+
     return formatter;
 };
 
@@ -138,7 +138,7 @@ var encodeHTML = function (source) {
                 saveAsImage: {
                     show: true,
                     title: "Save Image"
-                },                
+                },
                 magicType: {
                     show: true,
                     title: {
@@ -162,6 +162,7 @@ var encodeHTML = function (source) {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
                 var out = "";
+
                 if (params.constructor === Array)
                 {
                     out = params[0].name;
@@ -184,13 +185,13 @@ var encodeHTML = function (source) {
                         {
                             value = param.value;
                         }
-                        
-                        
+
+
                         if (param.data.isinverse === true)
                         {
                             value = value * -1;
                         }
-                        
+
                         if (param.data.unit)
                         {
                             if (typeof (window[param.data.unit]) === "function")
@@ -200,7 +201,7 @@ var encodeHTML = function (source) {
                             {
                                 if (typeof (value) !== "string")
                                 {
-                                    value = Number.isInteger(value) ? value: value.toFixed(2);
+                                    value = Number.isInteger(value) ? value : value.toFixed(2);
                                 }
                                 if (param.data.unit.search("{value}") !== -1)
                                 {
@@ -208,8 +209,7 @@ var encodeHTML = function (source) {
                                 }
 
                             }
-                        } 
-                        else
+                        } else
                         {
                             if (typeof (value) !== "string")
                             {
@@ -217,11 +217,11 @@ var encodeHTML = function (source) {
 //                                {
 //                                    value = value * -1;
 //                                }
-                                value = Number.isInteger(value) ? value: value.toFixed(2);
+                                value = Number.isInteger(value) ? value : value.toFixed(2);
                             }
 
                         }
-                        
+
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value;
                     }
                 } else
@@ -293,14 +293,14 @@ var encodeHTML = function (source) {
                                     {
                                         if (typeof (value) !== "string")
                                         {
-                                            value = Number.isInteger(value) ? value: value.toFixed(2);
+                                            value = Number.isInteger(value) ? value : value.toFixed(2);
                                         }
                                     }
                                 } else
                                 {
                                     if (typeof (value) !== "string")
                                     {
-                                        value = Number.isInteger(value) ? value: value.toFixed(2);
+                                        value = Number.isInteger(value) ? value : value.toFixed(2);
                                     }
 //                                    value = format_metric(value);
                                 }
@@ -320,7 +320,7 @@ var encodeHTML = function (source) {
                                 {
                                     if (typeof (value) !== "string")
                                     {
-                                        value = Number.isInteger(value) ? value: value.toFixed(2);
+                                        value = Number.isInteger(value) ? value : value.toFixed(2);
                                     }
                                     if (params.data.unit.search("{value}") !== -1)
                                     {
@@ -376,7 +376,8 @@ var encodeHTML = function (source) {
         dataZoom: {
             dataBackgroundColor: '#efefff',
             fillerColor: 'rgba(182,162,222,0.2)',
-            handleColor: '#008acd'
+            handleColor: '#008acd',
+            zoomOnMouseWheel: "alt"
         },
 
         grid: {
@@ -576,8 +577,9 @@ var encodeHTML = function (source) {
                         }
 
                     }
-
-                    return '<span style="font-size:16px;color:#fff">' + params.seriesName + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
+                    key = params.seriesName.replace("\\n", ' ');
+                    key = key.replace("\\r", '');
+                    return '<span style="font-size:16px;color:#fff">' + key + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
                 }
             },
             axisLine: {
@@ -609,3 +611,48 @@ var encodeHTML = function (source) {
 
     echarts.registerTheme('oddeyelight', theme);
 }));
+
+
+function getLevelOption(serieslen, l2) {
+    return [
+        {
+            itemStyle: {
+                normal: {
+                    borderColor: '#777',
+                    borderWidth: 1,
+                    gapWidth: 1
+                }
+            },
+            upperLabel: {
+                normal: {
+                    show: serieslen > 1
+                }
+            }
+        },
+        {
+            colorSaturation: [0.35, 0.5],
+            itemStyle: {
+                normal: {
+                    borderWidth: l2 > 1 ? 5 : 0,
+                    gapWidth: 1,
+                    borderColorSaturation: 0.7
+                }
+            },
+            upperLabel: {
+                normal: {
+                    show: l2 > 1
+                }
+            }
+        },
+        {
+            colorSaturation: [0.3, 0.5],
+            itemStyle: {
+                normal: {
+                    borderWidth: 1,
+                    gapWidth: 2,
+                    borderColorSaturation: 0.65
+                }
+            }
+        }
+    ];
+}

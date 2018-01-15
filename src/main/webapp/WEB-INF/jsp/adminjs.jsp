@@ -9,10 +9,15 @@
 
 <script>
     $('#datatable-responsive').DataTable({
-          "pageLength": 25
-        });
-        
-        $(".select2_multiple").select2({
-          allowClear: true
+        "pageLength": 25
+    });
+
+    $(".select2_multiple").select2({
+        allowClear: true,
+        columns: [
+            {"type": "string"},
+            {"type": "string"},
+            {"type": "numeric"}
+        ]          
         });                        
 </script>    

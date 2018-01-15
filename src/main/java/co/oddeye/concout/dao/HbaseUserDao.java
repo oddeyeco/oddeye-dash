@@ -138,6 +138,12 @@ public class HbaseUserDao extends HbaseBaseDao {
             final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
             BaseTsdb.getClient().put(putAuthorities);
         }
+        if (user.getBalance() != null) {
+            byte[] bytes = new byte[8];
+            ByteBuffer.wrap(bytes).putDouble(user.getBalance());
+            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "balance".getBytes(), bytes);
+            BaseTsdb.getClient().put(putAuthorities);
+        }
         BaseTsdb.getClient().put(putUUID);
         BaseTsdb.getClient().put(putname);
         BaseTsdb.getClient().put(putemail);
