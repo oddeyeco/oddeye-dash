@@ -77,6 +77,13 @@ public class AjaxControlers {
     @Value("${storm.url}")
     private String stormurl;
 
+    @Value("${payment.messageprice}")
+    private String messageprice;
+    @Value("${paypal.percent}")
+    private String paypal_percent;
+    @Value("${paypal.fix}")
+    private String paypal_fix;
+
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) Integer hash,
@@ -748,45 +755,59 @@ public class AjaxControlers {
             jsonResult.addProperty("metriccount", MetaDao.getFullmetalist().size());
             jsonResult.addProperty("uniqtagscount", MetaDao.getFullmetalist().getTaghashlist().size());
             jsonResult.addProperty("sucsses", true);
-            String uri = stormurl+"topology/summary";
+            String uri = stormurl + "topology/summary";
             JsonElement summary = OddeyeHttpURLConnection.getGetJSON(uri);
-            for (JsonElement tps:summary.getAsJsonObject().get("topologies").getAsJsonArray())
-            {
-                
-                if (tps.getAsJsonObject().get("name").getAsString().equals("OddeyeTimeSeriesTopology"))
-                {
+            for (JsonElement tps : summary.getAsJsonObject().get("topologies").getAsJsonArray()) {
+
+                if (tps.getAsJsonObject().get("name").getAsString().equals("OddeyeTimeSeriesTopology")) {
                     long uptimeSeconds = tps.getAsJsonObject().get("uptimeSeconds").getAsLong();
                     String tid = tps.getAsJsonObject().get("id").getAsString();
-                    
-                    uri = stormurl+"topology/"+tid+"/component/CompareBolt";
+
+                    uri = stormurl + "topology/" + tid + "/component/CompareBolt";
                     JsonElement KafkaSpoutSum = OddeyeHttpURLConnection.getGetJSON(uri);
-                    for (JsonElement ksst:KafkaSpoutSum.getAsJsonObject().get("outputStats").getAsJsonArray())
-                    {
-                        if (ksst.getAsJsonObject().get("stream").getAsString().equals("default"))
-                        {                            
-                            double ps = ksst.getAsJsonObject().get("emitted").getAsDouble()*30/uptimeSeconds;
-                            jsonResult.addProperty("Messagepersec",ps );
+                    for (JsonElement ksst : KafkaSpoutSum.getAsJsonObject().get("outputStats").getAsJsonArray()) {
+                        if (ksst.getAsJsonObject().get("stream").getAsString().equals("default")) {
+                            double ps = ksst.getAsJsonObject().get("emitted").getAsDouble() * 30 / uptimeSeconds;
+                            jsonResult.addProperty("Messagepersec", ps);
                         }
                     }
-                    
-                    uri = stormurl+"topology/"+tid+"/component/SendNotifierBolt";
+
+                    uri = stormurl + "topology/" + tid + "/component/SendNotifierBolt";
                     JsonElement ErrorboltSum = OddeyeHttpURLConnection.getGetJSON(uri);
-                    for (JsonElement ksst:ErrorboltSum.getAsJsonObject().get("inputStats").getAsJsonArray())
-                    {
-                        if (ksst.getAsJsonObject().get("stream").getAsString().equals("default"))
-                        {
-                            if (ksst.getAsJsonObject().get("component").getAsString().equals("CompareBolt"))
-                            {
-                                jsonResult.addProperty("Alertpersec", ksst.getAsJsonObject().get("executed").getAsDouble()/6/uptimeSeconds);
+                    for (JsonElement ksst : ErrorboltSum.getAsJsonObject().get("inputStats").getAsJsonArray()) {
+                        if (ksst.getAsJsonObject().get("stream").getAsString().equals("default")) {
+                            if (ksst.getAsJsonObject().get("component").getAsString().equals("CompareBolt")) {
+                                jsonResult.addProperty("Alertpersec", ksst.getAsJsonObject().get("executed").getAsDouble() / 6 / uptimeSeconds);
                             }
 
-                            
-
                         }
-                    }                    
-                    
+                    }
+
                 }
             }
+        } catch (Exception ex) {
+            jsonResult.addProperty("sucsses", false);
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
+    @RequestMapping(value = {"/getpayinfo"})
+    public String getpayinfo(ModelMap map) {
+        JsonObject jsonResult = new JsonObject();
+        try {
+//            valod 
+//    private String messageprice;
+//    @Value("${paypal.persent}")
+//    private String paypal_percent;
+//    @Value("${paypal.fix}")
+//    private String paypal_fix;
+            jsonResult.addProperty("mp", Double.parseDouble(messageprice) );
+            jsonResult.addProperty("pp", Double.parseDouble(paypal_percent));
+            jsonResult.addProperty("pf", Double.parseDouble(paypal_fix));
         } catch (Exception ex) {
             jsonResult.addProperty("sucsses", false);
             LOGGER.error(globalFunctions.stackTrace(ex));
