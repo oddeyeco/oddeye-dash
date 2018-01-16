@@ -62,6 +62,9 @@ public class HbaseUserDao extends HbaseBaseDao {
     @Autowired
     HbaseMetaDao MetaDao;
 
+    @Autowired
+    HbasePaymentDao PaymentDao;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseUserDao.class);
 
     byte[] dashtable;
@@ -650,61 +653,14 @@ public class HbaseUserDao extends HbaseBaseDao {
         byte[] family = "c".getBytes();
         byte[][] qualifiers = new byte[10][];
         byte[][] values = new byte[10][];
-        byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), payment.getIpn_track_id().getBytes());      
+        byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), payment.getIpn_track_id().getBytes());
 
-        
         final GetRequest request = new GetRequest(paymentstable, end_key);
         ArrayList<KeyValue> paymentt = BaseTsdb.getClient().get(request).join();
-        return paymentt.size()==0;
-    }    
-    
+        return paymentt.size() == 0;
+    }
+
     public void addPayment(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
-        byte[] family = "c".getBytes();
-        byte[][] qualifiers = new byte[10][];
-        byte[][] values = new byte[10][];
-        byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), payment.getIpn_track_id().getBytes());
-        qualifiers[0] = "Ipn_track_id".getBytes();
-        values[0] = payment.getIpn_track_id().getBytes();
-
-        qualifiers[1] = "First_name".getBytes();
-        values[1] = payment.getFirst_name().getBytes();
-        qualifiers[2] = "Mc_currency".getBytes();
-        values[2] = payment.getMc_currency().getBytes();
-
-        qualifiers[3] = "Mc_gross".getBytes();
-        byte[] bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble((Double) payment.getMc_gross());
-        values[3] = bytes;
-
-        qualifiers[4] = "Mc_fee".getBytes();
-        bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble((Double) payment.getMc_fee());
-        values[4] = bytes;
-
-        qualifiers[5] = "Payment_gross".getBytes();
-        bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble((Double) payment.getPayment_gross());
-        values[5] = bytes;
-
-        qualifiers[6] = "Payment_fee".getBytes();
-        bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble((Double) payment.getPayment_fee());
-        values[6] = bytes;        
-        
-
-        qualifiers[7] = "Points".getBytes();
-        bytes = new byte[8];
-        ByteBuffer.wrap(bytes).putDouble((Double) payment.getPoints());
-        values[7] = bytes;        
-        
-        qualifiers[8] = "Payer_email".getBytes();
-        values[8] = payment.getPayer_email().getBytes(); 
-        
-        qualifiers[9] = "fulljson".getBytes();
-        values[9] = payment.getJson().toString().getBytes();        
-
-        
-        final PutRequest request = new PutRequest(paymentstable, end_key, family, qualifiers, values);
-        BaseTsdb.getClient().put(request).join();
+        PaymentDao.addPayment(user, payment);
     }
 }

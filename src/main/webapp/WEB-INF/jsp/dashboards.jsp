@@ -75,14 +75,14 @@
     </div>    
 
     <div class="col-md-4">
-        <div class="x_panel">          
+        <div class="x_panel balace_part">          
             <div class="x_title">
                 <h2>Balance</h2>                               
                 <div class="clearfix"></div>
             </div>
             <div class="row tile_count">
                 <div class="col-sm-6 col-xs-12 tile_stats_count">
-                    <span class="count_top"> Available Points</span>
+                    <h4 class="count_top">Available Units</h4>
                     <div class="count">
                         <c:set var="balance" value="${curentuser.getBalance()}" />
                         <c:if test="${balance<Double.MAX_VALUE}">
@@ -96,40 +96,65 @@
                         </c:if>                             
                     </div>
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
-                    <span class="count_bottom">
-                        Using
-                        <i class="green">
-                            <c:if test="${Consumption!=null}">
-                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
-                            </c:if>
-                            <c:if test="${Consumption==null}">
-                                0                            
-                            </c:if>                            
-                        </i> Today
-                    </span> 
-                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
-                    <span class="count_bottom">                        
-                        <i class="green">
+                    <!--                    <span class="count_bottom">
+                                            Consumed
+                                            <i class="green">
+                    <c:if test="${Consumption!=null}">
+                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                    </c:if>
+                    <c:if test="${Consumption==null}">
+                        0                            
+                    </c:if>                            
+                </i> Today                        
+            </span>                          -->
+                </div>
+                <div class="col-sm-6 col-xs-12 tile_stats_count">
+                    <h4 class="count_top">Units burn rate</h4>
+                    <!--                    <div class="count">
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
+                    <c:if test="${Consumption!=null}">
+                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                    </c:if>
+                    <c:if test="${Consumption==null}">
+                        0                            
+                    </c:if> 
+                </div>-->
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />                    
+                    <div class="count_bottom">                        
+                        Today 
+                        <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
                             </c:if>
                             <c:if test="${Consumption==null}">
                                 0                            
                             </c:if> 
-                        </i> Yesterday
-                    </span>                         
-                </div>
-                <div class="col-sm-6 col-xs-12 tile_stats_count">
-                    <span class="count_top"> Using this month</span>
-                    <div class="count">
-                        <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
-                        <c:if test="${Consumption!=null}">
-                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
-                        </c:if>
-                        <c:if test="${Consumption==null}">
-                            0                            
-                        </c:if> 
-                    </div>                         
+                        </div> 
+                    </div>                                 
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
+                    <div class="count_bottom">                        
+                        Yesterday 
+                        <div class="green">
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if> 
+                        </div>
+                    </div>                          
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
+                    <div class="count_bottom">                        
+                        This month
+                        <div class="green">
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if> 
+                        </div>
+                    </div>                    
                 </div>  
                 <div class="clearfix"></div>
                 <!--<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -139,18 +164,19 @@
                 <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>-->
 
-                <div class="">
-                    <h3>Get more points </h3>
+
+                <div class="col-xs-12 moreunits">
+                    <h4>Get more "OddEye units"</h4>
                     <div class="clearfix"></div>
                     <div class="pull-left col-sm-6 col-xs-12 od">                                                
-                        <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1"> USD<br>
-                        <label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1"> Points
+                        <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="0.001"> USD<br>
+                        <label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1" step="0.001"> Units
                     </div>
                     <div class="pull-right col-sm-6 col-xs-12 pp">
                         <form action="${paypal_url}" method="post" >
                             <input type="hidden" name="cmd" value="_xclick">
                             <input type="hidden" name="business" value="${paypal_email}">
-                            <input id="paypalItemName" type="hidden" name="item_name" value="Oddeye Points">                            
+                            <input id="paypalItemName" type="hidden" name="item_name" value="Oddeye Points ${curentuser.getEmail()}" text="OddEye units ${curentuser.getEmail()}">                            
                             <input id="paypalAmmount" type="hidden" name="amount" value="">                            
                             <input type="hidden" name="custom" value="${curentuser.getId()}">
                             <input type="hidden" name="no_shipping" value="1">
@@ -163,6 +189,7 @@
                         </form>        
                     </div>
                 </div>
+
 
 
             </div>                       
@@ -180,7 +207,7 @@
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span> 
                                         <i class="fa fa-info-circle" data-toggle="tooltip" data-html="true" data-placement="left" title="" data-delay='{"hide":"1000"}' data-original-title="${fn:escapeXml(Dush.getDescription())} <div> Metrics-${Dush.getUsednames().size()}<br>Tag Filters-${Dush.getUsedtags().size()}</div>"></i>
-                                        
+
                                         ${Dush.getName()}</span>
                                     <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/></span>                                    
                                 </a> 

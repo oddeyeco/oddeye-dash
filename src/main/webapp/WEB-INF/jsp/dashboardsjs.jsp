@@ -11,12 +11,12 @@
     $(document).ready(function () {
 //        $("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
 
-        var value = 10;
+        var value = 25;
         $("#oddeyeQuantity").val(value.toFixed(2));
         value = value + value * pp / 100 + pf;
         $("#oddeyeAmmount").val(value.toFixed(2));
         $("#paypalAmmount").val($("#oddeyeAmmount").val());
-        $("#paypalItemName").val($("#oddeyeQuantity").val()+" Oddeye Points");
+        $("#paypalItemName").val($("#oddeyeQuantity").val()+" "+$("#paypalItemName").attr("text"));
         
 
         $('body').on("blur", "#oddeyeQuantity", function () {
@@ -24,7 +24,7 @@
             value = value + value * pp / 100 + pf;
             $("#oddeyeAmmount").val(value.toFixed(2));
             $("#paypalAmmount").val($("#oddeyeAmmount").val());
-            $("#paypalItemName").val($("#oddeyeQuantity").val()+" Oddeye Points");
+            $("#paypalItemName").val($("#oddeyeQuantity").val()+" "+$("#paypalItemName").attr("text"));
         });
 
         $('body').on("blur", "#oddeyeAmmount", function () {
@@ -32,7 +32,7 @@
             value = (value - 0.3) / (1 + 2 / 100);
             $("#oddeyeQuantity").val(value.toFixed(2));
             $("#paypalAmmount").val($("#oddeyeAmmount").val());
-            $("#paypalItemName").val($("#oddeyeQuantity").val()+" Oddeye Points");
+            $("#paypalItemName").val($("#oddeyeQuantity").val()+" "+$("#paypalItemName").attr("text"));
         });
 
         url = cp + "/getmetastat";

@@ -118,6 +118,7 @@
                                                 <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
                                                         <li><a href="<c:url value="/userslist"/>" >Users</a></li>
+                                                        <li><a href="<c:url value="/paymentslist"/>" >Payments</a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('CONTENTMANAGER')">
                                                         <li><a href="<c:url value="/pages"/>" >Content</a></li>
