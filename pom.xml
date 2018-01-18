@@ -327,6 +327,7 @@
                                 <jsSourceFile>chartsfuncs.js</jsSourceFile>                                                                
                                 <jsSourceFile>monitoring.js</jsSourceFile>                                                                
                                 <jsSourceFile>stomp.js</jsSourceFile>                                                                
+                                <jsSourceFile>metricinfo.js</jsSourceFile>  
                             </jsSourceFiles>
                         </configuration>                        
                         <goals>

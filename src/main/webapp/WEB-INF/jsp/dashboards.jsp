@@ -50,25 +50,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="row tile_count">
-
-                    <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-list"></i> Metric Names</span>
-                        <div class="count spincrement" id="metrics"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
-                    </div>                                                
-                    <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-folder"></i> Total Tags</span>
-                        <div class="count spincrement" id="tags"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
-                        <!--<span class="count_bottom"><i class="green">4% </i> From last Week</span>-->
-                    </div>         
-                    <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-folder"></i> Total Metrics</span>
-                        <div class="count spincrement" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
-                        <span class="count_bottom">&nbsp;</span>
-                    </div>                         
-                </div>
-                <div class="row tile_count" id="tagslist">                                        
-                </div>
+                <c:import url="metricinfo.jsp" />
             </div>                
         </div>                 
 
@@ -120,8 +102,8 @@
                     </c:if> 
                 </div>-->
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />                    
-                    <div class="count_bottom">                        
-                        Today 
+                    <div class="count_bottom clearfix">                        
+                        <span class="pull-left">Today </span>
                         <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -132,8 +114,8 @@
                         </div> 
                     </div>                                 
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
-                    <div class="count_bottom">                        
-                        Yesterday 
+                    <div class="count_bottom clearfix">                        
+                        <span class="pull-left">Yesterday </span>
                         <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -144,8 +126,8 @@
                         </div>
                     </div>                          
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
-                    <div class="count_bottom">                        
-                        This month
+                    <div class="count_bottom clearfix">                        
+                        <span class="pull-left">This month</span>
                         <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
