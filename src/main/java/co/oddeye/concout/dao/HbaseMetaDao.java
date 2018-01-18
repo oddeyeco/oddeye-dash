@@ -20,7 +20,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 import java.util.Map;
 import java.util.UUID;
@@ -99,6 +98,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                         if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                             OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
                             Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
+                            fullmetalist.add(metric);
                         }
 
                     }

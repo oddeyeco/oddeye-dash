@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -67,13 +68,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/calculator/**","/resources/**", "/assets/**", "/signup/", "/", 
                         "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", 
                         "/faq/**", "/contact/**","/login/**", "/gugush.txt").permitAll()
-//                .antMatchers("/getfiltredmetrics*").permitAll()
+                .antMatchers("/getstat*","/getpayinfo*").permitAll()
 //                .antMatchers("/getdata*").permitAll()
 //                .antMatchers("/gettagkey*").permitAll()
 //                .antMatchers("/gettagvalue*").permitAll()
                 .antMatchers("/test").permitAll()
+                .antMatchers(HttpMethod.POST,"/paypal/ipn/**").permitAll()
+                
                 .antMatchers("/subscribe/**").permitAll()
-                .antMatchers("/userslist*").hasAnyAuthority("ROLE_USERMANAGER")
+                .antMatchers("/userslist*","/paymentslist/**").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/user/**").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/user/switch/**").hasAnyAuthority("ROLE_CAN_SWICH")
                 .antMatchers("/templatelist*").hasAnyAuthority("ROLE_USERMANAGER")
@@ -85,7 +88,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(new RefererRedirectionAuthenticationSuccessHandler())
                 .loginPage("/login/").permitAll()
                 .and().rememberMe().userDetailsService(userService).tokenValiditySeconds(1209600)
-                .and().csrf();
+                .and().csrf().ignoringAntMatchers("/paypal/ipn/**");
 //                .and().addFilterBefore(new StickySesionCookieFilter(cookiename,cookievalue),UsernamePasswordAuthenticationFilter.class);
 
     }

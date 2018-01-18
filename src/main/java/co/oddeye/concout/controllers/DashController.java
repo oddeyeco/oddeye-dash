@@ -21,6 +21,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,6 +66,19 @@ public class DashController {
 
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
+    @Value("${paypal.url}")
+    private String paypal_url;
+    @Value("${paypal.email}")
+    private String paypal_email;
+    @Value("${paypal.returnurl}")
+    private String paypal_returnurl;
+    @Value("${paypal.notifyurl}")
+    private String paypal_notifyurl;
+    
+    @Value("${paypal.percent}")
+    private String paypal_percent;
+    @Value("${paypal.fix}")
+    private String paypal_fix;    
 
     @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
     public String test(ModelMap map) {
@@ -140,42 +154,8 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
 
-//            byte[] yourBytes = null;
-//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//            ObjectOutput out = null;
-//            try {
-//                out = new ObjectOutputStream(bos);
-//                out.writeObject(userDetails);
-//                out.flush();
-//                yourBytes = bos.toByteArray();
-//            } catch (IOException ex) {
-//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
-//            } finally {
-//                try {
-//                    bos.close();
-//                } catch (IOException ex) {
-//                    // ignore close exception
-//                }
-//            }
-//            Object o;
-//            ByteArrayInputStream bis = new ByteArrayInputStream(yourBytes);
-//            ObjectInput in = null;
-//            try {
-//                in = new ObjectInputStream(bis);
-//                o = in.readObject();
-//            } catch (IOException ex) {
-//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
-//            } catch (ClassNotFoundException ex) {
-//                java.util.logging.Logger.getLogger(DashController.class.getName()).log(Level.SEVERE, null, ex);
-//            } finally {
-//                try {
-//                    if (in != null) {
-//                        in.close();
-//                    }
-//                } catch (IOException ex) {
-//                    // ignore close exception
-//                }
-//            }
+            userDetails.updateConsumption();
+            String[] locales = Locale.getISOCountries();
             map.put("curentuser", userDetails);
 
             map.put("activeuser", userDetails);
@@ -186,6 +166,9 @@ public class DashController {
             map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails, 50));
             map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails, 50));
 
+            map.put("paypal_percent", paypal_percent);
+            map.put("paypal_fix", paypal_fix);               
+            
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     map.put("activeuser", userDetails.getSwitchUser());
@@ -196,7 +179,10 @@ public class DashController {
                 }
             }
         }
-
+        map.put("paypal_url", paypal_url);
+        map.put("paypal_email", paypal_email);
+        map.put("paypal_returnurl", paypal_returnurl);
+        map.put("paypal_notifyurl", paypal_notifyurl);
         map.put("body", "dashboards");
         map.put("jspart", "dashboardsjs");
         return "index";
@@ -319,7 +305,7 @@ public class DashController {
                     userDetails = userDetails.getSwitchUser();
                 }
             }
-            String DushName = request.getParameter("name").trim().replaceAll(" +", " ");            
+            String DushName = request.getParameter("name").trim().replaceAll(" +", " ");
             String DushInfo = request.getParameter("info").trim();
             String oldname = request.getParameter("oldname");
             String unloadRef = request.getParameter("unloadRef");
@@ -336,34 +322,33 @@ public class DashController {
                     ia = InetAddress.getLocalHost();
                     node = ia.getHostName();
 
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                    Jsonchangedata.addProperty("action", "editdash");
+                    Jsonchangedata.addProperty("node", node);
+                    Jsonchangedata.addProperty("name", DushName);
+                    Jsonchangedata.addProperty("oldname", oldname);
+                    Jsonchangedata.addProperty("unloadRef", unloadRef);
 
-                JsonObject Jsonchangedata = new JsonObject();
-                Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
-                Jsonchangedata.addProperty("action", "editdash");
-                Jsonchangedata.addProperty("node", node);
-                Jsonchangedata.addProperty("name", DushName);
-                Jsonchangedata.addProperty("oldname", oldname);
-                Jsonchangedata.addProperty("unloadRef", unloadRef);
+                    // Send chenges to kafka
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            LOGGER.info("kafka semaphore editdash send messge onSuccess");
+                        }
 
-                // Send chenges to kafka
-                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                    @Override
-                    public void onSuccess(SendResult<Integer, String> result) {
-                        LOGGER.info("kafka semaphore editdash send messge onSuccess");
-                    }
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
+                        }
+                    });
 
-                    @Override
-                    public void onFailure(Throwable ex) {
-                        LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
-                    }
-                });
-
-                jsonResult.addProperty("sucsses", true);
+                    jsonResult.addProperty("sucsses", true);
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
                     jsonResult.addProperty("sucsses", false);
-                }                
+                }
             } else {
                 jsonResult.addProperty("sucsses", false);
             }
@@ -423,7 +408,7 @@ public class DashController {
             if (DushName != null) {
                 try {
                     userDetails.removeDush(DushName, Userdao);
-                    
+
                     String node = "";
                     InetAddress ia;
                     try {
@@ -432,7 +417,7 @@ public class DashController {
                     } catch (UnknownHostException ex) {
                         LOGGER.error(globalFunctions.stackTrace(ex));
                     }
-                    
+
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
                     Jsonchangedata.addProperty("action", "deletedash");
@@ -445,13 +430,13 @@ public class DashController {
                         public void onSuccess(SendResult<Integer, String> result) {
                             LOGGER.info("kafka semaphore editdash send messge onSuccess");
                         }
-                        
+
                         @Override
                         public void onFailure(Throwable ex) {
                             LOGGER.error("kafka semaphore editdash send messge onFailure " + ex.getMessage());
                         }
                     });
-                    
+
                     jsonResult.addProperty("sucsses", true);
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));

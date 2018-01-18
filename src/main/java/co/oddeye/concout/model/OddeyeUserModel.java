@@ -37,7 +37,6 @@ import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.UUID;
-import java.util.logging.Logger;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
@@ -341,11 +340,6 @@ public class OddeyeUserModel {
             if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT))) {
                 authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
             }
-//            authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_CONTENTMANAGER));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
-//            authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
         }
     }
 

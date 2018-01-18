@@ -11,15 +11,15 @@ $(document).ready(function () {
         {
             $(this).parents(".form-group").find(".tagfilter").hide();
             $(this).text("Edit tag filer");
-            $(this).removeClass("hider");            
+            $(this).removeClass("hider");
         } else
         {
             $(this).parents(".form-group").find(".tagfilter").show();
             $(this).text("Hide");
             $(this).addClass("hider");
         }
-    });    
-    
+    });
+
     $("body").on("click", "input", function (event) {
         ga('send', 'event', 'input click', $(this).attr("name"));
     });
@@ -27,13 +27,13 @@ $(document).ready(function () {
     $("body").on("click", "a", function (event) {
         ga('send', 'event', 'link click', $(this).attr("href"));
     });
-    
+
     $("body").on("click", "a.idcheck", function (event) {
         ga('send', 'event', $(this).attr("id"), $(this).text());
-    });    
+    });
 });
-var getQueryString = function (url ) {   
-    var href = url ? url : window.location.href;        
+var getQueryString = function (url) {
+    var href = url ? url : window.location.href;
     return string ? string[1] : null;
 };
 

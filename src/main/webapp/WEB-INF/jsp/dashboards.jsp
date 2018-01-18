@@ -50,30 +50,132 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <div class="row tile_count">
-
-                    <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-list"></i> Metric Names</span>
-                        <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
-                    </div>                                                
-                    <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-folder"></i> Total Tags</span>
-                        <div class="count" id="tags"><img src="${cp}/assets/images/loading.gif" width="100%"></div>
-                        <!--<span class="count_bottom"><i class="green">4% </i> From last Week</span>-->
-                    </div>         
-                    <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                        <span class="count_top"><i class="fa fa-folder"></i> Total Metrics</span>
-                        <div class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
-                        <span class="count_bottom">&nbsp;</span>
-                    </div>                         
-                </div>
-                <div class="row tile_count" id="tagslist">                                        
-                </div>
+                <c:import url="metricinfo.jsp" />
             </div>                
         </div>                 
 
     </div>    
+
     <div class="col-md-4">
+        <div class="x_panel balace_part">          
+            <div class="x_title">
+                <h2>Balance</h2>                               
+                <div class="clearfix"></div>
+            </div>
+            <div class="row tile_count">
+                <div class="col-sm-6 col-xs-12 tile_stats_count">
+                    <h4 class="count_top">Available Units</h4>
+                    <div class="count">
+                        <c:set var="balance" value="${curentuser.getBalance()}" />
+                        <c:if test="${balance<Double.MAX_VALUE}">
+                            <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
+                        </c:if>                    
+                        <c:if test="${balance==Double.MAX_VALUE}">
+                            &infin; 
+                        </c:if>                          
+                        <c:if test="${balance==null}">
+                            0
+                        </c:if>                             
+                    </div>
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
+                    <!--                    <span class="count_bottom">
+                                            Consumed
+                                            <i class="green">
+                    <c:if test="${Consumption!=null}">
+                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                    </c:if>
+                    <c:if test="${Consumption==null}">
+                        0                            
+                    </c:if>                            
+                </i> Today                        
+            </span>                          -->
+                </div>
+                <div class="col-sm-6 col-xs-12 tile_stats_count">
+                    <h4 class="count_top">Units burn rate</h4>
+                    <!--                    <div class="count">
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
+                    <c:if test="${Consumption!=null}">
+                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                    </c:if>
+                    <c:if test="${Consumption==null}">
+                        0                            
+                    </c:if> 
+                </div>-->
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />                    
+                    <div class="count_bottom clearfix">                        
+                        <span class="pull-left">Today </span>
+                        <div class="green">
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if> 
+                        </div> 
+                    </div>                                 
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
+                    <div class="count_bottom clearfix">                        
+                        <span class="pull-left">Yesterday </span>
+                        <div class="green">
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if> 
+                        </div>
+                    </div>                          
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
+                    <div class="count_bottom clearfix">                        
+                        <span class="pull-left">This month</span>
+                        <div class="green">
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if> 
+                        </div>
+                    </div>                    
+                </div>  
+                <div class="clearfix"></div>
+                <!--<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="F5L9FW2Q6K9ZW">
+                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>-->
+
+
+                <div class="col-xs-12 moreunits">
+                    <h4>Get more "OddEye units"</h4>
+                    <div class="clearfix"></div>
+                    <div class="pull-left col-sm-6 col-xs-12 od">                                                
+                        <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="0.001"> USD<br>
+                        <label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1" step="0.001"> Units
+                    </div>
+                    <div class="pull-right col-sm-6 col-xs-12 pp">
+                        <form action="${paypal_url}" method="post" >
+                            <input type="hidden" name="cmd" value="_xclick">
+                            <input type="hidden" name="business" value="${paypal_email}">
+                            <input id="paypalItemName" type="hidden" name="item_name" value="Oddeye Points ${curentuser.getEmail()}" text="OddEye units ${curentuser.getEmail()}">                            
+                            <input id="paypalAmmount" type="hidden" name="amount" value="">                            
+                            <input type="hidden" name="custom" value="${curentuser.getId()}">
+                            <input type="hidden" name="no_shipping" value="1">
+                            <input type="hidden" name="return" value="${paypal_returnurl}">
+                            <input type="hidden" name="notify_url" value="${paypal_notifyurl}">
+                            <input type="hidden" name="image_url" value="https://app.oddeye.co/OddeyeCoconut/assets/images/email/logo_100px.png">
+                            <input type="hidden" name="currency_code" value="USD">                        
+                            <input type="hidden" name="bn" value="PP-BuyNowBF">                            
+                            <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                        </form>        
+                    </div>
+                </div>
+
+
+
+            </div>                       
+        </div>         
         <div class="x_panel">          
             <div class="x_title">
                 <h2>Available templates</h2>
@@ -87,7 +189,7 @@
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span> 
                                         <i class="fa fa-info-circle" data-toggle="tooltip" data-html="true" data-placement="left" title="" data-delay='{"hide":"1000"}' data-original-title="${fn:escapeXml(Dush.getDescription())} <div> Metrics-${Dush.getUsednames().size()}<br>Tag Filters-${Dush.getUsedtags().size()}</div>"></i>
-                                        
+
                                         ${Dush.getName()}</span>
                                     <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/></span>                                    
                                 </a> 
@@ -122,7 +224,7 @@
                 </div>
             </div>                                     
 
-        </div>    
+        </div>         
     </div> 
 </div>
 

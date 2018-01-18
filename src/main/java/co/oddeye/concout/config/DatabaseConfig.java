@@ -55,6 +55,8 @@ public class DatabaseConfig {
     private String metaTable;
     @Value("${dash.consumptiontable}")
     private String consumptiontable;
+    @Value("${dash.payments}")
+    private String paymentstable;    
 
     
     @Bean
@@ -200,6 +202,13 @@ public class DatabaseConfig {
      */
     public String getConsumptiontable() {
         return consumptiontable;
+    }
+
+    /**
+     * @return the paymentstable
+     */
+    public String getPaymentstable() {
+        return paymentstable;
     }
 
 }

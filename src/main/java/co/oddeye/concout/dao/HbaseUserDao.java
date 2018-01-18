@@ -9,6 +9,7 @@ import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.core.CoconutConsumption;
 import co.oddeye.concout.core.ConsumptionList;
+import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
@@ -26,10 +27,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
 import java.util.UUID;
-import java.util.logging.Level;
 import net.opentsdb.uid.NoSuchUniqueName;
 import net.opentsdb.uid.UniqueId;
 import org.apache.commons.lang.ArrayUtils;
@@ -61,10 +62,14 @@ public class HbaseUserDao extends HbaseBaseDao {
     @Autowired
     HbaseMetaDao MetaDao;
 
+    @Autowired
+    HbasePaymentDao PaymentDao;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseUserDao.class);
 
     byte[] dashtable;
     byte[] consumptiontable;
+    byte[] paymentstable;
 
     private final Map<UUID, OddeyeUserModel> usersbyUUID = new HashMap<>();
     private final Map<String, OddeyeUserModel> usersbyEmail = new HashMap<>();
@@ -73,6 +78,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         super(p_config.getUsersTable());
         dashtable = p_config.getDashTable().getBytes();
         consumptiontable = p_config.getConsumptiontable().getBytes();
+        paymentstable = p_config.getPaymentstable().getBytes();
 
     }
 
@@ -133,6 +139,12 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
         if (user.getAuthorities() != null) {
             final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
+            BaseTsdb.getClient().put(putAuthorities);
+        }
+        if (user.getBalance() != null) {
+            byte[] bytes = new byte[8];
+            ByteBuffer.wrap(bytes).putDouble(user.getBalance());
+            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "balance".getBytes(), bytes);
             BaseTsdb.getClient().put(putAuthorities);
         }
         BaseTsdb.getClient().put(putUUID);
@@ -559,7 +571,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         final ConsumptionList result = new ConsumptionList();
         Scanner scanner = BaseTsdb.getClientSecondary().newScanner(consumptiontable);
         try {
-            LOGGER.info(user.getEmail()+":"+startYear+"/"+startMonth+" "+endYear+"/"+endMonth);
+            LOGGER.info(user.getEmail() + ":" + startYear + "/" + startMonth + " " + endYear + "/" + endMonth);
             byte[] year_key = ByteBuffer.allocate(4).putInt(startYear).array();
             byte[] month_key = ByteBuffer.allocate(4).putInt(startMonth).array();
             byte[] start_key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
@@ -567,7 +579,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             year_key = ByteBuffer.allocate(4).putInt(endYear).array();
             month_key = ByteBuffer.allocate(4).putInt(endMonth).array();
             byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), ArrayUtils.addAll(year_key, month_key));
-            
+
 //            final GetRequest get = new GetRequest(consumptiontable, key);
             scanner.setStartKey(end_key);
             scanner.setStopKey(start_key);
@@ -618,7 +630,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     public ConsumptionList getConsumption(OddeyeUserModel user) {
         final ConsumptionList result = new ConsumptionList();
         try {
-            Calendar cal = Calendar.getInstance();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
             byte[] year_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.YEAR)).array();
             byte[] month_key = ByteBuffer.allocate(4).putInt(cal.get(Calendar.MONTH)).array();
@@ -637,4 +649,18 @@ public class HbaseUserDao extends HbaseBaseDao {
         return result;
     }
 
+    public boolean isPaymentNew(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
+        byte[] family = "c".getBytes();
+        byte[][] qualifiers = new byte[10][];
+        byte[][] values = new byte[10][];
+        byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), payment.getIpn_track_id().getBytes());
+
+        final GetRequest request = new GetRequest(paymentstable, end_key);
+        ArrayList<KeyValue> paymentt = BaseTsdb.getClient().get(request).join();
+        return paymentt.size() == 0;
+    }
+
+    public void addPayment(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
+        PaymentDao.addPayment(user, payment);
+    }
 }

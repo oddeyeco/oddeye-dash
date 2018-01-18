@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.core;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.TimeZone;
@@ -85,10 +86,49 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
         return ConsumptionListDaily;
     }
 
+    public CoconutConsumption getConsumptionListDay(int day) {
+        if (!ConsumptionListDaily.entrySet().isEmpty()) {
+            if (ConsumptionListDaily.size() > day) {
+                CoconutConsumption cc = new ArrayList<>(ConsumptionListDaily.entrySet()).get(day).getValue();
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+//        cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.HOUR_OF_DAY, 0);
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+                cal.add(Calendar.DATE, -1 * day);
+                if (cc.getTimestamp() == cal.getTimeInMillis()) {
+                    return cc;
+                }
+            }
+        }
+        return null;
+
+    }
+
     /**
      * @return the ConsumptionListMonth
      */
     public TreeMap<Long, CoconutConsumption> getConsumptionListMonth() {
         return ConsumptionListMonth;
+    }
+
+    public CoconutConsumption getConsumptionListMonth(int Month) {
+        if (!ConsumptionListDaily.entrySet().isEmpty()) {
+            CoconutConsumption cc = new ArrayList<>(ConsumptionListMonth.entrySet()).get(Month).getValue();
+            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+//        cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+            cal.set(Calendar.HOUR_OF_DAY, 0);
+            cal.set(Calendar.MINUTE, 0);
+            cal.set(Calendar.SECOND, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            cal.add(Calendar.MONTH, -1 * Month);
+            if (cc.getTimestamp() == cal.getTimeInMillis()) {
+                return cc;
+            }
+        }
+        return null;
+
     }
 }

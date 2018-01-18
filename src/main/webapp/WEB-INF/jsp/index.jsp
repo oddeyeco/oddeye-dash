@@ -7,7 +7,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
-    <c:set var="version" value="0.2.13" scope="request"/>
+    <c:set var="version" value="0.2.16" scope="request"/>
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
     <!DOCTYPE html>
     <html lang="en">
@@ -118,6 +118,7 @@
                                                 <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
                                                         <li><a href="<c:url value="/userslist"/>" >Users</a></li>
+                                                        <li><a href="<c:url value="/paymentslist"/>" >Payments</a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('CONTENTMANAGER')">
                                                         <li><a href="<c:url value="/pages"/>" >Content</a></li>
@@ -188,7 +189,6 @@
                                                     <a href="javascript:;" class="user-profile">
                                                         Balance 
                                                         <c:if test="${balance<Double.MAX_VALUE}">
-
                                                             <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
                                                         </c:if>
                                                         <c:if test="${balance==Double.MAX_VALUE}">
@@ -229,7 +229,7 @@
                     <!-- /top navigation -->
 
                     <!-- page content -->
-                    <div class="right_col" role="main">                    
+                    <div class="right_col" role="main">                         
                         <c:if test="${!curentuser.getActive()}">
                             <div class="clearfix"></div>
                             <div class="alert alert-danger alert-dismissible fade in " role="alert">
@@ -289,7 +289,7 @@
                 var token = "${_csrf.token}";
                 var cp = "${cp}";
                 var uuid = "${curentuser.getId()}";
-                var Firstlogin = ${activeuser.getFirstlogin()}
+                var Firstlogin = ${curentuser.getFirstlogin()};
             </script>                                         
 
             <!-- jQuery -->

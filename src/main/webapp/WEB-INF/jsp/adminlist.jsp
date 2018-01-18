@@ -50,10 +50,10 @@
                                     <c:when test="${config.getValue().type == 'Double'}">      
                                         <c:if test="${curentuser.getBalance()!=null}">
                                             <c:if test="${model[config.getValue().path]<Double.MAX_VALUE}">
-                                                <fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${model[config.getValue().path] }" />
+                                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="4" value=" ${model[config.getValue().path] }" />
                                             </c:if>
                                             <c:if test="${model[config.getValue().path]==Double.MAX_VALUE}">
-                                                <span class="infin"> &infin;</span>
+                                                <span class="infin"> 0000000000</span>
                                             </c:if>                                                        
                                         </c:if>
 
@@ -69,7 +69,7 @@
                                     </c:when>  
 
                                     <c:when test="${config.getValue().type == 'Date'}">    
-                                        <fmt:formatDate value="${model[config.getValue().path]}" pattern="YY MM dd HH:mm:ss"/>                                        
+                                        <fmt:formatDate value="${model[config.getValue().path]}" pattern="YYYY/MM/dd HH:mm:ss"/>                                        
                                     </c:when>                                            
                                     <c:when test="${config.getValue().type == 'Collection'}">                                                                                
                                         <c:forEach items="${model[config.getValue().path] }" var="item">                                               
