@@ -430,7 +430,7 @@ public class AjaxControlers {
                     }
                 }
                 ConcoutMetricMetaList Metriclist;
-                if (key.equals("name")) {
+                if (key.equals("_name")) {
                     Metriclist = userDetails.getMetricsMeta().getbyName(value);
                 } else {
                     Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
@@ -526,7 +526,7 @@ public class AjaxControlers {
                         ConcoutMetricMetaList MtrList;
                         try {
 
-                            if (key.equals("name")) {
+                            if (key.equals("_name")) {
                                 MtrList = userDetails.getMetricsMeta().getbyName(value);
                             } else {
                                 MtrList = userDetails.getMetricsMeta().getbyTag(key, value);

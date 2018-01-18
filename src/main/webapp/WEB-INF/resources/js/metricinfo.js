@@ -28,8 +28,7 @@ function getmetainfo(tagkey) {
                 $("#tagslist").html('');
 
 
-                jQuery.each(data.tags, function (i, val) {
-                    console.log(i);
+                jQuery.each(data.tags, function (i, val) {                    
                     $("#tagslist").append('<div class="col-lg-2 col-sm-3 col-xs-6 tile_stats_count">' +
                             '<span class="count_top"><i class="fa fa-th-list"></i> Tag "' + i + '" count </span>' +
                             '<div class="count spincrement">' + val + '</div>' +
@@ -65,13 +64,13 @@ function getmetanames(tablename) {
                 for (var i in data.dataspecial)
                 {
                     var val = data.dataspecial[i];
-                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='name' value='" + i + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + i + "'><i class='fa fa-trash-o'></i> Delete</a></td></tr>");
+                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_name' value='" + i + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_name' value='" + i + "'><i class='fa fa-trash-o'></i> Delete</a></td></tr>");
                 }
                 for (var i in data.dataregular)
                 {
                     var val = data.dataregular[i];
                     var table = $(tablename);
-                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='name' value='" + i + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='name' value='" + i + "'><i class='fa fa-trash-o'></i> Delete</a></td></tr>");
+                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_name' value='" + i + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_name' value='" + i + "'><i class='fa fa-trash-o'></i> Delete</a></td></tr>");
                 }
 //                $('#listtable').DataTable({});
                 $('#listtable').find('td input.rawflat').iCheck({
