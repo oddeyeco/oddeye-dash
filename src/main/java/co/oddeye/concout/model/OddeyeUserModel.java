@@ -54,7 +54,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  * @author vahan
  */
 public class OddeyeUserModel {
-    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class); 
+
+    protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class);
     private static final long serialVersionUID = 465895478L;
 
     public final static String ROLE_ADMIN = "ROLE_ADMIN";
@@ -100,9 +101,9 @@ public class OddeyeUserModel {
     @HbaseColumn(qualifier = "active", family = "technicalinfo")
     private Boolean active;
     @HbaseColumn(qualifier = "firstlogin", family = "technicalinfo")
-    private Boolean firstlogin;    
+    private Boolean firstlogin;
     @HbaseColumn(qualifier = "mailconfirm", family = "technicalinfo")
-    private Boolean mailconfirm;        
+    private Boolean mailconfirm;
     @HbaseColumn(qualifier = "balance", family = "technicalinfo")
     private Double balance;
     @HbaseColumn(qualifier = "alowswitch", family = "technicalinfo")
@@ -113,7 +114,7 @@ public class OddeyeUserModel {
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
     private AlertLevel AlertLevels;
-    
+
     private Date sinedate;
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
@@ -128,8 +129,8 @@ public class OddeyeUserModel {
     private transient final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
     private String recaptcha;
-    private transient HbaseUserDao DAO;    
-    
+    private transient HbaseUserDao DAO;
+
     public OddeyeUserModel() {
         this.SwitchUser = null;
         this.id = UUID.randomUUID();
@@ -137,7 +138,6 @@ public class OddeyeUserModel {
 //        this.MetricsMetas = null;
     }
 
-    
     /**
      * @return the recaptcha
      */
@@ -151,7 +151,7 @@ public class OddeyeUserModel {
     public void setRecaptcha(String recaptcha) {
         this.recaptcha = recaptcha;
     }
-    
+
     public static Map<SimpleGrantedAuthority, String> getAllRoles() {
         final Map<SimpleGrantedAuthority, String> roles = new LinkedHashMap<>();
         roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USER), "User");
@@ -185,9 +185,9 @@ public class OddeyeUserModel {
         userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
                 this.id = UUID.fromString(new String(property.value()));
-                this.sinedate = new Date(property.timestamp());                
+                this.sinedate = new Date(property.timestamp());
             }
-            return property;            
+            return property;
         }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "email".getBytes())) {
                 this.email = new String(property.value());
@@ -348,16 +348,21 @@ public class OddeyeUserModel {
      * @param DushInfo
      * @param Userdao
      * @return the DushList
+     * @throws java.lang.Exception
      */
     public Map<String, String> addDush(String DushName, String DushInfo, HbaseUserDao Userdao) throws Exception {
         DushList.put(DushName, DushInfo);
-        Userdao.saveDush(id, DushName, DushInfo);
+        if (!email.equals("demodemo@oddeye.co")) {
+            Userdao.saveDush(id, DushName, DushInfo);
+        }
         return DushList;
     }
 
     public Map<String, String> removeDush(String DushName, HbaseUserDao Userdao) throws Exception {
         DushList.remove(DushName);
-        Userdao.removeDush(id, DushName);
+        if (!email.equals("demodemo@oddeye.co")) {
+            Userdao.removeDush(id, DushName);
+        }
         return DushList;
     }
 
@@ -414,7 +419,7 @@ public class OddeyeUserModel {
 //        String pass = "";
         return getPasswordst();
     }
-    
+
     /**
      * @param password the password to set
      */
@@ -933,18 +938,18 @@ public class OddeyeUserModel {
             TimeZone timeZone = TimeZone.getTimeZone("UTC");
             Calendar cal = Calendar.getInstance(timeZone);
             int startYear = cal.get(Calendar.YEAR);
-            int startMonth = cal.get(Calendar.MONTH)+1;
-            LOGGER.info(this.getEmail()+":"+startYear+"/"+startMonth+" "+cal.getTime());
+            int startMonth = cal.get(Calendar.MONTH) + 1;
+            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
             cal.add(Calendar.YEAR, -1);
-            if (cal.getTimeInMillis()<sinedate.getTime())
-            {
+            if (cal.getTimeInMillis() < sinedate.getTime()) {
                 cal.setTime(sinedate);
             }
-            consumptionList = DAO.getConsumption(this,startYear,startMonth,cal.get(Calendar.YEAR),cal.get(Calendar.MONTH)+1);
+            consumptionList = DAO.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1);
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-    }        
+    }
+
     public void updateConsumption() {
         consumptionList = DAO.getConsumption(this);
     }
@@ -982,10 +987,9 @@ public class OddeyeUserModel {
      * @return the firstlogin
      */
     public Boolean getFirstlogin() {
-        if (firstlogin==null)
-        {
+        if (firstlogin == null) {
             return false;
-        }        
+        }
         return firstlogin;
     }
 
