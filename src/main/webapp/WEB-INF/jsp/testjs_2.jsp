@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="${cp}/resources/echarts/dist/echarts.min.js?v=${version}"></script>
+<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
 <script>
