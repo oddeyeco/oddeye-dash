@@ -334,6 +334,7 @@ function drawRaw(errorjson, table, hashindex, update) {
         {
             val = val + errorjson.values[key].value;
             count++;
+//              val = errorjson.values[key].value;
         }
         val = val / count;
         if (val > 1000)
@@ -341,7 +342,11 @@ function drawRaw(errorjson, table, hashindex, update) {
             val = format_metric(errorjson.values[key].value);
         } else
         {
-            val = val.toFixed(2);
+            if (!Number.isInteger(val))
+            {
+                val = val.toFixed(2);
+            }
+
         }
 
         message = message + val;

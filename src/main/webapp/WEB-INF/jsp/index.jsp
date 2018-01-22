@@ -289,7 +289,11 @@
                 var token = "${_csrf.token}";
                 var cp = "${cp}";
                 var uuid = "${curentuser.getId()}";
-                var Firstlogin = ${curentuser.getFirstlogin()};
+                var Firstlogin = false;
+                <c:if test="${not empty curentuser}">
+                    Firstlogin = ${curentuser.getFirstlogin()};
+                </c:if>
+                
             </script>                                         
 
             <!-- jQuery -->
