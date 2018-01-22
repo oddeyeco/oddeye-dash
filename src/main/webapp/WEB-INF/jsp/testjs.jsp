@@ -65,6 +65,9 @@ var markLineSetting = {
 option = {
     tooltip: {
     },
+    title:{
+        text: "AT-AT forces monitoring"
+    },
     legend: {
         data: ['Damage', 'Fuel'],
         selectedMode: 'single'
