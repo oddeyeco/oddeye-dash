@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/getdata*").permitAll()
 //                .antMatchers("/gettagkey*").permitAll()
 //                .antMatchers("/gettagvalue*").permitAll()
-                .antMatchers("/test").permitAll()
+                .antMatchers("/test","/demomb/").permitAll()
                 .antMatchers(HttpMethod.POST,"/paypal/ipn/**").permitAll()
                 
                 .antMatchers("/subscribe/**").permitAll()

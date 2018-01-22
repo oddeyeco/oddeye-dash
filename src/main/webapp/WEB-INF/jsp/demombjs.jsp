@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
+<script src="${cp}/resources/echarts/dist/echarts.js?v=${version}"></script>
 <!--<script src="${cp}/resources/echarts/dist/extension/dataTool.min.js?v=${version}"></script>-->
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
@@ -17,70 +17,116 @@
 
     ];
     var bodyMax = 150;
-    option = {
-    tooltip: {
-    },
+    option = {tooltip: {    },
             legend: {
             data: ['CPU idle', 'Mem used']
-
             },
-            xAxis: {
+            xAxis: [
+            {
             show: false,
                     data: ['a'],
             },
-            yAxis: {
+            {
             show: false,
-                    max: bodyMax,
-            },
-            grid: {
+                    data: ['b'],
+                    gridIndex: 1,
+            }
+            ,
+            {
+            show: false,
+                    type: "value",
+                    max: 100,                    
+                    gridIndex: 2,
+            }
+            ],
+            yAxis: [
+                    {
+                    show: false,
+                            max: bodyMax,
+                    },
+                    {
+                    show: false,
+                            max: 100,
+                            gridIndex: 1,
+                    },
+                    {
+                    show: false,
+                    type: 'category',
+                            data: ['v'],
+                            gridIndex: 2,
+                    }
+            ],
+//            grid: {
+//            height: 600,
+//                    width: 900
+//            },
+            grid: [{
             height: 600,
                     width: 900
-            },
+            }, {
+
+            width: 254,
+                    height: 260,
+                    left: 474,
+                    top:302
+
+            }, {
+
+            width: 385,
+                    height: 220,
+                    left: 382,
+                    top: 82
+
+            }],
             series: [
             {
             name: 'Mem used',
                     type: 'pictorialBar',
-//                    symbolClip: true,
+                    symbolClip: true,
+                    xAxisIndex: 2,
+                    yAxisIndex: 2,
                     symbol: symbols[2],
                     symbolSize: ["370", "195"],
-                    symbolOffset: [117, - 340],                    
+//                    symbolOffset: [117, - 340],
                     label:{
                     normal: {
                     show: true,
                             position: 'bottom',
-                            offset: [117, - 340], 
+                            offset: [0, 15],
                             formatter: function (param) {
-                            return (param.value).toFixed(0) + '%';
+                            return param.seriesName+":"+(param.value).toFixed(0) + '%';
                             },
                             textStyle: {
                             fontSize: 18,
                                     fontFamily: 'Arial'
                             }
                     }},
-                    data: [{value: 60}],
+                    data: [{value: 80}],
                     z: 10
             },
             {
             name: 'CPU idle',
                     type: 'pictorialBar',
-//                    symbolClip: true,
+                    symbolClip: true,
+                    xAxisIndex: 1,
+                    yAxisIndex: 1,
                     symbol: symbols[1],
                     symbolSize: ["254", "240"],
-                    symbolOffset: [151, - 76],
+//                    symbolOffset: [151, - 76],
                     label:{
                     normal: {
                     show: true,
                             position: 'bottom',
-                            offset: [151, - 78],
                             formatter: function (param) {
-                            return (param.value).toFixed(0) + '%';
+                                console.log(param);
+                            return param.seriesName+":"+(param.value).toFixed(0) + '%';
                             },
                             textStyle: {
                             fontSize: 18,
                                     fontFamily: 'Arial'
                             }
                     }},
-                    data: [{value: 70}],
+                    data: [{value: 30}],
                     z: 10
             },
             {
