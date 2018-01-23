@@ -139,7 +139,7 @@
         for (var key in calc) {
             $('.tab-content').append('<div class="tab-pane " id="' + key + '"></div>');
             for (var t in calc[key]) {
-                $('#' + key).append('<div class="integration" id="' + t + '"><span><img alt="" src="' + calc[key][t]['src'] + '">' + calc[key][t]['name'] + '</span><div class="for_hover"><p>' + calc[key][t]['text2'] + '</p></div>');
+                $('#' + key).append('<div class="integration" id="' + t + '"><span><img alt="" src="' + calc[key][t]['src'] + '">' + calc[key][t]['name'] + '</span><p class="for_integration">' + calc[key][t]['text2'] + '</p>');
 //                console.log(calc[key][t]['isbegin']);
                 $('#' + t).addClass(calc[key][t]['inclass']);
 
@@ -151,31 +151,31 @@
     var i = 0;
 
     $('body').on('click', '#apply', function () {
-        $("#hostcheck").append('<div class="hostcheck calc"> <span class="delete"><i class="fa fa-times" aria-hidden="true"></i></span><div  class="col-xs-3 "><label>Host Count</label><input class="host" type="number" value="1"><label>Check Interval(sec.)</label><input class=sec type="number" value="10"></div><div class="check tab-pane col-xs-9 "></div></div>');
-//        console.log(this);
+        $("#hostcheck").append('<div class="hostcheck calc"> <span class="delete"><i class="fa fa-times" aria-hidden="true"></i></span><div  class="col-xs-3 col-lg-2 "><label>Host Count</label><input class="host" type="number" value="1"><label>Check Interval(sec.)</label><input class=sec type="number" value="10"></div><div class="check tab-pane col-xs-9 col-lg-10"></div></div>');
         $(".checked").each(function () {
-//            console.log($(this).parent());
             var id = $(this).attr("id");
-            var parent = $(this).parent().attr("id");
-            if (calc[parent][id]['type'] === 'multi') {
-                if (calc[parent][id]['hasAll']) {
+            if (id)
+            {
+                var parent = $(this).parent().attr("id");
+                if (calc[parent][id]['type'] === 'multi') {
+                    if (calc[parent][id]['hasAll']) {
 //                          alert(t);
-                    $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div class="for_hover"><label style="float:left">' + calc[parent][id]['multiText'] + ":All" + '</label> <input type="checkbox" class="checkbox ' + id + '" checked><input type="number" min="1" class="multi" value="1"  </div>');
+                        $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-close" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div clas="for_integration"><label style="float:left">' + calc[parent][id]['multiText'] + ":All" + '</label> <input type="checkbox" class="checkbox ' + id + '" checked><input type="number" min="1" class="multi" value="1"  ></div>');
+                    } else {
+                        $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-close" aria-hidden="true"></i></span><span  ><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div clas="for_integration"><label>' + calc[parent][id]['multiText'] + '</label><input type="number" min="1" class="multi" value="1"></div>');
+                    }
+
                 } else {
-                    $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span  ><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div class="for_hover"><label>' + calc[parent][id]['multiText'] + '</label><input type="number" min="1" class="multi" value="1"  ></div>');
+                    $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><p class="for_integration">' + calc[parent][id]['text'] + '</p>');
                 }
-
-            } else {
-                $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div class="for_hover"><p>' + calc[parent][id]['text'] + '</p></div>');
             }
-
         });
         $(".hostcheck .check").last().append('<div><button class="calc_button change">Change</button><button  class="calc_button clone " >Clone</button><div> <label>Total Price</label> <span class ="total"></span>');
         $(".hostcheck .check").last().find('.total').html(price($(".hostcheck .check").last().find('.total').parents(".hostcheck")));
     });
     $('body').on('click', '.integration', function () {
         $(this).toggleClass('checked');
-
+        $("#" + $(this).attr('value')).toggleClass('checked');
     });
     $('body').on('click', '#reset', function () {
         $('.integration').removeClass('checked');
@@ -194,7 +194,6 @@
         price(that);
     });
     $('body').on('click', '.change', function () {
-//       $(this).parents('.calc').toggleClass('checked');
         price($(this).parents(".hostcheck"));
 
     });
@@ -205,23 +204,30 @@
             price(elem.parents(".hostcheck"));
         }, 500);
     });
-    $('body').on('change keyup paste ' , '.search-query', function ( ) {
-//        var elem = $(this);
+    var whaittimer;
+    $('body').on('change keyup paste ', '.search-query', function ( ) {
         clearTimeout(whaittimer);
-        var whaittimer = setTimeout(function () {
-            if (!$('.search-query').val()) {
-                $('.search-hide').css('display', 'block');
-                $('.ifsearch').css('display', 'none');
-                console.log("chka");
-            } else {
-                $('.search-hide').css('display', 'none');
-                $('.ifsearch').css('display', 'block');
-                console.log('kaaa');
-                search();
-    
-                
-            };
-            
+        whaittimer = setTimeout(function () {
+            if ($('.search-query').val()) {
+                $('.tab-pane.active').removeClass('active');
+                $('.nav-tabs  li.active').removeClass('active');
+
+                if ($('#search_check').length === 0)
+                {
+                    $('.tab-content').append('<div class="tab-pane active" id="search_check">valod');
+                } else
+                {
+                    $('#search_check').addClass('active');
+                }
+                search($('.search-query').val());
+            } else
+            {
+                $('.tab-pane').first().addClass('active');
+                $('.nav-tabs  li').first().addClass('active');
+
+            }
+            ;
+
         }, 1000);
 
 
@@ -230,15 +236,21 @@
         price($(this).parents(".hostcheck"));
         ;
     });
-    function search(){
-        $('.ifsearch').html('');
-        $(".integration").each(function (){
-//            console.log($(this).attr('id'));
-
-             $(this).clone().prependTo('.ifsearch');
-             $('.ifsearch .integration').removeClass('checked').removeAttr('id');
-        });
-        console.log(i);
+    function search(value) {
+        $('#search_check').html('');
+        var testx = $("#tab-items").html();
+        const regex = new RegExp('<div([^>\/]+)class="integration([^>\/]+)>((?!<\/div>).)*' + value + '((?!<div).)*(\<(\/?[^>]+)div>)', 'ig');
+        let m;
+        while ((m = regex.exec(testx)) !== null) {
+            // This is necessary to avoid infinite loops with zero-width matches
+            if (m.index === regex.lastIndex) {
+                regex.lastIndex++;
+            }
+            var item = $(m[0]);
+            item.attr('value', item.attr("id"));
+            item.removeAttr("id");
+            $('#search_check').append(item);
+        }
     }
 
 
@@ -250,7 +262,6 @@
             var sum = 0;
             var id = $(this).attr('calcid');
             var parent = $(this).attr('calcparent');
-            console.log(calc[parent][id]['count']);
             if (calc[parent][id]['type'] === 'multi') {
                 if (typeof (calc[parent][id]['hasAll']) == "undefined")
                 {
@@ -270,11 +281,9 @@
                 sum = calc[parent][id]['count'];
                 applysum = applysum + sum;
             }
-            console.log($(this));
-        });
-        console.log('appl' + applysum);
-        var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice).toFixed(2);
 
+        });
+        var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice).toFixed(2);
         contener.find('.total').html(price + " $");
 
 

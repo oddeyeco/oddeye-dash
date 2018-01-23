@@ -32,7 +32,7 @@
                         </div>
                     </div>
                   
-                    <div class="col-xs-3  search-hide ">
+                    <div class="col-xs-3 col-lg-2">
                         <!-- required for floating -->
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs tabs-left">
@@ -48,7 +48,7 @@
                         </ul>
                     </div>
 
-                    <div class="col-xs-9 search-hide">
+                    <div class="col-xs-9 col-lg-10" id="tab-items">
                         <!-- Tab panes -->
                         <div class="tab-content">
 
