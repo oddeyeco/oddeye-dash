@@ -360,17 +360,15 @@
                 setTimeout(function () {
                     ga('send', 'event', '10 seconds', 'read');
                 }, 10000);
-            <script type="text/javascript">
+            
                 window._mfq = window._mfq || [];
-                ( func
-                    tion() {
+                ( function() {
                         var mf = document.createElement("script");
                         mf.type = "text/javascript"; mf.async = true;
                         mf.src = "//cdn.mouseflow.com/projects/56872595-6055-428f-99ba-9995277fc45c.js";
               
                 document.getElementsByTagName("head")[0].appendChild(mf);
-            })();
-            </script>                
+            })();            
         </script>            
 
     </body>
