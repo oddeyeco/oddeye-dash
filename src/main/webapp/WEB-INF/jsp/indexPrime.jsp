@@ -24,32 +24,34 @@
             <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css?v=${version}" />            
             <!-- iCheck -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />                              
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css?v=${version}" />
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
             <!-- font-awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css?v=${version}" />
+            
 
 
         </head>
 
         <body>        
-            <div>  
-                <main>  
-                    <c:if test="${!empty wraper}">                        
-                        <c:import url="${wraper}.jsp" />
-                    </c:if>             
-                    <c:if test="${empty wraper}">
-                        <c:catch var="e">
-                            <c:import url="${body}.jsp" />
-                        </c:catch>
-                        <c:if test="${!empty e}">
-                            ${body} <c:import url="errors/pageerror.jsp" />
-                        </c:if>             
-                    </c:if>
-                </main>
-                <footer>
-
-                </footer>
-            </div>
+            <!--            <div>  
+                            <main>  -->
+            <c:if test="${!empty wraper}">                        
+                <c:import url="${wraper}.jsp" />
+            </c:if>             
+            <c:if test="${empty wraper}">
+                <c:catch var="e">
+                    <c:import url="${body}.jsp" />
+                </c:catch>
+                <c:if test="${!empty e}">
+                    ${body} <c:import url="errors/pageerror.jsp" />
+                </c:if>             
+            </c:if>
+            <!--                </main>
+                            <footer>
+            
+                            </footer>
+                        </div>-->
             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
             <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js?v=${version}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
             <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>
@@ -83,8 +85,14 @@
                 setTimeout("ga('send', 'event', '10 seconds', 'read')", 10000);
             </script>               
 
-            <c:catch var="e">
-                <c:import url="${jspart}.jsp" />
+            <c:catch var="e">                
+                <c:if test="${!empty wraper}">                        
+                    <c:import url="${wraper}js.jsp" />
+                </c:if>             
+                <c:catch var="e">
+                    <c:import url="${jspart}.jsp" />
+                </c:catch>           
+
             </c:catch>
         </body>
 

@@ -5,41 +5,71 @@
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="x_panel calc">
+                <div class="x_title">
+                    <h2>Price Calculator</h2>
+                    <div class="clearfix"></div>
+                </div>
 
-<main>
-    <h3>Price Calculator</h3>
-    <hr/>
-    <div  class="col-lg-8">
+                <div class="x_content ">
+                    <div class="search">
+                        <div class="">
+                            <div class="">
+                                <!--<h2>Stylish Search Box</h2>-->
+                                <div id="custom-search-input">
+                                    <div class="input-group col-md-12">
+                                        <input type="text" class="  search-query form-control" placeholder="Search" />
+                                        <span class="input-group-btn">
+                                            <button class="btn " type="button">
+                                                <span ><i class="fa fa-times" aria-hidden="true"></i></span>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <div class="col-xs-3  search-hide ">
+                        <!-- required for floating -->
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs tabs-left">
+                            <li class="active"><a href="#system_check" data-toggle="tab">System Checks</a></li>
+                            <li><a href="#webservers_check" data-toggle="tab">Web Servers</a></li>
+                            <li><a href="#bigdata_check" data-toggle="tab">Big Data</a></li>
+                            <li><a href="#java_check" data-toggle="tab">Java</a></li>
+                            <li><a href="#messagequeue_check" data-toggle="tab">Message Queue</a></li>
+                            <li><a href="#sqlcache_check" data-toggle="tab">SQL,Cache</a></li>
+                            <li><a href="#hadoop_check" data-toggle="tab">Hadoop</a></li>
+                            <li><a href="#docstorage_check" data-toggle="tab">Document Storage</a></li>
+                            <li><a href="#other_check" data-toggle="tab">Other</a></li>
+                        </ul>
+                    </div>
 
-        <div class="col-xs-3 ">
-            <ul class="nav nav-tabs tabs-left">
-                <li class="active"><a href="#system_check" data-toggle="tab">System Checks</a></li>
-                <li><a href="#webservers_check" data-toggle="tab">Web Servers</a></li>
-                <li><a href="#bigdata_check" data-toggle="tab">Big Data</a></li>
-                <li><a href="#java_check" data-toggle="tab">Java</a></li>
-                <li><a href="#messagequeue_check" data-toggle="tab">Message Queue</a></li>
-                <li><a href="#sqlcache_check" data-toggle="tab">SQL Cache</a></li>
-                <li><a href="#hadoop_check" data-toggle="tab">Hadoop</a></li>
-                <li><a href="#docstorage_check" data-toggle="tab">Document Storage</a></li>
-                <li><a href="#other_check" data-toggle="tab">Other</a></li>
-            </ul>
+                    <div class="col-xs-9 search-hide">
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+
+                        </div>
+
+                    </div>
+                    <div class="calc_buttondiv">
+                        <button id="apply" class="calc_button ">Apply New</button>
+                        <button id="reset" class="calc_button " >Reset</button>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
         </div>
-
-
-        <div class="col-xs-9 tab-content">
-
-        </div>
-
-
-        <div  >
-            <button class="calc_button">Apply</button>
-            <button class="calc_button">Change</button>
-        </div>
-
-
     </div>
-    <div class="col-lg-4">test</div>
-    <div style="clear: both"></div>
-    <div>Apply</div>
+    <div class="row">
+        <div   class="col-lg-12 ">
+            <div id="hostcheck"  >
 
-</main>
+            </div>
+        </div>
+    </div>

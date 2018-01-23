@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 body {  
-    color: #fff
+    /*color: #fff*/
 }
 
 #main {
@@ -222,10 +222,30 @@ a
     height: 100%
 }
 
-.navbar-inverse {
+.nav
+{
+    .navbar-nav
+    {
+        li
+        {
+            a.try-now
+            {
+                color: #fff !important;
+                background-color: #00adee;
+                &:hover{
+                    color:  #e7e7e7;
+                    background-color: #00a1d1;
+                }                    
+
+            }
+        }    
+    }
+
+}
+/*.navbar-inverse {
     .navbar-nav{
         li{
-            .calc-button{
+            .try-now{
                 color: #fff;
                 background-color: #00adee;
                 &:hover{
@@ -238,9 +258,7 @@ a
                 &:hover{
                     cursor: pointer;
                     color: #515356;
-
                     background-color: rgb(217, 222, 228);
-
                 }
                 color: #515356;
             }
@@ -267,12 +285,13 @@ a
     background-color:#EDEDED;
     border-color: #D9DEE4;
     margin-left: 70px;
-}
+}*/
 .page-body
 {
     color: #0c0c0c;
     padding-left: 70px;
-    padding-top: 50px;        
+    padding-top: 50px;
+    background-color: #f7f7f7;
 }
 
 //Hovo
@@ -369,19 +388,19 @@ a
         }
     }
 }
-.tab-pane{
-    a{
-        img{
-            width: 45px;
-            height: 29px;
-        }
+.tab-pane,.integration_select{
+    /*a{*/
+    img{
+        width: 45px;
+        height: 29px;
     }
+    /*}*/
 }
 .for_hover{
     text-align: left;
     line-height: 12px;
     font-size: 11px;
-    padding: 4px;
+    padding: 4px 10px;
 }
 .integration{
     &:hover{
@@ -399,6 +418,9 @@ a
     color: #377cb8;
     cursor: pointer;
 }
+.calc_buttondiv{
+    padding: 21px;
+}
 .calc_button{
     &:hover{
         color: #FFF ;
@@ -411,5 +433,46 @@ a
     color: #00adee;
     background-color: #FFF;
     float: right;
-    
+
 }
+.integration_select{
+    margin: 3px;
+    width: 32%;
+    height: 75px;
+    overflow: hidden;
+    float: left;
+    border: solid 2px;
+    border-color: #00adee;
+    color: #377cb8;
+    /*cursor: pointer;*/
+}
+.intclose{
+
+    float: right;
+    padding:3px;
+    cursor: pointer;
+
+}
+.checked{
+    border-color: #8bc53f;
+}
+.calc{
+    background-color:#fff;
+    border: 1px solid #E6E9ED;
+    padding: 10px;
+    display: inline-block;
+    width: 100%;
+}
+.delete{
+
+    float: right;
+    padding:5px;
+    cursor: pointer;
+    i{
+        font-size: 20px;
+    }
+}
+.search{
+    padding: 15px 34px 15px 15px;
+}
+/*.search-hide{display: none;}*/

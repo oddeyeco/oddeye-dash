@@ -55,10 +55,10 @@
     };
     var calc = {
         system_check: {
-            check_cpustats: {count: 8, type: 'multi', isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
-            check_memory: {count: 8, type: 'single', isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', text2: "It takes memory related information from /proc/meminfo file.", name: "Memory Check"},
-            check_disks: {count: 6, type: 'multi', isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO and Space usage.", name: "Disk Check"},
-            check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', text2: " It collects metrics about all installed interfaces.", name: "Network"},
+            check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
+            check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', text2: "It takes memory related information from /proc/meminfo file.", name: "Memory Check"},
+            check_disks: {count: 6, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO and Space usage.", name: "Disk Check"},
+            check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', text2: " It collects metrics about all installed interfaces.", name: "Network"},
             check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', text2: "It reads /proc/sys/net/ipv4/netfilter/ip_conntrack_max|ip_conntrack_count files and provides.", name: "IP Conntrack"},
             check_load_average: {count: 3, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png', text2: "System load average shows ammount of processes. ", name: "Load Average"},
             check_tcp: {count: 13, type: 'single', text: "Tcp", src: '/OddeyeCoconut/assets/images/integration/TCP.png', text2: "This check provides status of TCP connections to systems. It parses /proc/net/tcp.", name: "TCP Connections"},
@@ -127,32 +127,168 @@
         },
         other_check: {
             check_docker_stats: {count: 2, type: 'multi', text: "Docker stats", multiText: "Docker Container Count", src: '/OddeyeCoconut/assets/images/integration/docker-logo.gif', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Docker"},
-            check_oddeye: {count: 1, type: 'single', isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/logo.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "OddEye"},
+            check_oddeye: {count: 1, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/logo.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "OddEye"},
             check_snmp: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/snmp.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "SNMP"},
             check_nagios: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/nagios.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Nagios Checks"}
         }
     };
-    console.log(calc);
+    var metricprice = 8.73042583962e-07;
+
+
     var paint = function () {
         for (var key in calc) {
             $('.tab-content').append('<div class="tab-pane " id="' + key + '"></div>');
             for (var t in calc[key]) {
-                console.log("esem ape   " + calc[key][t]['src']);
-                console.log(t);
-                $('#' + key + '').append('<div class="integration"><span><a href=""><img alt="" src="' + calc[key][t]['src'] + '"></a>' + calc[key][t]['name'] + '</span><div class="for_hover"><p>' + calc[key][t]['text2'] + '</p></div>');
+                $('#' + key).append('<div class="integration" id="' + t + '"><span><img alt="" src="' + calc[key][t]['src'] + '">' + calc[key][t]['name'] + '</span><div class="for_hover"><p>' + calc[key][t]['text2'] + '</p></div>');
+//                console.log(calc[key][t]['isbegin']);
+                $('#' + t).addClass(calc[key][t]['inclass']);
+
             }
             ;
         }
         ;
     };
+    var i = 0;
+
+    $('body').on('click', '#apply', function () {
+        $("#hostcheck").append('<div class="hostcheck calc"> <span class="delete"><i class="fa fa-times" aria-hidden="true"></i></span><div  class="col-xs-3 "><label>Host Count</label><input class="host" type="number" value="1"><label>Check Interval(sec.)</label><input class=sec type="number" value="10"></div><div class="check tab-pane col-xs-9 "></div></div>');
+//        console.log(this);
+        $(".checked").each(function () {
+//            console.log($(this).parent());
+            var id = $(this).attr("id");
+            var parent = $(this).parent().attr("id");
+            if (calc[parent][id]['type'] === 'multi') {
+                if (calc[parent][id]['hasAll']) {
+//                          alert(t);
+                    $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div class="for_hover"><label style="float:left">' + calc[parent][id]['multiText'] + ":All" + '</label> <input type="checkbox" class="checkbox ' + id + '" checked><input type="number" min="1" class="multi" value="1"  </div>');
+                } else {
+                    $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span  ><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div class="for_hover"><label>' + calc[parent][id]['multiText'] + '</label><input type="number" min="1" class="multi" value="1"  ></div>');
+                }
+
+            } else {
+                $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div class="for_hover"><p>' + calc[parent][id]['text'] + '</p></div>');
+            }
+
+        });
+        $(".hostcheck .check").last().append('<div><button class="calc_button change">Change</button><button  class="calc_button clone " >Clone</button><div> <label>Total Price</label> <span class ="total"></span>');
+        $(".hostcheck .check").last().find('.total').html(price($(".hostcheck .check").last().find('.total').parents(".hostcheck")));
+    });
+    $('body').on('click', '.integration', function () {
+        $(this).toggleClass('checked');
+
+    });
+    $('body').on('click', '#reset', function () {
+        $('.integration').removeClass('checked');
+    });
+    $('body').on('click', '.delete', function () {
+        $(this).parents('.hostcheck').remove();
+
+    });
+    $('body').on('click', '.clone', function () {
+        $(this).parents('.hostcheck').clone().prependTo('#hostcheck');
+
+    });
+    $('body').on('click', '.intclose', function () {
+        var that = $(this).parents(".hostcheck");
+        $(this).parents('.integration_select').remove();
+        price(that);
+    });
+    $('body').on('click', '.change', function () {
+//       $(this).parents('.calc').toggleClass('checked');
+        price($(this).parents(".hostcheck"));
+
+    });
+    $('body').on('input', 'input', function ( ) {
+        var elem = $(this);
+        clearTimeout(whaittimer);
+        var whaittimer = setTimeout(function () {
+            price(elem.parents(".hostcheck"));
+        }, 500);
+    });
+    $('body').on('change keyup paste ' , '.search-query', function ( ) {
+//        var elem = $(this);
+        clearTimeout(whaittimer);
+        var whaittimer = setTimeout(function () {
+            if (!$('.search-query').val()) {
+                $('.search-hide').css('display', 'block');
+                $('.ifsearch').css('display', 'none');
+                console.log("chka");
+            } else {
+                $('.search-hide').css('display', 'none');
+                $('.ifsearch').css('display', 'block');
+                console.log('kaaa');
+                search();
+    
+                
+            };
+            
+        }, 1000);
+
+
+    });
+    $('body').on('change', '.checkbox', function ( ) {
+        price($(this).parents(".hostcheck"));
+        ;
+    });
+    function search(){
+        $('.ifsearch').html('');
+        $(".integration").each(function (){
+//            console.log($(this).attr('id'));
+
+             $(this).clone().prependTo('.ifsearch');
+             $('.ifsearch .integration').removeClass('checked').removeAttr('id');
+        });
+        console.log(i);
+    }
+
+
+    function price(contener) {
+        var applysum = 0;
+
+        contener.find(".integration_select").each(function () {
+//            var applysum = 0;
+            var sum = 0;
+            var id = $(this).attr('calcid');
+            var parent = $(this).attr('calcparent');
+            console.log(calc[parent][id]['count']);
+            if (calc[parent][id]['type'] === 'multi') {
+                if (typeof (calc[parent][id]['hasAll']) == "undefined")
+                {
+                    sum = (calc[parent][id]['count']) * (Number.parseFloat($(this).find('.multi').val()));
+                } else
+                {
+                    if ($(this).find('.checkbox').prop('checked')) {
+                        sum = (calc[parent][id]['count']) * (Number.parseFloat($(this).find('.multi').val()) + 1);
+                    } else {
+                        sum = calc[parent][id]['count'];
+
+                    }
+                }
+                applysum = applysum + sum;
+
+            } else {
+                sum = calc[parent][id]['count'];
+                applysum = applysum + sum;
+            }
+            console.log($(this));
+        });
+        console.log('appl' + applysum);
+        var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice).toFixed(2);
+
+        contener.find('.total').html(price + " $");
+
+
+
+    }
+    ;
     $(document).ready(function () {
         paint();
         $('#system_check').addClass('active');
-    });
-//(60/seconds)*60*24*30*(hostcount)*(check1count+check2count)*metricprice
+//        console.log(checked);
 
-    var metricprice = 8.73042583962e-07;
-    var checkboxElem;
+    });
+
+
 
 
 </script>
