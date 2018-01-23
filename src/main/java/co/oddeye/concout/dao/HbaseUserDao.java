@@ -582,15 +582,24 @@ public class HbaseUserDao extends HbaseBaseDao {
 
 //            final GetRequest get = new GetRequest(consumptiontable, key);
             scanner.setStartKey(end_key);
-            scanner.setStopKey(start_key);
             ArrayList<ArrayList<KeyValue>> rows;
-            while ((rows = scanner.nextRows().join()) != null) {
-                rows.stream().forEach((row) -> {
-                    row.stream().forEach((cos) -> {
-                        CoconutConsumption CoconutCos = new CoconutConsumption(cos);
-                        result.put(CoconutCos.getTimestamp(), CoconutCos);
+
+            GetRequest request = new GetRequest(consumptiontable, start_key);
+            ArrayList<KeyValue> frow = BaseTsdb.getClientSecondary().get(request).join();
+            frow.stream().forEach((cos) -> {
+                CoconutConsumption CoconutCos = new CoconutConsumption(cos);
+                result.put(CoconutCos.getTimestamp(), CoconutCos);
+            });
+            if (!Arrays.equals(end_key, start_key)) {
+                scanner.setStopKey(start_key);
+                while ((rows = scanner.nextRows().join()) != null) {
+                    rows.stream().forEach((row) -> {
+                        row.stream().forEach((cos) -> {
+                            CoconutConsumption CoconutCos = new CoconutConsumption(cos);
+                            result.put(CoconutCos.getTimestamp(), CoconutCos);
+                        });
                     });
-                });
+                }
             }
 
 //            final ArrayList<KeyValue> ConsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
