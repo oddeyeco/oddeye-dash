@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
 <script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>
-<script src="${cp}/resources/echarts/dist/echarts.min.js?v=${version}"></script>
+<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
 <script>

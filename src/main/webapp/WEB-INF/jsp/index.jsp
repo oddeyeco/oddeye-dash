@@ -289,7 +289,11 @@
                 var token = "${_csrf.token}";
                 var cp = "${cp}";
                 var uuid = "${curentuser.getId()}";
-                var Firstlogin = ${curentuser.getFirstlogin()};
+                var Firstlogin = false;
+                <c:if test="${not empty curentuser}">
+                Firstlogin = ${curentuser.getFirstlogin()};
+                </c:if>
+
             </script>                                         
 
             <!-- jQuery -->
@@ -356,8 +360,17 @@
                 setTimeout(function () {
                     ga('send', 'event', '10 seconds', 'read');
                 }, 10000);
-            </script>            
+            
+                window._mfq = window._mfq || [];
+                ( function() {
+                        var mf = document.createElement("script");
+                        mf.type = "text/javascript"; mf.async = true;
+                        mf.src = "//cdn.mouseflow.com/projects/56872595-6055-428f-99ba-9995277fc45c.js";
+              
+                document.getElementsByTagName("head")[0].appendChild(mf);
+            })();            
+        </script>            
 
-        </body>
-    </html>
+    </body>
+</html>
 </compress:html>
