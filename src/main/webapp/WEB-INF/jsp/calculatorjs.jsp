@@ -53,6 +53,7 @@
 //        check_jetty: {count: 25, type: 'single', text: "Jetty"},
 //        check_tcp: {count: 13, type: 'single', text: "Tcp"}
     };
+    
     var calc = {
         system_check: {
             check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
