@@ -8,7 +8,7 @@
 //        check_ceph: {count: 7, type: 'single', text: "Ceph"},
 //        check_couchbase: {count: 8, type: 'single', text: "Couchbase"},
 //        check_couchdb: {count: 9, type: 'single', text: "CouchDB"},
-//        check_cpustats: {count: 8, type: 'multi', isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count"},
+//        check_cpustats: {count: 8, type: 'multi', isbegin: true, text: "CPUstats", hasAll: true, allText: "For all cores", multiText: "Cores Count"},
 //        check_disks: {count: 6, type: 'multi', isbegin: true, text: "Disks", multiText: "Disks Count"},
 //        check_docker_stats: {count: 2, type: 'multi', text: "Docker stats", multiText: "Docker Container Count"},
 //        check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X"},
@@ -53,10 +53,9 @@
 //        check_jetty: {count: 25, type: 'single', text: "Jetty"},
 //        check_tcp: {count: 13, type: 'single', text: "Tcp"}
     };
-    
     var calc = {
         system_check: {
-            check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
+            check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
             check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', text2: "It takes memory related information from /proc/meminfo file.", name: "Memory Check"},
             check_disks: {count: 6, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO and Space usage.", name: "Disk Check"},
             check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', text2: " It collects metrics about all installed interfaces.", name: "Network"},
@@ -77,9 +76,8 @@
 
         },
         bigdata_check: {
-            check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 1.x"},
-            check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 2.x-5.x"},
-
+            check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.jpg', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 1.x"},
+            check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.jpg', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 2.x-5.x"},
             check_solr: {count: 4, type: 'single', text: "Solr", src: '/OddeyeCoconut/assets/images/integration/Solr.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Solr"},
             check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Cassandra"},
             check_cassandra3: {count: 6, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Cassandra 3"},
@@ -111,7 +109,6 @@
             check_mongodb: {count: 3, type: 'single', text: "MongoDB", src: '/OddeyeCoconut/assets/images/integration/mongoDB.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "MongoDB"}
 
         },
-
         hadoop_check: {
             check_hadoop_datanode: {count: 18, type: 'single', text: "Hadoop datanode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Hadoop datanode"},
             check_hadoop_namenode: {count: 26, type: 'single', text: "Hadoop namenode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Hadoop namenode"},
@@ -134,23 +131,20 @@
         }
     };
     var metricprice = 8.73042583962e-07;
-
-
     var paint = function () {
         for (var key in calc) {
             $('.tab-content').append('<div class="tab-pane " id="' + key + '"></div>');
             for (var t in calc[key]) {
-                $('#' + key).append('<div class="integration" id="' + t + '"><span><img alt="" src="' + calc[key][t]['src'] + '">' + calc[key][t]['name'] + '</span><p class="for_integration">' + calc[key][t]['text2'] + '</p>');
+//                $('#' + key).append('<div class="integration" id="' + t + '"><span><img alt="" src="' + calc[key][t]['src'] + '">' + calc[key][t]['name'] + '</span><p class="for_integration">' + calc[key][t]['text2'] + '</p>');
 //                console.log(calc[key][t]['isbegin']);
+                $('#' + key).append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key][t]['src'] + '"></span><h3>' + calc[key][t]['name'] + '</h3><p>' + calc[key][t]['text2'] + '</p></div></div>');
                 $('#' + t).addClass(calc[key][t]['inclass']);
-
             }
             ;
         }
         ;
     };
     var i = 0;
-
     $('body').on('click', '#apply', function () {
         var instance_id = 'check_' + $(".hostcheck .check").length;
         $("#hostcheck").append('<div class="hostcheck calc" id="' + instance_id + '"> <div class="x_title"><h2>Instanse #'+($(".hostcheck .check").length+1)+'</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"><form></div><div class="check col-xs-9 col-lg-10"></div></div></div>');
@@ -158,17 +152,23 @@
             var id = $(this).attr("id");
             if (id)
             {
-                var parent = $(this).parent().attr("id");
+                var parent = $(this).parent().parent().attr("id");
                 if (calc[parent][id]['type'] === 'multi') {
                     if (calc[parent][id]['hasAll']) {
-//                          alert(t);
-                        $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-close" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div clas="for_integration"><label style="float:left">' + calc[parent][id]['multiText'] + ":All" + '</label> <input type="checkbox" class="checkbox ' + id + '" checked><input type="number" min="1" class="multi" value="1"  ></div>');
+                        $("#" + instance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent][id]['src'] + '"></span><h3>' + calc[parent][id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent][id]['multiText'] + '</label> <div class="col-xs-9"><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-9 check-wraper"><input type="checkbox" class="checkbox ' + id + '" checked> '+calc[parent][id]['allText']+'</div></form></div></div>');
+                        
+                        $('input.checkbox.' + id).iCheck({
+                            checkboxClass: 'icheckbox_flat-green',
+                            radioClass: 'iradio_flat-green'
+                        });
                     } else {
-                        $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-close" aria-hidden="true"></i></span><span  ><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div clas="for_integration"><label>' + calc[parent][id]['multiText'] + '</label><input type="number" min="1" class="multi" value="1"></div>');
+                        $("#" + instance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent][id]['src'] + '"></span><h3>' + calc[parent][id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent][id]['multiText'] + '</label><div class="col-xs-9"><input type="number" min="1" class="multi form-control" value="1"  ></div></form></div></div>');
+//                        $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-close" aria-hidden="true"></i></span><span  ><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div clas="for_integration"><label>' + calc[parent][id]['multiText'] + '</label><input type="number" min="1" class="multi" value="1"></div>');
                     }
 
                 } else {
-                    $(".hostcheck .check").last().append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><p class="for_integration">' + calc[parent][id]['text'] + '</p>');
+                    $("#" + instance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent][id]['src'] + '"></span><h3>' + calc[parent][id]['name'] + '</h3><p>' + calc[parent][id]['text2'] + '</p></div></div>');
+//                    $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><p class="for_integration">' + calc[parent][id]['text'] + '</p>');
                 }
             }
         });
@@ -184,24 +184,39 @@
     $('body').on('click', '#reset', function () {
         $('.integration').removeClass('checked');
     });
-    $('body').on('click', '.delete', function () {
+    $('body').on('click', '.x_title .close-link', function () {
+        console.log("sadada");
         $(this).parents('.hostcheck').remove();
-
     });
+    
+    $('body').on('click', '.hostcheck .fa-chevron-up', function () {
+        $(this).removeClass('fa-chevron-up');
+        $(this).addClass('fa-chevron-down');
+        $(this).parents('.hostcheck').find('.x_content').hide();
+        
+    });
+    $('body').on('click', '.hostcheck .fa-chevron-down', function () {
+        $(this).removeClass('fa-chevron-down');
+        $(this).addClass('fa-chevron-up');
+        $(this).parents('.hostcheck').find('.x_content').show();
+    });    
+    
     $('body').on('click', '.clone', function () {
-        $(this).parents('.hostcheck').clone().prependTo('#hostcheck');
-
+        var instance_id = 'check_' + $(".hostcheck .check").length;
+        var clone = $(this).parents('.hostcheck').clone();
+        clone.attr("id",instance_id);
+        clone.find("h2").text('Instanse #'+($(".hostcheck .check").length+1));
+        $("#hostcheck").append(clone);
     });
-    $('body').on('click', '.intclose', function () {
+    $('body').on('click', '.del-link', function () {
         var that = $(this).parents(".hostcheck");
-        $(this).parents('.integration_select').remove();
-        price(that);
+        $(this).parents('.flipInY').remove();        
+        that.find('.total').html( price(that));        
     });
     $('body').on('click', '.change', function () {
         price($(this).parents(".hostcheck"));
-
     });
-    $('body').on('input', 'input', function ( ) {
+    $('body').on('input', 'input', function () {
         var elem = $(this);
         clearTimeout(whaittimer);
         var whaittimer = setTimeout(function () {
@@ -209,13 +224,12 @@
         }, 500);
     });
     var whaittimer;
-    $('body').on('change keyup paste ', '.search-query', function ( ) {
+    $('body').on('change keyup paste ', '.search-query', function () {
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function () {
             if ($('.search-query').val()) {
                 $('.tab-pane.active').removeClass('active');
                 $('.nav-tabs  li.active').removeClass('active');
-
                 if ($('#search_check').length === 0)
                 {
                     $('.tab-content').append('<div class="tab-pane active" id="search_check">valod');
@@ -228,15 +242,11 @@
             {
                 $('.tab-pane').first().addClass('active');
                 $('.nav-tabs  li').first().addClass('active');
-
             }
             ;
-
         }, 1000);
-
-
     });
-    $('body').on('change', '.checkbox', function ( ) {
+    $('body').on('change', '.checkbox', function () {
         price($(this).parents(".hostcheck"));
         ;
     });
@@ -244,6 +254,7 @@
         $('#search_check').html('');
         var testx = $("#tab-items").html();
         const regex = new RegExp('<div([^>\/]+)class="integration([^>\/]+)>((?!<\/div>).)*' + value + '((?!<div).)*(\<(\/?[^>]+)div>)', 'ig');
+        var Wrap = "<div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>";
         let m;
         while ((m = regex.exec(testx)) !== null) {
             // This is necessary to avoid infinite loops with zero-width matches
@@ -254,13 +265,13 @@
             item.attr('value', item.attr("id"));
             item.removeAttr("id");
             $('#search_check').append(item);
+            item.wrap(Wrap)
         }
     }
 
 
     function price(contener) {
         var applysum = 0;
-
         contener.find(".integration_select").each(function () {
 //            var applysum = 0;
             var sum = 0;
@@ -276,11 +287,9 @@
                         sum = (calc[parent][id]['count']) * (Number.parseFloat($(this).find('.multi').val()) + 1);
                     } else {
                         sum = calc[parent][id]['count'];
-
                     }
                 }
                 applysum = applysum + sum;
-
             } else {
                 sum = calc[parent][id]['count'];
                 applysum = applysum + sum;
@@ -289,16 +298,12 @@
         });
         var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice).toFixed(2);
         contener.find('.total').html(price + " $");
-
-
-
     }
     ;
     $(document).ready(function () {
         paint();
         $('#system_check').addClass('active');
 //        console.log(checked);
-        
 
     });
 
