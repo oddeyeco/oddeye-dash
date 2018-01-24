@@ -29,6 +29,40 @@ var colorPalette = [
     '#FF1744', '#D500F9', '#F57F17'
 ];
 
+var pieformater = function (params) {
+    var formatter = params.data.formatter;
+    if (!formatter)
+    {
+        return formatter;
+    }
+    var valueformatter = params.data.unit;
+
+    if (typeof (window[params.data.unit]) === "function")
+    {
+        valueformatter = window[params.data.unit];
+    }
+    if (params.data.valueformatter)
+    {
+        valueformatter = params.data.valueformatter;
+    }
+    if (!valueformatter)
+    {
+        valueformatter = "{value}";
+    }
+
+    formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
+    formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
+    formatter = formatter.replace(new RegExp("{p}", 'g'), params.percent);
+    if (typeof (valueformatter) === "function")
+    {
+        formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(params.value));
+    } else
+    {
+        formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), params.value));
+    }
+    return formatter;
+};
+
 var abcformater = function (params) {
 
     var formatter = params.data.unit;
@@ -512,39 +546,7 @@ var encodeHTML = function (source) {
         pie: {
             label: {
                 normal: {
-                    formatter: function (params) {
-                        var formatter = params.data.formatter;
-                        if (!formatter)
-                        {
-                            return formatter;
-                        }
-                        var valueformatter = params.data.unit;
-
-                        if (typeof (window[params.data.unit]) === "function")
-                        {
-                            valueformatter = window[params.data.unit];
-                        }
-                        if (params.data.valueformatter)
-                        {
-                            valueformatter = params.data.valueformatter;
-                        }
-                        if (!valueformatter)
-                        {
-                            valueformatter = "{value}";
-                        }
-
-                        formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
-                        formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
-                        formatter = formatter.replace(new RegExp("{p}", 'g'), params.percent);
-                        if (typeof (valueformatter) === "function")
-                        {
-                            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(params.value));
-                        } else
-                        {
-                            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), params.value));
-                        }
-                        return formatter;
-                    }
+                    formatter: pieformater
                 }
             }
         },

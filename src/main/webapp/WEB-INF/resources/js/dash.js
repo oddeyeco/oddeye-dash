@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater */
 var SingleRedrawtimer;
 var dasheditor;
 var refreshtimes = {
@@ -1022,6 +1022,28 @@ var queryCallback = function (inputdata) {
                 }
             }
 
+            switch (widget.type) {
+                case 'pie':
+                {
+                    delete widget.options.dataZoom;
+                    break;
+                }
+                case 'funnel':
+                {
+                    delete widget.options.dataZoom;
+                    break;
+                }
+                case 'gauge':
+                {
+                    delete widget.options.dataZoom;
+                    break;
+                }                
+                default:
+                {
+                    break
+                }
+            }
+
             for (var ind in widget.options.series)
             {
 
@@ -1096,26 +1118,30 @@ var queryCallback = function (inputdata) {
                     }
                     ser.detail.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                 }
+                
                 if (ser.label)
                 {
                     if (ser.label.normal)
-                    {
-                        if (ser.label.normal.show)
+                    {                        
+                        if (ser.label.normal.show||typeof (ser.label.normal.show)==="undefined")
                         {
+                            
                             switch (ser.type) {
                                 case 'pie':
                                 {
-                                    delete ser.label.normal.formatter;
+//                                    delete ser.label.normal.formatter;
+                                    ser.label.normal.formatter = pieformater;
                                     break;
                                 }
                                 case 'funnel':
                                 {
-                                    delete ser.label.normal.formatter;
+                                    ser.label.normal.formatter = abcformater;
                                     break;
                                 }
                                 case 'line':
                                 {
-                                    delete ser.label.normal.formatter;
+//                                    delete ser.label.normal.formatter;
+                                    ser.label.normal.formatter = abcformater;
                                     break;
                                 }
                                 default:
@@ -2503,7 +2529,7 @@ $(document).ready(function () {
         $('.current-page').find('i').toggleClass('current-i');
     }
 
-     
+
     $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
