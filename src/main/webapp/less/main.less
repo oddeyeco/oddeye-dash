@@ -21,33 +21,80 @@ body {
     background-position: 50% 50%;
     background-image: url("../images/bkg.jpg");
 } 
-.SineUp
-{
-    float: left;
-    width: 45%;
-    height: 78px;    
-}
+
 #recaptcha
 {
     float: left;
 }
-
-a
+.sineup
 {
-    &.btn-href
+    .contactform
     {
-        margin: 5px; 
-        color: rgba(255,255,255,0.66);
-        background: rgba(30,80,0,1);
-        border-width: 0;  
-        &:hover {
-            background: rgba(30,80,0,0.9);    
-        }        
+        /*padding: 0 20px;*/
     }
+    a
+    {
+        &.btn-href
+        {
+            margin: 5px; 
+            color: rgba(255,255,255,0.66);
+            background: rgba(30,80,0,1);
+            border-width: 0;  
+            &:hover {
+                transform: scale(1.05);
+                background: rgba(30,80,0,0.9);    
+                color: rgba(255,255,255,0.66);
+            }        
+        }
 
+    }  
+    button.SineUp
+    {
+        margin-left: 6px;
+        float: right;
+        width: 45%;
+        height: 78px;    
+    }
+    color: #fff;    
+    padding-top: 100px;
 }
+@media (min-width: 1200px)
+{
+    .sineup {
+        width: 1170px;
+    }
+}
+
+@media (max-width: 1199px)
+{
+    .sineup {
+        width: 80%;
+    }
+}
+
 .logincontener
 {    
+    .login
+    {
+        background: none;
+    }
+    a
+    {
+        &.btn-href
+        {
+            margin: 5px; 
+            color: rgba(255,255,255,0.66);
+            background: rgba(30,80,0,1);
+            border-width: 0;  
+            &:hover {
+                transform: scale(1.05);
+                background: rgba(30,80,0,0.9);    
+                color: rgba(255,255,255,0.66);
+            }        
+        }
+
+    }    
+    color: #fff;
     position: absolute;  
     top: 3%; 
     width: 100%
