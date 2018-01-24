@@ -1022,6 +1022,28 @@ var queryCallback = function (inputdata) {
                 }
             }
 
+            switch (widget.type) {
+                case 'pie':
+                {
+                    delete widget.options.dataZoom;
+                    break;
+                }
+                case 'funnel':
+                {
+                    delete widget.options.dataZoom;
+                    break;
+                }
+                case 'gauge':
+                {
+                    delete widget.options.dataZoom;
+                    break;
+                }                
+                default:
+                {
+                    break
+                }
+            }
+
             for (var ind in widget.options.series)
             {
 
@@ -1105,17 +1127,19 @@ var queryCallback = function (inputdata) {
                             switch (ser.type) {
                                 case 'pie':
                                 {
-                                    delete ser.label.normal.formatter;
+//                                    delete ser.label.normal.formatter;
+                                    ser.label.normal.formatter = pieformater;
                                     break;
                                 }
                                 case 'funnel':
                                 {
-                                    delete ser.label.normal.formatter;
+                                    ser.label.normal.formatter = abcformater;
                                     break;
                                 }
                                 case 'line':
                                 {
-                                    delete ser.label.normal.formatter;
+//                                    delete ser.label.normal.formatter;
+                                    ser.label.normal.formatter = abcformater;
                                     break;
                                 }
                                 default:
@@ -2503,7 +2527,7 @@ $(document).ready(function () {
         $('.current-page').find('i').toggleClass('current-i');
     }
 
-     
+
     $('body').on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
