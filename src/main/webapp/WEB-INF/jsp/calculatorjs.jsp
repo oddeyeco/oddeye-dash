@@ -76,8 +76,8 @@
 
         },
         bigdata_check: {
-            check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.jpg', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 1.x"},
-            check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.jpg', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 2.x-5.x"},
+            check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 1.x"},
+            check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 2.x-5.x"},
 
             check_solr: {count: 4, type: 'single', text: "Solr", src: '/OddeyeCoconut/assets/images/integration/Solr.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Solr"},
             check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Cassandra"},
@@ -151,7 +151,7 @@
     var i = 0;
 
     $('body').on('click', '#apply', function () {
-        $("#hostcheck").append('<div class="hostcheck calc"> <span class="delete"><i class="fa fa-times" aria-hidden="true"></i></span><div  class="col-xs-3 col-lg-2 "><label>Host Count</label><input class="host" type="number" value="1"><label>Check Interval(sec.)</label><input class=sec type="number" value="10"></div><div class="check tab-pane col-xs-9 col-lg-10"></div></div>');
+        $("#hostcheck").append('<div class="hostcheck calc"> <span class="delete"><i class="fa fa-close" aria-hidden="true"></i></span><div  class="col-xs-3 col-lg-2 "><label>Host Count</label><input class="host" type="number" value="1"><label>Check Interval(sec.)</label><input class=sec type="number" value="10"></div><div class="check tab-pane col-xs-9 col-lg-10"></div></div>');
         $(".checked").each(function () {
             var id = $(this).attr("id");
             if (id)
@@ -170,7 +170,7 @@
                 }
             }
         });
-        $(".hostcheck .check").last().append('<div><button class="calc_button change">Change</button><button  class="calc_button clone " >Clone</button><div> <label>Total Price</label> <span class ="total"></span>');
+        $(".hostcheck .check").last().append('<div style="clear:both"></div><div><button class="calc_button change">Change</button><button  class="calc_button clone " >Clone</button><div> <label>Total Price</label> <span class ="total"></span>');
         $(".hostcheck .check").last().find('.total').html(price($(".hostcheck .check").last().find('.total').parents(".hostcheck")));
     });
     $('body').on('click', '.integration', function () {
@@ -294,6 +294,7 @@
         paint();
         $('#system_check').addClass('active');
 //        console.log(checked);
+        
 
     });
 
