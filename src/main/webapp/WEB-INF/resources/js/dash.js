@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater */
 var SingleRedrawtimer;
 var dasheditor;
 var refreshtimes = {
@@ -1118,12 +1118,14 @@ var queryCallback = function (inputdata) {
                     }
                     ser.detail.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                 }
+                
                 if (ser.label)
                 {
                     if (ser.label.normal)
-                    {
-                        if (ser.label.normal.show)
+                    {                        
+                        if (ser.label.normal.show||typeof (ser.label.normal.show)==="undefined")
                         {
+                            
                             switch (ser.type) {
                                 case 'pie':
                                 {
