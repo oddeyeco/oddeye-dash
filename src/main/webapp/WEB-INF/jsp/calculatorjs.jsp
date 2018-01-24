@@ -273,7 +273,9 @@
 
             });
             var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice);
-            contener.find('.total').html(price.toFixed(2));
+            contener.find('.total').html(price.toFixed(2)+"Units");
+            contener.find('.totalusd').html('~'+(price + price * pp / 100 + pf).toFixed(2)+"USD");
+            
             var id = contener.attr('id');
             id = id.replace('check_', 'tr_');
             $('#fullprice table tbody #' + id + ' td.unit').attr("value", price);

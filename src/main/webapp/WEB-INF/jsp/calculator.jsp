@@ -70,7 +70,7 @@
     <div id="fullprice" class="col-xs-2">
         <div class="x_panel calc">
             <div class="x_title">
-                <h2>Price Total</h2>
+                <h2>Price for month</h2>
                 <div class="clearfix"></div>
             </div>
 
