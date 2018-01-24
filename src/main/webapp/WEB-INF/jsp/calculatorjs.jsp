@@ -1,127 +1,144 @@
 <script type="text/javascript">
     var calc = {
-        system_check: {
-            check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
-            check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', text2: "It takes memory related information from /proc/meminfo file.", name: "Memory Check"},
-            check_disks: {count: 6, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO and Space usage.", name: "Disk Check"},
-            check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', text2: " It collects metrics about all installed interfaces.", name: "Network"},
-            check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', text2: "It reads /proc/sys/net/ipv4/netfilter/ip_conntrack_max|ip_conntrack_count files and provides.", name: "IP Conntrack"},
-            check_load_average: {count: 3, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png', text2: "System load average shows ammount of processes. ", name: "Load Average"},
-            check_tcp: {count: 13, type: 'single', text: "Tcp", src: '/OddeyeCoconut/assets/images/integration/TCP.png', text2: "This check provides status of TCP connections to systems. It parses /proc/net/tcp.", name: "TCP Connections"},
-            check_btrfs: {count: 4, type: 'single', text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "BTRFS Check"}
-        },
-        webservers_check: {
-            check_apache: {count: 7, type: 'single', text: "Apache", src: '/OddeyeCoconut/assets/images/integration/apache.png', text2: "Apache is free and open-source cross-platform web server software, released under the terms of Apache License 2.0.", name: "Apache"},
-            check_nginx: {count: 7, type: 'single', text: "Nginx", src: '/OddeyeCoconut/assets/images/integration/Nginx.png', text2: "Nginx is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server.", name: "NginX"},
-            check_haproxy: {count: 2, type: 'single', text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png', text2: "HAProxy is a free, reliable solution offering high availability, load balancing, and proxying for TCP and HTTP-based applications.", name: "HAProxy"},
-            check_phpfpm: {count: 7, type: 'single', text: "PHPFPM", src: '/OddeyeCoconut/assets/images/integration/phpfpm.png', text2: "PHP-FPM is an alternative PHP FastCGI implementation with some additional features useful for sites of any size.", name: "PHP-FPM"},
-            check_tomcat: {count: 14, type: 'single', text: "Tomcat", src: '/OddeyeCoconut/assets/images/integration/ApacheTomcat.png', text2: "The Apache Tomcat software is an open source implementation of the Java Servlet, JavaServer Pages, Java Expression Language  ...", name: "Apache Tomcat"},
-            check_jetty: {count: 25, type: 'single', text: "Jetty", src: '/OddeyeCoconut/assets/images/integration/jetty.png', text2: "Jetty provides a Web server and javax.servlet container, plus support for HTTP/2, WebSocket, OSGi, JMX, JNDI ...", name: "Jetty"},
-            check_lighttpd: {count: 7, type: 'single', text: "LigHTTPD", src: '/OddeyeCoconut/assets/images/integration/light_logo.png', text2: "Lighttpd is an open-source web server optimized for speed-critical environments while remaining standards-compliant, secure and flexible.", name: "Lighttpd"},
-            check_http_api: {count: 2, type: 'single', text: "HTTP API", src: '/OddeyeCoconut/assets/images/integration/http.png', text2: "HTTP is basic check for measuring performance of HTTP API servers.", name: "HTTP API"}
+        system_check: {text: "System Checks", childs: {
+                check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
+                check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', text2: "It takes memory related information from /proc/meminfo file.", name: "Memory Check"},
+                check_disks: {count: 6, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO and Space usage.", name: "Disk Check"},
+                check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', text2: " It collects metrics about all installed interfaces.", name: "Network"},
+                check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', text2: "It reads /proc/sys/net/ipv4/netfilter/ip_conntrack_max|ip_conntrack_count files and provides.", name: "IP Conntrack"},
+                check_load_average: {count: 4, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png', text2: "System load average shows ammount of processes. ", name: "Load Average"},
+                check_tcp: {count: 13, type: 'single', text: "Tcp", src: '/OddeyeCoconut/assets/images/integration/TCP.png', text2: "This check provides status of TCP connections to systems. It parses /proc/net/tcp.", name: "TCP Connections"},
+                check_btrfs: {count: 4, type: 'single', text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "BTRFS Check"}
+            }},
+        webservers_check: {text: "Web Servers", childs: {
+                check_apache: {count: 7, type: 'single', text: "Apache", src: '/OddeyeCoconut/assets/images/integration/apache.png', text2: "Apache is free and open-source cross-platform web server software, released under the terms of Apache License 2.0.", name: "Apache"},
+                check_nginx: {count: 7, type: 'single', text: "Nginx", src: '/OddeyeCoconut/assets/images/integration/Nginx.png', text2: "Nginx is an HTTP and reverse proxy server, a mail proxy server, and a generic TCP/UDP proxy server.", name: "NginX"},
+                check_haproxy: {count: 2, type: 'single', text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png', text2: "HAProxy is a free, reliable solution offering high availability, load balancing, and proxying for TCP and HTTP-based applications.", name: "HAProxy"},
+                check_phpfpm: {count: 7, type: 'single', text: "PHPFPM", src: '/OddeyeCoconut/assets/images/integration/phpfpm.png', text2: "PHP-FPM is an alternative PHP FastCGI implementation with some additional features useful for sites of any size.", name: "PHP-FPM"},
+                check_tomcat: {count: 14, type: 'single', text: "Tomcat", src: '/OddeyeCoconut/assets/images/integration/ApacheTomcat.png', text2: "The Apache Tomcat software is an open source implementation of the Java Servlet, JavaServer Pages, Java Expression Language  ...", name: "Apache Tomcat"},
+                check_jetty: {count: 25, type: 'single', text: "Jetty", src: '/OddeyeCoconut/assets/images/integration/jetty.png', text2: "Jetty provides a Web server and javax.servlet container, plus support for HTTP/2, WebSocket, OSGi, JMX, JNDI ...", name: "Jetty"},
+                check_lighttpd: {count: 7, type: 'single', text: "LigHTTPD", src: '/OddeyeCoconut/assets/images/integration/light_logo.png', text2: "Lighttpd is an open-source web server optimized for speed-critical environments while remaining standards-compliant, secure and flexible.", name: "Lighttpd"},
+                check_http_api: {count: 2, type: 'single', text: "HTTP API", src: '/OddeyeCoconut/assets/images/integration/http.png', text2: "HTTP is basic check for measuring performance of HTTP API servers.", name: "HTTP API"}
 
-        },
-        bigdata_check: {
-            check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.jpg', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 1.x"},
-            check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.jpg', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 2.x-5.x"},
-            check_solr: {count: 4, type: 'single', text: "Solr", src: '/OddeyeCoconut/assets/images/integration/Solr.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Solr"},
-            check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Cassandra"},
-            check_cassandra3: {count: 6, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Cassandra 3"},
-            check_ceph: {count: 7, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Ceph"},
-            check_spark_master: {count: 5, type: 'single', text: "Spark master", src: '/OddeyeCoconut/assets/images/integration/Spark.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Spark Master"},
-            check_spark_worker: {count: 6, type: 'single', text: "Spark worker", src: '/OddeyeCoconut/assets/images/integration/Spark.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Spark Worker"},
-            check_storm_api: {count: 12, type: 'single', text: "Storm Api", src: '/OddeyeCoconut/assets/images/integration/Storm.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Storm Api"},
-            check_storm_workers: {count: 12, type: 'single', text: "Storm Workers", src: '/OddeyeCoconut/assets/images/integration/Storm.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Storm Workers"},
-            check_mesos_master: {count: 27, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Mesos Master"},
-            check_mesos_slave: {count: 21, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Mesos Slave"}
+            }},
+        bigdata_check: {text: "Big Data", childs: {
+                check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 1.x"},
+                check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Elasticsearch 2.x-5.x"},
+                check_solr: {count: 4, type: 'single', text: "Solr", src: '/OddeyeCoconut/assets/images/integration/Solr.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Solr"},
+                check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Cassandra"},
+                check_cassandra3: {count: 6, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Cassandra 3"},
+                check_ceph: {count: 7, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Ceph"},
+                check_spark_master: {count: 5, type: 'single', text: "Spark master", src: '/OddeyeCoconut/assets/images/integration/Spark.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Spark Master"},
+                check_spark_worker: {count: 6, type: 'single', text: "Spark worker", src: '/OddeyeCoconut/assets/images/integration/Spark.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Spark Worker"},
+                check_storm_api: {count: 12, type: 'single', text: "Storm Api", src: '/OddeyeCoconut/assets/images/integration/Storm.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Storm Api"},
+                check_storm_workers: {count: 12, type: 'single', text: "Storm Workers", src: '/OddeyeCoconut/assets/images/integration/Storm.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Storm Workers"},
+                check_mesos_master: {count: 27, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Mesos Master"},
+                check_mesos_slave: {count: 21, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Mesos Slave"}
 
 
-        },
-        java_check: {
-            check_jmx: {count: 4, type: 'single', text: "JMX", src: '/OddeyeCoconut/assets/images/integration/jmx.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "JMX"},
-            check_jolokia: {count: 15, type: 'single', text: "Jolokia", src: '/OddeyeCoconut/assets/images/integration/jolokia.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Jolokia"}
+            }},
+        java_check: {text: "Java", childs: {
+                check_jmx: {count: 4, type: 'single', text: "JMX", src: '/OddeyeCoconut/assets/images/integration/jmx.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "JMX"},
+                check_jolokia: {count: 15, type: 'single', text: "Jolokia", src: '/OddeyeCoconut/assets/images/integration/jolokia.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Jolokia"}
 
-        },
-        messagequeue_check: {
-            check_kafka: {count: 27, type: 'single', text: "Kafka", src: '/OddeyeCoconut/assets/images/integration/Kafka.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Kafka"},
-            check_rabbitmq: {count: 12, type: 'multi', text: "rabbitMQ", multiText: "Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "RabbitMQ"},
-            check_rabbitmq_368: {count: 12, type: 'multi', text: "rabbitmq_368", multiText: "368Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "RabbitMQ_368"},
-            check_activemq: {count: 2, type: 'single', text: "ActiveMQ", src: '/OddeyeCoconut/assets/images/integration/ActiveMQ.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "ActiveMQ"}
-        },
-        sqlcache_check: {
-            check_mysql: {count: 24, type: 'single', text: "MySQL", src: '/OddeyeCoconut/assets/images/integration/MySQL.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "MySQL"},
-            check_redis: {count: 17, type: 'single', text: "Redis", src: '/OddeyeCoconut/assets/images/integration/Redis.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Redis"},
-            check_memcached: {count: 16, type: 'single', text: "Memcached", src: '/OddeyeCoconut/assets/images/integration/Memcached.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Memcached"},
-            check_mongodb: {count: 3, type: 'single', text: "MongoDB", src: '/OddeyeCoconut/assets/images/integration/mongoDB.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "MongoDB"}
+            }},
+        messagequeue_check: {text: "Message Queue", childs: {
+                check_kafka: {count: 27, type: 'single', text: "Kafka", src: '/OddeyeCoconut/assets/images/integration/Kafka.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Kafka"},
+                check_rabbitmq: {count: 12, type: 'multi', text: "rabbitMQ", multiText: "Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "RabbitMQ"},
+                check_rabbitmq_368: {count: 12, type: 'multi', text: "rabbitmq_368", multiText: "368Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "RabbitMQ_368"},
+                check_activemq: {count: 2, type: 'single', text: "ActiveMQ", src: '/OddeyeCoconut/assets/images/integration/ActiveMQ.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "ActiveMQ"}
+            }},
+        sqlcache_check: {text: "SQL,Cache", childs: {
+                check_mysql: {count: 24, type: 'single', text: "MySQL", src: '/OddeyeCoconut/assets/images/integration/MySQL.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "MySQL"},
+                check_redis: {count: 17, type: 'single', text: "Redis", src: '/OddeyeCoconut/assets/images/integration/Redis.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Redis"},
+                check_memcached: {count: 16, type: 'single', text: "Memcached", src: '/OddeyeCoconut/assets/images/integration/Memcached.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Memcached"},
+                check_mongodb: {count: 3, type: 'single', text: "MongoDB", src: '/OddeyeCoconut/assets/images/integration/mongoDB.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "MongoDB"}
 
-        },
-        hadoop_check: {
-            check_hadoop_datanode: {count: 18, type: 'single', text: "Hadoop datanode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Hadoop datanode"},
-            check_hadoop_namenode: {count: 26, type: 'single', text: "Hadoop namenode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Hadoop namenode"},
-            check_hbase_master: {count: 7, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Master"},
-            check_hbase_regionserver: {count: 32, type: 'single', text: "HBase regionserver", src: '/OddeyeCoconut/assets/images/integration/hbase.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Regionserver"},
-            check_hbase_rest: {count: 10, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbaserest.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Rest"},
-            check_hbase_thrift: {count: 1, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbasetrift.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Thrift"},
-            check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Zookeeper"}
-        },
-        docstorage_check: {
-            check_couchbase: {count: 8, type: 'single', text: "Couchbase", src: '/OddeyeCoconut/assets/images/integration/Couchbase.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Couchbase"},
-            check_couchdb: {count: 9, type: 'single', text: "CouchDB", src: '/OddeyeCoconut/assets/images/integration/CouchDB.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "CouchDB"},
-            check_riak: {count: 2, type: 'single', text: "Riak", src: '/OddeyeCoconut/assets/images/integration/Riak.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Riak"}
-        },
-        other_check: {
-            check_docker_stats: {count: 2, type: 'multi', text: "Docker stats", multiText: "Docker Container Count", src: '/OddeyeCoconut/assets/images/integration/docker-logo.gif', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Docker"},
-            check_oddeye: {count: 1, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/logo.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "OddEye"},
-            check_snmp: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/snmp.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "SNMP"},
-            check_nagios: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/nagios.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Nagios Checks"}
-        }
+            }},
+        hadoop_check: {text: "Hadoop", childs: {
+                check_hadoop_datanode: {count: 18, type: 'single', text: "Hadoop datanode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Hadoop datanode"},
+                check_hadoop_namenode: {count: 26, type: 'single', text: "Hadoop namenode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Hadoop namenode"},
+                check_hbase_master: {count: 7, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Master"},
+                check_hbase_regionserver: {count: 32, type: 'single', text: "HBase regionserver", src: '/OddeyeCoconut/assets/images/integration/hbase.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Regionserver"},
+                check_hbase_rest: {count: 10, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbaserest.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Rest"},
+                check_hbase_thrift: {count: 1, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbasetrift.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "HBase Thrift"},
+                check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Zookeeper"}
+            }},
+        docstorage_check: {text: "Document Storage", childs: {
+                check_couchbase: {count: 8, type: 'single', text: "Couchbase", src: '/OddeyeCoconut/assets/images/integration/Couchbase.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Couchbase"},
+                check_couchdb: {count: 9, type: 'single', text: "CouchDB", src: '/OddeyeCoconut/assets/images/integration/CouchDB.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "CouchDB"},
+                check_riak: {count: 2, type: 'single', text: "Riak", src: '/OddeyeCoconut/assets/images/integration/Riak.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Riak"}
+            }},
+        other_check: {text: "Other", childs: {
+                check_docker_stats: {count: 2, type: 'multi', text: "Docker stats", multiText: "Docker Container Count", src: '/OddeyeCoconut/assets/images/integration/docker-logo.gif', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Docker"},
+                check_oddeye: {count: 1, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/logo.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "OddEye"},
+                check_snmp: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/snmp.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "SNMP"},
+                check_nagios: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/nagios.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "Nagios Checks"},
+                check_custom: {count: 1, type: 'multi', text: "Custom", multiText: "Custom check metrics count", src: '/OddeyeCoconut/assets/images/integration/custom.png', text2: "Your custom checks.", name: "Custom Checks"}
+            }}
     };
+
     var metricprice = 8.73042583962e-07;
+    var pp = 0;
+    var pf = 0;
+
+    $.getJSON(cp + '/getpayinfo', function (data) {        
+        metricprice = data.mp;
+        pp = data.pp;
+        pf = data.pf;
+    });
     var paint = function () {
         for (var key in calc) {
             $('.tab-content').append('<div class="tab-pane " id="' + key + '"></div>');
-            for (var t in calc[key]) {
-//                $('#' + key).append('<div class="integration" id="' + t + '"><span><img alt="" src="' + calc[key][t]['src'] + '">' + calc[key][t]['name'] + '</span><p class="for_integration">' + calc[key][t]['text2'] + '</p>');
-//                console.log(calc[key][t]['isbegin']);
-                $('#' + key).append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key][t]['src'] + '"></span><h3>' + calc[key][t]['name'] + '</h3><p>' + calc[key][t]['text2'] + '</p></div></div>');
-                $('#' + t).addClass(calc[key][t]['inclass']);
+            var _class = "tab";
+            if (key === "system_check")
+            {
+                var _class = "active";
+            }
+            ;
+            $('.tabs-left').append('<li class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + '</a></li>');
+            for (var t in calc[key].childs) {
+                $('#' + key).append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + calc[key].childs[t]['text2'] + '</p></div></div>');
+                $('#' + t).addClass(calc[key].childs[t]['inclass']);
             }
             ;
         }
         ;
     };
-    var i = 0;
+    var instance_id = 0;
     $('body').on('click', '#apply', function () {
-        var instance_id = 'check_' + $(".hostcheck .check").length;
-        $("#hostcheck").append('<div class="hostcheck calc" id="' + instance_id + '"> <div class="x_title"><h2>Instanse #'+($(".hostcheck .check").length+1)+'</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"><form></div><div class="check col-xs-9 col-lg-10"></div></div></div>');
+        var sinstance_id = 'check_' + instance_id;
+        $("#hostcheck").append('<div class="hostcheck calc x_panel" id="' + sinstance_id + '"> <div class="x_title"><h2>Instance #' + (instance_id + 1) + '</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"><form></div><div class="check col-xs-9 col-lg-10"></div></div></div>');
         $(".checked").each(function () {
             var id = $(this).attr("id");
             if (id)
             {
                 var parent = $(this).parent().parent().attr("id");
-                if (calc[parent][id]['type'] === 'multi') {
-                    if (calc[parent][id]['hasAll']) {
-                        $("#" + instance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent][id]['src'] + '"></span><h3>' + calc[parent][id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent][id]['multiText'] + '</label> <div class="col-xs-9"><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-9 check-wraper"><input type="checkbox" class="checkbox ' + id + '" checked> '+calc[parent][id]['allText']+'</div></form></div></div>');
-                        
-                        $('input.checkbox.' + id).iCheck({
+                if (calc[parent].childs[id]['type'] === 'multi') {
+                    if (calc[parent].childs[id]['hasAll']) {
+                        $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent].childs[id]['multiText'] + '</label> <div class="col-xs-8"><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '" checked> ' + calc[parent].childs[id]['allText'] + '</div></form></div></div>');
+
+                        $('#' + sinstance_id + ' .check input.checkbox.' + id).on('ifChanged', function () {
+                            doprice($(this).parents(".hostcheck"));
+                        }).iCheck({
                             checkboxClass: 'icheckbox_flat-green',
                             radioClass: 'iradio_flat-green'
                         });
                     } else {
-                        $("#" + instance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent][id]['src'] + '"></span><h3>' + calc[parent][id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent][id]['multiText'] + '</label><div class="col-xs-9"><input type="number" min="1" class="multi form-control" value="1"  ></div></form></div></div>');
-//                        $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-close" aria-hidden="true"></i></span><span  ><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><div clas="for_integration"><label>' + calc[parent][id]['multiText'] + '</label><input type="number" min="1" class="multi" value="1"></div>');
+                        $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent].childs[id]['multiText'] + '</label><div class="col-xs-8"><input type="number" min="1" class="multi form-control" value="1"  ></div></form></div></div>');
                     }
 
                 } else {
-                    $("#" + instance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent][id]['src'] + '"></span><h3>' + calc[parent][id]['name'] + '</h3><p>' + calc[parent][id]['text2'] + '</p></div></div>');
-//                    $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent][id]['src'] + '">' + calc[parent][id]['name'] + '</span><p class="for_integration">' + calc[parent][id]['text'] + '</p>');
+                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><p>' + calc[parent].childs[id]['text2'] + '</p></div></div>');
+//                    $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent].childs[id]['src'] + '">' + calc[parent].childs[id]['name'] + '</span><p class="for_integration">' + calc[parent].childs[id]['text'] + '</p>');
                 }
             }
         });
-        $("#" + instance_id + " .x_content").after('<div><button  class="calc_button clone " >Clone</button><div class="totalPrice"> <label>Total Price</label> <span class ="total"></span><span class ="totalusd"></span>');
-        $("#" + instance_id).find('.total').html(price($("#" + instance_id)));
-//        $(".hostcheck .check").last().append('<div><button class="calc_button change">Change</button><button  class="calc_button clone " >Clone</button><div> <label>Total Price</label> <span class ="total"></span>');
-//        $(".hostcheck .check").last().find('.total').html(price($(".hostcheck .check").last().find('.total').parents(".hostcheck")));
+        $("#" + sinstance_id + " .x_content").after('<div><button  class="calc_button clone " >Clone</button><div class="totalPrice"> <label>Total Price</label> <span class ="total"></span><span class ="totalusd">~</span>');
+        $('#fullprice table tbody').append('<tr id="tr_' + instance_id + '"><th><a href="#' + sinstance_id + '"> #' + (instance_id + 1) + '</a></th><td class="unit">0</td><td class="usd">0</td></tr>');
+        doprice($("#" + sinstance_id));
+
+        instance_id++;
     });
     $('body').on('click', '.integration', function () {
         $(this).toggleClass('checked');
@@ -131,42 +148,54 @@
         $('.integration').removeClass('checked');
     });
     $('body').on('click', '.x_title .close-link', function () {
-        console.log("sadada");
+        var id = $(this).parents('.hostcheck').attr('id');
+        id = id.replace('check_', 'tr_');
         $(this).parents('.hostcheck').remove();
+        $('#fullprice table tbody #' + id).remove();
+        doprice(false);
     });
-    
+
     $('body').on('click', '.hostcheck .fa-chevron-up', function () {
         $(this).removeClass('fa-chevron-up');
         $(this).addClass('fa-chevron-down');
         $(this).parents('.hostcheck').find('.x_content').hide();
-        
+
     });
     $('body').on('click', '.hostcheck .fa-chevron-down', function () {
         $(this).removeClass('fa-chevron-down');
         $(this).addClass('fa-chevron-up');
         $(this).parents('.hostcheck').find('.x_content').show();
-    });    
-    
+    });
+
     $('body').on('click', '.clone', function () {
-        var instance_id = 'check_' + $(".hostcheck .check").length;
+        var sinstance_id = 'check_' + instance_id;
         var clone = $(this).parents('.hostcheck').clone();
-        clone.attr("id",instance_id);
-        clone.find("h2").text('Instanse #'+($(".hostcheck .check").length+1));
+        clone.attr("id", sinstance_id);
+        clone.find("h2").text('Instanse #' + (instance_id + 1));
+        $('#fullprice table tbody').append('<tr id="tr_' + instance_id + '"><th><a href="#' + sinstance_id + '"> #' + (instance_id + 1) + '</a></th><td class="unit">0</td><td class="usd">0</td></tr>');
         $("#hostcheck").append(clone);
+
+        clone.find('ins.iCheck-helper').remove();
+        clone.find('input.checkbox').on('ifChanged', function () {
+            doprice($(this).parents(".hostcheck"));
+        }).iCheck({
+            checkboxClass: 'icheckbox_flat-green',
+            radioClass: 'iradio_flat-green'
+        });
+
+        instance_id++;
     });
     $('body').on('click', '.del-link', function () {
         var that = $(this).parents(".hostcheck");
-        $(this).parents('.flipInY').remove();        
-        that.find('.total').html( price(that));        
+        $(this).parents('.flipInY').remove();
+        doprice(that);
     });
-    $('body').on('click', '.change', function () {
-        price($(this).parents(".hostcheck"));
-    });
-    $('body').on('input', 'input', function () {
+
+    $('body').on('input', '.hostcheck input', function () {
         var elem = $(this);
         clearTimeout(whaittimer);
         var whaittimer = setTimeout(function () {
-            price(elem.parents(".hostcheck"));
+            doprice(elem.parents(".hostcheck"));
         }, 500);
     });
     var whaittimer;
@@ -193,8 +222,7 @@
         }, 1000);
     });
     $('body').on('change', '.checkbox', function () {
-        price($(this).parents(".hostcheck"));
-        ;
+        doprice($(this).parents(".hostcheck"));
     });
     function search(value) {
         $('#search_check').html('');
@@ -211,43 +239,80 @@
             item.attr('value', item.attr("id"));
             item.removeAttr("id");
             $('#search_check').append(item);
-            item.wrap(Wrap)
+            item.wrap(Wrap);
         }
     }
 
 
-    function price(contener) {
+    function doprice(contener) {
         var applysum = 0;
-        contener.find(".integration_select").each(function () {
+        if (contener)
+        {
+            contener.find(".integration_select").each(function () {
 //            var applysum = 0;
-            var sum = 0;
-            var id = $(this).attr('calcid');
-            var parent = $(this).attr('calcparent');
-            if (calc[parent][id]['type'] === 'multi') {
-                if (typeof (calc[parent][id]['hasAll']) == "undefined")
-                {
-                    sum = (calc[parent][id]['count']) * (Number.parseFloat($(this).find('.multi').val()));
-                } else
-                {
-                    if ($(this).find('.checkbox').prop('checked')) {
-                        sum = (calc[parent][id]['count']) * (Number.parseFloat($(this).find('.multi').val()) + 1);
-                    } else {
-                        sum = calc[parent][id]['count'];
+                var sum = 0;
+                var id = $(this).attr('calcid');
+                var parent = $(this).attr('calcparent');
+                if (calc[parent].childs[id]['type'] === 'multi') {
+                    if (typeof (calc[parent].childs[id]['hasAll']) === "undefined")
+                    {
+                        sum = (calc[parent].childs[id]['count']) * (Number.parseFloat($(this).find('.multi').val()));
+                    } else
+                    {
+                        if ($(this).find('.checkbox').prop('checked')) {
+                            sum = (calc[parent].childs[id]['count']) * (Number.parseFloat($(this).find('.multi').val()) + 1);
+                        } else {
+                            sum = calc[parent].childs[id]['count'];
+                        }
                     }
+                    applysum = applysum + sum;
+                } else {
+                    sum = calc[parent].childs[id]['count'];
+                    applysum = applysum + sum;
                 }
-                applysum = applysum + sum;
-            } else {
-                sum = calc[parent][id]['count'];
-                applysum = applysum + sum;
-            }
 
+            });
+            var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice);
+            contener.find('.total').html(price.toFixed(2));
+            var id = contener.attr('id');
+            id = id.replace('check_', 'tr_');
+            $('#fullprice table tbody #' + id + ' td.unit').attr("value", price);
+            $('#fullprice table tbody #' + id + ' td.unit').html(price.toFixed(2));
+            $('#fullprice table tbody #' + id + ' td.usd').attr("value", price + price * pp / 100 + pf);
+            $('#fullprice table tbody #' + id + ' td.usd').html((price + price * pp / 100 + pf).toFixed(2));
+        }
+        var sum = 0;
+        var sumusd = 0;
+        $('#fullprice table tbody td.unit').each(function () {            
+            sum = sum + parseFloat($(this).attr('value'));
+            sumusd = sumusd + parseFloat($(this).next('.usd').attr('value'));
         });
-        var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice).toFixed(2);
-        contener.find('.total').html(price + " $");
+
+        $('#fullprice table tfoot #total td.unit').html(sum.toFixed(2));
+        $('#fullprice table tfoot #total td.usd').html((sum + sum * pp / 100 + pf).toFixed(2));
+        $('#fullprice table tfoot #usdsave td.usd').html((sumusd - (sum + sum * pp / 100 + pf)).toFixed(2));
+
+
     }
     ;
     $(document).ready(function () {
         paint();
         $('#system_check').addClass('active');
+    });
+
+    $(document).on('scroll', function () {
+        if ($(document).scrollTop() >= $('#maincontener').offset().top) {
+            if (!$('#fullprice').hasClass("fixed"))
+            {
+                $('#fullprice').addClass("fixed");
+            }
+        } else
+        {
+
+            if ($('#fullprice').hasClass("fixed"))
+            {
+                $('#fullprice').removeClass("fixed");
+            }
+        }
     });
 </script>

@@ -52,6 +52,9 @@
             
                             </footer>
                         </div>-->
+            <script>
+                var cp = "${cp}";
+            </script>
             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
             <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js?v=${version}" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
             <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>
@@ -68,6 +71,7 @@
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>                    
             <script src="${cp}/resources/js/moment/moment-timezone-with-data.min.js?v=${version}"></script>        
             <script>
+                
                 (function (i, s, o, g, r, a, m) {
                     i['GoogleAnalyticsObject'] = r;
                     i[r] = i[r] || function () {
