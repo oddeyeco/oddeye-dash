@@ -40,7 +40,7 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         
-                        <li><a class="try-now" href="https://app.oddeye.co/OddeyeCoconut/signup/" >Try Now Free!</a></li>
+                        <li><a class="try-now" href="${cp}/signup/" >Try Now Free!</a></li>
                         <li><a data-toggle="modal" data-target="#loginModal">Login</a></li>
                     </ul>                    
                 </nav>
