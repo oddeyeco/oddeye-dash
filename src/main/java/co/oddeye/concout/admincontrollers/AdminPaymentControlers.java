@@ -57,7 +57,13 @@ public class AdminPaymentControlers extends GRUDControler {
         }).AddViewConfig("payment_gross", new HashMap<String, Object>() {
             {
                 put("path", "payment_gross");
-                put("title", "payment_gross");
+                put("title", "Payment gross");
+                put("type", "Double");
+            }
+        }).AddViewConfig("payment_fee", new HashMap<String, Object>() {
+            {
+                put("path", "payment_fee");
+                put("title", "Payment fee");
                 put("type", "Double");
             }
         }).AddViewConfig("mc_currency", new HashMap<String, Object>() {
