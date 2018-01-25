@@ -16,27 +16,27 @@
 //        $("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
 
         var value = 25;
-        $("#oddeyeQuantity").val(value.toFixed(2));
+//        $("#oddeyeQuantity").val(value.toFixed(2));
         value = value + value * pp / 100 + pf;
         $("#oddeyeAmmount").val(value.toFixed(2));
         $("#paypalAmmount").val($("#oddeyeAmmount").val());
-        $("#paypalItemName").val($("#oddeyeQuantity").val() + " " + $("#paypalItemName").attr("text"));
+//        $("#paypalItemName").val($("#oddeyeQuantity").val() + " " + $("#paypalItemName").attr("text"));
 
 
-        $('body').on("blur", "#oddeyeQuantity", function () {
-            var value = Number($(this).val());
-            value = value + value * pp / 100 + pf;
-            $("#oddeyeAmmount").val(value.toFixed(2));
-            $("#paypalAmmount").val($("#oddeyeAmmount").val());
-            $("#paypalItemName").val($("#oddeyeQuantity").val() + " " + $("#paypalItemName").attr("text"));
-        });
+//        $('body').on("blur", "#oddeyeQuantity", function () {
+//            var value = Number($(this).val());
+//            value = value + value * pp / 100 + pf;
+//            $("#oddeyeAmmount").val(value.toFixed(2));
+//            $("#paypalAmmount").val($("#oddeyeAmmount").val());
+//            $("#paypalItemName").val($("#oddeyeQuantity").val() + " " + $("#paypalItemName").attr("text"));
+//        });
 
         $('body').on("blur", "#oddeyeAmmount", function () {
             var value = Number($(this).val());
             value = (value - 0.3) / (1 + 2 / 100);
-            $("#oddeyeQuantity").val(value.toFixed(2));
+//            $("#oddeyeQuantity").val(value.toFixed(2));
             $("#paypalAmmount").val($("#oddeyeAmmount").val());
-            $("#paypalItemName").val($("#oddeyeQuantity").val() + " " + $("#paypalItemName").attr("text"));
+//            $("#paypalItemName").val($("#oddeyeQuantity").val() + " " + $("#paypalItemName").attr("text"));
         });
 
 //        url = cp + "/getmetastat";

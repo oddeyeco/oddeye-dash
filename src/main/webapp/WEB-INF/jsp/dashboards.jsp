@@ -64,7 +64,7 @@
             </div>
             <div class="row tile_count">
                 <div class="col-sm-6 col-xs-12 tile_stats_count">
-                    <h4 class="count_top">Available Units</h4>
+                    <h4 class="count_top">Available</h4>
                     <div class="count">
                         <c:set var="balance" value="${curentuser.getBalance()}" />
                         <c:if test="${balance<Double.MAX_VALUE}">
@@ -91,7 +91,7 @@
             </span>                          -->
                 </div>
                 <div class="col-sm-6 col-xs-12 tile_stats_count">
-                    <h4 class="count_top">Units burn rate</h4>
+                    <h4 class="count_top">Burn rate</h4>
                     <!--                    <div class="count">
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
                     <c:if test="${Consumption!=null}">
@@ -148,11 +148,11 @@
 
 
                 <div class="col-xs-12 moreunits">
-                    <h4>Get more "OddEye units"</h4>
+                    <h4>Get more</h4>
                     <div class="clearfix"></div>
                     <div class="pull-left col-sm-6 col-xs-12 od">                                                
-                        <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="0.001"> USD<br>
-                        <label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1" step="0.001"> Units
+                        <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="1"> USD<br>
+                        <!--<label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1" step="0.001"> Units-->
                     </div>
                     <div class="pull-right col-sm-6 col-xs-12 pp">
                         <form action="${paypal_url}" method="post" >
