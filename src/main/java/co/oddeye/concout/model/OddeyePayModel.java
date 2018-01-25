@@ -105,7 +105,8 @@ public class OddeyePayModel {
             notify_version = postdata.get("notify_version")[0];
             ipn_track_id = postdata.get("ipn_track_id")[0];
 
-            points = (mc_gross - Double.parseDouble(paypal_fix)) / (1 + Double.parseDouble(paypal_percent) / 100);
+//            points = (mc_gross - Double.parseDouble(paypal_fix)) / (1 + Double.parseDouble(paypal_percent) / 100);
+            points = mc_gross;
         } catch (ParseException ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
