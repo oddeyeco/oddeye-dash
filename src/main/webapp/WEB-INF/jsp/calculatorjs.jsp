@@ -3,7 +3,8 @@
         system_check: {text: "System Checks", childs: {
                 check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
                 check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', text2: "It takes memory related information from /proc/meminfo file.", name: "Memory Check"},
-                check_disks: {count: 6, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO and Space usage.", name: "Disk Check"},
+                check_drives: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO.", name: "Drive Check"},
+                check_partitions: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Partitions Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about partitions Space usage.", name: "Partition Check"},
                 check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', text2: " It collects metrics about all installed interfaces.", name: "Network"},
                 check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', text2: "It reads /proc/sys/net/ipv4/netfilter/ip_conntrack_max|ip_conntrack_count files and provides.", name: "IP Conntrack"},
                 check_load_average: {count: 3, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png', text2: "System load average shows ammount of processes. ", name: "Load Average"},
@@ -94,11 +95,12 @@
                 var _class = "active";
             }
             ;
-            $('.tabs-left').append('<li class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + '</a></li>');
+            $('.tabs-left').append('<li id="tab_' + key + '" class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + ' (<span class="selectedcount">0</span>)</a></li>');
             for (var t in calc[key].childs) {
                 $('#' + key).append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + calc[key].childs[t]['text2'] + '</p></div></div>');
                 $('#' + t).addClass(calc[key].childs[t]['inclass']);
             }
+            $('#tab_' + key + " .selectedcount").text($('#' + key + ' .checked').length + "/" + $('#' + key + ' .integration').length);
             ;
         }
         ;
@@ -106,7 +108,7 @@
     var instance_id = 0;
     $('body').on('click', '#apply', function () {
         var sinstance_id = 'check_' + instance_id;
-        $("#hostcheck").append('<div class="hostcheck calc x_panel" id="' + sinstance_id + '"> <div class="x_title"><h2>Instance #' + (instance_id + 1) + '</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"><form></div><div class="check col-xs-9 col-lg-10"></div></div></div>');
+        $("#hostcheck").append('<div class="hostcheck calc x_panel" id="' + sinstance_id + '"> <div class="x_title"><h2>Instance #' + (instance_id + 1) + '</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="row"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"><form></div><div class="check col-xs-9 col-lg-10"></div></div></div></div>');
         $(".checked").each(function () {
             var id = $(this).attr("id");
             if (id)
@@ -131,17 +133,30 @@
                 }
             }
         });
-        $("#" + sinstance_id + " .x_content").after('<div><button  class="calc_button clone " >Clone</button><div class="totalPrice"> <label>Total Price</label> <span class ="total"></span><span class ="totalusd">~</span>');
+        $("#" + sinstance_id + " .x_content").after('<div><button  class="calc_button clone " >Clone</button><div class="totalPrice"> <label>Instance price</label> <span class ="total"></span><span class ="totalusd">~</span>');
         $('#fullprice table tbody').append('<tr id="tr_' + instance_id + '"><th><a href="#' + sinstance_id + '"> #' + (instance_id + 1) + '</a></th><td class="unit">0</td><td class="usd">0</td></tr>');
         doprice($("#" + sinstance_id));
         instance_id++;
     });
     $('body').on('click', '.integration', function () {
         $(this).toggleClass('checked');
-        $("#" + $(this).attr('value')).toggleClass('checked');
+        var key = $(this).parents('.tab-pane').attr("id");
+
+        if ($(this).attr('value'))
+        {
+            $("#" + $(this).attr('value')).toggleClass('checked');
+            key = $("#" + $(this).attr('value')).parents('.tab-pane').attr("id");
+        }                
+        $('#tab_' + key + ' .selectedcount').text($('#'+key + ' .checked').length + "/" + $('#'+key + ' .integration').length);
+
     });
     $('body').on('click', '#reset', function () {
         $('.integration').removeClass('checked');
+        $('.tabs-left li').each(function () {
+            var key = $(this).find('a').attr('href');
+            $(this).find('.selectedcount').text($(key + ' .checked').length + "/" + $(key + ' .integration').length);
+//            console.log(key);
+        });
     });
     $('body').on('click', '.x_title .close-link', function () {
         var id = $(this).parents('.hostcheck').attr('id');
@@ -174,6 +189,7 @@
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
         });
+        doprice(clone);
         instance_id++;
     });
     $('body').on('click', '.del-link', function () {
@@ -263,8 +279,8 @@
 
             });
             var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice);
-            contener.find('.total').html(price.toFixed(2) + "Units");
-            contener.find('.totalusd').html('~' + (price + price * pp / 100 + pf).toFixed(2) + "USD");
+            contener.find('.total').html(price.toFixed(2) + " Units");
+            contener.find('.totalusd').html('~' + (price + price * pp / 100 + pf).toFixed(2) + " USD");
             var id = contener.attr('id');
             id = id.replace('check_', 'tr_');
             $('#fullprice table tbody #' + id + ' td.unit').attr("value", price);
