@@ -10,14 +10,14 @@
     var hashcode = ${metric.hashCode()};
     var merictype = ${metric.getType()};
     var formatter = format_metric;
-    var s_formatter = "{value} %";
+    var s_formatter = format_percent;
     var abc_formatter = format_metric;    
     
     switch (merictype) {
         case 4:
-            formatter = "{value} %";
+            formatter =format_percent;
             s_formatter = "{value} %";
-            abc_formatter = "{c} %";
+            abc_formatter = format_percent;
             break;//formatops          
         default:                        
             formatter = format_metric;
@@ -156,6 +156,7 @@
                         end: 100
                     }],
                 grid: {
+                    top: 50,
                     x2: 200,
                     y2: 80
                 },
