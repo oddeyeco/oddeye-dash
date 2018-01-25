@@ -701,6 +701,11 @@ var formatpsi = function (params) {
     return (format_metric(params)) + "psi";
 };
 
+var format_percent = function (params, type) {    
+    var val = paramtoval(params);    
+    return val.toFixed(2) + " %";
+};
+
 var format_metric = function (params, type) {    
     if (typeof (type) === "undefined")
     {
