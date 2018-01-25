@@ -14,18 +14,9 @@
             </div>
 
             <div class="x_content ">
-                <!--                    <div class="search">
-                                        <div class="">
-                                            <div class="">
-                                                <h2>Stylish Search Box</h2>
-                                                <div id="custom-search-input">
-                                                    <div class="input-group col-md-12">
-                                                        <input type="text" class="  search-query form-control" placeholder="Search" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>-->
+                <div class="ccol-xs-12 form-group top_search">
+                    bazbza vor hasves gin@
+                </div>
                 <div class="ccol-xs-12 form-group pull-right top_search">
                     <div class="input-group">
                         <input class="form-control search-query" placeholder="Search check..." type="text">
@@ -77,7 +68,7 @@
             <div class="x_content ">
                 <table class="table">
                     <thead>
-                       <tr>
+                        <tr>
                             <th>Instance</th>
                             <th>UNITS</th>
                             <th>USD</th>
