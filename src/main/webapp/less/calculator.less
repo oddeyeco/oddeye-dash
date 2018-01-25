@@ -11,7 +11,7 @@
     {
         min-width: 0px
     }
-    
+
 }
 .integration{
     &:hover{
@@ -25,10 +25,14 @@
     {
         margin-top: 4px;
     }
-    p {
+    p, h3 {
         width: calc(~"100% - 110px");
-        overflow: hidden;
+        overflow: hidden;    
     }
+    h3 {        
+        overflow: visible;
+        white-space: nowrap;
+    }  
     img{
         width: 100px;
         height: 64px;
@@ -46,11 +50,17 @@
     position: fixed;
     right: 0px;
 }
+
+.totalPrice
+{
+    .totalusd  {
+        margin-left: 5px;
+    }
+}
 .integration_select{
-    
     .panel_toolbox
     {
-      z-index: 50;   
+        z-index: 50;   
     }
     .check-wraper
     {
@@ -58,8 +68,12 @@
     }
     p, h3 {
         width: calc(~"100% - 110px");
-        overflow: hidden;
+        overflow: hidden;    
     }
+    h3 {        
+        overflow: visible;
+        white-space: nowrap;
+    }    
     img{
         width: 100px;
         height: 64px;
@@ -91,6 +105,8 @@
 
 .checked{
     border-color: #8bc53f;
+    border-width: 2px;
+    background-color: #F0F0F0;
 }
 .calc{
     background-color:#fff;
