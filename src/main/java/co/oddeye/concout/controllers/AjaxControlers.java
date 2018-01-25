@@ -808,7 +808,7 @@ public class AjaxControlers {
             jsonResult.addProperty("mp", Double.parseDouble(messageprice) );
             jsonResult.addProperty("pp", Double.parseDouble(paypal_percent));
             jsonResult.addProperty("pf", Double.parseDouble(paypal_fix));
-        } catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             jsonResult.addProperty("sucsses", false);
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
