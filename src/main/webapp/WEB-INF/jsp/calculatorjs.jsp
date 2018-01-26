@@ -5,7 +5,7 @@
                 check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png',  name: "CPU Check"},
                 check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', name: "Memory Check"},
                 check_drives: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', name: "Drive Check"},
-                check_partitions: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Partitions Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png',  name: "Partition Check"},
+                check_partitions: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Mountpoint Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png',  name: "Mountpoint Check"},
                 check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', name: "Network"},
                 check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', name: "IP Conntrack"},
                 check_load_average: {count: 3, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png',name: "Load Average"},
