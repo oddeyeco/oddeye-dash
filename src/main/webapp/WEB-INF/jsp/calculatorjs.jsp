@@ -1,83 +1,87 @@
 <script type="text/javascript">
     var calc = {
         system_check: {text: "System Checks", childs: {
-                check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png', text2: "It reads /proc/stat file for CPU related information.", name: "CPU Check"},
-                check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', text2: "It takes memory related information from /proc/meminfo file.", name: "Memory Check"},
-                check_drives: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about disk IO.", name: "Drive Check"},
-                check_partitions: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Partitions Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', text2: "Provide statistics about partitions Space usage.", name: "Partition Check"},
-                check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', text2: " It collects metrics about all installed interfaces.", name: "Network"},
-                check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', text2: "It reads /proc/sys/net/ipv4/netfilter/ip_conntrack_max|ip_conntrack_count files and provides.", name: "IP Conntrack"},
-                check_load_average: {count: 3, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png', text2: "System load average shows ammount of processes. ", name: "Load Average"},
-                check_tcp: {count: 13, type: 'single', text: "Tcp", src: '/OddeyeCoconut/assets/images/integration/TCP.png', text2: "This check provides status of TCP connections to systems. It parses /proc/net/tcp.", name: "TCP Connections"},
-                check_btrfs: {count: 4, type: 'single', text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', text2: "BTRFS file system internal stats and error reporting.", name: "BTRFS Check"}
+                check_oddeye: {count: 2, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/logo.png', name: "OddEye"},
+                check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png',  name: "CPU Check"},
+                check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', name: "Memory Check"},
+                check_drives: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', name: "Drive Check"},
+                check_partitions: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Partitions Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png',  name: "Partition Check"},
+                check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', name: "Network"},
+                check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', name: "IP Conntrack"},
+                check_load_average: {count: 3, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png',name: "Load Average"},
+                check_tcpconn: {count: 13, type: 'single', text: "Tcp", src: '/OddeyeCoconut/assets/images/integration/TCP.png', name: "TCP Connections"},
+                check_btrfs: {count: 4, type: 'single', text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png',  name: "BTRFS Check"}
             }},
         webservers_check: {text: "Web Servers", childs: {
-                check_apache: {count: 7, type: 'single', text: "Apache", src: '/OddeyeCoconut/assets/images/integration/apache.png', text2: "Apache HTTPD worlds the most popular web server.", name: "Apache"},
-                check_nginx: {count: 7, type: 'single', text: "Nginx", src: '/OddeyeCoconut/assets/images/integration/Nginx.png', text2: "NginX fast and reliable web server, proxy cache.", name: "NginX"},
-                check_haproxy: {count: 2, type: 'single', text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png', text2: "Reliable and High Performance Load Balancer.", name: "HAProxy"},
-                check_phpfpm: {count: 7, type: 'single', text: "PHPFPM", src: '/OddeyeCoconut/assets/images/integration/phpfpm.png', text2: "Alternative PHP FastCGI with built in process manager.", name: "PHP-FPM"},
-                check_tomcat: {count: 14, type: 'single', text: "Tomcat", src: '/OddeyeCoconut/assets/images/integration/ApacheTomcat.png', text2: "Popular Servlet Engine and Http Server from Apache.", name: "Apache Tomcat"},
-                check_jetty: {count: 25, type: 'single', text: "Jetty", src: '/OddeyeCoconut/assets/images/integration/jetty.png', text2: "Reliable and High Performance Load Balancer.", name: "Jetty"},
-                check_lighttpd: {count: 7, type: 'single', text: "LigHTTPD", src: '/OddeyeCoconut/assets/images/integration/light_logo.png', text2: "Security and speed optimized, light web server .", name: "Lighttpd"},
-                check_http_api: {count: 2, type: 'single', text: "HTTP API", src: '/OddeyeCoconut/assets/images/integration/http.png', text2: "Simple HTTP api server's performance test script.", name: "HTTP API"}
+                check_apache: {count: 7, type: 'single', text: "Apache", src: '/OddeyeCoconut/assets/images/integration/apache.png',  name: "Apache"},
+                check_nginx: {count: 7, type: 'single', text: "Nginx", src: '/OddeyeCoconut/assets/images/integration/Nginx.png',  name: "NginX"},
+                check_haproxy: {count: 2, type: 'single', text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png',  name: "HAProxy"},
+                check_phpfpm: {count: 7, type: 'single', text: "PHPFPM", src: '/OddeyeCoconut/assets/images/integration/phpfpm.png',  name: "PHP-FPM"},
+                check_tomcat: {count: 14, type: 'single', text: "Tomcat", src: '/OddeyeCoconut/assets/images/integration/ApacheTomcat.png', name: "Apache Tomcat"},
+                check_jetty: {count: 25, type: 'single', text: "Jetty", src: '/OddeyeCoconut/assets/images/integration/jetty.png', name: "Jetty"},
+                check_lighttpd: {count: 7, type: 'single', text: "LigHTTPD", src: '/OddeyeCoconut/assets/images/integration/light_logo.png', name: "Lighttpd"},
+                check_http_api: {count: 2, type: 'single', text: "HTTP API", src: '/OddeyeCoconut/assets/images/integration/http.png',name: "HTTP API"}
 
             }},
         bigdata_check: {text: "Big Data", childs: {
-                check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Distributed, RESTful search and analytics engine.", name: "Elasticsearch 1.x"},
-                check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.png', text2: "Distributed, RESTful search and analytics engine.", name: "Elasticsearch 2.x-5.x"},
-                check_solr: {count: 4, type: 'single', text: "Solr", src: '/OddeyeCoconut/assets/images/integration/Solr.png', text2: "Blaming fast and reliable serch engine written in Java.", name: "Solr"},
-                check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Distributed wide column store from Apache foundation.", name: "Cassandra"},
-                check_cassandra3: {count: 6, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', text2: "Distributed wide column store from Apache foundation.", name: "Cassandra 3"},
-                check_ceph: {count: 7, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', text2: "Distributed and fault tolerant file system, blob storage.", name: "Ceph"},
-                check_spark_master: {count: 5, type: 'single', text: "Spark master", src: '/OddeyeCoconut/assets/images/integration/Spark.png', text2: "Fast and general engine for big data processing.", name: "Spark Master"},
-                check_spark_worker: {count: 6, type: 'single', text: "Spark worker", src: '/OddeyeCoconut/assets/images/integration/Spark.png', text2: "Fast and general engine for big data processing.", name: "Spark Worker"},
-                check_storm_api: {count: 12, type: 'single', text: "Storm Api", src: '/OddeyeCoconut/assets/images/integration/Storm.png', text2: "Distributed stream processing engine from Apache.", name: "Storm Api"},
-                check_storm_workers: {count: 12, type: 'single', text: "Storm Workers", src: '/OddeyeCoconut/assets/images/integration/Storm.png', text2: "Distributed stream processing engine from Apache.", name: "Storm Workers"},
-                check_mesos_master: {count: 27, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', text2: "Didtributed systems resource management framework.", name: "Mesos Master"},
-                check_mesos_slave: {count: 21, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', text2: "Didtributed systems resource management framework.", name: "Mesos Slave"}
+                check_elasticsearch1x: {count: 25, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.png',  name: "Elasticsearch 1.x"},
+                check_elasticsearch2x5: {count: 4, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.png',  name: "Elasticsearch 2.x-5.x"},
+                check_solr: {count: 4, type: 'single', text: "Solr", src: '/OddeyeCoconut/assets/images/integration/Solr.png', name: "Solr"},
+                check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png',  name: "Cassandra"},
+                check_cassandra3: {count: 6, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png',  name: "Cassandra 3"},
+                check_ceph: {count: 7, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png',  name: "Ceph"},
+                check_spark_master: {count: 5, type: 'single', text: "Spark master", src: '/OddeyeCoconut/assets/images/integration/Spark.png',  name: "Spark Master"},
+                check_spark_worker: {count: 6, type: 'single', text: "Spark worker", src: '/OddeyeCoconut/assets/images/integration/Spark.png',  name: "Spark Worker"},
+                check_storm_api: {count: 12, type: 'single', text: "Storm Api", src: '/OddeyeCoconut/assets/images/integration/Storm.png', name: "Storm Api"},
+                check_storm_workers: {count: 12, type: 'single', text: "Storm Workers", src: '/OddeyeCoconut/assets/images/integration/Storm.png',  name: "Storm Workers"},
+                check_mesos_master: {count: 27, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png',  name: "Mesos Master"},
+                check_mesos_slave: {count: 21, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Slave"}
 
 
             }},
         java_check: {text: "Java", childs: {
-                check_jmx: {count: 4, type: 'single', text: "JMX", src: '/OddeyeCoconut/assets/images/integration/jmx.png', text2: "JMX over HTTP via Java attach api and Jolokia agent.", name: "JMX"},
-                check_jolokia: {count: 15, type: 'single', text: "Jolokia", src: '/OddeyeCoconut/assets/images/integration/jolokia.png', text2: "HTTP proxy bridge for common access to Java JMX.", name: "Jolokia"}
+                check_jmx: {count: 4, type: 'single', text: "JMX", src: '/OddeyeCoconut/assets/images/integration/jmx.png', name: "JMX"},
+                check_jolokia: {count: 15, type: 'single', text: "Jolokia", src: '/OddeyeCoconut/assets/images/integration/jolokia.png', name: "Jolokia"}
 
             }},
         messagequeue_check: {text: "Message Queue", childs: {
-                check_kafka: {count: 27, type: 'single', text: "Kafka", src: '/OddeyeCoconut/assets/images/integration/Kafka.png', text2: "Distributed message queue and streaming platform.", name: "Kafka"},
-                check_rabbitmq: {count: 12, type: 'multi', text: "rabbitMQ", multiText: "Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', text2: "High performance pub/sub message broker service.", name: "RabbitMQ"},
-                check_rabbitmq_368: {count: 12, type: 'multi', text: "rabbitmq_368", multiText: "368Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', text2: "High performance pub/sub message broker service.", name: "RabbitMQ_368"},
-                check_activemq: {count: 2, type: 'single', text: "ActiveMQ", src: '/OddeyeCoconut/assets/images/integration/ActiveMQ.png', text2: "An open source message broker written in Java.", name: "ActiveMQ"}
+                check_kafka: {count: 27, type: 'single', text: "Kafka", src: '/OddeyeCoconut/assets/images/integration/Kafka.png', name: "Kafka"},
+                check_rabbitmq: {count: 12, type: 'multi', text: "rabbitMQ", multiText: "Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png',  name: "RabbitMQ"},
+                check_rabbitmq_368: {count: 12, type: 'multi', text: "rabbitmq_368", multiText: "368Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png',name: "RabbitMQ_368"},
+                check_activemq: {count: 2, type: 'single', text: "ActiveMQ", src: '/OddeyeCoconut/assets/images/integration/ActiveMQ.png',  name: "ActiveMQ"}
             }},
         sqlcache_check: {text: "SQL,Cache", childs: {
-                check_mysql: {count: 24, type: 'single', text: "MySQL", src: '/OddeyeCoconut/assets/images/integration/MySQL.png', text2: "Open-source relational database management system .", name: "MySQL"},
-                check_redis: {count: 17, type: 'single', text: "Redis", src: '/OddeyeCoconut/assets/images/integration/Redis.png', text2: "Open source in-memory data structure store.", name: "Redis"},
-                check_memcached: {count: 16, type: 'single', text: "Memcached", src: '/OddeyeCoconut/assets/images/integration/Memcached.png', text2: "General-purpose open-source memory caching system.", name: "Memcached"},
-                check_mongodb: {count: 3, type: 'single', text: "MongoDB", src: '/OddeyeCoconut/assets/images/integration/mongoDB.png', text2: "Free and open-source document-oriented database.", name: "MongoDB"}
+                check_mysql: {count: 24, type: 'single', text: "MySQL", src: '/OddeyeCoconut/assets/images/integration/MySQL.png', name: "MySQL"},
+                check_redis: {count: 17, type: 'single', text: "Redis", src: '/OddeyeCoconut/assets/images/integration/Redis.png', name: "Redis"},
+                check_memcached: {count: 16, type: 'single', text: "Memcached", src: '/OddeyeCoconut/assets/images/integration/Memcached.png', name: "Memcached"},
+                check_mongodb: {count: 3, type: 'single', text: "MongoDB", src: '/OddeyeCoconut/assets/images/integration/mongoDB.png', name: "MongoDB"}
 
             }},
         hadoop_check: {text: "Hadoop", childs: {
-                check_hadoop_datanode: {count: 18, type: 'single', text: "Hadoop datanode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Distributed storage engine for Hadoop ecosystem.", name: "Hadoop datanode"},
-                check_hadoop_namenode: {count: 26, type: 'single', text: "Hadoop namenode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', text2: "Distributed storage engine for Hadoop ecosystem.", name: "Hadoop namenode"},
-                check_hbase_master: {count: 7, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', text2: "Distributed real time database engine on top of HDFS.", name: "HBase Master"},
-                check_hbase_regionserver: {count: 32, type: 'single', text: "HBase regionserver", src: '/OddeyeCoconut/assets/images/integration/hbase.png', text2: "Distributed real time database engine on top of HDFS.", name: "HBase Regionserver"},
-                check_hbase_rest: {count: 10, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbaserest.png', text2: "HTTP gateway and proxy service for accessing HBase .", name: "HBase Rest"},
-                check_hbase_thrift: {count: 1, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbasetrift.png', text2: "Multi language gateway and proxy service for HBase .", name: "HBase Thrift"},
-                check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', text2: "Distributed lock manager and cluster coordinator.", name: "Zookeeper"}
+                check_hadoop_datanode: {count: 18, type: 'single', text: "Hadoop datanode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', name: "Hadoop datanode"},
+                check_hadoop_namenode: {count: 26, type: 'single', text: "Hadoop namenode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', name: "Hadoop namenode"},
+                check_hbase_master: {count: 7, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Master"},
+                check_hbase_regionserver: {count: 32, type: 'single', text: "HBase regionserver", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Regionserver"},
+                check_hbase_rest: {count: 10, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbaserest.png', name: "HBase Rest"},
+                check_hbase_thrift: {count: 1, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbasetrift.png', name: "HBase Thrift"},
+                check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', name: "Zookeeper"}
             }},
         docstorage_check: {text: "Document Storage", childs: {
-                check_couchbase: {count: 8, type: 'single', text: "Couchbase", src: '/OddeyeCoconut/assets/images/integration/Couchbase.png', text2: "Distributed cache and document-oriented database.", name: "Couchbase"},
-                check_couchdb: {count: 9, type: 'single', text: "CouchDB", src: '/OddeyeCoconut/assets/images/integration/CouchDB.png', text2: "RSTfull document-oriented database from Apache.", name: "CouchDB"},
-                check_riak: {count: 2, type: 'single', text: "Riak", src: '/OddeyeCoconut/assets/images/integration/Riak.png', text2: "Distribute and high available NoSQL database.", name: "Riak"}
+                check_couchbase_4x: {count: 8, type: 'single', text: "Couchbase 4x", src: '/OddeyeCoconut/assets/images/integration/Couchbase.png', name: "Couchbase"},
+                check_couchbase_5x: {count: 8, type: 'single', text: "Couchbase 5x", src: '/OddeyeCoconut/assets/images/integration/Couchbase.png', name: "Couchbase"},
+                check_couchdb_1x: {count: 9, type: 'single', text: "CouchDB 1x", src: '/OddeyeCoconut/assets/images/integration/CouchDB.png',  name: "CouchDB"},                
+                check_couchdb_2x: {count: 9, type: 'single', text: "CouchDB 2x", src: '/OddeyeCoconut/assets/images/integration/CouchDB.png', name: "CouchDB"},
+                
+                check_riak: {count: 2, type: 'single', text: "Riak", src: '/OddeyeCoconut/assets/images/integration/Riak.png', name: "Riak"}
             }},
         other_check: {text: "Other", childs: {
-                check_docker_stats: {count: 2, type: 'multi', text: "Docker stats", multiText: "Docker Container Count", src: '/OddeyeCoconut/assets/images/integration/docker-logo.gif', text2: "Monitor Docker containers resources utilization.", name: "Docker"},
-                check_oddeye: {count: 1, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/logo.png', text2: "Its monitors BTRFS volumes and checks for volume errors.", name: "OddEye"},
-                check_snmp: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/snmp.png', text2: "Collect metrics from devices via SNMP protocol.", name: "SNMP"},
-                check_nagios: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/nagios.png', text2: "Use existing Nagios plugins to send alerts to OddEye.", name: "Nagios Checks"},
-                check_custom: {count: 1, type: 'multi', text: "Custom", multiText: "Custom check metrics count", src: '/OddeyeCoconut/assets/images/integration/custom.png', text2: "Your custom checks.", name: "Custom Checks"}
+                check_docker_stats: {count: 2, type: 'multi', text: "Docker stats", multiText: "Docker Container Count", src: '/OddeyeCoconut/assets/images/integration/docker-logo.gif',  name: "Docker"},
+                check_snmp: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/snmp.png', name: "SNMP"},
+                check_nagios: {count: 3, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/nagios.png',  name: "Nagios Checks"},
+                check_custom: {count: 1, type: 'multi', text: "Custom", multiText: "Custom check metrics count", src: '/OddeyeCoconut/assets/images/integration/custom.png', name: "Custom Checks"}
             }}
     };
+    var texts;
     var metricprice = 8.73042583962e-07;
     var pp = 0;
     var pf = 0;
@@ -97,7 +101,7 @@
             ;
             $('.tabs-left').append('<li id="tab_' + key + '" class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + ' (<span class="selectedcount">0</span>)</a></li>');
             for (var t in calc[key].childs) {
-                $('#' + key).append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + calc[key].childs[t]['text2'] + '</p></div></div>');
+                $('#' + key).append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + texts[t] + '</p></div></div>');
                 $('#' + t).addClass(calc[key].childs[t]['inclass']);
             }
             $('#tab_' + key + " .selectedcount").text($('#' + key + ' .checked').length + "/" + $('#' + key + ' .integration').length);
@@ -116,7 +120,7 @@
                 var parent = $(this).parent().parent().attr("id");
                 if (calc[parent].childs[id]['type'] === 'multi') {
                     if (calc[parent].childs[id]['hasAll']) {
-                        $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent].childs[id]['multiText'] + '</label> <div class="col-xs-8"><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '" checked> ' + calc[parent].childs[id]['allText'] + '</div></form></div></div>');
+                        $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '" checked> ' + calc[parent].childs[id]['allText'] + '</div></form></div></div>');
                         $('#' + sinstance_id + ' .check input.checkbox.' + id).on('ifChanged', function () {
                             doprice($(this).parents(".hostcheck"));
                         }).iCheck({
@@ -124,11 +128,11 @@
                             radioClass: 'iradio_flat-green'
                         });
                     } else {
-                        $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label class="col-xs-9">' + calc[parent].childs[id]['multiText'] + '</label><div class="col-xs-8"><input type="number" min="1" class="multi form-control" value="1"  ></div></form></div></div>');
+                        $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label><div><input type="number" min="1" class="multi form-control" value="1"  ></div></form></div></div>');
                     }
 
                 } else {
-                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><p>' + calc[parent].childs[id]['text2'] + '</p></div></div>');
+                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><p>' + texts[id] + '</p></div></div>');
 //                    $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent].childs[id]['src'] + '">' + calc[parent].childs[id]['name'] + '</span><p class="for_integration">' + calc[parent].childs[id]['text'] + '</p>');
                 }
             }
@@ -146,8 +150,8 @@
         {
             $("#" + $(this).attr('value')).toggleClass('checked');
             key = $("#" + $(this).attr('value')).parents('.tab-pane').attr("id");
-        }                
-        $('#tab_' + key + ' .selectedcount').text($('#'+key + ' .checked').length + "/" + $('#'+key + ' .integration').length);
+        }
+        $('#tab_' + key + ' .selectedcount').text($('#' + key + ' .checked').length + "/" + $('#' + key + ' .integration').length);
 
     });
     $('body').on('click', '#reset', function () {
@@ -279,12 +283,13 @@
 
             });
             var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice);
-            contener.find('.total').html(price.toFixed(2) + " Units");
+            contener.find('.total').html(applysum + " Merics");
             contener.find('.totalusd').html('~' + (price + price * pp / 100 + pf).toFixed(2) + " USD");
             var id = contener.attr('id');
             id = id.replace('check_', 'tr_');
-            $('#fullprice table tbody #' + id + ' td.unit').attr("value", price);
-            $('#fullprice table tbody #' + id + ' td.unit').html(price.toFixed(2));
+            $('#fullprice table tbody #' + id + ' td.unit').attr("value", applysum * contener.find('.host').val());
+            $('#fullprice table tbody #' + id + ' td.unit').html(applysum * contener.find('.host').val());
+
             $('#fullprice table tbody #' + id + ' td.usd').attr("value", price + price * pp / 100 + pf);
             $('#fullprice table tbody #' + id + ' td.usd').html((price + price * pp / 100 + pf).toFixed(2));
         }
@@ -294,14 +299,20 @@
             sum = sum + parseFloat($(this).attr('value'));
             sumusd = sumusd + parseFloat($(this).next('.usd').attr('value'));
         });
-        $('#fullprice table tfoot #total td.unit').html(sum.toFixed(2));
-        $('#fullprice table tfoot #total td.usd').html((sum + sum * pp / 100 + pf).toFixed(2));
-        $('#fullprice table tfoot #usdsave td.usd').html((sumusd - (sum + sum * pp / 100 + pf)).toFixed(2));
+        $('#fullprice table tfoot #total td.unit').html(sum);
+        $('#fullprice table tfoot #total td.usd').html(sumusd.toFixed(2));
+
     }
     ;
     $(document).ready(function () {
-        paint();
-        $('#system_check').addClass('active');
+        $.getJSON(cp + "/assets/checktexts.json", function (data) {
+            texts = data;
+            paint();
+            $('#system_check').addClass('active');
+        });
+
+
+
     });
     $(document).on('scroll', function () {
         if ($(document).scrollTop() >= $('#maincontener').offset().top) {

@@ -70,7 +70,7 @@
                     <thead>
                         <tr>
                             <th>Instance</th>
-                            <th>UNITS</th>
+                            <th>Metrics</th>
                             <th>USD</th>
                         </tr>                                                
                     </thead>
@@ -81,12 +81,7 @@
                             <th>Total:</th>
                             <td class="unit"></td>
                             <td class="usd"></td>
-                        </tr>    
-                        <tr id="usdsave">
-                            <th>Save:</th>
-                            <td class="unit"></td>
-                            <td class="usd"></td>
-                        </tr>                             
+                        </tr>                               
                     </tfoot>
                 </table>                
 
