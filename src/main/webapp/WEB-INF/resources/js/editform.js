@@ -911,9 +911,10 @@ class EditForm {
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
-
+        
         if (form.dashJSON.rows[form.row]["widgets"][form.index].times)
         {
+            
             if (form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall)
             {
                 $("#refreshtime_private").val(form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall);
