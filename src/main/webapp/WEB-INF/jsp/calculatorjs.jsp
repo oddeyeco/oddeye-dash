@@ -1,7 +1,7 @@
 <script type="text/javascript">
     var calc = {
         system_check: {text: "System Checks", childs: {
-                check_oddeye: {count: 2, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/logo.png', name: "OddEye"},
+                check_oddeye: {count: 2, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/integration/oddeye.png', name: "OddEye"},
                 check_cpustats: {count: 8, type: 'multi', inclass: "checked", isbegin: true, text: "CPUstats", hasAll: true, multiText: "Core Count", allText: "Use all cores", src: '/OddeyeCoconut/assets/images/integration/Cpu.png',  name: "CPU Check"},
                 check_memory: {count: 8, type: 'single', inclass: "checked", isbegin: true, text: "Memory", src: '/OddeyeCoconut/assets/images/integration/Ram.png', name: "Memory Check"},
                 check_drives: {count: 3, type: 'multi', inclass: "checked", isbegin: true, text: "Disks", multiText: "Disks Count", src: '/OddeyeCoconut/assets/images/integration/Disk.png', name: "Drive Check"},
@@ -58,12 +58,12 @@
 
             }},
         hadoop_check: {text: "Hadoop", childs: {
-                check_hadoop_datanode: {count: 18, type: 'single', text: "Hadoop datanode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', name: "Hadoop datanode"},
-                check_hadoop_namenode: {count: 26, type: 'single', text: "Hadoop namenode", src: '/OddeyeCoconut/assets/images/integration/hadoophdfs.png', name: "Hadoop namenode"},
+                check_hadoop_datanode: {count: 18, type: 'single', text: "Hadoop datanode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "Hadoop datanode"},
+                check_hadoop_namenode: {count: 26, type: 'single', text: "Hadoop namenode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "Hadoop namenode"},
                 check_hbase_master: {count: 7, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Master"},
                 check_hbase_regionserver: {count: 32, type: 'single', text: "HBase regionserver", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Regionserver"},
-                check_hbase_rest: {count: 10, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbaserest.png', name: "HBase Rest"},
-                check_hbase_thrift: {count: 1, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbasetrift.png', name: "HBase Thrift"},
+                check_hbase_rest: {count: 10, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Rest"},
+                check_hbase_thrift: {count: 1, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Thrift"},
                 check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', name: "Zookeeper"}
             }},
         docstorage_check: {text: "Document Storage", childs: {
