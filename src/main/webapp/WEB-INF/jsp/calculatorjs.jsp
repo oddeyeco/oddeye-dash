@@ -21,7 +21,7 @@
         webservers_check: {text: "Web Servers", childs: {
                 check_apache: {count: 7, type: 'single', text: "Apache", src: '/OddeyeCoconut/assets/images/integration/apache.png', name: "Apache"},
                 check_nginx: {count: 7, type: 'single', text: "Nginx", src: '/OddeyeCoconut/assets/images/integration/Nginx.png', name: "NginX"},
-                check_haproxy: {count: 2/*, type: 'multi'*/, type: 'single', text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png', name: "HAProxy"},                
+                check_haproxy: {count: 2/*, type: 'multi'*/, type: 'single', text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png', name: "HAProxy"},
                 check_tomcat: {count: 14, type: 'single', text: "Tomcat", src: '/OddeyeCoconut/assets/images/integration/ApacheTomcat.png', name: "Apache Tomcat"},
                 check_jetty: {count: 25/*24*/, type: 'single', text: "Jetty", src: '/OddeyeCoconut/assets/images/integration/jetty.png', name: "Jetty"},
                 check_lighttpd: {count: 7/*, type: 'multi'*/, type: 'single', text: "LigHTTPD", src: '/OddeyeCoconut/assets/images/integration/light_logo.png', name: "Lighttpd"},
@@ -68,7 +68,7 @@
         hadoop_check: {text: "Distributed mananger", childs: {
                 check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', name: "Zookeeper"},
                 check_mesos_master: {count: 27/*?????*/, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Master"},
-                check_mesos_slave: {count: 21/*?????*/, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Slave"}                
+                check_mesos_slave: {count: 21/*?????*/, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Slave"}
             }},
         docstorage_check: {text: "Document Storage", childs: {
                 check_couchbase_4x: {count: 8/*?????*/, type: 'single', text: "Couchbase 4x", src: '/OddeyeCoconut/assets/images/integration/Couchbase.png', name: "Couchbase"},
@@ -89,7 +89,7 @@
 //        paccages: {text: "Cloud oacages", childs: {
 //                hbase_minimal: { inclass: "paccage", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "Hbase Cloud small",instances:[{hosts:3,checks:[]},{hosts:3,checks:[]}]}
 //        }}        
-        
+
     };
     var texts;
     var metricprice = 0;
@@ -177,16 +177,26 @@
         $('#fullprice table tbody #' + id).remove();
         doprice(false);
     });
-    $('body').on('click', '.hostcheck .fa-chevron-up', function () {
-        $(this).removeClass('fa-chevron-up');
-        $(this).addClass('fa-chevron-down');
-        $(this).parents('.hostcheck').find('.x_content').hide();
+    $('body').on('click', '.hostcheck .collapse-link', function () {
+        var item = $(this).find('i');
+        if (item.hasClass("fa-chevron-up"))
+        {
+            item.removeClass('fa-chevron-up');
+            item.addClass('fa-chevron-down');
+            item.parents('.hostcheck').find('.x_content').slideUp();
+        } else
+        if (item.hasClass("fa-chevron-down"))
+        {
+            item.removeClass('fa-chevron-down');
+            item.addClass('fa-chevron-up');
+            item.parents('.hostcheck').find('.x_content').slideDown();
+        }
     });
-    $('body').on('click', '.hostcheck .fa-chevron-down', function () {
-        $(this).removeClass('fa-chevron-down');
-        $(this).addClass('fa-chevron-up');
-        $(this).parents('.hostcheck').find('.x_content').show();
-    });
+//    $('body').on('click', '.hostcheck .fa-chevron-down', function () {
+//        $(this).removeClass('fa-chevron-down');
+//        $(this).addClass('fa-chevron-up');
+//        $(this).parents('.hostcheck').find('.x_content').slideDown();
+//    });
     $('body').on('click', '.clone', function () {
         var sinstance_id = 'check_' + instance_id;
         var clone = $(this).parents('.hostcheck').clone();
@@ -206,8 +216,11 @@
     });
     $('body').on('click', '.del-link', function () {
         var that = $(this).parents(".hostcheck");
-        $(this).parents('.flipInY').remove();
-        doprice(that);
+        $(this).parents('.flipInY').fadeOut(500, function () {
+            $(this).remove();
+            doprice(that);
+        });
+
     });
     $('body').on('input', '.hostcheck input', function () {
         var elem = $(this);
