@@ -70,8 +70,8 @@
         serie2.type = "line";
         serie2.data = chartsdata;
         serie2.xAxisIndex = 1;
-        serie2.lineStyle = {};
-        serie2.lineStyle.width = 5;
+//        serie2.lineStyle = {};
+//        serie2.lineStyle.width = 5;
 //        serie2.tooltip = {trigger: 'axis'};
         series.push(serie2);
         var serieLinereg = clone_obg(defserie);
@@ -89,7 +89,7 @@
 //        serie.type = "bars";
         serie.data = data;
         serie.tooltip = {trigger: 'item'};
-        serie.itemStyle = {normal: {borderColor: colorPalette[2], color: "rgba(200, 200, 200, 0.7)", borderWidth: 2}};
+        serie.itemStyle = {normal: {borderColor: colorPalette[2], color: "rgba(200, 200, 200, 0.7)", borderWidth: 4}};
         series.push(serie);
         serie = clone_obg(serie);
         legend = ["Rule info", "Predict by Regression", "Current hour data"];
