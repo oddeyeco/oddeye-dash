@@ -23,10 +23,10 @@
 
     var chartsdata = ${data};
     var p_data = ${p_data};
-   
+
 //    console.log(predictend);
     //Error.getRegression().predict(Long.parseLong(startdate)/1000)    
-    
+
     var echartLine;
     var series = [];
     var legend = [];
@@ -47,7 +47,7 @@
 
 
     function drawEchart(data)
-    {        
+    {
         var data = [];
         var datab = [];
         //TODO check host type for formater
@@ -55,26 +55,23 @@
             dates.push($(this).attr("value"));
             data.push({name: $(this).attr("value"),
                 unit: s_formatter,
-                value: [index,parseFloat($(this).next().next().next().attr('value')),
+                value: [
+                    parseFloat($(this).next().next().next().attr('value')),
                     parseFloat($(this).next().attr('value')) - parseFloat($(this).next().next().attr('value')),
                     parseFloat($(this).next().attr('value')),
                     parseFloat($(this).next().attr('value')) + parseFloat($(this).next().next().attr('value')),
-                    parseFloat($(this).next().next().next().next().attr('value'))],
+                    parseFloat($(this).next().next().next().next().attr('value'))
+                ],
                 info: {Minimum: parseFloat($(this).next().next().next().attr('value')), Average: parseFloat($(this).next().attr('value')), Deviation: parseFloat($(this).next().next().attr('value')), Maximum: parseFloat($(this).next().next().next().next().attr('value'))}});
         });
-
-        var serie = clone_obg(defserie);
-        serie.name = "Rule for";
-        serie.data = data;
-        serie.tooltip = {trigger: 'item'};
-        serie.itemStyle = {normal: {borderColor: colorPalette[4], color: "rgba(200, 200, 200, 0.7)", borderWidth: 3}};
-        series.push(serie);
 
         var serie2 = clone_obg(defserie);
         serie2.name = "Current hour data";
         serie2.type = "line";
         serie2.data = chartsdata;
         serie2.xAxisIndex = 1;
+//        serie2.lineStyle = {};
+//        serie2.lineStyle.width = 5;
 //        serie2.tooltip = {trigger: 'axis'};
         series.push(serie2);
         var serieLinereg = clone_obg(defserie);
@@ -82,11 +79,20 @@
         serieLinereg.type = "line";
         serieLinereg.data = p_data;
         serieLinereg.xAxisIndex = 1;
+        serieLinereg.itemStyle = {};
+        serieLinereg.itemStyle.color = "#00ff00";
 //        serieLinereg.tooltip = {trigger: 'axis'};
         series.push(serieLinereg);
 
-//console.log(chartsdata);
-
+        var serie = clone_obg(defserie);
+        serie.name = "Rule info";
+//        serie.type = "bars";
+        serie.data = data;
+        serie.tooltip = {trigger: 'item'};
+        serie.itemStyle = {normal: {borderColor: colorPalette[2], color: "rgba(200, 200, 200, 0.7)", borderWidth: 4}};
+        series.push(serie);
+        serie = clone_obg(serie);
+        legend = ["Rule info", "Predict by Regression", "Current hour data"];
         echartLine.setOption({
             title: {
                 text: ""
@@ -94,10 +100,11 @@
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
-                    type: "line",
+                    type: "line"
                 }
             },
             legend: {
+                show: true,
                 data: legend
             },
             animation: false,
@@ -115,15 +122,22 @@
             },
             xAxis: [{
                     type: 'category',
-                    data: dates,
+                    splitArea: {
+                        show: true
+                    },
+                    data: dates
                 },
                 {
                     type: 'time',
+                    splitNumber: 30,
                     axisLine: {onZero: false}
                 }],
             yAxis: [{
                     type: 'value',
                     scale: true,
+                    splitArea: {
+                        show: false
+                    },
                     axisLabel: {
                         formatter: formatter
                     }

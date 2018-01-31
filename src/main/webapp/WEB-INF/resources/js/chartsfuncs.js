@@ -52,7 +52,8 @@ var subtractlist = {
     "12h-ago":[12, 'hour'],
     "24h-ago":[24, 'hour'],
     "3d-ago":[3, 'day'],
-    "7d-ago":[7, 'day']
+    "7d-ago":[7, 'day'],
+    "30d-ago":[30, 'day']
 };
 
 var rangeslabels = {
@@ -65,7 +66,8 @@ var rangeslabels = {
     'Last 12 hour': "12h-ago",
     'Last 1 day': "24h-ago",
     'Last 3 day': "3d-ago",
-    'Last 7 day': "7d-ago"
+    'Last 7 day': "7d-ago",
+    'Last 30 day': "30d-ago"
 };
 function getmindate () {        
         if (balanse > 0)
@@ -148,7 +150,8 @@ var PicerOptionSet2 = {
         'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
         'Last 1 day': [moment().subtract(24, 'hour'), moment()],
         'Last 3 day': [moment().subtract(3, 'day'), moment()],
-        'Last 7 day': [moment().subtract(7, 'day'), moment()]
+        'Last 7 day': [moment().subtract(7, 'day'), moment()],
+        'Last 30 day': [moment().subtract(30, 'day'), moment()]
     },
 //    opens: 'left',
 //    drops: 'up',

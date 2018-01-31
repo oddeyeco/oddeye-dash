@@ -187,7 +187,7 @@ public class ProfileController {
 
                 JsonArray DatapointsJSON = new JsonArray();
                 JsonArray PredictJSON = new JsonArray();
-                String s_formatter = "format_metric";
+                String s_formatter;
                 switch (meta.getType()) {
                     case 4: {
                         s_formatter = "{value} %";
