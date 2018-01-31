@@ -49,19 +49,21 @@
     function drawEchart(data)
     {        
         var data = [];
-        var datab = [];
+        var datab = [];        
         //TODO check host type for formater
         $(".time").each(function (index) {
-            dates.push($(this).attr("value"));
+            legend.push($(this).attr("value"));            
             data.push({name: $(this).attr("value"),
                 unit: s_formatter,
-                value: [index,parseFloat($(this).next().next().next().attr('value')),
+                value: [
+                    parseFloat($(this).next().next().next().attr('value')),
                     parseFloat($(this).next().attr('value')) - parseFloat($(this).next().next().attr('value')),
                     parseFloat($(this).next().attr('value')),
                     parseFloat($(this).next().attr('value')) + parseFloat($(this).next().next().attr('value')),
-                    parseFloat($(this).next().next().next().next().attr('value'))],
+                    parseFloat($(this).next().next().next().next().attr('value'))
+                ],
                 info: {Minimum: parseFloat($(this).next().next().next().attr('value')), Average: parseFloat($(this).next().attr('value')), Deviation: parseFloat($(this).next().next().attr('value')), Maximum: parseFloat($(this).next().next().next().next().attr('value'))}});
-        });
+        });        
 
         var serie = clone_obg(defserie);
         serie.name = "Rule for";
@@ -69,7 +71,6 @@
         serie.tooltip = {trigger: 'item'};
         serie.itemStyle = {normal: {borderColor: colorPalette[4], color: "rgba(200, 200, 200, 0.7)", borderWidth: 3}};
         series.push(serie);
-
         var serie2 = clone_obg(defserie);
         serie2.name = "Current hour data";
         serie2.type = "line";
@@ -85,8 +86,6 @@
 //        serieLinereg.tooltip = {trigger: 'axis'};
         series.push(serieLinereg);
 
-//console.log(chartsdata);
-
         echartLine.setOption({
             title: {
                 text: ""
@@ -94,10 +93,11 @@
             tooltip: {
                 trigger: 'axis',
                 axisPointer: {
-                    type: "line",
+                    type: "line"
                 }
             },
             legend: {
+                show:true,
                 data: legend
             },
             animation: false,
