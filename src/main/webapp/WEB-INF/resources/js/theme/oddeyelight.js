@@ -294,7 +294,7 @@ var encodeHTML = function (source) {
                                 }
 
                             } else if (params.componentSubType === "boxplot")
-                            {
+                            {                             
                                 if (params.data.info)
                                 {
 
@@ -306,8 +306,7 @@ var encodeHTML = function (source) {
                                 } else
                                 {
                                     value = "<br>" + value[0] + "<br>" + value[1] + "<br>" + value[2] + "<br>" + value[3];
-                                }
-
+                                }  
                             } else if (params.componentSubType === "bar")
                             {
                                 value = format_date(value[0], 0) + ":" + value[1].toFixed(2);
@@ -378,8 +377,12 @@ var encodeHTML = function (source) {
                             }
                             out = head + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                         } else
-                        {
+                        {                            
                             out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
+                            if (params.componentSubType === "boxplot")
+                            {
+                                out = params.seriesName + ' for <br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.data.name + ' : ' + value;                                
+                            }
                         }
 
                     } else
