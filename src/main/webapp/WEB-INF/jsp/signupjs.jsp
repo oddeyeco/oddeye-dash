@@ -16,15 +16,15 @@
         });        
     };
     $(document).ready(function () {
-        $(".select2_country").select2({
-            placeholder: "Select a Country",
-            allowClear: true
-        });
+//        $(".select2_country").select2({
+//            placeholder: "Select a Country",
+//            allowClear: true
+//        });
         $(".select2_tz").val(moment.tz.guess());
-        $(".select2_tz").select2({
-            placeholder: "Select a TimeZone",
-            allowClear: true
-        });
+//        $(".select2_tz").select2({
+//            placeholder: "Select a TimeZone",
+//            allowClear: true
+//        });
         var particlejson = {
             "particles": {
                 "number": {
