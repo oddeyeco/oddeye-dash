@@ -15,22 +15,22 @@
         file_systems_check: {text: "File systems", childs: {
                 check_hadoop_datanode: {count: 18, type: 'single', text: "HDFS datanode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS datanode"},
                 check_hadoop_namenode: {count: 26, type: 'single', text: "HDFS namenode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS namenode"},
-                check_ceph: {count: 7/*8*/, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', name: "Ceph"},
-                check_btrfs: {count: 4/*5 , type: 'multi'*/, type: 'single', text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', name: "BTRFS"}
+                check_ceph: {count: 8, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', name: "Ceph"},
+                check_btrfs: {count: 5 , type: 'multi', multiText: "Disks Count", text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', name: "BTRFS"}
             }},
         webservers_check: {text: "Web Servers", childs: {
                 check_apache: {count: 7, type: 'single', text: "Apache", src: '/OddeyeCoconut/assets/images/integration/apache.png', name: "Apache"},
                 check_nginx: {count: 7, type: 'single', text: "Nginx", src: '/OddeyeCoconut/assets/images/integration/Nginx.png', name: "NginX"},
-                check_haproxy: {count: 2/*, type: 'multi'*/, type: 'single', text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png', name: "HAProxy"},
+                check_haproxy: {count: 2, type: 'multi',multiText: "App Count", text: "Haproxy", src: '/OddeyeCoconut/assets/images/integration/haproxy.png', name: "HAProxy"},
                 check_tomcat: {count: 14, type: 'single', text: "Tomcat", src: '/OddeyeCoconut/assets/images/integration/ApacheTomcat.png', name: "Apache Tomcat"},
-                check_jetty: {count: 25/*24*/, type: 'single', text: "Jetty", src: '/OddeyeCoconut/assets/images/integration/jetty.png', name: "Jetty"},
+                check_jetty: {count: 24, type: 'single', text: "Jetty", src: '/OddeyeCoconut/assets/images/integration/jetty.png', name: "Jetty"},
                 check_lighttpd: {count: 7/*, type: 'multi'*/, type: 'single', text: "LigHTTPD", src: '/OddeyeCoconut/assets/images/integration/light_logo.png', name: "Lighttpd"},
-                check_http_api: {count: 2/*, type: 'multi'*/, type: 'single', text: "HTTP API", src: '/OddeyeCoconut/assets/images/integration/http.png', name: "HTTP API"}
+                check_http_api: {count: 2, type: 'multi',multiText: "App Count", text: "HTTP API", src: '/OddeyeCoconut/assets/images/integration/http.png', name: "HTTP API"}
 
             }},
         search_check: {text: "Search platform", childs: {
-                check_elasticsearch1x: {count: 25/*24*/, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.png', name: "Elasticsearch 1.x"},
-                check_elasticsearch2x5: {count: 4/*24*/, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.png', name: "Elasticsearch 2.x-5.x"},
+                check_elasticsearch1x: {count: 24, type: 'single', text: "Elasticsearch1X", src: '/OddeyeCoconut/assets/images/integration/elastic.png', name: "Elasticsearch 1.x"},
+                check_elasticsearch2x5: {count: 24, type: 'single', text: "Elasticsearch2X5", src: '/OddeyeCoconut/assets/images/integration/elastic.png', name: "Elasticsearch 2.x-5.x"},
                 check_solr: {count: 4/*?????*/, type: 'single', text: "Solr", src: '/OddeyeCoconut/assets/images/integration/Solr.png', name: "Solr"}
             }},
         processing_check: {
@@ -43,32 +43,32 @@
             }
         },
         java_check: {text: "Java", childs: {
-                check_jmx: {count: 4/*?????*/, type: 'single', text: "JMX", src: '/OddeyeCoconut/assets/images/integration/jmx.png', name: "JMX"},
-                check_jolokia: {count: 15/*?????*/, type: 'single', text: "Jolokia", src: '/OddeyeCoconut/assets/images/integration/jolokia.png', name: "Jolokia"}
+                check_jmx: {count: 15, type: 'single', text: "JMX", src: '/OddeyeCoconut/assets/images/integration/jmx.png', name: "JMX"},
+                check_jolokia: {count: 16, type: 'single', text: "Jolokia", src: '/OddeyeCoconut/assets/images/integration/jolokia.png', name: "Jolokia"}
 
             }},
         messagequeue_check: {text: "MQ,Cache", childs: {
-                check_kafka: {count: 27/*?????*/, type: 'single', text: "Kafka", src: '/OddeyeCoconut/assets/images/integration/Kafka.png', name: "Kafka"},
+                check_kafka: {count: 27, type: 'single', text: "Kafka", src: '/OddeyeCoconut/assets/images/integration/Kafka.png', name: "Kafka"},
                 check_rabbitmq: {count: 12/*?????*/, type: 'multi', text: "rabbitMQ", multiText: "Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', name: "RabbitMQ"},
                 check_rabbitmq_368: {count: 12/*?????*/, type: 'multi', text: "rabbitmq_368", multiText: "368Q Details Count", src: '/OddeyeCoconut/assets/images/integration/RabbitMQ.png', name: "RabbitMQ_368"},
                 check_activemq: {count: 2/*?????*/, type: 'single', text: "ActiveMQ", src: '/OddeyeCoconut/assets/images/integration/ActiveMQ.png', name: "ActiveMQ"},
                 check_redis: {count: 17/*?????*/, type: 'single', text: "Redis", src: '/OddeyeCoconut/assets/images/integration/Redis.png', name: "Redis"},
-                check_memcached: {count: 16/*?????*/, type: 'single', text: "Memcached", src: '/OddeyeCoconut/assets/images/integration/Memcached.png', name: "Memcached"}
+                check_memcached: {count: 16, type: 'single', text: "Memcached", src: '/OddeyeCoconut/assets/images/integration/Memcached.png', name: "Memcached"}
 
             }},
         nosql_check: {text: "NoSQL", childs: {
                 check_hbase_master: {count: 7, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Master"},
                 check_hbase_regionserver: {count: 32/*34*/, type: 'single', text: "HBase regionserver", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Regionserver"},
-                check_hbase_rest: {count: 10/*23*/, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Rest"},
-                check_hbase_thrift: {count: 1/*19*/, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Thrift"},
+                check_hbase_rest: {count: 23, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Rest"},
+                check_hbase_thrift: {count: 19, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Thrift"},
                 check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', name: "Cassandra"},
                 check_cassandra3: {count: 23, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', name: "Cassandra 3"},
                 check_riak: {count: 2/*?????*/, type: 'single', text: "Riak", src: '/OddeyeCoconut/assets/images/integration/Riak.png', name: "Riak"}
             }},
         hadoop_check: {text: "Distributed mananger", childs: {
                 check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', name: "Zookeeper"},
-                check_mesos_master: {count: 27/*?????*/, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Master"},
-                check_mesos_slave: {count: 21/*?????*/, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Slave"}
+                check_mesos_master: {count: 32, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Master"},
+                check_mesos_slave: {count: 20, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Slave"}
             }},
         docstorage_check: {text: "Document Storage", childs: {
                 check_couchbase_4x: {count: 8/*?????*/, type: 'single', text: "Couchbase 4x", src: '/OddeyeCoconut/assets/images/integration/Couchbase.png', name: "Couchbase"},
@@ -78,7 +78,7 @@
                 check_mongodb: {count: 3/*?????*/, type: 'single', text: "MongoDB", src: '/OddeyeCoconut/assets/images/integration/mongoDB.png', name: "MongoDB"}
             }},
         other_check: {text: "Other", childs: {
-                check_mysql: {count: 24/*?????*/, type: 'single', text: "MySQL", src: '/OddeyeCoconut/assets/images/integration/MySQL.png', name: "MySQL"},
+                check_mysql: {count: 24, type: 'single', text: "MySQL", src: '/OddeyeCoconut/assets/images/integration/MySQL.png', name: "MySQL"},
                 check_phpfpm: {count: 7, type: 'single', text: "PHPFPM", src: '/OddeyeCoconut/assets/images/integration/phpfpm.png', name: "PHP-FPM"},
                 check_docker_stats: {count: 2/*23*/, type: 'multi', text: "Docker stats", multiText: "Docker Container Count", src: '/OddeyeCoconut/assets/images/integration/docker-logo.png', name: "Docker"},
                 check_snmp: {count: 3/*?????*/, type: 'multi', text: "SNMP", multiText: "SNMP Device Count", src: '/OddeyeCoconut/assets/images/integration/snmp.png', name: "SNMP"},
