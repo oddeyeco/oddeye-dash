@@ -950,6 +950,23 @@ public class OddeyeUserModel {
         }
     }
 
+    public void updateConsumption2m() {
+        try {
+            TimeZone timeZone = TimeZone.getTimeZone("UTC");
+            Calendar cal = Calendar.getInstance(timeZone);
+            int startYear = cal.get(Calendar.YEAR);
+            int startMonth = cal.get(Calendar.MONTH);
+            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
+            cal.add(Calendar.MONTH, -1);
+            if (cal.getTimeInMillis() < sinedate.getTime()) {
+                cal.setTime(sinedate);
+            }
+            consumptionList = DAO.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+    }    
+    
     public void updateConsumption() {
         consumptionList = DAO.getConsumption(this);
     }

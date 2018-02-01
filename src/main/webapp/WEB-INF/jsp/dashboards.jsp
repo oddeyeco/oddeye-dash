@@ -90,17 +90,8 @@
                 </i> Today                        
             </span>                          -->
                 </div>
-                <div class="col-sm-6 col-xs-12 tile_stats_count">
+                <div class="col-sm-6 col-xs-12 tile_stats_count Consumptions">
                     <h4 class="count_top">Burn rate</h4>
-                    <!--                    <div class="count">
-                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
-                    <c:if test="${Consumption!=null}">
-                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
-                    </c:if>
-                    <c:if test="${Consumption==null}">
-                        0                            
-                    </c:if> 
-                </div>-->
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />                    
                     <div class="count_bottom clearfix">                        
                         <span class="pull-left">Today </span>
@@ -128,7 +119,7 @@
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
                     <div class="count_bottom clearfix">                        
                         <span class="pull-left">This month</span>
-                        <div class="green">
+                        <div class="green" id="thismonth">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
                             </c:if>
@@ -136,7 +127,19 @@
                                 0                            
                             </c:if> 
                         </div>
-                    </div>                    
+                    </div>
+                    <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(1)}" />
+                    <div class="count_bottom clearfix">                        
+                        <span class="pull-left">Previous month</span>
+                        <div class="green" id="prevmonth">
+                            <c:if test="${Consumption!=null}">
+                                <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
+                            </c:if>
+                            <c:if test="${Consumption==null}">
+                                0                            
+                            </c:if> 
+                        </div>
+                    </div>                     
                 </div>  
                 <div class="clearfix"></div>
                 <!--<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
