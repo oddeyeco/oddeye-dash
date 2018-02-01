@@ -14,6 +14,12 @@ headers["page"] = document.URL;
 
 globalconnect(headers);
 
+function getDecimalSeparator() {
+    var n = 1.1;
+    n = n.toLocaleString().substring(1, 2);
+    return n;
+}
+
 function globalconnect(head)
 {
     globalsocket = new SockJS(cp + '/subscribe');

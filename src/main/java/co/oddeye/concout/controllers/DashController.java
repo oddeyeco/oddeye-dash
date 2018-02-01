@@ -20,9 +20,11 @@ import com.google.gson.JsonSyntaxException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -74,11 +76,11 @@ public class DashController {
     private String paypal_returnurl;
     @Value("${paypal.notifyurl}")
     private String paypal_notifyurl;
-    
+
     @Value("${paypal.percent}")
     private String paypal_percent;
     @Value("${paypal.fix}")
-    private String paypal_fix;    
+    private String paypal_fix;
 
     @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
     public String test(ModelMap map) {
@@ -153,22 +155,22 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-
-            userDetails.updateConsumption();
-            String[] locales = Locale.getISOCountries();
+            TimeZone timeZone = TimeZone.getTimeZone("UTC");
+            Calendar cal = Calendar.getInstance(timeZone);
+            userDetails.updateConsumption2m();
             map.put("curentuser", userDetails);
 
             map.put("activeuser", userDetails);
 
             map.put("title", "My Dashboards");
 //            map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails, 50));
-            
+
             map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails, 50));
             map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails, 50));
 
             map.put("paypal_percent", paypal_percent);
-            map.put("paypal_fix", paypal_fix);               
-            
+            map.put("paypal_fix", paypal_fix);
+
             if ((userDetails.getSwitchUser() != null)) {
                 if (userDetails.getSwitchUser().getAlowswitch()) {
                     map.put("activeuser", userDetails.getSwitchUser());
