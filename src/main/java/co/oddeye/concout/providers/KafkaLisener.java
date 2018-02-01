@@ -41,7 +41,7 @@ public class KafkaLisener {
     @Autowired
     private HbaseUserDao Userdao;
     @Autowired
-    private HbaseMetaDao MetaDao;    
+    private HbaseMetaDao MetaDao;
     @Autowired
     protected BaseTsdbConnect BaseTsdb;
     private static final Logger LOGGER = LoggerFactory.getLogger(KafkaLisener.class);
@@ -144,7 +144,10 @@ public class KafkaLisener {
                         break;
                     }
                     case "deleteuser": {
-                        Userdao.deleteUser(user);
+                        if (user != null) {
+                            Userdao.deleteUser(user);
+                        }
+
 //                    this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                         break;
                     }

@@ -16,8 +16,8 @@
             </div>
         </div>    
         <div class="col-lg-4 col-xs-12 text-right">
-            For your registration to the ODDEYE monitoring, anomaly detection and data visualization  platform.<br>
-            Look for the verification email in your inbox and click the link in the email.
+Thank you for registering at OddEye monitoring. <br>You will receive confirmation email shortly.<br>
+To complete registration, please click on <br> 'Activate Account' button in confirmation e-mail .            
         </div>              
     </div>
 </div>
