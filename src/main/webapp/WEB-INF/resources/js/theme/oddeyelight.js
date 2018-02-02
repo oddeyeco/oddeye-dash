@@ -109,8 +109,7 @@ var abcformater = function (params) {
         {
             formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));            
         } else
-        {
-            console.log(valueformatter);
+        {            
             if (valueformatter===formatter)
             {
                 formatter = valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2));                    
@@ -119,9 +118,6 @@ var abcformater = function (params) {
             {
                 formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2)));    
             }
-            
-            console.log(formatter);
-
         }
     }
     
