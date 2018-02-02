@@ -96,6 +96,7 @@ var abcformater = function (params) {
     {
         value = value * -1;
     }
+    
     if (typeof (window[formatter]) === "function")
     {
         formatter = window[formatter](value);
@@ -106,14 +107,24 @@ var abcformater = function (params) {
 
         if (typeof (valueformatter) === "function")
         {
-            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
+            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));            
         } else
         {
-            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2)));
+            console.log(valueformatter);
+            if (valueformatter===formatter)
+            {
+                formatter = valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2));                    
+            }
+            else
+            {
+                formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2)));    
+            }
+            
+            console.log(formatter);
 
         }
     }
-
+    
     return formatter;
 };
 
