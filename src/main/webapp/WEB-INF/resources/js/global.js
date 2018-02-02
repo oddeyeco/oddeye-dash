@@ -5,7 +5,7 @@
  */
 
 
-/* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid, Firstlogin */
+/* global URL, cp, $RIGHT_COL, echartLine, token,headerName, uuid, Firstlogin, $SIDEBAR_MENU, $BODY */
 var globalsocket;
 var globalstompClient;
 var headers = {};
@@ -329,31 +329,6 @@ if (fullscreen == 'true')
     $(".profile_right").css("width", "100%");
 }
 
-function smallrequest(small)
-{
-    if (!small)
-    {
-        setCookie("small", true, {path: '/'});
-
-        if ($("body").hasClass('nav-md'))
-        {
-            $("body").removeClass('nav-md').addClass('nav-sm');
-            $(' ul.nav.child_menu').hide();
-            $('.nav.side-menu li.active').removeClass('active');
-        }
-    } else
-    {
-        setCookie("small", false, {path: '/'});
-        if ($("body").hasClass('nav-sm'))
-        {
-            $("body").removeClass('nav-sm').addClass('nav-md');
-        }
-
-    }
-
-}
-
-
 $(document).ready(function () {
     if (Firstlogin)
     {
@@ -363,7 +338,12 @@ $(document).ready(function () {
     if (getCookie('small') == 'true')
     {
         $(' ul.nav.child_menu').hide();
+        if ($BODY.hasClass('nav-sm')) {
+            $SIDEBAR_MENU.find('li.active ul').hide();
+            $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+        }
     }
+
     if (!$('.profile_left-form').is(":visible"))
     {
         $('.hidefilter').removeClass('fa-chevron-up');
@@ -407,11 +387,26 @@ $(document).ready(function () {
     });
 
     $("body").on("click", "#menu_toggle", function () {
-        smallrequest(getCookie('small') == 'true');
+        setCookie("small", getCookie('small') == 'true', {path: '/'});
+//        smallrequest();
     });
     $('body').on("click", '.nav.side-menu li', function () {
         menuscroll();
-    })
+    });
+
+    $('.right_col, .nav_menu').on('click', function (ev) {
+        if ($('body').hasClass('nav-sm'))
+        {
+            $SIDEBAR_MENU.find('li').removeClass('active active-sm');
+            $SIDEBAR_MENU.find('a').filter(function () {
+                return this.href == CURRENT_URL;
+            }).parent('li').addClass('current-page').parents('ul').parent().addClass("active-sm");
+
+            $SIDEBAR_MENU.find('li ul').slideUp();
+        }
+
+
+    });
 });
 $(window).load(function () {
     menuscroll();
