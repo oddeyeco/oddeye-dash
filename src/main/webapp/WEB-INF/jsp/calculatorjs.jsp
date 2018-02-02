@@ -147,7 +147,7 @@
                 }
             }
         });
-        $("#" + sinstance_id + " .x_content").after('<div><button  class="calc_button clone " >Clone</button><div class="totalPrice"> <label>Instance price</label> <span class ="total"></span><span class ="totalusd">~</span>');
+        $("#" + sinstance_id + " .x_content").after('<div><button  class="calc_button clone " >Clone</button><div class="totalPrice"> <label>Instance price</label> <span class ="totalusd">~</span>');
         $('#fullprice table tbody').append('<tr id="tr_' + instance_id + '"><th><a href="#' + sinstance_id + '"> #' + (instance_id + 1) + '</a></th><td class="unit">0</td><td class="usd">0</td></tr>');
         doprice($("#" + sinstance_id));
         instance_id++;
@@ -304,7 +304,7 @@
 
             });
             var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice);
-            contener.find('.total').html(applysum + " Merics");
+//            contener.find('.total').html(applysum + " Merics");
             contener.find('.totalusd').html('~' + (price + price * pp / 100 + pf).toFixed(2) + " USD");
             var id = contener.attr('id');
             id = id.replace('check_', 'tr_');

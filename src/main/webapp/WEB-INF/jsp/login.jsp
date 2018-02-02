@@ -45,7 +45,7 @@
 </div>
 
 <div class="container center logincontener" >    
-    <div class="row">
+    <div>
         <div class="col-sm-6 col-xs-12 logo">
             <div class="progress-wrap">
                 <div class="progress">
