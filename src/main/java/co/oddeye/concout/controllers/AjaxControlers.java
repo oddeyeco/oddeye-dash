@@ -122,7 +122,7 @@ public class AjaxControlers {
                 metric = userDetails.getMetricsMeta().get(hash);
                 if (metric == null) {
                     jsonResult.addProperty("sucsses", Boolean.FALSE);
-                    LOGGER.warn("Metric for hash:" + hash + " not exist");
+                    LOGGER.warn("Metric for hash:" + hash + " for user " +userDetails.getEmail()+" not exist");
                     map.put("jsonmodel", jsonResult);
                     return "ajax";
                 }

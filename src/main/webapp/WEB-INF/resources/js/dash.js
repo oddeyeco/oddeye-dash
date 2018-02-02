@@ -1068,7 +1068,7 @@ var queryCallback = function (inputdata) {
 
                 if (widget.label)
                     if (widget.label.parts)
-                    {
+                    {                        
                         $.each(ser.data, function (i, val) {
                             val.formatter = widget.label.parts;
                         });
@@ -1133,36 +1133,33 @@ var queryCallback = function (inputdata) {
                                     ser.label.normal.formatter = pieformater;
                                     break;
                                 }
-                                case 'funnel':
-                                {
-                                    ser.label.normal.formatter = abcformater;
-                                    break;
-                                }
-                                case 'line':
-                                {
-//                                    delete ser.label.normal.formatter;
-                                    ser.label.normal.formatter = abcformater;
-                                    break;
-                                }
+//                                case 'funnel':
+//                                {
+//                                    ser.label.normal.formatter = abcformater;
+//                                    break;
+//                                }
+//                                case 'line':
+//                                {
+//                                    ser.label.normal.formatter = abcformater;
+//                                    break;
+//                                }
                                 default:
-                                {
-
-                                    if (widget.options.yAxis[yAxis].axisLabel.formatter)
-                                    {
-                                        if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
-                                        {
-                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
-                                        } else
-                                        {
-                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
-                                        }
-                                    } else
-                                    {
-                                        delete ser.label.normal.formatter;
-                                    }
-
-//                                    delete ser.label.normal.formatter;
-//                                    console.log(ser.label.normal);
+                                {           
+                                    ser.label.normal.formatter = abcformater;
+//                                    if (widget.options.yAxis[yAxis].axisLabel.formatter)
+//                                    {
+//                                        if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
+//                                        {
+//                                            console.log(widget.options.yAxis[yAxis].axisLabel);
+//                                            ser.label.normal.formatter = abcformater;
+//                                        } else
+//                                        {
+//                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
+//                                        }
+//                                    } else
+//                                    {
+//                                        delete ser.label.normal.formatter;
+//                                    }
                                     break
                                 }
                             }
