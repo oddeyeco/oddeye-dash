@@ -88,7 +88,7 @@ function menuscroll() {
     if ($('body').hasClass('nav-sm')) {
         $("#sidebar-menu").removeClass('y-overflow');
         if ($('li').hasClass('active')) {
-            $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active-sm .nav.child_menu").offset().top);
+            $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active .nav.child_menu").offset().top);
             $("li.active .nav.child_menu").addClass('y-overflow');
         }
     } else {
