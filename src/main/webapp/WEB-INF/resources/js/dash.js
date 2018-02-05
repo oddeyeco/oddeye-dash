@@ -2,6 +2,19 @@
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
+var basecounter = '<div class="x_content">' +
+        '<div class="row" id="counter_single">' +
+        '<div class="animated flipInY col-xs-12">' +
+        '<div class="tile-stats">' +
+        '<div class="icon"><i class="fa fa-caret-square-o-up"></i></div>' +
+        '<div class="count">179</div>' +
+        '<h3>New Sign ups</h3>' +
+        '<p>Lorem ipsum psdea itgum rixt.</p>' +
+        '</div>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+
 var defserie = {
     name: null,
     data: null
@@ -102,10 +115,13 @@ function savedash() {
                     localjson.rows[ri].widgets[wi].options = clone_obg(gdd.rows[ri].widgets[wi].tmpoptions);
                     delete localjson.rows[ri].widgets[wi].tmpoptions;
                 }
-
-                for (var k in localjson.rows[ri].widgets[wi].options.series) {
-                    localjson.rows[ri].widgets[wi].options.series[k].data = [];
+                if (localjson.rows[ri].widgets[wi].options)
+                {
+                    for (var k in localjson.rows[ri].widgets[wi].options.series) {
+                        localjson.rows[ri].widgets[wi].options.series[k].data = [];
+                    }
                 }
+
             }
         }
 
@@ -1544,7 +1560,7 @@ var queryCallback = function (inputdata) {
                 if (widget.times.intervall)
                 {
                     if (widget.times.intervall !== "General")
-                    {                        
+                    {
                         GlobalRefresh = false;
                         if (widget.times.intervall !== "off")
                         {
@@ -1606,6 +1622,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     {
         chart = customchart;
     }
+
     if (chart === null)
     {
         return;
@@ -1617,8 +1634,15 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     }
 
     widget.visible = !redraw;
-
-    if (chart)
+    if (widget.type === "counter")
+    {
+        console.log(json.rows[ri].widgets[wi]);
+//        chart.find('.tile-stats h3').text(widget.title.text);
+//        chart.find('.tile-stats h3').css(widget.title.textStyle);
+//        chart.find('.tile-stats p').text(widget.title.subtext);
+//        chart.find('.tile-stats p').css(widget.title.subtextStyle);
+//        chart
+    } else if (chart)
     {
         if (chart._dom.className !== "echart_line_single")
         {
@@ -1854,6 +1878,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
         }
 }
+
 }
 function AutoRefresh(redraw = false) {
     redrawAllJSON(gdd, redraw);
@@ -1874,6 +1899,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
     });
 }
 function redrawAllJSON(dashJSON, redraw = false) {
+
     var ri;
     var wi;
     $(".editchartpanel").hide();
@@ -1930,13 +1956,16 @@ function redrawAllJSON(dashJSON, redraw = false) {
 
             continue;
         }
+
         for (wi in tmprow.widgets)
         {
+
             if (tmprow.widgets[wi] === null)
             {
                 tmprow.widgets.splice(wi, 1);
                 continue;
             }
+
             if (!tmprow.widgets[wi].echartLine || !redraw)
             {
                 var bkgclass = "";
@@ -1997,17 +2026,23 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 $("#row" + ri).find(".rowcontent").append($("#charttemplate").html());
                 $("#charttemplate .chartsection").find(".echart_line").attr("id", "echart_line");
             }
-            if (typeof (tmprow.widgets[wi].options) === "undefined")
+
+            if (tmprow.widgets[wi].type !== "counter")
             {
-                tmprow.widgets[wi].options = clone_obg(defoption);
-                tmprow.widgets[wi].options.series[0].symbol = "none";
-                tmprow.widgets[wi].options.series[0].data = datafunc();
+                if (typeof (tmprow.widgets[wi].options) === "undefined")
+                {
+                    tmprow.widgets[wi].options = clone_obg(defoption);
+                    tmprow.widgets[wi].options.series[0].symbol = "none";
+                    tmprow.widgets[wi].options.series[0].data = datafunc();
+                }
             }
+
             if (typeof (tmprow.widgets[wi].q) === "undefined")
             {
                 tmprow.widgets[wi].q = clone_obg(tmprow.widgets[wi].queryes);
                 delete tmprow.widgets[wi].queryes;
             }
+
 
 
             if (typeof (tmprow.widgets[wi].q) !== "undefined")
@@ -2019,26 +2054,34 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 setdatabyQ(dashJSON, ri, wi, "getdata", redraw);
             } else
             {
-                if (tmprow.widgets[wi].options.series.length === 1)
+                if (tmprow.widgets[wi].type === "counter")
+                {   
+                    $("#echart_line" + ri + "_" + wi).removeAttr("style")                 
+                    $("#echart_line" + ri + "_" + wi).append(basecounter);
+                    updatecounter($("#echart_line" + ri + "_" + wi),tmprow.widgets[wi]);
+                } else
                 {
-                    if (!tmprow.widgets[wi].options.series[0].data)
+                    if (tmprow.widgets[wi].options.series.length === 1)
                     {
-                        tmprow.widgets[wi].options.series[0].data = datafunc();
-                    } else
-                    if (tmprow.widgets[wi].options.series[0].data.length === 0)
-                    {
-                        tmprow.widgets[wi].options.series[0].data = datafunc();
+                        if (!tmprow.widgets[wi].options.series[0].data)
+                        {
+                            tmprow.widgets[wi].options.series[0].data = datafunc();
+                        } else
+                        if (tmprow.widgets[wi].options.series[0].data.length === 0)
+                        {
+                            tmprow.widgets[wi].options.series[0].data = datafunc();
+                        }
                     }
-                }
 
-                tmprow.widgets[wi].echartLine = echarts.init(document.getElementById("echart_line" + ri + "_" + wi), 'oddeyelight');
-                if (!tmprow.widgets[wi].options.series[0])
-                {
-                    tmprow.widgets[wi].options.series[0] = {};
-                }
-                tmprow.widgets[wi].options.series[0].type = "line";
+                    tmprow.widgets[wi].echartLine = echarts.init(document.getElementById("echart_line" + ri + "_" + wi), 'oddeyelight');
+                    if (!tmprow.widgets[wi].options.series[0])
+                    {
+                        tmprow.widgets[wi].options.series[0] = {};
+                    }
+                    tmprow.widgets[wi].options.series[0].type = "line";
 
-                tmprow.widgets[wi].echartLine.setOption(tmprow.widgets[wi].options);
+                    tmprow.widgets[wi].echartLine.setOption(tmprow.widgets[wi].options);
+                }
             }
 
             $("#charttemplate .chartsection").attr("id", "widget");
@@ -2164,7 +2207,25 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>');
         }
         $(".right_col .editpanel").append($("#dash_main"));
-        if (W_type === "table")
+        if (W_type === "counter")
+        {
+            $(".right_col .editpanel").append(basecounter);
+
+            if (!readonly)
+            {
+                $(".right_col .editpanel").append('<div class="x_content edit-form">');
+                Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
+//                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
+            }
+            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
+            {
+                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $("#counter_single"));
+            } else
+            {
+//                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
+            }
+
+        } else if (W_type === "table")
         {
             $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
                     '<div class="table_single" id="table_single"></div>' +
@@ -2206,17 +2267,18 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
 //                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             }
+            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
+            {
+                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
+            } else
+            {
+                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
+            }
 
         }
     }
 
-    if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-    {
-        setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
-    } else
-    {
-        echartLine.setOption(dashJSON.rows[row].widgets[index].options);
-    }
+
     return;
 }
 
@@ -2821,6 +2883,33 @@ $(document).ready(function () {
         AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
     });
+    //addchart
+
+    $('body').on("click", ".addcounter", function () {
+
+        for (var ri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[ri].widgets)
+            {
+                if (gdd.rows[ri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+                }
+            }
+        }
+        var ri = $(this).parents(".widgetraw").index();
+        if (!gdd.rows[ri].widgets)
+        {
+            gdd.rows[ri].widgets = [];
+        }
+        var wi = gdd.rows[ri].widgets.length;
+        gdd.rows[ri].widgets.push({type: "counter", size: 2});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
+        domodifier();
+        AutoRefreshSingle(ri, wi);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
         senddata = {};

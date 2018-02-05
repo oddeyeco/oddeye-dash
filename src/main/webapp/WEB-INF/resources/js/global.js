@@ -13,7 +13,26 @@ headers[headerName] = token;
 headers["page"] = document.URL;
 
 globalconnect(headers);
+function updatecounter(counter, widget)
+{
+    if (widget.title)
+    {
+        counter.find('.tile-stats h3').text(widget.title.text);
+        if (widget.title.textStyle)
+        {
+            counter.find('.tile-stats h3').css(widget.title.textStyle);
+        }
+        counter.find('.tile-stats p').text(widget.title.subtext);
+        if (widget.title.subtextStyle)
+        {
+            counter.find('.tile-stats p').css(widget.title.subtextStyle);
+        }
 
+    }
+
+
+}
+;
 function getDecimalSeparator() {
     var n = 1.1;
     n = n.toLocaleString().substring(1, 2);
@@ -388,7 +407,7 @@ $(document).ready(function () {
     });
 
     $("body").on("click", "#menu_toggle", function () {
-        setCookie("small", getCookie('small') != 'true', {path: '/'});        
+        setCookie("small", getCookie('small') != 'true', {path: '/'});
     });
     $('body').on("click", '.nav.side-menu li', function () {
         menuscroll();
