@@ -779,8 +779,9 @@ class EditForm {
         this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
     }
 
-    get refreshtimes() {
+    static get refreshtimes() {
         return {
+            "off": "Refresh Off",
             "5000": "Refresh every 5s",
             "10000": "Refresh every 10s",
             "30000": "Refresh every 30s",
@@ -797,6 +798,7 @@ class EditForm {
     get privaterefreshtimes() {
         return {
             "General": "Refresh General",
+            "off": "Refresh Off",
             " 5000": "Refresh every 5s",
             " 10000": "Refresh every 10s",
             " 30000": "Refresh every 30s",
