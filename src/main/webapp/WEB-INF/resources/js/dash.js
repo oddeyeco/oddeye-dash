@@ -1,18 +1,6 @@
 /* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater */
 var SingleRedrawtimer;
 var dasheditor;
-var refreshtimes = {
-    "5000": "Refresh every 5s",
-    "10000": "Refresh every 10s",
-    "30000": "Refresh every 30s",
-    "60000": "Refresh every 1m",
-    "300000": "Refresh every 5m",
-    "900000": "Refresh every 15m",
-    "1800000": "Refresh every 30m",
-    "3600000": "Refresh every 1h",
-    "7200000": "Refresh every 2h",
-    "86400000": "Refresh every 1d"
-};
 var echartLine;
 var defserie = {
     name: null,
@@ -1037,7 +1025,7 @@ var queryCallback = function (inputdata) {
                 {
                     delete widget.options.dataZoom;
                     break;
-                }                
+                }
                 default:
                 {
                     break
@@ -1068,7 +1056,7 @@ var queryCallback = function (inputdata) {
 
                 if (widget.label)
                     if (widget.label.parts)
-                    {                        
+                    {
                         $.each(ser.data, function (i, val) {
                             val.formatter = widget.label.parts;
                         });
@@ -1118,14 +1106,14 @@ var queryCallback = function (inputdata) {
                     }
                     ser.detail.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                 }
-                
+
                 if (ser.label)
                 {
                     if (ser.label.normal)
-                    {                        
-                        if (ser.label.normal.show||typeof (ser.label.normal.show)==="undefined")
+                    {
+                        if (ser.label.normal.show || typeof (ser.label.normal.show) === "undefined")
                         {
-                            
+
                             switch (ser.type) {
                                 case 'pie':
                                 {
@@ -1144,7 +1132,7 @@ var queryCallback = function (inputdata) {
 //                                    break;
 //                                }
                                 default:
-                                {           
+                                {
                                     ser.label.normal.formatter = abcformater;
 //                                    if (widget.options.yAxis[yAxis].axisLabel.formatter)
 //                                    {
@@ -1556,11 +1544,14 @@ var queryCallback = function (inputdata) {
                 if (widget.times.intervall)
                 {
                     if (widget.times.intervall !== "General")
-                    {
+                    {                        
                         GlobalRefresh = false;
-                        widget.timer = setTimeout(function () {
-                            setdatabyQ(json, ri, wi, url, true, null, customchart);
-                        }, widget.times.intervall);
+                        if (widget.times.intervall !== "off")
+                        {
+                            widget.timer = setTimeout(function () {
+                                setdatabyQ(json, ri, wi, url, true, null, customchart);
+                            }, widget.times.intervall);
+                        }
                     }
                 }
             }
@@ -1985,7 +1976,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     {
                         if (tmprow.widgets[wi].times.intervall !== "General")
                         {
-                            $("#charttemplate .chartsection .echart_time").append(refreshtimes[tmprow.widgets[wi].times.intervall]);
+                            $("#charttemplate .chartsection .echart_time").append(EditForm.refreshtimes[tmprow.widgets[wi].times.intervall]);
                         }
                     }
 

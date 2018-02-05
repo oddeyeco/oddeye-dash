@@ -6,7 +6,6 @@
 package co.oddeye.concout.helpers;
 
 import co.oddeye.concout.dao.HbaseMetaDao;
-import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.core.globalFunctions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
