@@ -107,9 +107,14 @@ function menuscroll() {
     if ($('body').hasClass('nav-sm')) {
         $("#sidebar-menu").removeClass('y-overflow');
         if ($('li').hasClass('active')) {
-            $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active .nav.child_menu").offset().top);
-            $("li.active .nav.child_menu").addClass('y-overflow');
+            if ($("li.active .nav.child_menu").length > 0)
+            {
+                $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active .nav.child_menu").offset().top);
+                $("li.active .nav.child_menu").addClass('y-overflow');
+            }
+
         }
+
     } else {
         $("#sidebar-menu").css("max-height", $(".sidebar-footer").offset().top - $("#sidebar-menu").offset().top);
         $("li.active .nav.child_menu").removeClass('y-overflow');

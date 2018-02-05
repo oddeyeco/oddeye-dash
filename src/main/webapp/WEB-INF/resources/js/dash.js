@@ -2157,6 +2157,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         delete dashJSON.rows[row].widgets[index].queryes;
     }
     //Change queryes downsample 
+    
     if (dashJSON.rows[row].widgets[index].q)
     {
         for (var qindex in dashJSON.rows[row].widgets[index].q)
@@ -2178,10 +2179,12 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
     var title = "Edit Chart";
     var W_type = dashJSON.rows[row].widgets[index].type;
+    
     if (W_type === "table")
     {
         title = "Edit Table";
     }
+    
     if (rebuildform)
     {
         $(".right_col").append('<div class="x_panel editpanel"></div>');
@@ -2207,6 +2210,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>');
         }
         $(".right_col .editpanel").append($("#dash_main"));
+        
         if (W_type === "counter")
         {
             $(".right_col .editpanel").append(basecounter);
@@ -2231,7 +2235,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '<div class="table_single" id="table_single"></div>' +
                     '</div>');
         } else //chart
-        {
+        {            
             if (!redraw)
             {
                 if (readonly)
@@ -2276,6 +2280,27 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             }
 
         }
+    }
+    else
+    {
+        if (W_type === "counter")
+        {
+
+
+        } else if (W_type === "table")
+        {
+
+        } else //chart
+        {
+            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
+            {
+                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
+            } else
+            {
+                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
+            }
+
+        }        
     }
 
 
