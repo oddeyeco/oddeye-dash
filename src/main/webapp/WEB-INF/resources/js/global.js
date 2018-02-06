@@ -14,7 +14,7 @@ headers["page"] = document.URL;
 
 globalconnect(headers);
 function updatecounter(counter, widget)
-{
+{    
     if (widget.title)
     {
         counter.find('.tile-stats h3').text(widget.title.text);

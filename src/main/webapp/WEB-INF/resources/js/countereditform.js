@@ -77,7 +77,7 @@ class CounterEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom", text: "Background", lfor: "title_background_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "title_background_color", name: "title_background_color", key_path: 'title.backgroundColor', default: ""},
+                                            {tag: "input", type: "text", class: "form-control", prop_key: "textStyle.backgroundColor", id: "title_background_color", name: "title_background_color", key_path: 'title.textStyle.backgroundColor', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}

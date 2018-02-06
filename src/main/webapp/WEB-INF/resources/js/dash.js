@@ -6,10 +6,10 @@ var basecounter = '<div class="x_content">' +
         '<div class="row" id="counter_single">' +
         '<div class="animated flipInY col-xs-12">' +
         '<div class="tile-stats">' +
-        '<div class="icon"><i class="fa fa-caret-square-o-up"></i></div>' +
-        '<div class="count">179</div>' +
-        '<h3>New Sign ups</h3>' +
-        '<p>Lorem ipsum psdea itgum rixt.</p>' +
+        '<div class="icon"><i class="fa fa-database"></i></div>' +
+        '<div class="count">0</div>' +
+        '<h3>Title</h3>' +
+        '<p>Subtitle.</p>' +
         '</div>' +
         '</div>' +
         '</div>' +
