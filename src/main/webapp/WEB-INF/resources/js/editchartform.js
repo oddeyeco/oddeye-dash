@@ -29,8 +29,8 @@ class ChartEditForm extends EditForm {
             }
         });
     }
-    ;
-            constructor(chart, formwraper, row, index, dashJSON, aftermodifier = null) {
+
+    constructor(chart, formwraper, row, index, dashJSON, aftermodifier = null) {
 //        this.chart = chart;
         super(formwraper, row, index, dashJSON, aftermodifier);
         // Add castoms

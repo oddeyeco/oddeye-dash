@@ -2,12 +2,12 @@
 
 //var colorPalette = ["#DDCCAA","#ADB9D8","#799AF2","#8899AA","#1ABAE9","#776655","#886611","#0082A8","#3F517F","#116688","#883311","#3D494C","#224499","#005566","#004E66","#2B2B2B","#002733","#101011","#000022"];
 //
-    var colorPalette = [
-        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
-        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
-        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
-        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
-    ];
+var colorPalette = [
+    '#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80',
+    '#8d98b3', '#e5cf0d', '#97b552', '#95706d', '#dc69aa',
+    '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
+    '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
+];
 
 //var colorPalette = [
 //    '#FF1744', '#1E88E5', '#616161',
@@ -96,7 +96,7 @@ var abcformater = function (params) {
     {
         value = value * -1;
     }
-    
+
     if (typeof (window[formatter]) === "function")
     {
         formatter = window[formatter](value);
@@ -107,20 +107,19 @@ var abcformater = function (params) {
 
         if (typeof (valueformatter) === "function")
         {
-            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));            
+            formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
         } else
-        {            
-            if (valueformatter===formatter)
+        {
+            if (valueformatter === formatter)
             {
-                formatter = valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2));                    
-            }
-            else
+                formatter = valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2));
+            } else
             {
-                formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2)));    
+                formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2)));
             }
         }
     }
-    
+
     return formatter;
 };
 
@@ -269,10 +268,7 @@ var encodeHTML = function (source) {
                 {
 
                     var value = params.data.value;
-                    if (params.data.isinverse === true)
-                    {
-                        value = value * -1;
-                    }
+
                     if (typeof value !== 'undefined')
                     {
                         if (value.constructor === Array)
@@ -301,7 +297,7 @@ var encodeHTML = function (source) {
                                 }
 
                             } else if (params.componentSubType === "boxplot")
-                            {                             
+                            {
                                 if (params.data.info)
                                 {
 
@@ -313,17 +309,12 @@ var encodeHTML = function (source) {
                                 } else
                                 {
                                     value = "<br>" + value[0] + "<br>" + value[1] + "<br>" + value[2] + "<br>" + value[3];
-                                }  
-                            } else if (params.componentSubType === "bar")
-                            {
-                                value = format_date(value[0], 0) + ":" + value[1].toFixed(2);
-                                out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + value;
-                                return out;
-
+                                }
                             } else
                             {
 //                                console.log(params);
-                                value = value[1];
+                                value = (params.data.isinverse ? -1 : 1) * value[1];
+
                                 if (params.data.unit)
                                 {
                                     if (typeof (window[params.data.unit]) === "function")
@@ -344,6 +335,13 @@ var encodeHTML = function (source) {
                                     }
 //                                    value = format_metric(value);
                                 }
+                                if (params.componentSubType === "bar")
+                                {
+                                    value = format_date(params.value[0], 0) + ":" + value;
+                                    out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + value;
+                                    return out;
+
+                                }                                
                                 firstparam = format_date(params.value[0], 0);
                                 out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + firstparam + " " + params.seriesName + ' : ' + value;
                                 return out;
@@ -351,6 +349,10 @@ var encodeHTML = function (source) {
 
                         } else
                         {
+                            if (params.data.isinverse === true)
+                            {
+                                value = value * -1;
+                            }
                             if (params.data.unit)
                             {
                                 if (typeof (window[params.data.unit]) === "function")
@@ -384,11 +386,11 @@ var encodeHTML = function (source) {
                             }
                             out = head + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                         } else
-                        {                            
+                        {
                             out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                             if (params.componentSubType === "boxplot")
                             {
-                                out = params.seriesName + ' for <br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.data.name + ' : ' + value;                                
+                                out = params.seriesName + ' for <br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.data.name + ' : ' + value;
                             }
                         }
 

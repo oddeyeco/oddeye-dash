@@ -13,7 +13,26 @@ headers[headerName] = token;
 headers["page"] = document.URL;
 
 globalconnect(headers);
+function updatecounter(counter, widget)
+{
+    if (widget.title)
+    {
+        counter.find('.tile-stats h3').text(widget.title.text);
+        if (widget.title.textStyle)
+        {
+            counter.find('.tile-stats h3').css(widget.title.textStyle);
+        }
+        counter.find('.tile-stats p').text(widget.title.subtext);
+        if (widget.title.subtextStyle)
+        {
+            counter.find('.tile-stats p').css(widget.title.subtextStyle);
+        }
 
+    }
+
+
+}
+;
 function getDecimalSeparator() {
     var n = 1.1;
     n = n.toLocaleString().substring(1, 2);
@@ -88,9 +107,14 @@ function menuscroll() {
     if ($('body').hasClass('nav-sm')) {
         $("#sidebar-menu").removeClass('y-overflow');
         if ($('li').hasClass('active')) {
-            $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active-sm .nav.child_menu").offset().top);
-            $("li.active .nav.child_menu").addClass('y-overflow');
+            if ($("li.active .nav.child_menu").length > 0)
+            {
+                $("li.active .nav.child_menu").css("max-height", $(window).scrollTop() + $(window).height() - $("li.active .nav.child_menu").offset().top);
+                $("li.active .nav.child_menu").addClass('y-overflow');
+            }
+
         }
+
     } else {
         $("#sidebar-menu").css("max-height", $(".sidebar-footer").offset().top - $("#sidebar-menu").offset().top);
         $("li.active .nav.child_menu").removeClass('y-overflow');
@@ -388,7 +412,7 @@ $(document).ready(function () {
     });
 
     $("body").on("click", "#menu_toggle", function () {
-        setCookie("small", getCookie('small') != 'true', {path: '/'});        
+        setCookie("small", getCookie('small') != 'true', {path: '/'});
     });
     $('body').on("click", '.nav.side-menu li', function () {
         menuscroll();

@@ -1130,6 +1130,7 @@ class EditForm {
                 $('[key_path="' + input.attr('key_path') + '"]').parent().colorpicker('setValue', value);
             }
         }
+        
         showsingleWidget(this.row, this.index, this.dashJSON, false, false, false, function () {
 //            var jsonstr = JSON.stringify(opt, jsonmaker);
 //            editor.set(JSON.parse(jsonstr));
