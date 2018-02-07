@@ -1892,9 +1892,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     if (chart.attr("id") === "singlewidget")
                     {
                         chart.attr("class", " col-xs-12 col-sm-" + widget.size);
-                    }
-
-                    console.log(chart.attr("id"));
+                    }                    
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
                     $.ajax({
                         dataType: "json",
