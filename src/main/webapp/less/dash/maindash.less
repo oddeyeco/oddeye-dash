@@ -768,7 +768,7 @@ ul.lastdash {
     {
         top: 0;
         background:#fff;
-        z-index: 3;
+        z-index: 1000;
         right: 0px;        
         position: fixed;
         display: none;
@@ -873,10 +873,13 @@ i[data-toggle="tooltip"] {
     background-color: #fff;     
 }
 
-
+#singlewidget .chartsection,
 .rowcontent .chartsection
 {
-
+    .tile-stats
+    {
+        margin-bottom: 0;
+    }
     padding: 2px;    
 }
 .rowcontent .chartsection > div

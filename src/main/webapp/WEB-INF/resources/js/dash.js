@@ -2,16 +2,12 @@
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
-var basecounter = '<div class="x_content">' +
-        '<div class="row" id="counter_single">' +
-        '<div class="animated flipInY col-xs-12">' +
+var basecounter = '<div class="animated flipInY col-xs-6 chartsection">' +
         '<div class="tile-stats">' +
         '<div class="icon"><i class="fa fa-database"></i></div>' +
-        '<div class="count">0</div>' +
+        '<div class="count"><span class="number">0</span><span class="param"></span></div>' +
         '<h3>Title</h3>' +
         '<p>Subtitle.</p>' +
-        '</div>' +
-        '</div>' +
         '</div>' +
         '</div>';
 
@@ -275,6 +271,36 @@ var queryCallback = function (inputdata) {
         {
             if (widget.type === "counter")
             {
+                for (var dindex in data.chartsdata)
+                {
+
+                    var name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
+                    if (widget.title)
+                    {
+                        var name2 = widget.title.text;
+                    }
+
+                    if (typeof (widget.q[q_index].info) !== "undefined")
+                    {
+                        if (widget.q[q_index].info.alias)
+                        {
+                            if (widget.q[q_index].info.alias !== "")
+                            {
+                                name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[dindex]);
+                            }
+                        }
+
+                        if (widget.q[q_index].info.alias2)
+                        {
+                            if (widget.q[q_index].info.alias2 !== "")
+                            {
+                                name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[dindex]);
+                            }
+                        }
+                    }
+//                    console.log( data.chartsdata[dindex]);
+                    widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric});
+                }
             } else
             {
                 var m_sample = widget.options.xAxis[0].m_sample;
@@ -861,23 +887,78 @@ var queryCallback = function (inputdata) {
         {
             if (widget.type === "counter")
             {
-                var dataarray = data.chartsdata[Object.keys(data.chartsdata)[0]].data;
-//                console.log(dataarray[dataarray.length - 1][1]);
-                var fix = 2;
-                if (Number.isInteger(dataarray[dataarray.length - 1][1]))
+                if (!redraw)
                 {
-                    fix = 0;
+                    chart.html("");
                 }
-//                chart.find(".count").text(dataarray[dataarray.length - 1][1]);
-                chart.find(".count").prop('Counter', chart.find(".count").text()).animate({
-                    Counter: dataarray[dataarray.length - 1][1].toFixed(fix)
-                }, {
-                    duration: 1000,
-                    easing: 'swing',
-                    step: function (now) {
-                        $(this).text(now.toFixed(fix));
-                    }
+
+                widget.data.sort(function (a, b) {
+                    return compareNameName(a, b);
                 });
+
+
+                for (var val in widget.data)
+                {
+
+//                    console.log(redraw);
+                    var JQcounter;
+                    if (!redraw)
+                    {
+                        JQcounter = $(basecounter);
+                        chart.append(JQcounter);
+                        if (!widget.col)
+                        {
+                            widget.col = 6;
+                        }
+                        JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);
+                        JQcounter.find('.tile-stats h3').text(widget.data[val].name);
+                        JQcounter.find('.tile-stats p').text(widget.data[val].name2);
+                        JQcounter.find('.tile-stats .param').text("%");
+
+                        JQcounter.attr("id", widget.data[val].id);
+                    } else
+                    {
+                        JQcounter = chart.find("#" + widget.data[val].id);
+                    }
+                    var dataarray = widget.data[val].data;
+                    var fix = 2;
+                    if (Number.isInteger(dataarray[dataarray.length - 1][1]))
+                    {
+                        fix = 0;
+                    }
+                    var steper = function (ff) {
+                        return function (now) {
+                            $(this).find(".number").text(now.toFixed(ff));
+                        };
+                    };
+                    JQcounter.find(".count").prop('Counter', JQcounter.find(".count .number").text()).animate({
+                        Counter: dataarray[dataarray.length - 1][1].toFixed(fix)
+                    }, {
+                        duration: 1000,
+                        easing: 'linear',
+                        step: steper(fix)
+                    });
+
+
+                }
+
+
+//                var dataarray = data.chartsdata[Object.keys(data.chartsdata)[0]].data;
+//
+//                var fix = 2;
+//                if (Number.isInteger(dataarray[dataarray.length - 1][1]))
+//                {
+//                    fix = 0;
+//                }
+//                chart.find(".count").prop('Counter', chart.find(".count").text()).animate({
+//                    Counter: dataarray[dataarray.length - 1][1].toFixed(fix)
+//                }, {
+//                    duration: 1000,
+//                    easing: 'swing',
+//                    step: function (now) {
+//                        $(this).text(now.toFixed(fix));
+//                    }
+//                });
 
                 lockq[ri + " " + wi] = false;
 
@@ -1802,12 +1883,18 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
         if (widget.type === "counter")
         {
-            updatecounter(chart, widget);
-
+//            updatecounter(chart, widget);
+            widget.data = [];
             if (getParameterByName('metrics', uri))
             {
                 if (prevuri !== uri)
                 {
+                    if (chart.attr("id") === "singlewidget")
+                    {
+                        chart.attr("class", " col-xs-12 col-sm-" + widget.size);
+                    }
+
+                    console.log(chart.attr("id"));
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
                     $.ajax({
                         dataType: "json",
@@ -1816,7 +1903,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         success: queryCallback(inputdata),
                         fail: function () {
                             chart.hideLoading();
-                            $(chart._dom).before("<h2 class='error'>Invalid Query");
+                            $(chart).before("<h2 class='error'>Invalid Query");
                         }
                     });
                 } else
@@ -2100,7 +2187,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     if (tmprow.widgets[wi].type === "counter")
                     {
                         $("#echart_line" + ri + "_" + wi).removeAttr("style");
-                        $("#echart_line" + ri + "_" + wi).append(basecounter);
+//                        $("#echart_line" + ri + "_" + wi).append(basecounter);
                         tmprow.widgets[wi].echartLine = $("#echart_line" + ri + "_" + wi);
                     } else
                     {
@@ -2114,8 +2201,8 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 if (tmprow.widgets[wi].type === "counter")
                 {
                     $("#echart_line" + ri + "_" + wi).removeAttr("style");
-                    $("#echart_line" + ri + "_" + wi).append(basecounter);
-                    updatecounter($("#echart_line" + ri + "_" + wi), tmprow.widgets[wi]);
+//                    $("#echart_line" + ri + "_" + wi).append(basecounter);
+//                    updatecounter($("#echart_line" + ri + "_" + wi), tmprow.widgets[wi]);
                 } else
                 {
                     if (tmprow.widgets[wi].options.series.length === 1)
@@ -2271,17 +2358,18 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>');
         }
         $(".right_col .editpanel").append($("#dash_main"));
-
+        $(".right_col .editpanel").append('<div class="clearfix"></div>');
         if (W_type === "counter")
         {
-
-            $(".right_col .editpanel").append(basecounter);
+            $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
+                    '<div class="counter_single" id="counter_single"></div>' +
+                    '</div>');
             if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
             {
-                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel"));
+                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
             } else
             {
-                updatecounter($(".right_col .editpanel"), tmprow.widgets[wi]);
+//                updatecounter($(".right_col .editpanel"), tmprow.widgets[wi]);
             }
             if (!readonly)
             {
@@ -2348,10 +2436,10 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         {
             if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
             {
-                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel"));
+                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
             } else
             {
-                updatecounter($(".right_col .editpanel"), dashJSON.rows[row].widgets[index]);
+//                updatecounter($(".right_col .editpanel"), dashJSON.rows[row].widgets[index]);
             }
 
         } else if (W_type === "table")

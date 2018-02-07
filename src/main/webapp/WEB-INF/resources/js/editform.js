@@ -8,10 +8,9 @@
 /* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor, cp */
 
 class EditForm {
-    
-    
-    constructor(formwraper, row, index, dashJSON, aftermodifier = null) {        
-        this.aftermodifier = aftermodifier;        
+
+    constructor(formwraper, row, index, dashJSON, aftermodifier = null) {
+        this.aftermodifier = aftermodifier;
         this.deflist = {};
         this.formwraper = formwraper;
         this.row = row;
@@ -116,7 +115,7 @@ class EditForm {
 
             }
 
-        }
+    }
 
     }
     drawcontent(formcontent, contener, initval, template_index)
@@ -273,8 +272,8 @@ class EditForm {
                                         if (!item.choose_type)
                                         {
                                             item.choose_type = "checkbox";
-                                        }                                        
-                                        jobject.append("<span>" + varsindex + '<input type="'+item.choose_type+'" index="' + varsindex + '" class="flat", name="' + item.name + '[]" ' + checked + ' />');
+                                        }
+                                        jobject.append("<span>" + varsindex + '<input type="' + item.choose_type + '" index="' + varsindex + '" class="flat", name="' + item.name + '[]" ' + checked + ' />');
 
                                     }
                                 }
@@ -508,10 +507,10 @@ class EditForm {
 
     static get aggregatoroptions_selct2()
     {
-        var result = [{id:"",text:""}];
+        var result = [{id: "", text: ""}];
         for (var index in EditForm.aggregatoroptions2)
         {
-            result.push({id:index,text:EditForm.aggregatoroptions2[index] });
+            result.push({id: index, text: EditForm.aggregatoroptions2[index]});
         }
         return result;
     }
@@ -913,10 +912,10 @@ class EditForm {
         this.formwraper.find('.cl_picer_noinput').colorpicker({format: 'rgba'}).on('hidePicker', function () {
             form.change($(this).find("input"));
         });
-        
+
         if (form.dashJSON.rows[form.row]["widgets"][form.index].times)
         {
-            
+
             if (form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall)
             {
                 $("#refreshtime_private").val(form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall);
@@ -1064,7 +1063,7 @@ class EditForm {
             });
             input.find('[type=radio]:checked').each(function () {
                 value.push(Number($(this).attr('index')));
-            });            
+            });
         }
 
 
@@ -1124,21 +1123,21 @@ class EditForm {
 
         this.setvaluebypath(input.attr('key_path'), value, tmpindex, parent);
         if ($('[key_path="' + input.attr('key_path') + '"]').length > 1)
-        {            
-            if (input.parent().hasClass("cl_picer")&& !input.parent().hasClass("hasdublicatepath"))
+        {
+            if (input.parent().hasClass("cl_picer") && !input.parent().hasClass("hasdublicatepath"))
             {
                 $('[key_path="' + input.attr('key_path') + '"]').parent().colorpicker('setValue', value);
             }
         }
-        
+
         showsingleWidget(this.row, this.index, this.dashJSON, false, false, false, function () {
 //            var jsonstr = JSON.stringify(opt, jsonmaker);
 //            editor.set(JSON.parse(jsonstr));
-        });        
+        });
         if (this.aftermodifier)
         {
             this.aftermodifier();
-        }        
+        }
     }
     getdefvalue(path)
     {
@@ -1237,8 +1236,8 @@ class EditForm {
         wraper.parents("form").find(".tagspan .text").each(function () {
             tags = tags + $(this).text().replace("*", "(.*)") + ";";
         });
-        
-        var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");                
+
+        var uri = cp + "/getfiltredmetricsnames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");
         $.getJSON(uri, null, function (data) {
             metricinput.autocomplete({
                 lookup: data.data,
