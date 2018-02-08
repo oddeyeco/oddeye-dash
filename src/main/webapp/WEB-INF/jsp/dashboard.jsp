@@ -26,7 +26,7 @@
             </div>
             <div class="modal-footer">
                 <input  type="button" class="btn btn-default" data-dismiss="modal" value="No">
-                <input id="savelock" type="button"class="btn btn-success" data-dismiss="modal" value="Yes">
+                <input id="savelock" type="button" class="btn btn-success" data-dismiss="modal" value="Yes">
             </div>
         </div>
     </div>
@@ -49,7 +49,7 @@
                 </div>
             </div>  
             <div class="btn-group  btn-group-xs">
-                <!--<a class="btn btn-default addcounter" type="button" data-toggle="tooltip" data-placement="top" title="Add Counter widget"><i class="fa fa-code"></i></a>-->
+                <a class="btn btn-default addcounter" type="button" data-toggle="tooltip" data-placement="top" title="Add Counter widget"><i class="fa fa-code"></i></a>
                 <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fa-line-chart"></i></a>
                 <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title="View row as JSON" ><i class="fa fa-edit"></i></a>
                 <a class="btn btn-default colapserow" data-toggle="tooltip" data-placement="top" title="Collapse" type="button"><i class="fa fa-chevron-up"></i></a>

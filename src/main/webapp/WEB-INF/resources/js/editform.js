@@ -769,13 +769,11 @@ class EditForm {
 
     repaintq(contener, content)
     {
-
-//                                contener.html("");
-//                                current.drawcontent(edit_q.content, contener, current.dashJSON.rows[current.row]["widgets"][current.index]);
-
+        
         contener.empty();
         this.drawcontent(content, contener, this.dashJSON.rows[this.row]["widgets"][this.index]);
         this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+        this.formwraper.find("select").select2({minimumResultsForSearch: 15});
     }
 
     static get refreshtimes() {

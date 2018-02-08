@@ -970,9 +970,9 @@ var queryCallback = function (inputdata) {
                             JQcounter.find('.tile-stats .number').css(widget.valueStyle);
                         }
 
-                        if (widget.measurementStyle)
+                        if (widget.unitStyle)
                         {
-                            JQcounter.find('.tile-stats .param').css(widget.measurementStyle);
+                            JQcounter.find('.tile-stats .param').css(widget.unitStyle);
                         }
 
                         if (widget.style)
