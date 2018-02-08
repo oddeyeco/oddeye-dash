@@ -916,7 +916,7 @@ var queryCallback = function (inputdata) {
                     var valueformatter = widget.q[widget.data[val].q_index].unit;
                     var numberindex = 0;
                     var paramindex = 1;
-                    
+
                     if (typeof (window[valueformatter]) === "function")
                     {
                         valueformatter = window[valueformatter];
@@ -928,7 +928,7 @@ var queryCallback = function (inputdata) {
                         if (!valueformatter)
                         {
                             valueformatter = "{value}";
-                        }                        
+                        }
                         var tmpvar = valueformatter.split(" ");
                         if (tmpvar[1] === "{value}")
                         {
@@ -979,10 +979,10 @@ var queryCallback = function (inputdata) {
                         {
                             JQcounter.find('.tile-stats').css(widget.style);
                         }
-                        JQcounter.attr("id", widget.data[val].id+val);
+                        JQcounter.attr("id", widget.data[val].id + val);
                     } else
                     {
-                        JQcounter = chart.find("#" + widget.data[val].id+val);
+                        JQcounter = chart.find("#" + widget.data[val].id + val);
                     }
 //                    console.log(avalue[0]);
 //                    console.log(typeof (avalue[0]));
@@ -2177,9 +2177,11 @@ function redrawAllJSON(dashJSON, redraw = false) {
 
             if (!tmprow.widgets[wi].echartLine || !redraw)
             {
+
                 var bkgclass = "";
                 clearTimeout(tmprow.widgets[wi].timer);
                 $("#charttemplate .chartsection").attr("size", tmprow.widgets[wi].size);
+
                 if (tmprow.widgets[wi].options)
                 {
                     if (tmprow.widgets[wi].options.backgroundColor)
@@ -2189,6 +2191,9 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     {
                         $("#charttemplate .chartsection  > div").css("background-color", "");
                     }
+                } else
+                {
+                    $("#charttemplate .chartsection  > div").css("background-color", "");
                 }
 
 //                $("#charttemplate .chartsection").attr("index", wi);
