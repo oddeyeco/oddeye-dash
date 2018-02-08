@@ -1970,6 +1970,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         chart.attr("class", " col-xs-12 col-sm-" + widget.size);
                     }
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
+                    lockq[ri + " " + wi] = true;
                     $.ajax({
                         dataType: "json",
                         url: uri,
@@ -2063,6 +2064,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 if (prevuri !== uri)
                 {
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
+                    lockq[ri + " " + wi] = true;
                     $.ajax({
                         dataType: "json",
                         url: uri,
