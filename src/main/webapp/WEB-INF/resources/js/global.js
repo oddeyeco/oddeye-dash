@@ -244,10 +244,10 @@ function compareStrings(a, b) {
 }
 
 function compareNameName(a, b) {
-    var _aname = a.name2.toLowerCase();
-    var _bname = b.name2.toLowerCase();
-    var _aname2 = a.name.toLowerCase();
-    var _bname2 = b.name.toLowerCase();
+    var _aname = a.name2;
+    var _bname = b.name2;
+    var _aname2 = a.name;
+    var _bname2 = b.name;
 
     return ((_aname2 < _bname2)) ? -1 : ((_aname2 > _bname2)) ? 1 : (((_aname < _bname)) ? -1 : ((_aname > _bname)) ? 1 : 0);
 }

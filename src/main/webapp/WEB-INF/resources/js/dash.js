@@ -2,12 +2,12 @@
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
-var basecounter = '<div class="animated flipInY col-xs-6 chartsection">' +
+var basecounter = '<div class="animated flipInY col-xs-6 chartsection" >' +
         '<div class="tile-stats">' +
-        '<div class="icon"><i class="fa fa-database"></i></div>' +
-        '<div class="count"><span class="number">0</span><span class="param"></span></div>' +
+//        '<div class="icon"><i class="fa fa-database"></i></div>' +
         '<h3>Title</h3>' +
-        '<p>Subtitle.</p>' +
+        '<p></p>' +
+        '<div class="count"><span class="number">0</span><span class="param"></span></div>' +
         '</div>' +
         '</div>';
 
@@ -274,7 +274,15 @@ var queryCallback = function (inputdata) {
                 for (var dindex in data.chartsdata)
                 {
 
-                    var name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
+                    var name;
+
+                    if (widget.title)
+                    {
+                        name = widget.title.text;
+                    } else
+                    {
+                        name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
+                    }
                     if (widget.title)
                     {
                         var name2 = widget.title.text;
@@ -299,7 +307,7 @@ var queryCallback = function (inputdata) {
                         }
                     }
 //                    console.log( data.chartsdata[dindex]);
-                    widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric});
+                    widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
             } else
             {
@@ -902,6 +910,36 @@ var queryCallback = function (inputdata) {
 
 //                    console.log(redraw);
                     var JQcounter;
+                    var dataarray = widget.data[val].data;
+
+                    var value = dataarray[dataarray.length - 1][1];
+                    var valueformatter = widget.q[widget.data[val].q_index].unit;
+                    var numberindex = 0;
+                    var paramindex = 1;
+                    
+                    if (typeof (window[valueformatter]) === "function")
+                    {
+                        valueformatter = window[valueformatter];
+                        value = (valueformatter(value));
+
+                    } else
+                    {
+                        valueformatter = widget.q[widget.data[val].q_index].unit;
+                        if (!valueformatter)
+                        {
+                            valueformatter = "{value}";
+                        }                        
+                        var tmpvar = valueformatter.split(" ");
+                        if (tmpvar[1] === "{value}")
+                        {
+                            numberindex = 1;
+                            paramindex = 0;
+
+                        }
+                        value = valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2));
+                    }
+                    var avalue = value.split(" ");
+
                     if (!redraw)
                     {
                         JQcounter = $(basecounter);
@@ -912,32 +950,70 @@ var queryCallback = function (inputdata) {
                         }
                         JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);
                         JQcounter.find('.tile-stats h3').text(widget.data[val].name);
+                        if (widget.title)
+                        {
+                            if (widget.title.textStyle)
+                            {
+                                JQcounter.find('.tile-stats h3').css(widget.title.textStyle);
+                            }
+                            if (widget.title.subtextStyle)
+                            {
+                                JQcounter.find('.tile-stats p').css(widget.title.subtextStyle);
+                            }
+                        }
                         JQcounter.find('.tile-stats p').text(widget.data[val].name2);
-                        JQcounter.find('.tile-stats .param').text("%");
 
-                        JQcounter.attr("id", widget.data[val].id);
+                        JQcounter.find('.tile-stats .param').text(avalue[paramindex]);
+
+                        if (widget.valueStyle)
+                        {
+                            JQcounter.find('.tile-stats .number').css(widget.valueStyle);
+                        }
+
+                        if (widget.measurementStyle)
+                        {
+                            JQcounter.find('.tile-stats .param').css(widget.measurementStyle);
+                        }
+
+                        if (widget.style)
+                        {
+                            JQcounter.find('.tile-stats').css(widget.style);
+                        }
+                        JQcounter.attr("id", widget.data[val].id+val);
                     } else
                     {
-                        JQcounter = chart.find("#" + widget.data[val].id);
+                        JQcounter = chart.find("#" + widget.data[val].id+val);
                     }
-                    var dataarray = widget.data[val].data;
-                    var fix = 2;
-                    if (Number.isInteger(dataarray[dataarray.length - 1][1]))
+//                    console.log(avalue[0]);
+//                    console.log(typeof (avalue[0]));
+
+                    if ((!isNaN(avalue[numberindex])) && (avalue[numberindex].indexOf("0x") === -1))
                     {
-                        fix = 0;
-                    }
-                    var steper = function (ff) {
-                        return function (now) {
-                            $(this).find(".number").text(now.toFixed(ff));
+                        var endvalue = parseFloat(avalue[numberindex]);
+                        var fix = 2;
+                        if (Number.isInteger(endvalue))
+                        {
+                            fix = 0;
+                        }
+                        var steper = function (ff) {
+                            return function (now) {
+                                $(this).find(".number").text(now.toFixed(ff));
+                            };
                         };
-                    };
-                    JQcounter.find(".count").prop('Counter', JQcounter.find(".count .number").text()).animate({
-                        Counter: dataarray[dataarray.length - 1][1].toFixed(fix)
-                    }, {
-                        duration: 1000,
-                        easing: 'linear',
-                        step: steper(fix)
-                    });
+
+                        JQcounter.find(".count").prop('Counter', JQcounter.find(".count .number").text()).animate({
+                            Counter: endvalue
+                        }, {
+                            duration: 1000,
+                            easing: 'linear',
+                            step: steper(fix)
+                        });
+                    } else
+                    {
+                        JQcounter.find(".count .number").text(avalue[numberindex]);
+                    }
+
+
 
 
                 }
@@ -1892,7 +1968,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     if (chart.attr("id") === "singlewidget")
                     {
                         chart.attr("class", " col-xs-12 col-sm-" + widget.size);
-                    }                    
+                    }
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
                     $.ajax({
                         dataType: "json",

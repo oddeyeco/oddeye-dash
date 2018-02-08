@@ -379,7 +379,7 @@ var format_data = function (params) {
         }
         default:
         {
-            metric = "";
+            metric = " ";
             break;
         }
     }
@@ -616,25 +616,25 @@ var formatGBpS = function (params) {
 };
 
 var formatops = function (params) {
-    return (format_metric(params)) + " ops";
+    return (format_metric(params)) + "ops";
 };
 var formatrps = function (params) {
-    return (format_metric(params)) + " rps";
+    return (format_metric(params)) + "rps";
 };
 var formatwps = function (params) {
-    return (format_metric(params)) + " wsp";
+    return (format_metric(params)) + "wsp";
 };
 var formatiops = function (params) {
-    return (format_metric(params)) + " iops";
+    return (format_metric(params)) + "iops";
 };
 var formatopm = function (params) {
-    return (format_metric(params)) + " opm";
+    return (format_metric(params)) + "opm";
 };
 var formatrpm = function (params) {
-    return (format_metric(params)) + " rpm";
+    return (format_metric(params)) + "rpm";
 };
 var formatwpm = function (params) {
-    return (format_metric(params)) + " wpm";
+    return (format_metric(params)) + "wpm";
 };
 
 var formatm = function (params) {
@@ -649,14 +649,14 @@ var formatmm = function (params) {
     return (format_metric(paramtoval(params) * Math.pow(10, -3))) + "m";
 };
 var formatmL = function (params) {
-    return (formatL(paramtoval(params) * Math.pow(10, -1)));
+    return (formatL(paramtoval(params) * Math.pow(10, -3)));
 };
 var formatL = function (params) {
-    return (format_metric(params, "v")) + "L";
+    return (format_volume(params, "v")) + "L";
 };
 
 var formatm3 = function (params) {
-    return (format_metric(params, "v")) + "m3";
+    return (format_volume(params, "v")) + "m3";
 };
 var formatW = function (params) {
     return (format_metric(params)) + "W";
@@ -708,8 +708,52 @@ var format_percent = function (params, type) {
     var val = paramtoval(params);    
     return val.toFixed(2) + " %";
 };
+var format_volume = function (params, type) {        
+    
+    var divatior = 1000;
+    var val = paramtoval(params);       
+    var neg = 1;
+    if (val !== 0)
+    {
+        var neg = val / Math.abs(val);
+    }
+    var val = Math.abs(val);
+    var metric = " ";
+    if (val !== 0)
+    {
+        var level = Math.floor(Math.log(val) / Math.log(divatior));
+        if (level < -9)
+        {
+            val = (val / Math.pow(divatior, level));
+            level = -9;
+        }
+        if (level > 26)
+        {
+            val = (val / Math.pow(divatior, level));
+            level = 26;
+        }
+        switch (level)
+        {
+            case - 3:
+            case - 4:
+            case -5:
+            {
+                val = (val / Math.pow(divatior, -3));
+                metric = " m";
+                break;
+            }
+            default:
+            {
+//                val = val;
+                metric = " ";
+                break;
+            }
+        }
+    }
+    return (val * neg).toFixed(2) + "" + metric;
+};
 
-var format_metric = function (params, type) {    
+var format_metric = function (params, type) {        
     if (typeof (type) === "undefined")
     {
         type = "m";
@@ -778,7 +822,7 @@ var format_metric = function (params, type) {
             case 2:
             {
 //                val = val;
-                metric = "";
+                metric = " ";
                 break;
             }
             case 3:
