@@ -352,17 +352,17 @@ public class OddeyeUserModel {
      */
     public Map<String, String> addDush(String DushName, String DushInfo, HbaseUserDao Userdao) throws Exception {
         DushList.put(DushName, DushInfo);
-//        if (!email.equals("demodemo@oddeye.co")) {
+        if (!email.equals("demodemo@oddeye.co")) {
             Userdao.saveDush(id, DushName, DushInfo);
-//        }
+        }
         return DushList;
     }
 
     public Map<String, String> removeDush(String DushName, HbaseUserDao Userdao) throws Exception {
         DushList.remove(DushName);
-//        if (!email.equals("demodemo@oddeye.co")) {
+        if (!email.equals("demodemo@oddeye.co")) {
             Userdao.removeDush(id, DushName);
-//        }
+        }
         return DushList;
     }
 
