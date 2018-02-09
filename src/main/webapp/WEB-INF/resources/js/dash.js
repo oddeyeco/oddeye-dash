@@ -1012,30 +1012,7 @@ var queryCallback = function (inputdata) {
                     {
                         JQcounter.find(".count .number").text(avalue[numberindex]);
                     }
-
-
-
-
                 }
-
-
-//                var dataarray = data.chartsdata[Object.keys(data.chartsdata)[0]].data;
-//
-//                var fix = 2;
-//                if (Number.isInteger(dataarray[dataarray.length - 1][1]))
-//                {
-//                    fix = 0;
-//                }
-//                chart.find(".count").prop('Counter', chart.find(".count").text()).animate({
-//                    Counter: dataarray[dataarray.length - 1][1].toFixed(fix)
-//                }, {
-//                    duration: 1000,
-//                    easing: 'swing',
-//                    step: function (now) {
-//                        $(this).text(now.toFixed(fix));
-//                    }
-//                });
-
                 lockq[ri + " " + wi] = false;
 
             } else
@@ -1876,7 +1853,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         }
     }
 
-    lockq[ri + " " + wi] = true;
+//    lockq[ri + " " + wi] = true;
     count.value = count.base;
 
     for (k in widget.q)
