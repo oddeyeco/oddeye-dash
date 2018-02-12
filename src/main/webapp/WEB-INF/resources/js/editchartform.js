@@ -283,9 +283,9 @@ class ChartEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_y"},
-                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_label_size_y", name: "lable_size_y", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "size_x", id: "{index}_label_size_y", name: "lable_size_y", key_path: 'axisLabel.fontSize', default: "12"},
                             {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
-                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "text_size_y", id: "{index}_text_size_y", name: "text_size_y", key_path: 'nameTextStyle.fontSize', default: "12"}
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "text_size_y", id: "{index}_text_size_y", name: "text_size_y", key_path: 'nameTextStyle.fontSize', default: "12"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
@@ -390,9 +390,9 @@ class ChartEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_x"},
-                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "size_x", id: "{index}_label_size_x", name: "lable_size_x", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "size_x", id: "{index}_label_size_x", name: "lable_size_x", key_path: 'axisLabel.fontSize', default: "12"},
                             {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
-                            {tag: "input", type: "number", class: "form-control axes_select axis_imput-size", prop_key: "text_size_x", id: "{index}_text_size_x", name: "text_size_x", key_path: 'nameTextStyle.fontSize', default: "12"}
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "text_size_x", id: "{index}_text_size_x", name: "text_size_x", key_path: 'nameTextStyle.fontSize', default: "12"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
