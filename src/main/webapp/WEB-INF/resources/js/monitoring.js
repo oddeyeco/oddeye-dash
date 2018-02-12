@@ -55,6 +55,7 @@ function realtimeconnect(head)
 function aftersubscribe(error) {
     $(".metrictable").find("tr.wait").remove();
     var errorjson = JSON.parse(error.body);
+//    console.log(errorjson);
     if (errorlistJson[errorjson.hash])
     {
         errorjson.index = errorlistJson[errorjson.hash].index;

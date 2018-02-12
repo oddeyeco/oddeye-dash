@@ -17,11 +17,10 @@
         sampling: 'average',
         markPoint: {
             data: [
-                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, itemStyle: {
-                        normal: {
-                            label: {position: "top", formatter: format_data}
-                        }}},
-                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, itemStyle: {normal: {label: {position: 'top', formatter: format_data}}}},
+                {type: 'max', name: 'max', symbol: 'diamond', symbolSize: 20, 
+                    label: {position: "top", formatter: format_data}
+                },
+                {type: 'min', name: 'min', symbol: 'triangle', symbolSize: 20, label: {position: 'top', formatter: format_data}}
             ]
         },
         data: null
@@ -45,13 +44,13 @@
 //                    date.push(dateval.format("h:m:s"));
                 dateval = moment(time * 1).dayOfYear(0);
 //                dateval = moment(time * 1).year(0);
-                chdata.push([dateval.toDate(), chartline.data[time]]);
+                chdata.push({value: [ dateval.toDate(), chartline.data[time]],unit:"format_data"} );
 
             }
 //                date.sort();            
             var serie = clone_obg(defserie);
             serie.data = chdata;
-            if (k != "predict")
+            if (k !== "predict")
             {
                 serie.name = moment(k * 1).format("YY/MM/DD");
                 legend.push(moment(k * 1).format("YY/MM/DD"));
@@ -61,7 +60,7 @@
                 legend.push('predict');
                 prserie = serie;
             }
-            series.push(serie);
+            series.push(serie);            
         }
         ;
 
@@ -71,16 +70,16 @@
         serie.markLine = {
             data: [
                 {name: 'Curentvalue', value: curentvalue, xAxis: prserie.data[0][0], yAxis: curentvalue}, // When xAxis is the category axis, value 1 will be understood as the index of the category axis. By xAxis: -1 | MAXNUMBER, markLine can reach the edge of the grid.
-                {name: 'Curentvalue', xAxis: prserie.data[prserie.data.length - 1][0], yAxis: curentvalue}, // When xAxis is the category axis, String 'Wednesday' will be understood as matching the category axis text.
+                {name: 'Curentvalue', xAxis: prserie.data[prserie.data.length - 1][0], yAxis: curentvalue} // When xAxis is the category axis, String 'Wednesday' will be understood as matching the category axis text.
             ],
             itemStyle: {normal: {color: '#ff0000', label: {formatter: format_data}}}
         };
-        serie.data = []
+        serie.data = [];
         series.push(serie);
 
         echartLine.setOption({
             title: {
-                text: chartline.metric,
+                text: chartline.metric
             },
             tooltip: {
                 trigger: 'axis'
@@ -97,7 +96,7 @@
                         show: true,
                         title: {
                             line: 'Line',
-                            bar: 'Bar',
+                            bar: 'Bar'
                         },
                         type: ['line', 'bar']
                     },
@@ -108,13 +107,11 @@
                 }
             },
             grid: {
-                x: 90,
-                y: 40,
-                x2: 20,
-                y2: 80
+                y2: 50
             },
             xAxis: [{
                     type: 'time',
+                    splitNumber: 30
                 }],
             yAxis: [{
                     type: 'value',
@@ -132,7 +129,7 @@
                     show: true,
                     start: 0,
                     end: 100
-                },
+                }
             ],
             series: series
         });
@@ -165,5 +162,5 @@
         }).fail(function (jqXHR, textStatus) {
             alert("Request failed");
         });
-    })
+    });
 </script>

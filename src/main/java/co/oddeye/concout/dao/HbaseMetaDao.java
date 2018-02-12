@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -60,7 +61,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     }
 
     public Map<String, MetriccheckRule> getErrorRules(MetricErrorMeta meta, long time) throws Exception {
-        Calendar CalendarObj = Calendar.getInstance();
+        Calendar CalendarObj = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         CalendarObj.setTimeInMillis(time * 1000);
         CalendarObj.add(Calendar.DATE, -1);
         return meta.getRules(CalendarObj, 7, table, BaseTsdb.getClientSecondary());
