@@ -48,8 +48,9 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
     @HbaseColumn(qualifier = "Recomended", family = "d")
     private boolean Recomended;
     @HbaseColumn(qualifier = "version", family = "d")
-    private String version;    
-    private String infoSjson;    
+    private String version;
+    @HbaseColumn(qualifier = "infojson", family = "d")
+    private String infoSjson;
 
     private ArrayList<String> usedtags;
     private ArrayList<String> usednames;
@@ -97,30 +98,34 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
         }
         usedtags = new ArrayList<>();
         usednames = new ArrayList<>();
-        JsonArray rows = this.infojson.get("rows").getAsJsonArray();
-        for (JsonElement _row : rows) {
-            JsonArray widgets = _row.getAsJsonObject().get("widgets").getAsJsonArray();
-            for (JsonElement widget : widgets) {
-                JsonArray qs = widget.getAsJsonObject().get("q").getAsJsonArray();
-                for (JsonElement q : qs) {
-                    if (q.getAsJsonObject().get("info").getAsJsonObject().has("metrics")) {
-                        String metrics = q.getAsJsonObject().get("info").getAsJsonObject().get("metrics").getAsString();
-                        String[] _metrics = metrics.split(";");
-                        for (String mm : _metrics) {
-                            if (!mm.isEmpty()) {
-                                if (!usednames.contains(mm)) {
-                                    usednames.add(mm);
+        if (this.infojson != null) {
+            if (this.infojson.get("rows") != null) {
+                JsonArray rows = this.infojson.get("rows").getAsJsonArray();
+                for (JsonElement _row : rows) {
+                    JsonArray widgets = _row.getAsJsonObject().get("widgets").getAsJsonArray();
+                    for (JsonElement widget : widgets) {
+                        JsonArray qs = widget.getAsJsonObject().get("q").getAsJsonArray();
+                        for (JsonElement q : qs) {
+                            if (q.getAsJsonObject().get("info").getAsJsonObject().has("metrics")) {
+                                String metrics = q.getAsJsonObject().get("info").getAsJsonObject().get("metrics").getAsString();
+                                String[] _metrics = metrics.split(";");
+                                for (String mm : _metrics) {
+                                    if (!mm.isEmpty()) {
+                                        if (!usednames.contains(mm)) {
+                                            usednames.add(mm);
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    }
-                    if (q.getAsJsonObject().get("info").getAsJsonObject().has("tags")) {
-                        String tags = q.getAsJsonObject().get("info").getAsJsonObject().get("tags").getAsString();
-                        String[] _tags = tags.split(";");
-                        for (String tt : _tags) {
-                            if (!tt.isEmpty()) {
-                                if (!usedtags.contains(tt)) {
-                                    usedtags.add(tt);
+                            if (q.getAsJsonObject().get("info").getAsJsonObject().has("tags")) {
+                                String tags = q.getAsJsonObject().get("info").getAsJsonObject().get("tags").getAsString();
+                                String[] _tags = tags.split(";");
+                                for (String tt : _tags) {
+                                    if (!tt.isEmpty()) {
+                                        if (!usedtags.contains(tt)) {
+                                            usedtags.add(tt);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -199,7 +204,7 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
 
     public DashboardTemplate(String _name, JsonObject json, OddeyeUserModel _user, TemplateType _type) {
         infojson = clearjson(json);
-        infoSjson=infojson.toString();
+        infoSjson = infojson.toString();
         user = _user;
         name = _name;
         key = ArrayUtils.addAll(user.getId().toString().getBytes(), name.getBytes());
@@ -292,12 +297,12 @@ public class DashboardTemplate implements Comparable<DashboardTemplate> {
      */
     public void setInfojson(JsonObject infojson) {
         this.infojson = infojson;
-        this.infoSjson = infojson.toString();        
-    }        
+        this.infoSjson = infojson.toString();
+    }
 
     public void setInfojson(String sjson) {
         this.infojson = globalFunctions.getJsonParser().parse(sjson).getAsJsonObject();
-        this.infoSjson = sjson;        
+        this.infoSjson = sjson;
     }
 
     /**

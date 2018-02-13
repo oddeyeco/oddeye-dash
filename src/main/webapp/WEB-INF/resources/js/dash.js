@@ -2628,12 +2628,12 @@ $(document).ready(function () {
         }
 
     }
-    
+
     if (getParameterByName("ds"))
     {
-        gdd.times.generalds=getParameterByName("ds").split(",");
-        gdd.times.generalds[2]=(gdd.times.generalds[2]=='true');
-    }        
+        gdd.times.generalds = getParameterByName("ds").split(",");
+        gdd.times.generalds[2] = (gdd.times.generalds[2] == 'true');
+    }
     //&ds="+gdd.times.generalds
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
@@ -2785,7 +2785,7 @@ $(document).ready(function () {
             showsingleWidget(request_R_index, request_W_index, gdd, action !== "edit", false, false);
         } else
         {
-            window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate+"&ds="+gdd.times.generalds);
+            window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate + "&ds=" + gdd.times.generalds);
             redrawAllJSON(gdd);
         }
         domodifier();
@@ -3225,10 +3225,13 @@ $(document).ready(function () {
                         gdd.rows[ri].widgets[wi].options = clone_obg(gdd.rows[ri].widgets[wi].tmpoptions);
                         delete gdd.rows[ri].widgets[wi].tmpoptions;
                     }
-
-                    for (var k in gdd.rows[ri].widgets[wi].options.series) {
-                        gdd.rows[ri].widgets[wi].options.series[k].data = [];
+                    if (gdd.rows[ri].widgets[wi].options)
+                    {
+                        for (var k in gdd.rows[ri].widgets[wi].options.series) {
+                            gdd.rows[ri].widgets[wi].options.series[k].data = [];
+                        }
                     }
+
                 }
             }
 
