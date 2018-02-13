@@ -197,7 +197,8 @@ var rangescustomds = {
 };
 var cbJson = function (JSON, wraper)
 {
-    return function (start, end, label) {
+    
+    return function (start, end, label) {        
         if (!JSON.times)
         {
             JSON.times = {};

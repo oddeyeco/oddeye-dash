@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName */
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
@@ -2628,6 +2628,13 @@ $(document).ready(function () {
         }
 
     }
+    
+    if (getParameterByName("ds"))
+    {
+        gdd.times.generalds=getParameterByName("ds").split(",");
+        gdd.times.generalds[2]=(gdd.times.generalds[2]=='true');
+    }        
+    //&ds="+gdd.times.generalds
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
         for (var lri in gdd.rows)
@@ -2778,7 +2785,7 @@ $(document).ready(function () {
             showsingleWidget(request_R_index, request_W_index, gdd, action !== "edit", false, false);
         } else
         {
-            window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate);
+            window.history.pushState({}, "", "?&startdate=" + startdate + "&enddate=" + enddate+"&ds="+gdd.times.generalds);
             redrawAllJSON(gdd);
         }
         domodifier();
