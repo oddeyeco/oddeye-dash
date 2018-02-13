@@ -8,7 +8,6 @@ var colorPalette = [
     '#07a2a4', '#9a7fd1', '#588dd5', '#f5994e', '#c05050',
     '#59678c', '#c9ab00', '#7eb00a', '#6f5553', '#c14089'
 ];
-
 //var colorPalette = [
 //    '#FF1744', '#1E88E5', '#616161',
 //    '#FDD835', '#00ACC1', '#039BE5',
@@ -36,7 +35,6 @@ var pieformater = function (params) {
         return formatter;
     }
     var valueformatter = params.data.unit;
-
     if (typeof (window[params.data.unit]) === "function")
     {
         valueformatter = window[params.data.unit];
@@ -62,7 +60,6 @@ var pieformater = function (params) {
     }
     return formatter;
 };
-
 var abcformater = function (params) {
 
     var formatter = params.data.unit;
@@ -104,7 +101,6 @@ var abcformater = function (params) {
     {
         formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
         formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
-
         if (typeof (valueformatter) === "function")
         {
             formatter = formatter.replace(new RegExp("{value}", 'g'), valueformatter(value));
@@ -122,7 +118,6 @@ var abcformater = function (params) {
 
     return formatter;
 };
-
 var encodeHTML = function (source) {
     return String(source)
             .replace(/&/g, '&amp;')
@@ -131,7 +126,6 @@ var encodeHTML = function (source) {
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#39;');
 };
-
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -156,14 +150,12 @@ var encodeHTML = function (source) {
 
     var theme = {
         color: colorPalette,
-
         title: {
             textStyle: {
                 fontWeight: 'normal',
                 color: '#008acd'
             }
         },
-
         visualMap: {
             itemWidth: 15,
             color: ['#5ab1ef', '#e0ffff']
@@ -197,15 +189,19 @@ var encodeHTML = function (source) {
                 }
             }
         },
-
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
                 var out = "";
-
                 if (params.constructor === Array)
                 {
-                    out = params[0].name;
+
+                    param = params[0];
+                    if (param.value instanceof Array)
+                    {
+                        firstparam = format_date(param.value[0], 1);
+                        out = "<strong>" +firstparam + " " + params[0].name+"</strong>";
+                    }
                     for (var ind in params)
                     {
 
@@ -220,7 +216,7 @@ var encodeHTML = function (source) {
                         if (param.value instanceof Array)
                         {
                             value = param.value[1];
-                            firstparam = format_date(param.value[0], 0);
+                            firstparam = format_date(param.value[0], 1);
                         } else
                         {
                             value = param.value;
@@ -262,13 +258,12 @@ var encodeHTML = function (source) {
 
                         }
 
-                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + firstparam + " " + param.seriesName + ' : ' + value;
+                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + param.seriesName + ' : ' + value;
                     }
                 } else
                 {
 
                     var value = params.data.value;
-
                     if (typeof value !== 'undefined')
                     {
                         if (value.constructor === Array)
@@ -314,7 +309,6 @@ var encodeHTML = function (source) {
                             {
 //                                console.log(params);
                                 value = (params.data.isinverse ? -1 : 1) * value[1];
-
                                 if (params.data.unit)
                                 {
                                     if (typeof (window[params.data.unit]) === "function")
@@ -340,8 +334,7 @@ var encodeHTML = function (source) {
                                     value = format_date(params.value[0], 0) + ":" + value;
                                     out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + value;
                                     return out;
-
-                                }                                
+                                }
                                 firstparam = format_date(params.value[0], 0);
                                 out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + firstparam + " " + params.seriesName + ' : ' + value;
                                 return out;
@@ -406,6 +399,14 @@ var encodeHTML = function (source) {
                 return out;
             },
             axisPointer: {
+//                label: {
+//                    formatter: function (params)
+//                    {
+//                        console.log(params);
+//                        return 'some text' + echarts.format.formatTime(params.value);
+//                    }
+//                },
+//                type: 'cross',
                 type: 'line',
                 lineStyle: {
                     color: '#008acd'
@@ -414,18 +415,16 @@ var encodeHTML = function (source) {
                     color: '#008acd'
                 },
                 shadowStyle: {
-                    color: 'rgba(200,200,200,0.2)'
+                    color: 'rgba(200,200,200,0.8)'
                 }
             }
         },
-
         dataZoom: {
             dataBackgroundColor: '#efefff',
             fillerColor: 'rgba(182,162,222,0.2)',
             handleColor: '#008acd',
             zoomOnMouseWheel: "alt"
         },
-
         grid: {
             left: 0,
             right: 20,
@@ -433,7 +432,6 @@ var encodeHTML = function (source) {
             bottom: 5,
             containLabel: true
         },
-
         timeAxis: {
             splitNumber: 7,
             nameLocation: "middle",
@@ -455,7 +453,6 @@ var encodeHTML = function (source) {
                 }
             }
         },
-
         categoryAxis: {
             axisLine: {
                 lineStyle: {
@@ -488,7 +485,6 @@ var encodeHTML = function (source) {
                 }
             }
         },
-
         timeline: {
             lineStyle: {
                 color: '#008acd'
@@ -514,7 +510,6 @@ var encodeHTML = function (source) {
                 }
             }
         },
-
         candlestick: {
             itemStyle: {
                 normal: {
@@ -527,12 +522,10 @@ var encodeHTML = function (source) {
                 }
             }
         },
-
         scatter: {
             symbol: 'circle',
             symbolSize: 4
         },
-
         map: {
             label: {
                 normal: {
@@ -551,7 +544,6 @@ var encodeHTML = function (source) {
                 }
             }
         },
-
         graph: {
             color: colorPalette
         },
@@ -622,11 +614,8 @@ var encodeHTML = function (source) {
             }
         }
     };
-
     echarts.registerTheme('oddeyelight', theme);
 }));
-
-
 function getLevelOption(serieslen, l2) {
     return [
         {
