@@ -154,7 +154,17 @@ public class DefaultController {
             map.put("body", slug);
             map.put("jspart", slug + "js");
         }
-        map.put("title", slug);
+        switch (slug) {
+            case "calculator": {
+                map.put("title", "Monitoring Price Calculator");
+                break;
+            }
+            default: {
+                map.put("title", slug);
+            }
+
+        }
+
         map.put("slug", slug);
 
         if (slug.equals("signup")) {

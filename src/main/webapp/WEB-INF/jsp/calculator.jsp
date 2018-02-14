@@ -9,15 +9,15 @@
     <div class="col-xs-10 " id="maincontener">
         <div class="x_panel calc">
             <div class="x_title">
-                <h2>Price Calculator</h2>
+                <h1>Configure and estimate the costs for OddEye monitoring</h1>
                 <div class="clearfix"></div>
             </div>
 
             <div class="x_content ">
-                <div class="ccol-xs-12 form-group top_search">
-                    bazbza vor hasves gin@
-                </div>
-                <div class="ccol-xs-12 form-group pull-right top_search">
+                <h2 class="col-xs-12 form-group top_search">
+                    Select a service to include it in your estimate.
+                </h2>
+                <div class="col-xs-12 form-group pull-right top_search">
                     <div class="input-group">
                         <input class="form-control search-query" placeholder="Search check..." type="text">
                         <span class="input-group-btn">
