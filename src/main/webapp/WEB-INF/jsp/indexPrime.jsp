@@ -12,7 +12,11 @@
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
             <meta name="description" content="">
             <meta name="author" content="">
-            <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/oddeyeog.png" />            
+            <c:set var="image" value="oddeyeog.png" scope="request" />
+            <c:if test="${!empty ogimage}">                        
+                <c:set var="image" value="${ogimage}" scope="request" />
+            </c:if>              
+            <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/${image}" />            
             <title>${title} | oddeye.co </title>
             <link rel="shortcut icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
             <link rel="icon" href="${cp}/assets/images/logo.png" type="image/x-icon">

@@ -157,6 +157,8 @@ public class DefaultController {
         switch (slug) {
             case "calculator": {
                 map.put("title", "Monitoring Price Calculator");
+                map.put("ogimage", "oddeyecalcog.png");
+                
                 break;
             }
             default: {

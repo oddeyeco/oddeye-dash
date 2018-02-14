@@ -21,7 +21,10 @@
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-
+            <c:if test="${!empty ogimage}">                        
+                <c:set var="image" value="${ogimage}" scope="request" />
+            </c:if>              
+            <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/${image}" />   
             <title>${title}|oddeye.co</title>
 
             <!-- Bootstrap -->

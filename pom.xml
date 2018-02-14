@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>oddeye.concout</groupId>
     <artifactId>OddeyeCoconut</artifactId>
-    <version>0.7.2</version>
+    <version>0.7.3</version>
     <packaging>war</packaging>
     <name>OddeyeCoconut</name>
     <properties>
@@ -328,6 +328,7 @@
                                 <jsSourceFile>monitoring.js</jsSourceFile>                                                                
                                 <jsSourceFile>stomp.js</jsSourceFile>                                                                
                                 <jsSourceFile>metricinfo.js</jsSourceFile>  
+                                <jsSourceFile>calc.js</jsSourceFile>  
                             </jsSourceFiles>
                         </configuration>                        
                         <goals>
