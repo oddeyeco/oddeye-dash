@@ -1604,11 +1604,11 @@ var queryCallback = function (inputdata) {
 //                                    widget.options.series[sind][key] = Object.assign({}, widget.options.series[sind][key], oldseries[oldkey][key])
 //                                    
 
-                                    
-                                    if (key === "axisLabel"||key==="detail")
-                                    {                                        
+
+                                    if (key === "axisLabel" || key === "detail")
+                                    {
                                         for (var key2 in oldseries[oldkey][key])
-                                            widget.options.series[sind][key][key2] = oldseries[oldkey][key][key2];                                        
+                                            widget.options.series[sind][key][key2] = oldseries[oldkey][key][key2];
                                     } else
                                     {
                                         widget.options.series[sind][key] = oldseries[oldkey][key];
@@ -1874,9 +1874,19 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
 //    lockq[ri + " " + wi] = true;
     count.value = count.base;
-    var oldseries = clone_obg(widget.options.series);
+    var oldseries = {};
+    if (widget.type === "counter")
+    {
+        oldseries = clone_obg(widget.series);
+    }
+    else
+    {
+        oldseries = clone_obg(widget.options.series);
+        widget.options.series = [];
+    }
 
-    widget.options.series = [];
+
+    
     for (k in widget.q)
     {
         if (count.base !== 0)
