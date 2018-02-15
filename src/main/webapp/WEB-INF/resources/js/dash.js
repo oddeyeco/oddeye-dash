@@ -554,8 +554,6 @@ var queryCallback = function (inputdata) {
                                     m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;
                                 }
                             }
-
-
                             if (m_sample === "avg")
                             {
                                 val = numbers.statistic.mean(chdata);
@@ -719,6 +717,8 @@ var queryCallback = function (inputdata) {
                                             key = key.replace("\\n", '\n');
                                             key = key.replace("\\r", '\r');
                                             series.data[i].name = key;
+//                                            console.log(series.data[i]);
+//                                            console.log(series);
                                         }
 
                                     }
@@ -777,6 +777,7 @@ var queryCallback = function (inputdata) {
                                     {
                                         delete(series.max);
                                     }
+
                                     series.title = {color: null};
                                     if (typeof widget.options.yAxis[yAxis].axisLine !== "undefined")
                                     {
@@ -1549,36 +1550,41 @@ var queryCallback = function (inputdata) {
 
                 if (widget.manual)
                 {
-
-                    for (var oldkey in oldseries)
-                    {
-                        for (var sind in widget.options.series)
-                        {
-                            if (widget.options.series[sind].name === oldseries[oldkey].name)
-                            {
-
-                                for (var key in oldseries[oldkey]) {
-                                    if (key === "data")
-                                    {
-                                        if (oldseries[oldkey].type === "gauge")
-                                        {
-                                            for (i = 0; i < widget.options.series[sind].data.length; i++)
-                                            {
-                                                widget.options.series[sind].data[i].subname = widget.options.series[sind].data[i].name;
-                                                widget.options.series[sind].data[i].name = key;
-                                            }
-
-                                        }
-                                        continue;
-                                    }
-                                    widget.options.series[sind][key] = oldseries[oldkey][key];
-                                    widget.options.series[sind].restored = true;
-                                }
-                                delete oldseries[oldkey];
-                                break;
-                            }
-                        }
-                    }
+//                    for (var oldkey in oldseries)
+//                    {
+//                        for (var sind in widget.options.series)
+//                        {
+//                            if (widget.options.series[sind].name === oldseries[oldkey].name)
+//                            {
+//
+//                                for (var key in oldseries[oldkey]) {
+//                                    if (key === "data")
+//                                    {
+////                                        if (oldseries[oldkey].type === "gauge")
+////                                        {
+////                                            for (i = 0; i < widget.options.series[sind].data.length; i++)
+////                                            {
+////                                                widget.options.series[sind].data[i].subname = oldseries[sind].data[i].subname;
+////                                                widget.options.series[sind].data[i].name = oldseries[sind].data[i].name;
+////                                            }
+//
+////                                        }
+//                                        continue;
+//                                    }
+//                                    if (key === "axisLabel")
+//                                    {
+//                                        console.log(widget.options.series[sind][key]);
+//                                    }
+//
+//
+//                                    widget.options.series[sind][key] = oldseries[oldkey][key];
+//                                    widget.options.series[sind].restored = true;
+//                                }
+//                                delete oldseries[oldkey];
+//                                break;
+//                            }
+//                        }
+//                    }
 
                     for (var oldkey in oldseries)
                     {
@@ -1592,7 +1598,21 @@ var queryCallback = function (inputdata) {
                                     {
                                         continue;
                                     }
-                                    widget.options.series[sind][key] = oldseries[oldkey][key];
+//                                    {
+//                                        console.log(widget.options.series[sind][key]);
+//                                    }
+//                                    widget.options.series[sind][key] = Object.assign({}, widget.options.series[sind][key], oldseries[oldkey][key])
+//                                    
+
+                                    
+                                    if (key === "axisLabel"||key==="detail")
+                                    {                                        
+                                        for (var key2 in oldseries[oldkey][key])
+                                            widget.options.series[sind][key][key2] = oldseries[oldkey][key][key2];                                        
+                                    } else
+                                    {
+                                        widget.options.series[sind][key] = oldseries[oldkey][key];
+                                    }
                                     widget.options.series[sind].restored = true;
                                 }
                                 delete oldseries[oldkey];
@@ -1693,7 +1713,6 @@ var queryCallback = function (inputdata) {
                 }
 //*************************************            
 //            console.log(widget.options.series);
-//            console.log(redraw);
                 if (redraw)
                 {
                     var datalist = [];
@@ -1855,7 +1874,9 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
 //    lockq[ri + " " + wi] = true;
     count.value = count.base;
+    var oldseries = clone_obg(widget.options.series);
 
+    widget.options.series = [];
     for (k in widget.q)
     {
         if (count.base !== 0)
@@ -2024,10 +2045,6 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 chart.setOption(widget.options);
                 return;
             }
-
-            var oldseries = clone_obg(widget.options.series);
-
-            widget.options.series = [];
             if (getParameterByName('metrics', uri))
             {
                 chart.showLoading("default", {
