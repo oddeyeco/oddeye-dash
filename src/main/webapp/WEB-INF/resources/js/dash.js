@@ -1604,11 +1604,12 @@ var queryCallback = function (inputdata) {
 //                                    widget.options.series[sind][key] = Object.assign({}, widget.options.series[sind][key], oldseries[oldkey][key])
 //                                    
 
-
-                                    if (key === "axisLabel" || key === "detail")
+                        
+                                    if ((key === "axisLabel" || key === "detail")&( typeof  widget.options.series[sind][key]!=="undefined"))
                                     {
                                         for (var key2 in oldseries[oldkey][key])
-                                            if (oldseries[oldkey][key][key2])
+                                            console.log(widget.options.series[sind][key]);                                        
+                                            if ( typeof  oldseries[oldkey][key][key2]!=="undefined")
                                             {
                                                 widget.options.series[sind][key][key2] = oldseries[oldkey][key][key2];
                                             }
