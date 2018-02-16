@@ -342,14 +342,22 @@ public class UserController {
 //                    LOGGER.error(globalFunctions.stackTrace(ex));
 //                }
 //            }
-            Iterator<Map.Entry<String, Map<String, Integer>>> iter = userDetails.getMetricsMeta().getTagsList().entrySet().iterator();
+            Iterator<String> iter = userDetails.getMetricsMeta().getTagsKeysSort().iterator();
             while (iter.hasNext()) {
 //                    first = userDetails.getMetricsMeta().getTagsList().entrySet().iterator().next();
-                map.put("group_item", iter.next().getKey());
-                map.put("ident_tag", iter.next().getKey());
+                map.put("group_item", iter.next());
+                map.put("ident_tag", iter.next());
                 break;
             }
-
+            
+            if (userDetails.getMetricsMeta().getTagsList().containsKey("host"))
+            {
+                map.put("group_item", "host");
+            }
+            if (userDetails.getMetricsMeta().getTagsList().containsKey("cluster"))
+            {
+                map.put("ident_tag", "cluster");
+            }            
             if (group_item != null) {
                 map.put("group_item", group_item);
             }
