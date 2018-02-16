@@ -1607,8 +1607,7 @@ var queryCallback = function (inputdata) {
                         
                                     if ((key === "axisLabel" || key === "detail")&( typeof  widget.options.series[sind][key]!=="undefined"))
                                     {
-                                        for (var key2 in oldseries[oldkey][key])
-                                            console.log(widget.options.series[sind][key]);                                        
+                                        for (var key2 in oldseries[oldkey][key])                                            
                                             if ( typeof  oldseries[oldkey][key][key2]!=="undefined")
                                             {
                                                 widget.options.series[sind][key][key2] = oldseries[oldkey][key][key2];
