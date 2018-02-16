@@ -133,7 +133,7 @@ public class DefaultController {
         return "indexPrime";
     }
 
-    @RequestMapping(value = "/{slug}/", method = RequestMethod.GET)
+    @RequestMapping(value = {"/{slug}"}, method = RequestMethod.GET)
     public String bytemplate(@PathVariable(value = "slug") String slug, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String layaut = "indexPrime";
@@ -158,7 +158,7 @@ public class DefaultController {
             case "calculator": {
                 map.put("title", "Monitoring Price Calculator");
                 map.put("ogimage", "oddeyecalcog.png");
-                
+
                 break;
             }
             default: {
@@ -245,7 +245,7 @@ public class DefaultController {
 //        return "index";
     }
 
-    @RequestMapping(value = "/signup/", method = RequestMethod.POST)
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String createuser(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
 
         userValidator.validate(newUser, result);

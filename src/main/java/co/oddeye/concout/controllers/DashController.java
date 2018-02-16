@@ -22,7 +22,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
@@ -82,7 +81,7 @@ public class DashController {
     @Value("${paypal.fix}")
     private String paypal_fix;
 
-    @RequestMapping(value = "/infrastructure/", method = RequestMethod.GET)
+    @RequestMapping(value = "/infrastructure", method = RequestMethod.GET)
     public String test(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel user;
@@ -149,7 +148,7 @@ public class DashController {
         return "index";
     }
 
-    @RequestMapping(value = {"/dashboard/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
     public String getDashboards(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
