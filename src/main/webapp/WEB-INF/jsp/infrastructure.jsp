@@ -11,7 +11,7 @@
 
                 </div>
             </div>            
-            
+
             <div class="col-md-2 col-sm-3 col-xs-12 profile_left">                                
                 <form class="form-horizontal form-label-left form-filter profile_left-form">
                     <div class="form-group">
@@ -23,14 +23,14 @@
                         <label class="col-md-12 col-sm-12 col-xs-12">Tags</label>
                         <div id="tagsconteger" style="clear: both">                            
                             <c:forEach items="${taglist}" var="tagitem">   
-                                <div class="form-group tag-grop draggable">
+                                <div class="form-group tag-grop draggable" style="display: none">
                                     <label class=" col-lg-12 col-sm-12 col-xs-12">
                                         ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}
                                         <input <c:if test="${true == tagitem.value}"> checked="true" </c:if>  type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem.key}" name="check_${tagitem.key}" value="${tagitem.key}"/> 
                                         </label>
                                         <div class="col-lg-12 col-sm-12 col-xs-12">
                                         <c:set value="${tagitem.key}_input" var="inputname" />
-                                        <input class="form-control autocomplete-append filter-input" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="${filter.get(inputname).getAsString()}">
+                                        <input class="form-control autocomplete-append filter-input" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="${filter.get(inputname).getAsString()}" placeholder="Type value for filter...">
                                         <div class="autocomplete-container_${tagitem.key}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
                                     </div>
                                 </div>
@@ -38,9 +38,13 @@
                         </div>
                     </div>
                     <div class="form-group">                        
-                        <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                            <button class="btn btn-primary" type="button" value="Default" id="Show">Show</button>        
-                            <button class="btn btn-success" type="button" value="Default" id="Save">Save</button>        
+                        <div class="row text-right">
+                            <div class="col-md-6  col-xs-12 text-left">
+                                <button class="btn btn-success" type="button" value="Default" id="Save">Save</button>        
+                            </div>
+                            <div class="col-md-6  col-xs-12">
+                                <button class=" btn btn-primary" type="button" value="Default" id="Show">Display</button>        
+                            </div>
                         </div>
                     </div>                        
                 </form>                        

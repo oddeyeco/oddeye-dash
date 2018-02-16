@@ -82,7 +82,7 @@
             var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=" + encodeURIComponent("^(.*)$");
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
-                    lookup: Object.keys(data.data),
+                    lookup: Object.keys(data.data),                    
                     appendTo: '.autocomplete-container_' + input.attr("tagkey")
                 });
             });
@@ -106,17 +106,23 @@
         $('.tag-grop').each(function () {
             if ($(this).find("input.filter-switch").prop('checked'))
             {
+                $(this).fadeIn();
                 var val = "*";
                 if ($(this).find("input.filter-input").val() !== "")
                 {
                     val = $(this).find("input.filter-input").val();
+
                 }
                 tags = tags + $(this).find("input.filter-input").attr('tagkey') + "=" + val + ";";
                 tagstree.push($(this).find("input.filter-input").attr('tagkey'));
+            } else
+            {
+                $(this).fadeOut();
             }
         });
 
         var url = cp + "/getdata?metrics=" + $("#metric_input").val() + ";&tags=" + tags + ";&aggregator=none&downsample=&startdate=5m-ago&enddate=now";
+        
         $.getJSON(url, null, function (data) {
             var categories = [];
             var categoriesch = [];
@@ -127,14 +133,16 @@
             var y = 0;
 
             var values = Object.values(data.chartsdata);
-
             values.sort(function (a, b) {
-
                 return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
+            });            
+            for (var tindex in values[0].tags)
+            {
 
-//                    return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
+                $("#" + tindex + "_input").parents(".tag-grop").fadeIn();
+//                console.log($("#"+tindex+"_input").parents(".tag-grop").attr("class"));
+            }
 
-            });
 
             for (var dataindex in values)
             {
@@ -177,7 +185,7 @@
                             "name": name,
                             "symbolSize": size,
                             "category": tagindexindex,
-                            "symbol": symbol,                            
+                            "symbol": symbol,
                             "draggable": true
 
                         });
