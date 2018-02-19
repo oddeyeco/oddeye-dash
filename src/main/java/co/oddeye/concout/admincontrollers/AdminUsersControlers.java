@@ -114,6 +114,14 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", "is Active");
                 put("type", "boolean");
             }
+        }).AddViewConfig("referal", new HashMap<String, Object>() {
+            {
+                put("path", "referal");
+                put("title", "Referal");
+                put("type", "Object");
+                put("display", "email");
+                put("items", null);
+            }
         })
 //                .AddViewConfig("Timezone", new HashMap<String, Object>() {
 //            {
