@@ -849,7 +849,7 @@ class EditForm {
         contener.find(".edit-query[count!=1]").each(function () {
             if (!$(this).find('.fa').hasClass('q_warning'))
             {
-                var worn = $('<i class="fa fa-exclamation-triangle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
+                var worn = $('<i class="fa fa-info-circle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
                 worn.appendTo($(this));
 //                worn.tooltip();
             }
