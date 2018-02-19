@@ -14,6 +14,7 @@ import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.beans.PropertyEditorSupport;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -320,7 +321,7 @@ public class AdminUsersControlers extends GRUDControler {
         OddeyeUserModel model = Userdao.getUserByUUID(UUID.fromString(id), true);
         model.updateConsumptionYear();
         map.put("model", model);
-
+//
 //        String baseUrl = mailSender.getBaseurl(request);
 //        try {
 //            Userdao.getUserByUUID(UUID.fromString(id)).SendConfirmMail(mailSender, baseUrl);

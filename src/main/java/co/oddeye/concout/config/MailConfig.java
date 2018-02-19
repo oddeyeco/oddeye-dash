@@ -39,17 +39,19 @@ public class MailConfig {
     @Bean
     public OddeyeMailSender mailSender() {
 
-        OddeyeMailSender Sender = new OddeyeMailSender(username);
+        OddeyeMailSender Sender = new OddeyeMailSender(from);
 
-        Sender.setHost("mail.netangels.net");
-        Sender.setPort(25);
+        Sender.setHost(host);
+        Sender.setPort(Integer.parseInt(port));
         Sender.setUsername(this.username);
         Sender.setPassword(this.password);
         Properties javaMailProperties = new Properties();
         javaMailProperties.put("mail.smtp.auth", auth);
-        javaMailProperties.put("mail.smtp.starttls.enable", starttlsenable);
+//        javaMailProperties.put("mail.smtp.starttls.enable", starttlsenable);
+        javaMailProperties.put("mail.smtp.socketFactory.port", port);
+        javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         javaMailProperties.put("mail.smtp.host", host);
-        javaMailProperties.put("mail.smtp.port", port);        
+        javaMailProperties.put("mail.smtp.port", port);
         javaMailProperties.put("mail.user", this.username);
         Sender.setJavaMailProperties(javaMailProperties);
         return Sender;
