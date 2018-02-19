@@ -4,7 +4,7 @@
     Author     : vahan
 --%>
 <div id="main"></div>
-<div class="container center" style="padding-top: 100px;">    
+<div class="container center sineup" style="padding-top: 100px;">    
     <h2 class="text-center">Thank You.</h2>        
     <div class="row">
         <div class="col-lg-4 col-xs-12 text-right">
