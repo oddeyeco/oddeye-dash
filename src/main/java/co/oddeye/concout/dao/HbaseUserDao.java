@@ -46,17 +46,20 @@ import org.hbase.async.Scanner;
 import org.hbase.async.ValueFilter;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import java.util.LinkedHashMap;
+import java.util.stream.Collectors;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author vahan
  */
 //TODO REFACTOR
-//@Repository
+@Repository("Userdao")
 public class HbaseUserDao extends HbaseBaseDao {
 
     @Autowired
@@ -155,6 +158,47 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     public List<OddeyeUserModel> getAllUsers() {
         return getAllUsers(false);
+    }
+
+    public Map<String, String> getAllUsersShort() {
+        Map<String, String> list = new HashMap<>();
+        try {            
+            final Scanner scanner = BaseTsdb.getClient().newScanner(table);
+            byte[][] qualifiers = new byte[2][];
+            qualifiers[0] = "UUID".getBytes();
+            qualifiers[1] = "email".getBytes();
+            scanner.setQualifiers(qualifiers);//r("UUID");
+            ArrayList<ArrayList<KeyValue>> rows;
+            while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
+                for (final ArrayList<KeyValue> row : rows) {
+                    String id="";
+                    String value="";                   
+                    for (KeyValue kv:row)
+                    {                        
+                        if (Arrays.equals(kv.qualifier(), qualifiers[0]))
+                            id = new String(kv.value());
+                        if (Arrays.equals(kv.qualifier(), qualifiers[1]))
+                            value = new String(kv.value());                        
+                    }
+                    if ((!id.isEmpty())&&(!value.isEmpty()))
+                    {
+                        list.put(id, value);
+                    }
+                    
+                }
+            }
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+            return null;
+        }
+        list.put("", "");
+        LinkedHashMap<String, String> result = list.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(oldValue, newValue) -> oldValue, LinkedHashMap::new));
+        list.clear();
+        
+        list.putAll(result);
+        return result;
     }
 
     public List<OddeyeUserModel> getAllUsers(boolean reload) {

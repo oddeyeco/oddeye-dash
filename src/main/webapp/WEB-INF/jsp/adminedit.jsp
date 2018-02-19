@@ -46,7 +46,7 @@
                             </c:if>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">                            
-                            <form:select path="${config.getValue().path}" items="${config.getValue().items}" cssClass="form-control select2_country" tabindex="-1" placeholder="${config.getValue().title}"/>
+                            <form:select path="${config.getValue().path}" items="${config.getValue().items}" cssClass="form-control select2" tabindex="-1" placeholder="${config.getValue().title}"/>
                             <form:errors path="${config.getValue().path}" />
                         </div>
                     </div>  

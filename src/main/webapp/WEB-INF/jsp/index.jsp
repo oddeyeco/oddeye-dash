@@ -215,6 +215,66 @@
                                             <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i>Logout</a></li>
                                         </ul>
                                     </li>
+<!--                                    <li role="presentation" class="dropdown">
+                                        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa fa-envelope-o"></i>
+                                            <span class="badge bg-green">6</span>
+                                        </a>
+                                        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                                            <li>
+                                                <a>                                                    
+                                                    <span>
+                                                        <span>John Smith</span>
+                                                        <span class="time">3 mins ago</span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a>                                                    
+                                                    <span>
+                                                        <span>John Smith</span>
+                                                        <span class="time">3 mins ago</span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a>                                                    
+                                                    <span>
+                                                        <span>John Smith</span>
+                                                        <span class="time">3 mins ago</span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a>                                                    
+                                                    <span>
+                                                        <span>John Smith</span>
+                                                        <span class="time">3 mins ago</span>
+                                                    </span>
+                                                    <span class="message">
+                                                        Film festivals used to be do-or-die moments for movie makers. They were where...
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <div class="text-center">
+                                                    <a>
+                                                        <strong>See All Messges</strong>
+                                                        <i class="fa fa-angle-right"></i>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>                                    -->
                                     <sec:authorize access="hasRole('ADMIN')">
                                         <li class=""><a>
                                                 <%
@@ -363,17 +423,18 @@
                 setTimeout(function () {
                     ga('send', 'event', '10 seconds', 'read');
                 }, 10000);
-            
-                window._mfq = window._mfq || [];
-                ( function() {
-                        var mf = document.createElement("script");
-                        mf.type = "text/javascript"; mf.async = true;
-                        mf.src = "//cdn.mouseflow.com/projects/56872595-6055-428f-99ba-9995277fc45c.js";
-              
-                document.getElementsByTagName("head")[0].appendChild(mf);
-            })();            
-        </script>            
 
-    </body>
-</html>
+                window._mfq = window._mfq || [];
+                (function () {
+                    var mf = document.createElement("script");
+                    mf.type = "text/javascript";
+                    mf.async = true;
+                    mf.src = "//cdn.mouseflow.com/projects/56872595-6055-428f-99ba-9995277fc45c.js";
+
+                    document.getElementsByTagName("head")[0].appendChild(mf);
+                })();
+            </script>            
+
+        </body>
+    </html>
 </compress:html>

@@ -12,6 +12,8 @@
         "pageLength": 25
     });
 
+    $(".select2").select2({}); 
+
     $(".select2_multiple").select2({
         allowClear: true,
         columns: [

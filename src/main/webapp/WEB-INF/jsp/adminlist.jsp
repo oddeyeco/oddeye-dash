@@ -56,9 +56,6 @@
                                                 <span class="infin"> 0000000000</span>
                                             </c:if>                                                        
                                         </c:if>
-
-
-
                                     </c:when>                                                         
                                     <c:when test="${config.getValue().type == 'Enum'}">                                        
                                         ${model[config.getValue().path]}
@@ -92,6 +89,10 @@
                                         </c:forEach>                                                 
                                     </c:when>                                                                                                                                            
                                     <c:otherwise>
+                                        <c:if test="${model[config.getValue().path]!=null}">
+                                            ${model[config.getValue().path] }
+                                        </c:if>                                        
+                                        
                                     </c:otherwise>
                                 </c:choose>                                        
                             </td>

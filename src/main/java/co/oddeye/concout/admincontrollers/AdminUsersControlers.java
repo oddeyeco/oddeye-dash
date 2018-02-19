@@ -96,20 +96,39 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", "Country");
                 put("type", "String");
             }
-        }).AddViewConfig("Timezone", new HashMap<String, Object>() {
+        }).AddViewConfig("Sinedate", new HashMap<String, Object>() {
             {
-                put("path", "timezone");
-                put("title", " Timezone");
-                put("type", "String");
+                put("path", "sinedate");
+                put("title", " Sinedate");
+                put("type", "Date");
             }
-        }).AddViewConfig("Authorities", new HashMap<String, Object>() {
+        }).AddViewConfig("mailconfirm", new HashMap<String, Object>() {
             {
-                put("path", "authorities");
-                put("title", " Authorities");
-                put("type", "Collection");
-                put("items", OddeyeUserModel.getAllRoles());
+                put("path", "mailconfirm");
+                put("title", "is Mailconfirm");
+                put("type", "boolean");
             }
-        }).AddViewConfig("actions", new HashMap<String, Object>() {
+        }).AddViewConfig("active", new HashMap<String, Object>() {
+            {
+                put("path", "active");
+                put("title", "is Active");
+                put("type", "boolean");
+            }
+        })
+//                .AddViewConfig("Timezone", new HashMap<String, Object>() {
+//            {
+//                put("path", "timezone");
+//                put("title", " Timezone");
+//                put("type", "String");
+//            }
+//        }).AddViewConfig("Authorities", new HashMap<String, Object>() {
+//            {
+//                put("path", "authorities");
+//                put("title", " Authorities");
+//                put("type", "Collection");
+//                put("items", OddeyeUserModel.getAllRoles());
+//            }
+        .AddViewConfig("actions", new HashMap<String, Object>() {
             {
                 put("path", "edit");
                 put("title", " Actions");
@@ -125,12 +144,6 @@ public class AdminUsersControlers extends GRUDControler {
             {
                 put("title", " Monitoring conneted");
                 put("type", "userstatus");
-            }
-        }).AddViewConfig("Sinedate", new HashMap<String, Object>() {
-            {
-                put("path", "sinedate");
-                put("title", " Sinedate");
-                put("type", "Date");
             }
         });
 
@@ -202,6 +215,13 @@ public class AdminUsersControlers extends GRUDControler {
                 put("title", " Timezone");
                 put("type", "Select");
                 put("items", timezones);
+            }
+        }).AddEditConfig("referal", new HashMap<String, Object>() {
+            {
+                put("path", "sreferal");
+                put("title", "Referal");
+                put("type", "Select");
+                put("items", null);
             }
         }).AddEditConfig("balance", new HashMap<String, Object>() {
             {
@@ -299,6 +319,13 @@ public class AdminUsersControlers extends GRUDControler {
 //        } catch (UnsupportedEncodingException ex) {
 //
 //        }
+         Map<String, String> Referalitems = Userdao.getAllUsersShort();
+//         for (OddeyeUserModel tuser:Userdao.getAllUsers(true))
+//         {
+//             Referalitems.put(tuser.getId().toString(), tuser.getEmail());
+//         }
+        ((HashMap<String, Object>) getEditConfig().get("referal")).put("items",Referalitems);
+        //Userdao.getAllUsers() 
         map.put("configMap", getEditConfig());
         map.put("modelname", "User");
         map.put("path", "user");
@@ -394,7 +421,7 @@ public class AdminUsersControlers extends GRUDControler {
 
                 }
 
-                if (act.equals("Save")) {
+                if (act.equals("Save")) {                    
                     userValidator.adminvalidate(newUser, result);
                     if (result.hasErrors()) {
                         map.put("result", result);
@@ -427,6 +454,7 @@ public class AdminUsersControlers extends GRUDControler {
                             LOGGER.error(globalFunctions.stackTrace(e));
                         }
                         updateuser.updateConsumptionYear();
+                        updateuser.setReferal(Userdao.getUserByUUID(updateuser.getSreferal()));
                         map.put("model", updateuser);
                     }
 
