@@ -356,7 +356,7 @@ var queryCallback = function (inputdata) {
                                         }
                                     }
                                 }
-
+                                
                                 var series = clone_obg(defserie);
                                 series.data = [];
                                 if (widget.q[q_index].yAxisIndex)
@@ -449,7 +449,7 @@ var queryCallback = function (inputdata) {
                                         }
                                         case 'line':
                                         {
-                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2== widget.options.title.text? null:name2, isinverse: widget.q[q_index].info.inverse});
                                             break;
                                         }
                                         default:

@@ -256,9 +256,13 @@ var encodeHTML = function (source) {
                                 value = Number.isInteger(value) ? value : value.toFixed(2);
                             }
 
+                        }                        
+                        var tmpname =  param.seriesName;
+                        if (param.data.name)
+                        {
+                            tmpname = tmpname+":"+param.data.name;
                         }
-
-                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + param.seriesName + ' : ' + value;
+                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + tmpname+ ' : ' + value;
                     }
                 } else
                 {
