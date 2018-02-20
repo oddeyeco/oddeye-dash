@@ -113,9 +113,14 @@ function findeByhash(element, array) {
 }
 function reDrawErrorList(listJson, table, errorjson)
 {
-    var elems = document.getElementById("check_level_" + errorjson.level);
+//    console.log("length " + Object.keys(listJson).length);
+//    var elems = document.getElementById("check_level_" + errorjson.level);
+    var elems = document.querySelectorAll('[name=check_level_' + errorjson.level + ']');
+    elems = elems[0];
+//    console.log(elems);
+
     var filtred = false;
-    if (elems !== null)
+    if ((typeof elems !=="undefined" )& (elems !== null))
     {
         if (elems.checked)
         {
@@ -123,8 +128,8 @@ function reDrawErrorList(listJson, table, errorjson)
             var filterelems = document.querySelectorAll('.filter-switch');
             for (var i = 0; i < filterelems.length; i++) {
                 if (filterelems[i].checked)
-                {
-                    var filter = $("#" + filterelems[i].value + "_input").val();
+                {                    
+                    var filter = $("[name=" + filterelems[i].value + "_input]").val();
                     var regex = new RegExp(filter, 'i');
                     if (filterelems[i].value === "metric")
                     {
@@ -233,25 +238,27 @@ function reDrawErrorList(listJson, table, errorjson)
     }
 }
 function DrawErrorList(listJson, table)
-{
-// console.log(Object.keys(listJson).length);
+{    
     $("select").attr('disabled', true);
     table.find("tbody").html("");
     array_regular = [];
     array_spec = [];
     for (var key in listJson) {
         var errorjson = listJson[key];
-        var elems = document.getElementById("check_level_" + errorjson.level);
+//        var elems = document.getElementById("check_level_" + errorjson.level);
+        var elems = document.querySelectorAll('[name=check_level_' + errorjson.level + ']');
+        elems = elems[0];
         filtred = true;
-        if (elems !== null)
+        if ((typeof elems !=="undefined" )& (elems !== null))
         {
             if (elems.checked)
             {
-                filterelems = document.querySelectorAll('.filter-switch');
+                var filterelems = document.querySelectorAll('.filter-switch');
                 for (var i = 0; i < filterelems.length; i++) {
                     if (filterelems[i].checked)
                     {
-                        var filter = $("#" + filterelems[i].value + "_input").val();
+//                        var filter = $("#" + filterelems[i].value + "_input").val();
+                        var filter = $("[name=" + filterelems[i].value + "_input]").val();
                         regex = new RegExp(filter, 'i');
                         if (filterelems[i].value === "metric")
                         {
@@ -561,25 +568,31 @@ $(document).ready(function () {
             });
         });
     });
-    
-        $(".js-switch-small").each(function () {            
+    var visibletags = 0;
+    $(".js-switch-small").each(function () {
 
-            if (typeof (filterJson[$(this).attr("name")]) !== "undefined")
+        if (typeof (filterJson[$(this).attr("name")]) !== "undefined")
+        {
+            if (filterJson[$(this).attr("name")] !== "")
             {
-                if (filterJson[$(this).attr("name")] !== "")
-                {
-                    if (!$(this).checked)
-                        $(this).trigger('click');
-                } else
-                {
-                    if ($(this).checked)
-                        $(this).trigger('click');
+                $(this).parents(".tagfilter").show();
+                visibletags++;                
+                if (!$(this).checked)
+                    $(this).trigger('click');
+            } else
+            {
+                if ($(this).checked)
+                    $(this).trigger('click');
 
-                }
-            }                        
-            var switchery = new Switchery($(this).get(0), {size: 'small', color: '#26B99A'});
-        })    
-    
+            }
+        }
+        var switchery = new Switchery($(this).get(0), {size: 'small', color: '#26B99A'});
+        switcherylist.push(switchery);
+        $(this).get(0).onchange = function () {
+            DrawErrorList(errorlistJson, $(".metrictable"));
+        };
+    })
+
 //    var elems = document.querySelectorAll('.js-switch-small');
 //    var visibletags = 0;
 //    for (var i = 0; i < elems.length; i++) {

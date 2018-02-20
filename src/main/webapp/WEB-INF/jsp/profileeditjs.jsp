@@ -14,7 +14,8 @@
         });
         $(".select2_tz").select2({});
 
-        $(".form-filter .js-switch-small").each(function () {            
+        var visibletags = 0;
+        $(".form-filter .js-switch-small").each(function () {
             var json = {};
             if ($(this).parents(".form-filter").attr("id") === "email_note")
             {
@@ -28,6 +29,8 @@
             {
                 if (json[$(this).attr("name")] !== "")
                 {
+                    $(this).parents(".tagfilter").show();
+                    visibletags++;
                     if (!$(this).checked)
                         $(this).trigger('click');
                 } else
@@ -36,8 +39,8 @@
                         $(this).trigger('click');
 
                 }
-            }            
-            
+            }
+
             var switchery = new Switchery($(this).get(0), {size: 'small', color: '#26B99A'});
         })
         $("#telegram_note .filter-input").each(function () {
