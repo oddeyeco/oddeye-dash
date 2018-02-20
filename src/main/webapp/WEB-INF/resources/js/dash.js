@@ -448,8 +448,8 @@ var queryCallback = function (inputdata) {
                                             break;
                                         }
                                         case 'line':
-                                        {
-                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2== widget.options.title.text? null:name2, isinverse: widget.q[q_index].info.inverse});
+                                        {                                            
+                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2=== widget.options.title.text? null:name2, isinverse: widget.q[q_index].info.inverse,name:widget.options.title.text});
                                             break;
                                         }
                                         default:

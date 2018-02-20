@@ -20,7 +20,7 @@ var calc = {
         }},
     file_systems_check: {text: "File systems", childs: {
             check_hadoop_datanode: {count: 18, type: 'single', text: "HDFS datanode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS datanode"},
-            check_hadoop_namenode: {count: 26, type: 'single', text: "HDFS namenode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS namenode"},
+            check_hadoop_namenode: {count: 41, type: 'single', text: "HDFS namenode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS namenode"},
             check_ceph: {count: 8, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', name: "Ceph"},
             check_btrfs: {count: 5, type: 'multi', multiText: "Disks Count", text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', name: "BTRFS"}
         }},
@@ -63,7 +63,7 @@ var calc = {
 
         }},
     nosql_check: {text: "NoSQL", childs: {
-            check_hbase_master: {count: 7, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Master"},
+            check_hbase_master: {count: 22, type: 'single', text: "HBase master", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Master"},
             check_hbase_regionserver: {count: 33, type: 'single', text: "HBase regionserver", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Regionserver"},
             check_hbase_rest: {count: 23, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Rest"},
             check_hbase_thrift: {count: 19, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Thrift"},
