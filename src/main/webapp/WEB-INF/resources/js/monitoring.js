@@ -591,7 +591,7 @@ $(document).ready(function () {
         $(this).get(0).onchange = function () {
             DrawErrorList(errorlistJson, $(".metrictable"));
         };
-    })
+    });
 
 //    var elems = document.querySelectorAll('.js-switch-small');
 //    var visibletags = 0;
