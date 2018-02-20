@@ -62,7 +62,7 @@
                 <c:if test="${param.error != null}">
                     <div class="alert alert-danger" role="alert">
                         <strong>Oh!</strong> Invalid username and password.
-                    </div>                
+                    </div>                                  
                 </c:if>              
                 <div class="form-group">                
                     <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter email" required="">                
@@ -78,8 +78,12 @@
                     <input type="hidden"                
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>                           
-                    <button class="btn btn-primary btn-block" type="submit"></i> Log in </button>
-                    <div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"> Create Account </a>                
+                    <button class="btn btn-primary btn-block" type="submit"> Log in </button>
+                    <c:if test="${param.error != null}">                        
+                        <!--<a href="<c:url value="/preset"/>" class="btn btn-warning btn-block">Reset password</a>-->
+                    </c:if>                      
+                    <div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"> Create Account </a>
+
                     </div>              
                 </div>              
             </form>

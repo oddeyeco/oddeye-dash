@@ -28,7 +28,7 @@
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"general-tab\"}">active</c:if> " id="general_content" aria-labelledby="general_content">
                     <div class="x_content">
                         <br>                        
-                        <form:form method="post" action="${cp}/profile/saveuser" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">                            
+                        <form:form method="post" action="${cp}/profile/saveuser" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="userdata">                            
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">First Name <span class="required">*</span>
                                 </label>
@@ -174,7 +174,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"pass-tab\"}">active</c:if>" id="tab_pass" aria-labelledby="pass-tab">
                     <div class="x_content">                                        
-                        <form:form method="post" action="${cp}/profile/changepassword" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left">
+                        <form:form method="post" action="${cp}/profile/changepassword" commandName="newuserdata" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="passwordform">
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name">Old Password</label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">

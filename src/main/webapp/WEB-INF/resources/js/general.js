@@ -6,7 +6,7 @@
 var test = false;
 
 $(document).ready(function () {
-    $("body").on("click", "#addtagq", function () {
+    $("body").on("click", ".addtagq", function () {
         if ($(this).hasClass("hider"))
         {
             $(this).parents(".form-group").find(".tagfilter").hide();

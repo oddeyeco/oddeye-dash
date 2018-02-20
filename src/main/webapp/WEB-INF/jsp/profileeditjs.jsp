@@ -13,69 +13,64 @@
             allowClear: true
         });
         $(".select2_tz").select2({});
-        
-//        console.log(emailfilterJson);
-        var elems = document.querySelectorAll('#email_note .js-switch-small');
-        for (var i = 0; i < elems.length; i++) {
-            if (typeof (emailfilterJson[elems[i].id]) != "undefined")
-                if (emailfilterJson[elems[i].id] != "")
+
+        $(".form-filter .js-switch-small").each(function () {            
+            var json = {};
+            if ($(this).parents(".form-filter").attr("id") === "email_note")
+            {
+                json = emailfilterJson;
+            }
+            if ($(this).parents(".form-filter").attr("id") === "telegram_note")
+            {
+                json = telegramfilterJson;
+            }
+            if (typeof (json[$(this).attr("name")]) !== "undefined")
+            {
+                if (json[$(this).attr("name")] !== "")
                 {
-                    if (!elems[i].checked)
-                        $(elems[i]).trigger('click');
+                    if (!$(this).checked)
+                        $(this).trigger('click');
                 } else
                 {
-                    if (elems[i].checked)
-                        $(elems[i]).trigger('click');
+                    if ($(this).checked)
+                        $(this).trigger('click');
 
                 }
-            var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-        }
-        
+            }            
+            
+            var switchery = new Switchery($(this).get(0), {size: 'small', color: '#26B99A'});
+        })
+        $("#telegram_note .filter-input").each(function () {
+            $(this).val(telegramfilterJson[$(this).attr("name")]);
+        });
+
         $('.autocomplete-append-metric').each(function () {
             var input = $(this);
-            var uri = cp + "/getfiltredmetricsnames?all=true&filter="+encodeURIComponent("^(.*)$");            
+            var uri = cp + "/getfiltredmetricsnames?all=true&filter=" + encodeURIComponent("^(.*)$");
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
                     lookup: data.data,
-                    appendTo: '.autocomplete-container-metric'
+                    minChars: 0
                 });
             })
         });
 
         $('.autocomplete-append').each(function () {
             var input = $(this);
-            var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter="+encodeURIComponent("^(.*)$");
+            var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=" + encodeURIComponent("^(.*)$");
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
                     lookup: Object.keys(data.data),
-                    appendTo: '.autocomplete-container_' + input.attr("tagkey")
+                    minChars: 0
                 });
             })
-        });        
+        });
 
         $("#email_note .filter-input").each(function () {
             $(this).val(emailfilterJson[$(this).attr("name")]);
         });
 
-        var elems = document.querySelectorAll('#telegram_note .js-switch-small');
-        for (var i = 0; i < elems.length; i++) {
-            if (typeof (telegramfilterJson[elems[i].id]) != "undefined")
-                if (telegramfilterJson[elems[i].id] != "")
-                {
-                    if (!elems[i].checked)
-                        $(elems[i]).trigger('click');
-                } else
-                {
-                    if (elems[i].checked)
-                        $(elems[i]).trigger('click');
 
-                }
-            var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-        }
-
-        $("#telegram_note .filter-input").each(function () {
-            $(this).val(telegramfilterJson[$(this).attr("name")]);
-        });
 
 
         $('body').on("click", ".savefilter", function () {

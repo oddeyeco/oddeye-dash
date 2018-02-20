@@ -161,6 +161,15 @@ public class KafkaLisener {
                         }
                         break;
                     }
+                    case "changefilter": {
+                        try {
+                            TimeUnit.SECONDS.sleep(2);
+                            user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
+                        } catch (InterruptedException ex) {
+                            LOGGER.error(globalFunctions.stackTrace(ex));
+                        }
+                        break;
+                    }
                     case "updateuser":
                     case "updatelevels": {
                         Map<String, PageInfo> userpagelist = user.getPagelist();

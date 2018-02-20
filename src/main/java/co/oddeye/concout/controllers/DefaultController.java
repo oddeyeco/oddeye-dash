@@ -88,6 +88,20 @@ public class DefaultController {
         return "indextxt";
     }
 
+    @RequestMapping(value = "/preset", method = RequestMethod.GET)
+    public String resetpassword(ModelMap map, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            return "redirect:/profile/edit#Security";
+        }
+        map.put("isAuthentication", false);
+        map.put("title", "Login");
+        map.put("slug", "login");
+        map.put("body", "login");
+        map.put("jspart", "loginjs");
+        return "indexPrime";
+    }    
+    
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
