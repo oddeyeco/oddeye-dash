@@ -63,7 +63,7 @@
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
                     lookup: data.data,
-                    appendTo: '.autocomplete-container-metric'
+                    minChars: 0
                 });
                 if (metric_input === '')
                 {
@@ -83,7 +83,7 @@
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
                     lookup: Object.keys(data.data),                    
-                    appendTo: '.autocomplete-container_' + input.attr("tagkey")
+                    minChars: 0
                 });
             });
         });

@@ -547,7 +547,7 @@ $(document).ready(function () {
         $.getJSON(uri, null, function (data) {
             input.autocomplete({
                 lookup: data.data,
-                appendTo: '.autocomplete-container-metric'
+                minChars: 0
             });
         });
     });
@@ -557,32 +557,51 @@ $(document).ready(function () {
         $.getJSON(uri, null, function (data) {
             input.autocomplete({
                 lookup: Object.keys(data.data),
-                appendTo: '.autocomplete-container_' + input.attr("tagkey")
+                minChars: 0
             });
         });
     });
-    var elems = document.querySelectorAll('.js-switch-small');
-    var visibletags = 0;
-    for (var i = 0; i < elems.length; i++) {
-        if (typeof (filterJson[elems[i].id]) !== "undefined")
-            if (filterJson[elems[i].id] !== "")
-            {
-                $(elems[i]).parents(".tagfilter").show();
-                visibletags++;
-                if (!elems[i].checked)
-                    $(elems[i]).trigger('click');
-            } else
-            {
+    
+        $(".js-switch-small").each(function () {            
 
-                if (elems[i].checked)
-                    $(elems[i]).trigger('click');
-            }
-        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
-        switcherylist.push(switchery);
-        elems[i].onchange = function () {
-            DrawErrorList(errorlistJson, $(".metrictable"));
-        };
-    }
+            if (typeof (filterJson[$(this).attr("name")]) !== "undefined")
+            {
+                if (filterJson[$(this).attr("name")] !== "")
+                {
+                    if (!$(this).checked)
+                        $(this).trigger('click');
+                } else
+                {
+                    if ($(this).checked)
+                        $(this).trigger('click');
+
+                }
+            }                        
+            var switchery = new Switchery($(this).get(0), {size: 'small', color: '#26B99A'});
+        })    
+    
+//    var elems = document.querySelectorAll('.js-switch-small');
+//    var visibletags = 0;
+//    for (var i = 0; i < elems.length; i++) {
+//        if (typeof (filterJson[elems[i].id]) !== "undefined")
+//            if (filterJson[elems[i].id] !== "")
+//            {
+//                $(elems[i]).parents(".tagfilter").show();
+//                visibletags++;
+//                if (!elems[i].checked)
+//                    $(elems[i]).trigger('click');
+//            } else
+//            {
+//
+//                if (elems[i].checked)
+//                    $(elems[i]).trigger('click');
+//            }
+//        var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+//        switcherylist.push(switchery);
+//        elems[i].onchange = function () {
+//            DrawErrorList(errorlistJson, $(".metrictable"));
+//        };
+//    }
 
     var first = true;
     $("body").on("change", ".js-switch-small", function () {
