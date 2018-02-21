@@ -6,7 +6,39 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="row">
-    <div class="col-xs-10 " id="maincontener">
+
+    <div id="fullpriceMobile" class="flipInY hidden-lg hidden-md">
+        <div class="x_panel calc">
+            <div class="x_title">
+                <h2>Price for month</h2>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content ">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Instance</th>
+                            <th>Metrics</th>
+                            <th>USD</th>
+                        </tr>                                                
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot>
+                        <tr id="total">
+                            <th>Total:</th>
+                            <td class="unit"></td>
+                            <td class="usd"></td>
+                        </tr>                               
+                    </tfoot>
+                </table>                
+
+            </div>        
+        </div>
+    </div>
+
+    <div class="col-lg-10 col-md-9 col-xs-12" id="maincontener">
         <div class="x_panel calc">
             <div class="x_title">
                 <h1>Configure and estimate the costs for OddEye monitoring</h1>
@@ -58,7 +90,7 @@
             </div>
         </div>
     </div>
-    <div id="fullprice" class="col-xs-2">
+    <div id="fullprice" class="col-lg-2 col-md-3 col-xs-12 animated flipInY hidden-sm hidden-xs">
         <div class="x_panel calc">
             <div class="x_title">
                 <h2>Price for month</h2>
