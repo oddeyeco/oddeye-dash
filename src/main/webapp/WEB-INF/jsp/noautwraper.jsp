@@ -38,11 +38,36 @@
                                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                                         </div>-->
 
-                    <ul class="nav navbar-nav navbar-right">
-                        
-                        <li><a class="try-now" href="${cp}/signup/" >Try Now Free!</a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
-                    </ul>                    
+                    <!--                    <ul class="nav navbar-nav navbar-right">
+                                            <li><a class="try-now" href="${cp}/signup/" >Try Now Free!</a></li>
+                                            <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+                                        </ul>-->
+
+
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <div class="visible-xs">
+                                <a href="https://www.oddeye.co/">
+                                    <img src="./img/logowhite.png" alt="logo" width="65px" style="float: left">
+                                </a>
+                            </div>
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>                                    
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">               
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a a class="try-now" href="${cp}/signup/">Try Now Free!</a></li>                                        
+                                <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
+                            </ul>
+                        </div> 
+                    </div>
+
+
+
                 </nav>
             </div>
         </div>
