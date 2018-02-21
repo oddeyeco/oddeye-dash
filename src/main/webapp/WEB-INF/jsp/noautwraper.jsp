@@ -33,7 +33,7 @@
         <!-- top navigation -->
         <div class="top_nav">
             <div class="nav_menu">
-                <nav class="nav" role="navigation">
+                <nav class="nav navbar-default" role="navigation">
                     <!--                    <div class="nav toggle">
                                             <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                                         </div>-->
@@ -41,7 +41,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         
                         <li><a class="try-now" href="${cp}/signup/" >Try Now Free!</a></li>
-                        <li><a data-toggle="modal" data-target="#loginModal">Login</a></li>
+                        <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
                     </ul>                    
                 </nav>
             </div>
