@@ -48,6 +48,13 @@ public class AdminPaymentControlers extends GRUDControler {
                 put("display", "email");
 
             }
+        }).AddViewConfig("payer_email", new HashMap<String, Object>() {
+            {
+                put("path", "payer_email");
+                put("title", "Payer email");
+                put("type", "String");                
+
+            }
         }).AddViewConfig("payment_date", new HashMap<String, Object>() {
             {
                 put("path", "payment_date");

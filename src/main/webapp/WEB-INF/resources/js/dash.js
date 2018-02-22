@@ -356,7 +356,7 @@ var queryCallback = function (inputdata) {
                                         }
                                     }
                                 }
-                                
+
                                 var series = clone_obg(defserie);
                                 series.data = [];
                                 if (widget.q[q_index].yAxisIndex)
@@ -449,7 +449,12 @@ var queryCallback = function (inputdata) {
                                         }
                                         case 'line':
                                         {
-                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2== widget.options.title.text? null:name2, isinverse: widget.q[q_index].info.inverse});
+                                            var tmptitle = false
+                                            if (widget.options.title)
+                                            {
+                                               tmptitle = widget.options.title.text;
+                                            }
+                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
                                             break;
                                         }
                                         default:
@@ -1604,11 +1609,11 @@ var queryCallback = function (inputdata) {
 //                                    widget.options.series[sind][key] = Object.assign({}, widget.options.series[sind][key], oldseries[oldkey][key])
 //                                    
 
-                        
-                                    if ((key === "axisLabel" || key === "detail")&( typeof  widget.options.series[sind][key]!=="undefined"))
+
+                                    if ((key === "axisLabel" || key === "detail") & (typeof widget.options.series[sind][key] !== "undefined"))
                                     {
-                                        for (var key2 in oldseries[oldkey][key])                                            
-                                            if ( typeof  oldseries[oldkey][key][key2]!=="undefined")
+                                        for (var key2 in oldseries[oldkey][key])
+                                            if (typeof oldseries[oldkey][key][key2] !== "undefined")
                                             {
                                                 widget.options.series[sind][key][key2] = oldseries[oldkey][key][key2];
                                             }
@@ -1987,7 +1992,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         url: uri,
                         data: null,
                         success: queryCallback(inputdata),
-                        fail: function () {
+                        error: function (xhr, error) {
                             chart.hideLoading();
                             $(chart).before("<h2 class='error'>Invalid Query");
                         }
@@ -2077,7 +2082,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         url: uri,
                         data: null,
                         success: queryCallback(inputdata),
-                        fail: function () {
+                        error: function (xhr, error) {                            
                             chart.hideLoading();
                             $(chart._dom).before("<h2 class='error'>Invalid Query");
                         }

@@ -114,7 +114,7 @@ public class ConsumptionList extends TreeMap<Long, CoconutConsumption> {
     }
 
     public CoconutConsumption getConsumptionListMonth(int Month) {
-        if (!ConsumptionListDaily.entrySet().isEmpty()) {
+        if ( (!ConsumptionListMonth.entrySet().isEmpty())&&(ConsumptionListMonth.size()>=(Month+1)) ) {            
             CoconutConsumption cc = new ArrayList<>(ConsumptionListMonth.entrySet()).get(Month).getValue();
             Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 //        cal.set(Calendar.HOUR_OF_DAY, 0);

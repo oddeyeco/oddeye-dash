@@ -192,7 +192,7 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
-                var out = "";
+                var out = "";                
                 if (params.constructor === Array)
                 {
 
@@ -258,9 +258,9 @@ var encodeHTML = function (source) {
 
                         }                        
                         var tmpname =  param.seriesName;
-                        if (param.data.name)
+                        if (param.data.hname)
                         {
-                            tmpname = tmpname+":"+param.data.name;
+                            tmpname = tmpname+":"+param.data.hname;
                         }
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + tmpname+ ' : ' + value;
                     }

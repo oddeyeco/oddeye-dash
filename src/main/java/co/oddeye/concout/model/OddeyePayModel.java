@@ -146,7 +146,7 @@ public class OddeyePayModel {
             }
 
             if (Arrays.equals(kv.qualifier(), "Payer_email".getBytes())) {
-                mc_currency = new String(kv.value());
+                payer_email = new String(kv.value());
             }
 
             if (Arrays.equals(kv.qualifier(), "fulljson".getBytes())) {
