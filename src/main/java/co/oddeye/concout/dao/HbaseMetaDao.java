@@ -101,7 +101,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                             OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
                             Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
                             fullmetalist.add(metric);
-                            System.out.println(fullmetalist.size());
+//                            System.out.println(fullmetalist.size());
                         }
 
                     }
