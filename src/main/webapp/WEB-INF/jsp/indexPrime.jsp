@@ -69,7 +69,8 @@
             <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js?v=${version}"></script>-->                            
             <!--iCheck--> 
             <script src="${cp}/resources/iCheck/icheck.min.js?v=${version}"></script>
-            <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    
+            <script src="${cp}/resources/js/general.js?v=${version}"></script>
+            <!--<script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>-->    
             <script src="<c:url value="/assets/js/public.min.js?v=${version}"/>"></script>    
             <!-- moment.js -->
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>                    
