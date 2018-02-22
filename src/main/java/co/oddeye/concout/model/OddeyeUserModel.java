@@ -55,13 +55,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  *
  * @author vahan
  */
-
-
 public class OddeyeUserModel implements Serializable {
 
-    
     private transient HbaseUserDao Userdao;
-    
+
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class);
     private static final long serialVersionUID = 465895478L;
 
@@ -98,7 +95,7 @@ public class OddeyeUserModel implements Serializable {
     @HbaseColumn(qualifier = "region", family = "personalinfo")
     private String region;
     @HbaseColumn(qualifier = "timezone", family = "personalinfo")
-    private String timezone;    
+    private String timezone;
 
     private byte[] TsdbID;
     private String StTsdbID;
@@ -120,12 +117,10 @@ public class OddeyeUserModel implements Serializable {
     @HbaseColumn(qualifier = "*", family = "filtertemplates")
     private Map<String, String> FiltertemplateList = new HashMap<>();
     @HbaseColumn(qualifier = "AL", family = "technicalinfo")
-    private AlertLevel AlertLevels;    
-    private transient OddeyeUserModel referal;    
+    private AlertLevel AlertLevels;
+    private transient OddeyeUserModel referal;
     @HbaseColumn(qualifier = "referal", family = "technicalinfo")
-    private transient String sreferal;    
-    
-    
+    private transient String sreferal;
 
     private Date sinedate;
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
@@ -140,7 +135,7 @@ public class OddeyeUserModel implements Serializable {
 
     private transient final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
-    private String recaptcha;    
+    private String recaptcha;
 
     public OddeyeUserModel() {
         this.SwitchUser = null;
@@ -202,7 +197,15 @@ public class OddeyeUserModel implements Serializable {
         }).map((property) -> {
             if (Arrays.equals(property.qualifier(), "referal".getBytes())) {
                 this.sreferal = new String(property.value());
-                this.referal = this.Userdao.getUserByUUID(this.sreferal);
+                try {
+                    UUID uuid = UUID.fromString(this.sreferal);                    
+                    this.referal = this.Userdao.getUserByUUID(this.sreferal);
+                } catch (IllegalArgumentException exception) {
+                    this.referal = null;
+                    this.sreferal = null;
+                    //handle the case where string is not valid UUID 
+                }
+                
             }
             return property;
         }).map((property) -> {
@@ -858,7 +861,7 @@ public class OddeyeUserModel implements Serializable {
         Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail() + "</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), "ara@oddeye.co");
     }
 
-    public void reload() {        
+    public void reload() {
 //         HbaseUserDao.getUserByUUID(id, true);        
     }
 
@@ -979,8 +982,8 @@ public class OddeyeUserModel implements Serializable {
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-    }    
-    
+    }
+
     public void updateConsumption() {
         consumptionList = Userdao.getConsumption(this);
     }
@@ -1063,10 +1066,10 @@ public class OddeyeUserModel implements Serializable {
      * @param referal the referal to set
      */
     public void setReferal(OddeyeUserModel referal) {
-        this.referal = referal;        
+        this.referal = referal;
         this.sreferal = referal.getId().toString();
     }
-    
+
 //    /**
 //     * @return the referal
 //     */
@@ -1084,7 +1087,6 @@ public class OddeyeUserModel implements Serializable {
 //    public void setSreferal(String referal) {
 //        this.referal = this.Userdao.getUserByUUID(referal) ;
 //    }   
-    
     /**
      * @return the sreferal
      */
@@ -1097,5 +1099,5 @@ public class OddeyeUserModel implements Serializable {
      */
     public void setSreferal(String sreferal) {
         this.sreferal = sreferal;
-    }    
+    }
 }

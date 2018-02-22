@@ -13,6 +13,7 @@ import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.AddMeta;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
+import co.oddeye.core.globalFunctions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
@@ -90,21 +91,25 @@ public class HbaseMetaDao extends HbaseBaseDao {
         final byte[][] Qualifiers = new byte[][]{"timestamp".getBytes(), "type".getBytes()};
 
         scanner.setQualifiers(Qualifiers);
-     
+
         try {
             ArrayList<ArrayList<KeyValue>> rows;
-            while ((rows = scanner.nextRows().join()) != null) {
+            while ((rows = scanner.nextRows(5000).join()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {
                     for (KeyValue cell : row) {
                         if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                             OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
                             Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
                             fullmetalist.add(metric);
+                            System.out.println(fullmetalist.size());
                         }
 
                     }
                 }
             }
+
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));       
         } finally {
             scanner.close().join();
         }
@@ -212,7 +217,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         try {
             client.delete(req).joinUninterruptibly();
         } catch (Exception ex) {
-            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(globalFunctions.stackTrace(ex));
             return meta;
         }
         getFullmetalist().remove(meta.hashCode());
@@ -227,7 +232,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         try {
             MtrList = user.getMetricsMeta().getbyTag(tagK, tagV);
         } catch (Exception ex) {
-            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(globalFunctions.stackTrace(ex));
             return false;
         }
 
@@ -242,7 +247,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
             try {
                 result.add(client.delete(req));
             } catch (Exception ex) {
-                Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+                LOGGER.error(globalFunctions.stackTrace(ex));
                 return false;
             }
             getFullmetalist().remove(meta.hashCode());
@@ -251,7 +256,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         try {
             Deferred.groupInOrder(result).joinUninterruptibly();
         } catch (Exception ex) {
-            Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
+            LOGGER.error(globalFunctions.stackTrace(ex));       
             return false;
         }
         return true;
