@@ -332,7 +332,6 @@ function doprice(contener) {
                         {
                             sum = sum + calc[parent].childs[id]['count'][mind] * multinumber[mind];
                         }
-
                     }
                 } else
                 {
@@ -398,7 +397,20 @@ function doprice(contener) {
     $('#fullprice table tfoot #total td.usd').html(sumusd.toFixed(2));
 }
 ;
+
+
+$('#return-to-top').click(function (e) {
+    e.preventDefault();
+    $('body,html').animate({
+        scrollTop: 0
+    }, 500);
+});
+
 $(document).ready(function () {
+    if ($(window).width() <= 990) {
+        $("#fullprice").remove();
+        $(".right_col #maincontener").before('<div id="fullprice" class="col-xs-12 col-lg-2 col-md-3 animated flipInY"><div class="x_panel calc"><div class="x_title"><h2>Price for month</h2><div class="clearfix"></div></div><div class="x_content "><table class="table"><thead><tr><th>Instance</th><th>Metrics</th><th>USD</th></tr></thead><tbody></tbody><tfoot><tr id="total"><th>Total:</th><td class="unit"></td><td class="usd"></td></tr></tfoot></table></div></div></div>');
+    }
     $.getJSON(cp + "/assets/checktexts.json", function (data) {
         texts = data;
         paint();
@@ -407,15 +419,24 @@ $(document).ready(function () {
 });
 $(document).on('scroll', function () {
     var winHeight = $(window).height();
-    $("#fullprice").css("max-height", winHeight);
-    $("#fullpriceMobile .calc .table tbody").parent('div').css("max-height", winHeight / 4);
+//    $("#fullpriceMobile .calc .table tbody").parent('div').css("max-height", winHeight / 4);
 
     if ($(window).width() > 990) {
+        $("#fullprice").css("max-height", winHeight);
         if ($(document).scrollTop() >= $('#maincontener').offset().top && !$('#fullprice').hasClass("fixed")) {
+        $("#fullprice").css("max-height", winHeight);
             $('#fullprice').addClass("fixed");
         }
         if ($(document).scrollTop() < $('#maincontener').offset().top && $('#fullprice').hasClass("fixed")) {
+        $("#fullprice").css("max-height", winHeight);
             $('#fullprice').removeClass("fixed");
         }
     }
+
+    if ($(this).scrollTop() >= 500) {
+        $('#return-to-top').fadeIn(200);
+    } else {
+        $('#return-to-top').fadeOut(200);
+    }
+
 });

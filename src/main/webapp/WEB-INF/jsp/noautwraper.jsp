@@ -9,7 +9,7 @@
 
 <div class="container body">
     <div class="main_container">
-        <div id="fix" class="col-md-3 left_col">
+        <div id="fix" class="col-md-3 left_col hidden-xs">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="<c:url value="/"/>" >
@@ -48,7 +48,7 @@
                         <div class="navbar-header">
                             <div class="visible-xs">
                                 <a href="https://www.oddeye.co/">
-                                    <img src="./img/logowhite.png" alt="logo" width="65px" style="float: left">
+                                    <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
                                 </a>
                             </div>
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -84,6 +84,8 @@
         </div>
     </div>
 </div>
+                                
+<a href="#top" id="return-to-top"><i class="fa fa-angle-up"></i></a>
 
 <div id="loginModal" class="modal fade" role="dialog">
     <div class="modal-dialog">

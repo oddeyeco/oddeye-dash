@@ -429,4 +429,62 @@ body {
     }
 }
 
+
+#return-to-top {
+    z-index: 3;
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    background: #73879C;
+    width: 50px;
+    height: 50px;
+    display: block;
+    text-decoration: none;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    display: none;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;    
+    opacity: 0.5;
+    & i {
+        color: #F7F7F7;
+        margin: 0;
+        position: relative;
+        left: 18px;
+        top: 14px;
+        font-size: 19px;
+        font-weight: bolder; 
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+    &:hover {
+        background: #3f4c5a;    
+        opacity: unset;
+    }
+    &:hover i {
+        top: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+    .nav-sm .container.body .right_col,.nav-sm .main_container .top_nav {
+        margin-left: 0px; 
+    }
+}
+@media (max-width: 990px) {
+    #return-to-top:hover i {
+        top: 14px;
+    }
+    #return-to-top:hover {
+        background: #73879C;    
+        opacity: 0.5;
+    }
+}
 @import "calculator.less";

@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="row">
-    <div id="fullpriceMobile" class="flipInY hidden-lg hidden-md">
+<!--    <div id="fullpriceMobile" class="col-xs-12 flipInY hidden-lg hidden-md">
         <div class="x_panel calc">
             <div class="x_title">
                 <h2>Price for month</h2>
@@ -35,7 +35,7 @@
 
             </div>        
         </div>
-    </div>
+    </div>-->
     <div class="col-lg-10 col-md-9 col-xs-12" id="maincontener">
         <div class="x_panel calc">
             <div class="x_title">
@@ -120,7 +120,7 @@
     </div>
 </div>
 <div class="row">
-    <div   class="col-lg-10 ">
+    <div   class="col-lg-10 col-md-9 ">
         <div id="hostcheck"  >
 
         </div>
