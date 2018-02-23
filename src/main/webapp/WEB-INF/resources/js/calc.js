@@ -416,19 +416,24 @@ $(document).ready(function () {
         paint();
         $('#system_check').addClass('active');
     });
+    if ($(window).width() > 990) {
+        var winHeight = $(window).height();
+        $("#fullprice").css("max-height", winHeight);
+    }
 });
 $(document).on('scroll', function () {
-    var winHeight = $(window).height();
+    winHeight = $(window).height();
+//    $("#fullprice").css("max-height", winHeight);
 //    $("#fullpriceMobile .calc .table tbody").parent('div').css("max-height", winHeight / 4);
 
     if ($(window).width() > 990) {
-        $("#fullprice").css("max-height", winHeight);
+//        $("#fullprice").css("max-height", winHeight);
         if ($(document).scrollTop() >= $('#maincontener').offset().top && !$('#fullprice').hasClass("fixed")) {
-        $("#fullprice").css("max-height", winHeight);
+            $("#fullprice").css("max-height", winHeight);
             $('#fullprice').addClass("fixed");
         }
         if ($(document).scrollTop() < $('#maincontener').offset().top && $('#fullprice').hasClass("fixed")) {
-        $("#fullprice").css("max-height", winHeight);
+            $("#fullprice").css("max-height", winHeight);
             $('#fullprice').removeClass("fixed");
         }
     }
