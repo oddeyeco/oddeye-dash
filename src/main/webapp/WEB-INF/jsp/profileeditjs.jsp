@@ -8,6 +8,7 @@
 
 
     $(document).ready(function () {
+                
         $(".select2_country").select2({
             placeholder: "Select a Country",
             allowClear: true
