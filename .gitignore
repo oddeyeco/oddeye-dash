@@ -3,3 +3,4 @@
 /target/
 *.log
 /src/main/webapp/WEB-INF/assets/js/
+/src/main/webapp/test/

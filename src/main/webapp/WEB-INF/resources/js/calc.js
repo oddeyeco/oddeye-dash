@@ -108,19 +108,22 @@ $.getJSON(cp + '/getpayinfo', function (data) {
 });
 var paint = function () {
     for (var key in calc) {
-        $('.tab-content').append('<div class="tab-pane " id="' + key + '"></div>');
+
         var _class = "tab";
-        if (key === "system_check")
-        {
-            var _class = "active";
+        if (key === "system_check") {
+//            var _class = "active";
+            $('#accordion').append('<div class="panel"><a class="panel-heading" role="tab" id="heading_' + key + '" data-toggle="collapse" data-parent="#accordion" href="#collapse_' + key + '" aria-expanded="true" aria-controls="collapse_' + key + '"><h4 class="panel-title">' + calc[key].text + ' (<span class="selectedcount">0</span>)</h4></a><div id="collapse_' + key + '" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_' + key + '" aria-expanded="true"><div class="panel-body"></div></div></div>');
+        } else {
+            $('#accordion').append('<div class="panel"><a class="panel-heading collapsed" role="tab" id="heading_' + key + '" data-toggle="collapse" data-parent="#accordion" href="#collapse_' + key + '" aria-expanded="false" aria-controls="collapse_' + key + '"><h4 class="panel-title">' + calc[key].text + ' (<span class="selectedcount">0</span>)</h4></a><div id="collapse_' + key + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_' + key + '" aria-expanded="false"><div class="panel-body"></div></div></div>');
         }
         ;
-        $('.tabs-left').append('<li id="tab_' + key + '" class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + ' (<span class="selectedcount">0</span>)</a></li>');
+        //$('.tabs-left').append('<li id="tab_' + key + '" class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + ' (<span class="selectedcount">0</span>)</a></li>');     // chi ashxatummmmm!!!!!!!!!!!!!!
         for (var t in calc[key].childs) {
-            $('#' + key).append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + texts[t] + '</p></div></div>');
+            $("#collapse_" + key + " .panel-body").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + texts[t] + '</p></div></div>');
+
             $('#' + t).addClass(calc[key].childs[t]['inclass']);
         }
-        $('#tab_' + key + " .selectedcount").text($('#' + key + ' .checked').length + "/" + $('#' + key + ' .integration').length);
+        $('#heading_' + key + " .selectedcount").text($('#collapse_' + key + ' .checked').length + "/" + $('#collapse_' + key + ' .integration').length); // es chi ashxatum 
         ;
     }
     ;
@@ -128,15 +131,16 @@ var paint = function () {
 var instance_id = 0;
 $('body').on('click', '#apply', function () {
     var sinstance_id = 'check_' + instance_id;
-    $("#hostcheck").append('<div class="hostcheck calc x_panel" id="' + sinstance_id + '"> <div class="x_title"><h2>Instance #' + (instance_id + 1) + '</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="row"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"><form></div><div class="check col-xs-9 col-lg-10"></div></div></div></div>');
+    $("#hostcheck").append('<div class="hostcheck calc x_panel" id="' + sinstance_id + '"> <div class="x_title"><h2>Instance #' + (instance_id + 1) + '</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="row"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"></form></div><div class="check col-xs-9 col-lg-10"></div></div></div></div>');
+    
     $(".checked").each(function () {
         var id = $(this).attr("id");
-        if (id)
-        {
-            var parent = $(this).parent().parent().attr("id");
+        
+        if (id) {
+            var parent = $(this).parents('.panel-collapse').attr('id').replace('collapse_','');
             if (calc[parent].childs[id]['type'] === 'multi') {
                 if (calc[parent].childs[id]['hasAll']) {
-                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '"> ' + calc[parent].childs[id]['allText'] + '</div></form></div></div>');
+                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '"> ' + calc[parent].childs[id]['allText'] + '></div></form></div></div>');
                     $('#' + sinstance_id + ' .check input.checkbox.' + id).on('ifChanged', function () {
                         doprice($(this).parents(".hostcheck"));
                     }).iCheck({
@@ -145,7 +149,6 @@ $('body').on('click', '#apply', function () {
                     });
                 } else {
                     var mt = '<label>' + calc[parent].childs[id]['multiText'] + '</label><div><input type="number" min="1" class="multi form-control" value="1"  ></div>';
-
                     if (calc[parent].childs[id]['multiText'].constructor === Array)
                     {
                         //TODO ROW HATIK DRAC CHI
@@ -176,13 +179,13 @@ $('body').on('click', '#apply', function () {
 });
 $('body').on('click', '.integration', function () {
     $(this).toggleClass('checked');
-    var key = $(this).parents('.tab-pane').attr("id");
-    if ($(this).attr('value'))
+    var key = $(this).parents('.panel-collapse').attr('id').replace('collapse_','');
+    if ($(this).attr('value')) /////////////?????????????????????????????????????????
     {
         $("#" + $(this).attr('value')).toggleClass('checked');
         key = $("#" + $(this).attr('value')).parents('.tab-pane').attr("id");
     }
-    $('#tab_' + key + ' .selectedcount').text($('#' + key + ' .checked').length + "/" + $('#' + key + ' .integration').length);
+    $('#heading_' + key + " .selectedcount").text($('#collapse_' + key + ' .checked').length + "/" + $('#collapse_' + key + ' .integration').length);
 });
 $('body').on('click', '#reset', function () {
     $('.integration').removeClass('checked');
@@ -242,7 +245,6 @@ $('body').on('click', '.del-link', function () {
         $(this).remove();
         doprice(that);
     });
-
 });
 $('body').on('input', '.hostcheck input', function () {
     var elem = $(this);
@@ -397,15 +399,12 @@ function doprice(contener) {
     $('#fullprice table tfoot #total td.usd').html(sumusd.toFixed(2));
 }
 ;
-
-
 $('#return-to-top').click(function (e) {
     e.preventDefault();
     $('body,html').animate({
         scrollTop: 0
     }, 500);
 });
-
 $(document).ready(function () {
     if ($(window).width() <= 990) {
         $("#fullprice").remove();

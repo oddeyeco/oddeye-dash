@@ -6,36 +6,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div class="row">
-<!--    <div id="fullpriceMobile" class="col-xs-12 flipInY hidden-lg hidden-md">
-        <div class="x_panel calc">
-            <div class="x_title">
-                <h2>Price for month</h2>
-                <div class="clearfix"></div>
-            </div>
-
-            <div class="x_content ">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Instance</th>
-                            <th>Metrics</th>
-                            <th>USD</th>
-                        </tr>                                                
-                    </thead>
-                    <tbody>
-                    </tbody>
-                    <tfoot>
-                        <tr id="total">
-                            <th>Total:</th>
-                            <td class="unit"></td>
-                            <td class="usd"></td>
-                        </tr>                               
-                    </tfoot>
-                </table>                
-
-            </div>        
-        </div>
-    </div>-->
     <div class="col-lg-10 col-md-9 col-xs-12" id="maincontener">
         <div class="x_panel calc">
             <div class="x_title">
@@ -55,27 +25,37 @@
                         </span>
                     </div>
                 </div>   
+
+                <div class="clearfix"></div>
                 <div class="row">
-                    <div class="col-xs-3 col-lg-2">
-                        <!-- required for floating -->
-                        <!-- Nav tabs -->
-                        <ul class="nav nav-tabs tabs-left">
-                            <!--                            <li class="active"><a href="#system_check" data-toggle="tab">System Checks</a></li>
-                                                        <li><a href="#webservers_check" data-toggle="tab">Web Servers</a></li>
-                                                        <li><a href="#bigdata_check" data-toggle="tab">Big Data</a></li>
-                                                        <li><a href="#java_check" data-toggle="tab">Java</a></li>
-                                                        <li><a href="#messagequeue_check" data-toggle="tab">Message Queue</a></li>
-                                                        <li><a href="#sqlcache_check" data-toggle="tab">SQL,Cache</a></li>
-                                                        <li><a href="#hadoop_check" data-toggle="tab">Hadoop</a></li>
-                                                        <li><a href="#docstorage_check" data-toggle="tab">Document Storage</a></li>
-                                                        <li><a href="#other_check" data-toggle="tab">Other</a></li>-->
-                        </ul>
-                    </div>
-                    <div class="col-xs-9 col-lg-10" id="tab-items">
-                        <!-- Tab panes -->
-                        <div class="tab-content">
+                    <!--                    <div class="col-xs-3 col-lg-2">
+                                             required for floating 
+                                             Nav tabs 
+                                            <ul class="nav nav-tabs tabs-left">
+                                                
+                                            </ul>
+                                        </div>-->
+                    <!--<div class="col-xs-9 col-lg-10" id="tab-items">-->
+                    <!-- Tab panes -->
+                    <!--                        <div class="tab-content">
+                                            </div>-->
+                    <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
+
+                        <div class="panel">
+                            <a class="panel-heading collapsed" role="tab" id="headingSearch" data-toggle="collapse" data-parent="#accordion" href="#collapseSearch" aria-expanded="false" aria-controls="collapseTwo">
+                                <h4 class="panel-title">serach content</h4>
+                            </a>
+                            <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">
+                                <div class="panel-body">
+                                    Search content
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+
+
+                    <!--</div>-->
                 </div>
                 <div class="row">
                     <div class="calc_buttondiv">
@@ -118,11 +98,10 @@
             </div>        
         </div>
     </div>
-<!--</div>
-<div class="row">-->
-    <div   class="col-lg-10 col-md-9 ">
-        <div id="hostcheck"  >
 
+        <div   class="col-lg-10 col-md-9 ">
+            <div id="hostcheck"  >
+    
+            </div>
         </div>
-    </div>
 </div>
