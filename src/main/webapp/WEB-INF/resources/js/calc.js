@@ -132,12 +132,12 @@ var instance_id = 0;
 $('body').on('click', '#apply', function () {
     var sinstance_id = 'check_' + instance_id;
     $("#hostcheck").append('<div class="hostcheck calc x_panel" id="' + sinstance_id + '"> <div class="x_title"><h2>Instance #' + (instance_id + 1) + '</h2><ul class="nav navbar-right panel_toolbox"><li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li><li><a class="close-link"><i class="fa fa-close"></i></a></li></ul><div class="clearfix"></div></div> <div  class="x_content"><div  class="row"><div  class="col-xs-3 col-lg-2 "><form><label>Host Count</label><input class="host form-control" type="number" value="1"><label>Check Interval(sec.)</label><input class="sec form-control" type="number" value="10"></form></div><div class="check col-xs-9 col-lg-10"></div></div></div></div>');
-    
+
     $(".checked").each(function () {
         var id = $(this).attr("id");
-        
+
         if (id) {
-            var parent = $(this).parents('.panel-collapse').attr('id').replace('collapse_','');
+            var parent = $(this).parents('.panel-collapse').attr('id').replace('collapse_', '');
             if (calc[parent].childs[id]['type'] === 'multi') {
                 if (calc[parent].childs[id]['hasAll']) {
                     $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '"> ' + calc[parent].childs[id]['allText'] + '></div></form></div></div>');
@@ -179,7 +179,7 @@ $('body').on('click', '#apply', function () {
 });
 $('body').on('click', '.integration', function () {
     $(this).toggleClass('checked');
-    var key = $(this).parents('.panel-collapse').attr('id').replace('collapse_','');
+    var key = $(this).parents('.panel-collapse').attr('id').replace('collapse_', '');
     if ($(this).attr('value')) /////////////?????????????????????????????????????????
     {
         $("#" + $(this).attr('value')).toggleClass('checked');
@@ -190,7 +190,7 @@ $('body').on('click', '.integration', function () {
 $('body').on('click', '#reset', function () {
     $('.integration').removeClass('checked');
     $('.panel').each(function () {
-        var key = $(this).find('a').attr('href').replace('collapse_','');
+        var key = $(this).find('a').attr('href').replace('collapse_', '');
         $(this).find('.selectedcount').text($(key + ' .checked').length + "/" + $(key + ' .integration').length);
     });
 });
@@ -256,9 +256,11 @@ var whaittimer;
 $('body').on('change keyup paste ', '.search-query', function () {
     clearTimeout(whaittimer);
     whaittimer = setTimeout(function () {
-        if ($('.search-query').val()) { 
-            $('.panel-collapse').collapse('hide');
-            $('#collapseSearch').collapse('show');
+        if ($('.search-query').val()) {
+            if (!$('#collapseSearch').hasClass("in")) {
+                $('.panel-collapse').collapse('hide');
+                $('#collapseSearch').collapse('show');
+            }
 //            $('.tab-pane.active').removeClass('active');
 //            $('.nav-tabs  li.active').removeClass('active');
 //            if ($('#search_check').length === 0)
@@ -271,6 +273,7 @@ $('body').on('change keyup paste ', '.search-query', function () {
             search($('.search-query').val());
         } else
         {
+            $('.panel-collapse').collapse('hide');
             $('#collapseSearch').parents('.panel').next().find('.panel-collapse').collapse('show');
 //            $('.tab-pane').first().addClass('active');
 //            $('.nav-tabs  li').first().addClass('active');
@@ -282,9 +285,13 @@ $('body').on('change', '.checkbox', function () {
     doprice($(this).parents(".hostcheck"));
 });
 function search(value) {
-    $('#search_check').html('');
-    var testx = $("#tab-items").html();
+    console.log('1');
+    $('#search_check').html(''); //////////////????????????????????????
+    var testx = $(".panel-body").html();
+    console.log(testx + "111");
+    console.log(value + "222");
     const regex = new RegExp('<div([^>\/]+)class="integration([^>\/]+)>((?!<\/div>).)*' + value + '((?!<div).)*(\<(\/?[^>]+)div>)', 'ig');
+    console.log(regex);
     var Wrap = "<div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>";
     let m;
     while ((m = regex.exec(testx)) !== null) {
@@ -295,7 +302,7 @@ function search(value) {
         var item = $(m[0]);
         item.attr('value', item.attr("id"));
         item.removeAttr("id");
-        $('#search_check').append(item);
+        $('#collapseSearch .panel-body').append(item);
         item.wrap(Wrap);
     }
 }
