@@ -189,10 +189,9 @@ $('body').on('click', '.integration', function () {
 });
 $('body').on('click', '#reset', function () {
     $('.integration').removeClass('checked');
-    $('.tabs-left li').each(function () {
-        var key = $(this).find('a').attr('href');
+    $('.panel').each(function () {
+        var key = $(this).find('a').attr('href').replace('collapse_','');
         $(this).find('.selectedcount').text($(key + ' .checked').length + "/" + $(key + ' .integration').length);
-//            console.log(key);
     });
 });
 $('body').on('click', '.x_title .close-link', function () {
@@ -257,21 +256,24 @@ var whaittimer;
 $('body').on('change keyup paste ', '.search-query', function () {
     clearTimeout(whaittimer);
     whaittimer = setTimeout(function () {
-        if ($('.search-query').val()) {
-            $('.tab-pane.active').removeClass('active');
-            $('.nav-tabs  li.active').removeClass('active');
-            if ($('#search_check').length === 0)
-            {
-                $('.tab-content').append('<div class="tab-pane active" id="search_check">');
-            } else
-            {
-                $('#search_check').addClass('active');
-            }
+        if ($('.search-query').val()) { 
+            $('.panel-collapse').collapse('hide');
+            $('#collapseSearch').collapse('show');
+//            $('.tab-pane.active').removeClass('active');
+//            $('.nav-tabs  li.active').removeClass('active');
+//            if ($('#search_check').length === 0)
+//            {
+//                $('.tab-content').append('<div class="tab-pane active" id="search_check">');
+//            } else
+//            {
+//                $('#search_check').addClass('active');
+//            }
             search($('.search-query').val());
         } else
         {
-            $('.tab-pane').first().addClass('active');
-            $('.nav-tabs  li').first().addClass('active');
+            $('#collapseSearch').parents('.panel').next().find('.panel-collapse').collapse('show');
+//            $('.tab-pane').first().addClass('active');
+//            $('.nav-tabs  li').first().addClass('active');
         }
         ;
     }, 1000);
@@ -422,11 +424,8 @@ $(document).ready(function () {
 });
 $(document).on('scroll', function () {
     winHeight = $(window).height();
-//    $("#fullprice").css("max-height", winHeight);
-//    $("#fullpriceMobile .calc .table tbody").parent('div').css("max-height", winHeight / 4);
 
     if ($(window).width() > 990) {
-//        $("#fullprice").css("max-height", winHeight);
         if ($(document).scrollTop() >= $('#maincontener').offset().top && !$('#fullprice').hasClass("fixed")) {
             $("#fullprice").css("max-height", winHeight);
             $('#fullprice').addClass("fixed");
