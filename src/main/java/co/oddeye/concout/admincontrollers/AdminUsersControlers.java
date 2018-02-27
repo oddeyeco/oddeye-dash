@@ -101,6 +101,7 @@ public class AdminUsersControlers extends GRUDControler {
                 put("path", "sinedate");
                 put("title", " Sinedate");
                 put("type", "Date");
+                put("displayclass", "orderdesc");
             }
         }).AddViewConfig("mailconfirm", new HashMap<String, Object>() {
             {

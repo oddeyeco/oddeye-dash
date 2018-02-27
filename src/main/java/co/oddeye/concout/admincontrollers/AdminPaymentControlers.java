@@ -60,6 +60,7 @@ public class AdminPaymentControlers extends GRUDControler {
                 put("path", "payment_date");
                 put("title", "Date");
                 put("type", "Date");
+                put("displayclass", "orderdesc");
             }
         }).AddViewConfig("payment_gross", new HashMap<String, Object>() {
             {
