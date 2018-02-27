@@ -1,8 +1,8 @@
 .for_integration{ /////// ???????????????
-    text-align: left;
-    line-height: 12px;
-    font-size: 11px;
-    padding: 4px 10px;
+                  text-align: left;
+                  line-height: 12px;
+                  font-size: 11px;
+                  padding: 4px 10px;
 }
 .accordion .panel:hover {
     background: white;
@@ -110,7 +110,7 @@
     height: 110px;    
 }
 .calc_buttondiv{
-    /*padding: 21px;*/
+    padding: 0px;
 }
 .calc_button{
     &:hover{
@@ -175,5 +175,42 @@
 @media (min-width: 1200px) and (max-width: 1450px) { 
     #fullprice {
         padding: 0;
+    }
+    .calc_buttondiv{
+        padding: 3px 0;
+        font-size: 12px;
+    }
+    .calc_button {
+        font-size: 12px;
+        padding: 2px 9px 2px 9px;
+        margin: 2px;
+    }
+}
+@media (max-width: 425px) {
+    .integration {
+        p {
+            width: unset;
+            /*width: calc(~"100% - 80px");*/
+            margin-left: 60px;
+        }
+        h3 {             
+            white-space: nowrap;
+            text-align: center;
+            font-size: 17px;
+        }  
+        img{
+            width: 50px;
+            height: 50px;
+        }
+        .icon
+        {
+            width: 50px;    
+            top: 25px;
+            right: auto;
+            left: 5px;
+        }
+        /*    height: 110px;
+            cursor: pointer;*/
+        height: unset;
     }
 }

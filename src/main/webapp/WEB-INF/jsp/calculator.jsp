@@ -17,7 +17,7 @@
                 <h2 class="col-xs-12 form-group top_search">
                     Select a service to include it in your estimate.
                 </h2>
-                <div class="col-xs-12 col-md-10 form-group top_search">
+                <div class="col-xs-12 col-lg-10 form-group top_search">
                     <div class="input-group">
                         <input class="form-control search-query" placeholder="Search check..." type="text">
                         <span class="input-group-btn">
@@ -25,7 +25,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-2  calc_buttondiv">
+                <div class="col-xs-12 col-lg-2  calc_buttondiv">
                     <button id="apply" class="calc_button ">Apply New</button>
                     <button id="reset" class="calc_button " >Reset</button>
                 </div>
