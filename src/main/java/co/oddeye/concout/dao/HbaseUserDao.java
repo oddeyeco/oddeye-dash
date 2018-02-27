@@ -163,15 +163,17 @@ public class HbaseUserDao extends HbaseBaseDao {
             ArrayList<byte[]> qlist = new ArrayList<>();
             ArrayList<byte[]> vlist = new ArrayList<>();
             for (Cookie cookie : cookies) {
+                
                 qlist.add(cookie.getName().getBytes());
-                vlist.add(cookie.getValue().getBytes());
+                vlist.add((cookie.getValue()).getBytes());
             }
             byte[][] qualifiers = new byte[qlist.size()][];
             byte[][] values = new byte[vlist.size()][];
             if (vlist.size() > 0) {
                 qualifiers = qlist.toArray(qualifiers);
                 values = vlist.toArray(values);
-                final PutRequest putAuthorities = new PutRequest(table, user.getId().toString().getBytes(), "cookesinfo".getBytes(), qualifiers, values);
+                final PutRequest put = new PutRequest(table, user.getId().toString().getBytes(), "cookesinfo".getBytes(), qualifiers, values);
+                BaseTsdb.getClient().put(put);
             }
 
         }
@@ -383,6 +385,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                 user = new OddeyeUserModel();
             }
             byte[] TsdbID;
+            if (userkvs.isEmpty())
+            {
+                return null;
+            }
             user.inituser(userkvs, this);
             try {
                 TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());

@@ -8,18 +8,28 @@
 <script src="${cp}/resources/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js?v=${version}"></script>
 
 <script>
-    $('#datatable-responsive').DataTable({
-        "pageLength": 25
-    });
+    $(document).ready(function () {                
+        var order = [];
+        $(".orderdesc").each(function () {
+            order.push([$(this).index(), "desc"]);
+        });
 
-    $(".select2").select2({}); 
+        $('#datatable-responsive').DataTable({
+            "pageLength": 25,
+            "order": order
+        });
 
-    $(".select2_multiple").select2({
-        allowClear: true,
-        columns: [
-            {"type": "string"},
-            {"type": "string"},
-            {"type": "numeric"}
-        ]          
-        });                        
+        $(".select2").select2({});
+
+        $(".select2_multiple").select2({
+            allowClear: true,
+            columns: [
+                {"type": "string"},
+                {"type": "string"},
+                {"type": "numeric"}
+            ]
+        });  
+    });    
+    
+                      
 </script>    
