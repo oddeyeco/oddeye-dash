@@ -17,51 +17,34 @@
                 <h2 class="col-xs-12 form-group top_search">
                     Select a service to include it in your estimate.
                 </h2>
-                <div class="col-xs-12 form-group pull-right top_search">
+                <div class="col-xs-12 col-md-10 form-group top_search">
                     <div class="input-group">
                         <input class="form-control search-query" placeholder="Search check..." type="text">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Go!</button>
                         </span>
                     </div>
-                </div>   
+                </div>
+                <div class="col-xs-12 col-md-2  calc_buttondiv">
+                    <button id="apply" class="calc_button ">Apply New</button>
+                    <button id="reset" class="calc_button " >Reset</button>
+                </div>
 
                 <div class="clearfix"></div>
                 <div class="row">
-                    <!--                    <div class="col-xs-3 col-lg-2">
-                                             required for floating 
-                                             Nav tabs 
-                                            <ul class="nav nav-tabs tabs-left">
-                                                
-                                            </ul>
-                                        </div>-->
-                    <!--<div class="col-xs-9 col-lg-10" id="tab-items">-->
-                    <!-- Tab panes -->
-                    <!--                        <div class="tab-content">
-                                            </div>-->
                     <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
-
                         <div class="panel">
                             <a class="panel-heading collapsed" role="tab" id="headingSearch" data-toggle="collapse" data-parent="#accordion" href="#collapseSearch" aria-expanded="false" aria-controls="collapseTwo">
                                 <h4 class="panel-title">serach content</h4>
                             </a>
                             <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">
                                 <div class="panel-body">
-                                    Search content
                                 </div>
                             </div>
                         </div>
                     </div>
-
-
-
-                    <!--</div>-->
                 </div>
                 <div class="row">
-                    <div class="calc_buttondiv">
-                        <button id="apply" class="calc_button ">Apply New</button>
-                        <button id="reset" class="calc_button " >Reset</button>
-                    </div>
                 </div>
                 <!--<div class="clearfix"></div>-->
 
@@ -95,13 +78,14 @@
                     </tfoot>
                 </table>                
 
+
             </div>        
         </div>
     </div>
 
-        <div   class="col-lg-10 col-md-9 ">
-            <div id="hostcheck"  >
-    
-            </div>
+    <div   class="col-lg-10 col-md-9 ">
+        <div id="hostcheck"  >
+
         </div>
+    </div>
 </div>

@@ -179,11 +179,12 @@ $('body').on('click', '#apply', function () {
 });
 $('body').on('click', '.integration', function () {
     $(this).toggleClass('checked');
+    $("div[value='" + $(this).attr('id') + "']").toggleClass('checked');
     var key = $(this).parents('.panel-collapse').attr('id').replace('collapse_', '');
-    if ($(this).attr('value')) /////////////?????????????????????????????????????????
+    if ($(this).attr('value'))
     {
         $("#" + $(this).attr('value')).toggleClass('checked');
-        key = $("#" + $(this).attr('value')).parents('.tab-pane').attr("id");
+        key = $("#" + $(this).attr('value')).parents('.panel-collapse').attr('id').replace('collapse_', '');
     }
     $('#heading_' + key + " .selectedcount").text($('#collapse_' + key + ' .checked').length + "/" + $('#collapse_' + key + ' .integration').length);
 });
@@ -253,30 +254,19 @@ $('body').on('input', '.hostcheck input', function () {
     }, 500);
 });
 var whaittimer;
-$('body').on('change keyup paste ', '.search-query', function () {
+
+$('body').on('keyup', '.search-query', function () {
     clearTimeout(whaittimer);
     whaittimer = setTimeout(function () {
         if ($('.search-query').val()) {
-            if (!$('#collapseSearch').hasClass("in")) {
-                $('.panel-collapse').collapse('hide');
-                $('#collapseSearch').collapse('show');
-            }
-//            $('.tab-pane.active').removeClass('active');
-//            $('.nav-tabs  li.active').removeClass('active');
-//            if ($('#search_check').length === 0)
-//            {
-//                $('.tab-content').append('<div class="tab-pane active" id="search_check">');
-//            } else
-//            {
-//                $('#search_check').addClass('active');
-//            }
             search($('.search-query').val());
         } else
         {
-            $('.panel-collapse').collapse('hide');
-            $('#collapseSearch').parents('.panel').next().find('.panel-collapse').collapse('show');
-//            $('.tab-pane').first().addClass('active');
-//            $('.nav-tabs  li').first().addClass('active');
+            if ($("#collapseSearch").hasClass("in"))
+            {
+                $('#headingSearch').trigger('click');
+                $('#collapseSearch .panel-body').html('');
+            }
         }
         ;
     }, 1000);
@@ -284,14 +274,19 @@ $('body').on('change keyup paste ', '.search-query', function () {
 $('body').on('change', '.checkbox', function () {
     doprice($(this).parents(".hostcheck"));
 });
+
 function search(value) {
-    console.log('1');
-    $('#search_check').html(''); //////////////????????????????????????
-    var testx = $(".panel-body").html();
-    console.log(testx + "111");
-    console.log(value + "222");
+    $('#collapseSearch .panel-body').html('');
+    var i = 0;
+    var wrapDiv = $("<div></div>");
+
+    while (i <= $(".panel-body").length) {
+        wrapDiv.append($($(".panel-body")[i]).html());
+        i++;
+    }
+
+    var testx = wrapDiv.html();
     const regex = new RegExp('<div([^>\/]+)class="integration([^>\/]+)>((?!<\/div>).)*' + value + '((?!<div).)*(\<(\/?[^>]+)div>)', 'ig');
-    console.log(regex);
     var Wrap = "<div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>";
     let m;
     while ((m = regex.exec(testx)) !== null) {
@@ -305,6 +300,12 @@ function search(value) {
         $('#collapseSearch .panel-body').append(item);
         item.wrap(Wrap);
     }
+    if (!$("#collapseSearch").hasClass("in"))
+    {
+        $('#headingSearch').trigger('click');
+    }
+
+
 }
 
 
