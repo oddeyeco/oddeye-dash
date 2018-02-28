@@ -198,6 +198,9 @@
             height: 24px;
             font-size: 12px;
         }
+        .multiinputDiv {
+            padding: 8px 0 0 0;
+        }
     }
     height: unset;
 
@@ -208,11 +211,16 @@
         }
     }
 }
-
+@media (max-width: 1200px) {
+    .integration_select {
+        p, form {
+            line-height: 14px;
+        }
+    }
+}
 @media (max-width: 425px) {
     .integration, .integration_select {
         p, form {
-            width: unset;
             width: unset;
             margin-left: unset;
             padding: 5px 10px 5px 10px;

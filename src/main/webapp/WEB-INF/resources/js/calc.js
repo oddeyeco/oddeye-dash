@@ -152,7 +152,7 @@ $('body').on('click', '#apply', function () {
                     if (calc[parent].childs[id]['multiText'].constructor === Array)
                     {
                         //TODO ROW HATIK DRAC CHI
-                        mt = "<div>";
+                        mt = "<div class='multiinputDiv'>";
                         for (var index in calc[parent].childs[id]['multiText'])
                         {
                             var span = (calc[parent].childs[id]['multiText'].length === 3) ? 4 : 6;
