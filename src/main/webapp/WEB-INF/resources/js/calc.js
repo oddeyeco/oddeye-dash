@@ -119,7 +119,7 @@ var paint = function () {
         ;
         //$('.tabs-left').append('<li id="tab_' + key + '" class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + ' (<span class="selectedcount">0</span>)</a></li>');     // chi ashxatummmmm!!!!!!!!!!!!!!
         for (var t in calc[key].childs) {
-            $("#collapse_" + key + " .panel-body").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + texts[t] + '</p></div></div>');
+            $("#collapse_" + key + " .panel-body").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + texts[t] + '</p></div></div>');
 
             $('#' + t).addClass(calc[key].childs[t]['inclass']);
         }
@@ -140,7 +140,7 @@ $('body').on('click', '#apply', function () {
             var parent = $(this).parents('.panel-collapse').attr('id').replace('collapse_', '');
             if (calc[parent].childs[id]['type'] === 'multi') {
                 if (calc[parent].childs[id]['hasAll']) {
-                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '"> ' + calc[parent].childs[id]['allText'] + '></div></form></div></div>');
+                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '"> ' + calc[parent].childs[id]['allText'] + '></div></form></div></div>');
                     $('#' + sinstance_id + ' .check input.checkbox.' + id).on('ifChanged', function () {
                         doprice($(this).parents(".hostcheck"));
                     }).iCheck({
@@ -163,11 +163,11 @@ $('body').on('click', '#apply', function () {
                         mt = mt + '</div>';
                     }
 
-                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form>' + mt + '</form></div></div>');
+                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form>' + mt + '</form></div></div>');
                 }
 
             } else {
-                $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><p>' + texts[id] + '</p></div></div>');
+                $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><p>' + texts[id] + '</p></div></div>');
 //                    $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent].childs[id]['src'] + '">' + calc[parent].childs[id]['name'] + '</span><p class="for_integration">' + calc[parent].childs[id]['text'] + '</p>');
             }
         }
@@ -287,7 +287,7 @@ function search(value) {
 
     var testx = wrapDiv.html();
     const regex = new RegExp('<div([^>\/]+)class="integration([^>\/]+)>((?!<\/div>).)*' + value + '((?!<div).)*(\<(\/?[^>]+)div>)', 'ig');
-    var Wrap = "<div class='animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12'>";
+    var Wrap = "<div class='animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12'>";
     let m;
     while ((m = regex.exec(testx)) !== null) {
         // This is necessary to avoid infinite loops with zero-width matches

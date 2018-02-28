@@ -17,17 +17,13 @@
                 <h2 class="col-xs-12 form-group top_search">
                     Select a service to include it in your estimate.
                 </h2>
-                <div class="col-xs-12 col-lg-10 form-group top_search">
+                <div class="col-xs-12form-group top_search">
                     <div class="input-group">
                         <input class="form-control search-query" placeholder="Search check..." type="text">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">Go!</button>
                         </span>
                     </div>
-                </div>
-                <div class="col-xs-12 col-lg-2  calc_buttondiv">
-                    <button id="apply" class="calc_button ">Apply New</button>
-                    <button id="reset" class="calc_button " >Reset</button>
                 </div>
 
                 <div class="clearfix"></div>
@@ -45,6 +41,10 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="calc_buttondiv">
+                        <button id="apply" class="calc_button ">Apply New</button>
+                        <button id="reset" class="calc_button " >Reset</button>
+                    </div>
                 </div>
                 <!--<div class="clearfix"></div>-->
 
@@ -76,12 +76,12 @@
                             <td class="usd"></td>
                         </tr>                               
                     </tfoot>
-                </table>                
-
+                </table>
 
             </div>        
         </div>
     </div>
+
 
     <div   class="col-lg-10 col-md-9 ">
         <div id="hostcheck"  >
