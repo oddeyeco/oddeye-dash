@@ -79,7 +79,7 @@
     {
         input
         {
-            padding: 5px;
+            padding: 3px;
         }
         padding-right: 0px;
 
@@ -168,17 +168,19 @@
         opacity: 0.5;
     }
 }
-@media (min-width: 1200px) and (max-width: 1450px) {
+@media (min-width: 1200px) and (max-width: 1550px) {
     p {
         padding: 5000px;         /* chem haskanum xi bayc araji es stily@ chii tenum/; arajin grac cankacac elementi stily@ chi tenum*/
     }
-    .integration {
-        p {
+    .integration, .integration_select {
+        p, form {
             width: unset; 
             margin-left: 46px;
             margin-top: unset;
+            margin-bottom: unset;
             padding: 4px;
             line-height: 14px;
+            overflow: unset;
         }
         h3 {
             font-size: 19px
@@ -192,6 +194,10 @@
             width: 40px;
             top: 32px;
         }
+        form input {
+            height: 24px;
+            font-size: 12px;
+        }
     }
     height: unset;
 
@@ -204,8 +210,8 @@
 }
 
 @media (max-width: 425px) {
-    .integration {
-        p {
+    .integration, .integration_select {
+        p, form {
             width: unset;
             width: unset;
             margin-left: unset;
