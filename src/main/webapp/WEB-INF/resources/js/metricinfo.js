@@ -151,7 +151,7 @@ function getmetatags(key) {
         }
     });
 }
-var maetricrawHTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{lasttime}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-primary btn-xs clreg" value="{hash}"> Clear Regression </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
+var maetricrawHTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{firsttime}</a></td><td class="text-nowrap"><a>{lasttime}</a></td> <td class="text-nowrap"><a>{livedays}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-primary btn-xs clreg" value="{hash}"> Clear Regression </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa fa-trash-o"></i> Delete </a></td></tr>';
 var chartLinck = '<a href="' + cp + '/chart/{hash}" target="_blank"><i class="fa fa-area-chart" style="font-size: 18px;"></i></a>';
 function getmetrics(key, idvalue, id, draw) {
 
@@ -160,6 +160,7 @@ function getmetrics(key, idvalue, id, draw) {
     var html = maetricrawHTML;
     var url = cp + "/getmetrics?key=" + key + "&value=" + idvalue;
     $.getJSON(url, function (value) {
+//        console.log(value);
         var biginput = "";
         if (draw)
         {
@@ -187,6 +188,9 @@ function getmetrics(key, idvalue, id, draw) {
                 input = input.replace(new RegExp("{hash}", 'g'), JSON.stringify(metric.hash));
                 input = input.replace("{type}", JSON.stringify(metric.typename));
                 input = input.replace("{lasttime}", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));
+                input = input.replace("{firsttime}", moment(metric.inittime).format("YYYY-MM-DD HH:mm:ss"));
+                input = input.replace("{livedays}", metric.livedays);
+                
                 biginput = biginput + input;
             }
 
@@ -196,7 +200,7 @@ function getmetrics(key, idvalue, id, draw) {
                 "order": [[1, "asc"]],
                 'columnDefs': [{
                         'orderable': false,
-                        'targets': [0, 5] /* 1st one, start by the right */
+                        'targets': [0, 7] /* 1st one, start by the right */
                     }]});
 
             $("#" + id).find('td input.rawflat').iCheck({
@@ -273,7 +277,7 @@ $(document).ready(function () {
         $("#modall2").find(".modal-body").html("");
         var key = $(this).attr("key");
         var val = $(this).attr("value");
-        $("#modall2").find(".modal-body").append('<div id="listtablediv" class="table-responsive"><table id="listtable2" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%"><thead><tr><th><input type="checkbox" class="rawflat checkall" name="table_records"> <div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li></ul></div></th><th>Name</th><th>Tags</th><th>Type</th><th>Last time</th><th><a href="#" class="deletemetricgroup btn btn-danger btn-xs pull-right"><i class="fa fa-trash-o"></i> Delete selected</a></th></tr> </thead><tbody></tbody> </table></div>');
+        $("#modall2").find(".modal-body").append('<div id="listtablediv" class="table-responsive"><table id="listtable2" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%"><thead><tr><th><input type="checkbox" class="rawflat checkall" name="table_records"> <div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">Show Chart</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">Clear Regression</a></li></ul></div></th><th>Name</th><th>Tags</th><th>Type</th><th>First time</th> <th>Last time</th><th>Days</th><th><a href="#" class="deletemetricgroup btn btn-danger btn-xs pull-right"><i class="fa fa-trash-o"></i> Delete selected</a></th></tr> </thead><tbody></tbody> </table></div>');
         getmetrics(key, val, "listtable2", true);
         $("#listtable2 th input.checkall").iCheck({
             checkboxClass: 'icheckbox_flat-green',
@@ -360,7 +364,7 @@ $(document).ready(function () {
         var token = $("meta[name='_csrf']").attr("content");
 
         var url = cp + "/resetregression";
-        console.log(url);
+//        console.log(url);
         $.ajax({
             dataType: 'json',
             type: 'POST',
@@ -409,7 +413,7 @@ $(document).ready(function () {
             var token = $("meta[name='_csrf']").attr("content");
 
             var url = cp + "/resetregression";
-            console.log(url);
+//            console.log(url);
             $.ajax({
                 dataType: 'json',
                 type: 'POST',

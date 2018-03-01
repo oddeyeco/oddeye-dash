@@ -32,7 +32,7 @@
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
             <!-- font-awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css?v=${version}" />
-            
+
 
 
         </head>
@@ -69,13 +69,14 @@
             <!--<script src="../../assets/js/ie10-viewport-bug-workaround.js?v=${version}"></script>-->                            
             <!--iCheck--> 
             <script src="${cp}/resources/iCheck/icheck.min.js?v=${version}"></script>
+            <!--<script src="${cp}/resources/js/general.js?v=${version}"></script>-->
             <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    
             <script src="<c:url value="/assets/js/public.min.js?v=${version}"/>"></script>    
             <!-- moment.js -->
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>                    
             <script src="${cp}/resources/js/moment/moment-timezone-with-data.min.js?v=${version}"></script>        
             <script>
-                
+
                 (function (i, s, o, g, r, a, m) {
                     i['GoogleAnalyticsObject'] = r;
                     i[r] = i[r] || function () {
@@ -90,16 +91,48 @@
 
                 ga('create', 'UA-101325828-1', 'auto');
                 ga('send', 'pageview');
-                setTimeout("ga('send', 'event', '10 seconds', 'read')", 10000);            
-                window._mfq = window._mfq  || [];
-                (function() {                
+                setTimeout("ga('send', 'event', '10 seconds', 'read')", 10000);
+                window._mfq = window._mfq || [];
+                (function () {
                     var mf = document.createElement("script");
-                    mf.type = "text/javascript"; mf.async = true;
+                    mf.type = "text/javascript";
+                    mf.async = true;
                     mf.src = "//cdn.mouseflow.com/projects/56872595-6055-428f-99ba-9995277fc45c.js";
                     document.getElementsByTagName("head")[0].appendChild(mf);
-            })();    
-        </script>               
-
+                })();
+            </script>               
+            <!-- Facebook Pixel Code -->
+            <script>
+                !function (f, b, e, v, n, t, s)
+                {
+                    if (f.fbq)
+                        return;
+                    n = f.fbq = function () {
+                        n.callMethod ?
+                                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    };
+                    if (!f._fbq)
+                        f._fbq = n;
+                    n.push = n;
+                    n.loaded = !0;
+                    n.version = '2.0';
+                    n.queue = [];
+                    t = b.createElement(e);
+                    t.async = !0;
+                    t.src = v;
+                    s = b.getElementsByTagName(e)[0];
+                    s.parentNode.insertBefore(t, s)
+                }(window, document, 'script',
+                        'https://connect.facebook.net/en_US/fbevents.js');
+                fbq('init', '174049216706269');
+                fbq('track', 'PageView');
+            </script>
+            <noscript>
+            <img height="1" width="1" 
+                 src="https://www.facebook.com/tr?id=174049216706269&ev=PageView
+                 &noscript=1"/>
+            </noscript>
+            <!-- End Facebook Pixel Code -->
             <c:catch var="e">                
                 <c:if test="${!empty wraper}">                        
                     <c:import url="${wraper}js.jsp" />
@@ -111,5 +144,5 @@
             </c:catch>
         </body>
 
-</html>
+    </html>
 </compress:html>

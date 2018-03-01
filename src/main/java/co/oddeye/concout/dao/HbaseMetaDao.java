@@ -88,7 +88,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         scanner.setServerBlockCache(false);
 //        scanner.setMaxNumRows(10000);
         scanner.setFamily("d".getBytes());
-        final byte[][] Qualifiers = new byte[][]{"timestamp".getBytes(), "type".getBytes()};
+        final byte[][] Qualifiers = new byte[][]{"n".getBytes(), "timestamp".getBytes(), "type".getBytes()};
 
         scanner.setQualifiers(Qualifiers);
 
@@ -99,8 +99,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
                     for (KeyValue cell : row) {
                         if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                             OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+//                            if (metric.getTags().get("UUID").getValue().equals("9c9d4578-e47e-4e49-add2-0d258ac7b94b")) {
                             Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
                             fullmetalist.add(metric);
+//                            }
+
 //                            System.out.println(fullmetalist.size());
                         }
 
@@ -109,7 +112,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
             }
 
         } catch (Exception ex) {
-            LOGGER.error(globalFunctions.stackTrace(ex));       
+            LOGGER.error(globalFunctions.stackTrace(ex));
         } finally {
             scanner.close().join();
         }
@@ -256,7 +259,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         try {
             Deferred.groupInOrder(result).joinUninterruptibly();
         } catch (Exception ex) {
-            LOGGER.error(globalFunctions.stackTrace(ex));       
+            LOGGER.error(globalFunctions.stackTrace(ex));
             return false;
         }
         return true;

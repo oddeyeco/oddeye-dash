@@ -304,6 +304,8 @@ public class DefaultController {
                 newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);
+                Userdao.saveSineUpCookes(newUser,request.getCookies());
+                
 //                return redirecttodashboard();
                 map.put("body", "signupconfirm");
                 map.put("jspart", "signupconfirmjs");

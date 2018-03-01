@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
+import javax.servlet.http.Cookie;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,13 +157,35 @@ public class HbaseUserDao extends HbaseBaseDao {
         BaseTsdb.getClient().put(putlastname).join();
     }
 
+    public void saveSineUpCookes(OddeyeUserModel user, Cookie[] cookies) throws Exception {
+        if (cookies != null) {
+
+            ArrayList<byte[]> qlist = new ArrayList<>();
+            ArrayList<byte[]> vlist = new ArrayList<>();
+            for (Cookie cookie : cookies) {
+                
+                qlist.add(cookie.getName().getBytes());
+                vlist.add((cookie.getValue()).getBytes());
+            }
+            byte[][] qualifiers = new byte[qlist.size()][];
+            byte[][] values = new byte[vlist.size()][];
+            if (vlist.size() > 0) {
+                qualifiers = qlist.toArray(qualifiers);
+                values = vlist.toArray(values);
+                final PutRequest put = new PutRequest(table, user.getId().toString().getBytes(), "cookesinfo".getBytes(), qualifiers, values);
+                BaseTsdb.getClient().put(put);
+            }
+
+        }
+    }
+
     public List<OddeyeUserModel> getAllUsers() {
         return getAllUsers(false);
     }
 
     public Map<String, String> getAllUsersShort() {
         Map<String, String> list = new HashMap<>();
-        try {            
+        try {
             final Scanner scanner = BaseTsdb.getClient().newScanner(table);
             byte[][] qualifiers = new byte[2][];
             qualifiers[0] = "UUID".getBytes();
@@ -171,20 +194,20 @@ public class HbaseUserDao extends HbaseBaseDao {
             ArrayList<ArrayList<KeyValue>> rows;
             while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {
-                    String id="";
-                    String value="";                   
-                    for (KeyValue kv:row)
-                    {                        
-                        if (Arrays.equals(kv.qualifier(), qualifiers[0]))
+                    String id = "";
+                    String value = "";
+                    for (KeyValue kv : row) {
+                        if (Arrays.equals(kv.qualifier(), qualifiers[0])) {
                             id = new String(kv.value());
-                        if (Arrays.equals(kv.qualifier(), qualifiers[1]))
-                            value = new String(kv.value());                        
+                        }
+                        if (Arrays.equals(kv.qualifier(), qualifiers[1])) {
+                            value = new String(kv.value());
+                        }
                     }
-                    if ((!id.isEmpty())&&(!value.isEmpty()))
-                    {
+                    if ((!id.isEmpty()) && (!value.isEmpty())) {
                         list.put(id, value);
                     }
-                    
+
                 }
             }
         } catch (Exception ex) {
@@ -194,9 +217,9 @@ public class HbaseUserDao extends HbaseBaseDao {
         list.put("", "");
         LinkedHashMap<String, String> result = list.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,(oldValue, newValue) -> oldValue, LinkedHashMap::new));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (oldValue, newValue) -> oldValue, LinkedHashMap::new));
         list.clear();
-        
+
         list.putAll(result);
         return result;
     }
@@ -362,6 +385,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                 user = new OddeyeUserModel();
             }
             byte[] TsdbID;
+            if (userkvs.isEmpty())
+            {
+                return null;
+            }
             user.inituser(userkvs, this);
             try {
                 TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());

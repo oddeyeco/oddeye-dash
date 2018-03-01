@@ -448,6 +448,8 @@ public class AjaxControlers {
                     metricjson.addProperty("type", metric.getType());
                     metricjson.addProperty("typename", metric.getTypeName());
                     metricjson.addProperty("lasttime", metric.getLasttime());
+                    metricjson.addProperty("inittime", metric.getInittime());
+                    metricjson.addProperty("livedays", metric.getLivedays());
                     metric.getTags().entrySet().stream().filter((tag) -> (!tag.getValue().getKey().equals("UUID"))).forEachOrdered((tag) -> {
                         tagsjson.addProperty(tag.getValue().getKey(), tag.getValue().getValue());
                     });

@@ -18,6 +18,7 @@ import co.oddeye.concout.providers.UserConcurrentMessageListenerContainer;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import javax.servlet.http.Cookie;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -43,7 +45,6 @@ import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.listener.config.ContainerProperties;
@@ -122,6 +123,9 @@ public class OddeyeUserModel implements Serializable {
     @HbaseColumn(qualifier = "referal", family = "technicalinfo")
     private transient String sreferal;
 
+    @HbaseColumn(family = "cookesinfo")
+    private transient ArrayList<Cookie> cookies = new ArrayList<>();
+
     private Date sinedate;
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
@@ -188,6 +192,8 @@ public class OddeyeUserModel implements Serializable {
     public void inituser(ArrayList<KeyValue> userkvs, HbaseUserDao udao) {
         this.Userdao = udao;
         authorities.clear();
+        cookies.clear();
+
         userkvs.stream().map((property) -> {
             if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
                 this.id = UUID.fromString(new String(property.value()));
@@ -198,14 +204,14 @@ public class OddeyeUserModel implements Serializable {
             if (Arrays.equals(property.qualifier(), "referal".getBytes())) {
                 this.sreferal = new String(property.value());
                 try {
-                    UUID uuid = UUID.fromString(this.sreferal);                    
+                    UUID uuid = UUID.fromString(this.sreferal);
                     this.referal = this.Userdao.getUserByUUID(this.sreferal);
                 } catch (IllegalArgumentException exception) {
                     this.referal = null;
                     this.sreferal = null;
                     //handle the case where string is not valid UUID 
                 }
-                
+
             }
             return property;
         }).map((property) -> {
@@ -331,6 +337,13 @@ public class OddeyeUserModel implements Serializable {
                 }
             }
             return property;
+        }).map((KeyValue property) -> {
+            if (Arrays.equals(property.family(), "cookesinfo".getBytes())) {
+                String cname = new String(property.qualifier());
+                String cvalue = new String(property.value());
+                getCookies().add(new Cookie(cname, cvalue));
+            }
+            return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
             if (property.value().length == 1) {
                 this.active = property.value()[0] != (byte) 0;
@@ -343,24 +356,31 @@ public class OddeyeUserModel implements Serializable {
         if (AlertLevels == null) {
             AlertLevels = new AlertLevel(true);
         }
-// backdoor        
-        if (this.email.equals("vahan_a@mail.ru")) {
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_SUPERADMIN))) {
-                authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
-            }
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_ADMIN))) {
-                authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-            }
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_USERMANAGER))) {
-                authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-            }
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_DELETE))) {
-                authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
-            }
-            if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT))) {
-                authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
+// backdoor     
+        if (this.email != null) {
+            if (this.email.equals("vahan_a@mail.ru")) {
+                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_SUPERADMIN))) {
+                    authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
+                }
+                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_ADMIN))) {
+                    authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+                }
+                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_USERMANAGER))) {
+                    authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
+                }
+                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_DELETE))) {
+                    authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
+                }
+                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT))) {
+                    authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
+                }
             }
         }
+        else
+        {
+            System.out.println("co.oddeye.concout.model.OddeyeUserModel.inituser()");
+        }
+
     }
 
     /**
@@ -1100,4 +1120,19 @@ public class OddeyeUserModel implements Serializable {
     public void setSreferal(String sreferal) {
         this.sreferal = sreferal;
     }
+
+    /**
+     * @return the cookies
+     */
+    public ArrayList<Cookie> getCookies() {
+        return cookies;
+    }
+
+    /**
+     * @param cookies the cookies to set
+     */
+    public void setCookies(ArrayList<Cookie> cookies) {
+        this.cookies = cookies;
+    }
+
 }
