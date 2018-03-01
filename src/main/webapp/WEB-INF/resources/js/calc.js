@@ -111,7 +111,6 @@ var paint = function () {
 
         var _class = "tab";
         if (key === "system_check") {
-//            var _class = "active";
             $('#accordion').append('<div class="panel"><a class="panel-heading" role="tab" id="heading_' + key + '" data-toggle="collapse" data-parent="#accordion" href="#collapse_' + key + '" aria-expanded="true" aria-controls="collapse_' + key + '"><h4 class="panel-title">' + calc[key].text + ' (<span class="selectedcount">0</span>)</h4></a><div id="collapse_' + key + '" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_' + key + '" aria-expanded="true"><div class="panel-body"></div></div></div>');
         } else {
             $('#accordion').append('<div class="panel"><a class="panel-heading collapsed" role="tab" id="heading_' + key + '" data-toggle="collapse" data-parent="#accordion" href="#collapse_' + key + '" aria-expanded="false" aria-controls="collapse_' + key + '"><h4 class="panel-title">' + calc[key].text + ' (<span class="selectedcount">0</span>)</h4></a><div id="collapse_' + key + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_' + key + '" aria-expanded="false"><div class="panel-body"></div></div></div>');
@@ -168,7 +167,6 @@ $('body').on('click', '#apply', function () {
 
             } else {
                 $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><p>' + texts[id] + '</p></div></div>');
-//                    $("#" + instance_id + " .check").append('<div class="integration_select" calcparent="' + parent + '" calcid="' + id + '"><span class="intclose"><i class="fa fa-times" aria-hidden="true"></i></span><span><img alt="" src="' + calc[parent].childs[id]['src'] + '">' + calc[parent].childs[id]['name'] + '</span><p class="for_integration">' + calc[parent].childs[id]['text'] + '</p>');
             }
         }
     });
@@ -217,11 +215,6 @@ $('body').on('click', '.hostcheck .collapse-link', function () {
         item.parents('.hostcheck').find('.x_content').slideDown();
     }
 });
-//    $('body').on('click', '.hostcheck .fa-chevron-down', function () {
-//        $(this).removeClass('fa-chevron-down');
-//        $(this).addClass('fa-chevron-up');
-//        $(this).parents('.hostcheck').find('.x_content').slideDown();
-//    });
 $('body').on('click', '.clone', function () {
     var sinstance_id = 'check_' + instance_id;
     var clone = $(this).parents('.hostcheck').clone();
@@ -254,7 +247,6 @@ $('body').on('input', '.hostcheck input', function () {
     }, 500);
 });
 var whaittimer;
-
 $('body').on('keyup', '.search-query', function () {
     $('#accordion .panel:first-child').css("display", "block");
     $('#loading').css("display", "inline-block");
@@ -282,17 +274,14 @@ $('body').on('keyup', '.search-query', function () {
 $('body').on('change', '.checkbox', function () {
     doprice($(this).parents(".hostcheck"));
 });
-
 function search(value) {
     $('#collapseSearch .panel-body').html('');
     var i = 0;
     var wrapDiv = $("<div></div>");
-
     while (i <= $(".panel-body").length) {
         wrapDiv.append($($(".panel-body")[i]).html());
         i++;
     }
-
     var testx = wrapDiv.html();
     const regex = new RegExp('<div([^>\/]+)class="integration([^>\/]+)>((?!<\/div>).)*' + value + '((?!<div).)*(\<(\/?[^>]+)div>)', 'ig');
     var Wrap = "<div class='animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12'>";
@@ -312,17 +301,12 @@ function search(value) {
     {
         $('#headingSearch').trigger('click');
     }
-
-
 }
-
-
 function doprice(contener) {
     var applysum = 0;
     if (contener)
     {
         contener.find(".integration_select").each(function () {
-//            var applysum = 0;
             var sum = 0;
             var id = $(this).attr('calcid');
             var parent = $(this).attr('calcparent');
@@ -338,8 +322,6 @@ function doprice(contener) {
                         multinumber[$(this).attr('arrindes')] = $(this).val();
                     });
                 }
-
-
                 if (typeof (calc[parent].childs[id]['hasAll']) === "undefined")
                 {
                     if ($(this).find('.multi').length === 1)
@@ -355,7 +337,6 @@ function doprice(contener) {
                     }
                 } else
                 {
-
                     if (id === "check_cpustats")
                     {
                         if ($(this).find('.checkbox').prop('checked')) {
@@ -380,7 +361,6 @@ function doprice(contener) {
                             sum = calc[parent].childs[id]['count'];
                         }
                     }
-
                     if (id === "check_rabbitmq_368")
                     {
                         if ($(this).find('.checkbox').prop('checked')) {
@@ -395,10 +375,8 @@ function doprice(contener) {
                 sum = calc[parent].childs[id]['count'];
                 applysum = applysum + sum;
             }
-
         });
         var price = (contener.find('.host').val() * ((60 * 60 * 24 * 30) / contener.find('.sec').val()) * applysum * metricprice);
-//            contener.find('.total').html(applysum + " Merics");
         contener.find('.totalusd').html('~' + (price + price * pp / 100 + pf).toFixed(2) + " USD");
         var id = contener.attr('id');
         id = id.replace('check_', 'tr_');
@@ -440,7 +418,6 @@ $(document).ready(function () {
 });
 $(document).on('scroll', function () {
     winHeight = $(window).height();
-
     if ($(window).width() > 990) {
         if ($(document).scrollTop() >= $('#maincontener').offset().top && !$('#fullprice').hasClass("fixed")) {
             $("#fullprice").css("max-height", winHeight);
@@ -451,11 +428,9 @@ $(document).on('scroll', function () {
             $('#fullprice').removeClass("fixed");
         }
     }
-
     if ($(this).scrollTop() >= 500) {
         $('#return-to-top').fadeIn(200);
     } else {
         $('#return-to-top').fadeOut(200);
     }
-
 });
