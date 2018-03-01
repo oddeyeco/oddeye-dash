@@ -71,7 +71,8 @@
             <script src="${cp}/resources/iCheck/icheck.min.js?v=${version}"></script>
             <!--<script src="${cp}/resources/js/general.js?v=${version}"></script>-->
             <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    
-            <script src="<c:url value="/assets/js/public.min.js?v=${version}"/>"></script>    
+            <!--<script src="<c:url value="/assets/js/public.min.js?v=${version}"/>"></script>-->    
+            <script src="<c:url value="resources/js/public.js"/>"></script>
             <!-- moment.js -->
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>                    
             <script src="${cp}/resources/js/moment/moment-timezone-with-data.min.js?v=${version}"></script>        

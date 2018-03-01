@@ -9,7 +9,7 @@
 
 <div class="container body">
     <div class="main_container">
-        <div id="fix" class="col-md-3 left_col hidden-xs">
+        <div id="fix" class="col-md-3 left_col">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <a href="<c:url value="/"/>" >
@@ -34,22 +34,14 @@
         <div class="top_nav">
             <div class="nav_menu">
                 <nav class="nav navbar-default" role="navigation">
-                    <!--                    <div class="nav toggle">
-                                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                                        </div>-->
-
-                    <!--                    <ul class="nav navbar-nav navbar-right">
-                                            <li><a class="try-now" href="${cp}/signup/" >Try Now Free!</a></li>
-                                            <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
-                                        </ul>-->
-
-
                     <div class="container-fluid">
                         <div class="navbar-header">
                             <div class="visible-xs">
-                                <a href="https://www.oddeye.co/">
-                                    <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
-                                </a>
+                                <div class="toggle">
+                                    <a id="mobileLeftMenu">
+                                        <i class="fa fa-bars"></i>
+                                    </a>
+                                </div>
                             </div>
                             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                                 <span class="sr-only">Toggle navigation</span>
@@ -65,14 +57,10 @@
                             </ul>
                         </div> 
                     </div>
-
-
-
                 </nav>
             </div>
         </div>
         <!-- /top navigation -->
-
         <!-- page content -->
         <div class="right_col" role="main">                                                              
             <c:catch var="e">
@@ -84,7 +72,7 @@
         </div>
     </div>
 </div>
-                                
+
 <a href="#top" id="return-to-top"><i class="fa fa-angle-up"></i></a>
 
 <div id="loginModal" class="modal fade" role="dialog">

@@ -21,7 +21,17 @@ body {
     background-position: 50% 50%;
     background-image: url("../images/bkg.jpg");
 } 
-
+.toggle {
+    position: relative;
+    padding: 11px 16px;
+    width: unset;
+    #mobileLeftMenu {
+        padding: 0;
+        &:focus , &:hover{
+            color: #ddd;
+        }
+    }
+}
 #recaptcha
 {
     float: left;
@@ -173,6 +183,7 @@ body {
 }
 @media (min-width: 768px)
 {
+    
     .col-xs-12.logo
     {
         text-align: right;
@@ -219,7 +230,10 @@ body {
         position: absolute;  
         top: 30%; 
         width: 100%
-    }    
+    }   
+    
+    
+    
 }
 
 #wrapper {
@@ -265,7 +279,6 @@ body {
     }
     height: 100%
 }
-
 .nav
 {
     .navbar-nav
@@ -335,9 +348,9 @@ body {
 
 
 //Hovo
-.tabs-left, .tabs-right {
-    border-bottom: none;
-    padding-top: 2px;
+.tabs-left, .tabs-right { /////////////////////////////////////////////////////////////////////////////stexic minchev 429 ogtagorcvox class chka chgitem xi a Hovo grac verev@
+                          border-bottom: none;
+                          padding-top: 2px;
 }
 .tabs-left {
     border-right: 1px solid #ddd;
@@ -474,6 +487,10 @@ body {
 }
 
 @media (max-width: 767px) {
+    
+    #fix {
+        display: none;
+    }
     .nav-sm .container.body .right_col,.nav-sm .main_container .top_nav {
         margin-left: 0px; 
     }

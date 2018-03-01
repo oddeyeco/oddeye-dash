@@ -9,3 +9,15 @@ $(document).ready(function () {
         radioClass: 'iradio_flat-green'
     });
 });
+
+$('body').on('click', '#mobileLeftMenu', function () {
+    var elemWidth = $('#fix').outerWidth();
+    console.log("asd");
+//    $('#fix').css({height: '100%'});
+    $('#fix').css({height: '100%'});
+//    $("#fix, .toggle").animate({right: elemWidth})
+    $('#fix').toggle(function () {
+        $("#fix, .toggle").animate({right: elemWidth});
+        $("#fix, .toggle").animate({right: elemWidth});
+    });
+});

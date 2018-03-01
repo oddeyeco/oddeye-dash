@@ -108,15 +108,7 @@ $.getJSON(cp + '/getpayinfo', function (data) {
 });
 var paint = function () {
     for (var key in calc) {
-
-        var _class = "tab";
-        if (key === "system_check") {
-            $('#accordion').append('<div class="panel"><a class="panel-heading" role="tab" id="heading_' + key + '" data-toggle="collapse" data-parent="#accordion" href="#collapse_' + key + '" aria-expanded="true" aria-controls="collapse_' + key + '"><h4 class="panel-title">' + calc[key].text + ' (<span class="selectedcount">0</span>)</h4></a><div id="collapse_' + key + '" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading_' + key + '" aria-expanded="true"><div class="panel-body"></div></div></div>');
-        } else {
-            $('#accordion').append('<div class="panel"><a class="panel-heading collapsed" role="tab" id="heading_' + key + '" data-toggle="collapse" data-parent="#accordion" href="#collapse_' + key + '" aria-expanded="false" aria-controls="collapse_' + key + '"><h4 class="panel-title">' + calc[key].text + ' (<span class="selectedcount">0</span>)</h4></a><div id="collapse_' + key + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_' + key + '" aria-expanded="false"><div class="panel-body"></div></div></div>');
-        }
-        ;
-        //$('.tabs-left').append('<li id="tab_' + key + '" class="' + _class + '"><a href="#' + key + '" data-toggle="tab">' + calc[key].text + ' (<span class="selectedcount">0</span>)</a></li>');     // chi ashxatummmmm!!!!!!!!!!!!!!
+        $('#accordion').append('<div class="panel"><a class="panel-heading collapsed" role="tab" id="heading_' + key + '" data-toggle="collapse" data-parent="#accordion" href="#collapse_' + key + '" aria-expanded="false" aria-controls="collapse_' + key + '"><h4 class="panel-title">' + calc[key].text + ' (<span class="selectedcount">0</span>)</h4></a><div id="collapse_' + key + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_' + key + '" aria-expanded="false"><div class="panel-body"></div></div></div>');
         for (var t in calc[key].childs) {
             $("#collapse_" + key + " .panel-body").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration tile-stats" id="' + t + '"><span class="icon"><img alt="" src="' + calc[key].childs[t]['src'] + '"></span><h3>' + calc[key].childs[t]['name'] + '</h3><p>' + texts[t] + '</p></div></div>');
 
@@ -125,7 +117,7 @@ var paint = function () {
         $('#heading_' + key + " .selectedcount").text($('#collapse_' + key + ' .checked').length + "/" + $('#collapse_' + key + ' .integration').length); // es chi ashxatum 
         ;
     }
-    ;
+    $('#headingSearch').parents('.panel').next().find('.panel-heading').trigger('click');
 };
 var instance_id = 0;
 $('body').on('click', '#apply', function () {
@@ -255,10 +247,9 @@ $('body').on('keyup', '.search-query', function () {
         if ($('.search-query').val()) {
             search($('.search-query').val());
             $('#loading').css("display", "none");
-            if(!$('#collapseSearch .panel-body .animated').length) {
+            if (!$('#collapseSearch .panel-body .animated').length) {
                 $('#collapseSearch .panel-body').html('No results found for <b>' + $('.search-query').val() + '</b>');
             }
-
         } else
         {
             if ($("#collapseSearch").hasClass("in"))

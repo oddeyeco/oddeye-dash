@@ -12,7 +12,6 @@
                 <h1>Configure and estimate the costs for OddEye monitoring</h1>
                 <div class="clearfix"></div>
             </div>
-
             <div class="x_content ">
                 <h2 class="col-xs-12 form-group top_search">
                     Select a service to include it in your estimate.
@@ -25,7 +24,6 @@
                         </span>
                     </div>
                 </div>
-
                 <div class="clearfix"></div>
                 <div class="row">
                     <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
@@ -46,8 +44,7 @@
                         <button id="reset" class="calc_button " >Reset</button>
                     </div>
                 </div>
-                <!--<div class="clearfix"></div>-->
-
+                <div class="clearfix"></div>
             </div>
         </div>
     </div>
@@ -81,11 +78,8 @@
             </div>        
         </div>
     </div>
-
-
     <div   class="col-lg-10 col-md-9 ">
         <div id="hostcheck"  >
-
         </div>
     </div>
 </div>
