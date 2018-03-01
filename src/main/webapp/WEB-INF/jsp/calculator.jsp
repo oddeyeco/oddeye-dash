@@ -31,7 +31,7 @@
                     <div class="accordion" id="accordion" role="tablist" aria-multiselectable="true">
                         <div class="panel">
                             <a class="panel-heading collapsed" role="tab" id="headingSearch" data-toggle="collapse" data-parent="#accordion" href="#collapseSearch" aria-expanded="false" aria-controls="collapseTwo">
-                                <h4 class="panel-title">serach content</h4>
+                                <h4 class="panel-title">Search results <span id='loading' style="display: none" > ( Loading <img title='loading' src='/OddeyeCoconut/assets/images/loading.svg'> )</span></h4>
                             </a>
                             <div id="collapseSearch" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" aria-expanded="false" style="height: 0px;">
                                 <div class="panel-body">

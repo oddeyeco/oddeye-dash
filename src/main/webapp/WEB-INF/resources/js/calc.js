@@ -140,7 +140,7 @@ $('body').on('click', '#apply', function () {
             var parent = $(this).parents('.panel-collapse').attr('id').replace('collapse_', '');
             if (calc[parent].childs[id]['type'] === 'multi') {
                 if (calc[parent].childs[id]['hasAll']) {
-                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '"> ' + calc[parent].childs[id]['allText'] + '></div></form></div></div>');
+                    $("#" + sinstance_id + " .check").append('<div class="animated flipInY col-lg-3 col-md-6 col-sm-6 col-xs-12" ><div class="integration_select tile-stats" calcparent="' + parent + '" calcid="' + id + '"><ul class="nav navbar-right panel_toolbox"><li><a class="del-link"><i class="fa fa-close"></i></a></li></ul><span class="icon"><img alt="" src="' + calc[parent].childs[id]['src'] + '"></span><h3>' + calc[parent].childs[id]['name'] + '</h3><form><label>' + calc[parent].childs[id]['multiText'] + '</label> <div><input type="number" min="1" class="multi form-control" value="1"  ></div><div class="col-xs-8 check-wraper"><input type="checkbox" class="checkbox ' + id + '"> ' + calc[parent].childs[id]['allText'] + '</div></form></div></div>');
                     $('#' + sinstance_id + ' .check input.checkbox.' + id).on('ifChanged', function () {
                         doprice($(this).parents(".hostcheck"));
                     }).iCheck({
@@ -256,16 +256,24 @@ $('body').on('input', '.hostcheck input', function () {
 var whaittimer;
 
 $('body').on('keyup', '.search-query', function () {
+    $('#accordion .panel:first-child').css("display", "block");
+    $('#loading').css("display", "inline-block");
     clearTimeout(whaittimer);
     whaittimer = setTimeout(function () {
         if ($('.search-query').val()) {
             search($('.search-query').val());
+            $('#loading').css("display", "none");
+            if(!$('#collapseSearch .panel-body .animated').length) {
+                $('#collapseSearch .panel-body').html('No results found for <b>' + $('.search-query').val() + '</b>');
+            }
+
         } else
         {
             if ($("#collapseSearch").hasClass("in"))
             {
                 $('#headingSearch').trigger('click');
                 $('#collapseSearch .panel-body').html('');
+                $('#accordion .panel:first-child').css("display", "none");
             }
         }
         ;
