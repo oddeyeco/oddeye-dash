@@ -386,12 +386,6 @@ function doprice(contener) {
     $('#fullprice table tfoot #total td.usd').html(sumusd.toFixed(2));
 }
 ;
-$('#return-to-top').click(function (e) {
-    e.preventDefault();
-    $('body,html').animate({
-        scrollTop: 0
-    }, 500);
-});
 $(document).ready(function () {
     if ($(window).width() <= 990) {
         $("#fullprice").remove();
@@ -418,10 +412,5 @@ $(document).on('scroll', function () {
             $("#fullprice").css("max-height", winHeight);
             $('#fullprice').removeClass("fixed");
         }
-    }
-    if ($(this).scrollTop() >= 500) {
-        $('#return-to-top').fadeIn(200);
-    } else {
-        $('#return-to-top').fadeOut(200);
     }
 });
