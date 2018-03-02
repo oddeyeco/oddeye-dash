@@ -3,26 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+var whaittimer;
 $(document).ready(function () {
     $('input.flat').iCheck({
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
     });
-
     if ($(window).width() < 767) {
-        var isTrue = true;
-        var elem = $('#fix'), elemWidth = $('#fix').outerWidth();
-        elem.css({left: -elemWidth, display: 'block'});
+    var isTrue = true;
+        var elemFix = $('#fix'), elemFixWidth = $('#fix').outerWidth();
+        elemFix.css({left: -elemFixWidth, display: 'block'});
         $('body').on('click', '#mobileLeftMenu', function () {
-
-            console.log(isTrue);
             if (isTrue) {
-                $(".toggle").animate({left: elemWidth});
-                elem.animate({left: 0});
+                console.log(isTrue);
+                elemFix.addClass("showElemFix");
+                $(".toggle").animate({left: elemFixWidth});
+                elemFix.animate({left: 0});
                 isTrue = false;
             } else {
+                elemFix.removeClass("showElemFix");
                 $(".toggle").animate({left: 0});
-                elem.animate({left: -elemWidth});
+                elemFix.animate({left: -elemFixWidth});
                 isTrue = true;
             }
             ;
@@ -33,25 +34,22 @@ $(document).ready(function () {
                 scrollTop: 0
             }, 500);
         });
+        $("body").mouseup(function (e) {
+            if ((e.target.id !== elemFix.attr('id') && !elemFix.has(e.target).length) && (!(e.target.id === $('#mobileLeftMenu').attr('id')) && !($('#mobileLeftMenu').has(e.target).length)) ){
+                console.log(e.target);
+                elemFix.removeClass("showElemFix");
+                $(".toggle").animate({left: 0});
+                elemFix.animate({left: -elemFixWidth});
+                isTrue = true;
+            }
+        });
         $(document).on('scroll', function () {
-
             if ($(this).scrollTop() >= 500) {
                 $('#return-to-top').fadeIn(200);
             } else {
                 $('#return-to-top').fadeOut(200);
             }
-            elem.css({height: $(document).height()});
-            if ($(document).scrollTop() > $('.left_col').offset().top + $('#fix .side-menu').height()) {
-                console.log("if ashxatesc");
-
-                clearTimeout(whaittimer)
-                whaittimer = setTimeout(function () {
-
-                    $(".toggle").animate({left: 0});
-                    elem.animate({left: -elemWidth});
-                    var isTrue = true;
-                }, 1000);
-            }
+            elemFix.css({height: $(document).height()});
         });
     }
     ;
