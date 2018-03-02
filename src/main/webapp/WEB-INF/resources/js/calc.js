@@ -3,8 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
 var calc = {
     system_check: {text: "System Checks", childs: {
             check_oddeye: {count: 2, type: 'single', inclass: "checked", isbegin: true, text: "OddEye", src: '/OddeyeCoconut/assets/images/integration/oddeye.png', name: "OddEye"},
