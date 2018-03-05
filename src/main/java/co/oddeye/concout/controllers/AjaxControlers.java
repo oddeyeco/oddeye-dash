@@ -535,7 +535,7 @@ public class AjaxControlers {
                             }
                             ArrayList<Deferred<Object>> list = MetaDao.deleteMetaByList(MtrList, userDetails, KafkaLocalSender);
                             jsonResult.addProperty("sucsses", true);
-                            Deferred.groupInOrder(list).join();
+                            Deferred.groupInOrder(list).join();                            
                         } catch (Exception ex) {
                             jsonResult.addProperty("sucsses", false);
                             LOGGER.error(globalFunctions.stackTrace(ex));
