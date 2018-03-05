@@ -320,14 +320,15 @@ public class HbaseMetaDao extends HbaseBaseDao {
 
             final DeleteRequest req = new DeleteRequest(table, meta.getKey());
             try {
-                Callback<Object, Object> cb = new Callback<Object, Object>() {
-                    @Override
-                    public Object call(Object t) throws Exception {
-                        sk.run(user, "deletemetricbyhash", meta.hashCode());
-                        return t;
-                    }
-                };
-                result.add(client.delete(req).addCallback(cb));
+//                Callback<Object, Object> cb = new Callback<Object, Object>() {
+//                    @Override
+//                    public Object call(Object t) throws Exception {
+//                        sk.run(user, "deletemetricbyhash", meta.hashCode());
+//                        return t;
+//                    }
+//                };
+                result.add(client.delete(req));
+                sk.run(user, "deletemetricbyhash", meta.hashCode());
             } catch (Exception ex) {
                 Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
