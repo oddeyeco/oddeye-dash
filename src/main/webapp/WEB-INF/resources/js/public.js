@@ -27,12 +27,6 @@ $(document).ready(function () {
             }
             ;
         });
-        $('#return-to-top').click(function (e) {
-            e.preventDefault();
-            $('body,html').animate({
-                scrollTop: 0
-            }, 500);
-        });
         $("body").mouseup(function (e) {
             if ((e.target.id !== elemFix.attr('id') && !elemFix.has(e.target).length) && (!(e.target.id === $('#mobileLeftMenu').attr('id')) && !($('#mobileLeftMenu').has(e.target).length))) {
                 elemFix.removeClass("showElemFix");
@@ -45,6 +39,12 @@ $(document).ready(function () {
             elemFix.css({height: $(document).height()});
         });
     }
+    $('#return-to-top').click(function (e) {
+        e.preventDefault();
+        $('body,html').animate({
+            scrollTop: 0
+        }, 500);
+    });
     $(document).on('scroll', function () {
         if ($(this).scrollTop() >= 500) {
             $('#return-to-top').fadeIn(200);

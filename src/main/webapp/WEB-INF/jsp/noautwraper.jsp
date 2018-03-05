@@ -52,7 +52,7 @@
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">               
                             <ul class="nav navbar-nav navbar-right">
-                                <li><a a class="try-now" href="${cp}/signup/">Try Now Free!</a></li>                                        
+                                <li><a a class="try-now" href="${cp}/signup/">Try For Free!</a></li>                                        
                                 <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
                             </ul>
                         </div> 
