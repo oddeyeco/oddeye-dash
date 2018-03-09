@@ -2328,7 +2328,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         $("#row" + ri + " .rowcontent").sortable({
             cursor: "move",
             appendTo: ".rowcontent",
-            cancel: "canvas,input"
+            cancel: "canvas,input,.echart_line"
         });
 
 
@@ -2621,7 +2621,7 @@ $(document).ready(function () {
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
-        cancel: "canvas,input"
+        cancel: "canvas,input,.echart_line"
     });
     var rowdrag = false;
     if (getParameterByName("startdate"))
@@ -2670,7 +2670,7 @@ $(document).ready(function () {
         gdd.times.generalds[2] = (gdd.times.generalds[2] == 'true');
     }
     //&ds="+gdd.times.generalds
-    $("#dashcontent").on('sortstart', function (event, ui) {
+    $("#dashcontent").on('sortstart', function (event, ui) {        
         var ri = ui.item.index();
         for (var lri in gdd.rows)
         {
