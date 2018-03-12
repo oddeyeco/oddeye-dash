@@ -5,7 +5,11 @@
  */
 var test = false;
 var b = document.location.hostname.split(".");
-var host = "." + b[b.length - 2] + "." + b[b.length - 1];
+var host = b[b.length - 1];
+if (b[b.length - 2])
+{
+    host = "." + b[b.length - 2] + "." + b[b.length - 1];
+}
 if (!getCookie("feh"))
 {
     setCookie("feh", document.location.href, {domain: host, path: '/', expires: 50000000000});

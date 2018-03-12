@@ -66,7 +66,7 @@
         });
 
         var serie2 = clone_obg(defserie);
-        serie2.name = "Current hour data";
+        serie2.name = "Data of current hour";
         serie2.type = "line";
         serie2.data = chartsdata;
         serie2.xAxisIndex = 1;
@@ -75,7 +75,7 @@
 //        serie2.tooltip = {trigger: 'axis'};
         series.push(serie2);
         var serieLinereg = clone_obg(defserie);
-        serieLinereg.name = "Predict by Regression";
+        serieLinereg.name = "Predicted by Regression";
         serieLinereg.type = "line";
         serieLinereg.data = p_data;
         serieLinereg.xAxisIndex = 1;
@@ -92,7 +92,7 @@
         serie.itemStyle = {normal: {borderColor: colorPalette[2], color: "rgba(200, 200, 200, 0.7)", borderWidth: 4}};
         series.push(serie);
         serie = clone_obg(serie);
-        legend = ["Rule info", "Predict by Regression", "Current hour data"];
+        legend = ["Rule info", "Predicted by regression", "Data of current hour"];
         echartLine.setOption({
             title: {
                 text: ""

@@ -32,10 +32,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @PropertySource("file:/etc/oddeye/dash.properties")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${sesion.cookie.name}")
-    private String cookiename;
-    @Value("${sesion.cookie.value}")
-    private String cookievalue;
+//    @Value("${sesion.cookie.name}")
+//    private String cookiename;
+//    @Value("${sesion.cookie.value}")
+//    private String cookievalue;
     
     
 //    @Autowired
