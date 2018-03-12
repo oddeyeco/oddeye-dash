@@ -240,25 +240,37 @@ var whaittimer;
 $('body').on('keyup', '.search-query', function () {
     $('#accordion .panel:first-child').css("display", "block");
     $('#loading').css("display", "inline-block");
-    clearTimeout(whaittimer);
-    whaittimer = setTimeout(function () {
-        if ($('.search-query').val()) {
-            search($('.search-query').val());
-            $('#loading').css("display", "none");
-            if (!$('#collapseSearch .panel-body .animated').length) {
-                $('#collapseSearch .panel-body').html('No results found for <b>' + $('.search-query').val() + '</b>');
-            }
-        } else
-        {
-            if ($("#collapseSearch").hasClass("in"))
+    if ($('.search-query').val()) {
+        clearTimeout(whaittimer);
+        whaittimer = setTimeout(function () {
+            if ($('.search-query').val()) {
+                search($('.search-query').val());
+                $('#loading').css("display", "none");
+                if (!$('#collapseSearch .panel-body .animated').length) {
+                    $('#collapseSearch .panel-body').html('No results found for <b>' + $('.search-query').val() + '</b>');
+                }
+            } else
             {
-                $('#headingSearch').trigger('click');
-                $('#collapseSearch .panel-body').html('');
-                $('#accordion .panel:first-child').css("display", "none");
+                if ($("#collapseSearch").hasClass("in"))
+                {
+                    $('#headingSearch').trigger('click');
+                    $('#collapseSearch .panel-body').html('');
+                    $('#accordion .panel:first-child').css("display", "none");
+                }
             }
+            ;
+        }, 1000);
+    } else {
+        $('#loading').css("display", "none");
+        if ($("#collapseSearch").hasClass("in"))
+        {
+            $('#headingSearch').trigger('click');
+            $('#collapseSearch .panel-body').html('');
+            $('#accordion .panel:first-child').css("display", "none");
         }
         ;
-    }, 1000);
+    }
+    ;
 });
 $('body').on('change', '.checkbox', function () {
     doprice($(this).parents(".hostcheck"));
