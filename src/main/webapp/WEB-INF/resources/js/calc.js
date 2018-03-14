@@ -69,7 +69,7 @@ var calc = {
             check_cassandra3: {count: 23, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', name: "Cassandra 3"},
             check_riak: {count: 10/*?????*/, type: 'single', text: "Riak", src: '/OddeyeCoconut/assets/images/integration/Riak.png', name: "Riak"}
         }},
-    hadoop_check: {text: "Distributed mananger", childs: {
+    hadoop_check: {text: "Distributed manager", childs: {
             check_zookeeper: {count: 11, type: 'single', text: "Zookeeper", src: '/OddeyeCoconut/assets/images/integration/Zookeeper.png', name: "Zookeeper"},
             check_mesos_master: {count: 32, type: 'single', text: "Mesos master", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Master"},
             check_mesos_slave: {count: 20, type: 'single', text: "Mesos slave", src: '/OddeyeCoconut/assets/images/integration/Mesos.png', name: "Mesos Slave"}
