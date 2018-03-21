@@ -75,7 +75,7 @@
 //        serie2.tooltip = {trigger: 'axis'};
         series.push(serie2);
         var serieLinereg = clone_obg(defserie);
-        serieLinereg.name = "Predicted by Regression";
+        serieLinereg.name = "Predicted by regression";
         serieLinereg.type = "line";
         serieLinereg.data = p_data;
         serieLinereg.xAxisIndex = 1;
