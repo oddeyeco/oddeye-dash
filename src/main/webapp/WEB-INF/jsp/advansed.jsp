@@ -3,8 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css?v=${version}" rel="stylesheet">
 <div class="page-title">
-    <div class="title_left">
-        <h3>Alert Information </h3>
+    <div class="title_right">
+        <h3>Event by "${Error.getName()} at <fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.getTimezone()}" detail</h3>
     </div>
 </div>
 

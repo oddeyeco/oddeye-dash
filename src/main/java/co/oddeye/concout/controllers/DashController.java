@@ -141,7 +141,7 @@ public class DashController {
 //            map.put("initmetric", taglist);
 
         }
-
+        map.put("htitle", "Infrastructure visualization");
         map.put("body", "infrastructure");
         map.put("jspart", "infrastructurejs");
         map.put("title", "My Infrastructure");
@@ -184,6 +184,7 @@ public class DashController {
         map.put("paypal_email", paypal_email);
         map.put("paypal_returnurl", paypal_returnurl);
         map.put("paypal_notifyurl", paypal_notifyurl);
+        map.put("htitle", "Dashboards");
         map.put("body", "dashboards");
         map.put("jspart", "dashboardsjs");
         return "index";
@@ -234,6 +235,7 @@ public class DashController {
             }
             map.put("activeuser", userDetails);
             map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
+            map.put("htitle", "Dashboard" + (userDetails.getDushList().size() + 1));
             map.put("title", "New Dashboard");
         }
 
@@ -278,6 +280,7 @@ public class DashController {
             }
             map.put("activeuser", userDetails);
             map.put("dashname", dashname);
+            map.put("htitle", dashname);
             map.put("title", dashname);
             map.put("dashInfo", userDetails.getDush(dashname));
             map.put("body", "dashboard");

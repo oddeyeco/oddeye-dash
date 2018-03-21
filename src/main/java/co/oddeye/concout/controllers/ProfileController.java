@@ -103,12 +103,12 @@ public class ProfileController {
                     map.put("activeuser", userDetails.getSwitchUser());
                 }
             }
-            map.put("title", "MyProfile");
+            map.put("title", "My Account");
 
         } else {
             layaut = "indexPrime";
         }
-
+        map.put("htitle", "Account Detail");
         map.put("body", "profile");
         map.put("jspart", "profilejs");
 
@@ -259,13 +259,13 @@ public class ProfileController {
                     map.put("newuserdata", userDetails.getSwitchUser());
                 }
             }
-            map.put("title", "Edit Profile");
+            map.put("title", "Change Profile");
             DefaultController.setLocaleInfo(map);
 
         } else {
             layaut = "indexPrime";
         }
-
+        map.put("htitle", "Account control");
         map.put("body", "profileedit");
         map.put("jspart", "profileeditjs");
         map.put("tab", "general-tab");

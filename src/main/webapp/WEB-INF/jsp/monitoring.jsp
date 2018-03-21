@@ -1,12 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<div class="clearfix"></div>
-<div class="page-title">
-    <div class="title_text">
-        <h2>Real Time monitor (UUID = ${curentuser.getId().toString()})</h2>
-    </div>
-</div>    
 <div class="alert alert-danger alert-dismissible collapse " id="manyalert" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>

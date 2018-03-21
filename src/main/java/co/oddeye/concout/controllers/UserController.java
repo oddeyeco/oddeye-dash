@@ -126,7 +126,7 @@ public class UserController {
                     getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
-            map.put("title", "Real Time monitoring");
+            map.put("title", "Real-Time Monitor");
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
@@ -163,6 +163,7 @@ public class UserController {
         }
         Random rand = new Random();
         map.put("_sotoken", rand.nextInt(90000) + 10000);
+        map.put("htitle", "Real-Time Monitor");
         map.put("body", "monitoring");
         map.put("jspart", "monitoringjs");
 
@@ -427,7 +428,7 @@ public class UserController {
             }
 
         }
-
+        map.put("htitle", "Detailing analytics");
         map.put("body", "errorsanalysis");
         map.put("jspart", "errorsanalysisjs");
 

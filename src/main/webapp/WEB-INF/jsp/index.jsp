@@ -172,9 +172,10 @@
                                 <div class="nav toggle">
                                     <a id="menu_toggle"><i class="fa fa-bars"></i></a>
                                 </div>
-
+                                <div class="nav nav-pagetitle">
+                                    <h1 class="pagetitle">${htitle} </h1>
+                                </div>
                                 <ul class="nav navbar-nav navbar-right">
-
                                     <li class="">                                        
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <c:if test="${curentuser.getSwitchUser()==null}">

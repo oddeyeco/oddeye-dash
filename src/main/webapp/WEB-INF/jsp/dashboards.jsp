@@ -10,9 +10,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <div class="row">
-    <div class="page-title"><div class="title_left"><h1>Dashboards</h1></div></div>
-</div>
-<div class="row">
     <div class="col-md-8">
         <div class="x_panel">    
             <div class="x_title">
