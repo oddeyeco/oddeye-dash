@@ -154,7 +154,7 @@
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                alert("Message Sended ");
+               location.reload();
             } else
             {
                 alert("Request failed");

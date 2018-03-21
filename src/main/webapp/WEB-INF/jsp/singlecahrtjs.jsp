@@ -57,7 +57,7 @@
             }).done(function (msg) {
                 if (msg.sucsses)
                 {
-                    alert("Message Sended ");
+                    setTimeout(function (){location.reload();}, 1000);
                 } else
                 {
                     alert("Request failed");

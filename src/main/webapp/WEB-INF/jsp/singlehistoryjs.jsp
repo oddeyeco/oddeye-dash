@@ -12,6 +12,7 @@
 <script>
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};
+    var hashcode = ${metric.hashCode()};
 
     $(document).ready(function () {
         var series = {
@@ -131,4 +132,31 @@
         });
     });
     window.onresize = echartLine.resize;
+
+    $('body').on("click", "#Clear_reg", function () {
+        var sendData = {};
+        sendData.hash = hashcode;
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        url = cp + "/resetregression";
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                setTimeout(function (){location.reload();}, 1000);
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
+    });
 </script>

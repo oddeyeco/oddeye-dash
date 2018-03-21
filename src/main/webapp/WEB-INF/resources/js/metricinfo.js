@@ -376,7 +376,7 @@ $(document).ready(function () {
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                console.log("Message Sended ");
+                location.reload();
             } else
             {
                 console.log("Request failed");
@@ -425,7 +425,7 @@ $(document).ready(function () {
             }).done(function (msg) {
                 if (msg.sucsses)
                 {
-                    console.log("Message Sended ");
+                    setTimeout(function (){location.reload();}, 1000);
                 } else
                 {
                     console.log("Request failed");

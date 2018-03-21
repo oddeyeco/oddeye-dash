@@ -122,6 +122,7 @@ public class dataControlers {
     
     @RequestMapping(value = "/history/{metricshash}/{date}", method = RequestMethod.GET)
     public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash, @PathVariable(value = "date") Long date, ModelMap map) {
+        map.put("h1title", "Messages hostory");
         map.put("body", "singlehistory");
         map.put("jspart", "singlehistoryjs");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
