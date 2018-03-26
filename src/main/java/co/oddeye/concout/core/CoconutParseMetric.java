@@ -119,7 +119,7 @@ public class CoconutParseMetric {
                 } catch (Exception e) {
                     LOGGER.error("Exception: " + globalFunctions.stackTrace(e));
                     LOGGER.error("Exception Wits Metriq: " + Metric);
-                    LOGGER.error("Exception Wits Input: " + msg);
+                    LOGGER.info("Exception Wits Input: " + msg);
                 }
 
             }
@@ -173,7 +173,7 @@ public class CoconutParseMetric {
         } catch (Exception e) {
             LOGGER.error("Exception: " + globalFunctions.stackTrace(e));
             LOGGER.error("Exception Wits Metriq: " + Metric);
-            LOGGER.error("Exception Wits Input: " + msg);
+            LOGGER.info("Exception Wits Input: " + msg);
         }
         return null;
     }
@@ -222,7 +222,7 @@ public class CoconutParseMetric {
                 } catch (Exception e) {
                     LOGGER.error("Exception: " + globalFunctions.stackTrace(e));
                     LOGGER.error("Exception Wits Metriq: " + Metric);
-                    LOGGER.error("Exception Wits Input: " + msg);
+                    LOGGER.info("Exception Wits Input: " + msg);
                 }
 
             }
