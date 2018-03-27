@@ -9,7 +9,6 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeeyMetricMetaList;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
-import com.google.gwt.user.client.ui.Tree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.opentsdb.core.TSDB;
@@ -33,11 +33,11 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     private static final long serialVersionUID = 465895478L;
     static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
 
-    private final Map<String, Map<String, Integer>> TagsList = new HashMap<>();
+    private final Map<String, Map<String, Integer>> TagsList = new ConcurrentHashMap<>();
     private final Set<Integer> Taghashlist = new HashSet<>();
-    private final Map<String, Integer> RegularNameMap = new HashMap<>();
-    private final Map<String, Integer> SpecialNameMap = new HashMap<>();
-    private final Map<String, Integer> NameMap = new HashMap<>();
+    private final Map<String, Integer> RegularNameMap = new ConcurrentHashMap<>();
+    private final Map<String, Integer> SpecialNameMap = new ConcurrentHashMap<>();
+    private final Map<String, Integer> NameMap = new ConcurrentHashMap<>();
 
     public ConcoutMetricMetaList() {
         super();
@@ -59,7 +59,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         if (!this.containsKey(e.hashCode())) {
             OddeeyMetricMeta result = super.add(e);
             getTaghashlist().add(e.getTags().hashCode());
-            for (Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
+            for (Map.Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
                 try {
                     if (!tag.getKey().equals("UUID")) {
                         if (getTagsList().containsKey(tag.getKey())) {
@@ -69,7 +69,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                             }
                             getTagsList().get(tag.getKey()).put(tag.getValue().getValue(), count);
                         } else {
-                            Map<String, Integer> keyset = new TreeMap<>();
+                            Map<String, Integer> keyset = new ConcurrentHashMap<>(); //TreeMap<>();
                             keyset.put(tag.getValue().getValue(), 1);
                             getTagsList().put(tag.getKey(), keyset);
                         }
@@ -145,7 +145,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             RegularNameMap.put(obg.getName(), count);
         }
 
-        for (Entry<String, OddeyeTag> tag : obg.getTags().entrySet()) {
+        for (Map.Entry<String, OddeyeTag> tag : obg.getTags().entrySet()) {
             if (!tag.getKey().equals("UUID")) {
                 if (getTagsList().containsKey(tag.getKey())) {
                     if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
@@ -217,7 +217,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             try {
                 boolean sucsses = true;
-                for (Entry<String, String> tag : tagsMap.entrySet()) {
+                for (Map.Entry<String, String> tag : tagsMap.entrySet()) {
                     if (!tag.getValue().equals("*")) {
                         Pattern r = Pattern.compile(tag.getValue());
                         Matcher m = r.matcher(MetricMeta.getValue().getTags().get(tag.getKey()).getValue());
