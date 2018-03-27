@@ -251,13 +251,14 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     }
 
     public void updateIndexes() {
+        getTagsList().clear();
         this.entrySet().forEach((e) -> {
             updateIndex(e.getValue());
         });
     }
 
     public void updateIndex(OddeeyMetricMeta e) {
-        Integer count;
+        Integer count;        
         getTaghashlist().add(e.getTags().hashCode());
         for (Map.Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
             try {
