@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.opentsdb.core.TSDB;
@@ -33,11 +32,11 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     private static final long serialVersionUID = 465895478L;
     static final Logger LOGGER = LoggerFactory.getLogger(ConcoutMetricMetaList.class);
 
-    private final Map<String, Map<String, Integer>> TagsList = new ConcurrentHashMap<>();
+    private final Map<String, Map<String, Integer>> TagsList = new HashMap<>();
     private final Set<Integer> Taghashlist = new HashSet<>();
-    private final Map<String, Integer> RegularNameMap = new ConcurrentHashMap<>();
-    private final Map<String, Integer> SpecialNameMap = new ConcurrentHashMap<>();
-    private final Map<String, Integer> NameMap = new ConcurrentHashMap<>();
+    private final Map<String, Integer> RegularNameMap = new HashMap<>();
+    private final Map<String, Integer> SpecialNameMap = new HashMap<>();
+    private final Map<String, Integer> NameMap = new HashMap<>();
 
     public ConcoutMetricMetaList() {
         super();
@@ -55,55 +54,9 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
     @Override
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
-        Integer count;
         if (!this.containsKey(e.hashCode())) {
             OddeeyMetricMeta result = super.add(e);
-            getTaghashlist().add(e.getTags().hashCode());
-            for (Map.Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
-                try {
-                    if (!tag.getKey().equals("UUID")) {
-                        if (getTagsList().containsKey(tag.getKey())) {
-                            count = 1;
-                            if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
-                                count = getTagsList().get(tag.getKey()).get(tag.getValue().getValue()) + 1;
-                            }
-                            getTagsList().get(tag.getKey()).put(tag.getValue().getValue(), count);
-                        } else {
-                            Map<String, Integer> keyset = new ConcurrentHashMap<>(); //TreeMap<>();
-                            keyset.put(tag.getValue().getValue(), 1);
-                            getTagsList().put(tag.getKey(), keyset);
-                        }
-                    }
-                } catch (Exception ex) {
-                    LOGGER.error(globalFunctions.stackTrace(ex));
-                    LOGGER.warn("Add metric "+e.hashCode()+" Error for tag \"" + tag.getKey() + "\" vs tags " + e.getTags());
-                }
-
-            }
-            count = 1;
-            if (NameMap.containsKey(e.getName())) {
-                count = NameMap.get(e.getName()) + 1;
-            }
-            NameMap.put(e.getName(), count);
-
-            if (e.isSpecial()) {
-                count = 1;
-                if (SpecialNameMap.containsKey(e.getName())) {
-                    count = SpecialNameMap.get(e.getName()) + 1;
-                }
-                SpecialNameMap.put(e.getName(), count);
-            } else {
-                count = 1;
-                if (RegularNameMap.containsKey(e.getName())) {
-                    count = RegularNameMap.get(e.getName()) + 1;
-                }
-                RegularNameMap.put(e.getName(), count);
-            }
-//            if (this.containsKey(e.hashCode())) {
-//                ConcoutMetricMetaList.LOGGER.info("OddeeyMetricMeta vs hashcode " + e.hashCode() + " Is exist ");
-//                LOGGER.info("OddeeyMetricMeta vs hashcode e infa " + e.getName() + " tags " + e.getTags());
-//                LOGGER.info("OddeeyMetricMeta vs hashcode c infa " + this.get(e.hashCode()).getName() + " tags " + this.get(e.hashCode()).getTags());
-//            }
+            updateIndex(e);
             return result;
         } else {
             return this.replace(e.hashCode(), e);
@@ -200,16 +153,16 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public Map<String, Map<String, Integer>> getTagsList() {
         return TagsList;
     }
-    
+
     public Map<String, Map<String, Integer>> getTagsListSorted() {
         return new TreeMap<String, Map<String, Integer>>(TagsList);
-    }    
-    
+    }
+
     public List<String> getTagsKeysSort() {
-        List<String> keys =new ArrayList<>(TagsList.keySet()) ;
+        List<String> keys = new ArrayList<>(TagsList.keySet());
         Collections.sort(keys);
         return keys;
-    }    
+    }
 
     public ConcoutMetricMetaList getbyTags(Map<String, String> tagsMap, String filter) {
         ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
@@ -297,4 +250,54 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         return new TreeMap<>(RegularNameMap);
     }
 
+    public void updateIndexes() {
+        this.entrySet().forEach((e) -> {
+            updateIndex(e.getValue());
+        });
+    }
+
+    public void updateIndex(OddeeyMetricMeta e) {
+        Integer count;
+        getTaghashlist().add(e.getTags().hashCode());
+        for (Map.Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
+            try {
+                if (!tag.getKey().equals("UUID")) {
+                    if (getTagsList().containsKey(tag.getKey())) {
+                        count = 1;
+                        if (getTagsList().get(tag.getKey()).containsKey(tag.getValue().getValue())) {
+                            count = getTagsList().get(tag.getKey()).get(tag.getValue().getValue()) + 1;
+                        }
+                        getTagsList().get(tag.getKey()).put(tag.getValue().getValue(), count);
+                    } else {
+                        Map<String, Integer> keyset = new TreeMap<>(); //TreeMap<>();
+                        keyset.put(tag.getValue().getValue(), 1);
+                        getTagsList().put(tag.getKey(), keyset);
+                    }
+                }
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+                LOGGER.warn("Add metric " + e.hashCode() + " Error for tag \"" + tag.getKey() + "\" vs tags " + e.getTags());
+            }
+
+        }
+        count = 1;
+        if (NameMap.containsKey(e.getName())) {
+            count = NameMap.get(e.getName()) + 1;
+        }
+        NameMap.put(e.getName(), count);
+
+        if (e.isSpecial()) {
+            count = 1;
+            if (SpecialNameMap.containsKey(e.getName())) {
+                count = SpecialNameMap.get(e.getName()) + 1;
+            }
+            SpecialNameMap.put(e.getName(), count);
+        } else {
+            count = 1;
+            if (RegularNameMap.containsKey(e.getName())) {
+                count = RegularNameMap.get(e.getName()) + 1;
+            }
+            RegularNameMap.put(e.getName(), count);
+        }
+    }
 }
