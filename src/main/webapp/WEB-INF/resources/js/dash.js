@@ -3037,7 +3037,9 @@ $(document).ready(function () {
             }
         }
 
-        var ri = $(this).index();
+        var ri = $(this).attr("index");
+        console.log(ri);
+        console.log(gdd.rows[ri]);
         gdd.rows[ri] = dasheditor.get();
         redrawAllJSON(gdd);
         $("#showjson").modal('hide');
