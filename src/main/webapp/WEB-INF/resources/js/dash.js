@@ -333,9 +333,9 @@ var queryCallback = function (inputdata) {
                             if (data.chartsdata[index].data.length > 0)
                             {
                                 var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                                if (widget.options.title)
+                                if (widget.title)
                                 {
-                                    var name2 = widget.options.title.text;
+                                    var name2 = widget.title.text;
                                 }
 
                                 if (typeof (widget.q[q_index].info) !== "undefined")
@@ -450,9 +450,9 @@ var queryCallback = function (inputdata) {
                                         case 'line':
                                         {
                                             var tmptitle = false
-                                            if (widget.options.title)
+                                            if (widget.title)
                                             {
-                                               tmptitle = widget.options.title.text;
+                                               tmptitle = widget.title.text;
                                             }
                                             series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
                                             break;
@@ -3102,9 +3102,9 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
         if (gdd.rows[ri].widgets[wi].options)
         {
-            if (gdd.rows[ri].widgets[wi].options.title)
+            if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + gdd.rows[ri].widgets[wi].options.title.text + " ?");
+                $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + gdd.rows[ri].widgets[wi].title.text + " ?");
             } else
             {
                 $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + wi + " ?");
@@ -3373,11 +3373,11 @@ $(document).ready(function () {
         var single_wi = $(this).parents(".chartsection").index();
         var csvarray = [];
         var filename = "chart";
-        if (gdd.rows[single_ri].widgets[single_wi].options.title)
-            if (gdd.rows[single_ri].widgets[single_wi].options.title.text)
+        if (gdd.rows[single_ri].widgets[single_wi].title)
+            if (gdd.rows[single_ri].widgets[single_wi].title.text)
             {
-                csvarray.push([gdd.rows[single_ri].widgets[single_wi].options.title.text]);
-                filename = gdd.rows[single_ri].widgets[single_wi].options.title.text;
+                csvarray.push([gdd.rows[single_ri].widgets[single_wi].title.text]);
+                filename = gdd.rows[single_ri].widgets[single_wi].title.text;
             }
 
         if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
