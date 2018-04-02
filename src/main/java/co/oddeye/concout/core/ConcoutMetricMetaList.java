@@ -252,6 +252,9 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     //Gidem lav chi
     public void updateIndexes() {
         getTagsList().clear();
+        NameMap.clear();
+        SpecialNameMap.clear();
+        RegularNameMap.clear();
         this.entrySet().forEach((e) -> {
             updateIndex(e.getValue());
         });
