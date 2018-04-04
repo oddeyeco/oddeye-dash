@@ -42,12 +42,12 @@ function realtimeconnect(head)
     stompClient.debug = null;
     stompClient.connect(head,
             function (frame) {
-                console.log("connect OK");
+                console.log("monitor connected");
                 stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', aftersubscribe);
 //                console.log(frame);
             },
             function (message) {
-                console.log("connect fail Do reconnect");
+                console.log("can not connect");
                 realtimeconnect(head);
             });
 }

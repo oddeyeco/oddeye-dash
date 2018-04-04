@@ -46,6 +46,7 @@ function globalconnect(head)
     globalstompClient.debug = null;
 
     globalstompClient.connect(head, function (frame) {
+        console.log("stomp connected");
         globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
             var event = JSON.parse(message.body);
             switch (event.action) {
@@ -94,8 +95,8 @@ function globalconnect(head)
         globalstompClient.subscribe('/all/info', function (message) {
             //TODO
         });
-    }, function (frame) {
-        console.log("global connect fail Do reconnect");
+    }, function (frame) {        
+        console.log("stomp can not connect");
         globalconnect(head);
     });
 }
