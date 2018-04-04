@@ -62,13 +62,13 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
         if (event.getMessage().getHeaders().get("simpUser")==null)
         {
-            LOGGER.error("simpUser is null");
+            LOGGER.info("simpUser is null");
             return;
         }
         
         if (((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()==null)
         {
-            LOGGER.error("getPrincipal is null");
+            LOGGER.info("getPrincipal is null");
             return;
         } 
         

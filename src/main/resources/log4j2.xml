@@ -40,7 +40,7 @@
         <!--<Logger name="org.hibernate.SQL" level="debug"/>-->
         <Logger name="org.springframework" level="warn"/>
         <Logger name="com.gargoylesoftware.htmlunit" level="error"/>
-        <Logger name="co.oddeye" level="debug"/>        
+        <!--<Logger name="co.oddeye" level="debug"/>-->        
         <Logger name="co.oddeye.concout.providers.HbaseAuthenticationProvider" level="debug">      
             <AppenderRef ref="oddeyelogin" />               
         </Logger>    
