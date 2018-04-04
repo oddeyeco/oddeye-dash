@@ -9,7 +9,7 @@
 var globalsocket;
 var globalstompClient;
 var headers = {};
-headers[headerName] = token;
+//headers[headerName] = token;
 headers["page"] = document.URL;
 
 globalconnect(headers);
