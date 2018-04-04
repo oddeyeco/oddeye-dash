@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>oddeye.concout</groupId>
     <artifactId>OddeyeCoconut</artifactId>
-    <version>0.7.3</version>
+    <version>0.7.5</version>
     <packaging>war</packaging>
     <name>OddeyeCoconut</name>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.3.12.RELEASE</spring.version>
-        <springsecurity.version>4.2.3.RELEASE</springsecurity.version>
+        <spring.version>5.0.4.RELEASE</spring.version>
+        <springsecurity.version>5.0.3.RELEASE</springsecurity.version>
     </properties>    
     <dependencies>
         <dependency>
@@ -63,6 +63,12 @@
             <groupId>co.oddeye</groupId>
             <artifactId>oddeye-core</artifactId>
             <version>0.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
@@ -209,27 +215,52 @@
             <version>${springsecurity.version}</version>
         </dependency> 
 
-        <dependency>
+        <!--        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             <version>1.7.25</version>
             <scope>runtime</scope>
-        </dependency>                                  
-        <dependency>
+        </dependency>                                  -->
+        <!--        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.25</version>
-        </dependency>           
-        <dependency>
+        </dependency>           -->
+        <!--        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.25</version>
-        </dependency>        
-        <dependency>
+        </dependency>        -->
+        <!--        <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>        
             <version>1.2.17</version>
-        </dependency>                   
+        </dependency>          -->
+        
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.9.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.9.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.9.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>1.7.25</version>
+            <scope>compile</scope>
+        </dependency>        
         <dependency>
             <groupId>net.opentsdb</groupId>
             <artifactId>opentsdb</artifactId>
