@@ -45,7 +45,7 @@
             <AppenderRef ref="oddeyelogin" />               
         </Logger>    
 
-        <Root level="warn">
+        <Root level="info">
             <AppenderRef ref="oddeyedash" />   
             <AppenderRef ref="StdOut" />         
         </Root>

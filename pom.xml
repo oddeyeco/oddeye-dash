@@ -68,6 +68,10 @@
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>net.opentsdb</groupId>
+                    <artifactId>opentsdb</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -241,7 +245,7 @@
         <dependency>
             <groupId>net.opentsdb</groupId>
             <artifactId>opentsdb</artifactId>
-            <version>2.3.0</version>  
+            <version>2.4.0RC1</version>  
             <exclusions>
                 <exclusion>
                     <groupId>log4j</groupId>
@@ -292,7 +296,7 @@
                     <artifactId>jackson-annotations</artifactId>
                 </exclusion>
             </exclusions>                        
-        </dependency>                                    
+        </dependency>                                            
     </dependencies>
     <build>
         <plugins>
