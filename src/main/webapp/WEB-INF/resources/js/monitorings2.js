@@ -71,18 +71,7 @@ function connectstompClient()
     var headers = {};
     headers[headerName] = token;
     headers["sotoken"] = sotoken;
-
     var levels = optionsJson.v["allfilter"]["level"];
-//    jQuery.each(formData, function (i, field) {
-//        if (field.value === "on")
-//        {
-//            if (field.name.indexOf("check_level_") === 0)
-//            {
-//                levels.push(field.name.replace("check_level_", ""));
-//            }
-//        }
-//    });
-
     headers["levels"] = levels;
     realtimeconnect(headers);
 }
@@ -368,141 +357,14 @@ function drawRaw(errorjson, table, hashindex, update) {
     $('.summary .Speccount').html(array_spec.length);
 }
 
-function reDrawErrorListold(listJson, table, errorjson)
-{
-//    console.log("length " + Object.keys(listJson).length);
-//    var elems = document.getElementById("check_level_" + errorjson.level);
-    var elems = document.querySelectorAll('[name=check_level_' + errorjson.level + ']');
-    elems = elems[0];
-    console.log(elems);
-
-    var filtred = true;
-    if ((typeof elems !== "undefined") & (elems !== null))
-    {
-        if (elems.checked)
-        {
-            filtred = true;
-            var filterelems = document.querySelectorAll('.filter-switch');
-            for (var i = 0; i < filterelems.length; i++) {
-                if (filterelems[i].checked)
-                {
-                    var filter = $("[name=" + filterelems[i].value + "_input]").val();
-                    var regex = new RegExp(filter, 'i');
-                    if (filterelems[i].value === "metric")
-                    {
-                        filtred = regex.test(errorjson.info.name);
-                    } else
-                    {
-                        if (errorjson.info.tags[filterelems[i].value])
-                        {
-                            filtred = regex.test(errorjson.info.tags[filterelems[i].value].value);
-                        }
-
-                    }
-                    if (!filtred)
-                    {
-                        delete listJson[errorjson.hash];
-                        break;
-                    }
-                }
-            }
-            ;
-        } else
-        {
-            delete listJson[errorjson.hash];
-        }
-    }
-    if (errorjson.isspec === 0)
-    {
-        var indexregular = findeByhash(errorjson, array_regular);
-        if (filtred)
-        {
-            if (indexregular === -1)
-            {
-                array_regular.push(errorjson);
-//                array_regular.sort(function (a, b) {
-//                    var tagident = $("select#ident_tag").val();
-//                    return compareMetric(a, b, tagident);
-//                });
-                var index2 = findeByhash(errorjson, array_regular);
-//                console.log(array_regular);
-                if (index2 < array_regular.length - 1)
-                {
-                    drawRaw(array_regular[index2], table, array_regular[index2 + 1].hash);
-                } else
-                {
-                    drawRaw(array_regular[index2], table);
-                }
-            } else
-            {
-                array_regular[indexregular] = errorjson;
-                drawRaw(array_regular[indexregular], table, array_regular[indexregular].hash, true);
-            }
-        } else
-        {
-            if (indexregular !== -1)
-            {
-//                array_regular[indexregular] = errorjson;
-                errorjson.index = 0;
-                var hash_r = errorjson.hash;
-                array_regular.splice(indexregular, 1);
-                table.find("tbody tr#" + hash_r).fadeOut(400, function () {
-                    table.find("tbody tr#" + hash_r).remove();
-                });
-            }
-        }
-    } else
-    {
-        var indexspec = findeByhash(errorjson, array_spec);
-        if (filtred)
-        {
-
-            if (indexspec === -1)
-            {
-                array_spec.push(errorjson);
-//                array_spec.sort(function (a, b) {
-//                    var tagident = $("select#ident_tag").val();
-//                    return compareMetric(a, b, tagident);
-//                });
-
-                var index2 = findeByhash(errorjson, array_spec);
-                if (index2 < array_spec.length - 1)
-                {
-                    drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
-                } else
-                {
-                    drawRaw(array_spec[index2], table, 0);
-                }
-            } else
-            {
-                array_spec[indexspec] = errorjson;
-                drawRaw(array_spec[indexspec], table, array_spec[indexspec].hash, true);
-            }
-        } else
-        {
-            if (indexspec !== -1)
-            {
-//                array_spec[indexspec] = errorjson;
-                errorjson.index = 0;
-                var hash_s = errorjson.hash;
-                array_spec.splice(indexspec, 1);
-                table.find("tbody tr#" + hash_s).fadeOut(400, function () {
-                    table.find("tbody tr#" + hash_s).remove();
-                });
-            }
-
-        }
-    }
-}
-
 function reDrawErrorList(listJson, table, errorjson)
-{
+{    
     var filtred = checkfilter(errorjson);
     if (!filtred)
     {
-        delete listJson[errorjson.hash];     
+        delete listJson[errorjson.hash];
     }
-    
+
     if (errorjson.isspec === 0)
     {
         var indexregular = findeByhash(errorjson, array_regular);
@@ -573,7 +435,7 @@ function reDrawErrorList(listJson, table, errorjson)
             }
 
         }
-    }    
+    }
 }
 
 function DrawErrorList(listJson, table)
@@ -581,7 +443,7 @@ function DrawErrorList(listJson, table)
     $(".metrictable").find("tr.wait").remove();
     array_regular = [];
     array_spec = [];
-    console.log(optionsJson);
+
     for (var key in listJson) {
         var errorjson = listJson[key];
         var filtred = checkfilter(errorjson);
@@ -616,27 +478,27 @@ function DrawErrorList(listJson, table)
 }
 
 
-function checkfilter(value)
+function checkfilter(message)
 {
     var filtred = true;
 
     for (var filterindex in optionsJson.v)
     {
-
         if ((filterindex === "allfilter") ||
-                ((filterindex === "mlfilter") && (errorjson.isspec === 0)) ||
-                ((filterindex === "manualfilter") && (errorjson.isspec !== 0))
+                ((filterindex === "mlfilter") && (message.isspec === 0)) ||
+                ((filterindex === "manualfilter") && (message.isspec !== 0))
                 )
         {
+
             for (var fvalue in optionsJson.v[filterindex])
             {
                 var filtervalue = optionsJson.v[filterindex][fvalue];
                 var filterop = optionsJson.op[filterindex][fvalue];
                 var path = fvalue.split(".");
+                var value = message;
                 $.each(path, function (i, item) {
                     value = value[item];
                 });
-
                 if (filterop === "=")
                 {
                     filtred = filtervalue.indexOf("" + value) !== -1;
@@ -680,7 +542,11 @@ $(document).ready(function () {
     redrowtable();
     $("body").on("click", "#apply_filter", function () {
         updateFilter();
+        var levels = optionsJson.v["allfilter"]["level"];
+        stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));
+        console.log("ssss");
         redrowtable();
+
     });
 
     $("body").on("change", ".add_filter_select", function () {
@@ -705,6 +571,7 @@ $(document).ready(function () {
         $(this).find('option').prop('selected', function () {
             return this.defaultSelected;
         });
+        $("select").select2();
     });
     if (optionsJson === null)
     {
@@ -761,8 +628,8 @@ $(document).ready(function () {
     {
 
     }
-    
-//    $("select").select2({minimumResultsForSearch: 15});
+
+    $("select").select2({minimumResultsForSearch: 15});
 
     connectstompClient();
 
@@ -805,13 +672,6 @@ function updateFilter() {
                 }
                 if (field.name.indexOf("[]") !== -1)
                 {
-
-//                    if (!optionsJson[name][fgroup])
-//                    {
-//                        optionsJson[name][fgroup] = {};
-//                    }
-//                    optionsJson[name][fgroup][fname] = field.value;                    
-
                     var lname = field.name.replace("[]", "");
                     var m = lname.match(regex);
                     var fgroup = m[1];

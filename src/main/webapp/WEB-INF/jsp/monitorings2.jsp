@@ -28,7 +28,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_panel">
 
-            <div id="query_form_content">
+            <div id="query_form_content form-horizontal form-label-left">
                 <form class="form-options">
                     <fieldset id="filters" class="collapsible ">
                         <legend>Filters</legend>

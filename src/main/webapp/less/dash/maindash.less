@@ -409,10 +409,10 @@ and open the template in the editor.
             height: 30px;
         }
     }
-    .select2-selection--multiple {
+/*    .select2-selection--multiple {
         min-height: 30px;
         height: 31px;
-    }
+    }*/
 }
 select.form-control {
     color: @color_2;
@@ -1222,12 +1222,32 @@ tr.wait td
 .nav-pagetitle
 {
     h1 {
-       font-size: 25px 
+        font-size: 25px 
     }
-    
+
     float: left; 
     padding: 3px 10px;    
+
+}
+
+table.filters-table 
+{
+    td.value
+    {
+        select
+        {
+            width: 100%;
+        }
+        
+        width: 90%    
+    }
+    td
+    {
+        padding: 2px;
+    }
+    /*width: 100%;*/
     
+        
 }
 
 @media( max-width: 1292px){
