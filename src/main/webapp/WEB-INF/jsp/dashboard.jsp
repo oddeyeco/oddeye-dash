@@ -32,8 +32,6 @@
     </div>
 </div>  
 
-
-
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
 
@@ -61,10 +59,14 @@
         <div class="clearfix"></div>
     </div>
 </div>  
-
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
-        <div class="inner col-xs-12">            
+        <div class="inner col-xs-12">
+            <div class="chartTitleDiv" style="display: none">
+                <span class="chartTitle"></span>
+                <span class="chartSubIcon btn"><i class="fa fa-info" aria-hidden="true"></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                <span class="chartSubText" style="display: none"></span>
+            </div>
             <div class="controls text-right">
                 <div class="echart_time pull-left"></div>
                 <div class="btn-group  btn-group-xs">
@@ -79,7 +81,6 @@
             </div>             
             <div class="echart_line" style="height:300px;"></div>                   
         </div>
-
     </div>   
 </div>  
 

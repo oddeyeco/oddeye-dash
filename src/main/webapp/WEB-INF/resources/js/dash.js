@@ -452,7 +452,7 @@ var queryCallback = function (inputdata) {
                                             var tmptitle = false
                                             if (widget.title)
                                             {
-                                               tmptitle = widget.title.text;
+                                                tmptitle = widget.title.text;
                                             }
                                             series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
                                             break;
@@ -2082,7 +2082,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         url: uri,
                         data: null,
                         success: queryCallback(inputdata),
-                        error: function (xhr, error) {                            
+                        error: function (xhr, error) {
                             chart.hideLoading();
                             $(chart._dom).before("<h2 class='error'>Invalid Query");
                         }
@@ -2210,6 +2210,33 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     $("#charttemplate .chartsection  > div").css("background-color", "");
                 }
 
+                if (tmprow.widgets[wi].title) {
+                    $('.chartTitleDiv').css('display', 'block');
+                    if (tmprow.widgets[wi].title.text) {
+                        $(".chartTitle").text(tmprow.widgets[wi].title.text);
+                        if (tmprow.widgets[wi].title.style)
+                        {
+                            $('.chartTitle').css('border-style', 'solid');      ////////// chmoranal grel css i mej
+                            $(".chartTitle").css(tmprow.widgets[wi].title.style);
+                        } else
+                        {
+                            $(".chartTitle").removeAttr("style");
+                        }
+                    }
+                    ;
+                    if (tmprow.widgets[wi].title.subtext) {
+                        $(".chartSubText").text(tmprow.widgets[wi].title.subtext);
+                        if (tmprow.widgets[wi].title.subtextStyle)
+                        {
+                            $(".chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
+                        } else
+                        {
+                            $(".chartSubText").removeAttr("style");
+                        }
+                    }
+                    ;
+                }
+                ;
 //                $("#charttemplate .chartsection").attr("index", wi);
                 $("#charttemplate .chartsection").attr("id", "widget" + ri + "_" + wi);
                 $("#charttemplate .chartsection").attr("type", tmprow.widgets[wi].type);
@@ -2368,7 +2395,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
     $('.fulldash .btn').tooltip();
 }
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
-
     $(".fulldash").hide();
     for (var ri in dashJSON.rows)
     {
@@ -2426,6 +2452,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         title = "Edit Numeric";
     }
+    console.log(rebuildform);
     if (rebuildform)
     {
         $(".right_col").append('<div class="x_panel editpanel"></div>');
@@ -2457,13 +2484,13 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
                     '<div class="counter_single" id="counter_single"></div>' +
                     '</div>');
-            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-            {
-                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
-            } else
-            {
-//                updatecounter($(".right_col .editpanel"), tmprow.widgets[wi]);
-            }
+//            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
+//            {
+//                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
+//            } else
+//            {
+////                updatecounter($(".right_col .editpanel"), tmprow.widgets[wi]);
+//            }
             if (!readonly)
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
@@ -2486,7 +2513,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
                             '<div class="echart_line_single" id="echart_line_single"></div>' +
                             '</div>');
-
+                    var wraper = $(".right_col .editpanel #singlewidget");
                 } else
                 {
                     var height = "300px";
@@ -2514,42 +2541,85 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
 //                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             }
-            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-            {
-                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
-            } else
-            {
-                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
-            }
+//            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
+//            {
+//                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
+//            } else
+//            {
+//                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
+//            }
 
         }
     } else
     {
-        if (W_type === "counter")
-        {
-            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-            {
-                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
-            } else
-            {
-//                updatecounter($(".right_col .editpanel"), dashJSON.rows[row].widgets[index]);
-            }
-
-        } else if (W_type === "table")
-        {
-
-        } else //chart
-        {
-            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-            {
-                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
-            } else
-            {
-                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
-            }
-
-        }
+        var wraper = $(".right_col .editpanel #singlewidget");
     }
+
+//    else
+//    {
+    if (W_type === "counter")
+    {
+        if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
+        {
+            setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
+        } else
+        {
+//                updatecounter($(".right_col .editpanel"), dashJSON.rows[row].widgets[index]);
+        }
+
+    } else if (W_type === "table")
+    {
+
+    } else //chart
+    {
+
+        //TODO Drow title
+
+        if (tmprow.widgets[wi].title) {
+            $('.chartTitleDiv').css('display', 'block');
+            if (tmprow.widgets[wi].title.text) {
+                if (rebuildform) {
+                    wraper.prepend('<div class="chartTitleDiv">' + '<span class=chartTitle>' + tmprow.widgets[wi].title.text + '</span>' + "</div>");
+                } else {
+                    $('.chartTitle').text(tmprow.widgets[wi].title.text);
+                }
+                if (tmprow.widgets[wi].title.style)
+                {
+                    $('#singlewidget .chartTitle').css('border-style', 'solid');
+                    $('#singlewidget .chartTitle').css(tmprow.widgets[wi].title.style);
+                } else
+                {
+                    $(".chartTitle").removeAttr("style");
+                }
+                if (tmprow.widgets[wi].title.subtext) {
+                    if (rebuildform) {
+                    $("#singlewidget .chartTitle").after('<span ' + 'class="chartSubIcon btn">' + '<i class="fa fa-info" aria-hidden="true"></i> ' + '</span>' +
+                            '<span class="chartSubText">' + tmprow.widgets[wi].title.subtext + '</span>');
+                    } else {
+                        $('.chartSubText').text(tmprow.widgets[wi].title.subtext);
+                    }
+                    $('#singlewidget .chartSubText').css('display', 'none');             ////////////// arji vor edit chart - um subtext@ toggle lini?
+                    if (tmprow.widgets[wi].title.subtextStyle)
+                    {
+                        $(".chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
+                    } else
+                    {
+                        $(".chartSubText").removeAttr("style");
+                    }
+                }
+                ;
+            }
+        }
+        if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
+        {
+            setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
+        } else
+        {
+            echartLine.setOption(dashJSON.rows[row].widgets[index].options);
+        }
+
+    }
+//    }
 
 
     return;
@@ -2670,7 +2740,7 @@ $(document).ready(function () {
         gdd.times.generalds[2] = (gdd.times.generalds[2] == 'true');
     }
     //&ds="+gdd.times.generalds
-    $("#dashcontent").on('sortstart', function (event, ui) {        
+    $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
         for (var lri in gdd.rows)
         {
@@ -3484,6 +3554,9 @@ $(document).ready(function () {
         filtershow = true;
         $('#filter').fadeIn(500);
         $('#maximize').fadeOut(500);
+    });
+    $('body').on("click", '.chartSubIcon', function () {
+        $('#dashcontent .chartSubText, #singlewidget .chartSubText').fadeToggle(500);
     });
 
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};

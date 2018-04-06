@@ -17,5 +17,4 @@
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
     </c:if>
-
 </script>
