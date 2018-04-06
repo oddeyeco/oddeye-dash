@@ -44,7 +44,7 @@ function redrowtable() {
             case 'tags':
             {
                 $('input[name^=f_tags]:checked').each(function () {
-                    $(".metrictable thead tr").append("<th>" + this.value + "</th>");
+                    $(".metrictable thead tr").append("<th style='text-align: center'>" + this.value + "</th>");
                 });
                 break;
             }
@@ -98,8 +98,7 @@ function realtimeconnect(head)
 
 function aftersubscribe(error) {
     $(".metrictable").find("tr.wait").remove();
-    var errorjson = JSON.parse(error.body);
-    console.log("aaaaa");
+    var errorjson = JSON.parse(error.body);    
     if (errorlistJson[errorjson.hash])
     {
         errorjson.index = errorlistJson[errorjson.hash].index;
@@ -227,8 +226,6 @@ function drawRaw(errorjson, table, hashindex, update) {
     {
         var html = "";
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '" time="' + errorjson.time + '">';
-        console.log(optionsJson.f_col);
-
         if (optionsJson.f_col.indexOf("actions") !== -1)
         {
             if (errorjson.isspec === 0)
