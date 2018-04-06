@@ -6,10 +6,6 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<style>
-
-</style>    
-
 <div id="confirmError" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -42,7 +38,7 @@
             </div>
         </div>    
         <div class=" contactform col-lg-6 col-xs-12">               
-            <form:form method="post" commandName="newUser" action="${cp}/signup/" modelAttribute="newUser" novalidate="true">            
+            <form:form method="post" action="${cp}/signup/" modelAttribute="newUser" novalidate="true">            
                 <c:if test="${not empty message}" >
                     <div class="alert alert-danger alert-dismissible fadein" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
