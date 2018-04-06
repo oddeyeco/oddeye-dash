@@ -14,7 +14,7 @@ headers["page"] = document.URL;
 
 globalconnect(headers);
 function updatecounter(counter, widget)
-{    
+{
     if (widget.title)
     {
         counter.find('.tile-stats h3').text(widget.title.text);
@@ -45,9 +45,10 @@ function globalconnect(head)
     globalstompClient = Stomp.over(globalsocket);
     globalstompClient.debug = null;
 
-    globalstompClient.connect(head, function (frame) {
+    globalstompClient.connect(head, function (frame) {        
         console.log("stomp connected");
         globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
+            
             var event = JSON.parse(message.body);
             switch (event.action) {
                 case 'editdash':
@@ -91,13 +92,16 @@ function globalconnect(head)
                     break;
                 }
             }
-        });
+        });        
         globalstompClient.subscribe('/all/info', function (message) {
             //TODO
         });
     }, function (frame) {        
-        console.log("stomp can not connect");
-        globalconnect(head);
+        console.log("Stomp:"+frame);
+        setTimeout(function () {
+            globalconnect(head);
+        }, 60000);
+
     });
 }
 

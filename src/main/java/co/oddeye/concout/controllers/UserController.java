@@ -116,6 +116,61 @@ public class UserController {
 //        map.put("jsonmodel", jsonResult);
 //        return "ajax";
 //    }
+    
+    @RequestMapping(value = "/monitorings2", method = RequestMethod.GET)
+    public String monitorings2(HttpServletRequest request, ModelMap map) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+            map.put("curentuser", userDetails);
+            map.put("activeuser", userDetails);
+            map.put("title", "Real-Time Monitor");
+            String group_item = request.getParameter("group_item");
+            String ident_tag = request.getParameter("ident_tag");
+
+            Set<Map.Entry<String, Map<String, Integer>>> set = userDetails.getMetricsMeta().getTagsList().entrySet();
+            List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList<>(set);
+            Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> Integer.valueOf(o2.getValue().size()).compareTo(o1.getValue().size()));
+            if (list.size() > 0) {
+                if (ident_tag != null) {
+                    map.put("ident_tag", ident_tag);
+                } else {
+                    if (userDetails.getMetricsMeta().getTagsList().keySet().contains("host")) {
+                        map.put("ident_tag", "host");
+                    } else {
+                        map.put("ident_tag", list.get(0));
+                    }
+                }
+            }
+
+            map.put("list", list);
+
+            String level_item = request.getParameter("level");
+
+            int int_level_item;
+            if (level_item == null) {
+                map.put("level_item", AlertLevel.ALERT_LEVEL_ELEVATED);
+            } else {
+                int_level_item = Integer.parseInt(level_item);
+                if (int_level_item > AlertLevel.ALERT_LEVELS.length - 1) {
+                    int_level_item = AlertLevel.ALERT_LEVEL_ELEVATED;
+                }
+                map.put("level_item", int_level_item);
+            }
+
+        }
+        Random rand = new Random();
+        map.put("_sotoken", rand.nextInt(90000) + 10000);
+        map.put("htitle", "Real-Time Monitor");
+        map.put("body", "monitorings2");
+        map.put("jspart", "monitorings2js");
+
+        return "index";
+    }    
+    
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
 
