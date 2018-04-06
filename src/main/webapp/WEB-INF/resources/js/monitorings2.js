@@ -227,7 +227,9 @@ function drawRaw(errorjson, table, hashindex, update) {
     {
         var html = "";
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '" time="' + errorjson.time + '">';
-        if (document.getElementById("f_col_actions").checked)
+        console.log(optionsJson.f_col);
+
+        if (optionsJson.f_col.indexOf("actions") !== -1)
         {
             if (errorjson.isspec === 0)
             {
@@ -237,11 +239,11 @@ function drawRaw(errorjson, table, hashindex, update) {
                 html = html + '<td><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></td>';
             }
         }
-        if (document.getElementById("f_col_level").checked)
+        if (optionsJson.f_col.indexOf("Level") !== -1)
         {
             html = html + '<td class="level"><div>' + errorjson.levelname + '</div></td>';
         }
-        if (document.getElementById("f_col_name").checked)
+        if (optionsJson.f_col.indexOf("Metric name") !== -1)
         {
             if (errorjson.isspec === 0)
             {
@@ -251,21 +253,22 @@ function drawRaw(errorjson, table, hashindex, update) {
                 html = html + '<td>' + errorjson.info.name + '</td>';
             }
         }
-        if (document.getElementById("f_col_tags").checked)
+        if (optionsJson.f_col.indexOf("tags") !== -1)
         {
-            $('input[name^=f_tags]:checked').each(function () {
-                if (errorjson.info.tags[$(this).attr("key")])
+            for (var tindex in optionsJson.f_tags)
+            {
+                var obj = $('input[value=' + optionsJson.f_tags[tindex] + ']');
+                if (errorjson.info.tags[obj.attr("key")])
                 {
-                    html = html + '<td>' + errorjson.info.tags[$(this).attr("key")].value + '</td>';
+                    html = html + '<td style="text-align: center">' + errorjson.info.tags[obj.attr("key")].value + '</td>';
                 } else
                 {
-                    html = html + '<td>NaN</td>';
+                    html = html + '<td style="text-align: center">-/-</td>';
                 }
 
-            });
+            }
         }
-
-        if (document.getElementById("f_col_info").checked)
+        if (optionsJson.f_col.indexOf("Info") !== -1)
         {
             if (errorjson.isspec === 0)
             {
@@ -281,11 +284,11 @@ function drawRaw(errorjson, table, hashindex, update) {
             }
         }
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-        if (document.getElementById("f_col_sttime").checked)
+        if (optionsJson.f_col.indexOf("Start Time") !== -1)
         {
             html = html + '<td class="starttime">' + moment(st * 1).format(timeformat) + '</td>';
         }
-        if (document.getElementById("f_col_lasttime").checked)
+        if (optionsJson.f_col.indexOf("Last Time") !== -1)
         {
             html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
         }
@@ -358,7 +361,7 @@ function drawRaw(errorjson, table, hashindex, update) {
 }
 
 function reDrawErrorList(listJson, table, errorjson)
-{    
+{
     var filtred = checkfilter(errorjson);
     if (!filtred)
     {
@@ -704,11 +707,11 @@ function updateFilter() {
                 if (field.name.indexOf("[]") !== -1)
                 {
                     lname = field.name.replace("[]", "");
-                    if (!optionsJson[name])
+                    if (!optionsJson[lname])
                     {
-                        optionsJson[name] = [];
+                        optionsJson[lname] = [];
                     }
-                    optionsJson[name].push(field.value);
+                    optionsJson[lname].push(field.value);
                 } else
                 {
                     optionsJson[field.name] = field.value;
