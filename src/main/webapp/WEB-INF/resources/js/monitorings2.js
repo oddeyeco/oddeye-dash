@@ -51,9 +51,21 @@ function redrowtable() {
                     }
                 }
                 $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
-//        console.log(this.value);
             }
-    );
+    );        
+    $('.metrictable thead input.flat').iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
+
+    $('.bulk_action input#check-all').on('ifChecked', function () {
+        checkState = 'all';
+        countChecked();
+    });
+    $('.bulk_action input#check-all').on('ifUnchecked', function () {
+        checkState = 'none';
+        countChecked();
+    });
 
 //    optionsJson.fcol.each(
 //            
@@ -72,7 +84,7 @@ function connectstompClient()
     headers[headerName] = token;
     headers["sotoken"] = sotoken;
 //    var levels = optionsJson.v["allfilter"]["level"];
-    headers["options"] = JSON.stringify(optionsJson) ;
+    headers["options"] = JSON.stringify(optionsJson);
     realtimeconnect(headers);
 }
 
@@ -98,7 +110,7 @@ function realtimeconnect(head)
 
 function aftersubscribe(error) {
     $(".metrictable").find("tr.wait").remove();
-    var errorjson = JSON.parse(error.body);    
+    var errorjson = JSON.parse(error.body);
     if (errorlistJson[errorjson.hash])
     {
         errorjson.index = errorlistJson[errorjson.hash].index;
@@ -282,7 +294,7 @@ function drawRaw(errorjson, table, hashindex, update) {
                                 }
                             });
 
-                            html = html + '<td class="' + obj.attr("value") + '"><div>' +(value? value:"-/-") + '</div></td>';
+                            html = html + '<td class="' + obj.attr("value") + '"><div>' + (value ? value : "-/-") + '</div></td>';
 
                             break;
                         }
@@ -552,8 +564,8 @@ $(document).ready(function () {
         updateFilter();
         var levels = optionsJson.v["allfilter"]["level"];
 //        stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));        
-        
-        stompClient.send("/input/chagefilter/", {}, JSON.stringify(optionsJson));        
+
+        stompClient.send("/input/chagefilter/", {}, JSON.stringify(optionsJson));
         redrowtable();
 
     });
@@ -655,11 +667,6 @@ $(document).ready(function () {
     });
 
     $("select").select2({minimumResultsForSearch: 15});
-
-    $("table.options tbody input").iCheck({
-        checkboxClass: 'icheckbox_flat-green',
-        radioClass: 'iradio_flat-green'
-    });
 
     connectstompClient();
 
