@@ -2209,9 +2209,20 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 {
                     $("#charttemplate .chartsection  > div").css("background-color", "");
                 }
-
                 if (tmprow.widgets[wi].title) {
-                    $('.chartTitleDiv').css('display', 'block');
+                    $('.chartTitleDiv').css({display: 'block', 'text-align': 'center', border: '1px solid rgba(200,200,200,0.6)'});        ////////////////////////// css ov    
+                    $('.chartSubIcon').css({'border-left': '27px solid #EDEDED',
+                        'border-right': 'none',
+                        'border-bottom': '27px solid transparent',
+                        'border-top': 'none',
+                        padding: '0px',
+                        margin: '0px',
+                        position: 'absolute',
+                        left: 1,
+                        cursor: 'pointer'
+                    });        ////////////////////////// css ov   
+
+                    $('.chartSubIcon i').css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov    
                     if (tmprow.widgets[wi].title.text) {
                         $(".chartTitle").text(tmprow.widgets[wi].title.text);
                         if (tmprow.widgets[wi].title.style)
@@ -2576,7 +2587,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         //TODO Drow title
 
         if (tmprow.widgets[wi].title) {
-            $('.chartTitleDiv').css('display', 'block');
             if (tmprow.widgets[wi].title.text) {
                 if (rebuildform) {
                     wraper.prepend('<div class="chartTitleDiv">' + '<span class=chartTitle>' + tmprow.widgets[wi].title.text + '</span>' + "</div>");
@@ -2585,7 +2595,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 }
                 if (tmprow.widgets[wi].title.style)
                 {
-                    $('#singlewidget .chartTitle').css('border-style', 'solid');
+                    $('#singlewidget .chartTitle').css('border-style', 'solid');                   ///////////////////// css ov
                     $('#singlewidget .chartTitle').css(tmprow.widgets[wi].title.style);
                 } else
                 {
@@ -2593,8 +2603,8 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 }
                 if (tmprow.widgets[wi].title.subtext) {
                     if (rebuildform) {
-                    $("#singlewidget .chartTitle").after('<span ' + 'class="chartSubIcon btn">' + '<i class="fa fa-info" aria-hidden="true"></i> ' + '</span>' +
-                            '<span class="chartSubText">' + tmprow.widgets[wi].title.subtext + '</span>');
+                        $("#singlewidget .chartTitle").after('<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info" aria-hidden="true"></i> ' + '</span>' +
+                                '<span class="chartSubText">' + tmprow.widgets[wi].title.subtext + '</span>');
                     } else {
                         $('.chartSubText').text(tmprow.widgets[wi].title.subtext);
                     }
@@ -2609,6 +2619,18 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 }
                 ;
             }
+            $('.chartTitleDiv').css({display: 'block', 'text-align': 'center', border: '1px solid rgba(200,200,200,0.6)'});        ////////////////////////// css ov    
+            $('.chartSubIcon').css({'border-left': '27px solid #EDEDED',
+                'border-right': 'none',
+                'border-bottom': '27px solid transparent',
+                'border-top': 'none',
+                padding: '0px',
+                margin: '0px',
+                position: 'absolute',
+                left: 6,
+                cursor: 'pointer'
+            });        ////////////////////////// css ov  
+            $('.chartSubIcon i').css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov   
         }
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
@@ -3555,8 +3577,15 @@ $(document).ready(function () {
         $('#filter').fadeIn(500);
         $('#maximize').fadeOut(500);
     });
-    $('body').on("click", '.chartSubIcon', function () {
-        $('#dashcontent .chartSubText, #singlewidget .chartSubText').fadeToggle(500);
+    $('body').on("mouseenter mouseleave", '.chartSubIcon', function () {
+        console.log('sssss');
+        $(this).next('.chartSubText').css({position: 'absolute',
+            top: $(this).parents('.chartTitleDiv').outerHeight(),
+            left: 0,
+            width: 300,
+            background: 'rgb(216, 217, 218)'
+        });
+        $(this).next('.chartSubText').fadeToggle();
     });
 
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
@@ -3568,7 +3597,6 @@ var filtershow = true;
 $(document).on('scroll', function () {
     clearTimeout(scrolltimer);
     if ($(document).scrollTop() >= $('#dash_main').offset().top) {
-
         if (!$('#filter').hasClass("fix"))
         {
             $('#filter').css('left', $(".nav_menu").position().left);

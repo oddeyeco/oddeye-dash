@@ -63,9 +63,9 @@
     <div class="col-lg-12 chartsection" size="12">
         <div class="inner col-xs-12">
             <div class="chartTitleDiv" style="display: none">
-                <span class="chartTitle"></span>
-                <span class="chartSubIcon btn"><i class="fa fa-info" aria-hidden="true"></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                <span class="chartSubIcon "><i class="fa fa-info" aria-hidden="true"></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
                 <span class="chartSubText" style="display: none"></span>
+                <span class="chartTitle"></span>
             </div>
             <div class="controls text-right">
                 <div class="echart_time pull-left"></div>
