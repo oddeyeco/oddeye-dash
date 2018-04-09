@@ -260,7 +260,7 @@ function drawRaw(errorjson, table, hashindex, update) {
                         }
                         case  "StartTime":
                         {
-                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;                            
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
                             html = html + '<td class="starttime">' + moment(st * 1).format(timeformat) + '</td>';
                             break;
                         }
@@ -276,10 +276,13 @@ function drawRaw(errorjson, table, hashindex, update) {
                             var value = errorjson;
 
                             $.each(path, function (i, item) {
-                                value = value[item];
+                                if (value)
+                                {
+                                    value = value[item];
+                                }
                             });
 
-                            html = html + '<td class="' + obj.attr("value") + '"><div>' + value + '</div></td>';
+                            html = html + '<td class="' + obj.attr("value") + '"><div>' +(value? value:"-/-") + '</div></td>';
 
                             break;
                         }
@@ -548,8 +551,7 @@ $(document).ready(function () {
     $("body").on("click", "#apply_filter", function () {
         updateFilter();
         var levels = optionsJson.v["allfilter"]["level"];
-        stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));
-        console.log("ssss");
+        stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));        
         redrowtable();
 
     });
