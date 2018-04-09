@@ -92,13 +92,13 @@ function realtimeconnect(head)
                 console.log("Monitor:" + message);
                 setTimeout(function () {
                     realtimeconnect(head);
-                }, 60000);
+                }, 6000);
             });
 }
 
 function aftersubscribe(error) {
     $(".metrictable").find("tr.wait").remove();
-    var errorjson = JSON.parse(error.body);
+    var errorjson = JSON.parse(error.body);    
     if (errorlistJson[errorjson.hash])
     {
         errorjson.index = errorlistJson[errorjson.hash].index;
