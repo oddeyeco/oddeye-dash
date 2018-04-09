@@ -18,46 +18,46 @@ var eniumop = "<option value='='>is</option><option value='!'>is not</option>";
 function redrowtable() {
     $(".metrictable thead").html("<tr>");
     $(".metrictable tbody").html('<tr class="wait"><td>Please wait...</td></tr>');
-    $('input[name^=f_col]:checked').each(function () {
-        switch (this.value) {
-            case 'actions':
-            {
-                $(".metrictable thead tr").append(
-                        '<th class="actions">' +
-                        '<input type="checkbox" id="check-all" class="flat">' +
-                        '<div class="btn-group">' +
-                        '<button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
-                        '<span class="caret"></span>' +
-                        '<span class="sr-only">Toggle Dropdown</span>' +
-                        '</button>' +
-                        '<ul class="dropdown-menu" role="menu">' +
-                        '<li><a href="#" id="Show_chart">Show Chart</a>' +
-                        '</li>' +
-                        '<li class="divider"></li>' +
-                        '<li><a href="#" id="Clear_reg">Clear Regression</a>' +
-                        '</li>' +
-                        '</ul>' +
-                        '</div>' +
-                        '</th>');
-                break
-            }
-            case 'tags':
-            {
-                $('input[name^=f_tags]:checked').each(function () {
-                    $(".metrictable thead tr").append("<th style='text-align: center'>" + this.value + "</th>");
-                });
-                break;
-            }
-            default:
-            {
-                $(".metrictable thead tr").append("<th>" + this.value + "</th>");
-                break;
-            }
-        }
-        $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
+
+    optionsJson.f_col.forEach(
+            function (entry) {
+                switch (entry) {
+                    case 'actions':
+                    {
+                        $(".metrictable thead tr").append(
+                                '<th class="actions">' +
+                                '<input type="checkbox" id="check-all" class="flat">' +
+                                '<div class="btn-group">' +
+                                '<button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
+                                '<span class="caret"></span>' +
+                                '<span class="sr-only">Toggle Dropdown</span>' +
+                                '</button>' +
+                                '<ul class="dropdown-menu" role="menu">' +
+                                '<li><a href="#" id="Show_chart">Show Chart</a>' +
+                                '</li>' +
+                                '<li class="divider"></li>' +
+                                '<li><a href="#" id="Clear_reg">Clear Regression</a>' +
+                                '</li>' +
+                                '</ul>' +
+                                '</div>' +
+                                '</th>');
+                        break
+                    }
+                    default:
+                    {
+                        var obj = $('.f_col option[value=' + entry + ']');
+                        $(".metrictable thead tr").append("<th>" + obj.attr("label") + "</th>");
+                        break;
+                    }
+                }
+                $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
 //        console.log(this.value);
-    }
+            }
     );
+
+//    optionsJson.fcol.each(
+//            
+//    );
     if (Object.keys(errorlistJson).length > 0)
     {
         DrawErrorList(errorlistJson, $(".metrictable"));
@@ -226,72 +226,77 @@ function drawRaw(errorjson, table, hashindex, update) {
     {
         var html = "";
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '" time="' + errorjson.time + '">';
-        if (optionsJson.f_col.indexOf("actions") !== -1)
-        {
-            if (errorjson.isspec === 0)
-            {
-                html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
-            } else
-            {
-                html = html + '<td><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></td>';
-            }
-        }
-        if (optionsJson.f_col.indexOf("Level") !== -1)
-        {
-            html = html + '<td class="level"><div>' + errorjson.levelname + '</div></td>';
-        }
-        if (optionsJson.f_col.indexOf("Metric name") !== -1)
-        {
-            if (errorjson.isspec === 0)
-            {
-                html = html + '<td><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + errorjson.info.name + '</a></td>';
-            } else
-            {
-                html = html + '<td>' + errorjson.info.name + '</td>';
-            }
-        }
-        if (optionsJson.f_col.indexOf("tags") !== -1)
-        {
-            for (var tindex in optionsJson.f_tags)
-            {
-                var obj = $('input[value=' + optionsJson.f_tags[tindex] + ']');
-                if (errorjson.info.tags[obj.attr("key")])
-                {
-                    html = html + '<td style="text-align: center">' + errorjson.info.tags[obj.attr("key")].value + '</td>';
-                } else
-                {
-                    html = html + '<td style="text-align: center">-/-</td>';
+        optionsJson.f_col.forEach(
+                function (entry) {
+                    var obj = $('.f_col option[value=' + entry + ']');
+
+                    switch (obj.attr("key")) {
+                        case  "actions":
+                        {
+                            if (errorjson.isspec === 0)
+                            {
+                                html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
+                            } else
+                            {
+                                html = html + '<td><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></td>';
+                            }
+                            break;
+                        }
+                        case  "info":
+                        {
+                            if (errorjson.isspec === 0)
+                            {
+                                var valuearrowclass = "fa-long-arrow-down";
+                                if (errorjson.upstate)
+                                {
+                                    valuearrowclass = "fa-long-arrow-up";
+                                }
+                                html = html + '<td class="message"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</td>';
+                            } else
+                            {
+                                html = html + '<td class="message">' + message + '</td>';
+                            }
+                            break;
+                        }
+                        case  "StartTime":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;                            
+                            html = html + '<td class="starttime">' + moment(st * 1).format(timeformat) + '</td>';
+                            break;
+                        }
+                        case  "LastTime":
+                        {
+                            var st = errorjson.time;
+                            html = html + '<td class="timelocal">' + moment(st * 1).format(timeformatsmall) + '</td>';
+                            break;
+                        }
+                        default:
+                        {
+                            var path = obj.attr("key").split(".");
+                            var value = errorjson;
+
+                            $.each(path, function (i, item) {
+                                value = value[item];
+                            });
+
+                            html = html + '<td class="' + obj.attr("value") + '"><div>' + value + '</div></td>';
+
+                            break;
+                        }
+
+                    }
+
+                    if (obj.attr("key") === "actions")
+                    {
+
+                    } else
+                    {
+
+                    }
+
+//                    console.log(obj.attr("key")+" "+obj.attr("value"));
                 }
-
-            }
-        }
-        if (optionsJson.f_col.indexOf("Info") !== -1)
-        {
-            if (errorjson.isspec === 0)
-            {
-                var valuearrowclass = "fa-long-arrow-down";
-                if (errorjson.upstate)
-                {
-                    valuearrowclass = "fa-long-arrow-up";
-                }
-                html = html + '<td class="message"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</td>';
-            } else
-            {
-                html = html + '<td class="message">' + message + '</td>';
-            }
-        }
-        var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-        if (optionsJson.f_col.indexOf("Start Time") !== -1)
-        {
-            html = html + '<td class="starttime">' + moment(st * 1).format(timeformat) + '</td>';
-        }
-        if (optionsJson.f_col.indexOf("Last Time") !== -1)
-        {
-            html = html + '<td class="timelocal" >' + moment().format(timeformatsmall) + '</td>';
-        }
-
-//        html = html + '<td class="timech" time="' + errorjson.time + '">' + starttime + '</td>';
-
+        );
 
         html = html + '</tr>';
         if (hashindex === null)
@@ -539,7 +544,7 @@ function checkfilter(message)
 }
 
 $(document).ready(function () {
-    redrowtable();
+
     $("body").on("click", "#apply_filter", function () {
         updateFilter();
         var levels = optionsJson.v["allfilter"]["level"];
@@ -628,21 +633,20 @@ $(document).ready(function () {
     {
 
     }
-
-    $('body').on("click",'fieldset.collapsible', function (){
-        if ($(this).hasClass("collapsed"))
+    redrowtable();
+    $('body').on("click", 'fieldset.collapsible legend', function () {
+        if ($(this).parent().hasClass("collapsed"))
         {
-            $(this).removeClass("collapsed");
+            $(this).parent().removeClass("collapsed");
             $(this).find(".fa-chevron-down").addClass("fa-chevron-up");
-            $(this).find(".fa-chevron-down").removeClass("fa-chevron-down");
-            $(this).find("select").select2({minimumResultsForSearch: 15});
-        }
-        else
+            $(this).parent().find(".fa-chevron-down").removeClass("fa-chevron-down");
+            $(this).parent().find("select").select2({minimumResultsForSearch: 15});
+        } else
         {
-            $(this).addClass("collapsed");
+            $(this).parent().addClass("collapsed");
             $(this).find(".fa-chevron-up").addClass("fa-chevron-down");
             $(this).find(".fa-chevron-up").removeClass("fa-chevron-up");
-            
+
         }
     });
 

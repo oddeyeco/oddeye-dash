@@ -102,49 +102,51 @@
                     <fieldset class="collapsible collapsed">
                         <legend> <i class="action fa fa-chevron-down"></i>Options</legend>
                         <div class="filter-body">
-                            <table class="options">
+                            <table class="options" style="width: 100%">
                                 <tbody><tr>
                                         <td>
                                             <label> Columns </label>
                                         </td>
-                                        <td class="card-fields">
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_actions" value="actions" checked="checked">Actions
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_level" value="Level" checked="checked">Level
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_name" value="Metric name" checked="checked">Metric Name
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_tags" value="tags" checked="checked">Tags
-                                            </label> 
+                                        <td class="card-fields value">
+                                            <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
+                                                <option value="actions" selected="selected" label="actions" key="actions">Actions
+                                                </option> 
+                                                <option value="level" selected="selected" label="Level" key="levelname">Level
+                                                </option> 
+                                                <option value="info_name" selected="selected" key="info.name" label="Metric name">Metric Name
+                                                </option> 
+                                                <optgroup label="Tags">
+                                                    <c:forEach items="${list}" var="tagitem">   
+                                                        <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
+                                                        <option   value="${text}" alias="${tagitem.key}" fname="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                        <option value="info_tags_${tagitem.key}_value" <c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if>
+                                                                key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                    </c:forEach>                                
+                                                </optgroup>
 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_info" value="Info" checked="checked">Info
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_sttime" value="Start Time" checked="checked">Start Time
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_lasttime" value="Last Time" checked="checked">Last Time
-                                            </label>                                         
+
+                                                <option value="info" selected="selected" key="info" label="Info">Info
+                                                </option> 
+                                                <option value="Start_Time" selected="selected" key="StartTime" label="Start Time">Start Time
+                                                </option> 
+                                                <option value="Last_Time" selected="selected" key="LastTime" label="Last Time">Last Time
+                                                </option>                                                   
+                                            </select>                                                                                  
 
                                         </td>
                                     </tr>
-                                    <tr>
+<!--                                    <tr>
                                         <td>
                                             <label> Tags Columns </label>                                            
                                         </td>
                                         <td class="card-fields">
                                             <c:forEach items="${list}" var="tagitem">   
                                                 <label class="floating">
-                                                    <input type="checkbox" name="f_tags[]" key="${tagitem.key}" id="f_tags_${tagitem.key}" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"<c:if test="${ident_tag == tagitem.key}"> checked="checked" </c:if> >${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()})
+                                                    <input type="checkbox" name="f_tags[]" key="${tagitem.key}" id="f_tags_${tagitem.key}" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"<c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if> >${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()})
                                                     </label> 
                                             </c:forEach>                                        
                                         </td>
-                                    </tr>                                
+                                    </tr>                                -->
                                 </tbody>
                             </table>
                         </div>
