@@ -117,8 +117,7 @@
                                                 </option> 
                                                 <optgroup label="Tags">
                                                     <c:forEach items="${list}" var="tagitem">   
-                                                        <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                        <option   value="${text}" alias="${tagitem.key}" fname="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                        <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
                                                         <option value="info_tags_${tagitem.key}_value" <c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if>
                                                                 key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
