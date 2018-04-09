@@ -3,14 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>oddeye.concout</groupId>
     <artifactId>OddeyeCoconut</artifactId>
-    <version>0.7.3</version>
+    <version>0.7.5</version>
     <packaging>war</packaging>
     <name>OddeyeCoconut</name>
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>4.3.12.RELEASE</spring.version>
-        <springsecurity.version>4.2.3.RELEASE</springsecurity.version>
+        <spring.version>5.0.4.RELEASE</spring.version>
+        <springsecurity.version>5.0.3.RELEASE</springsecurity.version>
     </properties>    
     <dependencies>
         <dependency>
@@ -47,27 +47,37 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.9.2</version>
+            <version>2.9.4</version>
         </dependency>                
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.9.2</version>
+            <version>2.9.4</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>2.9.2</version>
+            <version>2.9.4</version>
         </dependency>        
         <dependency>
             <groupId>co.oddeye</groupId>
             <artifactId>oddeye-core</artifactId>
             <version>0.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.opentsdb</groupId>
+                    <artifactId>opentsdb</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
-            <version>1.2.3.RELEASE</version>
+            <version>2.1.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -144,7 +154,7 @@
         <dependency>
             <groupId>com.maxmind.geoip2</groupId>
             <artifactId>geoip2</artifactId>
-            <version>2.10.0</version>
+            <version>2.11.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
@@ -155,7 +165,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
-            <version>7.0</version>
+            <version>8.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -208,32 +218,34 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>${springsecurity.version}</version>
         </dependency> 
-
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.11.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.11.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.11.0</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>jcl-over-slf4j</artifactId>
+            <artifactId>jul-to-slf4j</artifactId>
             <version>1.7.25</version>
-            <scope>runtime</scope>
-        </dependency>                                  
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
-        </dependency>           
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.25</version>
+            <scope>compile</scope>
         </dependency>        
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>        
-            <version>1.2.17</version>
-        </dependency>                   
         <dependency>
             <groupId>net.opentsdb</groupId>
             <artifactId>opentsdb</artifactId>
-            <version>2.3.0</version>  
+            <version>2.4.0RC1</version>  
             <exclusions>
                 <exclusion>
                     <groupId>log4j</groupId>
@@ -284,7 +296,7 @@
                     <artifactId>jackson-annotations</artifactId>
                 </exclusion>
             </exclusions>                        
-        </dependency>                                    
+        </dependency>                                            
     </dependencies>
     <build>
         <plugins>

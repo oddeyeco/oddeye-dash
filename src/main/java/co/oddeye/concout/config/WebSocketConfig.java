@@ -48,4 +48,9 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
         return new SocketWebSecurity();
     }  
     
+    @Override
+    protected boolean sameOriginDisabled() {
+        return true;
+    }    
+    
 }

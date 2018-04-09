@@ -19,7 +19,7 @@ var calc = {
     file_systems_check: {text: "File systems", childs: {
             check_hadoop_datanode: {count: 18, type: 'single', text: "HDFS datanode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS datanode"},
             check_hadoop_namenode: {count: 41, type: 'single', text: "HDFS namenode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS namenode"},
-            check_ceph: {count: 8, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', name: "Ceph"},
+            check_ceph: {count: 14, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', name: "Ceph"},
             check_btrfs: {count: 5, type: 'multi', multiText: "Disks Count", text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', name: "BTRFS"}
         }},
     webservers_check: {text: "Web Servers", childs: {

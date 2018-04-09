@@ -5,8 +5,6 @@
  */
 package co.oddeye.concout.config;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -29,13 +27,6 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.addListener(org.springframework.web.util.Log4jConfigListener.class);
-        super.onStartup(servletContext);
     }
 
 }
