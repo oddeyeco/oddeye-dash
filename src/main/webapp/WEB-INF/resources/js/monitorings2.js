@@ -98,7 +98,7 @@ function realtimeconnect(head)
 
 function aftersubscribe(error) {
     $(".metrictable").find("tr.wait").remove();
-    var errorjson = JSON.parse(error.body);    
+    var errorjson = JSON.parse(error.body);
     if (errorlistJson[errorjson.hash])
     {
         errorjson.index = errorlistJson[errorjson.hash].index;
@@ -561,7 +561,7 @@ $(document).ready(function () {
         } else
         {
             row.append("<td class='action'> <select class='operators_subject' name='op[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "'>" + strop + " </select> </td>");
-            row.append("<td class='value'><input class='' type='text' name='v[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "' autocomplete='off'></td>");
+            row.append("<td class='value'><input class='filter-value' type='text' name='v[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "' autocomplete='off'></td>");
 
         }
 
@@ -571,7 +571,7 @@ $(document).ready(function () {
         $(this).find('option').prop('selected', function () {
             return this.defaultSelected;
         });
-        $("select").select2();
+        $("select").select2({minimumResultsForSearch: 15});
     });
     if (optionsJson === null)
     {
@@ -595,7 +595,7 @@ $(document).ready(function () {
                     row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
 
                     row.append("<td class='action'> <select class='operators_subject' name='op[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
-                    row.append("<td class='value'><input class='' type='text' name='v[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + filterOldJson[name + "_input"] + "></td>");
+                    row.append("<td class='value'><input class='filter-value' type='text' name='v[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + filterOldJson[name + "_input"] + "></td>");
                     $(".all_filter").find(".filters-table").append(row);
                 }
 
@@ -629,7 +629,29 @@ $(document).ready(function () {
 
     }
 
+    $('body').on("click",'fieldset.collapsible', function (){
+        if ($(this).hasClass("collapsed"))
+        {
+            $(this).removeClass("collapsed");
+            $(this).find(".fa-chevron-down").addClass("fa-chevron-up");
+            $(this).find(".fa-chevron-down").removeClass("fa-chevron-down");
+            $(this).find("select").select2({minimumResultsForSearch: 15});
+        }
+        else
+        {
+            $(this).addClass("collapsed");
+            $(this).find(".fa-chevron-up").addClass("fa-chevron-down");
+            $(this).find(".fa-chevron-up").removeClass("fa-chevron-up");
+            
+        }
+    });
+
     $("select").select2({minimumResultsForSearch: 15});
+
+    $("table.options tbody input").iCheck({
+        checkboxClass: 'icheckbox_flat-green',
+        radioClass: 'iradio_flat-green'
+    });
 
     connectstompClient();
 

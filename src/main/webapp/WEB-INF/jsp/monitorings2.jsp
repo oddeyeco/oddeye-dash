@@ -28,17 +28,17 @@
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_panel">
 
-            <div id="query_form_content form-horizontal form-label-left">
+            <div id="query_form_content">
                 <form class="form-options">
-                    <fieldset id="filters" class="collapsible ">
-                        <legend>Filters</legend>
-                        <div style="">
+                    <fieldset id="filters" class="collapsible collapsed">
+                        <legend><i class="action fa fa-chevron-down"></i>Filters</legend>
+                        <div class="filter-body">
                             <div class="filters row">
                                 <div class="filter all_filter col-sm-4">
                                     <h4 class="">Filters for All messages</h4>
                                     <div class="add-filter">
-                                        <label for="all_filter">Add filter</label>
-                                        <select class="add_filter_select" id="allfilter"><option value="">&nbsp;</option>
+                                        <label for="all_filter" class="all_filter col-sm-4 text-right">Add filter</label>
+                                        <select class="add_filter_select col-sm-8" id="allfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="Metric Name" alias="metric">Metric Name</option>
                                             <option value="level" fname="Level" alias="level">Level</option>                                
                                             <optgroup label="Tags">
@@ -57,8 +57,8 @@
                                 <div class="filter ml_filter col-sm-4">
                                     <h4 class="">Filters for Machine Learned messages</h4>
                                     <div class="add-filter">
-                                        <label for="ml_filter">Add filter</label>
-                                        <select class="add_filter_select" id="mlfilter"><option value="">&nbsp;</option>
+                                        <label for="ml_filter" class="all_filter col-sm-4 text-right">Add filter</label>
+                                        <select class="add_filter_select col-sm-8" id="mlfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="Metric Name" alias="metric">Metric Name</option>
                                             <option value="level" fname="Level" alias="level">Level</option>                                
                                             <optgroup label="Tags">
@@ -77,8 +77,8 @@
                                 <div class="filter manual_filter col-sm-4">
                                     <h4 class="">Filters for Manually Defined messages</h4>
                                     <div class="add-filter">
-                                        <label for="manual_filter">Add filter</label>
-                                        <select class="add_filter_select" id="manualfilter"><option value="">&nbsp;</option>
+                                        <label for="manual_filter" class="all_filter col-sm-4 text-right">Add filter</label>
+                                        <select class="add_filter_select col-sm-8" id="manualfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="Metric Name" alias="metric">Metric Name</option>
                                             <option value="level" fname="Level" alias="level">Level</option>                                
                                             <optgroup label="Tags">
@@ -100,19 +100,19 @@
                         </div>
                     </fieldset>
                     <fieldset class="collapsible collapsed">
-                        <legend>Options</legend>
-                        <div style="">
+                        <legend> <i class="action fa fa-chevron-down"></i>Options</legend>
+                        <div class="filter-body">
                             <table class="options">
                                 <tbody><tr>
                                         <td>
-                                            Board columns
+                                            <label> Columns </label>
                                         </td>
                                         <td class="card-fields">
                                             <label class="floating">
                                                 <input type="checkbox" name="f_col[]" id="f_col_actions" value="actions" checked="checked">Actions
                                             </label> 
                                             <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_level" value="Level" checked="checked">level
+                                                <input type="checkbox" name="f_col[]" id="f_col_level" value="Level" checked="checked">Level
                                             </label> 
                                             <label class="floating">
                                                 <input type="checkbox" name="f_col[]" id="f_col_name" value="Metric name" checked="checked">Metric Name
@@ -135,7 +135,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            Show Tags
+                                            <label> Tags Columns </label>                                            
                                         </td>
                                         <td class="card-fields">
                                             <c:forEach items="${list}" var="tagitem">   
