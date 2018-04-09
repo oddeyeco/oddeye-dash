@@ -71,8 +71,8 @@ function connectstompClient()
     var headers = {};
     headers[headerName] = token;
     headers["sotoken"] = sotoken;
-    var levels = optionsJson.v["allfilter"]["level"];
-    headers["levels"] = levels;
+//    var levels = optionsJson.v["allfilter"]["level"];
+    headers["options"] = JSON.stringify(optionsJson) ;
     realtimeconnect(headers);
 }
 
@@ -84,7 +84,7 @@ function realtimeconnect(head)
     stompClient.debug = null;
     stompClient.connect(head,
             function (frame) {
-                console.log("monitor connected");
+                console.log("Monitor connected");
                 stompClient.subscribe('/user/' + uuid + '/' + sotoken + '/errors', aftersubscribe);
 //                console.log(frame);
             },
@@ -551,7 +551,9 @@ $(document).ready(function () {
     $("body").on("click", "#apply_filter", function () {
         updateFilter();
         var levels = optionsJson.v["allfilter"]["level"];
-        stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));        
+//        stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));        
+        
+        stompClient.send("/input/chagefilter/", {}, JSON.stringify(optionsJson));        
         redrowtable();
 
     });
