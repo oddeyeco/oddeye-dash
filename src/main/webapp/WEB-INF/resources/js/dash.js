@@ -2224,20 +2224,20 @@ function redrawAllJSON(dashJSON, redraw = false) {
 
                     $('.chartSubIcon i').css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov    
                     if (tmprow.widgets[wi].title.text) {
-                        $(".chartTitle").text(tmprow.widgets[wi].title.text);
+                        $(".chartTitle h3").text(tmprow.widgets[wi].title.text);
                         if (tmprow.widgets[wi].title.style)
                         {
-                            $('.chartTitle').css('border-style', 'solid');      ////////// chmoranal grel css i mej
-                            $(".chartTitle").css(tmprow.widgets[wi].title.style);
+                            $('.chartTitle h3').css('border-style', 'solid');      ////////// chmoranal grel css i mej
+                            $(".chartTitle h3").css(tmprow.widgets[wi].title.style);
                         } else
                         {
-                            $(".chartTitle").removeAttr("style");
+                            $(".chartTitle h3").removeAttr("style");
                         }
                     }
                     ;
                     if (tmprow.widgets[wi].title.subtext) {
-                        if (tmprow.widgets[wi].title.subtarget) {
-                            $('.chartSubText').attr('href', tmprow.widgets[wi].title.subtarget);
+                        if (tmprow.widgets[wi].title.sublink) {
+                            $('.chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
                             $('.chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
                         }
                         ;
@@ -2595,7 +2595,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 if (rebuildform) {
                     wraper.prepend('<div class="chartTitleDiv">' + '<span class=chartTitle>' + tmprow.widgets[wi].title.text + '</span>' + "</div>");
                 } else {
-                    $('.chartTitle').text(tmprow.widgets[wi].title.text);
+                    $('#singlewidget .chartTitle').text(tmprow.widgets[wi].title.text);
                 }
                 if (tmprow.widgets[wi].title.style)
                 {
@@ -2606,17 +2606,16 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     $(".chartTitle").removeAttr("style");
                 }
                 if (tmprow.widgets[wi].title.subtext) {
-
                     if (rebuildform) {
                         $("#singlewidget .chartTitle").after('<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info" aria-hidden="true"></i> ' + '</span>' +
                                 '<a class="chartSubText">' + tmprow.widgets[wi].title.subtext + '</a>');
                     } else {
-                        $('.chartSubText').text(tmprow.widgets[wi].title.subtext);
+                        $('#singlewidget .chartSubText').text(tmprow.widgets[wi].title.subtext);
                     }
                     if (tmprow.widgets[wi].title.subtarget) {
                         console.log('link');
-                        $('.chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
-                        $('.chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
+                        $('#singlewidget .chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
+                        $('#singlewidget .chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
                     }
                     ;
                     $('#singlewidget .chartSubText').css('display', 'none');             ////////////// arji vor edit chart - um subtext@ toggle lini?
@@ -3588,15 +3587,14 @@ $(document).ready(function () {
         $('#filter').fadeIn(500);
         $('#maximize').fadeOut(500);
     });
-
     var whaittimer;
     $('body').on("mouseenter mouseleave", '.chartSubIcon, .chartSubText', function (e) {
         var elem = $(this);
 //        console.log(e.target.className);
         clearTimeout(whaittimer);
-        whaittimer = setTimeout(function () {
-            elem.parents().find('.chartSubText').css({position: 'absolute',
-                top: elem.parents('.chartTitleDiv').outerHeight(),
+        whaittimer = setTimeout(function (  ) {
+            elem.next('.chartSubText').css({position: 'absolute',
+                top: elem.outerHeight(),
                 left: 0,
                 width: 300,
                 'z-index': 9999,
