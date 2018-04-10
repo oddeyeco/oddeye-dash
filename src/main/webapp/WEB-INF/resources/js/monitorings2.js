@@ -15,7 +15,7 @@ var array_spec = [];
 //var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option><option value='!*'>none</option><option value='*'>any</option> <option value='regexp'>RegExp true</option><option value='regexp'>RegExp false</option>";
 var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option>";
 var eniumop = "<option value='='>is</option><option value='!'>is not</option>";
-function redrowtable() {
+function redrawBoard() {
     $(".metrictable thead").html("<tr>");
     $(".metrictable tbody").html('<tr class="wait"><td>Please wait...</td></tr>');
 
@@ -83,7 +83,6 @@ function connectstompClient()
     var headers = {};
     headers[headerName] = token;
     headers["sotoken"] = sotoken;
-//    var levels = optionsJson.v["allfilter"]["level"];
     headers["options"] = JSON.stringify(optionsJson);
     realtimeconnect(headers);
 }
@@ -562,11 +561,8 @@ $(document).ready(function () {
 
     $("body").on("click", "#apply_filter", function () {
         updateFilter();
-        var levels = optionsJson.v["allfilter"]["level"];
-//        stompClient.send("/input/chagelevel/", {}, JSON.stringify(levels));        
-
         stompClient.send("/input/chagefilter/", {}, JSON.stringify(optionsJson));
-        redrowtable();
+        redrawBoard();
 
     });
 
@@ -648,8 +644,8 @@ $(document).ready(function () {
     } else
     {
 
-    }
-    redrowtable();
+    }    
+    redrawBoard();
     $('body').on("click", 'fieldset.collapsible legend', function () {
         if ($(this).parent().hasClass("collapsed"))
         {
