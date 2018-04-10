@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import org.apache.commons.codec.binary.Hex;
@@ -24,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.google.common.reflect.TypeToken;
 
 /**
  *
@@ -125,6 +127,30 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
 
                 }
 
+                for (Map.Entry<String, Map<String, JsonObject>> sesionsotokenlevel : user.getSotokenJSON().entrySet()) {
+                    Map<String, JsonObject> sotokenlevelJson = sesionsotokenlevel.getValue();
+                    for (Map.Entry<String, JsonObject> sotokenfilter : sotokenlevelJson.entrySet()) {
+                        JsonObject filter = sotokenfilter.getValue();
+                        boolean filtred = checkfilter(record, filter, jsonResult, metricMeta, t_level);
+                        if (filtred) {
+                            this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenfilter.getKey() + "/errors", jsonResult.toString());
+                        }
+//                        if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
+//
+//                            if (level == i_level) {
+//                                this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+//                            } else {
+//                                if (!Arrays.asList(sotokenlevel.getValue()).contains(Integer.toString(level))) {
+//                                    this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
+//                                }
+//                            }
+//
+//                        }
+
+                    }
+
+                }
+
 //                for (Map.Entry<String, String[]> sotokenlevel : user.getSotokenlist().entrySet()) {
 //                    if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
 //                        this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
@@ -138,6 +164,135 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
         }
         countDownLatch1.countDown();
 
+    }
+
+    private boolean checkfilter(ConsumerRecord<Object, Object> record, JsonObject filter, JsonElement jsonResult, OddeeyMetricMeta metricMeta, String topiclevel) {
+        boolean filtred = true;
+
+        for (Map.Entry<String, JsonElement> filterentry : filter.get("v").getAsJsonObject().entrySet()) {
+            String filterindex = filterentry.getKey();
+            if ((filterindex.equals("allfilter"))
+                    | (("mlfilter".equals(filterindex)) & (!metricMeta.isSpecial()))
+                    | (("manualfilter".equals(filterindex)) & (metricMeta.isSpecial()))) {
+                JsonObject filtervalue = filterentry.getValue().getAsJsonObject();
+                Integer i_level = Integer.parseInt(topiclevel);
+                int level = jsonResult.getAsJsonObject().get("level").getAsInt();
+                java.lang.reflect.Type type = new TypeToken<List<String>>() {
+                    private static final long serialVersionUID = 7894655478L;
+                }.getType();
+                for (Map.Entry<String, JsonElement> filterValueentry : filtervalue.entrySet()) {
+                    JsonElement filterOPvalue = filterValueentry.getValue();
+                    String filterOPop = filter.get("op").getAsJsonObject().get(filterindex).getAsJsonObject().get(filterValueentry.getKey()).getAsString();
+                    String[] path = filterValueentry.getKey().split("\\.");
+                    JsonObject tmpvalue = jsonResult.getAsJsonObject();
+                    String value = "";
+                    for (int n = 0; n < path.length; n++) {
+                        if (!tmpvalue.get(path[n]).isJsonPrimitive()) {
+                            tmpvalue = tmpvalue.get(path[n]).getAsJsonObject();
+                        } else {
+                            value = tmpvalue.get(path[n]).getAsString();
+                        }
+                    }
+
+                    if ("=".equals(filterOPop)) {
+                        filtred = false;
+                        List<String> filterlist = gson.fromJson(filterOPvalue.getAsJsonArray().toString(), type);
+                        if (filterlist.contains(topiclevel)) {
+                            if (level == i_level) {
+                                filtred = true;
+                            } else {
+                                if (!filterlist.contains(Integer.toString(level))) {
+                                    filtred = true;
+                                }
+                            }
+                        }
+                    } else if ("!".equals(filterOPop)) {
+                        filtred = true;
+                        List<String> filterlist = gson.fromJson(filterOPvalue.getAsJsonArray().toString(), type);
+                        if (filterlist.contains(topiclevel)) {
+                            if (level == i_level) {
+                                filtred = false;
+                            } else {
+                                if (!filterlist.contains(Integer.toString(level))) {
+                                    filtred = false;
+                                }
+                            }
+                        }
+                    } else if ("~".equals(filterOPop)) {
+                        String filterval = filterOPvalue.getAsString();
+                        filtred = value.contains(filterval);
+                    } else if ("!~".equals(filterOPop)) {
+                        String filterval = filterOPvalue.getAsString();
+                        filtred = !value.contains(filterval);
+                    } else if ("==".equals(filterOPop)) {
+                        String filterval = filterOPvalue.getAsString();
+                        filtred = value.equals(filterval);
+                    } else if ("!=".equals(filterOPop)) {
+                        String filterval = filterOPvalue.getAsString();
+                        filtred = !value.equals(filterval);
+                    }
+
+                    if (!filtred) {
+                        return filtred;
+                    }
+
+                }
+            }
+        }
+//    for (var filterindex in optionsJson.v)
+//    {
+//        if ((filterindex === "allfilter") ||
+//                ((filterindex === "mlfilter") && (message.isspec === 0)) ||
+//                ((filterindex === "manualfilter") && (message.isspec !== 0))
+//                )
+//        {
+//
+//            for (var fvalue in optionsJson.v[filterindex])
+//            {
+//                var filtervalue = optionsJson.v[filterindex][fvalue];
+//                var filterop = optionsJson.op[filterindex][fvalue];
+//                var path = fvalue.split(".");
+//                var value = message;
+//                $.each(path, function (i, item) {
+//                    value = value[item];
+//                });
+//                if (filterop === "=")
+//                {
+//                    filtred = filtervalue.indexOf("" + value) !== -1;
+//                } else if (filterop === "!")
+//                {
+//                    filtred = filtervalue.indexOf("" + value) === -1;
+//                } else if (filterop === "~")
+//                {
+//                    filtred = value.indexOf("" + filtervalue) !== -1;
+//                } else if (filterop === "!~")
+//                {
+//                    filtred = value.indexOf("" + filtervalue) === -1;
+//                } else if (filterop === "==")
+//                {
+//                    filtred = value === filtervalue;
+//                } else if (filterop === "!=")
+//                {
+//                    filtred = value !== filtervalue;
+//                } else
+//                {
+//                    console.log(value);
+//                    console.log(filterop);
+//                }
+//                if (!filtred)
+//                {
+//                    break;
+//                }
+//
+//            }
+//        }
+//        if (!filtred)
+//        {
+//            break;
+//        }
+//
+//    }
+        return filtred;
     }
 
 }

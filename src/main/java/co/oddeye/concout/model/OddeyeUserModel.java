@@ -17,6 +17,7 @@ import co.oddeye.concout.providers.OddeyeKafkaDataListener;
 import co.oddeye.concout.providers.UserConcurrentMessageListenerContainer;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import javax.servlet.http.Cookie;
 import java.io.Serializable;
@@ -138,6 +139,7 @@ public class OddeyeUserModel implements Serializable {
     private transient UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
 
     private transient final Map<String, Map<String, String[]>> sotokenlist = new HashMap<>();
+    private transient final Map<String, Map<String, JsonObject>> sotokenJSON = new HashMap<>();
     private final Map<String, PageInfo> pagelist = new HashMap<>();
     private String recaptcha;
 
@@ -375,9 +377,7 @@ public class OddeyeUserModel implements Serializable {
                     authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
                 }
             }
-        }
-        else
-        {
+        } else {
             System.out.println("co.oddeye.concout.model.OddeyeUserModel.inituser()");
         }
 
@@ -819,7 +819,7 @@ public class OddeyeUserModel implements Serializable {
         this.listenerContainer = listenerContainer;
     }
 
-//    public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory consumerFactory, SimpMessagingTemplate _template, Map<String, String[]> sotoken) {
+    @Deprecated
     public void setListenerContainer(HbaseMetaDao _MetaDao, ConsumerFactory<Integer, String> consumerFactory, SimpMessagingTemplate _template, Map<String, Map<String, String[]>> sesionsotoken) {
 
         if (this.listenerContainer == null) {
@@ -836,9 +836,6 @@ public class OddeyeUserModel implements Serializable {
             this.listenerContainer.getContainerProperties().setPollTimeout(3000);
             this.listenerContainer.start();
         } else {
-//            List<KafkaMessageListenerContainer<Integer, String>> liseners = this.listenerContainer.getContainers();
-//            System.out.println(liseners.size());
-//            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
             this.sotokenlist.putAll(sesionsotoken);
             if (!this.sotokenlist.isEmpty()) {
                 if (!this.listenerContainer.isRunning()) {
@@ -848,8 +845,33 @@ public class OddeyeUserModel implements Serializable {
             }
 
         }
-//        this.listenerContainer.getContainerProperties().getMessageListener()
+    }
 
+    public void setListenerContainerJ(HbaseMetaDao _MetaDao, ConsumerFactory<Integer, String> consumerFactory, SimpMessagingTemplate _template, Map<String, Map<String, JsonObject>> sesionsotoken) {
+
+        if (this.listenerContainer == null) {
+            String[] topics = new String[AlertLevel.ALERT_LEVELS_INDEX.length];
+            for (int i = 0; i < AlertLevel.ALERT_LEVELS_INDEX.length; i++) {
+                topics[i] = this.getId().toString() + AlertLevel.ALERT_LEVELS_INDEX[i];
+            }
+            ContainerProperties properties = new ContainerProperties(topics);
+            properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, _MetaDao));
+            this.getSotokenJSON().putAll(getSotokenJSON());
+            this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
+            this.listenerContainer.setBeanName(this.getEmail() + "_ErrorLisener");
+            this.listenerContainer.setConcurrency(1);
+            this.listenerContainer.getContainerProperties().setPollTimeout(3000);
+            this.listenerContainer.start();
+        } else {
+            this.getSotokenJSON().putAll(sesionsotoken);
+            if (!this.sotokenJSON.isEmpty()) {
+                if (!this.listenerContainer.isRunning()) {
+                    this.listenerContainer.start();
+                }
+
+            }
+
+        }
     }
 
     public void stopListenerContainer(String sotoken) {
@@ -857,9 +879,12 @@ public class OddeyeUserModel implements Serializable {
 //            OddeyeKafkaDataListener lisener = (OddeyeKafkaDataListener) this.listenerContainer.getContainerProperties().getMessageListener();
             if (this.sotokenlist.containsKey(sotoken)) {
                 this.sotokenlist.remove(sotoken);
-                if (this.sotokenlist.isEmpty()) {
-                    this.listenerContainer.stop();
-                }
+            }
+            if (this.sotokenJSON.containsKey(sotoken)) {
+                this.sotokenJSON.remove(sotoken);
+            }            
+            if ((this.sotokenlist.isEmpty())&&(this.sotokenJSON.isEmpty())) {
+                this.listenerContainer.stop();
             }
         }
     }
@@ -1133,6 +1158,13 @@ public class OddeyeUserModel implements Serializable {
      */
     public void setCookies(ArrayList<Cookie> cookies) {
         this.cookies = cookies;
+    }
+
+    /**
+     * @return the sotokenJSON
+     */
+    public Map<String, Map<String, JsonObject>> getSotokenJSON() {
+        return sotokenJSON;
     }
 
 }

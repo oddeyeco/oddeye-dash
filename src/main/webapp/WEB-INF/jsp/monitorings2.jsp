@@ -28,17 +28,17 @@
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_panel">
 
-            <div id="query_form_content form-horizontal form-label-left">
+            <div id="query_form_content">
                 <form class="form-options">
-                    <fieldset id="filters" class="collapsible ">
-                        <legend>Filters</legend>
-                        <div style="">
+                    <fieldset id="filters" class="collapsible collapsed">
+                        <legend><i class="action fa fa-chevron-down"></i>Filters</legend>
+                        <div class="filter-body">
                             <div class="filters row">
                                 <div class="filter all_filter col-sm-4">
                                     <h4 class="">Filters for All messages</h4>
                                     <div class="add-filter">
-                                        <label for="all_filter">Add filter</label>
-                                        <select class="add_filter_select" id="allfilter"><option value="">&nbsp;</option>
+                                        <label for="all_filter" class="all_filter col-sm-4 text-right">Add filter</label>
+                                        <select class="add_filter_select col-sm-8" id="allfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="Metric Name" alias="metric">Metric Name</option>
                                             <option value="level" fname="Level" alias="level">Level</option>                                
                                             <optgroup label="Tags">
@@ -57,8 +57,8 @@
                                 <div class="filter ml_filter col-sm-4">
                                     <h4 class="">Filters for Machine Learned messages</h4>
                                     <div class="add-filter">
-                                        <label for="ml_filter">Add filter</label>
-                                        <select class="add_filter_select" id="mlfilter"><option value="">&nbsp;</option>
+                                        <label for="ml_filter" class="all_filter col-sm-4 text-right">Add filter</label>
+                                        <select class="add_filter_select col-sm-8" id="mlfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="Metric Name" alias="metric">Metric Name</option>
                                             <option value="level" fname="Level" alias="level">Level</option>                                
                                             <optgroup label="Tags">
@@ -77,8 +77,8 @@
                                 <div class="filter manual_filter col-sm-4">
                                     <h4 class="">Filters for Manually Defined messages</h4>
                                     <div class="add-filter">
-                                        <label for="manual_filter">Add filter</label>
-                                        <select class="add_filter_select" id="manualfilter"><option value="">&nbsp;</option>
+                                        <label for="manual_filter" class="all_filter col-sm-4 text-right">Add filter</label>
+                                        <select class="add_filter_select col-sm-8" id="manualfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="Metric Name" alias="metric">Metric Name</option>
                                             <option value="level" fname="Level" alias="level">Level</option>                                
                                             <optgroup label="Tags">
@@ -100,51 +100,52 @@
                         </div>
                     </fieldset>
                     <fieldset class="collapsible collapsed">
-                        <legend>Options</legend>
-                        <div style="">
-                            <table class="options">
+                        <legend> <i class="action fa fa-chevron-down"></i>Options</legend>
+                        <div class="filter-body">
+                            <table class="options" style="width: 100%">
                                 <tbody><tr>
                                         <td>
-                                            Board columns
+                                            <label> Columns </label>
                                         </td>
-                                        <td class="card-fields">
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_actions" value="actions" checked="checked">Actions
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_level" value="Level" checked="checked">level
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_name" value="Metric name" checked="checked">Metric Name
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_tags" value="tags" checked="checked">Tags
-                                            </label> 
+                                        <td class="card-fields value">
+                                            <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
+                                                <option value="actions" selected="selected" label="actions" key="actions">Actions
+                                                </option> 
+                                                <option value="level" selected="selected" label="Level" key="levelname">Level
+                                                </option> 
+                                                <option value="info_name" selected="selected" key="info.name" label="Metric name">Metric Name
+                                                </option> 
+                                                <optgroup label="Tags">
+                                                    <c:forEach items="${list}" var="tagitem">   
+                                                        <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
+                                                        <option value="info_tags_${tagitem.key}_value" <c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if>
+                                                                key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                    </c:forEach>                                
+                                                </optgroup>
 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_info" value="Info" checked="checked">Info
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_sttime" value="Start Time" checked="checked">Start Time
-                                            </label> 
-                                            <label class="floating">
-                                                <input type="checkbox" name="f_col[]" id="f_col_lasttime" value="Last Time" checked="checked">Last Time
-                                            </label>                                         
+
+                                                <option value="info" selected="selected" key="info" label="Info">Info
+                                                </option> 
+                                                <option value="Start_Time" selected="selected" key="StartTime" label="Start Time">Start Time
+                                                </option> 
+                                                <option value="Last_Time" selected="selected" key="LastTime" label="Last Time">Last Time
+                                                </option>                                                   
+                                            </select>                                                                                  
 
                                         </td>
                                     </tr>
-                                    <tr>
+<!--                                    <tr>
                                         <td>
-                                            Show Tags
+                                            <label> Tags Columns </label>                                            
                                         </td>
                                         <td class="card-fields">
                                             <c:forEach items="${list}" var="tagitem">   
                                                 <label class="floating">
-                                                    <input type="checkbox" name="f_tags[]" key="${tagitem.key}" id="f_tags_${tagitem.key}" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"<c:if test="${ident_tag == tagitem.key}"> checked="checked" </c:if> >${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()})
+                                                    <input type="checkbox" name="f_tags[]" key="${tagitem.key}" id="f_tags_${tagitem.key}" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"<c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if> >${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()})
                                                     </label> 
                                             </c:forEach>                                        
                                         </td>
-                                    </tr>                                
+                                    </tr>                                -->
                                 </tbody>
                             </table>
                         </div>
@@ -168,42 +169,14 @@
                 <div class="x_content table-responsive" style="display: block;">
                     <!-- start List -->
                     <table class="table metrictable table-striped bulk_action">
-                        <thead>
-                            <tr>
-                                <!--<th>#</th>-->
-                                <th class="actions">
-                                    <input type="checkbox" id="check-all" class="flat">
-                                    <div class="btn-group">                                        
-                                        <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#" id="Show_chart">Show Chart</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li><a href="#" id="Clear_reg">Clear Regression</a>
-                                            </li>
-                                        </ul>
-                                    </div>                                        
-                                </th>
-                                <th>Level</th>
-                                <th>Metric Name</th>
-                                <th id="ident_tag_head">
-                                    <select class="table-form-control" name="ident_tag" id="ident_tag">
-                                        <c:forEach items="${list}" var="tagitem">   
-                                            <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
-                                        </c:forEach>
-                                    </select>
-                                </th>                                    
-                                <th>Info</th>
-                                <th>Start Time</th>
-                                <th>Last Time</th>                                    
-                            </tr>
+                        <thead id="specialhead">                            
                         </thead>
-                        <tbody>
-                            <tr class="wait"><td colspan="7">Please wait...</td></tr>
+                        <tbody id="specialbody">                            
                         </tbody>
+                        <thead id="manualhead">                            
+                        </thead>
+                        <tbody id="manualbody">                            
+                        </tbody>                        
                     </table>
                     <!-- end of List -->                        
                 </div>

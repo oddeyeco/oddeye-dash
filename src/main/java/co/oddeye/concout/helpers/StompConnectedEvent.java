@@ -10,6 +10,7 @@ import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
+    private static final JsonParser PARSER = new JsonParser();
 
     private final SimpMessagingTemplate template;
 
@@ -60,34 +62,48 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
     @SuppressWarnings("unchecked")
     public void onApplicationEvent(SessionConnectedEvent event) {
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
-        if (event.getMessage().getHeaders().get("simpUser")==null)
-        {
+        if (event.getMessage().getHeaders().get("simpUser") == null) {
             LOGGER.info("simpUser is null");
             return;
         }
-        
-        if (((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()==null)
-        {
+
+        if (((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal() == null) {
             LOGGER.info("getPrincipal is null");
             return;
-        } 
-        
+        }
+
         OddeyeUserModel userDetails = ((OddeyeUserDetails) ((UsernamePasswordAuthenticationToken) event.getMessage().getHeaders().get("simpUser")).getPrincipal()).getUserModel();
         GenericMessage message = (GenericMessage) event.getMessage().getHeaders().get("simpConnectMessage");
 
         if (((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("sotoken") != null) {
-            String[] levels = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("levels").get(0).split(",");
             String sotoken = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("sotoken").get(0); //sha.getNativeHeader("sotoken").get(0);
             String Sesionid = (String) message.getHeaders().get("simpSessionId");
-            Map<String, Map<String, String[]>> Sesionmap = new HashMap<>();
-            Map<String, String[]> sotokenlevel = new HashMap<String, String[]>() {
-                {
-                    put(sotoken, levels);
-                }
-            };
 
-            Sesionmap.put(Sesionid, sotokenlevel);
-            userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, Sesionmap);
+            if (((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("levels") != null) {
+                String[] levels = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("levels").get(0).split(",");
+                Map<String, Map<String, String[]>> Sesionmap = new HashMap<>();
+                Map<String, String[]> sotokenlevel = new HashMap<String, String[]>() {
+                    {
+                        put(sotoken, levels);
+                    }
+                };
+                Sesionmap.put(Sesionid, sotokenlevel);
+                userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, Sesionmap);
+            }
+
+            if (((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("options") != null) {
+                String options = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("options").get(0);
+                JsonObject optionsJson = PARSER.parse(options).getAsJsonObject();                
+                Map<String, Map<String, JsonObject>> Sesionmap = new HashMap<>();
+                Map<String, JsonObject> sotokenlevel = new HashMap<String, JsonObject>() {
+                    {
+                        put(sotoken, optionsJson);
+                    }
+                };
+                Sesionmap.put(Sesionid, sotokenlevel);
+                userDetails.setListenerContainerJ(MetaDao, consumerFactory, this.template, Sesionmap);
+            }            
+            
         }
 
         if (((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("page") != null) {
@@ -95,10 +111,10 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
             try {
                 String page = ((Map<String, List<String>>) message.getHeaders().get("nativeHeaders")).get("page").get(0); //sha.getNativeHeader("sotoken").get(0);
                 String Sesionid = (String) message.getHeaders().get("simpSessionId");
-                
+
                 InetAddress ia = InetAddress.getLocalHost();
                 String node = ia.getHostName();
-                
+
                 JsonObject Jsonchangedata = new JsonObject();
                 Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
                 Jsonchangedata.addProperty("action", "entertopage");
@@ -106,7 +122,7 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
                 Jsonchangedata.addProperty("SessionId", Sesionid);
                 Jsonchangedata.addProperty("node", node);
                 Jsonchangedata.addProperty("time", System.currentTimeMillis());
-                
+
                 // Send chenges to kafka
                 ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                 messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
@@ -116,16 +132,16 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
                             LOGGER.info("Kafka Send entertopage onSuccess");
                         }
                     }
-                    
+
                     @Override
                     public void onFailure(Throwable ex) {
                         LOGGER.error("Kafka Send entertopage onFailure:" + ex);
                     }
                 });
-                
+
 //                userDetails.getPagelist().put(Sesionid, page);
             } catch (UnknownHostException ex) {
-                LOGGER.error(globalFunctions.stackTrace(ex));                
+                LOGGER.error(globalFunctions.stackTrace(ex));
             }
         }
 

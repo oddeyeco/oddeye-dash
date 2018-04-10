@@ -131,9 +131,9 @@ public class UserController {
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
-            Set<Map.Entry<String, Map<String, Integer>>> set = userDetails.getMetricsMeta().getTagsList().entrySet();
-            List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList<>(set);
-            Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> Integer.valueOf(o2.getValue().size()).compareTo(o1.getValue().size()));
+            Map<String, Map<String, Integer>> list = userDetails.getMetricsMeta().getTagsListSorted();
+//            List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList<>(set);
+//            Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> o2.getKey().compareTo(o1.getKey()));
             if (list.size() > 0) {
                 if (ident_tag != null) {
                     map.put("ident_tag", ident_tag);
