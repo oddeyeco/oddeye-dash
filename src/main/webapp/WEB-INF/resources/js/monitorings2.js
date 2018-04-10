@@ -24,7 +24,7 @@ function redrawBoard() {
                 switch (entry) {
                     case 'actions':
                     {
-                        $(".metrictable thead tr").append(
+                        $(".metrictable thead#manualhead tr").append(
                                 '<th class="actions">' +
                                 '<input type="checkbox" id="check-all" class="flat">' +
                                 '<div class="btn-group">' +
@@ -41,6 +41,9 @@ function redrawBoard() {
                                 '</ul>' +
                                 '</div>' +
                                 '</th>');
+                        $(".metrictable thead#specialhead tr").append(
+                                '<th class="actions">' +
+                                '</th>');                        
                         break
                     }
                     default:
@@ -223,9 +226,12 @@ function drawRaw(errorjson, table, hashindex, update) {
         color = "red";
     }
     var trclass = "level_" + errorjson.level;
+    var tbodyID = "manualbody";
     if (errorjson.isspec !== 0)
     {
         trclass = trclass + " spec";
+        var tbodyID = "specialbody";
+        
     }
 
     if (errorjson.flap > 5)
@@ -312,28 +318,29 @@ function drawRaw(errorjson, table, hashindex, update) {
                 }
         );
 
-        html = html + '</tr>';
+        html = html + '</tr>';     
+        
         if (hashindex === null)
         {
-            table.find("tbody").append(html);
+            table.find("tbody#"+tbodyID).append(html);
         } else
         {
             if (hashindex === 0)
             {
-                if (table.find("tbody tr").first().length === 0)
+                if (table.find("tbody#"+tbodyID+" tr").first().length === 0)
                 {
-                    table.find("tbody").append(html);
+                    table.find("tbody#"+tbodyID).append(html);
                 } else
                 {
-                    table.find("tbody tr").first().before(html);
+                    table.find("tbody#"+tbodyID+" tr").first().before(html);
                 }
 
             } else
             {
-                table.find("tbody tr#" + hashindex).before(html);
+                table.find("tbody#"+tbodyID+" tr#" + hashindex).before(html);
             }
         }
-        table.find("tbody tr#" + errorjson.hash + " input.rawflat").iCheck({
+        table.find("tbody#"+tbodyID+" tr#" + errorjson.hash + " input.rawflat").iCheck({
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
         });

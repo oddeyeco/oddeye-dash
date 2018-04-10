@@ -169,42 +169,14 @@
                 <div class="x_content table-responsive" style="display: block;">
                     <!-- start List -->
                     <table class="table metrictable table-striped bulk_action">
-                        <thead>
-                            <tr>
-                                <!--<th>#</th>-->
-                                <th class="actions">
-                                    <input type="checkbox" id="check-all" class="flat">
-                                    <div class="btn-group">                                        
-                                        <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <span class="caret"></span>
-                                            <span class="sr-only">Toggle Dropdown</span>
-                                        </button>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#" id="Show_chart">Show Chart</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li><a href="#" id="Clear_reg">Clear Regression</a>
-                                            </li>
-                                        </ul>
-                                    </div>                                        
-                                </th>
-                                <th>Level</th>
-                                <th>Metric Name</th>
-                                <th id="ident_tag_head">
-                                    <select class="table-form-control" name="ident_tag" id="ident_tag">
-                                        <c:forEach items="${list}" var="tagitem">   
-                                            <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
-                                        </c:forEach>
-                                    </select>
-                                </th>                                    
-                                <th>Info</th>
-                                <th>Start Time</th>
-                                <th>Last Time</th>                                    
-                            </tr>
+                        <thead id="specialhead">                            
                         </thead>
-                        <tbody>
-                            <tr class="wait"><td colspan="7">Please wait...</td></tr>
+                        <tbody id="specialbody">                            
                         </tbody>
+                        <thead id="manualhead">                            
+                        </thead>
+                        <tbody id="manualbody">                            
+                        </tbody>                        
                     </table>
                     <!-- end of List -->                        
                 </div>
