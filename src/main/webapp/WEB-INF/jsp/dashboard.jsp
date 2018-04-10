@@ -64,7 +64,7 @@
         <div class="inner col-xs-12">
             <div class="chartTitleDiv" style="display: none">
                 <span class="chartSubIcon "><i class="fa fa-info" aria-hidden="true"></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                <span class="chartSubText" style="display: none"></span>
+                <a href="#" class="chartSubText" style="display: none"></a>
                 <span class="chartTitle"></span>
             </div>
             <div class="controls text-right">

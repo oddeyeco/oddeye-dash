@@ -2236,6 +2236,11 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     }
                     ;
                     if (tmprow.widgets[wi].title.subtext) {
+                        if (tmprow.widgets[wi].title.subtarget) {
+                            $('.chartSubText').attr('href', tmprow.widgets[wi].title.subtarget);
+                            $('.chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
+                        }
+                        ;
                         $(".chartSubText").text(tmprow.widgets[wi].title.subtext);
                         if (tmprow.widgets[wi].title.subtextStyle)
                         {
@@ -2463,7 +2468,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         title = "Edit Numeric";
     }
-    console.log(rebuildform);
     if (rebuildform)
     {
         $(".right_col").append('<div class="x_panel editpanel"></div>');
@@ -2602,12 +2606,19 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     $(".chartTitle").removeAttr("style");
                 }
                 if (tmprow.widgets[wi].title.subtext) {
+
                     if (rebuildform) {
                         $("#singlewidget .chartTitle").after('<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info" aria-hidden="true"></i> ' + '</span>' +
-                                '<span class="chartSubText">' + tmprow.widgets[wi].title.subtext + '</span>');
+                                '<a class="chartSubText">' + tmprow.widgets[wi].title.subtext + '</a>');
                     } else {
                         $('.chartSubText').text(tmprow.widgets[wi].title.subtext);
                     }
+                    if (tmprow.widgets[wi].title.subtarget) {
+                        console.log('link');
+                        $('.chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
+                        $('.chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
+                    }
+                    ;
                     $('#singlewidget .chartSubText').css('display', 'none');             ////////////// arji vor edit chart - um subtext@ toggle lini?
                     if (tmprow.widgets[wi].title.subtextStyle)
                     {
@@ -3577,15 +3588,33 @@ $(document).ready(function () {
         $('#filter').fadeIn(500);
         $('#maximize').fadeOut(500);
     });
-    $('body').on("mouseenter mouseleave", '.chartSubIcon', function () {
-        console.log('sssss');
-        $(this).next('.chartSubText').css({position: 'absolute',
-            top: $(this).parents('.chartTitleDiv').outerHeight(),
-            left: 0,
-            width: 300,
-            background: 'rgb(216, 217, 218)'
-        });
-        $(this).next('.chartSubText').fadeToggle();
+
+    var whaittimer;
+    $('body').on("mouseenter mouseleave", '.chartSubIcon, .chartSubText', function (e) {
+        var elem = $(this);
+//        console.log(e.target.className);
+        clearTimeout(whaittimer);
+        whaittimer = setTimeout(function () {
+            elem.parents().find('.chartSubText').css({position: 'absolute',
+                top: elem.parents('.chartTitleDiv').outerHeight(),
+                left: 0,
+                width: 300,
+                'z-index': 9999,
+                background: 'rgb(216, 217, 218)'
+            });
+            if (e.type === 'mouseover') {
+//                console.log(e.type + " in");
+                elem.parents().find('.chartSubText').fadeIn();
+            }
+            if (e.type === 'mouseenter' && e.target.className === 'chartSubText') {
+                e.preventDefault();
+            }
+            if ( e.type === 'mouseout' ) {
+//                console.log(e.type + " out");
+                elem.parents().find('.chartSubText').fadeOut();
+            }
+            ;
+        }, 500);
     });
 
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};

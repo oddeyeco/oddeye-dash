@@ -33,7 +33,7 @@ public class StartupApplicationListener implements
         if (counter == 0) {
             try {
                 LOGGER.warn("Start Read FOR ALL USERS");        
-//                Metadao.getForUsers();
+                Metadao.getForUsers();
                 LOGGER.warn("End Read FOR ALL USERS");
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
