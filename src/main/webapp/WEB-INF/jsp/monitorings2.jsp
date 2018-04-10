@@ -224,7 +224,8 @@
                     padding: 5px;
                     margin-bottom: 5px;
                     text-align: center;
-                    background-color: white;                    
+                    border-radius: 5px;
+                    background-color: #e4e4e4;                  
                 }
             </style>
             <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
