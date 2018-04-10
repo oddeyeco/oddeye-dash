@@ -43,7 +43,7 @@ function redrawBoard() {
                                 '</th>');
                         $(".metrictable thead#specialhead tr").append(
                                 '<th class="actions">' +
-                                '</th>');                        
+                                '</th>');
                         break
                     }
                     default:
@@ -55,7 +55,7 @@ function redrawBoard() {
                 }
                 $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
             }
-    );        
+    );
     $('.metrictable thead input.flat').iCheck({
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
@@ -231,7 +231,7 @@ function drawRaw(errorjson, table, hashindex, update) {
     {
         trclass = trclass + " spec";
         var tbodyID = "specialbody";
-        
+
     }
 
     if (errorjson.flap > 5)
@@ -287,6 +287,23 @@ function drawRaw(errorjson, table, hashindex, update) {
                             html = html + '<td class="timelocal">' + moment(st * 1).format(timeformatsmall) + '</td>';
                             break;
                         }
+                        case  "info.name":
+                        {
+                            var path = obj.attr("key").split(".");
+                            var value = errorjson;
+
+                            $.each(path, function (i, item) {
+                                if (value)
+                                {
+                                    value = value[item];
+                                }
+                            });
+                            if (errorjson.isspec === 0)
+                            {
+                                html = html + '<td class="' + obj.attr("value") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + (value ? value : "-/-") + '</a></div></td>';
+                                break;
+                            }
+                        }
                         default:
                         {
                             var path = obj.attr("key").split(".");
@@ -318,29 +335,29 @@ function drawRaw(errorjson, table, hashindex, update) {
                 }
         );
 
-        html = html + '</tr>';     
-        
+        html = html + '</tr>';
+
         if (hashindex === null)
         {
-            table.find("tbody#"+tbodyID).append(html);
+            table.find("tbody#" + tbodyID).append(html);
         } else
         {
             if (hashindex === 0)
             {
-                if (table.find("tbody#"+tbodyID+" tr").first().length === 0)
+                if (table.find("tbody#" + tbodyID + " tr").first().length === 0)
                 {
-                    table.find("tbody#"+tbodyID).append(html);
+                    table.find("tbody#" + tbodyID).append(html);
                 } else
                 {
-                    table.find("tbody#"+tbodyID+" tr").first().before(html);
+                    table.find("tbody#" + tbodyID + " tr").first().before(html);
                 }
 
             } else
             {
-                table.find("tbody#"+tbodyID+" tr#" + hashindex).before(html);
+                table.find("tbody#" + tbodyID + " tr#" + hashindex).before(html);
             }
         }
-        table.find("tbody#"+tbodyID+" tr#" + errorjson.hash + " input.rawflat").iCheck({
+        table.find("tbody#" + tbodyID + " tr#" + errorjson.hash + " input.rawflat").iCheck({
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
         });
@@ -651,7 +668,7 @@ $(document).ready(function () {
     } else
     {
 
-    }    
+    }
     redrawBoard();
     $('body').on("click", 'fieldset.collapsible legend', function () {
         if ($(this).parent().hasClass("collapsed"))
