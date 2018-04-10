@@ -110,10 +110,14 @@
                                         <td class="card-fields value">
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
                                                 <option value="actions" selected="selected" label="actions" key="actions">Actions
+                                                </option>
+                                                <option value="Start_Time" selected="selected" key="StartTime" label="Start Time">Start Time
                                                 </option> 
-                                                <option value="level" selected="selected" label="Level" key="levelname">Level
-                                                </option> 
+                                                <option value="Last_Time" selected="selected" key="LastTime" label="Last Time">Last Time
+                                                </option>                                                                                                   
                                                 <option value="info_name" selected="selected" key="info.name" label="Metric name">Metric Name
+                                                </option>                                                 
+                                                <option value="level" selected="selected" label="Level" key="levelname">Level
                                                 </option> 
                                                 <optgroup label="Tags">
                                                     <c:forEach items="${list}" var="tagitem">   
@@ -126,26 +130,22 @@
 
                                                 <option value="info" selected="selected" key="info" label="Info">Info
                                                 </option> 
-                                                <option value="Start_Time" selected="selected" key="StartTime" label="Start Time">Start Time
-                                                </option> 
-                                                <option value="Last_Time" selected="selected" key="LastTime" label="Last Time">Last Time
-                                                </option>                                                   
                                             </select>                                                                                  
 
                                         </td>
                                     </tr>
-<!--                                    <tr>
-                                        <td>
-                                            <label> Tags Columns </label>                                            
-                                        </td>
-                                        <td class="card-fields">
-                                            <c:forEach items="${list}" var="tagitem">   
-                                                <label class="floating">
-                                                    <input type="checkbox" name="f_tags[]" key="${tagitem.key}" id="f_tags_${tagitem.key}" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"<c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if> >${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()})
-                                                    </label> 
-                                            </c:forEach>                                        
-                                        </td>
-                                    </tr>                                -->
+                                    <!--                                    <tr>
+                                                                            <td>
+                                                                                <label> Tags Columns </label>                                            
+                                                                            </td>
+                                                                            <td class="card-fields">
+                                    <c:forEach items="${list}" var="tagitem">   
+                                        <label class="floating">
+                                            <input type="checkbox" name="f_tags[]" key="${tagitem.key}" id="f_tags_${tagitem.key}" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"<c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if> >${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()})
+                                            </label> 
+                                    </c:forEach>                                        
+                                </td>
+                            </tr>                                -->
                                 </tbody>
                             </table>
                         </div>
@@ -163,24 +163,87 @@
                         <b>Total:</b><span class="Tablecount">0</span><b>Machine Learned:</b><span class="regcount">0</span><b>Manually Defined:</b><span class="Speccount">0 </span>
                     </h4>                 
                 </div>
-            </div>
-            <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
+            </div>      
+            <style>
+                .monitorlist,
+                .monitorlist *
+                {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
 
-                <div class="x_content table-responsive" style="display: block;">
-                    <!-- start List -->
-                    <table class="table metrictable table-striped bulk_action">
-                        <thead id="specialhead">                            
-                        </thead>
-                        <tbody id="specialbody">                            
-                        </tbody>
-                        <thead id="manualhead">                            
-                        </thead>
-                        <tbody id="manualbody">                            
-                        </tbody>                        
-                    </table>
-                    <!-- end of List -->                        
-                </div>
-            </div>         
+                .monitorlist li
+                {
+                    list-style: none;                    
+                }
+                .monitorlist li ul
+                {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: stretch;
+                    flex-wrap: wrap;
+                }
+                .monitorlist li ul li
+                {
+                    flex: 1; 
+                    list-style: none;
+                    /*float: left;*/
+                    padding: 5px;
+                    border: solid 1px #d5d5d5;                    
+                    border-radius: 5px;
+
+                    margin: 5px;
+                    word-wrap: break-word;
+                    text-align: left;
+                    white-space: nowrap;
+                    cursor: pointer;
+                    position: relative;      
+                    -webkit-box-shadow: 5px 5px 5px 0px rgba(138,138,138,1);
+                    -moz-box-shadow: 5px 5px 5px 0px rgba(138,138,138,1);
+                    box-shadow: 5px 5px 5px 0px rgba(138,138,138,1);          
+                }  
+                .monitorlist li ul li.spec
+                {
+                    -webkit-box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);
+                    -moz-box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);
+                    box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);                    
+                }
+                .monitorlist li ul li div
+                {
+                    white-space: nowrap;
+                }
+                .inline
+                {
+                    display: inline-block;
+                    margin: 0 5px;
+                }
+                .info_name
+                {
+                    border: 1px solid #d5d5d5;
+                    padding: 5px;
+                    margin-bottom: 5px;
+                    text-align: center;
+                    background-color: white;                    
+                }
+            </style>
+            <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
+                <!-- start List -->
+                <ul class="monitorlist">
+                    <li id="special">
+                        <ul id="speciallist">
+
+                        </ul>
+                    </li>
+                    <li id="regular">
+                        <ul id="regularlist">
+
+                        </ul>                            
+                    </li>
+                </ul>
+
+
+            </div>             
         </div>
     </div>
 </div>
