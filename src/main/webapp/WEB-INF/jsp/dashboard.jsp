@@ -80,16 +80,16 @@
                             </div> 
                         </div>             -->
 
-            <div class="">
-                <div class="chartTitleDiv" style="display: none">
+            <!--<div class="">-->
+                <div class="chartTitleDiv" style="text-align: center">
                     <div>
-                        <span class="chartSubIcon "><i class="fa fa-info" aria-hidden="true"></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                        <span class="chartSubIcon" style="display: none"><i class="fa fa-info"></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
                         <a href="#" class="chartSubText" style="display: none"></a>
                     </div>
                     <div class="chartTitle btn-group">
                         <div type="button" data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
+                            <!--<div class="echart_time pull-left"></div>-->
                         <ul class="controls dropdown-menu">
-                            <div class="echart_time pull-left"></div>
                             <li><a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a></li>
                             <li><a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a></li>
                             <li><a class="btn btn-default dublicate" type="button" data-toggle="tooltip" data-placement="top" title="Dublicate">Duplicate</a></li>
@@ -100,7 +100,7 @@
                         </ul> 
                     </div>
                 </div>
-            </div>             
+            <!--</div>-->             
             <div class="echart_line" style="height:300px;"></div>                   
         </div>
     </div>   

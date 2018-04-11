@@ -10,7 +10,7 @@
 <script src="${cp}/resources/jsoneditor/dist/jsoneditor.min.js?v=${version}"></script>
 
 <script>
-    console.log(${dashInfo});
+//    console.log(${dashInfo});
     var gdd = ${dashInfo};
     var Edit_Form;
     var balanse = 0;
