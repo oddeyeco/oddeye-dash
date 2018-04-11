@@ -155,7 +155,7 @@
             <p class="buttons">
                 <a href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</a>
                 <a href="#" class="btn btn-xs btn-primary" id="cleare_filter">Save</a>
-                <a href="#" class="btn btn-xs btn-primary" id="save_filter">Set As</a>
+                <a href="#" class="btn btn-xs btn-primary" id="save_filter">Save As</a>
             </p>
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
@@ -164,99 +164,7 @@
                     </h4>                 
                 </div>
             </div>      
-            <style>
-                .monitorlist,
-                .monitorlist *
-                {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                }
 
-                .monitorlist li
-                {
-                    list-style: none;                    
-                }
-                .monitorlist li ul
-                {
-                    display: flex;                    
-                    flex-direction: row;
-                    align-items: stretch;
-                    flex-wrap: wrap;
-                }
-                .monitorlist li ul#regularlist
-                {
-                    border: double 6px transparent;
-                    border-top: double 6px #d5d5d5;   
-                }                
-                
-                .monitorlist li ul li
-                {
-                    flex: 1; 
-                    list-style: none;
-                    /*float: left;*/
-                    padding: 5px;
-                    border: solid 1px #d5d5d5;                    
-                    border-radius: 5px;
-
-                    margin: 3px;
-                    word-wrap: break-word;
-                    text-align: left;
-                    white-space: nowrap;
-                    cursor: pointer;
-                    position: relative;      
-                    -webkit-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
-                    -moz-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
-                    box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);          
-                }  
-/*                .monitorlist li ul li.spec
-                {
-                    -webkit-box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);
-                    -moz-box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);
-                    box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);                    
-                }*/
-                /*                .monitorlist li ul li div
-                                {
-                                    white-space: nowrap;                    
-                                }*/
-                .inline
-                {
-                    display: inline-block;
-                    margin: 0 0 0 5px;
-                }
-                .info.name
-                {
-                    border: 1px solid #d5d5d5;
-                    padding: 5px;
-                    margin-bottom: 5px;
-                    text-align: center;
-                    border-radius: 5px;
-                    background-color: #e4e4e4;  
-                    clear: both;
-                }
-                #speciallist .info.name
-                {
-                    border-color: #73879C;
-                    background-color: #73879C;  
-                    color: #e4e4e4;  
-                }
-                .message
-                {
-                    white-space: initial;
-                    font-style: italic;
-                    border-top: 1px solid #d5d5d5;
-                    padding-top: 5px;
-                    margin-top: 5px;                        
-
-                }
-                .valueinfo
-                {
-                    position: absolute;
-                    top: 0px;
-                    right: 10px;
-                    font-size: 20px;                 
-                }
-            </style>
             <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
                 <!-- start List -->
                 <ul class="monitorlist">

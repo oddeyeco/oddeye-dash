@@ -1366,6 +1366,98 @@ table.filters-table
     padding: 0 0 10px 0;
 }
 
+.monitorlist
+{
+    *
+    {
+        list-style: none;
+        padding: 0;
+        margin: 0;        
+    }
+    li
+    {
+        ul
+        {
+            li
+            {
+                .inline
+                {
+                    display: inline-block;
+                    margin: 0 0 0 5px;
+                }
+                .info.name
+                {
+                    border: 1px solid #d5d5d5;
+                    padding: 5px;
+                    margin-bottom: 5px;
+                    text-align: center;
+                    border-radius: 5px;
+                    background-color: #e4e4e4;  
+                    clear: both;
+                }
+
+                .message
+                {
+                    white-space: initial;
+                    font-style: italic;
+                    border-top: 1px solid #d5d5d5;
+                    padding-top: 5px;
+                    margin-top: 5px;                        
+
+                }
+                .valueinfo
+                {
+                    position: absolute;
+                    top: 0px;
+                    right: 10px;
+                    font-size: 20px;                 
+                }            
+                flex: 1; 
+                list-style: none;
+                /*float: left;*/
+                padding: 5px;
+                border: solid 1px #d5d5d5;                    
+                border-radius: 5px;
+
+                margin: 3px;
+                word-wrap: break-word;
+                text-align: left;
+                white-space: nowrap;
+                cursor: pointer;
+                position: relative;      
+                -webkit-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
+                -moz-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
+                box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);          
+            }            
+
+            &#regularlist
+            {
+                border: double 6px transparent;
+                border-top: double 6px #d5d5d5;   
+            }   
+            &#speciallist 
+            {
+                .info.name
+                {
+                    border-color: #73879C;
+                    background-color: #73879C;  
+                    color: #e4e4e4;                          
+                }
+
+            }              
+            display: flex;                    
+            flex-direction: row;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        list-style: none;                    
+    }    
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
 @media( max-width: 1292px){
     .filtermargin
     {
