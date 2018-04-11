@@ -179,7 +179,7 @@
                 }
                 .monitorlist li ul
                 {
-                    display: flex;
+                    display: flex;                    
                     flex-direction: row;
                     align-items: stretch;
                     flex-wrap: wrap;

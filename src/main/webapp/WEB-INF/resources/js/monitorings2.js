@@ -371,7 +371,7 @@ function drawUL(errorjson, table, hashindex, update) {
             $("." + table).find("li#" + hashindex + " .valueinfo").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
         } else
         {
-            $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa-comment-alt"></i> ' + message);
+            $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa-comment-o"></i> ' + message);
         }
         if (arrowclass !== "")
         {
