@@ -105,10 +105,13 @@
                             <table class="options" style="width: 100%">
                                 <tbody><tr>
                                         <td>
-                                            <label> Columns </label>
+                                            <label>Display fields </label>
                                         </td>
                                         <td class="card-fields value">
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
+                                                <option value="level" label="Level" key="levelname" disabled="disabled">Level
+                                                </option> 
+
                                                 <option value="actions" selected="selected" label="actions" key="actions">Actions
                                                 </option>
                                                 <option value="Start_Time" selected="selected" key="StartTime" label="Start Time">Start Time
@@ -116,20 +119,17 @@
                                                 <option value="Last_Time" selected="selected" key="LastTime" label="Last Time">Last Time
                                                 </option>                                                                                                   
                                                 <option value="info_name" selected="selected" key="info.name" label="Metric name">Metric Name
-                                                </option>                                                 
-                                                <option value="level" selected="selected" label="Level" key="levelname">Level
-                                                </option> 
+                                                </option>    
                                                 <optgroup label="Tags">
                                                     <c:forEach items="${list}" var="tagitem">   
                                                         <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
-                                                        <option value="info_tags_${tagitem.key}_value" <c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if>
+                                                        <option value="info_tags_${tagitem.key}_value" selected="selected" <c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if>
                                                                 key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
                                                 </optgroup>
-
-
                                                 <option value="info" selected="selected" key="info" label="Info">Info
-                                                </option> 
+                                                </option>                                                 
+
                                             </select>                                                                                  
 
                                         </td>
@@ -209,23 +209,40 @@
                     -moz-box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);
                     box-shadow: 10px 10px 5px 0px rgba(138,138,138,1);                    
                 }
-                .monitorlist li ul li div
-                {
-                    white-space: nowrap;
-                }
+                /*                .monitorlist li ul li div
+                                {
+                                    white-space: nowrap;                    
+                                }*/
                 .inline
                 {
                     display: inline-block;
-                    margin: 0 5px;
+                    margin: 0 0 0 5px;
                 }
-                .info_name
+                .info.name
                 {
                     border: 1px solid #d5d5d5;
                     padding: 5px;
                     margin-bottom: 5px;
                     text-align: center;
                     border-radius: 5px;
-                    background-color: #e4e4e4;                  
+                    background-color: #e4e4e4;  
+                    clear: both;
+                }
+                .message
+                {
+                    white-space: initial;
+                    font-style: italic;
+                    border-top: 1px solid #d5d5d5;
+                    padding-top: 5px;
+                    margin-top: 5px;                        
+
+                }
+                .valueinfo
+                {
+                    position: absolute;
+                    top: 0px;
+                    right: 10px;
+                    font-size: 20px;                 
                 }
             </style>
             <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">

@@ -244,6 +244,7 @@ function drawUL(errorjson, table, hashindex, update) {
     if (!update)
     {
         var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + errorjson.time + '">';
+        var re = /_/gi;
         optionsJson.f_col.forEach(
                 function (entry) {
                     var obj = $('.f_col option[value=' + entry + ']');
@@ -270,10 +271,10 @@ function drawUL(errorjson, table, hashindex, update) {
                                 {
                                     valuearrowclass = "fa-long-arrow-up";
                                 }
-                                html = html + '<div class="message"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
+                                html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
                             } else
                             {
-                                html = html + '<div class="message">' + message + '</div>';
+                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
                             }
                             break;
                         }
@@ -302,7 +303,11 @@ function drawUL(errorjson, table, hashindex, update) {
                             });
                             if (errorjson.isspec === 0)
                             {
-                                html = html + '<div class="' + obj.attr("value") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + (value ? value : "-/-") + '</a></div></div>';
+                                if (value)
+                                {
+                                    html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                }
+
                                 break;
                             }
                         }
@@ -318,7 +323,11 @@ function drawUL(errorjson, table, hashindex, update) {
                                 }
                             });
 
-                            html = html + '<div class="' + obj.attr("value") + '"><div>' + (value ? value : "-/-") + '</div></div>';
+
+                            if (value)
+                            {
+                                html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                            }
 
                             break;
                         }
@@ -362,7 +371,7 @@ function drawUL(errorjson, table, hashindex, update) {
             $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
         } else
         {
-            $("." + table).find("li#" + hashindex + " .message").html(message);
+//            $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa-comment-alt"></i> ' + message);
         }
         if (arrowclass !== "")
         {
@@ -670,9 +679,9 @@ $(document).ready(function () {
 
 });
 
-function updateFilter() {
+function updateFilter() {    
     var formData = $("form.form-options").serializeArray();
-    optionsJson = {};
+    optionsJson = {f_col:["level"]};
     const regex = /[a-zA-Z.]+/g;
     jQuery.each(formData, function (i, field) {
         if (field.value !== "")
