@@ -305,11 +305,16 @@ function drawUL(errorjson, table, hashindex, update) {
                             {
                                 if (value)
                                 {
-                                    html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                    html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
                                 }
 
-                                break;
+                                
                             }
+                            else
+                            {
+                                html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                            }
+                            break;
                         }
                         default:
                         {
@@ -420,16 +425,23 @@ function reDrawErrorList(listJson, listclass, errorjson)
             if (indexregular !== -1)
             {
 //                array_regular[indexregular] = errorjson;
-                errorjson.index = 0;
-                var hash_r = errorjson.hash;
+
                 array_regular.splice(indexregular, 1);
-                $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {
-                    $("." + listclass).find("li#" + hash_r).remove();
-                });
+                console.log("TRUEREM");
 //                $("." + listclass).find("li#" + hash_r).slideUp()(400, function () {
 //                    $("." + listclass).find("li#" + hash_r).remove();
 //                });
+            } else
+            {
+                console.log("FAILEREM");
+                console.log(errorjson);
             }
+            errorjson.index = 0;
+            var hash_r = errorjson.hash;
+            $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {
+                $("." + listclass).find("li#" + hash_r).remove();
+            });
+
         }
     } else
     {
@@ -457,13 +469,13 @@ function reDrawErrorList(listJson, listclass, errorjson)
         {
             if (indexspec !== -1)
             {
-                errorjson.index = 0;
-                var hash_s = errorjson.hash;
                 array_spec.splice(indexspec, 1);
-                $("." + listclass).find("li#" + hash_s).fadeOut(400, function () {
-                    $("." + listclass).find("li#" + hash_s).remove();
-                });
             }
+            errorjson.index = 0;
+            var hash_s = errorjson.hash;
+            $("." + listclass).find("li#" + hash_s).fadeOut(400, function () {
+                $("." + listclass).find("li#" + hash_s).remove();
+            });
 
         }
     }
@@ -679,9 +691,9 @@ $(document).ready(function () {
 
 });
 
-function updateFilter() {    
+function updateFilter() {
     var formData = $("form.form-options").serializeArray();
-    optionsJson = {f_col:["level"]};
+    optionsJson = {f_col: ["level"]};
     const regex = /[a-zA-Z.]+/g;
     jQuery.each(formData, function (i, field) {
         if (field.value !== "")

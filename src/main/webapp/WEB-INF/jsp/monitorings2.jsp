@@ -104,7 +104,7 @@
                         <div class="filter-body">
                             <table class="options" style="width: 100%">
                                 <tbody><tr>
-                                        <td>
+                                        <td class="card-fields name">
                                             <label>Display fields </label>
                                         </td>
                                         <td class="card-fields value">
@@ -123,7 +123,7 @@
                                                 <optgroup label="Tags">
                                                     <c:forEach items="${list}" var="tagitem">   
                                                         <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
-                                                        <option value="info_tags_${tagitem.key}_value" selected="selected" <c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if>
+                                                        <option value="info_tags_${tagitem.key}_value" selected="selected"
                                                                 key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
                                                 </optgroup>
@@ -134,18 +134,6 @@
 
                                         </td>
                                     </tr>
-                                    <!--                                    <tr>
-                                                                            <td>
-                                                                                <label> Tags Columns </label>                                            
-                                                                            </td>
-                                                                            <td class="card-fields">
-                                    <c:forEach items="${list}" var="tagitem">   
-                                        <label class="floating">
-                                            <input type="checkbox" name="f_tags[]" key="${tagitem.key}" id="f_tags_${tagitem.key}" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"<c:if test="${ident_tag == tagitem.key}"> selected="selected" </c:if> >${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()})
-                                            </label> 
-                                    </c:forEach>                                        
-                                </td>
-                            </tr>                                -->
                                 </tbody>
                             </table>
                         </div>

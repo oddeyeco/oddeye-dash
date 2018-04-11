@@ -574,8 +574,8 @@ span.tagspan {
     .level_3 {
         background-color: @background_color_6;
     }
-    .level_2
-    .level_1
+    .level_2,
+    .level_1,
     .level_0
     {
         background-color: white;
@@ -1287,7 +1287,18 @@ table.filters-table
 
         td
         {
-
+            &.card-fields
+            {
+                padding: 0 5px;
+            } 
+            &.card-fields.name
+            {
+                white-space: nowrap;
+            }            
+            &.card-fields.value
+            {
+                width: 100%;
+            }
             &.filter_label
             {
                 white-space: nowrap;    
@@ -1385,7 +1396,7 @@ table.filters-table
                     display: inline-block;
                     margin: 0 0 0 5px;
                 }
-                .info.name
+                .metricname
                 {
                     border: 1px solid #d5d5d5;
                     padding: 5px;
