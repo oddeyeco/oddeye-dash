@@ -427,15 +427,8 @@ function reDrawErrorList(listJson, listclass, errorjson)
 //                array_regular[indexregular] = errorjson;
 
                 array_regular.splice(indexregular, 1);
-                console.log("TRUEREM");
-//                $("." + listclass).find("li#" + hash_r).slideUp()(400, function () {
-//                    $("." + listclass).find("li#" + hash_r).remove();
-//                });
-            } else
-            {
-                console.log("FAILEREM");
-                console.log(errorjson);
-            }
+
+            } 
             errorjson.index = 0;
             var hash_r = errorjson.hash;
             $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {
