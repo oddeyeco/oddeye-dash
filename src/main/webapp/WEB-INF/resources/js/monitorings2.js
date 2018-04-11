@@ -351,7 +351,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
     } else
     {
-        $("." + table).find("li#" + hashindex + " .info_name").effect("shake", {direction: "down", distance: 2}, "slow");
+        $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
         $("." + table).find("li#" + hashindex).attr("class", eRclass);
         $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
         if (errorjson.starttimes[errorjson.level])
@@ -368,10 +368,10 @@ function drawUL(errorjson, table, hashindex, update) {
             {
                 valuearrowclass = "fa-long-arrow-up";
             }
-            $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
+            $("." + table).find("li#" + hashindex + " .valueinfo").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
         } else
         {
-//            $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa-comment-alt"></i> ' + message);
+            $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa-comment-alt"></i> ' + message);
         }
         if (arrowclass !== "")
         {

@@ -154,8 +154,8 @@
             </div>            
             <p class="buttons">
                 <a href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</a>
-                <a href="#" class="btn btn-xs btn-primary" id="cleare_filter">Reset to default</a>
-                <a href="#" class="btn btn-xs btn-primary" id="save_filter">Set as default</a>
+                <a href="#" class="btn btn-xs btn-primary" id="cleare_filter">Save</a>
+                <a href="#" class="btn btn-xs btn-primary" id="save_filter">Set As</a>
             </p>
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
