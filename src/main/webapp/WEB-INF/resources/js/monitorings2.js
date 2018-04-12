@@ -357,6 +357,8 @@ function drawUL(errorjson, table, hashindex, update) {
             $("." + table).find("li#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat));
         }
         var rectime=moment();
+//        var rectime=moment(errorjson.time);
+        
         $("." + table).find("li#" + hashindex + " .timelocal").html(rectime.format(timeformatsmall));
         $("." + table).find("li#" + hashindex).attr('time', rectime.format("x"));
         var refreshes = $("." + table).find("li#" + hashindex + " .refreshes");
@@ -365,7 +367,7 @@ function drawUL(errorjson, table, hashindex, update) {
         
         $("." + table).find("li ul li").each(function (){
             var interval = moment($(this).attr("time")*1).diff(moment())/-1000;
-            if (interval>10)
+            if ((interval>10)||(interval<0))
             {
                $(this).find(".timeinterval").css("background-color","#f00")    ;
             }
