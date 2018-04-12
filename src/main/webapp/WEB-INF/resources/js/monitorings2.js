@@ -16,59 +16,56 @@ var array_spec = [];
 var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option>";
 var eniumop = "<option value='='>is</option><option value='!'>is not</option>";
 function redrawBoard() {
-    $(".metrictable thead").html("<tr>");
-    $(".metrictable tbody").html('<tr class="wait"><td>Please wait...</td></tr>');
-
-    optionsJson.f_col.forEach(
-            function (entry) {
-                switch (entry) {
-                    case 'actions':
-                    {
-                        $(".metrictable thead#manualhead tr").append(
-                                '<th class="actions">' +
-                                '<input type="checkbox" id="check-all" class="flat">' +
-                                '<div class="btn-group">' +
-                                '<button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
-                                '<span class="caret"></span>' +
-                                '<span class="sr-only">Toggle Dropdown</span>' +
-                                '</button>' +
-                                '<ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="#" id="Show_chart">Show Chart</a>' +
-                                '</li>' +
-                                '<li class="divider"></li>' +
-                                '<li><a href="#" id="Clear_reg">Clear Regression</a>' +
-                                '</li>' +
-                                '</ul>' +
-                                '</div>' +
-                                '</th>');
-                        $(".metrictable thead#specialhead tr").append(
-                                '<th class="actions">' +
-                                '</th>');
-                        break
-                    }
-                    default:
-                    {
-                        var obj = $('.f_col option[value=' + entry + ']');
-                        $(".metrictable thead tr").append("<th>" + obj.attr("label") + "</th>");
-                        break;
-                    }
-                }
-                $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
-            }
-    );
-    $('.metrictable thead input.flat').iCheck({
-        checkboxClass: 'icheckbox_flat-green',
-        radioClass: 'iradio_flat-green'
-    });
-
-    $('.bulk_action input#check-all').on('ifChecked', function () {
-        checkState = 'all';
-        countChecked();
-    });
-    $('.bulk_action input#check-all').on('ifUnchecked', function () {
-        checkState = 'none';
-        countChecked();
-    });
+//    optionsJson.f_col.forEach(
+//            function (entry) {
+//                switch (entry) {
+//                    case 'actions':
+//                    {
+//                        $(".metrictable thead#manualhead tr").append(
+//                                '<th class="actions">' +
+//                                '<input type="checkbox" id="check-all" class="flat">' +
+//                                '<div class="btn-group">' +
+//                                '<button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
+//                                '<span class="caret"></span>' +
+//                                '<span class="sr-only">Toggle Dropdown</span>' +
+//                                '</button>' +
+//                                '<ul class="dropdown-menu" role="menu">' +
+//                                '<li><a href="#" id="Show_chart">Show Chart</a>' +
+//                                '</li>' +
+//                                '<li class="divider"></li>' +
+//                                '<li><a href="#" id="Clear_reg">Clear Regression</a>' +
+//                                '</li>' +
+//                                '</ul>' +
+//                                '</div>' +
+//                                '</th>');
+//                        $(".metrictable thead#specialhead tr").append(
+//                                '<th class="actions">' +
+//                                '</th>');
+//                        break
+//                    }
+//                    default:
+//                    {
+//                        var obj = $('.f_col option[value=' + entry + ']');
+//                        $(".metrictable thead tr").append("<th>" + obj.attr("label") + "</th>");
+//                        break;
+//                    }
+//                }
+//                $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
+//            }
+//    );
+//    $('.metrictable thead input.flat').iCheck({
+//        checkboxClass: 'icheckbox_flat-green',
+//        radioClass: 'iradio_flat-green'
+//    });
+//
+//    $('.bulk_action input#check-all').on('ifChecked', function () {
+//        checkState = 'all';
+//        countChecked();
+//    });
+//    $('.bulk_action input#check-all').on('ifUnchecked', function () {
+//        checkState = 'none';
+//        countChecked();
+//    });
 
     $(".monitorlist ul").html("");
 
@@ -378,13 +375,17 @@ function drawUL(errorjson, table, hashindex, update) {
         $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
         $("." + table).find("li#" + hashindex).attr("class", eRclass);
         $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
+
+        var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+        var lt = errorjson.time;        
+        $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
+
         if (errorjson.starttimes[errorjson.level])
         {
-            $("." + table).find("li#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat));
+            $("." + table).find("li#" + hashindex + " .starttime").html( moment(st * 1).format(timeformat));
         }
 //        var rectime=moment();
-        var rectime = moment(errorjson.time);
-
+        var rectime = moment(lt);
         $("." + table).find("li#" + hashindex + " .timelocal").html(rectime.format(timeformatsmall));
         $("." + table).find("li#" + hashindex).attr('time', moment().format("x"));
         var refreshes = $("." + table).find("li#" + hashindex + " .updatecounter");
@@ -608,7 +609,7 @@ $(document).ready(function () {
     });
 
 
-    setInterval(function (){        
+    setInterval(function () {
         $(".monitorlist li ul li").each(function () {
             var interval = moment($(this).attr("time") * 1).diff(moment()) / -1000;
 //            if ((interval > 10) || (interval < 0))
@@ -616,11 +617,11 @@ $(document).ready(function () {
 //                $(this).find(".timeinterval").css("background-color", "#f00");
 //            } else
 //            {
-                $(this).find(".timeinterval").removeAttr("style");
+            $(this).find(".timeinterval").removeAttr("style");
 //            }
             $(this).find(".timeinterval").text(interval.toFixed(0));
         });
-    },1000);
+    }, 1000);
     $("body").on("change", ".add_filter_select", function () {
         $(this).find(':selected').attr("disabled", "disabled");
         var row = $("<tr>");

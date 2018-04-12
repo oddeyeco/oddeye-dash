@@ -109,14 +109,15 @@
                                         </td>
                                         <td class="card-fields value">
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
+                                                <option value="actions" selected="selected" label="actions" key="actions">Actions
+                                                </option>
+                                                
                                                 <option value="level" label="Level" key="levelname" selected="selected">Level
                                                 </option> 
                                                 <option value="updatecounter" selected="selected" key="updatecounter" label="Update Counter">Update Counter
                                                 </option>                                                          
                                                 <option value="updateinterval" selected="selected" key="updateinterval" label="Update Interval">Update Interval
                                                 </option>                                                                                                   
-                                                <option value="actions" selected="selected" label="actions" key="actions">Actions
-                                                </option>
                                                 <option value="info_name" selected="selected" key="info.name" label="Metric name">Metric Name
                                                 </option>                                                    
                                                 <option value="Start_Time" selected="selected" key="StartTime" label="Start Time">Start Time
