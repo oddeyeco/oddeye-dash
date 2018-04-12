@@ -2122,7 +2122,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
     });
 }
 function redrawAllJSON(dashJSON, redraw = false) {
-    console.log(dashJSON);
+//    console.log(dashJSON);
     var ri;
     var wi;
     $(".editchartpanel").hide();
@@ -2596,47 +2596,60 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
         //TODO Drow single widget title
 
+
+        console.log(tmprow);
+
+
         if (tmprow.widgets[wi].title) {
-            if (tmprow.widgets[wi].title.text) {
-                if (rebuildform) {
-                    wraper.prepend('<div class="chartTitleDiv">' + '<span class=chartTitle>' + tmprow.widgets[wi].title.text + '</span>' + "</div>");
+            console.log('qqqqqqqqqqqqqqqqqqqqq');
+            if (!$('#singlewidget .chartTitleDiv').length) {
+                wraper.prepend('<div class="chartTitleDiv">' + '<span class=chartTitle>' + '</span>' + '<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info"></i> ' + '</span>' +
+                        '<a class="chartSubText">' + '</a>' + "</div>");
+                $('#singlewidget .chartSubText').css('display', 'none');
+            }
+            if (rebuildform) {
+                if (!tmprow.widgets[wi].title.text) {
+                    wraper.find('.chartTitle').css({display: 'none'});
                 } else {
+                    wraper.find('.chartTitle').text(tmprow.widgets[wi].title.text);
+                }
+                if (!tmprow.widgets[wi].title.subtext) {
+                    wraper.find('.chartSubIcon').css({display: 'none'});
+                } else {
+                    wraper.find('.chartSubIcon').css({display: 'block'});
+                    wraper.find('.chartSubText').text(tmprow.widgets[wi].title.subtext);
+                }
+            } else {
+                if (!tmprow.widgets[wi].title.text) {
+                    $('#singlewidget .chartTitle').css({display: 'none'});
+                } else {
+                    $('#singlewidget .chartTitle').css({display: 'inline-block'});
                     $('#singlewidget .chartTitle').text(tmprow.widgets[wi].title.text);
                 }
-                if (tmprow.widgets[wi].title.style)
-                {
-                    $('#singlewidget .chartTitle').css('border-style', 'solid');                   ///////////////////// css ov
-                    $('#singlewidget .chartTitle').css(tmprow.widgets[wi].title.style);
-                } else
-                {
-                    $(".chartTitle").removeAttr("style");                 ////////////////////////////hoshi ira masin
-                }
-                ;
-            }
-            if (tmprow.widgets[wi].title.subtext) {
-            console.log(tmprow.widgets[wi].title);
-                $('.chartSubIcon').css({display: 'block'});
-                if (rebuildform) {
-                    $("#singlewidget .chartTitle").after('<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info" aria-hidden="true"></i> ' + '</span>' +
-                            '<a class="chartSubText">' + tmprow.widgets[wi].title.subtext + '</a>');
+                if (!tmprow.widgets[wi].title.subtext) {
+                    $('#singlewidget .chartSubText, #singlewidget .chartSubIcon').css({display: 'none'});
                 } else {
+                    $('#singlewidget .chartSubIcon').css({display: 'block'});
                     $('#singlewidget .chartSubText').text(tmprow.widgets[wi].title.subtext);
                 }
-                if (tmprow.widgets[wi].title.subtarget) {
-                    $('#singlewidget .chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
-                    $('#singlewidget .chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
-                }
-                ;
-                if (tmprow.widgets[wi].title.subtextStyle)
-                {
-                    $(".chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
-                } else
-                {
-                    $(".chartSubText").removeAttr("style");
-                }
+            }
+            if (tmprow.widgets[wi].title.style)
+            {
+                $('#singlewidget .chartTitle').css('border-style', 'solid');                   ///////////////////// css ov
+                $('#singlewidget .chartTitle').css(tmprow.widgets[wi].title.style);
+                $(".chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
+            } else
+            {
+                $(".chartTitle").removeAttr("style");                 ////////////////////////////hishi ira masin
+                $(".chartSubText").removeAttr("style");
+            }
+            ;
+            if (tmprow.widgets[wi].title.subtarget) {
+                $('#singlewidget .chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
+                $('#singlewidget .chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
             }
             $('#singlewidget .chartSubText').css('display', 'none');             ////////////// arji vor edit chart - um subtext@ toggle lini?
-            $('.chartTitleDiv').css({display: 'block', 'text-align': 'center', border: '1px solid rgba(200,200,200,0.6)'});        ////////////////////////// css ov    
+            $('.chartTitleDiv').css({display: 'block', 'text-align': 'center'});        ////////////////////////// css ov    
             $('.chartSubIcon').css({'border-left': '27px solid #EDEDED',
                 'border-right': 'none',
                 'border-bottom': '27px solid transparent',
@@ -2645,14 +2658,15 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 margin: '0px',
                 position: 'absolute',
                 left: 6,
-                cursor: 'pointer'
+                top: 0,
+                cursor: 'pointer',
+                'z - index': 5000
             });        ////////////////////////// css ov  
             $('.chartSubIcon i').css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov   
         } else {
-            wraper.prepend('<div class="chartTitleDiv">' + '<span class=chartTitle>' + '</span>' + '<span ' + 'class="chartSubIcon" style="display: none">' + '<i class="fa fa-info" aria-hidden="true"></i> ' + '</span>' +
-                    '<a class="chartSubText">' + '</a>' + "</div>");
-            $('#singlewidget .chartSubText').css('display', 'none');             ////////////// arji vor edit chart - um subtext@ toggle lini?
+            $('.chartTitleDiv').css({display: 'none'});
         }
+
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
             setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
