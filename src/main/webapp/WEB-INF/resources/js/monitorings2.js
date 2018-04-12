@@ -356,15 +356,24 @@ function drawUL(errorjson, table, hashindex, update) {
         {
             $("." + table).find("li#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat));
         }
-
-        $("." + table).find("li#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
-        $("." + table).find("li#" + hashindex).attr('time', errorjson.time);
+        var rectime=moment();
+        $("." + table).find("li#" + hashindex + " .timelocal").html(rectime.format(timeformatsmall));
+        $("." + table).find("li#" + hashindex).attr('time', rectime.format("x"));
         var refreshes = $("." + table).find("li#" + hashindex + " .refreshes");
         var val = refreshes.text() * 1 + 1;
         refreshes.text(val);
         
         $("." + table).find("li ul li").each(function (){
-            $(this).find(".timeinterval").text( (moment($(this).attr("time")*1).diff(moment())/-1000).toFixed(1));
+            var interval = moment($(this).attr("time")*1).diff(moment())/-1000;
+            if (interval>10)
+            {
+               $(this).find(".timeinterval").css("background-color","#f00")    ;
+            }
+            else
+            {
+                $(this).find(".timeinterval").removeAttr("style");
+            }
+            $(this).find(".timeinterval").text( interval.toFixed(1));
 //            console.log($(this).attr("time"));
         });
         if (errorjson.isspec === 0)
