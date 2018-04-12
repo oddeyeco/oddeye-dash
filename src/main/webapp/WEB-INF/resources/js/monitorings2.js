@@ -308,9 +308,8 @@ function drawUL(errorjson, table, hashindex, update) {
                                     html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
                                 }
 
-                                
-                            }
-                            else
+
+                            } else
                             {
                                 html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
                             }
@@ -339,16 +338,10 @@ function drawUL(errorjson, table, hashindex, update) {
 
                     }
 
-                    if (obj.attr("key") === "actions")
-                    {
 
-                    } else
-                    {
-
-                    }
                 }
         );
-
+        html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>0</span></div>";
         html = html + "</li>";
         $("." + table).find("ul#" + UlID).prepend(html);
         $("." + table).find("li#" + errorjson.hash).show("slide", {direction: "left"}, 1000);
@@ -366,6 +359,14 @@ function drawUL(errorjson, table, hashindex, update) {
 
         $("." + table).find("li#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
         $("." + table).find("li#" + hashindex).attr('time', errorjson.time);
+        var refreshes = $("." + table).find("li#" + hashindex + " .refreshes");
+        var val = refreshes.text() * 1 + 1;
+        refreshes.text(val);
+        
+        $("." + table).find("li ul li").each(function (){
+            $(this).find(".timeinterval").text( (moment($(this).attr("time")*1).diff(moment())/-1000).toFixed(1));
+//            console.log($(this).attr("time"));
+        });
         if (errorjson.isspec === 0)
         {
             var valuearrowclass = "fa-long-arrow-down";
@@ -428,7 +429,7 @@ function reDrawErrorList(listJson, listclass, errorjson)
 
                 array_regular.splice(indexregular, 1);
 
-            } 
+            }
             errorjson.index = 0;
             var hash_r = errorjson.hash;
             $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {

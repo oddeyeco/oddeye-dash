@@ -135,28 +135,10 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                         if (filtred) {
                             this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenfilter.getKey() + "/errors", jsonResult.toString());
                         }
-//                        if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
-//
-//                            if (level == i_level) {
-//                                this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
-//                            } else {
-//                                if (!Arrays.asList(sotokenlevel.getValue()).contains(Integer.toString(level))) {
-//                                    this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
-//                                }
-//                            }
-//
-//                        }
 
                     }
 
                 }
-
-//                for (Map.Entry<String, String[]> sotokenlevel : user.getSotokenlist().entrySet()) {
-//                    if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
-//                        this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
-//                    }
-//
-//                }
             }
 
         } else {
