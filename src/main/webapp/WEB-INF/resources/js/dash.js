@@ -2212,18 +2212,16 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     chartobj.find(" > div").css("background-color", "");
                 }
                 if (tmprow.widgets[wi].title) {
-                    chartobj.find(".chartTitleDiv").css({display: 'block'});        ////////////////////////// css ov    
-
                     chartobj.find(".chartSubIcon i").css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov    
                     if (tmprow.widgets[wi].title.text) {
                         chartobj.find(".chartTitle h3").html(tmprow.widgets[wi].title.text);
                         if (tmprow.widgets[wi].title.style)
                         {
-                            chartobj.find(".chartTitle h3").css({'border-style': 'solid', "border-width": 0});      ////////// chmoranal grel css i mej
-                            chartobj.find(".chartTitle h3").css(tmprow.widgets[wi].title.style);
+                            chartobj.find(".chartTitleDiv").css({'border-style': 'solid', "border-width": 0});      ////////// chmoranal grel css i mej
+                            chartobj.find(".chartTitleDiv").css(tmprow.widgets[wi].title.style);
                         } else
                         {
-                            chartobj.find(".chartTitle h3").attr("style", "");      /////////////////     mi ban petqa anel
+                            chartobj.find(".chartTitleDiv").removeAttr("style");
                         }
                     }
                     ;
@@ -2239,9 +2237,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
                             cursor: 'pointer',
                             display: 'block'
                         });
-                        chartobj.find(".chartSubText").css({////////////////////////// css ov  
-                            display: 'none'
-                        });
                         if (tmprow.widgets[wi].title.sublink) {
                             chartobj.find(".chartSubText").attr('href', tmprow.widgets[wi].title.sublink);
                             chartobj.find(".chartSubText").attr('target', '_' + tmprow.widgets[wi].title.subtarget);
@@ -2251,13 +2246,15 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         if (tmprow.widgets[wi].title.subtextStyle)
                         {
                             chartobj.find(".chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
+                        } else
+                        {
+                            chartobj.find(".chartSubText").removeAttr("style");     /////////////////     mi ban petqa anel
                         }
-//                        else
-//                        {
-//                            $(".chartSubText").removeAttr("style");     /////////////////     mi ban petqa anel
-//                        }
                     }
                     ;
+                    console.log('sssssssssssssssssssssssssssssss');
+                    chartobj.find(".chartSubText").css({display: 'none'});
+                    chartobj.find(".chartTitleDiv").css({'text-align': 'center', display: 'block'});        ////////////////////////// css ov
                 }
                 ;
 //                $("#charttemplate .chartsection").attr("index", wi);
@@ -2600,50 +2597,73 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         console.log(tmprow);
 
 
+        if (!$('#singlewidget .chartTitleDiv').length) {
+            wraper.prepend('<div class="chartTitleDiv" style="display:none">' + '<span class=chartTitle>' + '</span>' + '<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info"></i> ' + '</span>' +
+                    '<a class="chartSubText">' + '</a>' + "</div>");
+            $('#singlewidget .chartSubText').css('display', 'none');
+        }
         if (tmprow.widgets[wi].title) {
-            console.log('qqqqqqqqqqqqqqqqqqqqq');
-            if (!$('#singlewidget .chartTitleDiv').length) {
-                wraper.prepend('<div class="chartTitleDiv">' + '<span class=chartTitle>' + '</span>' + '<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info"></i> ' + '</span>' +
-                        '<a class="chartSubText">' + '</a>' + "</div>");
-                $('#singlewidget .chartSubText').css('display', 'none');
-            }
             if (rebuildform) {
+                wraper.find('.chartTitleDiv').css('display', 'block');
                 if (!tmprow.widgets[wi].title.text) {
                     wraper.find('.chartTitle').css({display: 'none'});
+                    wraper.find('.chartTitleDiv').removeAttr("style");
                 } else {
                     wraper.find('.chartTitle').text(tmprow.widgets[wi].title.text);
+                    if (tmprow.widgets[wi].title.style) {
+                        wraper.find('.chartTitleDiv').css({'border-style': 'solid', 'border-width': 0});                   ///////////////////// css ov
+                        wraper.find('.chartTitleDiv').css(tmprow.widgets[wi].title.style);
+                    } else {
+                        wraper.find('.chartTitleDiv').removeAttr("style");                 ////////////////////////////hishi ira masin
+                    }
+                    ;
+                    wraper.find('.chartTitleDiv').css('display', 'block');
                 }
                 if (!tmprow.widgets[wi].title.subtext) {
                     wraper.find('.chartSubIcon').css({display: 'none'});
                 } else {
-                    wraper.find('.chartSubIcon').css({display: 'block'});
                     wraper.find('.chartSubText').text(tmprow.widgets[wi].title.subtext);
+                    wraper.find('.chartSubText').text(tmprow.widgets[wi].title.subtext);
+                    if (tmprow.widgets[wi].title.subtextStyle) {
+                        wraper.find('chartSubText').css(tmprow.widgets[wi].title.subtextStyle);
+                    } else
+                    {
+                        wraper.find('.chartSubText').removeAttr("style");
+                    }
+                    ;
+                    wraper.find('.chartSubIcon').css({display: 'block'});
                 }
             } else {
                 if (!tmprow.widgets[wi].title.text) {
+                    console.log('sssssssssssss');
                     $('#singlewidget .chartTitle').css({display: 'none'});
+                    $("#singlewidget .chartTitleDiv").removeAttr("style");
                 } else {
                     $('#singlewidget .chartTitle').css({display: 'inline-block'});
                     $('#singlewidget .chartTitle').text(tmprow.widgets[wi].title.text);
+                    if (tmprow.widgets[wi].title.style) {
+                        $('#singlewidget .chartTitleDiv').css({'border-style': 'solid', 'border-width': 0});                   ///////////////////// css ov
+                        $('#singlewidget .chartTitleDiv').css(tmprow.widgets[wi].title.style);
+                    } else {
+                        $("#singlewidget .chartTitleDiv").removeAttr("style");                 ////////////////////////////hishi ira masin
+                    }
+                    ;
+                    $('#singlewidget .chartTitleDiv').css('display', 'block');
                 }
                 if (!tmprow.widgets[wi].title.subtext) {
                     $('#singlewidget .chartSubText, #singlewidget .chartSubIcon').css({display: 'none'});
                 } else {
-                    $('#singlewidget .chartSubIcon').css({display: 'block'});
                     $('#singlewidget .chartSubText').text(tmprow.widgets[wi].title.subtext);
+                    if (tmprow.widgets[wi].title.subtextStyle) {
+                        $("#singlewidget .chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
+                    } else
+                    {
+                        $("#singlewidget .chartSubText").removeAttr("style");
+                    }
+                    ;
+                    $('#singlewidget .chartSubIcon').css({display: 'block'});
                 }
             }
-            if (tmprow.widgets[wi].title.style)
-            {
-                $('#singlewidget .chartTitle').css('border-style', 'solid');                   ///////////////////// css ov
-                $('#singlewidget .chartTitle').css(tmprow.widgets[wi].title.style);
-                $(".chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
-            } else
-            {
-                $(".chartTitle").removeAttr("style");                 ////////////////////////////hishi ira masin
-                $(".chartSubText").removeAttr("style");
-            }
-            ;
             if (tmprow.widgets[wi].title.subtarget) {
                 $('#singlewidget .chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
                 $('#singlewidget .chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
@@ -2664,7 +2684,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             });        ////////////////////////// css ov  
             $('.chartSubIcon i').css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov   
         } else {
-            $('.chartTitleDiv').css({display: 'none'});
+            $('#singlewidget .chartTitleDiv').css({display: 'none'});
         }
 
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
