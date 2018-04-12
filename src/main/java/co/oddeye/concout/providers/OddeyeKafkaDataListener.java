@@ -135,28 +135,10 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                         if (filtred) {
                             this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenfilter.getKey() + "/errors", jsonResult.toString());
                         }
-//                        if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
-//
-//                            if (level == i_level) {
-//                                this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
-//                            } else {
-//                                if (!Arrays.asList(sotokenlevel.getValue()).contains(Integer.toString(level))) {
-//                                    this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
-//                                }
-//                            }
-//
-//                        }
 
                     }
 
                 }
-
-//                for (Map.Entry<String, String[]> sotokenlevel : user.getSotokenlist().entrySet()) {
-//                    if (Arrays.asList(sotokenlevel.getValue()).contains(t_level)) {
-//                        this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
-//                    }
-//
-//                }
             }
 
         } else {
@@ -232,66 +214,13 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                         filtred = !value.equals(filterval);
                     }
 
-                    if (!filtred) {
-                        return filtred;
-                    }
+//                    if (!filtred) {
+//                        return filtred;
+//                    }
 
                 }
             }
         }
-//    for (var filterindex in optionsJson.v)
-//    {
-//        if ((filterindex === "allfilter") ||
-//                ((filterindex === "mlfilter") && (message.isspec === 0)) ||
-//                ((filterindex === "manualfilter") && (message.isspec !== 0))
-//                )
-//        {
-//
-//            for (var fvalue in optionsJson.v[filterindex])
-//            {
-//                var filtervalue = optionsJson.v[filterindex][fvalue];
-//                var filterop = optionsJson.op[filterindex][fvalue];
-//                var path = fvalue.split(".");
-//                var value = message;
-//                $.each(path, function (i, item) {
-//                    value = value[item];
-//                });
-//                if (filterop === "=")
-//                {
-//                    filtred = filtervalue.indexOf("" + value) !== -1;
-//                } else if (filterop === "!")
-//                {
-//                    filtred = filtervalue.indexOf("" + value) === -1;
-//                } else if (filterop === "~")
-//                {
-//                    filtred = value.indexOf("" + filtervalue) !== -1;
-//                } else if (filterop === "!~")
-//                {
-//                    filtred = value.indexOf("" + filtervalue) === -1;
-//                } else if (filterop === "==")
-//                {
-//                    filtred = value === filtervalue;
-//                } else if (filterop === "!=")
-//                {
-//                    filtred = value !== filtervalue;
-//                } else
-//                {
-//                    console.log(value);
-//                    console.log(filterop);
-//                }
-//                if (!filtred)
-//                {
-//                    break;
-//                }
-//
-//            }
-//        }
-//        if (!filtred)
-//        {
-//            break;
-//        }
-//
-//    }
         return filtred;
     }
 

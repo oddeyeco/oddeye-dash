@@ -561,6 +561,30 @@ span.tagspan {
         }
     }
 }
+.monitorlist
+{
+    .level_5 {
+        font-weight: bold;
+        background-color: @background_color_4;
+
+    }
+    .level_4 {
+        background-color: @background_color_5;
+    }
+    .level_3 {
+        background-color: @background_color_6;
+    }
+    .level_2,
+    .level_1,
+    .level_0
+    {
+        background-color: white;
+    }    
+    .level_-1 {
+        background-color: @background_color_9;
+
+    }
+}
 .level_5 {
     font-weight: bold;
     .level {
@@ -1260,10 +1284,21 @@ table.filters-table
                 }
             }
         }
-        
+
         td
         {
-
+            &.card-fields
+            {
+                padding: 0 5px;
+            } 
+            &.card-fields.name
+            {
+                white-space: nowrap;
+            }            
+            &.card-fields.value
+            {
+                width: 100%;
+            }
             &.filter_label
             {
                 white-space: nowrap;    
@@ -1271,13 +1306,9 @@ table.filters-table
             .select2-container--default .select2-selection--single,
             .select2-container--default .select2-selection--multiple
             {
-                min-height: 30px;
-                height: 30px;
+                min-height: 30px;                
                 margin-top: 1px;
-
-
             }
-
             &.value
             {
                 span {
@@ -1344,6 +1375,110 @@ table.filters-table
         padding: 0 10px; 
     }
     padding: 0 0 10px 0;
+}
+
+.monitorlist
+{
+    li,
+    ul
+    {
+        list-style: none;
+        padding: 0;
+        margin: 0;        
+    }
+    li
+    {
+        ul
+        {
+            li
+            {
+                .icons
+                {
+                    text-align: right;
+                }
+                .inline
+                {
+                    display: inline-block;
+                    margin: 0 0 0 5px;
+                }
+                .level
+                {
+                    font-size: 13px;
+                }
+                .badge
+                {
+                    margin-bottom: 2px
+                }                
+                .metricname
+                {
+                    border: 1px solid #d5d5d5;
+                    padding: 5px;
+                    margin-bottom: 5px;
+                    text-align: center;
+                    border-radius: 5px;
+                    background-color: #e4e4e4;  
+                    clear: both;
+                }
+
+                .message,
+                .valueinfo
+                {
+                    white-space: initial;
+                    font-style: italic;
+                    /*border-top: 1px solid #d5d5d5;*/
+                    border-bottom: 1px solid #d5d5d5;                    
+                    /*padding-top: 5px;*/
+                    margin-top: 5px;                        
+
+                }
+                .valueinfo
+                {
+                    font-size: 20px;                 
+                }            
+                flex: 1; 
+                list-style: none;
+                /*float: left;*/
+                padding: 5px;
+                border: solid 1px #d5d5d5;                    
+                border-radius: 5px;
+
+                margin: 3px;
+                word-wrap: break-word;
+                text-align: left;
+                white-space: nowrap;
+                cursor: pointer;
+                position: relative;      
+                -webkit-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
+                -moz-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
+                box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);          
+            }            
+
+            &#regularlist
+            {
+                border: double 6px transparent;
+                border-top: double 6px #d5d5d5;   
+            }   
+            &#speciallist 
+            {
+                .info.name
+                {
+                    border-color: #73879C;
+                    background-color: #73879C;  
+                    color: #e4e4e4;                          
+                }
+
+            }              
+            display: flex;                    
+            flex-direction: row;
+            align-items: stretch;
+            flex-wrap: wrap;
+        }
+
+        list-style: none;                    
+    }    
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 @media( max-width: 1292px){

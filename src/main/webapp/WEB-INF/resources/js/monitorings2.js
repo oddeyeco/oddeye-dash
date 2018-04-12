@@ -16,59 +16,58 @@ var array_spec = [];
 var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option>";
 var eniumop = "<option value='='>is</option><option value='!'>is not</option>";
 function redrawBoard() {
-    $(".metrictable thead").html("<tr>");
-    $(".metrictable tbody").html('<tr class="wait"><td>Please wait...</td></tr>');
+//    optionsJson.f_col.forEach(
+//            function (entry) {
+//                switch (entry) {
+//                    case 'actions':
+//                    {
+//                        $(".metrictable thead#manualhead tr").append(
+//                                '<th class="actions">' +
+//                                '<input type="checkbox" id="check-all" class="flat">' +
+//                                '<div class="btn-group">' +
+//                                '<button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
+//                                '<span class="caret"></span>' +
+//                                '<span class="sr-only">Toggle Dropdown</span>' +
+//                                '</button>' +
+//                                '<ul class="dropdown-menu" role="menu">' +
+//                                '<li><a href="#" id="Show_chart">Show Chart</a>' +
+//                                '</li>' +
+//                                '<li class="divider"></li>' +
+//                                '<li><a href="#" id="Clear_reg">Clear Regression</a>' +
+//                                '</li>' +
+//                                '</ul>' +
+//                                '</div>' +
+//                                '</th>');
+//                        $(".metrictable thead#specialhead tr").append(
+//                                '<th class="actions">' +
+//                                '</th>');
+//                        break
+//                    }
+//                    default:
+//                    {
+//                        var obj = $('.f_col option[value=' + entry + ']');
+//                        $(".metrictable thead tr").append("<th>" + obj.attr("label") + "</th>");
+//                        break;
+//                    }
+//                }
+//                $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
+//            }
+//    );
+//    $('.metrictable thead input.flat').iCheck({
+//        checkboxClass: 'icheckbox_flat-green',
+//        radioClass: 'iradio_flat-green'
+//    });
+//
+//    $('.bulk_action input#check-all').on('ifChecked', function () {
+//        checkState = 'all';
+//        countChecked();
+//    });
+//    $('.bulk_action input#check-all').on('ifUnchecked', function () {
+//        checkState = 'none';
+//        countChecked();
+//    });
 
-    optionsJson.f_col.forEach(
-            function (entry) {
-                switch (entry) {
-                    case 'actions':
-                    {
-                        $(".metrictable thead#manualhead tr").append(
-                                '<th class="actions">' +
-                                '<input type="checkbox" id="check-all" class="flat">' +
-                                '<div class="btn-group">' +
-                                '<button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
-                                '<span class="caret"></span>' +
-                                '<span class="sr-only">Toggle Dropdown</span>' +
-                                '</button>' +
-                                '<ul class="dropdown-menu" role="menu">' +
-                                '<li><a href="#" id="Show_chart">Show Chart</a>' +
-                                '</li>' +
-                                '<li class="divider"></li>' +
-                                '<li><a href="#" id="Clear_reg">Clear Regression</a>' +
-                                '</li>' +
-                                '</ul>' +
-                                '</div>' +
-                                '</th>');
-                        $(".metrictable thead#specialhead tr").append(
-                                '<th class="actions">' +
-                                '</th>');
-                        break
-                    }
-                    default:
-                    {
-                        var obj = $('.f_col option[value=' + entry + ']');
-                        $(".metrictable thead tr").append("<th>" + obj.attr("label") + "</th>");
-                        break;
-                    }
-                }
-                $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
-            }
-    );
-    $('.metrictable thead input.flat').iCheck({
-        checkboxClass: 'icheckbox_flat-green',
-        radioClass: 'iradio_flat-green'
-    });
-
-    $('.bulk_action input#check-all').on('ifChecked', function () {
-        checkState = 'all';
-        countChecked();
-    });
-    $('.bulk_action input#check-all').on('ifUnchecked', function () {
-        checkState = 'none';
-        countChecked();
-    });
+    $(".monitorlist ul").html("");
 
 //    optionsJson.fcol.each(
 //            
@@ -135,7 +134,7 @@ function aftersubscribe(error) {
             {
                 errorlistJson[errorjson.hash] = errorjson;
             }
-            reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+            reDrawErrorList(errorlistJson, "monitorlist", errorjson);
         }
     } else
     {
@@ -146,7 +145,7 @@ function aftersubscribe(error) {
         {
             errorlistJson[errorjson.hash] = errorjson;
         }
-        reDrawErrorList(errorlistJson, $(".metrictable"), errorjson);
+        reDrawErrorList(errorlistJson, "monitorlist", errorjson);
 
     }
     if (Object.keys(errorlistJson).length > 200)
@@ -169,7 +168,7 @@ function findeByhash(element, array) {
     return -1;
 }
 
-function drawRaw(errorjson, table, hashindex, update) {
+function drawUL(errorjson, table, hashindex, update) {
     if (typeof (hashindex) === "undefined")
     {
         hashindex = null;
@@ -225,24 +224,24 @@ function drawRaw(errorjson, table, hashindex, update) {
         arrowclass = "fa-long-arrow-up";
         color = "red";
     }
-    var trclass = "level_" + errorjson.level;
-    var tbodyID = "manualbody";
+    var eRclass = "level_" + errorjson.level;
+    var UlID = "regularlist";
     if (errorjson.isspec !== 0)
     {
-        trclass = trclass + " spec";
-        var tbodyID = "specialbody";
+        eRclass = eRclass + " spec";
+        UlID = "speciallist";
 
     }
 
     if (errorjson.flap > 5)
     {
-        trclass = trclass + " flapdetect";
+        eRclass = eRclass + " flapdetect";
     }
 
     if (!update)
     {
-        var html = "";
-        html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '" time="' + errorjson.time + '">';
+        var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + moment().format("x") + '">';
+        var re = /_/gi;
         optionsJson.f_col.forEach(
                 function (entry) {
                     var obj = $('.f_col option[value=' + entry + ']');
@@ -252,10 +251,11 @@ function drawRaw(errorjson, table, hashindex, update) {
                         {
                             if (errorjson.isspec === 0)
                             {
-                                html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
+//                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
+                                html = html + '<div class="icons"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
                             } else
                             {
-                                html = html + '<td><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></td>';
+                                html = html + '<div class="icons"><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></div>';
                             }
                             break;
                         }
@@ -268,25 +268,51 @@ function drawRaw(errorjson, table, hashindex, update) {
                                 {
                                     valuearrowclass = "fa-long-arrow-up";
                                 }
-                                html = html + '<td class="message"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</td>';
+                                html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
                             } else
                             {
-                                html = html + '<td class="message">' + message + '</td>';
+                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
                             }
                             break;
                         }
                         case  "StartTime":
                         {
                             var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                            html = html + '<td class="starttime">' + moment(st * 1).format(timeformat) + '</td>';
+                            html = html + '<div class="inline starttime">' + moment(st * 1).format(timeformat) + '</div>';
                             break;
                         }
                         case  "LastTime":
                         {
                             var st = errorjson.time;
-                            html = html + '<td class="timelocal">' + moment(st * 1).format(timeformatsmall) + '</td>';
+                            html = html + '<div class="inline timelocal">' + moment(st * 1).format(timeformatsmall) + '</div>';
                             break;
                         }
+
+                        case  "updateinterval":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                            html = html + '<div class="inline timeinterval badge">0</div>';
+                            break;
+                        }
+                        case  "updatecounter":
+                        {
+                            html = html + '<div class="inline updatecounter badge">0</div>';
+                            break;
+                        }
+                        case  "duration":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                            var lt = errorjson.time;
+                            html = html + '<div class="inline duration badge">' + moment.duration(lt - st).humanize() + '</div>';
+                            break;
+                        }
+
+                        case  "levelname":
+                        {
+                            html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
+                            break;
+                        }
+                        //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
                         case  "info.name":
                         {
                             var path = obj.attr("key").split(".");
@@ -300,9 +326,17 @@ function drawRaw(errorjson, table, hashindex, update) {
                             });
                             if (errorjson.isspec === 0)
                             {
-                                html = html + '<td class="' + obj.attr("value") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + (value ? value : "-/-") + '</a></div></td>';
-                                break;
+                                if (value)
+                                {
+                                    html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                }
+
+
+                            } else
+                            {
+                                html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
                             }
+                            break;
                         }
                         default:
                         {
@@ -316,64 +350,48 @@ function drawRaw(errorjson, table, hashindex, update) {
                                 }
                             });
 
-                            html = html + '<td class="' + obj.attr("value") + '"><div>' + (value ? value : "-/-") + '</div></td>';
+
+                            if (value)
+                            {
+                                html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                            }
 
                             break;
                         }
 
                     }
 
-                    if (obj.attr("key") === "actions")
-                    {
 
-                    } else
-                    {
-
-                    }
-
-//                    console.log(obj.attr("key")+" "+obj.attr("value"));
                 }
         );
 
-        html = html + '</tr>';
+        html = html + "</li>";
+        $("." + table).find("ul#" + UlID).prepend(html);
+        $("." + table).find("li#" + errorjson.hash).show("slide", {direction: "left"}, 1000);
 
-        if (hashindex === null)
-        {
-            table.find("tbody#" + tbodyID).append(html);
-        } else
-        {
-            if (hashindex === 0)
-            {
-                if (table.find("tbody#" + tbodyID + " tr").first().length === 0)
-                {
-                    table.find("tbody#" + tbodyID).append(html);
-                } else
-                {
-                    table.find("tbody#" + tbodyID + " tr").first().before(html);
-                }
 
-            } else
-            {
-                table.find("tbody#" + tbodyID + " tr#" + hashindex).before(html);
-            }
-        }
-        table.find("tbody#" + tbodyID + " tr#" + errorjson.hash + " input.rawflat").iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
-        });
     } else
     {
-        table.find("tbody tr#" + hashindex).attr("class", trclass);
-        table.find("tbody tr#" + hashindex + " .level div").html(errorjson.levelname);
+        $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
+        $("." + table).find("li#" + hashindex).attr("class", eRclass);
+        $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
+
+        var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+        var lt = errorjson.time;        
+        $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
+
         if (errorjson.starttimes[errorjson.level])
         {
-            table.find("tbody tr#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat));
+            $("." + table).find("li#" + hashindex + " .starttime").html( moment(st * 1).format(timeformat));
         }
+//        var rectime=moment();
+        var rectime = moment(lt);
+        $("." + table).find("li#" + hashindex + " .timelocal").html(rectime.format(timeformatsmall));
+        $("." + table).find("li#" + hashindex).attr('time', moment().format("x"));
+        var refreshes = $("." + table).find("li#" + hashindex + " .updatecounter");
+        var val = refreshes.text() * 1 + 1;
+        refreshes.text(val);
 
-        table.find("tbody tr#" + hashindex + " .timelocal").html(moment().format(timeformatsmall));
-//        table.find("tbody tr#" + hashindex + " .timech").html(starttime + " (" + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) + " Repeat " + errorjson.index + ")");
-//        table.find("tbody tr#" + hashindex + " .timech").append("<div>" + starttime + ": " + (errorjson.time - table.find("tbody tr#" + hashindex).attr('time')) / 1000 + " " + errorjson.index + "</div>");
-        table.find("tbody tr#" + hashindex).attr('time', errorjson.time);
         if (errorjson.isspec === 0)
         {
             var valuearrowclass = "fa-long-arrow-down";
@@ -381,26 +399,24 @@ function drawRaw(errorjson, table, hashindex, update) {
             {
                 valuearrowclass = "fa-long-arrow-up";
             }
-            table.find("tbody tr#" + hashindex + " .message").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
+            $("." + table).find("li#" + hashindex + " .valueinfo").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
         } else
         {
-            table.find("tbody tr#" + hashindex + " .message").html(message);
+            $("." + table).find("li#" + hashindex + " .message").html('<i class="action fa fa-comment-o"></i> ' + message);
         }
-
-//        table.find("tbody tr#" + hashindex + " .message").html(message);
         if (arrowclass !== "")
         {
-            table.find("tbody tr#" + hashindex + " .icons i.action").attr("class", "action fa " + arrowclass);
-            table.find("tbody tr#" + hashindex + " .icons i.action").css("color", color);
+            $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action fa " + arrowclass);
+            $("." + table).find("li#" + hashindex + " .icons i.action").css("color", color);
         }
 
     }
-    $('.summary .Tablecount').html(table.find("tbody tr").length);
+    $('.summary .Tablecount').html(array_regular.length + array_spec.length);
     $('.summary .regcount').html(array_regular.length);
     $('.summary .Speccount').html(array_spec.length);
 }
 
-function reDrawErrorList(listJson, table, errorjson)
+function reDrawErrorList(listJson, listclass, errorjson)
 {
     var filtred = checkfilter(errorjson);
     if (!filtred)
@@ -420,28 +436,31 @@ function reDrawErrorList(listJson, table, errorjson)
 
                 if (index2 < array_regular.length - 1)
                 {
-                    drawRaw(array_regular[index2], table, array_regular[index2 + 1].hash);
+                    drawUL(array_regular[index2], listclass, array_regular[index2 + 1].hash);
                 } else
                 {
-                    drawRaw(array_regular[index2], table);
+                    drawUL(array_regular[index2], listclass);
                 }
             } else
             {
                 array_regular[indexregular] = errorjson;
-                drawRaw(array_regular[indexregular], table, array_regular[indexregular].hash, true);
+                drawUL(array_regular[indexregular], listclass, array_regular[indexregular].hash, true);
             }
         } else
         {
             if (indexregular !== -1)
             {
 //                array_regular[indexregular] = errorjson;
-                errorjson.index = 0;
-                var hash_r = errorjson.hash;
+
                 array_regular.splice(indexregular, 1);
-                table.find("tbody tr#" + hash_r).fadeOut(400, function () {
-                    table.find("tbody tr#" + hash_r).remove();
-                });
+
             }
+            errorjson.index = 0;
+            var hash_r = errorjson.hash;
+            $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {
+                $("." + listclass).find("li#" + hash_r).remove();
+            });
+
         }
     } else
     {
@@ -455,27 +474,27 @@ function reDrawErrorList(listJson, table, errorjson)
                 var index2 = findeByhash(errorjson, array_spec);
                 if (index2 < array_spec.length - 1)
                 {
-                    drawRaw(array_spec[index2], table, array_spec[index2 + 1].hash);
+                    drawUL(array_spec[index2], listclass, array_spec[index2 + 1].hash);
                 } else
                 {
-                    drawRaw(array_spec[index2], table, 0);
+                    drawUL(array_spec[index2], listclass, 0);
                 }
             } else
             {
                 array_spec[indexspec] = errorjson;
-                drawRaw(array_spec[indexspec], table, array_spec[indexspec].hash, true);
+                drawUL(array_spec[indexspec], listclass, array_spec[indexspec].hash, true);
             }
         } else
         {
             if (indexspec !== -1)
             {
-                errorjson.index = 0;
-                var hash_s = errorjson.hash;
                 array_spec.splice(indexspec, 1);
-                table.find("tbody tr#" + hash_s).fadeOut(400, function () {
-                    table.find("tbody tr#" + hash_s).remove();
-                });
             }
+            errorjson.index = 0;
+            var hash_s = errorjson.hash;
+            $("." + listclass).find("li#" + hash_s).fadeOut(400, function () {
+                $("." + listclass).find("li#" + hash_s).remove();
+            });
 
         }
     }
@@ -483,7 +502,6 @@ function reDrawErrorList(listJson, table, errorjson)
 
 function DrawErrorList(listJson, table)
 {
-    $(".metrictable").find("tr.wait").remove();
     array_regular = [];
     array_spec = [];
 
@@ -508,11 +526,11 @@ function DrawErrorList(listJson, table)
 
     for (key in array_spec)
     {
-        drawRaw(array_spec[key], table);
+        drawUL(array_spec[key], "monitorlist");
     }
     for (key in array_regular)
     {
-        drawRaw(array_regular[key], table);
+        drawUL(array_regular[key], "monitorlist");
     }
     table.find('tbody input.rawflat').iCheck({
         checkboxClass: 'icheckbox_flat-green',
@@ -590,6 +608,20 @@ $(document).ready(function () {
 
     });
 
+
+    setInterval(function () {
+        $(".monitorlist li ul li").each(function () {
+            var interval = moment($(this).attr("time") * 1).diff(moment()) / -1000;
+//            if ((interval > 10) || (interval < 0))
+//            {
+//                $(this).find(".timeinterval").css("background-color", "#f00");
+//            } else
+//            {
+            $(this).find(".timeinterval").removeAttr("style");
+//            }
+            $(this).find(".timeinterval").text(interval.toFixed(0));
+        });
+    }, 1000);
     $("body").on("change", ".add_filter_select", function () {
         $(this).find(':selected').attr("disabled", "disabled");
         var row = $("<tr>");
