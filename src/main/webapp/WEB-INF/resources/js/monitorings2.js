@@ -243,7 +243,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
     if (!update)
     {
-        var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + errorjson.time + '">';
+        var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + moment().format("x") + '">';
         var re = /_/gi;
         optionsJson.f_col.forEach(
                 function (entry) {
@@ -255,10 +255,10 @@ function drawUL(errorjson, table, hashindex, update) {
                             if (errorjson.isspec === 0)
                             {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="inline icons"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
+                                html = html + '<div class="icons"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
                             } else
                             {
-                                html = html + '<div class="inline icons"><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></div>';
+                                html = html + '<div class="icons"><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></div>';
                             }
                             break;
                         }
@@ -290,6 +290,32 @@ function drawUL(errorjson, table, hashindex, update) {
                             html = html + '<div class="inline timelocal">' + moment(st * 1).format(timeformatsmall) + '</div>';
                             break;
                         }
+
+                        case  "updateinterval":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                            html = html + '<div class="inline timeinterval badge">0</div>';
+                            break;
+                        }
+                        case  "updatecounter":
+                        {
+                            html = html + '<div class="inline updatecounter badge">0</div>';
+                            break;
+                        }
+                        case  "duration":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                            var lt = errorjson.time;
+                            html = html + '<div class="inline duration badge">' + moment.duration(lt - st).humanize() + '</div>';
+                            break;
+                        }
+
+                        case  "levelname":
+                        {
+                            html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
+                            break;
+                        }
+                        //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
                         case  "info.name":
                         {
                             var path = obj.attr("key").split(".");
@@ -341,7 +367,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
                 }
         );
-        html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>0</span></div>";
+
         html = html + "</li>";
         $("." + table).find("ul#" + UlID).prepend(html);
         $("." + table).find("li#" + errorjson.hash).show("slide", {direction: "left"}, 1000);
@@ -356,28 +382,15 @@ function drawUL(errorjson, table, hashindex, update) {
         {
             $("." + table).find("li#" + hashindex + " .starttime").html(moment(errorjson.starttimes[errorjson.level] * 1).format(timeformat));
         }
-        var rectime=moment();
-//        var rectime=moment(errorjson.time);
-        
+//        var rectime=moment();
+        var rectime = moment(errorjson.time);
+
         $("." + table).find("li#" + hashindex + " .timelocal").html(rectime.format(timeformatsmall));
-        $("." + table).find("li#" + hashindex).attr('time', rectime.format("x"));
-        var refreshes = $("." + table).find("li#" + hashindex + " .refreshes");
+        $("." + table).find("li#" + hashindex).attr('time', moment().format("x"));
+        var refreshes = $("." + table).find("li#" + hashindex + " .updatecounter");
         var val = refreshes.text() * 1 + 1;
         refreshes.text(val);
-        
-        $("." + table).find("li ul li").each(function (){
-            var interval = moment($(this).attr("time")*1).diff(moment())/-1000;
-            if ((interval>10)||(interval<0))
-            {
-               $(this).find(".timeinterval").css("background-color","#f00")    ;
-            }
-            else
-            {
-                $(this).find(".timeinterval").removeAttr("style");
-            }
-            $(this).find(".timeinterval").text( interval.toFixed(1));
-//            console.log($(this).attr("time"));
-        });
+
         if (errorjson.isspec === 0)
         {
             var valuearrowclass = "fa-long-arrow-down";
@@ -594,6 +607,20 @@ $(document).ready(function () {
 
     });
 
+
+    setInterval(function (){        
+        $(".monitorlist li ul li").each(function () {
+            var interval = moment($(this).attr("time") * 1).diff(moment()) / -1000;
+//            if ((interval > 10) || (interval < 0))
+//            {
+//                $(this).find(".timeinterval").css("background-color", "#f00");
+//            } else
+//            {
+                $(this).find(".timeinterval").removeAttr("style");
+//            }
+            $(this).find(".timeinterval").text(interval.toFixed(0));
+        });
+    },1000);
     $("body").on("change", ".add_filter_select", function () {
         $(this).find(':selected').attr("disabled", "disabled");
         var row = $("<tr>");
@@ -698,7 +725,7 @@ $(document).ready(function () {
 
 function updateFilter() {
     var formData = $("form.form-options").serializeArray();
-    optionsJson = {f_col: ["level"]};
+    optionsJson = {};
     const regex = /[a-zA-Z.]+/g;
     jQuery.each(formData, function (i, field) {
         if (field.value !== "")
