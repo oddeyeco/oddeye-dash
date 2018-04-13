@@ -62,7 +62,7 @@
         <dependency>
             <groupId>co.oddeye</groupId>
             <artifactId>oddeye-core</artifactId>
-            <version>0.4</version>
+            <version>0.5</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

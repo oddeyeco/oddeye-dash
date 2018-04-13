@@ -119,13 +119,9 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                                     this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
                                 }
                             }
-
                         }
-
                     }
-
                 }
-
                 for (Map.Entry<String, Map<String, JsonObject>> sesionsotokenlevel : user.getSotokenJSON().entrySet()) {
                     Map<String, JsonObject> sotokenlevelJson = sesionsotokenlevel.getValue();
                     for (Map.Entry<String, JsonObject> sotokenfilter : sotokenlevelJson.entrySet()) {

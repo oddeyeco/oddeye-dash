@@ -109,33 +109,33 @@
                                         </td>
                                         <td class="card-fields value">
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
-                                                <option value="actions" selected="selected" label="actions" key="actions">Actions
+                                                <option value="actions" label="actions" key="actions">Actions
                                                 </option>
 
-                                                <option value="level" label="Level" key="levelname" selected="selected">Level
+                                                <option value="level" label="Level" key="levelname" >Level
                                                 </option> 
-                                                <option value="updatecounter" selected="selected" key="updatecounter" label="Update Counter">Update Counter
+                                                <option value="updatecounter"  key="updatecounter" label="Update Counter">Update Counter
                                                 </option>                                                          
-                                                <option value="updateinterval" selected="selected" key="updateinterval" label="Update Interval">Update Interval
+                                                <option value="updateinterval"  key="updateinterval" label="Update Interval">Update Interval
                                                 </option>                                                                                                   
-                                                <option value="info_name" selected="selected" key="info.name" label="Metric name">Metric Name
+                                                <option value="info_name"  key="info.name" label="Metric name">Metric Name
                                                 </option>                                                    
-                                                <option value="Start_Time" selected="selected" key="StartTime" label="Start Time">Start Time
+                                                <option value="Start_Time"  key="StartTime" label="Start Time">Start Time
                                                 </option> 
-                                                <option value="Last_Time" selected="selected" key="LastTime" label="Last Time">Last Time
+                                                <option value="Last_Time"  key="LastTime" label="Last Time">Last Time
                                                 </option>   
-                                                <option value="duration" selected="selected" key="duration" label="Duration">Duration
+                                                <option value="duration"  key="duration" label="Duration">Duration
                                                 </option>                                                                                                    
-                                                <option value="info" selected="selected" key="info" label="Info">Info
+                                                <option value="info"  key="info" label="Info">Info
                                                 </option>                                                          
                                                 <optgroup label="Tags">
                                                     <c:forEach items="${list}" var="tagitem">   
                                                         <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
-                                                        <option value="info_tags_${tagitem.key}_value" selected="selected"
+                                                        <option value="info_tags_${tagitem.key}_value"
                                                                 key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
                                                 </optgroup>
-                                                <option value="messsge" selected="selected" key="messsge" label="messsge">Messsge
+                                                <option value="messsge" key="messsge" label="messsge">Messsge
                                                 </option>                                                                                               
 
 
@@ -150,9 +150,13 @@
                 </form>
             </div>            
             <p class="buttons">
-                <a href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</a>
-                <a href="#" class="btn btn-xs btn-primary" id="cleare_filter">Save</a>
-                <a href="#" class="btn btn-xs btn-primary" id="save_filter">Save As</a>
+                <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>
+                <button href="#" class="btn btn-xs btn-primary" id="save_filter" <c:if test="${empty nameoptions}">disabled="disabled"</c:if>>Save</button>
+                <button href="#" class="btn btn-xs btn-primary" id="add_filter">Save As</button>
+                <input type="text" value="${nameoptions}" id="saveas_name">
+                <c:if test="${!empty nameoptions}">
+                <button href="#" class="btn btn-xs btn-danger pull-right" id="rem_filter">Delete</button>    
+                </c:if>
             </p>
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">

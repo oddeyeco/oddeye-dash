@@ -93,6 +93,16 @@
                                         <li><a><i class="fa fa-clock-o"></i> Monitoring <span class="fa fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/monitoring"/>">Real Time</a></li>
+                                                    <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
+                                                    <li class="text-nowrap">
+                                                        <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                               
+                                                            ${option.key}                                                             
+                                                        </a>
+
+                                                    </li>
+                                                </c:forEach>                                                
+
                                                 <li><a href="<c:url value="/errorsanalysis"/>">Detailed</a></li>
                                             </ul>
                                         </li>                                        

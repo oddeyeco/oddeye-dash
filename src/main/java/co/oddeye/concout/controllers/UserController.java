@@ -116,9 +116,8 @@ public class UserController {
 //        map.put("jsonmodel", jsonResult);
 //        return "ajax";
 //    }
-    
-    @RequestMapping(value = "/monitorings2", method = RequestMethod.GET)
-    public String monitorings2(HttpServletRequest request, ModelMap map) {
+    @RequestMapping(value = {"/monitorings2", "/monitoring/{optionname}"}, method = RequestMethod.GET)
+    public String monitorings2(@PathVariable(value = "optionname", required = false) String optionname, HttpServletRequest request, ModelMap map) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -128,6 +127,13 @@ public class UserController {
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
             map.put("title", "Real-Time Monitor");
+            if (optionname != null) {
+                map.put("defoptions",userDetails.getOptions(optionname));
+                map.put("title", "Real-Time Monitor "+optionname);
+                map.put("nameoptions", optionname);
+            }
+
+            
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
@@ -164,13 +170,13 @@ public class UserController {
         }
         Random rand = new Random();
         map.put("_sotoken", rand.nextInt(90000) + 10000);
-        map.put("htitle", "Real-Time Monitor");
+        map.put("htitle", "Real-Time Monitor " + optionname);
         map.put("body", "monitorings2");
         map.put("jspart", "monitorings2js");
 
         return "index";
-    }    
-    
+    }
+
     @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
     public String monitoring(HttpServletRequest request, ModelMap map) {
 
@@ -405,15 +411,13 @@ public class UserController {
                 map.put("ident_tag", iter.next());
                 break;
             }
-            
-            if (userDetails.getMetricsMeta().getTagsList().containsKey("host"))
-            {
+
+            if (userDetails.getMetricsMeta().getTagsList().containsKey("host")) {
                 map.put("group_item", "host");
             }
-            if (userDetails.getMetricsMeta().getTagsList().containsKey("cluster"))
-            {
+            if (userDetails.getMetricsMeta().getTagsList().containsKey("cluster")) {
                 map.put("ident_tag", "cluster");
-            }            
+            }
             if (group_item != null) {
                 map.put("group_item", group_item);
             }
@@ -499,8 +503,8 @@ public class UserController {
 
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
-            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();
+                OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                        getAuthentication().getPrincipal()).getUserModel();
 
                 map.put("curentuser", userDetails);
                 JsonObject jsonMessages = new JsonObject();

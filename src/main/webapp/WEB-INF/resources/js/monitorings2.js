@@ -611,9 +611,98 @@ $(document).ready(function () {
         updateFilter();
         stompClient.send("/input/chagefilter/", {}, JSON.stringify(optionsJson));
         redrawBoard();
-
     });
 
+
+
+
+    $("body").on("click", "#add_filter", function () {
+        updateFilter();
+        var sendData = {};
+        url = cp + "/addmonitoringpage/";
+        sendData.optionsjson = JSON.stringify(optionsJson);
+        sendData.optionsname = $("#saveas_name").val();
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                alert("Data Saved ");
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
+
+    });
+    
+    $("body").on("click", "#save_filter", function () {
+        updateFilter();
+        var sendData = {};
+        url = cp + "/addmonitoringpage/";
+        sendData.optionsjson = JSON.stringify(optionsJson);
+        sendData.optionsname = nameoptions;
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                alert("Data Saved ");
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
+
+    });    
+
+
+    $("body").on("click", "#rem_filter", function () {                
+        url = cp + "/deletemonitoringpage/";        
+        sendData={optionsname:nameoptions};
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                window.location = cp + "/monitoring/";
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
+
+    });    
 
     setInterval(function () {
         $(".monitorlist li ul li").each(function () {
@@ -700,14 +789,62 @@ $(document).ready(function () {
                     '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + ' >Severe</option>' +
                     '</select></td>');
         }
+        $(".card-fields.value .f_col option").prop('selected', 'selected');
 
         updateFilter();
 
     } else
-    {
+    {        
+        optionsJson.f_col.forEach(function (entry) {
+            $(".card-fields.value .f_col option[value=" + entry + "]").prop('selected', 'selected');
+        }
+        );
+        for (var section in optionsJson.v)
+        {
+            var Domsection = $(".add_filter_select#" + section).parents(".filter");
+            for (var filter in optionsJson.v[section])
+            {
 
+                if (filter === "level")
+                {
+                    levels = optionsJson.v[section][filter];
+                    var row = $("<tr>");
+                    var name = "level";
+                    var opt = Domsection.find(".add_filter_select option[value=" + name + "]:first");
+                    opt.attr("disabled", "disabled");
+                    row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+                    Domsection.find(".filters-table").append(row);
+
+                    row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');                    
+                    row.find(".action option[value='"+optionsJson.op[section][filter]+"']").prop('selected', 'selected');
+                    row.append('<td class="value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
+                            '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>All</option>' +
+                            '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>Low</option>' +
+                            '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>Guarded</option>' +
+                            '<option value="3" ' + (levels.indexOf("3") !== -1 ? ' selected="selected" ' : "") + '>Elevated</option>' +
+                            '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>High</option>' +
+                            '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + ' >Severe</option>' +
+                            '</select></td>');
+                }
+                else
+                {
+                    var row = $("<tr>");
+                    var name = filter;
+                    var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
+                    opt.attr("disabled", "disabled");
+                    row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+
+                    row.append("<td class='action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
+                    row.append("<td class='value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
+                    row.find(".action option[value='"+optionsJson.op[section][filter]+"']").prop('selected', 'selected');
+                    Domsection.find(".filters-table").append(row);                    
+                }
+            }
+
+        }
     }
-    redrawBoard();
+
+//    redrawBoard();
     $('body').on("click", 'fieldset.collapsible legend', function () {
         if ($(this).parent().hasClass("collapsed"))
         {
