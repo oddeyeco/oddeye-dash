@@ -2240,6 +2240,8 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         if (tmprow.widgets[wi].title.sublink) {
                             chartobj.find(".chartSubText").attr('href', tmprow.widgets[wi].title.sublink);
                             chartobj.find(".chartSubText").attr('target', '_' + tmprow.widgets[wi].title.subtarget);
+                        } else {
+                            chartobj.find(".chartSubText").removeAttr('href')
                         }
                         ;
                         chartobj.find(".chartSubText").html(tmprow.widgets[wi].title.subtext);
@@ -2248,15 +2250,15 @@ function redrawAllJSON(dashJSON, redraw = false) {
                             chartobj.find(".chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
                         } else
                         {
-                            chartobj.find(".chartSubText").removeAttr("style");     /////////////////     mi ban petqa anel
+                            chartobj.find(".chartSubText").removeAttr("style");
                         }
                     }
                     ;
-                    console.log('sssssssssssssssssssssssssssssss');
                     chartobj.find(".chartSubText").css({display: 'none'});
-                    chartobj.find(".chartTitleDiv").css({'text-align': 'center', display: 'block'});        ////////////////////////// css ov
+                    chartobj.find(".chartTitleDiv").css({'text-align': 'center', display: 'block', position: 'relative'});        ////////////////////////// css ov
                 }
                 ;
+
 //                $("#charttemplate .chartsection").attr("index", wi);
                 chartobj.attr("id", "widget" + ri + "_" + wi);
                 chartobj.attr("type", tmprow.widgets[wi].type);
@@ -2266,8 +2268,21 @@ function redrawAllJSON(dashJSON, redraw = false) {
 
                 if (tmprow.widgets[wi].times)
                 {
+                    chartobj.find(".echart_time_icon i").css({position: 'absolute', right: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov    
+                    chartobj.find(".echart_time_icon").css({'border-right': '27px solid #EDEDED', ////////////////////////// css ov  
+                        'border-left': 'none',
+                        'border-bottom': '27px solid transparent',
+                        'border-top': 'none',
+                        padding: '0px',
+                        margin: '0px',
+                        position: 'absolute',
+                        right: 1,
+                        cursor: 'pointer',
+                        display: 'none'
+                    });
                     if (tmprow.widgets[wi].times.pickerlabel)
                     {
+                        chartobj.find(".echart_time_icon").css({display: 'block'});
                         if (tmprow.widgets[wi].times.pickerlabel !== "Custom")
                         {
                             chartobj.find(".echart_time").append(tmprow.widgets[wi].times.pickerlabel + " ");
@@ -2280,23 +2295,24 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     {
                         if (tmprow.widgets[wi].times.intervall !== "General")
                         {
+                            chartobj.find(".echart_time_icon").css({display: 'block'});
                             chartobj.find(".echart_time").append(EditForm.refreshtimes[tmprow.widgets[wi].times.intervall]);
                         }
                     }
 
                 }
 
-                if (typeof (tmprow.widgets[wi].height) !== "undefined")
-                {
-                    chartobj.find(".echart_time").css("height", tmprow.widgets[wi].height);
-                    if (tmprow.widgets[wi].height === "")
-                    {
-                        chartobj.find(".echart_time").css("height", "300px");
-                    }
-                } else
-                {
-                    chartobj.find(".echart_time").css("height", "300px");
-                }
+//                if (typeof (tmprow.widgets[wi].height) !== "undefined")
+//                {
+//                    chartobj.find(".echart_time").css("height", tmprow.widgets[wi].height);        /////////////////el petq chi
+//                    if (tmprow.widgets[wi].height === "")
+//                    {
+//                        chartobj.find(".echart_time").css("height", "300px");
+//                    }
+//                } else
+//                {
+//                    chartobj.find(".echart_time").css("height", "300px");
+//                }
                 $("#row" + ri).find(".rowcontent").append(chartobj);
                 chartobj.find(".echart_time").attr("id", "echart_line");
             }
@@ -2594,38 +2610,38 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         //TODO Drow single widget title
 
 
-        console.log(tmprow);
-
+        console.log(dashJSON.rows[row].widgets[index]);
+        var singleWi = dashJSON.rows[row].widgets[index];
 
         if (!$('#singlewidget .chartTitleDiv').length) {
             wraper.prepend('<div class="chartTitleDiv" style="display:none">' + '<span class=chartTitle>' + '</span>' + '<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info"></i> ' + '</span>' +
-                    '<a class="chartSubText">' + '</a>' + "</div>");
+                    '<a class="chartSubText hoverShow">' + '</a>' + "</div>");
             $('#singlewidget .chartSubText').css('display', 'none');
         }
-        if (tmprow.widgets[wi].title) {
+        if (singleWi.title) {
             if (rebuildform) {
                 wraper.find('.chartTitleDiv').css('display', 'block');
-                if (!tmprow.widgets[wi].title.text) {
+                if (!singleWi.title.text) {
                     wraper.find('.chartTitle').css({display: 'none'});
                     wraper.find('.chartTitleDiv').removeAttr("style");
                 } else {
-                    wraper.find('.chartTitle').text(tmprow.widgets[wi].title.text);
-                    if (tmprow.widgets[wi].title.style) {
+                    wraper.find('.chartTitle').text(singleWi.title.text);
+                    if (singleWi.title.style) {
                         wraper.find('.chartTitleDiv').css({'border-style': 'solid', 'border-width': 0});                   ///////////////////// css ov
-                        wraper.find('.chartTitleDiv').css(tmprow.widgets[wi].title.style);
+                        wraper.find('.chartTitleDiv').css(singleWi.title.style);
                     } else {
                         wraper.find('.chartTitleDiv').removeAttr("style");                 ////////////////////////////hishi ira masin
                     }
                     ;
                     wraper.find('.chartTitleDiv').css('display', 'block');
                 }
-                if (!tmprow.widgets[wi].title.subtext) {
+                if (!singleWi.title.subtext) {
                     wraper.find('.chartSubIcon').css({display: 'none'});
                 } else {
-                    wraper.find('.chartSubText').text(tmprow.widgets[wi].title.subtext);
-                    wraper.find('.chartSubText').text(tmprow.widgets[wi].title.subtext);
-                    if (tmprow.widgets[wi].title.subtextStyle) {
-                        wraper.find('chartSubText').css(tmprow.widgets[wi].title.subtextStyle);
+                    wraper.find('.chartSubText').text(singleWi.title.subtext);
+                    wraper.find('.chartSubText').text(singleWi.title.subtext);
+                    if (singleWi.title.subtextStyle) {
+                        wraper.find('chartSubText').css(singleWi.title.subtextStyle);
                     } else
                     {
                         wraper.find('.chartSubText').removeAttr("style");
@@ -2634,28 +2650,27 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     wraper.find('.chartSubIcon').css({display: 'block'});
                 }
             } else {
-                if (!tmprow.widgets[wi].title.text) {
-                    console.log('sssssssssssss');
+                if (!singleWi.title.text) {
                     $('#singlewidget .chartTitle').css({display: 'none'});
                     $("#singlewidget .chartTitleDiv").removeAttr("style");
                 } else {
                     $('#singlewidget .chartTitle').css({display: 'inline-block'});
-                    $('#singlewidget .chartTitle').text(tmprow.widgets[wi].title.text);
-                    if (tmprow.widgets[wi].title.style) {
+                    $('#singlewidget .chartTitle').text(singleWi.title.text);
+                    if (singleWi.title.style) {
                         $('#singlewidget .chartTitleDiv').css({'border-style': 'solid', 'border-width': 0});                   ///////////////////// css ov
-                        $('#singlewidget .chartTitleDiv').css(tmprow.widgets[wi].title.style);
+                        $('#singlewidget .chartTitleDiv').css(singleWi.title.style);
                     } else {
                         $("#singlewidget .chartTitleDiv").removeAttr("style");                 ////////////////////////////hishi ira masin
                     }
                     ;
                     $('#singlewidget .chartTitleDiv').css('display', 'block');
                 }
-                if (!tmprow.widgets[wi].title.subtext) {
+                if (!singleWi.title.subtext) {
                     $('#singlewidget .chartSubText, #singlewidget .chartSubIcon').css({display: 'none'});
                 } else {
-                    $('#singlewidget .chartSubText').text(tmprow.widgets[wi].title.subtext);
-                    if (tmprow.widgets[wi].title.subtextStyle) {
-                        $("#singlewidget .chartSubText").css(tmprow.widgets[wi].title.subtextStyle);
+                    $('#singlewidget .chartSubText').text(singleWi.title.subtext);
+                    if (singleWi.title.subtextStyle) {
+                        $("#singlewidget .chartSubText").css(singleWi.title.subtextStyle);
                     } else
                     {
                         $("#singlewidget .chartSubText").removeAttr("style");
@@ -2664,12 +2679,14 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     $('#singlewidget .chartSubIcon').css({display: 'block'});
                 }
             }
-            if (tmprow.widgets[wi].title.subtarget) {
-                $('#singlewidget .chartSubText').attr('href', tmprow.widgets[wi].title.sublink);
-                $('#singlewidget .chartSubText').attr('target', '_' + tmprow.widgets[wi].title.subtarget);
+            if (!singleWi.title.sublink) {
+                $('#singlewidget .chartSubText').removeAttr('href');
+            } else {
+                $('#singlewidget .chartSubText').attr('href', singleWi.title.sublink);
+                $('#singlewidget .chartSubText').attr('target', '_' + singleWi.title.subtarget);
             }
             $('#singlewidget .chartSubText').css('display', 'none');             ////////////// arji vor edit chart - um subtext@ toggle lini?
-            $('.chartTitleDiv').css({display: 'block', 'text-align': 'center'});        ////////////////////////// css ov    
+            $('.chartTitleDiv').css({display: 'block', 'text-align': 'center', position: 'relative'});        ////////////////////////// css ov    
             $('.chartSubIcon').css({'border-left': '27px solid #EDEDED',
                 'border-right': 'none',
                 'border-bottom': '27px solid transparent',
@@ -2694,7 +2711,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         {
             echartLine.setOption(dashJSON.rows[row].widgets[index].options);
         }
-
     }
 //    }
 
@@ -3633,28 +3649,37 @@ $(document).ready(function () {
         $('#maximize').fadeOut(500);
     });
     var whaittimer;
-    $('body').on("mouseenter mouseleave", '.chartSubIcon, .chartSubText', function (e) {
+    $('body').on("mouseenter mouseleave", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
         var elem = $(this);
 //        console.log(e.target.className);
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function (  ) {
-            elem.next('.chartSubText').css({position: 'absolute',
-                top: elem.outerHeight(),
-                left: 0,
+            elem.parent('div').find('.hoverShow').css({position: 'absolute',
                 width: 300,
                 'z-index': 9999,
                 background: 'rgb(216, 217, 218)'
             });
+            if (elem.hasClass('chartSubIcon')) {
+                elem.parent('div').find('.hoverShow').css({
+                    left: 0,
+                    top: elem.parent('div').find('.chartSubIcon').outerHeight()
+                });
+            } else {
+                elem.parent('div').find('.hoverShow').css({
+                    right: 0,
+                    top: elem.parent('div').find('.echart_time_icon').outerHeight()
+                });
+            }
             if (e.type === 'mouseover') {
 //                console.log(e.type + " in");
-                elem.next('.chartSubText').fadeIn();
-            }
-            if (e.type === 'mouseenter' && e.target.className === 'chartSubText') {
-                e.preventDefault();
+                if (elem.parent('div').find('.hoverShow').css('display') !== 'block') {
+                    $('.hoverShow').fadeOut();
+                }
+                elem.parent('div').find('.hoverShow').fadeIn();
             }
             if (e.type === 'mouseout') {
 //                console.log(e.type + " out");
-                elem.parents().find('.chartSubText').fadeOut();
+                $('.hoverShow').fadeOut();
             }
             ;
         }, 500);
