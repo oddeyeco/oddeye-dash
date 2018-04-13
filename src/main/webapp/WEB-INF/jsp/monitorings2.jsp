@@ -111,7 +111,7 @@
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
                                                 <option value="actions" selected="selected" label="actions" key="actions">Actions
                                                 </option>
-                                                
+
                                                 <option value="level" label="Level" key="levelname" selected="selected">Level
                                                 </option> 
                                                 <option value="updatecounter" selected="selected" key="updatecounter" label="Update Counter">Update Counter
@@ -127,9 +127,7 @@
                                                 <option value="duration" selected="selected" key="duration" label="Duration">Duration
                                                 </option>                                                                                                    
                                                 <option value="info" selected="selected" key="info" label="Info">Info
-                                                </option>          
-                                                                                               
-                                                
+                                                </option>                                                          
                                                 <optgroup label="Tags">
                                                     <c:forEach items="${list}" var="tagitem">   
                                                         <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
@@ -137,7 +135,9 @@
                                                                 key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
                                                 </optgroup>
-                                       
+                                                <option value="messsge" selected="selected" key="messsge" label="messsge">Messsge
+                                                </option>                                                                                               
+
 
                                             </select>                                                                                  
 

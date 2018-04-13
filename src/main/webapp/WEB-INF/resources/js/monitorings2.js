@@ -259,6 +259,14 @@ function drawUL(errorjson, table, hashindex, update) {
                             }
                             break;
                         }
+                        case  "messsge":
+                        {
+                            if (errorjson.isspec !== 0)
+                            {
+                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
+                            }
+                            break;
+                        }
                         case  "info":
                         {
                             if (errorjson.isspec === 0)
@@ -269,10 +277,8 @@ function drawUL(errorjson, table, hashindex, update) {
                                     valuearrowclass = "fa-long-arrow-up";
                                 }
                                 html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
-                            } else
-                            {
-                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
                             }
+
                             break;
                         }
                         case  "StartTime":
@@ -377,12 +383,12 @@ function drawUL(errorjson, table, hashindex, update) {
         $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
 
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-        var lt = errorjson.time;        
+        var lt = errorjson.time;
         $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
 
         if (errorjson.starttimes[errorjson.level])
         {
-            $("." + table).find("li#" + hashindex + " .starttime").html( moment(st * 1).format(timeformat));
+            $("." + table).find("li#" + hashindex + " .starttime").html(moment(st * 1).format(timeformat));
         }
 //        var rectime=moment();
         var rectime = moment(lt);
@@ -390,7 +396,7 @@ function drawUL(errorjson, table, hashindex, update) {
         $("." + table).find("li#" + hashindex).attr('time', moment().format("x"));
         var refreshes = $("." + table).find("li#" + hashindex + " .updatecounter");
         var val = refreshes.text() * 1 + 1;
-        refreshes.text(val);        
+        refreshes.text(val);
 //errorjson.flap
         if (errorjson.isspec === 0)
         {
