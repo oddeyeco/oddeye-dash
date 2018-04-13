@@ -74,7 +74,7 @@ public class KafkaConsumerConfig {
         
         propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
         propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);         
-        propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, "dasboard"+UUID.randomUUID().toString());
+        propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, UUID.randomUUID().toString()+"appdash");
         propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");//latest
         return propsMap;
     }

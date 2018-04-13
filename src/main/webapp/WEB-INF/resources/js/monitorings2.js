@@ -243,128 +243,130 @@ function drawUL(errorjson, table, hashindex, update) {
         var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + moment().format("x") + '">';
         var re = /_/gi;
         optionsJson.f_col.forEach(
-                function (entry) {
+                function (entry) {                    
                     var obj = $('.f_col option[value=' + entry + ']');
-
-                    switch (obj.attr("key")) {
-                        case  "actions":
-                        {
-                            if (errorjson.isspec === 0)
+                    if (obj)
+                    {
+                        switch (obj.attr("key")) {
+                            case  "actions":
                             {
+                                if (errorjson.isspec === 0)
+                                {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
-                            } else
-                            {
-                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
-                            }
-                            break;
-                        }
-                        case  "message":
-                        {
-                            if (errorjson.isspec !== 0)
-                            {
-                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
-                            }
-                            break;
-                        }
-                        case  "info":
-                        {
-                            if (errorjson.isspec === 0)
-                            {
-                                var valuearrowclass = "fa-long-arrow-down";
-                                if (errorjson.upstate)
+                                    html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                                } else
                                 {
-                                    valuearrowclass = "fa-long-arrow-up";
+                                    html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
                                 }
-                                html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
+                                break;
+                            }
+                            case  "message":
+                            {
+                                if (errorjson.isspec !== 0)
+                                {
+                                    html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
+                                }
+                                break;
+                            }
+                            case  "info":
+                            {
+                                if (errorjson.isspec === 0)
+                                {
+                                    var valuearrowclass = "fa-long-arrow-down";
+                                    if (errorjson.upstate)
+                                    {
+                                        valuearrowclass = "fa-long-arrow-up";
+                                    }
+                                    html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
+                                }
+
+                                break;
+                            }
+                            case  "StartTime":
+                            {
+                                var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                                html = html + '<div class="inline starttime">' + moment(st * 1).format(timeformat) + '</div>';
+                                break;
+                            }
+                            case  "LastTime":
+                            {
+                                var st = errorjson.time;
+                                html = html + '<div class="inline timelocal">' + moment(st * 1).format(timeformatsmall) + '</div>';
+                                break;
                             }
 
-                            break;
-                        }
-                        case  "StartTime":
-                        {
-                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                            html = html + '<div class="inline starttime">' + moment(st * 1).format(timeformat) + '</div>';
-                            break;
-                        }
-                        case  "LastTime":
-                        {
-                            var st = errorjson.time;
-                            html = html + '<div class="inline timelocal">' + moment(st * 1).format(timeformatsmall) + '</div>';
-                            break;
-                        }
+                            case  "updateinterval":
+                            {
+                                var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                                html = html + '<div class="inline timeinterval badge bg-white">0</div>';
+                                break;
+                            }
+                            case  "updatecounter":
+                            {
+                                html = html + '<div class="inline updatecounter badge">0</div>';
+                                break;
+                            }
+                            case  "duration":
+                            {
+                                var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                                var lt = errorjson.time;
+                                html = html + '<div class="inline duration badge">' + moment.duration(lt - st).humanize() + '</div>';
+                                break;
+                            }
 
-                        case  "updateinterval":
-                        {
-                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                            html = html + '<div class="inline timeinterval badge bg-white">0</div>';
-                            break;
-                        }
-                        case  "updatecounter":
-                        {
-                            html = html + '<div class="inline updatecounter badge">0</div>';
-                            break;
-                        }
-                        case  "duration":
-                        {
-                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                            var lt = errorjson.time;
-                            html = html + '<div class="inline duration badge">' + moment.duration(lt - st).humanize() + '</div>';
-                            break;
-                        }
+                            case  "levelname":
+                            {
+                                html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
+                                break;
+                            }
+                            //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
+                            case  "info.name":
+                            {
+                                var path = obj.attr("key").split(".");
+                                var value = errorjson;
 
-                        case  "levelname":
-                        {
-                            html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
-                            break;
-                        }
-                        //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
-                        case  "info.name":
-                        {
-                            var path = obj.attr("key").split(".");
-                            var value = errorjson;
+                                $.each(path, function (i, item) {
+                                    if (value)
+                                    {
+                                        value = value[item];
+                                    }
+                                });
+                                if (errorjson.isspec === 0)
+                                {
+                                    if (value)
+                                    {
+                                        html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                    }
 
-                            $.each(path, function (i, item) {
+
+                                } else
+                                {
+                                    html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                                }
+                                break;
+                            }
+                            default:
+                            {
+                                var path = obj.attr("key").split(".");
+                                var value = errorjson;
+
+                                $.each(path, function (i, item) {
+                                    if (value)
+                                    {
+                                        value = value[item];
+                                    }
+                                });
+
+
                                 if (value)
                                 {
-                                    value = value[item];
-                                }
-                            });
-                            if (errorjson.isspec === 0)
-                            {
-                                if (value)
-                                {
-                                    html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                    html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
                                 }
 
-
-                            } else
-                            {
-                                html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
-                            }
-                            break;
-                        }
-                        default:
-                        {
-                            var path = obj.attr("key").split(".");
-                            var value = errorjson;
-
-                            $.each(path, function (i, item) {
-                                if (value)
-                                {
-                                    value = value[item];
-                                }
-                            });
-
-
-                            if (value)
-                            {
-                                html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                                break;
                             }
 
-                            break;
                         }
-
                     }
 
 
@@ -645,7 +647,7 @@ $(document).ready(function () {
         });
 
     });
-    
+
     $("body").on("click", "#save_filter", function () {
         updateFilter();
         var sendData = {};
@@ -674,12 +676,12 @@ $(document).ready(function () {
             alert("Request failed");
         });
 
-    });    
+    });
 
 
-    $("body").on("click", "#rem_filter", function () {                
-        url = cp + "/deletemonitoringpage/";        
-        sendData={optionsname:nameoptions};
+    $("body").on("click", "#rem_filter", function () {
+        url = cp + "/deletemonitoringpage/";
+        sendData = {optionsname: nameoptions};
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({
@@ -702,7 +704,7 @@ $(document).ready(function () {
             alert("Request failed");
         });
 
-    });    
+    });
 
     setInterval(function () {
         $(".monitorlist li ul li").each(function () {
@@ -794,7 +796,7 @@ $(document).ready(function () {
         updateFilter();
 
     } else
-    {        
+    {
         optionsJson.f_col.forEach(function (entry) {
             $(".card-fields.value .f_col option[value=" + entry + "]").prop('selected', 'selected');
         }
@@ -815,8 +817,8 @@ $(document).ready(function () {
                     row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
                     Domsection.find(".filters-table").append(row);
 
-                    row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');                    
-                    row.find(".action option[value='"+optionsJson.op[section][filter]+"']").prop('selected', 'selected');
+                    row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
+                    row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
                     row.append('<td class="value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
                             '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>All</option>' +
                             '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>Low</option>' +
@@ -825,8 +827,7 @@ $(document).ready(function () {
                             '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>High</option>' +
                             '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + ' >Severe</option>' +
                             '</select></td>');
-                }
-                else
+                } else
                 {
                     var row = $("<tr>");
                     var name = filter;
@@ -836,8 +837,8 @@ $(document).ready(function () {
 
                     row.append("<td class='action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
                     row.append("<td class='value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
-                    row.find(".action option[value='"+optionsJson.op[section][filter]+"']").prop('selected', 'selected');
-                    Domsection.find(".filters-table").append(row);                    
+                    row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
+                    Domsection.find(".filters-table").append(row);
                 }
             }
 

@@ -58,8 +58,8 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
         String msg = (String) record.value();
         String t_level = record.topic().replace(user.getId().toString(), "");
         Integer i_level = Integer.parseInt(t_level);
-        if (log.isInfoEnabled()) {
-            log.info("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
+        if (log.isDebugEnabled()) {
+            log.debug("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
         }
 
         if (System.currentTimeMillis() - record.timestamp() < 60000) {

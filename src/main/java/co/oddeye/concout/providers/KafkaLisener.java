@@ -52,8 +52,10 @@ public class KafkaLisener {
 
     public CountDownLatch countDownReceiveMetric = new CountDownLatch(6);
     public CountDownLatch countDownReceiveAction = new CountDownLatch(6);
+    
+    public final String groupId = UUID.randomUUID().toString()+"appdash";
 
-    @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}")
+    @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}", groupId = "#{__listener.groupId}")
     public void receiveMetric(List<String> list) {
         for (String payload : list) {
             if (LOGGER.isDebugEnabled()) {
@@ -95,10 +97,11 @@ public class KafkaLisener {
         countDownReceiveMetric.countDown();
     }
 
-    @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}")
+    @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}" , groupId = "#{__listener.groupId}")
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
 //        System.out.println("receiveAction list.size : " + list.size());
+        LOGGER.error(list.toString());
         for (String payload : list) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("received payload='{}'", payload);
@@ -166,7 +169,7 @@ public class KafkaLisener {
                             LOGGER.error(globalFunctions.stackTrace(ex));
                         }
                         break;
-                    }                    
+                    }
                     case "changefilter": {
                         try {
                             TimeUnit.SECONDS.sleep(2);
@@ -202,8 +205,11 @@ public class KafkaLisener {
 //                        }
                         break;
                     }
-                    default:
+                    default: {
+                        LOGGER.error(payload);
                         break;
+                    }
+
                 }
 
                 jsonResult = null;
