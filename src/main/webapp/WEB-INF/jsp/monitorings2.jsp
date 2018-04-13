@@ -135,7 +135,7 @@
                                                                 key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
                                                 </optgroup>
-                                                <option value="messsge" key="messsge" label="messsge">Messsge
+                                                <option value="message" key="message" label="message">Message
                                                 </option>                                                                                               
 
 

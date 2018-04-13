@@ -259,7 +259,7 @@ function drawUL(errorjson, table, hashindex, update) {
                             }
                             break;
                         }
-                        case  "messsge":
+                        case  "message":
                         {
                             if (errorjson.isspec !== 0)
                             {

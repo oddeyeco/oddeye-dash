@@ -160,7 +160,7 @@ public class KafkaLisener {
                     case "changeoptions":
                     case "deleteoptions": {
                         try {
-                            user.setDushList(Userdao.getAllOptions(user.getId()));
+                            user.setOptionsList(Userdao.getAllOptions(user.getId()));
                             this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                         } catch (Exception ex) {
                             LOGGER.error(globalFunctions.stackTrace(ex));
