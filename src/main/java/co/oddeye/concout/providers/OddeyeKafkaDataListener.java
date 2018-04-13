@@ -98,7 +98,6 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
 
                 if (level == i_level) {
                     metricMeta.getErrorState().setLevel(jsonResult.getAsJsonObject().get("level").getAsInt(), jsonResult.getAsJsonObject().get("time").getAsLong());
-//                    user.getMetricsMeta().put(hash, metricMeta);
                 }
 
                 JsonElement metajson = new JsonObject();

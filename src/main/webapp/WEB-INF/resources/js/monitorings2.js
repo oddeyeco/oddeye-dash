@@ -252,10 +252,10 @@ function drawUL(errorjson, table, hashindex, update) {
                             if (errorjson.isspec === 0)
                             {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="icons"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
+                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
                             } else
                             {
-                                html = html + '<div class="icons"><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></div>';
+                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
                             }
                             break;
                         }
@@ -291,7 +291,7 @@ function drawUL(errorjson, table, hashindex, update) {
                         case  "updateinterval":
                         {
                             var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                            html = html + '<div class="inline timeinterval badge">0</div>';
+                            html = html + '<div class="inline timeinterval badge bg-white">0</div>';
                             break;
                         }
                         case  "updatecounter":
@@ -390,8 +390,8 @@ function drawUL(errorjson, table, hashindex, update) {
         $("." + table).find("li#" + hashindex).attr('time', moment().format("x"));
         var refreshes = $("." + table).find("li#" + hashindex + " .updatecounter");
         var val = refreshes.text() * 1 + 1;
-        refreshes.text(val);
-
+        refreshes.text(val);        
+//errorjson.flap
         if (errorjson.isspec === 0)
         {
             var valuearrowclass = "fa-long-arrow-down";
