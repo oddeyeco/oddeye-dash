@@ -232,7 +232,7 @@ function drawUL(errorjson, table, hashindex, update) {
         UlID = "speciallist";
 
     }
-
+//    console.log(errorjson.flap);
     if (errorjson.flap > 5)
     {
         eRclass = eRclass + " flapdetect";
@@ -418,7 +418,7 @@ function drawUL(errorjson, table, hashindex, update) {
         }
         if (arrowclass !== "")
         {
-            $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action fa " + arrowclass);
+            $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action pull-left fa " + arrowclass);
             $("." + table).find("li#" + hashindex + " .icons i.action").css("color", color);
         }
 
