@@ -87,7 +87,11 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                     if (jsonResult.getAsJsonObject().get("message") != null) {
                         long time = System.currentTimeMillis();
                         if (jsonResult.getAsJsonObject().get("reaction").getAsInt() < 0) {
-                            time = jsonResult.getAsJsonObject().get("time").getAsLong();
+                            time = jsonResult.getAsJsonObject().get("time").getAsLong();                            
+                        }
+                        else if (jsonResult.getAsJsonObject().get("reaction").getAsInt() > 0)
+                        {
+                            jsonResult.getAsJsonObject().addProperty("time",  time);
                         }
                         long DURATION = time - metricMeta.getLasttime();
                         message = jsonResult.getAsJsonObject().get("message").getAsString();

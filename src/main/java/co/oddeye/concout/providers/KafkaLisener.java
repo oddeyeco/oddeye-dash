@@ -100,8 +100,7 @@ public class KafkaLisener {
     @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}" , groupId = "#{__listener.groupId}")
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
-//        System.out.println("receiveAction list.size : " + list.size());
-        LOGGER.error(list.toString());
+//        System.out.println("receiveAction list.size : " + list.size());        
         for (String payload : list) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("received payload='{}'", payload);

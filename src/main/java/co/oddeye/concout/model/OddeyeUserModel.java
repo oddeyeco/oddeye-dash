@@ -859,7 +859,7 @@ public class OddeyeUserModel implements Serializable {
             }
             ContainerProperties properties = new ContainerProperties(topics);
             properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, _MetaDao));
-            this.getSotokenJSON().putAll(getSotokenJSON());
+            this.getSotokenJSON().putAll(sesionsotoken);
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setBeanName(this.getEmail() + "_ErrorLisener");
             this.listenerContainer.setConcurrency(1);

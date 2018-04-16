@@ -243,130 +243,134 @@ function drawUL(errorjson, table, hashindex, update) {
         var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + moment().format("x") + '">';
         var re = /_/gi;
         optionsJson.f_col.forEach(
-                function (entry) {                    
+                function (entry) {
                     var obj = $('.f_col option[value=' + entry + ']');
-                    if (obj)
-                    {
-                        switch (obj.attr("key")) {
-                            case  "actions":
+//                    if (obj.length === 0)
+//                    {
+//                        console.log(entry);
+//                    }
+
+                    switch (obj.attr("key")) {
+                        case  "actions":
+                        {
+                            if (errorjson.isspec === 0)
                             {
-                                if (errorjson.isspec === 0)
-                                {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                    html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
-                                } else
+                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                            } else
+                            {
+                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                            }
+                            break;
+                        }
+                        case  "message":
+                        {
+                            if (errorjson.isspec !== 0)
+                            {
+                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
+                            }
+                            break;
+                        }
+                        case  "info":
+                        {
+                            if (errorjson.isspec === 0)
+                            {
+                                var valuearrowclass = "fa-long-arrow-down";
+                                if (errorjson.upstate)
                                 {
-                                    html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                                    valuearrowclass = "fa-long-arrow-up";
                                 }
-                                break;
-                            }
-                            case  "message":
-                            {
-                                if (errorjson.isspec !== 0)
-                                {
-                                    html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
-                                }
-                                break;
-                            }
-                            case  "info":
-                            {
-                                if (errorjson.isspec === 0)
-                                {
-                                    var valuearrowclass = "fa-long-arrow-down";
-                                    if (errorjson.upstate)
-                                    {
-                                        valuearrowclass = "fa-long-arrow-up";
-                                    }
-                                    html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
-                                }
-
-                                break;
-                            }
-                            case  "StartTime":
-                            {
-                                var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                                html = html + '<div class="inline starttime">' + moment(st * 1).format(timeformat) + '</div>';
-                                break;
-                            }
-                            case  "LastTime":
-                            {
-                                var st = errorjson.time;
-                                html = html + '<div class="inline timelocal">' + moment(st * 1).format(timeformatsmall) + '</div>';
-                                break;
+                                html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
                             }
 
-                            case  "updateinterval":
+                            break;
+                        }
+                        case  "StartTime":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                            html = html + '<div class="inline starttime">' + moment(st * 1).format(timeformat) + '</div>';
+                            break;
+                        }
+                        case  "LastTime":
+                        {
+                            var st = errorjson.time;
+                            html = html + '<div class="inline timelocal">' + moment(st * 1).format(timeformatsmall) + '</div>';
+                            break;
+                        }
+
+                        case  "updateinterval":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                            html = html + '<div class="inline timeinterval badge bg-white">0</div>';
+                            break;
+                        }
+                        case  "updatecounter":
+                        {
+                            html = html + '<div class="inline updatecounter badge">0</div>';
+                            break;
+                        }
+                        case  "duration":
+                        {
+                            var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
+                            var lt = errorjson.time;
+                            html = html + '<div class="inline duration badge">' + moment.duration(lt - st).humanize() + '</div>';
+                            break;
+                        }
+
+                        case  "levelname":
+                        {
+                            html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
+                            break;
+                        }
+                        //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
+                        case  "info.name":
+                        {
+                            var value = errorjson.info.name;
+                            if (errorjson.isspec === 0)
                             {
-                                var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                                html = html + '<div class="inline timeinterval badge bg-white">0</div>';
-                                break;
-                            }
-                            case  "updatecounter":
-                            {
-                                html = html + '<div class="inline updatecounter badge">0</div>';
-                                break;
-                            }
-                            case  "duration":
-                            {
-                                var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                                var lt = errorjson.time;
-                                html = html + '<div class="inline duration badge">' + moment.duration(lt - st).humanize() + '</div>';
-                                break;
-                            }
-
-                            case  "levelname":
-                            {
-                                html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
-                                break;
-                            }
-                            //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
-                            case  "info.name":
-                            {
-                                var path = obj.attr("key").split(".");
-                                var value = errorjson;
-
-                                $.each(path, function (i, item) {
-                                    if (value)
-                                    {
-                                        value = value[item];
-                                    }
-                                });
-                                if (errorjson.isspec === 0)
-                                {
-                                    if (value)
-                                    {
-                                        html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
-                                    }
-
-
-                                } else
-                                {
-                                    html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
-                                }
-                                break;
-                            }
-                            default:
-                            {
-                                var path = obj.attr("key").split(".");
-                                var value = errorjson;
-
-                                $.each(path, function (i, item) {
-                                    if (value)
-                                    {
-                                        value = value[item];
-                                    }
-                                });
-
-
                                 if (value)
                                 {
-                                    html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                                    html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
                                 }
 
-                                break;
+
+                            } else
+                            {
+                                html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
+                            }
+                            break;
+                        }
+                        default:
+                        {
+//                            console.log(entry);
+//                            console.log(obj);
+//                            console.log(obj.attr("key"));
+                            if (obj.attr("key"))
+                            {
+                                var path = obj.attr("key").split(".");
+                            } else
+                            {
+                                var path = entry.split("_");
                             }
 
+                            var value = errorjson;
+
+                            $.each(path, function (i, item) {
+                                if (value)
+                                {
+                                    value = value[item];
+                                }
+                            });
+
+
+                            if (value)
+                            {
+                                html = html + '<div class="' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
+                            }
+
+                            break;
                         }
+
                     }
 
 
@@ -709,14 +713,19 @@ $(document).ready(function () {
     setInterval(function () {
         $(".monitorlist li ul li").each(function () {
             var interval = moment($(this).attr("time") * 1).diff(moment()) / -1000;
-//            if ((interval > 10) || (interval < 0))
+            $(this).find(".timeinterval").text(interval.toFixed(0) + "sec.");
+
+//            if ($(this).hasClass("ui-effects-placeholder"))
 //            {
-//                $(this).find(".timeinterval").css("background-color", "#f00");
-//            } else
-//            {
-            $(this).find(".timeinterval").removeAttr("style");
+//                console.log($(this).html());
+//                if ($(this).html() === "")
+//                {
+//                    console.log("VALOD");
+//                    $(this).remove();
+//                }
 //            }
-            $(this).find(".timeinterval").text(interval.toFixed(0));
+
+
         });
     }, 1000);
     $("body").on("change", ".add_filter_select", function () {
