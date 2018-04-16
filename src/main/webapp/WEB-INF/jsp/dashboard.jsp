@@ -80,18 +80,17 @@
                             </div> 
                         </div>             -->
 
-            <div class="chartTitleDiv" style="text-align: center"> <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+            <div class="chartTitleDiv">
                     <div>
-                        <span class="chartSubIcon" style="display: none"><i class="fa fa-info"></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                        <a href="#" class="chartSubText hoverShow" style="display: none"></a>
+                        <span class="chartSubIcon"><i class="fa fa-info"></i></span>  
+                        <a href="#" class="chartSubText hoverShow"></a>
                     </div>
                     <div>
-                        <span class="echart_time_icon" style="display: none"><i class="fa fa-clock-o"></i></i></span>  <!--chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-                        <a href="#" class="echart_time hoverShow" style="display: none"></a>
+                        <span class="echart_time_icon"><i class="fa fa-clock-o"></i></i></span>
+                        <a href="#" class="echart_time hoverShow"></a>
                     </div>
                     <div class="chartTitle btn-group">
-                        <div type="button" data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
-                            <!--<div class="echart_time pull-left"></div>-->
+                        <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
                         <ul class="controls dropdown-menu">
                             <li><a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a></li>
                             <li><a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a></li>

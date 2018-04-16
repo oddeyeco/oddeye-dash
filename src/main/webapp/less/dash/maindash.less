@@ -895,7 +895,8 @@ i[data-toggle="tooltip"] {
     background-color: #fff;     
 }
 
-#singlewidget .chartsection,
+//#singlewidget .chartsection,                 /////////////////////// singlewidget mej chartsection chka?????
+#singlewidget ,
 .rowcontent .chartsection
 {
     .tile-stats
@@ -918,7 +919,57 @@ i[data-toggle="tooltip"] {
         }
         margin-bottom: 0;
     }
-    padding: 2px;    
+    padding: 2px;  
+    .chartTitleDiv {
+        text-align: center;
+        border-style: solid;
+        border-width: 0;
+        display: block;
+        position: relative;
+        .hoverShow {
+            display: none;   
+        }
+        .echart_time_icon, .chartSubIcon {
+            z-index: 2000;
+            border-right: 27px solid #EDEDED;
+            border-left: none;
+            border-bottom: 27px solid transparent;
+            border-top: none;
+            padding: 0px;
+            margin: 0px;
+            position: absolute;
+            right: 1px;
+            cursor: pointer;
+            display: none;
+            i {
+                position: absolute;
+                right: -22px;
+                top: 3px;
+                font-size: 11px;
+            }
+        }
+        .chartSubIcon {
+            display: inline-block;
+            z-index: 2000;
+            border-left: 27px solid #EDEDED;
+            border-right: none;
+            left: 1px;
+            i {
+                left: -22px;
+                right: unset;
+            }
+        }
+        .chartSubText {
+            font-size: 12px;
+        }
+        .chartTitle {
+            display: inline-block;
+            h3 {
+                font-size: 18px;
+            }            
+        }
+    }
+    
 }
 .counter-colors
 {

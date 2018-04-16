@@ -2191,7 +2191,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
 
             if (!tmprow.widgets[wi].echartLine || !redraw)
             {
-
                 var bkgclass = "";
                 clearTimeout(tmprow.widgets[wi].timer);
                 var chartobj = $($("#charttemplate").html());
@@ -2212,12 +2211,10 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     chartobj.find(" > div").css("background-color", "");
                 }
                 if (tmprow.widgets[wi].title) {
-                    chartobj.find(".chartSubIcon i").css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov    
                     if (tmprow.widgets[wi].title.text) {
                         chartobj.find(".chartTitle h3").html(tmprow.widgets[wi].title.text);
                         if (tmprow.widgets[wi].title.style)
                         {
-                            chartobj.find(".chartTitleDiv").css({'border-style': 'solid', "border-width": 0});      ////////// chmoranal grel css i mej
                             chartobj.find(".chartTitleDiv").css(tmprow.widgets[wi].title.style);
                         } else
                         {
@@ -2226,22 +2223,11 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     }
                     ;
                     if (tmprow.widgets[wi].title.subtext) {
-                        chartobj.find(".chartSubIcon").css({'border-left': '27px solid #EDEDED', ////////////////////////// css ov  
-                            'border-right': 'none',
-                            'border-bottom': '27px solid transparent',
-                            'border-top': 'none',
-                            padding: '0px',
-                            margin: '0px',
-                            position: 'absolute',
-                            left: 1,
-                            cursor: 'pointer',
-                            display: 'block'
-                        });
                         if (tmprow.widgets[wi].title.sublink) {
                             chartobj.find(".chartSubText").attr('href', tmprow.widgets[wi].title.sublink);
                             chartobj.find(".chartSubText").attr('target', '_' + tmprow.widgets[wi].title.subtarget);
                         } else {
-                            chartobj.find(".chartSubText").removeAttr('href')
+                            chartobj.find(".chartSubText").removeAttr('href');
                         }
                         ;
                         chartobj.find(".chartSubText").html(tmprow.widgets[wi].title.subtext);
@@ -2252,10 +2238,10 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         {
                             chartobj.find(".chartSubText").removeAttr("style");
                         }
+                    } else {
+                        chartobj.find(".chartSubIcon").css({display: 'none'});
                     }
                     ;
-                    chartobj.find(".chartSubText").css({display: 'none'});
-                    chartobj.find(".chartTitleDiv").css({'text-align': 'center', display: 'block', position: 'relative'});        ////////////////////////// css ov
                 }
                 ;
 
@@ -2267,19 +2253,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 chartobj.find(".echart_line").html("");
 
                 if (tmprow.widgets[wi].times)
-                {
-                    chartobj.find(".echart_time_icon i").css({position: 'absolute', right: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov    
-                    chartobj.find(".echart_time_icon").css({'border-right': '27px solid #EDEDED', ////////////////////////// css ov  
-                        'border-left': 'none',
-                        'border-bottom': '27px solid transparent',
-                        'border-top': 'none',
-                        padding: '0px',
-                        margin: '0px',
-                        position: 'absolute',
-                        right: 1,
-                        cursor: 'pointer',
-                        display: 'none'
-                    });
+                {  
                     if (tmprow.widgets[wi].times.pickerlabel)
                     {
                         chartobj.find(".echart_time_icon").css({display: 'block'});
@@ -2299,12 +2273,11 @@ function redrawAllJSON(dashJSON, redraw = false) {
                             chartobj.find(".echart_time").append(EditForm.refreshtimes[tmprow.widgets[wi].times.intervall]);
                         }
                     }
-
                 }
 
-//                if (typeof (tmprow.widgets[wi].height) !== "undefined")
+//                if (typeof (tmprow.widgets[wi].height) !== "undefined")          /////////////////el petq chi
 //                {
-//                    chartobj.find(".echart_time").css("height", tmprow.widgets[wi].height);        /////////////////el petq chi
+//                    chartobj.find(".echart_time").css("height", tmprow.widgets[wi].height);        
 //                    if (tmprow.widgets[wi].height === "")
 //                    {
 //                        chartobj.find(".echart_time").css("height", "300px");
@@ -2614,31 +2587,27 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         var singleWi = dashJSON.rows[row].widgets[index];
 
         if (!$('#singlewidget .chartTitleDiv').length) {
-            wraper.prepend('<div class="chartTitleDiv" style="display:none">' + '<span class=chartTitle>' + '</span>' + '<span ' + 'class="chartSubIcon">' + '<i class="fa fa-info"></i> ' + '</span>' +
+            wraper.prepend('<div class="chartTitleDiv">' + '<div class=chartTitle>' + '<h3>' + '</h3>' + '</div>' + '<span '
+                    + 'class="chartSubIcon">' + '<i class="fa fa-info"></i> ' + '</span>' +
                     '<a class="chartSubText hoverShow">' + '</a>' + "</div>");
-            $('#singlewidget .chartSubText').css('display', 'none');
         }
         if (singleWi.title) {
             if (rebuildform) {
-                wraper.find('.chartTitleDiv').css('display', 'block');
                 if (!singleWi.title.text) {
                     wraper.find('.chartTitle').css({display: 'none'});
                     wraper.find('.chartTitleDiv').removeAttr("style");
                 } else {
-                    wraper.find('.chartTitle').text(singleWi.title.text);
+                    wraper.find('.chartTitle h3').text(singleWi.title.text);
                     if (singleWi.title.style) {
-                        wraper.find('.chartTitleDiv').css({'border-style': 'solid', 'border-width': 0});                   ///////////////////// css ov
                         wraper.find('.chartTitleDiv').css(singleWi.title.style);
                     } else {
                         wraper.find('.chartTitleDiv').removeAttr("style");                 ////////////////////////////hishi ira masin
                     }
                     ;
-                    wraper.find('.chartTitleDiv').css('display', 'block');
                 }
                 if (!singleWi.title.subtext) {
                     wraper.find('.chartSubIcon').css({display: 'none'});
                 } else {
-                    wraper.find('.chartSubText').text(singleWi.title.subtext);
                     wraper.find('.chartSubText').text(singleWi.title.subtext);
                     if (singleWi.title.subtextStyle) {
                         wraper.find('chartSubText').css(singleWi.title.subtextStyle);
@@ -2647,7 +2616,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                         wraper.find('.chartSubText').removeAttr("style");
                     }
                     ;
-                    wraper.find('.chartSubIcon').css({display: 'block'});
                 }
             } else {
                 if (!singleWi.title.text) {
@@ -2655,18 +2623,16 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     $("#singlewidget .chartTitleDiv").removeAttr("style");
                 } else {
                     $('#singlewidget .chartTitle').css({display: 'inline-block'});
-                    $('#singlewidget .chartTitle').text(singleWi.title.text);
+                    $('#singlewidget .chartTitle h3').text(singleWi.title.text);
                     if (singleWi.title.style) {
-                        $('#singlewidget .chartTitleDiv').css({'border-style': 'solid', 'border-width': 0});                   ///////////////////// css ov
                         $('#singlewidget .chartTitleDiv').css(singleWi.title.style);
                     } else {
-                        $("#singlewidget .chartTitleDiv").removeAttr("style");                 ////////////////////////////hishi ira masin
+                        $("#singlewidget .chartTitleDiv").removeAttr("style");
                     }
                     ;
-                    $('#singlewidget .chartTitleDiv').css('display', 'block');
                 }
                 if (!singleWi.title.subtext) {
-                    $('#singlewidget .chartSubText, #singlewidget .chartSubIcon').css({display: 'none'});
+                    $('#singlewidget .chartSubIcon').css({display: 'none'});
                 } else {
                     $('#singlewidget .chartSubText').text(singleWi.title.subtext);
                     if (singleWi.title.subtextStyle) {
@@ -2684,22 +2650,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             } else {
                 $('#singlewidget .chartSubText').attr('href', singleWi.title.sublink);
                 $('#singlewidget .chartSubText').attr('target', '_' + singleWi.title.subtarget);
-            }
-            $('#singlewidget .chartSubText').css('display', 'none');             ////////////// arji vor edit chart - um subtext@ toggle lini?
-            $('.chartTitleDiv').css({display: 'block', 'text-align': 'center', position: 'relative'});        ////////////////////////// css ov    
-            $('.chartSubIcon').css({'border-left': '27px solid #EDEDED',
-                'border-right': 'none',
-                'border-bottom': '27px solid transparent',
-                'border-top': 'none',
-                padding: '0px',
-                margin: '0px',
-                position: 'absolute',
-                left: 6,
-                top: 0,
-                cursor: 'pointer',
-                'z - index': 5000
-            });        ////////////////////////// css ov  
-            $('.chartSubIcon i').css({position: 'absolute', left: -22, top: 3, 'font-size': 11});        ////////////////////////// css ov   
+            }    
         } else {
             $('#singlewidget .chartTitleDiv').css({display: 'none'});
         }
