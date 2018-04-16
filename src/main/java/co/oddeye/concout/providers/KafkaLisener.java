@@ -52,8 +52,10 @@ public class KafkaLisener {
 
     public CountDownLatch countDownReceiveMetric = new CountDownLatch(6);
     public CountDownLatch countDownReceiveAction = new CountDownLatch(6);
+    
+    public final String groupId = UUID.randomUUID().toString()+"appdash";
 
-    @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}")
+    @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}", groupId = "#{__listener.groupId}")
     public void receiveMetric(List<String> list) {
         for (String payload : list) {
             if (LOGGER.isDebugEnabled()) {
@@ -95,10 +97,10 @@ public class KafkaLisener {
         countDownReceiveMetric.countDown();
     }
 
-    @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}")
+    @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}" , groupId = "#{__listener.groupId}")
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
-//        System.out.println("receiveAction list.size : " + list.size());
+//        System.out.println("receiveAction list.size : " + list.size());        
         for (String payload : list) {
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("received payload='{}'", payload);
@@ -120,11 +122,7 @@ public class KafkaLisener {
 
                 switch (action) {
                     case "login": {
-//                        LOGGER.warn("login messge OK");
-//                        Userdao.updateMetaList(user);                        
                         this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
-//                        LOGGER.warn("login messge Fin");
-//                        user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
                         break;
                     }
 
@@ -155,6 +153,16 @@ public class KafkaLisener {
                     case "editdash": {
                         try {
                             user.setDushList(Userdao.getAllDush(user.getId()));
+                            this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
+                        } catch (Exception ex) {
+                            LOGGER.error(globalFunctions.stackTrace(ex));
+                        }
+                        break;
+                    }
+                    case "changeoptions":
+                    case "deleteoptions": {
+                        try {
+                            user.setOptionsList(Userdao.getAllOptions(user.getId()));
                             this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                         } catch (Exception ex) {
                             LOGGER.error(globalFunctions.stackTrace(ex));
@@ -196,8 +204,11 @@ public class KafkaLisener {
 //                        }
                         break;
                     }
-                    default:
+                    default: {
+                        LOGGER.error(payload);
                         break;
+                    }
+
                 }
 
                 jsonResult = null;

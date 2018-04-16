@@ -58,8 +58,8 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
         String msg = (String) record.value();
         String t_level = record.topic().replace(user.getId().toString(), "");
         Integer i_level = Integer.parseInt(t_level);
-        if (log.isInfoEnabled()) {
-            log.info("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
+        if (log.isDebugEnabled()) {
+            log.debug("OFFSET " + record.offset() + " partition " + record.partition() + " time set " + (System.currentTimeMillis() - record.timestamp()));
         }
 
         if (System.currentTimeMillis() - record.timestamp() < 60000) {
@@ -87,7 +87,11 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                     if (jsonResult.getAsJsonObject().get("message") != null) {
                         long time = System.currentTimeMillis();
                         if (jsonResult.getAsJsonObject().get("reaction").getAsInt() < 0) {
-                            time = jsonResult.getAsJsonObject().get("time").getAsLong();
+                            time = jsonResult.getAsJsonObject().get("time").getAsLong();                            
+                        }
+                        else if (jsonResult.getAsJsonObject().get("reaction").getAsInt() > 0)
+                        {
+                            jsonResult.getAsJsonObject().addProperty("time",  time);
                         }
                         long DURATION = time - metricMeta.getLasttime();
                         message = jsonResult.getAsJsonObject().get("message").getAsString();
@@ -98,7 +102,6 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
 
                 if (level == i_level) {
                     metricMeta.getErrorState().setLevel(jsonResult.getAsJsonObject().get("level").getAsInt(), jsonResult.getAsJsonObject().get("time").getAsLong());
-//                    user.getMetricsMeta().put(hash, metricMeta);
                 }
 
                 JsonElement metajson = new JsonObject();
@@ -120,13 +123,9 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
                                     this.template.convertAndSendToUser(user.getId().toString(), "/" + sotokenlevel.getKey() + "/errors", jsonResult.toString());
                                 }
                             }
-
                         }
-
                     }
-
                 }
-
                 for (Map.Entry<String, Map<String, JsonObject>> sesionsotokenlevel : user.getSotokenJSON().entrySet()) {
                     Map<String, JsonObject> sotokenlevelJson = sesionsotokenlevel.getValue();
                     for (Map.Entry<String, JsonObject> sotokenfilter : sotokenlevelJson.entrySet()) {

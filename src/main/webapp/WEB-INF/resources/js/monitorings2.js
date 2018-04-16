@@ -232,7 +232,7 @@ function drawUL(errorjson, table, hashindex, update) {
         UlID = "speciallist";
 
     }
-
+//    console.log(errorjson.flap);
     if (errorjson.flap > 5)
     {
         eRclass = eRclass + " flapdetect";
@@ -245,6 +245,10 @@ function drawUL(errorjson, table, hashindex, update) {
         optionsJson.f_col.forEach(
                 function (entry) {
                     var obj = $('.f_col option[value=' + entry + ']');
+//                    if (obj.length === 0)
+//                    {
+//                        console.log(entry);
+//                    }
 
                     switch (obj.attr("key")) {
                         case  "actions":
@@ -252,10 +256,18 @@ function drawUL(errorjson, table, hashindex, update) {
                             if (errorjson.isspec === 0)
                             {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="icons"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
+                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
                             } else
                             {
-                                html = html + '<div class="icons"><div class="fa-div"><i class="fa fa-bell"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div></div>';
+                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                            }
+                            break;
+                        }
+                        case  "message":
+                        {
+                            if (errorjson.isspec !== 0)
+                            {
+                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
                             }
                             break;
                         }
@@ -269,10 +281,8 @@ function drawUL(errorjson, table, hashindex, update) {
                                     valuearrowclass = "fa-long-arrow-up";
                                 }
                                 html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
-                            } else
-                            {
-                                html = html + '<div class="message"><i class="fa fa-comment-o"></i> ' + message + '</div>';
                             }
+
                             break;
                         }
                         case  "StartTime":
@@ -291,7 +301,7 @@ function drawUL(errorjson, table, hashindex, update) {
                         case  "updateinterval":
                         {
                             var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-                            html = html + '<div class="inline timeinterval badge">0</div>';
+                            html = html + '<div class="inline timeinterval badge bg-white">0</div>';
                             break;
                         }
                         case  "updatecounter":
@@ -315,32 +325,34 @@ function drawUL(errorjson, table, hashindex, update) {
                         //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
                         case  "info.name":
                         {
-                            var path = obj.attr("key").split(".");
-                            var value = errorjson;
-
-                            $.each(path, function (i, item) {
-                                if (value)
-                                {
-                                    value = value[item];
-                                }
-                            });
+                            var value = errorjson.info.name;
                             if (errorjson.isspec === 0)
                             {
                                 if (value)
                                 {
-                                    html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                    html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
                                 }
 
 
                             } else
                             {
-                                html = html + '<div class="metricname ' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                                html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
                             }
                             break;
                         }
                         default:
                         {
-                            var path = obj.attr("key").split(".");
+//                            console.log(entry);
+//                            console.log(obj);
+//                            console.log(obj.attr("key"));
+                            if (obj.attr("key"))
+                            {
+                                var path = obj.attr("key").split(".");
+                            } else
+                            {
+                                var path = entry.split("_");
+                            }
+
                             var value = errorjson;
 
                             $.each(path, function (i, item) {
@@ -353,7 +365,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
                             if (value)
                             {
-                                html = html + '<div class="' + obj.attr("value").replace(re, " ") + '"><div>' + value + '</div></div>';
+                                html = html + '<div class="' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
                             }
 
                             break;
@@ -377,12 +389,12 @@ function drawUL(errorjson, table, hashindex, update) {
         $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
 
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
-        var lt = errorjson.time;        
+        var lt = errorjson.time;
         $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
 
         if (errorjson.starttimes[errorjson.level])
         {
-            $("." + table).find("li#" + hashindex + " .starttime").html( moment(st * 1).format(timeformat));
+            $("." + table).find("li#" + hashindex + " .starttime").html(moment(st * 1).format(timeformat));
         }
 //        var rectime=moment();
         var rectime = moment(lt);
@@ -391,7 +403,7 @@ function drawUL(errorjson, table, hashindex, update) {
         var refreshes = $("." + table).find("li#" + hashindex + " .updatecounter");
         var val = refreshes.text() * 1 + 1;
         refreshes.text(val);
-
+//errorjson.flap
         if (errorjson.isspec === 0)
         {
             var valuearrowclass = "fa-long-arrow-down";
@@ -406,7 +418,7 @@ function drawUL(errorjson, table, hashindex, update) {
         }
         if (arrowclass !== "")
         {
-            $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action fa " + arrowclass);
+            $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action pull-left fa " + arrowclass);
             $("." + table).find("li#" + hashindex + " .icons i.action").css("color", color);
         }
 
@@ -605,21 +617,116 @@ $(document).ready(function () {
         updateFilter();
         stompClient.send("/input/chagefilter/", {}, JSON.stringify(optionsJson));
         redrawBoard();
+    });
+
+
+
+
+    $("body").on("click", "#add_filter", function () {
+        updateFilter();
+        var sendData = {};
+        url = cp + "/addmonitoringpage/";
+        sendData.optionsjson = JSON.stringify(optionsJson);
+        sendData.optionsname = $("#saveas_name").val();        
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                alert("Data Saved ");
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
+
+    });
+
+    $("body").on("click", "#save_filter", function () {
+        updateFilter();
+        var sendData = {};
+        url = cp + "/addmonitoringpage/";
+        sendData.optionsjson = JSON.stringify(optionsJson);
+        sendData.optionsname = nameoptions;
+        console.log(sendData.optionsname);
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                alert("Data Saved ");
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
 
     });
 
 
+    $("body").on("click", "#rem_filter", function () {
+        url = cp + "/deletemonitoringpage/";
+        sendData = {optionsname: nameoptions};
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                window.location = cp + "/monitoring/";
+            } else
+            {
+                alert("Request failed");
+            }
+        }).fail(function (jqXHR, textStatus) {
+            alert("Request failed");
+        });
+
+    });
+
     setInterval(function () {
         $(".monitorlist li ul li").each(function () {
             var interval = moment($(this).attr("time") * 1).diff(moment()) / -1000;
-//            if ((interval > 10) || (interval < 0))
+            $(this).find(".timeinterval").text(interval.toFixed(0) + "sec.");
+
+//            if ($(this).hasClass("ui-effects-placeholder"))
 //            {
-//                $(this).find(".timeinterval").css("background-color", "#f00");
-//            } else
-//            {
-            $(this).find(".timeinterval").removeAttr("style");
+//                console.log($(this).html());
+//                if ($(this).html() === "")
+//                {
+//                    console.log("VALOD");
+//                    $(this).remove();
+//                }
 //            }
-            $(this).find(".timeinterval").text(interval.toFixed(0));
+
+
         });
     }, 1000);
     $("body").on("change", ".add_filter_select", function () {
@@ -694,14 +801,61 @@ $(document).ready(function () {
                     '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + ' >Severe</option>' +
                     '</select></td>');
         }
+        $(".card-fields.value .f_col option").prop('selected', 'selected');
 
         updateFilter();
 
     } else
     {
+        optionsJson.f_col.forEach(function (entry) {
+            $(".card-fields.value .f_col option[value=" + entry + "]").prop('selected', 'selected');
+        }
+        );
+        for (var section in optionsJson.v)
+        {
+            var Domsection = $(".add_filter_select#" + section).parents(".filter");
+            for (var filter in optionsJson.v[section])
+            {
 
+                if (filter === "level")
+                {
+                    levels = optionsJson.v[section][filter];
+                    var row = $("<tr>");
+                    var name = "level";
+                    var opt = Domsection.find(".add_filter_select option[value=" + name + "]:first");
+                    opt.attr("disabled", "disabled");
+                    row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+                    Domsection.find(".filters-table").append(row);
+
+                    row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
+                    row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
+                    row.append('<td class="value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
+                            '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>All</option>' +
+                            '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>Low</option>' +
+                            '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>Guarded</option>' +
+                            '<option value="3" ' + (levels.indexOf("3") !== -1 ? ' selected="selected" ' : "") + '>Elevated</option>' +
+                            '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>High</option>' +
+                            '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + ' >Severe</option>' +
+                            '</select></td>');
+                } else
+                {
+                    var row = $("<tr>");
+                    var name = filter;
+                    var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
+                    opt.attr("disabled", "disabled");
+                    row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+
+                    row.append("<td class='action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
+                    row.append("<td class='value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
+                    row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
+                    Domsection.find(".filters-table").append(row);
+                }
+            }
+
+        }
     }
-    redrawBoard();
+
+//    redrawBoard();
     $('body').on("click", 'fieldset.collapsible legend', function () {
         if ($(this).parent().hasClass("collapsed"))
         {

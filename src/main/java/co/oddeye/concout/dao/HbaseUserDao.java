@@ -72,6 +72,8 @@ public class HbaseUserDao extends HbaseBaseDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseUserDao.class);
 
     byte[] dashtable;
+    byte[] optionstable;
+
     byte[] consumptiontable;
     byte[] paymentstable;
 
@@ -81,6 +83,7 @@ public class HbaseUserDao extends HbaseBaseDao {
     public HbaseUserDao(DatabaseConfig p_config) {
         super(p_config.getUsersTable());
         dashtable = p_config.getDashTable().getBytes();
+        optionstable = p_config.getOptionsTable().getBytes();
         consumptiontable = p_config.getConsumptiontable().getBytes();
         paymentstable = p_config.getPaymentstable().getBytes();
 
@@ -163,7 +166,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             ArrayList<byte[]> qlist = new ArrayList<>();
             ArrayList<byte[]> vlist = new ArrayList<>();
             for (Cookie cookie : cookies) {
-                
+
                 qlist.add(cookie.getName().getBytes());
                 vlist.add((cookie.getValue()).getBytes());
             }
@@ -385,8 +388,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                 user = new OddeyeUserModel();
             }
             byte[] TsdbID;
-            if (userkvs.isEmpty())
-            {
+            if (userkvs.isEmpty()) {
                 return null;
             }
             user.inituser(userkvs, this);
@@ -400,6 +402,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             getUsers().put(user.getId(), user);
             usersbyEmail.put(user.getEmail(), user);
             user.setDushList(getAllDush(uuid));
+            user.setOptionsList(getAllOptions(uuid));
             return getUsers().get(uuid);
 
         } catch (Exception ex) {
@@ -428,6 +431,45 @@ public class HbaseUserDao extends HbaseBaseDao {
         final ArrayList<KeyValue> DushList = BaseTsdb.getClient().get(get).joinUninterruptibly();
         DushList.stream().forEach((dush) -> {
             result.put(new String(dush.qualifier()), new String(dush.value()));
+        });
+        return result;
+    }
+
+    public void saveOptions(UUID id, String OptionsName, String OptionsInfo) throws Exception {
+        if (OptionsName != null) {
+            final PutRequest put = new PutRequest(optionstable, id.toString().getBytes(), "data".getBytes(), OptionsName.getBytes(), OptionsInfo.getBytes());
+            BaseTsdb.getClient().put(put).join();
+        }
+    }
+
+    public void removeOptions(UUID id, String OptionsName) throws Exception {
+        if (OptionsName != null) {
+            final DeleteRequest put = new DeleteRequest(optionstable, id.toString().getBytes(), "data".getBytes(), OptionsName.getBytes());
+            BaseTsdb.getClient().delete(put).join();
+        }
+    }
+
+    public Map<String, String> getAllOptions(UUID id) throws Exception {
+        final Map<String, String> result = new TreeMap<>();
+        final GetRequest get = new GetRequest(optionstable, id.toString().getBytes());
+        final ArrayList<KeyValue> OptionsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
+        OptionsList.stream().forEach((Options) -> {
+            String name = new String(Options.qualifier());
+            if (!name.equals("@%@@%@default_page_filter@%@@%@")) {
+                result.put(name, new String(Options.value()));
+            }
+        });
+        return result;
+    }
+
+    public Map<String, String> getHidenOptions(UUID id) throws Exception {
+        final Map<String, String> result = new TreeMap<>();
+        final GetRequest get = new GetRequest(optionstable, id.toString().getBytes(), "data".getBytes(), "@%@@%@default_page_filter@%@@%@".getBytes());
+        final ArrayList<KeyValue> OptionsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
+        OptionsList.stream().forEach((Options) -> {
+            String name = new String(Options.qualifier());
+            result.put(name, new String(Options.value()));
+
         });
         return result;
     }

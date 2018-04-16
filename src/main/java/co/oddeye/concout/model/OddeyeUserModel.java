@@ -130,6 +130,9 @@ public class OddeyeUserModel implements Serializable {
     private Date sinedate;
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
+    private Map<String, String> OptionsList;
+    
+    
 
     private ConsumptionList consumptionList;
 
@@ -856,7 +859,7 @@ public class OddeyeUserModel implements Serializable {
             }
             ContainerProperties properties = new ContainerProperties(topics);
             properties.setMessageListener(new OddeyeKafkaDataListener(this, _template, _MetaDao));
-            this.getSotokenJSON().putAll(getSotokenJSON());
+            this.getSotokenJSON().putAll(sesionsotoken);
             this.listenerContainer = new UserConcurrentMessageListenerContainer<>(consumerFactory, properties);
             this.listenerContainer.setBeanName(this.getEmail() + "_ErrorLisener");
             this.listenerContainer.setConcurrency(1);
@@ -1167,4 +1170,56 @@ public class OddeyeUserModel implements Serializable {
         return sotokenJSON;
     }
 
+    public Map<String, String> addOptions(String OptionsName, String OptionsInfo, HbaseUserDao Userdao) throws Exception {
+        if (OptionsList==null)
+        {
+            OptionsList = new TreeMap<>();
+        }
+        OptionsList.put(OptionsName, OptionsInfo);
+        if (!email.equals("demodemo@oddeye.co")) {
+            Userdao.saveOptions(id, OptionsName, OptionsInfo);
+        }
+        return OptionsList;
+    }
+
+    public Map<String, String> removeOptions(String OptionsName, HbaseUserDao Userdao) throws Exception {
+        OptionsList.remove(OptionsName);
+        if (!email.equals("demodemo@oddeye.co")) {
+            Userdao.removeOptions(id, OptionsName);
+        }
+        return OptionsList;
+    }
+
+    public String getOptions(String OptionsName) {
+        return OptionsList.get(OptionsName);
+    }    
+    /**
+     * @return the OptionsList
+     */
+    public Map<String, String> getOptionsList() {
+        return OptionsList;
+    }
+
+    /**
+     * @return the OptionsList
+     */
+    public Map<String, Object> getOptionsListasObject() {
+        Type type = new TypeToken<Map<String, Object>>() {
+        }.getType();
+        Map<String, Object> result = new TreeMap<>();
+        for (Map.Entry<String, String> dash : OptionsList.entrySet()) {
+            globalFunctions.getJsonParser().parse(dash.getValue());
+            Map<String, Object> dashMap = new Gson().fromJson(dash.getValue(), type);
+            result.put(dash.getKey(), dashMap);
+        }
+        return result;
+    }
+
+    /**
+     * @param OptionsList the OptionsList to set
+     */
+    public void setOptionsList(Map<String, String> OptionsList) {        
+        this.OptionsList = OptionsList;
+    }
+    
 }

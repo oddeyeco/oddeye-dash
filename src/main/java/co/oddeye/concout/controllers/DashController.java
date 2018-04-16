@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -511,4 +512,117 @@ public class DashController {
         map.put("jsonmodel", jsonResult);
         return "ajax";
     }
+    
+    @RequestMapping(value = {"/addmonitoringpage/"})
+    public String savemonitoringOptions(ModelMap map, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        OddeyeUserModel userDetails;
+        JsonObject jsonResult = new JsonObject();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
+            String optionsname = request.getParameter("optionsname");
+            if (optionsname == null) {
+                optionsname = "";
+            }
+
+            String optionsinfo = request.getParameter("optionsjson");
+            if (!optionsname.isEmpty()) {
+                try {
+                    userDetails.addOptions(optionsname, optionsinfo, Userdao);
+                    
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                    Jsonchangedata.addProperty("action", "changeoptions");
+                    Jsonchangedata.addProperty("options", optionsinfo);
+                    Jsonchangedata.addProperty("optionsname", optionsname);
+                    
+                    // Send chenges to kafka
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            if (LOGGER.isInfoEnabled()) {
+                                LOGGER.info("Kafka savemonitoringsetings onSuccess");
+                            }
+                        }
+                        
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            LOGGER.error("Kafka savemonitoringsetings onFailure:" + ex);
+                        }
+                    });
+                    
+                    jsonResult.addProperty("sucsses", true);
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+        return "ajax";
+    }  
+    
+    
+    @RequestMapping(value = {"/deletemonitoringpage/"})
+    public String deletemonitoringOptions(ModelMap map, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        OddeyeUserModel userDetails;
+        JsonObject jsonResult = new JsonObject();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+            if ((userDetails.getSwitchUser() != null)) {
+                if (userDetails.getSwitchUser().getAlowswitch()) {
+                    userDetails = userDetails.getSwitchUser();
+                }
+            }
+            String optionsname = request.getParameter("optionsname");
+            
+            if (!optionsname.isEmpty()) {
+                try {
+                    userDetails.removeOptions(optionsname, Userdao);
+                    
+                    JsonObject Jsonchangedata = new JsonObject();
+                    Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+                    Jsonchangedata.addProperty("action", "deleteoptions");                    
+                    Jsonchangedata.addProperty("optionsname", optionsname);
+                    
+                    // Send chenges to kafka
+                    ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+                    messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                        @Override
+                        public void onSuccess(SendResult<Integer, String> result) {
+                            if (LOGGER.isInfoEnabled()) {
+                                LOGGER.info("Kafka savemonitoringsetings onSuccess");
+                            }
+                        }
+                        
+                        @Override
+                        public void onFailure(Throwable ex) {
+                            LOGGER.error("Kafka savemonitoringsetings onFailure:" + ex);
+                        }
+                    });
+                    
+                    jsonResult.addProperty("sucsses", true);
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+
+        map.put("jsonmodel", jsonResult);
+        return "ajax";
+    }      
+    
 }

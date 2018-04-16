@@ -43,6 +43,8 @@ public class DatabaseConfig {
     private String usersTable;
     @Value("${dash.dushboardstable}")
     private String dushboardsTable;
+    @Value("${dash.optionstable}")
+    private String optionsTable;    
     @Value("${dash.dushboardstemplatestable}")
     private String dushboardsTemplatesTable;
     @Value("${dash.errorhistorytable}")
@@ -209,6 +211,13 @@ public class DatabaseConfig {
      */
     public String getPaymentstable() {
         return paymentstable;
+    }
+
+    /**
+     * @return the optionsTable
+     */
+    public String getOptionsTable() {
+        return optionsTable;
     }
 
 }

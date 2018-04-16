@@ -1131,6 +1131,7 @@ h2.error
     overflow: hidden; 
     width: 189px; 
     text-overflow: ellipsis;
+    padding-top: 12px; 
 }
 
 .nav-sm ul.nav.child_menu li a{
@@ -1445,12 +1446,22 @@ table.filters-table
             {
                 .icons
                 {
+                    .fa {
+                        margin: 2px;
+                    }
+                    .fa-bell
+                    {
+                        color: red;
+                    }                                        
                     text-align: right;
+                    margin: -5px -5px 0;
+                    font-size: 16px;
+
                 }
                 .inline
                 {
                     display: inline-block;
-                    margin: 0 0 0 5px;
+                    margin: 0 5px 0 0;
                 }
                 .level
                 {
@@ -1471,19 +1482,18 @@ table.filters-table
                     clear: both;
                 }
 
-                .message,
-                .valueinfo
+                .message,                
                 {
                     white-space: initial;
-                    font-style: italic;
-                    /*border-top: 1px solid #d5d5d5;*/
-                    border-bottom: 1px solid #d5d5d5;                    
+                    font-style: italic;                    
+                    border-top: 1px solid #d5d5d5;                    
                     /*padding-top: 5px;*/
                     margin-top: 5px;                        
 
                 }
                 .valueinfo
                 {
+                    border-bottom: 1px solid #d5d5d5;
                     font-size: 20px;                 
                 }            
                 flex: 1; 
