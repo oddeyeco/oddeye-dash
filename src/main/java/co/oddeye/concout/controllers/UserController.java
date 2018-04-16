@@ -10,6 +10,7 @@ import co.oddeye.core.MetricErrorMeta;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
+import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.MetriccheckRule;
@@ -43,6 +44,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
@@ -64,6 +66,8 @@ public class UserController {
     HbaseMetaDao MetaDao;
     @Autowired
     HbaseDataDao DataDao;
+    @Autowired
+    HbaseUserDao UserDao;    
     private Map<String, String> Tagmap;
     private final Gson gson = new Gson();
     @Autowired
@@ -79,44 +83,7 @@ public class UserController {
         this.template = template;
     }
 
-//    @RequestMapping(value = "/startlisener", method = RequestMethod.POST)
-//    public String startlisener(HttpServletRequest request, ModelMap map) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            UserModel userDetails = (UserModel) SecurityContextHolder.getContext().
-//                    getAuthentication().getPrincipal();
-//
-//            String[] levels = request.getParameterValues("levels[]");
-//            String sotoken = request.getParameter("sotoken");
-//            userDetails.setListenerContainer(MetaDao, consumerFactory, this.template, new HashMap<String, String[]>() {
-//                {
-//                    put(sotoken, levels);
-//                }
-//            });
-//        }
-//        JsonObject jsonResult = new JsonObject();
-//        jsonResult.addProperty("sucsses", Boolean.TRUE);
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
-//    }
-//    @RequestMapping(value = "/stoplisener", method = RequestMethod.POST)
-//    public String stoplisener(HttpServletRequest request, ModelMap map) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//
-//        if (!(auth instanceof AnonymousAuthenticationToken)) {
-//            UserModel userDetails = (UserModel) SecurityContextHolder.getContext().
-//                    getAuthentication().getPrincipal();
-//            String sotoken = request.getParameter("sotoken");
-//            userDetails.stopListenerContainer(sotoken);
-////            userDetails.getListenerContainer().stop();
-//        }
-//        JsonObject jsonResult = new JsonObject();
-//        jsonResult.addProperty("sucsses", Boolean.TRUE);
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
-//    }
-    @RequestMapping(value = {"/monitorings2", "/monitoring/{optionname}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/monitoring", "/monitoring/{optionname}"}, method = RequestMethod.GET)
     public String monitorings2(@PathVariable(value = "optionname", required = false) String optionname, HttpServletRequest request, ModelMap map) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -132,14 +99,22 @@ public class UserController {
                 map.put("title", "Real-Time Monitor "+optionname);
                 map.put("nameoptions", optionname);
             }
-
-            
-            String group_item = request.getParameter("group_item");
+            else
+            {
+                try {
+                    Map<String, String> tmpList = UserDao.getHidenOptions(userDetails.getId());
+                    if (tmpList.containsKey("@%@@%@default_page_filter@%@@%@"))
+                    {
+                        map.put("defoptions",tmpList.get("@%@@%@default_page_filter@%@@%@"));
+                    }
+                } catch (Exception ex) {
+                    LOGGER.error(globalFunctions.stackTrace(ex));
+                }
+            }
+                        
             String ident_tag = request.getParameter("ident_tag");
 
             Map<String, Map<String, Integer>> list = userDetails.getMetricsMeta().getTagsListSorted();
-//            List<Map.Entry<String, Map<String, Integer>>> list = new ArrayList<>(set);
-//            Collections.sort(list, (Map.Entry<String, Map<String, Integer>> o1, Map.Entry<String, Map<String, Integer>> o2) -> o2.getKey().compareTo(o1.getKey()));
             if (list.size() > 0) {
                 if (ident_tag != null) {
                     map.put("ident_tag", ident_tag);
@@ -177,7 +152,8 @@ public class UserController {
         return "index";
     }
 
-    @RequestMapping(value = "/monitoring", method = RequestMethod.GET)
+    @RequestMapping(value = "/monitoringOld", method = RequestMethod.GET)
+    @Deprecated
     public String monitoring(HttpServletRequest request, ModelMap map) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

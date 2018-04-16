@@ -151,7 +151,7 @@
             </div>            
             <p class="buttons">
                 <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>
-                <button href="#" class="btn btn-xs btn-primary" id="save_filter" <c:if test="${empty nameoptions}">disabled="disabled"</c:if>>Save</button>
+                <button href="#" class="btn btn-xs btn-primary" id="save_filter">Save</button>
                 <button href="#" class="btn btn-xs btn-primary" id="add_filter">Save As</button>
                 <input type="text" value="${nameoptions}" id="saveas_name">
                 <c:if test="${!empty nameoptions}">

@@ -73,7 +73,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     byte[] dashtable;
     byte[] optionstable;
-    
+
     byte[] consumptiontable;
     byte[] paymentstable;
 
@@ -166,7 +166,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             ArrayList<byte[]> qlist = new ArrayList<>();
             ArrayList<byte[]> vlist = new ArrayList<>();
             for (Cookie cookie : cookies) {
-                
+
                 qlist.add(cookie.getName().getBytes());
                 vlist.add((cookie.getValue()).getBytes());
             }
@@ -388,8 +388,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                 user = new OddeyeUserModel();
             }
             byte[] TsdbID;
-            if (userkvs.isEmpty())
-            {
+            if (userkvs.isEmpty()) {
                 return null;
             }
             user.inituser(userkvs, this);
@@ -455,11 +454,26 @@ public class HbaseUserDao extends HbaseBaseDao {
         final GetRequest get = new GetRequest(optionstable, id.toString().getBytes());
         final ArrayList<KeyValue> OptionsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
         OptionsList.stream().forEach((Options) -> {
-            result.put(new String(Options.qualifier()), new String(Options.value()));
+            String name = new String(Options.qualifier());
+            if (!name.equals("@%@@%@default_page_filter@%@@%@")) {
+                result.put(name, new String(Options.value()));
+            }
         });
         return result;
-    }    
-    
+    }
+
+    public Map<String, String> getHidenOptions(UUID id) throws Exception {
+        final Map<String, String> result = new TreeMap<>();
+        final GetRequest get = new GetRequest(optionstable, id.toString().getBytes(), "data".getBytes(), "@%@@%@default_page_filter@%@@%@".getBytes());
+        final ArrayList<KeyValue> OptionsList = BaseTsdb.getClient().get(get).joinUninterruptibly();
+        OptionsList.stream().forEach((Options) -> {
+            String name = new String(Options.qualifier());
+            result.put(name, new String(Options.value()));
+
+        });
+        return result;
+    }
+
     public void saveField(OddeyeUserModel user, String name) throws Exception {
         Field field = user.getClass().getDeclaredField(name);
         Annotation[] Annotations = field.getDeclaredAnnotations();

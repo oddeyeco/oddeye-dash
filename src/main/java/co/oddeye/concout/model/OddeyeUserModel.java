@@ -1218,7 +1218,7 @@ public class OddeyeUserModel implements Serializable {
     /**
      * @param OptionsList the OptionsList to set
      */
-    public void setOptionsList(Map<String, String> OptionsList) {
+    public void setOptionsList(Map<String, String> OptionsList) {        
         this.OptionsList = OptionsList;
     }
     

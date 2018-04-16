@@ -627,7 +627,7 @@ $(document).ready(function () {
         var sendData = {};
         url = cp + "/addmonitoringpage/";
         sendData.optionsjson = JSON.stringify(optionsJson);
-        sendData.optionsname = $("#saveas_name").val();
+        sendData.optionsname = $("#saveas_name").val();        
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({
@@ -658,6 +658,7 @@ $(document).ready(function () {
         url = cp + "/addmonitoringpage/";
         sendData.optionsjson = JSON.stringify(optionsJson);
         sendData.optionsname = nameoptions;
+        console.log(sendData.optionsname);
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({

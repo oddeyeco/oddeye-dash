@@ -19,7 +19,7 @@
     var nameoptions ="${fn:escapeXml(nameoptions)}";
     </c:if>
     <c:if test="${empty nameoptions}">
-    var nameoptions = null;
+    var nameoptions = "@%@@%@default_page_filter@%@@%@";;
     </c:if>
 
 
