@@ -2122,7 +2122,6 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
     });
 }
 function redrawAllJSON(dashJSON, redraw = false) {
-//    console.log(dashJSON);
     var ri;
     var wi;
     $(".editchartpanel").hide();
@@ -2216,6 +2215,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         if (tmprow.widgets[wi].title.style)
                         {
                             chartobj.find(".chartTitleDiv").css(tmprow.widgets[wi].title.style);
+                            chartobj.find(".chartTitleDiv h3").css('font-size', tmprow.widgets[wi].title.style.fontSize);
                         } else
                         {
                             chartobj.find(".chartTitleDiv").removeAttr("style");
@@ -2253,7 +2253,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 chartobj.find(".echart_line").html("");
 
                 if (tmprow.widgets[wi].times)
-                {  
+                {
                     if (tmprow.widgets[wi].times.pickerlabel)
                     {
                         chartobj.find(".echart_time_icon").css({display: 'block'});
@@ -2363,7 +2363,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         $("#row" + ri + " .rowcontent").sortable({
             cursor: "move",
             appendTo: ".rowcontent",
-            cancel: "canvas,input,.echart_line"
+            cancel: "canvas,input,.echart_line,.chartTitle"
         });
 
 
@@ -2586,74 +2586,113 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         console.log(dashJSON.rows[row].widgets[index]);
         var singleWi = dashJSON.rows[row].widgets[index];
 
-        if (!$('#singlewidget .chartTitleDiv').length) {
-            wraper.prepend('<div class="chartTitleDiv">' + '<div class=chartTitle>' + '<h3>' + '</h3>' + '</div>' + '<span '
-                    + 'class="chartSubIcon">' + '<i class="fa fa-info"></i> ' + '</span>' +
-                    '<a class="chartSubText hoverShow">' + '</a>' + "</div>");
+        if (rebuildform) {
+            wraper.prepend('<div class="chartTitleDiv">' + '<div>' + '<span class="chartSubIcon">'
+                    + '<i class="fa fa-info"></i> ' + '</span>' +
+                    '<a class="chartSubText hoverShow">' + '</a>' + '</div>' + '<div>' +
+                    '<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
+                    + '</span>' + '<span class="echart_time hoverShow" id="echart_line">' + '</span>' + '</div>' + '<div class=chartTitle>' + '<h3>' + '</h3>' + '</div>' +
+                    "</div>");
+            var wraperTitle = wraper.find('.chartTitleDiv');
+        } else {
+            var wraperTitle = $('#singlewidget .chartTitleDiv');
         }
         if (singleWi.title) {
-            if (rebuildform) {
+//            if (rebuildform) {
+//                if (!singleWi.title.text) {
+//                    wraper.find('.chartTitle').css({display: 'none'});
+//                    wraper.find('.chartTitleDiv').removeAttr("style");
+//                } else {
+//                    wraper.find('.chartTitle h3').text(singleWi.title.text);
+//                    if (singleWi.title.style) {
+//                        wraper.find('.chartTitleDiv').css(singleWi.title.style);
+//                        wraper.find(".chartTitleDiv h3").css('font-size', singleWi.title.style.fontSize);
+//                    } else {
+//                        wraper.find('.chartTitleDiv').removeAttr("style");
+//                    }
+//                    ;
+//                }
+//                if (!singleWi.title.subtext) {
+//                    wraper.find('.chartSubIcon').css({display: 'none'});
+//                } else {
+//                    wraper.find('.chartSubText').text(singleWi.title.subtext);
+//                    if (singleWi.title.subtextStyle) {
+//                        wraper.find('.chartSubText').css(singleWi.title.subtextStyle);
+//                    } else
+//                    {
+//                        wraper.find('.chartSubText').removeAttr("style");
+//                    }
+//                    ;
+//                }
+//            } else {
                 if (!singleWi.title.text) {
-                    wraper.find('.chartTitle').css({display: 'none'});
-                    wraper.find('.chartTitleDiv').removeAttr("style");
+                    wraperTitle.find('.chartTitle').css({display: 'none'});
+                    wraperTitle.removeAttr("style");
                 } else {
-                    wraper.find('.chartTitle h3').text(singleWi.title.text);
+                    wraperTitle.find('.chartTitle').css({display: 'inline-block'});
+                    wraperTitle.find('.chartTitle h3').text(singleWi.title.text);
                     if (singleWi.title.style) {
-                        wraper.find('.chartTitleDiv').css(singleWi.title.style);
+                        wraperTitle.css(singleWi.title.style);
+                        wraperTitle.find('.chartTitle h3').css('font-size', singleWi.title.style.fontSize);
                     } else {
-                        wraper.find('.chartTitleDiv').removeAttr("style");                 ////////////////////////////hishi ira masin
+                        wraperTitle.find('.chartTitle').removeAttr("style");
                     }
                     ;
                 }
                 if (!singleWi.title.subtext) {
-                    wraper.find('.chartSubIcon').css({display: 'none'});
+                    wraperTitle.find('.chartSubIcon').css({display: 'none'});
                 } else {
-                    wraper.find('.chartSubText').text(singleWi.title.subtext);
+                    wraperTitle.find('.chartSubText').text(singleWi.title.subtext);
                     if (singleWi.title.subtextStyle) {
-                        wraper.find('chartSubText').css(singleWi.title.subtextStyle);
+                        wraperTitle.find('.chartSubText').css(singleWi.title.subtextStyle);
                     } else
                     {
-                        wraper.find('.chartSubText').removeAttr("style");
+                        wraperTitle.find('.chartSubText').removeAttr("style");
                     }
                     ;
+                    wraperTitle.find('.chartSubIcon').css({display: 'inline-block'});
                 }
+//            }
+            if (!singleWi.title.sublink) {
+                wraperTitle.find('.chartSubText').removeAttr('href');
             } else {
-                if (!singleWi.title.text) {
-                    $('#singlewidget .chartTitle').css({display: 'none'});
-                    $("#singlewidget .chartTitleDiv").removeAttr("style");
-                } else {
-                    $('#singlewidget .chartTitle').css({display: 'inline-block'});
-                    $('#singlewidget .chartTitle h3').text(singleWi.title.text);
-                    if (singleWi.title.style) {
-                        $('#singlewidget .chartTitleDiv').css(singleWi.title.style);
-                    } else {
-                        $("#singlewidget .chartTitleDiv").removeAttr("style");
-                    }
-                    ;
-                }
-                if (!singleWi.title.subtext) {
-                    $('#singlewidget .chartSubIcon').css({display: 'none'});
-                } else {
-                    $('#singlewidget .chartSubText').text(singleWi.title.subtext);
-                    if (singleWi.title.subtextStyle) {
-                        $("#singlewidget .chartSubText").css(singleWi.title.subtextStyle);
+                wraperTitle.find('.chartSubText').attr('href', singleWi.title.sublink);
+                wraperTitle.find('.chartSubText').attr('target', '_' + singleWi.title.subtarget);
+            }
+        } else {
+            wraperTitle.find('.chartTitleDiv').css({display: 'none'});
+        }
+
+            if (singleWi.times)
+            {
+//                console.log(2);
+//                console.log(singleWi.times);
+                if (singleWi.times.pickerlabel)
+                {
+//                    console.log(3);
+//                    console.log(singleWi.times.pickerlabel);
+                    wraper.find(".echart_time_icon").css({display: 'block'});
+                    if (singleWi.times.pickerlabel !== "Custom")
+                    {
+//                    console.log(4);
+//                    console.log(singleWi.times.pickerlabel);
+                        wraper.find(".echart_time").append(singleWi.times.pickerlabel + " ");
                     } else
                     {
-                        $("#singlewidget .chartSubText").removeAttr("style");
+//                    console.log(5);
+//                    console.log(singleWi.times.pickerlabel);
+                        wraper.find(".echart_time").append("From " + moment(singleWi.times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(tmprow.widgets[wi].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
                     }
-                    ;
-                    $('#singlewidget .chartSubIcon').css({display: 'block'});
+                }
+                if (singleWi.times.intervall)
+                {
+                    if (singleWi.times.intervall !== "General")
+                    {
+                        wraper.find(".echart_time_icon").css({display: 'block'});
+                        wraper.find(".echart_time").append(EditForm.refreshtimes[tmprow.widgets[wi].times.intervall]);
+                    }
                 }
             }
-            if (!singleWi.title.sublink) {
-                $('#singlewidget .chartSubText').removeAttr('href');
-            } else {
-                $('#singlewidget .chartSubText').attr('href', singleWi.title.sublink);
-                $('#singlewidget .chartSubText').attr('target', '_' + singleWi.title.subtarget);
-            }    
-        } else {
-            $('#singlewidget .chartTitleDiv').css({display: 'none'});
-        }
 
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
@@ -2735,7 +2774,7 @@ $(document).ready(function () {
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
-        cancel: "canvas,input,.echart_line"
+        cancel: "canvas,input,.echart_line,.chartTitle"
     });
     var rowdrag = false;
     if (getParameterByName("startdate"))
@@ -3605,17 +3644,12 @@ $(document).ready(function () {
 //        console.log(e.target.className);
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function (  ) {
-            elem.parent('div').find('.hoverShow').css({position: 'absolute',
-                width: 300,
-                'z-index': 9999,
-                background: 'rgb(216, 217, 218)'
-            });
             if (elem.hasClass('chartSubIcon')) {
                 elem.parent('div').find('.hoverShow').css({
                     left: 0,
                     top: elem.parent('div').find('.chartSubIcon').outerHeight()
                 });
-            } else {
+            } else if (elem.hasClass('echart_time_icon')) {
                 elem.parent('div').find('.hoverShow').css({
                     right: 0,
                     top: elem.parent('div').find('.echart_time_icon').outerHeight()

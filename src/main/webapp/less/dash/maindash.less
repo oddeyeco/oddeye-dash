@@ -926,11 +926,35 @@ i[data-toggle="tooltip"] {
         border-width: 0;
         display: block;
         position: relative;
+        box-sizing: content-box;
+        min-height: 27px;
+        border-radius: 5px;
         .hoverShow {
-            display: none;   
+            max-width: 300px;
+            display: none;
+            position: absolute;
+            z-index: 999;
+            transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1), top 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            background-color: rgba(50, 50, 50, 0.5);
+            border-radius: 4px;
+            line-height: 21px;
+            padding: 5px;
+            font-size: 12px;
+            color: rgb(255, 255, 255);
+        }
+        .chartTitle {
+            h3 {
+                display: inline-block;
+                margin: 0;
+            }
+            .dropdown-toggle span {
+                font-size: 12px;
+                vertical-align: middle;
+                padding: 0 10px 5px 10px;
+            }
         }
         .echart_time_icon, .chartSubIcon {
-            z-index: 2000;
+            z-index: 999;
             border-right: 27px solid #EDEDED;
             border-left: none;
             border-bottom: 27px solid transparent;
@@ -938,10 +962,11 @@ i[data-toggle="tooltip"] {
             padding: 0px;
             margin: 0px;
             position: absolute;
-            right: 1px;
+            right: 0px;
             cursor: pointer;
             display: none;
             i {
+                color: black;
                 position: absolute;
                 right: -22px;
                 top: 3px;
@@ -950,17 +975,14 @@ i[data-toggle="tooltip"] {
         }
         .chartSubIcon {
             display: inline-block;
-            z-index: 2000;
             border-left: 27px solid #EDEDED;
             border-right: none;
-            left: 1px;
+            left: 0px;
+            right: unset;
             i {
                 left: -22px;
                 right: unset;
             }
-        }
-        .chartSubText {
-            font-size: 12px;
         }
         .chartTitle {
             display: inline-block;
@@ -969,7 +991,7 @@ i[data-toggle="tooltip"] {
             }            
         }
     }
-    
+
 }
 .counter-colors
 {

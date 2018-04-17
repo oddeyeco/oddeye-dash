@@ -62,12 +62,7 @@
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
         <div class="inner col-xs-12">
-<!--                        <div class="chartTitleDiv" style="display: none">
-                            <span class="chartSubIcon "><i class="fa fa-info" aria-hidden="true"></i></span>  chmoranal display css-ov grel!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            <a href="#" class="chartSubText" style="display: none"></a>
-                            <span class="chartTitle"></span>
-                        </div>
-                        <div class="controls text-right">
+<!--                        <div class="controls text-right">
                             <div class="echart_time pull-left"></div>
                             <div class="btn-group  btn-group-xs">
                                 <a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a>
@@ -87,7 +82,7 @@
                     </div>
                     <div>
                         <span class="echart_time_icon"><i class="fa fa-clock-o"></i></i></span>
-                        <a href="#" class="echart_time hoverShow"></a>
+                        <span class="echart_time hoverShow"></span>
                     </div>
                     <div class="chartTitle btn-group">
                         <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
