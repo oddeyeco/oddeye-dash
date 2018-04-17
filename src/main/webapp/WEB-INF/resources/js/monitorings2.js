@@ -66,9 +66,9 @@ function redrawBoard() {
 //        checkState = 'none';
 //        countChecked();
 //    });
-
+    
     $(".monitorlist ul").html("");
-
+    
 //    optionsJson.fcol.each(
 //            
 //    );
@@ -76,12 +76,12 @@ function redrawBoard() {
     {
         DrawErrorList(errorlistJson, $(".metrictable"));
     }
-
+    
 }
 
 function connectstompClient()
 {
-
+    
     var headers = {};
     headers[headerName] = token;
     headers["sotoken"] = sotoken;
@@ -146,7 +146,7 @@ function aftersubscribe(error) {
             errorlistJson[errorjson.hash] = errorjson;
         }
         reDrawErrorList(errorlistJson, "monitorlist", errorjson);
-
+        
     }
     if (Object.keys(errorlistJson).length > 200)
     {
@@ -157,7 +157,7 @@ function aftersubscribe(error) {
         $('#manyalert').fadeOut();
     }
 //            console.log(errorlistJson[errorjson.hash]);
-
+    
 }
 function findeByhash(element, array) {
     for (var i = 0; i < array.length; i++) {
@@ -177,7 +177,7 @@ function drawUL(errorjson, table, hashindex, update) {
     {
         type = false;
     }
-
+    
     var message = "";
     if (errorjson.isspec === 1)
     {
@@ -202,9 +202,9 @@ function drawUL(errorjson, table, hashindex, update) {
             {
                 val = val.toFixed(2);
             }
-
+            
         }
-
+        
         message = message + val;
     }
     var starttime = "";
@@ -230,14 +230,14 @@ function drawUL(errorjson, table, hashindex, update) {
     {
         eRclass = eRclass + " spec";
         UlID = "speciallist";
-
+        
     }
 //    console.log(errorjson.flap);
     if (errorjson.flap > 5)
     {
         eRclass = eRclass + " flapdetect";
     }
-
+    
     if (!update)
     {
         var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + moment().format("x") + '">';
@@ -249,14 +249,17 @@ function drawUL(errorjson, table, hashindex, update) {
 //                    {
 //                        console.log(entry);
 //                    }
-
+                    
                     switch (obj.attr("key")) {
                         case  "actions":
                         {
                             if (errorjson.isspec === 0)
                             {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a>' +
+                                        '<a href="#"><i class="fa fa-bell-slash resetregretion"></i></a>' +
+//                                        '<a href="#"><span class="glyphicon glyphicon-trash resetrules" aria-hidden="true"></span></a>' +
+                                        '</div>';
                             } else
                             {
                                 html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
@@ -282,7 +285,7 @@ function drawUL(errorjson, table, hashindex, update) {
                                 }
                                 html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
                             }
-
+                            
                             break;
                         }
                         case  "StartTime":
@@ -297,7 +300,7 @@ function drawUL(errorjson, table, hashindex, update) {
                             html = html + '<div class="inline timelocal">' + moment(st * 1).format(timeformatsmall) + '</div>';
                             break;
                         }
-
+                        
                         case  "updateinterval":
                         {
                             var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
@@ -316,7 +319,7 @@ function drawUL(errorjson, table, hashindex, update) {
                             html = html + '<div class="inline duration badge">' + moment.duration(lt - st).humanize() + '</div>';
                             break;
                         }
-
+                        
                         case  "levelname":
                         {
                             html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
@@ -332,8 +335,8 @@ function drawUL(errorjson, table, hashindex, update) {
                                 {
                                     html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
                                 }
-
-
+                                
+                                
                             } else
                             {
                                 html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
@@ -352,46 +355,52 @@ function drawUL(errorjson, table, hashindex, update) {
                             {
                                 var path = entry.split("_");
                             }
-
+                            
                             var value = errorjson;
-
+                            
                             $.each(path, function (i, item) {
                                 if (value)
                                 {
                                     value = value[item];
                                 }
                             });
-
-
+                            
+                            
                             if (value)
                             {
                                 html = html + '<div class="' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
                             }
-
+                            
                             break;
                         }
-
+                        
                     }
-
-
+                    
+                    
                 }
         );
-
+        
         html = html + "</li>";
         $("." + table).find("ul#" + UlID).prepend(html);
         $("." + table).find("li#" + errorjson.hash).show("slide", {direction: "left"}, 1000);
-
-
+        
+        
     } else
     {
         $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
-        $("." + table).find("li#" + hashindex).attr("class", eRclass);
+        $("." + table).find("li#" + hashindex).removeClass(function (index, className) {
+            return (className.match(/(^|\s)level_\S+/g) || []).join(' ');
+        });
+        $("." + table).find("li#" + hashindex).addClass("level_" + errorjson.level);
+        //var eRclass = "level_" + errorjson.level;
+        
+//            .attr("class", eRclass);
         $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
-
+        
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
         var lt = errorjson.time;
         $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
-
+        
         if (errorjson.starttimes[errorjson.level])
         {
             $("." + table).find("li#" + hashindex + " .starttime").html(moment(st * 1).format(timeformat));
@@ -421,7 +430,7 @@ function drawUL(errorjson, table, hashindex, update) {
             $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action pull-left fa " + arrowclass);
             $("." + table).find("li#" + hashindex + " .icons i.action").css("color", color);
         }
-
+        
     }
     $('.summary .Tablecount').html(array_regular.length + array_spec.length);
     $('.summary .regcount').html(array_regular.length);
@@ -435,7 +444,7 @@ function reDrawErrorList(listJson, listclass, errorjson)
     {
         delete listJson[errorjson.hash];
     }
-
+    
     if (errorjson.isspec === 0)
     {
         var indexregular = findeByhash(errorjson, array_regular);
@@ -445,7 +454,7 @@ function reDrawErrorList(listJson, listclass, errorjson)
             {
                 array_regular.push(errorjson);
                 var index2 = findeByhash(errorjson, array_regular);
-
+                
                 if (index2 < array_regular.length - 1)
                 {
                     drawUL(array_regular[index2], listclass, array_regular[index2 + 1].hash);
@@ -463,23 +472,23 @@ function reDrawErrorList(listJson, listclass, errorjson)
             if (indexregular !== -1)
             {
 //                array_regular[indexregular] = errorjson;
-
+                
                 array_regular.splice(indexregular, 1);
-
+                
             }
             errorjson.index = 0;
             var hash_r = errorjson.hash;
             $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {
                 $("." + listclass).find("li#" + hash_r).remove();
             });
-
+            
         }
     } else
     {
         var indexspec = findeByhash(errorjson, array_spec);
         if (filtred)
         {
-
+            
             if (indexspec === -1)
             {
                 array_spec.push(errorjson);
@@ -507,7 +516,7 @@ function reDrawErrorList(listJson, listclass, errorjson)
             $("." + listclass).find("li#" + hash_s).fadeOut(400, function () {
                 $("." + listclass).find("li#" + hash_s).remove();
             });
-
+            
         }
     }
 }
@@ -516,11 +525,11 @@ function DrawErrorList(listJson, table)
 {
     array_regular = [];
     array_spec = [];
-
+    
     for (var key in listJson) {
         var errorjson = listJson[key];
         var filtred = checkfilter(errorjson);
-
+        
         if (filtred)
         {
             if (errorjson.isspec === 0)
@@ -535,7 +544,7 @@ function DrawErrorList(listJson, table)
             delete listJson[key];
         }
     }
-
+    
     for (key in array_spec)
     {
         drawUL(array_spec[key], "monitorlist");
@@ -554,7 +563,7 @@ function DrawErrorList(listJson, table)
 function checkfilter(message)
 {
     var filtred = true;
-
+    
     for (var filterindex in optionsJson.v)
     {
         if ((filterindex === "allfilter") ||
@@ -562,7 +571,7 @@ function checkfilter(message)
                 ((filterindex === "manualfilter") && (message.isspec !== 0))
                 )
         {
-
+            
             for (var fvalue in optionsJson.v[filterindex])
             {
                 var filtervalue = optionsJson.v[filterindex][fvalue];
@@ -599,35 +608,91 @@ function checkfilter(message)
                 {
                     break;
                 }
-
+                
             }
         }
         if (!filtred)
         {
             break;
         }
-
+        
     }
     return filtred;
 }
 
 $(document).ready(function () {
-
+    
     $("body").on("click", "#apply_filter", function () {
         updateFilter();
         stompClient.send("/input/chagefilter/", {}, JSON.stringify(optionsJson));
         redrawBoard();
     });
-
-
-
-
+    
+    
+    $('body').on("click", "#Show_chart", function () {
+        hashes = "";
+        if ($("#regularlist li.selected").length === 1)
+        {
+            hashes = "/" + $("#regularlist li.selected").first().attr("id");
+        } else
+        {
+            hashes = "?hashes=";
+            $("#regularlist li.selected").each(function () {
+                hashes = hashes + $(this).attr("id") + ";";
+            });
+        }
+        var win = window.open(cp + "/chart" + hashes, '_blank');
+        win.focus();
+    });
+    
+    
+    function cleareregresion() {
+        var sendData = {};
+        sendData.hash = $(this).attr("id");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        url = cp + "/resetregression";
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                console.log("Message Sended " + sendData.hash);
+            } else
+            {
+                console.log("Request failed " + sendData.hash);
+            }
+        }).fail(function (jqXHR, textStatus) {
+            console.log("Request failed");
+        });
+    }
+    $('body').on("click", ".monitorlist li ul li a", function (e) {
+        e.stopPropagation();                        
+    });    
+    
+    $('body').on("click", ".resetregretion", function (e) {
+        e.stopPropagation();                
+        $(this).closest("li").each(cleareregresion);
+    });
+    
+    $('body').on("click", "#Clear_reg", function (e) {
+        $("#regularlist li.selected").each(cleareregresion);
+    });
+    
+    
+    
     $("body").on("click", "#add_filter", function () {
         updateFilter();
         var sendData = {};
         url = cp + "/addmonitoringpage/";
         sendData.optionsjson = JSON.stringify(optionsJson);
-        sendData.optionsname = $("#saveas_name").val();        
+        sendData.optionsname = $("#saveas_name").val();
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({
@@ -649,9 +714,9 @@ $(document).ready(function () {
         }).fail(function (jqXHR, textStatus) {
             alert("Request failed");
         });
-
+        
     });
-
+    
     $("body").on("click", "#save_filter", function () {
         updateFilter();
         var sendData = {};
@@ -680,10 +745,10 @@ $(document).ready(function () {
         }).fail(function (jqXHR, textStatus) {
             alert("Request failed");
         });
-
+        
     });
-
-
+    
+    
     $("body").on("click", "#rem_filter", function () {
         url = cp + "/deletemonitoringpage/";
         sendData = {optionsname: nameoptions};
@@ -708,44 +773,34 @@ $(document).ready(function () {
         }).fail(function (jqXHR, textStatus) {
             alert("Request failed");
         });
-
+        
     });
-
+    
     setInterval(function () {
         $(".monitorlist li ul li").each(function () {
             var interval = moment($(this).attr("time") * 1).diff(moment()) / -1000;
             $(this).find(".timeinterval").text(interval.toFixed(0) + "sec.");
-
-//            if ($(this).hasClass("ui-effects-placeholder"))
-//            {
-//                console.log($(this).html());
-//                if ($(this).html() === "")
-//                {
-//                    console.log("VALOD");
-//                    $(this).remove();
-//                }
-//            }
-
-
+            
         });
     }, 1000);
+    
     $("body").on("change", ".add_filter_select", function () {
         $(this).find(':selected').attr("disabled", "disabled");
         var row = $("<tr>");
         row.append("<td class='filter_label'>" + $(this).find(':selected').attr("fname") + "</td>");
         if ($(this).find(':selected').attr("value") === 'level')
         {
-
+            
             row.append('<td class="action"><select class="operators_' + $(this).find(':selected').attr("value") + '" name="op[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + ']">' + eniumop + '</select> </td>');
             row.append('<td class="value"><select class="value" id="values_' + $(this).find(':selected').attr("value") + '_1" name="v[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + '][]" multiple="multiple" size="4"><option value="0">All</option><option value="1">Low</option><option value="2">Guarded</option><option value="3">Elevated</option><option value="4">High</option><option value="5">Severe</option></select></td>');
         } else
         {
             row.append("<td class='action'> <select class='operators_subject' name='op[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "'>" + strop + " </select> </td>");
             row.append("<td class='value'><input class='filter-value' type='text' name='v[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "' autocomplete='off'></td>");
-
+            
         }
-
-
+        
+        
         $(this).parents(".filter").find(".filters-table").append(row);
         //filters-table
         $(this).find('option').prop('selected', function () {
@@ -759,10 +814,10 @@ $(document).ready(function () {
         for (var Oldindex in filterOldJson)
         {
             var filteritem = filterOldJson[Oldindex];
-
+            
             if (Oldindex.indexOf("check_") !== -1)
             {
-
+                
                 if (Oldindex.indexOf("check_level_") !== -1)
                 {
                     levels.push(Oldindex.replace("check_level_", ""));
@@ -773,14 +828,14 @@ $(document).ready(function () {
                     var opt = $(".all_filter .add_filter_select option[alias=" + name + "]:first");
                     opt.attr("disabled", "disabled");
                     row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
-
+                    
                     row.append("<td class='action'> <select class='operators_subject' name='op[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
                     row.append("<td class='value'><input class='filter-value' type='text' name='v[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + filterOldJson[name + "_input"] + "></td>");
                     $(".all_filter").find(".filters-table").append(row);
                 }
-
+                
             }
-
+            
         }
         if (levels.length > 0)
         {
@@ -790,7 +845,7 @@ $(document).ready(function () {
             opt.attr("disabled", "disabled");
             row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
             $(".all_filter").find(".filters-table").append(row);
-
+            
             row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
             row.append('<td class="value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
                     '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>All</option>' +
@@ -802,9 +857,9 @@ $(document).ready(function () {
                     '</select></td>');
         }
         $(".card-fields.value .f_col option").prop('selected', 'selected');
-
+        
         updateFilter();
-
+        
     } else
     {
         optionsJson.f_col.forEach(function (entry) {
@@ -816,7 +871,7 @@ $(document).ready(function () {
             var Domsection = $(".add_filter_select#" + section).parents(".filter");
             for (var filter in optionsJson.v[section])
             {
-
+                
                 if (filter === "level")
                 {
                     levels = optionsJson.v[section][filter];
@@ -826,7 +881,7 @@ $(document).ready(function () {
                     opt.attr("disabled", "disabled");
                     row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
                     Domsection.find(".filters-table").append(row);
-
+                    
                     row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
                     row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
                     row.append('<td class="value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
@@ -844,17 +899,31 @@ $(document).ready(function () {
                     var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
                     opt.attr("disabled", "disabled");
                     row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
-
+                    
                     row.append("<td class='action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
                     row.append("<td class='value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
                     row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
                     Domsection.find(".filters-table").append(row);
                 }
             }
-
+            
         }
     }
-
+    
+    
+    $('body').on("click", '.monitorlist li ul li', function () {
+        $(this).toggleClass("selected");
+        
+        if ($("#regularlist .selected").length>0)
+        {
+            $(".selected-actions").show("slide", {direction: "right"}, 1000);
+        }
+        else
+        {
+            $(".selected-actions").hide("slide", {direction: "right"}, 1000);
+        }
+        $(".selected-actions .badge").text($("#regularlist .selected").length);
+    });
 //    redrawBoard();
     $('body').on("click", 'fieldset.collapsible legend', function () {
         if ($(this).parent().hasClass("collapsed"))
@@ -868,14 +937,14 @@ $(document).ready(function () {
             $(this).parent().addClass("collapsed");
             $(this).find(".fa-chevron-up").addClass("fa-chevron-down");
             $(this).find(".fa-chevron-up").removeClass("fa-chevron-up");
-
+            
         }
     });
-
+    
     $("select").select2({minimumResultsForSearch: 15});
-
+    
     connectstompClient();
-
+    
 });
 
 function updateFilter() {
@@ -886,7 +955,7 @@ function updateFilter() {
         if (field.value !== "")
         {
             var name = field.name;
-
+            
             if (field.name.indexOf("op[") !== -1)
             {
                 name = "op";
@@ -895,8 +964,8 @@ function updateFilter() {
                     optionsJson[name] = {};
                 }
                 var m = field.name.match(regex);
-
-
+                
+                
                 var fgroup = m[1];
                 var fname = m[2];
                 if (!optionsJson[name][fgroup])
@@ -904,8 +973,8 @@ function updateFilter() {
                     optionsJson[name][fgroup] = {};
                 }
                 optionsJson[name][fgroup][fname] = field.value;
-
-
+                
+                
             } else if (field.name.indexOf("v[") !== -1)
             {
                 name = "v";
@@ -919,7 +988,7 @@ function updateFilter() {
                     var m = lname.match(regex);
                     var fgroup = m[1];
                     var fname = m[2];
-
+                    
                     if (!optionsJson[name][fgroup])
                     {
                         optionsJson[name][fgroup] = {};
@@ -940,8 +1009,8 @@ function updateFilter() {
                     }
                     optionsJson[name][fgroup][fname] = field.value;
                 }
-
-
+                
+                
             } else
             {
                 if (field.name.indexOf("[]") !== -1)
@@ -956,9 +1025,9 @@ function updateFilter() {
                 {
                     optionsJson[field.name] = field.value;
                 }
-
+                
             }
-
+            
         }
     });
 }

@@ -155,7 +155,7 @@
                 <button href="#" class="btn btn-xs btn-primary" id="add_filter">Save As</button>
                 <input type="text" value="${nameoptions}" id="saveas_name">
                 <c:if test="${!empty nameoptions}">
-                <button href="#" class="btn btn-xs btn-danger pull-right" id="rem_filter">Delete</button>    
+                    <button href="#" class="btn btn-xs btn-danger pull-right" id="rem_filter">Delete</button>    
                 </c:if>
             </p>
             <div class="row">
@@ -165,6 +165,16 @@
                     </h4>                 
                 </div>
             </div>      
+
+            <div class="selected-actions btn-group-vertical">              
+                <button type="button" class="btn btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="Show Chart">
+                    <i class="fa fa-area-chart"></i>                       
+                </button>
+                <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="It`s normal"><i class="fa fa-bell-slash"></i></button>
+                <span class="badge bg-green">6</span>
+                <!--<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>-->
+
+            </div>            
 
             <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
                 <!-- start List -->
@@ -180,8 +190,6 @@
                         </ul>                            
                     </li>
                 </ul>
-
-
             </div>             
         </div>
     </div>
