@@ -961,14 +961,14 @@ i[data-toggle="tooltip"] {
             border-top: none;
             padding: 0px;
             margin: 0px;
-            position: absolute;
-            right: 0px;
+            /*position: absolute;*/
+            /*right: 0px;*/
             cursor: pointer;
             display: none;
             i {
                 color: black;
                 position: absolute;
-                right: -22px;
+                right: 5px;
                 top: 3px;
                 font-size: 11px;
             }
@@ -977,10 +977,10 @@ i[data-toggle="tooltip"] {
             display: inline-block;
             border-left: 27px solid #EDEDED;
             border-right: none;
-            left: 0px;
-            right: unset;
+            /*left: 0px;*/
+            /*right: unset;*/
             i {
-                left: -22px;
+                left: 5px;
                 right: unset;
             }
         }
@@ -989,6 +989,21 @@ i[data-toggle="tooltip"] {
             h3 {
                 font-size: 18px;
             }            
+        }
+        .borderRadius {
+            overflow: hidden;
+        }
+        .chartDesc {
+            float: left;
+            .borderRadius {
+                border-top-left-radius: 5px;
+            }
+        }
+        .chartTime {
+            float: right;
+            .borderRadius {
+                border-top-right-radius: 5px;
+            }
         }
     }
 

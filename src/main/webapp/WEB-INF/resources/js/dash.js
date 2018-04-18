@@ -2587,72 +2587,47 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         var singleWi = dashJSON.rows[row].widgets[index];
 
         if (rebuildform) {
-            wraper.prepend('<div class="chartTitleDiv">' + '<div>' + '<span class="chartSubIcon">'
-                    + '<i class="fa fa-info"></i> ' + '</span>' +
-                    '<a class="chartSubText hoverShow">' + '</a>' + '</div>' + '<div>' +
-                    '<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
-                    + '</span>' + '<span class="echart_time hoverShow" id="echart_line">' + '</span>' + '</div>' + '<div class=chartTitle>' + '<h3>' + '</h3>' + '</div>' +
+            wraper.prepend('<div class="chartTitleDiv">' + '<div class="chartDesc wrap">' + 
+                    '<div class="borderRadius">' +'<span class="chartSubIcon">'
+                    + '<i class="fa fa-info"></i> ' + '</span>' + '</div>' + 
+                    '<a class="chartSubText hoverShow">' + '</a>' + '</div>' + '<div class="chartTime wrap">'
+                    + '<div class="borderRadius">' +'<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
+                    + '</span>'+ '</div>' + '<span class="echart_time hoverShow" id="echart_line">'
+                    + '<span class="last">' + '</span>' + '<span class="refreshEvery" >' + '</span>' + 
+                    '</span>' + '</div>' + '<div class=chartTitle>' + '<h3>' + '</h3>' + '</div>' +
                     "</div>");
             var wraperTitle = wraper.find('.chartTitleDiv');
         } else {
             var wraperTitle = $('#singlewidget .chartTitleDiv');
         }
         if (singleWi.title) {
-//            if (rebuildform) {
-//                if (!singleWi.title.text) {
-//                    wraper.find('.chartTitle').css({display: 'none'});
-//                    wraper.find('.chartTitleDiv').removeAttr("style");
-//                } else {
-//                    wraper.find('.chartTitle h3').text(singleWi.title.text);
-//                    if (singleWi.title.style) {
-//                        wraper.find('.chartTitleDiv').css(singleWi.title.style);
-//                        wraper.find(".chartTitleDiv h3").css('font-size', singleWi.title.style.fontSize);
-//                    } else {
-//                        wraper.find('.chartTitleDiv').removeAttr("style");
-//                    }
-//                    ;
-//                }
-//                if (!singleWi.title.subtext) {
-//                    wraper.find('.chartSubIcon').css({display: 'none'});
-//                } else {
-//                    wraper.find('.chartSubText').text(singleWi.title.subtext);
-//                    if (singleWi.title.subtextStyle) {
-//                        wraper.find('.chartSubText').css(singleWi.title.subtextStyle);
-//                    } else
-//                    {
-//                        wraper.find('.chartSubText').removeAttr("style");
-//                    }
-//                    ;
-//                }
-//            } else {
-                if (!singleWi.title.text) {
-                    wraperTitle.find('.chartTitle').css({display: 'none'});
-                    wraperTitle.removeAttr("style");
+            if (!singleWi.title.text) {
+                wraperTitle.find('.chartTitle').css({display: 'none'});
+                wraperTitle.removeAttr("style");
+            } else {
+                wraperTitle.find('.chartTitle').css({display: 'inline-block'});
+                wraperTitle.find('.chartTitle h3').text(singleWi.title.text);
+                if (singleWi.title.style) {
+                    wraperTitle.css(singleWi.title.style);
+                    wraperTitle.find('.chartTitle h3').css('font-size', singleWi.title.style.fontSize);
                 } else {
-                    wraperTitle.find('.chartTitle').css({display: 'inline-block'});
-                    wraperTitle.find('.chartTitle h3').text(singleWi.title.text);
-                    if (singleWi.title.style) {
-                        wraperTitle.css(singleWi.title.style);
-                        wraperTitle.find('.chartTitle h3').css('font-size', singleWi.title.style.fontSize);
-                    } else {
-                        wraperTitle.find('.chartTitle').removeAttr("style");
-                    }
-                    ;
+                    wraperTitle.find('.chartTitle').removeAttr("style");
                 }
-                if (!singleWi.title.subtext) {
-                    wraperTitle.find('.chartSubIcon').css({display: 'none'});
-                } else {
-                    wraperTitle.find('.chartSubText').text(singleWi.title.subtext);
-                    if (singleWi.title.subtextStyle) {
-                        wraperTitle.find('.chartSubText').css(singleWi.title.subtextStyle);
-                    } else
-                    {
-                        wraperTitle.find('.chartSubText').removeAttr("style");
-                    }
-                    ;
-                    wraperTitle.find('.chartSubIcon').css({display: 'inline-block'});
+                ;
+            }
+            if (!singleWi.title.subtext) {
+                wraperTitle.find('.chartSubIcon').css({display: 'none'});
+            } else {
+                wraperTitle.find('.chartSubText').text(singleWi.title.subtext);
+                if (singleWi.title.subtextStyle) {
+                    wraperTitle.find('.chartSubText').css(singleWi.title.subtextStyle);
+                } else
+                {
+                    wraperTitle.find('.chartSubText').removeAttr("style");
                 }
-//            }
+                ;
+                wraperTitle.find('.chartSubIcon').css({display: 'inline-block'});
+            }
             if (!singleWi.title.sublink) {
                 wraperTitle.find('.chartSubText').removeAttr('href');
             } else {
@@ -2662,37 +2637,32 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         } else {
             wraperTitle.find('.chartTitleDiv').css({display: 'none'});
         }
-
-            if (singleWi.times)
+        if (singleWi.times) {
+            if (singleWi.times.pickerlabel)
             {
-//                console.log(2);
-//                console.log(singleWi.times);
-                if (singleWi.times.pickerlabel)
+                ;
+                wraperTitle.find(".echart_time_icon").css({display: 'block'});
+                if (singleWi.times.pickerlabel !== "Custom")
                 {
-//                    console.log(3);
-//                    console.log(singleWi.times.pickerlabel);
-                    wraper.find(".echart_time_icon").css({display: 'block'});
-                    if (singleWi.times.pickerlabel !== "Custom")
-                    {
-//                    console.log(4);
-//                    console.log(singleWi.times.pickerlabel);
-                        wraper.find(".echart_time").append(singleWi.times.pickerlabel + " ");
-                    } else
-                    {
-//                    console.log(5);
-//                    console.log(singleWi.times.pickerlabel);
-                        wraper.find(".echart_time").append("From " + moment(singleWi.times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(tmprow.widgets[wi].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
-                    }
+                    wraperTitle.find(".echart_time .last").html(singleWi.times.pickerlabel + " ");
+                } else
+                {
+                    wraperTitle.find(".echart_time .last").html("From " + moment(singleWi.times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(tmprow.widgets[wi].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
                 }
-                if (singleWi.times.intervall)
+            } else {
+                wraperTitle.find(".echart_time .last").html(' ');
+            }
+            if (singleWi.times.intervall)
+            {
+                if (singleWi.times.intervall !== "General")
                 {
-                    if (singleWi.times.intervall !== "General")
-                    {
-                        wraper.find(".echart_time_icon").css({display: 'block'});
-                        wraper.find(".echart_time").append(EditForm.refreshtimes[tmprow.widgets[wi].times.intervall]);
-                    }
+                    wraperTitle.find(".echart_time_icon").css({display: 'block'});
+                    wraperTitle.find(".echart_time .refreshEvery").html(EditForm.refreshtimes[tmprow.widgets[wi].times.intervall]);
+                } else {
+                    wraperTitle.find(".echart_time .refreshEvery").html(' ');
                 }
             }
+        }
 
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
@@ -3645,25 +3615,23 @@ $(document).ready(function () {
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function (  ) {
             if (elem.hasClass('chartSubIcon')) {
-                elem.parent('div').find('.hoverShow').css({
+                elem.parents('.wrap').find('.hoverShow').css({
                     left: 0,
-                    top: elem.parent('div').find('.chartSubIcon').outerHeight()
+                    top: elem.parents('.wrap').find('.chartSubIcon').outerHeight()
                 });
             } else if (elem.hasClass('echart_time_icon')) {
-                elem.parent('div').find('.hoverShow').css({
+                elem.parents('.wrap').find('.hoverShow').css({
                     right: 0,
-                    top: elem.parent('div').find('.echart_time_icon').outerHeight()
+                    top: elem.parents('.wrap').find('.echart_time_icon').outerHeight()
                 });
             }
             if (e.type === 'mouseover') {
-//                console.log(e.type + " in");
-                if (elem.parent('div').find('.hoverShow').css('display') !== 'block') {
+                if (elem.parents('.wrap').find('.hoverShow').css('display') !== 'block') {
                     $('.hoverShow').fadeOut();
                 }
-                elem.parent('div').find('.hoverShow').fadeIn();
+                elem.parents('.wrap').find('.hoverShow').fadeIn();
             }
             if (e.type === 'mouseout') {
-//                console.log(e.type + " out");
                 $('.hoverShow').fadeOut();
             }
             ;
