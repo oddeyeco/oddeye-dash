@@ -749,7 +749,7 @@ $(document).ready(function () {
     });
     
     
-    $("body").on("click", "#rem_filter", function () {
+    $("body").on("click", "#deleteviewconfirm", function () {
         url = cp + "/deletemonitoringpage/";
         sendData = {optionsname: nameoptions};
         var header = $("meta[name='_csrf_header']").attr("content");
@@ -775,6 +775,15 @@ $(document).ready(function () {
         });
         
     });
+    
+    
+    $('body').on("click", "#rem_filter", function () {
+        $("#deleteConfirm").find('.btn-ok').attr('id', "deleteviewconfirm");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this view?");
+        $("#deleteConfirm").find('.modal-body .text-warning').html(nameoptions);
+        $("#deleteConfirm").modal('show');
+    });    
     
     setInterval(function () {
         $(".monitorlist li ul li").each(function () {

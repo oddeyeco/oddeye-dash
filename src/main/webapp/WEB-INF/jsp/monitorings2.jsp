@@ -22,6 +22,26 @@
     </div>
 </div>    
 
+
+<div id="deleteConfirm" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete this dashboard?</p>
+                <p class="text-warning"></p>
+            </div>
+            <div class="modal-footer">
+                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
+                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="Delete">
+            </div>
+        </div>
+    </div>
+</div>  
+
 <div class="clearfix"></div>
 
 <div class="row">
@@ -155,7 +175,7 @@
                 <button href="#" class="btn btn-xs btn-primary" id="add_filter">Save As</button>
                 <input type="text" value="${nameoptions}" id="saveas_name">
                 <c:if test="${!empty nameoptions}">
-                    <button href="#" class="btn btn-xs btn-danger pull-right" id="rem_filter">Delete</button>    
+                    <button href="#" class="btn btn-xs btn-danger pull-right" id="rem_filter">Delete view</button>    
                 </c:if>
             </p>
             <div class="row">
@@ -171,7 +191,7 @@
                     <i class="fa fa-area-chart"></i>                       
                 </button>
                 <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="It`s normal"><i class="fa fa-bell-slash"></i></button>
-                <span class="badge bg-green">6</span>
+                <span class="badge bg-green">0</span>
                 <!--<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>-->
 
             </div>            
