@@ -398,6 +398,11 @@ function drawUL(errorjson, table, hashindex, update) {
     } else
     {
         $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
+        /*
+        var index = $("." + table).find("li#" + hashindex).index() % 10+1;        
+        var audio = new Audio(cp+"/assets/Sounds/"+index+".mp3");
+        audio.play();
+*/
         $("." + table).find("li#" + hashindex).removeClass(function (index, className) {
             return (className.match(/(^|\s)level_\S+/g) || []).join(' ');
         });
@@ -695,7 +700,7 @@ $(document).ready(function () {
             {
                 array_regular.splice(index, 1);
             }
-            index = findeBy_ihash($(this).attr("id")*1, array_spec);
+            index = findeBy_ihash($(this).attr("id") * 1, array_spec);
             if (index !== -1)
             {
                 array_spec.splice(index, 1);
