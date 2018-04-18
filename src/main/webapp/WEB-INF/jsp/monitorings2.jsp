@@ -169,15 +169,34 @@
                     </fieldset>
                 </form>
             </div>            
-            <p class="buttons">
-                <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>
-                <button href="#" class="btn btn-xs btn-primary" id="save_filter">Save</button>
-                <button href="#" class="btn btn-xs btn-primary" id="add_filter">Save As</button>
-                <input type="text" value="${nameoptions}" id="saveas_name">
+
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="Apply group">
+                   <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>   
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="Save group">
+                    <button href="#" class="btn btn-xs btn-primary" id="save_filter">Save</button>                
+                    <button href="#" class="btn btn-xs btn-info" id="add_filter">Save As</button>
+                    <input type="text" value="${nameoptions}" id="saveas_name">
+                </div>
                 <c:if test="${!empty nameoptions}">
-                    <button href="#" class="btn btn-xs btn-danger pull-right" id="rem_filter">Delete view</button>    
-                </c:if>
-            </p>
+                <div class="btn-group pull-right" role="group" aria-label="Delete group">
+                    <button href="#" class="btn btn-xs btn-danger" id="rem_filter">Delete view</button>    
+                </div>                    
+                    
+                </c:if>                
+                
+
+            </div>            
+
+            <div class="buttons ">
+
+                
+                <div class="btn-group">
+                    
+                </div>
+
+            </div>
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
                     <h4 class="summary">
