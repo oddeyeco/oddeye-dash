@@ -177,7 +177,7 @@
                 <div class="btn-group mr-2" role="group" aria-label="Save group">
                     <button href="#" class="btn btn-xs btn-primary" id="save_filter">Save</button>                
                     <button href="#" class="btn btn-xs btn-info" id="add_filter">Save As</button>
-                    <input type="text" value="${nameoptions}" id="saveas_name">
+                    <input type="text" value="${nameoptions}" id="saveas_name" class="form-control">
                 </div>
                 <c:if test="${!empty nameoptions}">
                 <div class="btn-group pull-right" role="group" aria-label="Delete group">
