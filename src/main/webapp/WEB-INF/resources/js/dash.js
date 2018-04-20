@@ -2626,7 +2626,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     wraperTitle.find('.chartSubText').removeAttr("style");
                 }
                 ;
-                wraperTitle.find('.chartSubIcon').css({display: 'inline-block'});
+                wraperTitle.find('.chartSubIcon').css({display: 'block'});
             }
             if (!singleWi.title.sublink) {
                 wraperTitle.find('.chartSubText').removeAttr('href');
@@ -3609,7 +3609,7 @@ $(document).ready(function () {
         $('#maximize').fadeOut(500);
     });
     var whaittimer;
-    $('body').on("mouseenter mouseleave", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
+    $('body').on("mouseover mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
         var elem = $(this);
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function (  ) {
@@ -3636,50 +3636,48 @@ $(document).ready(function () {
             ;
         }, 500);
     });
-    function elemBackColorSpin(color, elem) {
+    function ModifierColor (color, angel) {
         console.log(color);
-        if (color[0] === '#') {
-            var hex = color;
-            hex = hex.replace('#', '');
-            var step;
-            var colorarray = [];
-            step = hex.length / 3;
-            for (var index = 0; index < hex.length; index = index + step)
+        var colorarray = [];
+        var alfa = "0.8";
+        var colorVal = color.match(/^(#?([a-f\d]{3}|[a-f\d]{6})|rgb\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\)|rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0?\.?\d+|1(\.0)?)\)|hsl\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%\)|hsla\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%,\s*(0?\.\d+|1(\.0)?)\))$/);
+        console.log(colorVal);
+        if (typeof (colorVal[2]) !== 'undefined') //HEX color
+        {
+            var hex = colorVal[2];
+            var step = hex.length / 3;
+            for ( var index = 0; index < hex.length; index = index + step )
             {
                 colorarray.push(parseInt(hex.substring(index, index + step), 16));
             }
-            color = 'rgb(' + colorarray[0] + ',' + colorarray[1] + ',' + colorarray[2] + ')';
         }
-        colorVal = color.match(/^(#?([a-f\d]{3}|[a-f\d]{6})|rgb\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\)|rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0?\.?\d+|1(\.0)?)\)|hsl\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%\)|hsla\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%,\s*(0?\.\d+|1(\.0)?)\))$/);
-        rgbaValls = colorVal.slice(6, 10);
-        var newRgba = 'rgba(';
-        for (var i = 0; i < rgbaValls.length - 1; i++) {
-            var newVal = Math.round(((((rgbaValls[i] * 360 / 255) + 45) % 360) * 250) / 360);
-            newRgba = newRgba + newVal;
-            if (i === 2) {
-                newRgba = newRgba + ', ' + /*rgbaValls[i]*/ + 0.7 + ')';
-                break;
-            }
-            newRgba = newRgba + ',';
+        if (typeof (colorVal[3]) !== 'undefined') //RGB color
+        {
+            colorarray = colorVal.slice(3, 6);
         }
-        elem.css('background-color', newRgba);
+        if (typeof (colorVal[6]) !== 'undefined') //RGBA color;
+        {
+            colorarray = colorVal.slice(6, 9);
+            alfa = colorVal[9];
+        }
+        console.log(colorarray);
+        //TODO hsl
+        //**********
+        for (var i = 0; i < colorarray.length; i++) {
+            colorarray[i] = Math.round(((((colorarray[i] * 360 / 255) + angel) % 360) * 255) / 360);
+        }
+        var newRgba = 'rgba(' + colorarray[0] + ',' + colorarray[1] + ',' + colorarray[2] + ',' + alfa + ')';
+        //TODO return as input
+        console.log(newRgba);
+        return newRgba;
     }
-    var colorArr = [];
-    $('body').on('mouseover mouseout', '.chartTitleDiv', function (e) {
-        var elem = $(this);
-        var elemBackColor = elem.css('background-color');
-        colorArr.push(elemBackColor);
-        if (e.type === 'mouseover') {
-            if (colorArr.length > 1) {
-                elem.css('background-color', elemBackColor);
-            } else {
-                elemBackColorSpin(colorArr[0], elem);
-            }
-        }
-        if (e.type === 'mouseout') {
-            elem.css('background-color', colorArr[0]);
-            colorArr = [];
-        }
+    $('body').on('mouseover', '.chartTitleDiv', function () {
+        $(this).attr("normalcolor", $(this).css('background-color'));
+        $(this).css('background-color', ModifierColor($(this).css('background-color'), 90));
+    });
+    $('body').on('mouseout', '.chartTitleDiv', function () {
+        $(this).css('background-color', $(this).attr("normalcolor"));
+        $(this).removeAttr("normalcolor");
     });
 
     $(document).on('click.bs.dropdown.data-api', '.plus, .minus', function (e) {
@@ -3710,13 +3708,13 @@ $(document).on('scroll', function () {
                 $('#filter').fadeIn();
             } else
             {
-
+                
                 $('#maximize').css('display', 'block');
             }
-
-
+            
+            
         }
-
+        
     } else {
         if ($('#filter').hasClass("fix"))
         {
@@ -3770,7 +3768,6 @@ $(document).on('scroll', function () {
 
     }, 500);
 });
-
 window.onresize = function () {
     if ($(".fulldash").is(':visible'))
     {
