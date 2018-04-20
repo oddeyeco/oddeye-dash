@@ -2587,13 +2587,13 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         var singleWi = dashJSON.rows[row].widgets[index];
 
         if (rebuildform) {
-            wraper.prepend('<div class="chartTitleDiv">' + '<div class="chartDesc wrap">' + 
-                    '<div class="borderRadius">' +'<span class="chartSubIcon">'
-                    + '<i class="fa fa-info"></i> ' + '</span>' + '</div>' + 
+            wraper.prepend('<div class="chartTitleDiv">' + '<div class="chartDesc wrap">' +
+                    '<div class="borderRadius">' + '<span class="chartSubIcon">'
+                    + '<i class="fa fa-info"></i> ' + '</span>' + '</div>' +
                     '<a class="chartSubText hoverShow">' + '</a>' + '</div>' + '<div class="chartTime wrap">'
-                    + '<div class="borderRadius">' +'<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
-                    + '</span>'+ '</div>' + '<span class="echart_time hoverShow" id="echart_line">'
-                    + '<span class="last">' + '</span>' + '<span class="refreshEvery" >' + '</span>' + 
+                    + '<div class="borderRadius">' + '<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
+                    + '</span>' + '</div>' + '<span class="echart_time hoverShow" id="echart_line">'
+                    + '<span class="last">' + '</span>' + '<span class="refreshEvery" >' + '</span>' +
                     '</span>' + '</div>' + '<div class=chartTitle>' + '<h3>' + '</h3>' + '</div>' +
                     "</div>");
             var wraperTitle = wraper.find('.chartTitleDiv');
@@ -3611,7 +3611,6 @@ $(document).ready(function () {
     var whaittimer;
     $('body').on("mouseenter mouseleave", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
         var elem = $(this);
-//        console.log(e.target.className);
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function (  ) {
             if (elem.hasClass('chartSubIcon')) {
@@ -3637,7 +3636,60 @@ $(document).ready(function () {
             ;
         }, 500);
     });
+    function elemBackColorSpin(color, elem) {
+        console.log(color);
+        if (color[0] === '#') {
+            var hex = color;
+            hex = hex.replace('#', '');
+            var step;
+            var colorarray = [];
+            step = hex.length / 3;
+            for (var index = 0; index < hex.length; index = index + step)
+            {
+                colorarray.push(parseInt(hex.substring(index, index + step), 16));
+            }
+            color = 'rgb(' + colorarray[0] + ',' + colorarray[1] + ',' + colorarray[2] + ')';
+        }
+        colorVal = color.match(/^(#?([a-f\d]{3}|[a-f\d]{6})|rgb\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\)|rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0?\.?\d+|1(\.0)?)\)|hsl\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%\)|hsla\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%,\s*(0?\.\d+|1(\.0)?)\))$/);
+        rgbaValls = colorVal.slice(6, 10);
+        var newRgba = 'rgba(';
+        for (var i = 0; i < rgbaValls.length - 1; i++) {
+            var newVal = Math.round(((((rgbaValls[i] * 360 / 255) + 45) % 360) * 250) / 360);
+            newRgba = newRgba + newVal;
+            if (i === 2) {
+                newRgba = newRgba + ', ' + /*rgbaValls[i]*/ + 0.7 + ')';
+                break;
+            }
+            newRgba = newRgba + ',';
+        }
+        elem.css('background-color', newRgba);
+    }
+    var colorArr = [];
+    $('body').on('mouseover mouseout', '.chartTitleDiv', function (e) {
+        var elem = $(this);
+        var elemBackColor = elem.css('background-color');
+        colorArr.push(elemBackColor);
+        if (e.type === 'mouseover') {
+            if (colorArr.length > 1) {
+                elem.css('background-color', elemBackColor);
+            } else {
+                elemBackColorSpin(colorArr[0], elem);
+            }
+        }
+        if (e.type === 'mouseout') {
+            elem.css('background-color', colorArr[0]);
+            colorArr = [];
+        }
+    });
 
+    $(document).on('click.bs.dropdown.data-api', '.plus, .minus', function (e) {
+        e.stopPropagation();
+    });
+    $('body').on("click", '.dropdown-submenu a.more', function (e) {
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+    });
     var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
     dasheditor = new JSONEditor(document.getElementById("dasheditor"), options);
     olddashname = $("#name").val();

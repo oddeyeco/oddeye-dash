@@ -75,28 +75,28 @@
                                         </div> 
                                     </div>             -->
 
-<!--            <div class="chartTitleDiv">
-                <div class="chartDesc wrap">
-                    <div class="borderRadius"><span class="chartSubIcon"><i class="fa fa-info"></i></span></div>
-                    <a href="#" class="chartSubText hoverShow"></a>
-                </div>
-                <div class="chartTime wrap">
-                    <div class="borderRadius"><span class="echart_time_icon"><i class="fa fa-clock-o"></i></i></span></div>
-                    <span class="echart_time hoverShow"></span>
-                </div>
-                <div class="chartTitle btn-group">
-                    <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
-                    <ul class="controls dropdown-menu">
-                        <li><a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a></li>
-                        <li><a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a></li>
-                        <li><a class="btn btn-default dublicate" type="button" data-toggle="tooltip" data-placement="top" title="Dublicate">Duplicate</a></li>
-                        <li><a class="btn btn-default csv" type="button" data-toggle="tooltip" data-placement="top" title="Save as csv">asCsv</a></li>
-                        <li><a class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></a></li>
-                        <li><a class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></a></li>
-                        <li><a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i></a></li>
-                    </ul> 
-                </div>
-            </div>          -->
+            <!--            <div class="chartTitleDiv">
+                            <div class="chartDesc wrap">
+                                <div class="borderRadius"><span class="chartSubIcon"><i class="fa fa-info"></i></span></div>
+                                <a href="#" class="chartSubText hoverShow"></a>
+                            </div>
+                            <div class="chartTime wrap">
+                                <div class="borderRadius"><span class="echart_time_icon"><i class="fa fa-clock-o"></i></i></span></div>
+                                <span class="echart_time hoverShow"></span>
+                            </div>
+                            <div class="chartTitle btn-group">
+                                <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
+                                <ul class="controls dropdown-menu">
+                                    <li><a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a></li>
+                                    <li><a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a></li>
+                                    <li><a class="btn btn-default dublicate" type="button" data-toggle="tooltip" data-placement="top" title="Dublicate">Duplicate</a></li>
+                                    <li><a class="btn btn-default csv" type="button" data-toggle="tooltip" data-placement="top" title="Save as csv">asCsv</a></li>
+                                    <li><a class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></a></li>
+                                    <li><a class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></a></li>
+                                    <li><a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i></a></li>
+                                </ul> 
+                            </div>
+                        </div>          -->
             <div class="chartTitleDiv">
                 <div class="chartDesc wrap">
                     <div class="borderRadius"><span class="chartSubIcon"><i class="fa fa-info"></i></span></div>
@@ -108,14 +108,27 @@
                 </div>
                 <div class="chartTitle btn-group">
                     <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
-                    <ul class="controls dropdown-menu">
-                        <li><a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a></li>
-                        <li><a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a></li>
-                        <li><a class="btn btn-default dublicate" type="button" data-toggle="tooltip" data-placement="top" title="Dublicate">Duplicate</a></li>
-                        <li><a class="btn btn-default csv" type="button" data-toggle="tooltip" data-placement="top" title="Save as csv">asCsv</a></li>
-                        <li><a class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></a></li>
-                        <li><a class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></a></li>
-                        <li><a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i></a></li>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a>
+                                <span class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></span>
+                                <span class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></span>                                
+                            </a>
+                        </li>
+                        <li><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye" aria-hidden="true"></i>View</a></li>
+                        <li><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa fa-files-o" aria-hidden="true"></i>Duplicate</a></li>                        
+                        <li><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</a></li>
+                        <li class="dropdown-submenu">
+                            <a class="more" tabindex="-1" href="#">More ... <i class="fa fa-caret-right"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="csv" data-toggle="tooltip" data-placement="top" title="Save as csv"><i class="fa fa-th-list"></i> Save as csv</a></li>
+                                <li><a class="jsonsave" data-toggle="tooltip" data-placement="top" title="Save as json"><span class="jsonIcon">{:}</span> Save as JSON</a></li>
+                                <li><a class="imagesave" data-toggle="tooltip" data-placement="top" title="Save as Image"><i class="fa fa-picture-o"></i> Save as Image</a></li>
+                            </ul>
+                        </li>                        
+
+                        <li role="presentation" class="divider"></li>
+                        <li><a class="deletewidget" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i>Remove</a></li>
                     </ul> 
                 </div>
             </div>          

@@ -74,11 +74,11 @@ and open the template in the editor.
 .chartsection 
 {    
     .controls {
-        .btn
-        {
-            background-color:rgba(255, 255, 255, 0.6);
-            border-color: rgba(204, 204, 204, 0.6);
-        }
+        /*        .btn
+                {
+                    background-color:rgba(255, 255, 255, 0.6);
+                    border-color: rgba(204, 204, 204, 0.6);
+                }*/
         margin: -3px -3px 0;        
         background-color:rgba(240, 240, 240, 0.6);
         &:hover
@@ -921,6 +921,9 @@ i[data-toggle="tooltip"] {
     }
     padding: 2px;  
     .chartTitleDiv {
+/*        &:hover {
+            background-color: rgba(200,200,200,0.6) !important;
+        }*/
         text-align: center;
         border-style: solid;
         border-width: 0;
@@ -961,8 +964,6 @@ i[data-toggle="tooltip"] {
             border-top: none;
             padding: 0px;
             margin: 0px;
-            /*position: absolute;*/
-            /*right: 0px;*/
             cursor: pointer;
             display: none;
             i {
@@ -977,8 +978,6 @@ i[data-toggle="tooltip"] {
             display: inline-block;
             border-left: 27px solid #EDEDED;
             border-right: none;
-            /*left: 0px;*/
-            /*right: unset;*/
             i {
                 left: 5px;
                 right: unset;
@@ -1003,6 +1002,34 @@ i[data-toggle="tooltip"] {
             float: right;
             .borderRadius {
                 border-top-right-radius: 5px;
+            }
+        }
+        .dropdown-menu {
+            min-width: unset;
+            .viewchart i, .dublicate i, .editchart i, .deletewidget i {
+                padding: 0 10px;
+            }
+            .dropdown-submenu {
+                position: relative;
+                .more i{
+                    float: right;
+                    padding: 3px;
+                }
+                .dropdown-menu {
+                    .jsonIcon {
+                        font-weight: bolder;
+                        margin: 0;
+                    }
+                    top: 0;
+                    left: 100%;
+                    margin-top: -1px;
+                }
+            }
+            >li {
+                margin: 2px;
+            }
+            >li>a>span {
+                margin: 0 2px;
             }
         }
     }
