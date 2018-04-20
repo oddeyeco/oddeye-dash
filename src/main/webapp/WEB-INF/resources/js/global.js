@@ -45,10 +45,10 @@ function globalconnect(head)
     globalstompClient = Stomp.over(globalsocket);
     globalstompClient.debug = null;
 
-    globalstompClient.connect(head, function (frame) {        
+    globalstompClient.connect(head, function (frame) {
         console.log("stomp connected");
         globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-            
+
             var event = JSON.parse(message.body);
             switch (event.action) {
                 case 'editdash':
@@ -92,12 +92,12 @@ function globalconnect(head)
                     break;
                 }
             }
-        });        
+        });
         globalstompClient.subscribe('/all/info', function (message) {
             //TODO
         });
-    }, function (frame) {        
-        console.log("Stomp:"+frame);
+    }, function (frame) {
+        console.log("Stomp:" + frame);
         setTimeout(function () {
             globalconnect(head);
         }, 60000);
@@ -315,6 +315,38 @@ function fullscreenrequest(fullscreen)
 
     }
 
+}
+
+function ModifierColor(color, angel) {    
+    var colorarray = [];
+    var alfa = "1";
+    var colorVal = color.match(/^(#?([a-f\d]{3}|[a-f\d]{6})|rgb\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\)|rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0?\.?\d+|1(\.0)?)\)|hsl\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%\)|hsla\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%,\s*(0?\.\d+|1(\.0)?)\))$/);    
+    if (typeof (colorVal[2]) !== 'undefined') //HEX color
+    {
+        var hex = colorVal[2];
+        var step = hex.length / 3;
+        for (var index = 0; index < hex.length; index = index + step)
+        {
+            colorarray.push(parseInt(hex.substring(index, index + step), 16));
+        }
+    }
+    if (typeof (colorVal[3]) !== 'undefined') //RGB color
+    {
+        colorarray = colorVal.slice(3, 6);
+    }
+    if (typeof (colorVal[6]) !== 'undefined') //RGBA color;
+    {
+        colorarray = colorVal.slice(6, 9);
+        alfa = colorVal[9];
+    }    
+    //TODO hsl
+    //**********
+    for (var i = 0; i < colorarray.length; i++) {
+        colorarray[i] = Math.round(((((colorarray[i] * 360 / 255) + angel) % 360) * 255) / 360);
+    }
+    var newRgba = 'rgba(' + colorarray[0] + ',' + colorarray[1] + ',' + colorarray[2] + ',' + alfa + ')';
+    //TODO return as input    
+    return newRgba;
 }
 
 var fullscreen = getCookie('fullscreen');

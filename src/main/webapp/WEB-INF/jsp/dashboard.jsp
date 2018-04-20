@@ -115,11 +115,11 @@
                                 <span class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></span>                                
                             </a>
                         </li>
-                        <li><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye" aria-hidden="true"></i>View</a></li>
-                        <li><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa fa-files-o" aria-hidden="true"></i>Duplicate</a></li>                        
-                        <li><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Edit</a></li>
+                        <li><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i>View</a></li>
+                        <li><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa fa-files-o"></i>Duplicate</a></li>                        
+                        <li><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o"></i>Edit</a></li>
                         <li class="dropdown-submenu">
-                            <a class="more" tabindex="-1" href="#">More ... <i class="fa fa-caret-right"></i></a>
+                            <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i>More ... <i class="fa fa-caret-right"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a class="csv" data-toggle="tooltip" data-placement="top" title="Save as csv"><i class="fa fa-th-list"></i> Save as csv</a></li>
                                 <li><a class="jsonsave" data-toggle="tooltip" data-placement="top" title="Save as json"><span class="jsonIcon">{:}</span> Save as JSON</a></li>

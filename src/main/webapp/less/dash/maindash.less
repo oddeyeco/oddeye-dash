@@ -566,7 +566,6 @@ span.tagspan {
     .level_5 {
         font-weight: bold;
         background-color: @background_color_4;
-
     }
     .level_4 {
         background-color: @background_color_5;
@@ -921,9 +920,12 @@ i[data-toggle="tooltip"] {
     }
     padding: 2px;  
     .chartTitleDiv {
-/*        &:hover {
-            background-color: rgba(200,200,200,0.6) !important;
-        }*/
+        &:hover {
+            -webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+            -moz-box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+            box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+            cursor: move;
+        }
         text-align: center;
         border-style: solid;
         border-width: 0;
@@ -946,6 +948,9 @@ i[data-toggle="tooltip"] {
             color: rgb(255, 255, 255);
         }
         .chartTitle {
+            &:hover {                
+                cursor: pointer;
+            }            
             h3 {
                 display: inline-block;
                 margin: 0;
@@ -1006,12 +1011,12 @@ i[data-toggle="tooltip"] {
         }
         .dropdown-menu {
             min-width: unset;
-            .viewchart i, .dublicate i, .editchart i, .deletewidget i {
+            .viewchart i, .dublicate i, .editchart i, .more i, .deletewidget i{
                 padding: 0 10px;
             }
             .dropdown-submenu {
                 position: relative;
-                .more i{
+                .more i:last-child {
                     float: right;
                     padding: 3px;
                 }

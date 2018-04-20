@@ -2274,18 +2274,17 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         }
                     }
                 }
-
-//                if (typeof (tmprow.widgets[wi].height) !== "undefined")          /////////////////el petq chi
-//                {
-//                    chartobj.find(".echart_time").css("height", tmprow.widgets[wi].height);        
-//                    if (tmprow.widgets[wi].height === "")
-//                    {
-//                        chartobj.find(".echart_time").css("height", "300px");
-//                    }
-//                } else
-//                {
-//                    chartobj.find(".echart_time").css("height", "300px");
-//                }
+                if (typeof (tmprow.widgets[wi].height) !== "undefined")
+                {
+                    chartobj.find(".echart_line").css("height", tmprow.widgets[wi].height);        
+                    if (tmprow.widgets[wi].height === "")
+                    {
+                        chartobj.find(".echart_line").css("height", "300px");
+                    }
+                } else
+                {
+                    chartobj.find(".echart_line").css("height", "300px");
+                }
                 $("#row" + ri).find(".rowcontent").append(chartobj);
                 chartobj.find(".echart_time").attr("id", "echart_line");
             }
@@ -2656,8 +2655,8 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             {
                 if (singleWi.times.intervall !== "General")
                 {
-                    wraperTitle.find(".echart_time_icon").css({display: 'block'});
-                    wraperTitle.find(".echart_time .refreshEvery").html(EditForm.refreshtimes[tmprow.widgets[wi].times.intervall]);
+                    wraperTitle.find(".echart_time_icon").css({display: 'block'});                    
+                    wraperTitle.find(".echart_time .refreshEvery").html(EditForm.refreshtimes[singleWi.times.intervall]);
                 } else {
                     wraperTitle.find(".echart_time .refreshEvery").html(' ');
                 }
@@ -3636,49 +3635,14 @@ $(document).ready(function () {
             ;
         }, 500);
     });
-    function ModifierColor (color, angel) {
-        console.log(color);
-        var colorarray = [];
-        var alfa = "0.8";
-        var colorVal = color.match(/^(#?([a-f\d]{3}|[a-f\d]{6})|rgb\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d)\)|rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),\s*(0?\.?\d+|1(\.0)?)\)|hsl\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%\)|hsla\((0|360|35\d|3[0-4]\d|[12]\d\d|0?\d?\d),\s*(0|100|\d{1,\s*2})%,\s*(0|100|\d{1,\s*2})%,\s*(0?\.\d+|1(\.0)?)\))$/);
-        console.log(colorVal);
-        if (typeof (colorVal[2]) !== 'undefined') //HEX color
-        {
-            var hex = colorVal[2];
-            var step = hex.length / 3;
-            for ( var index = 0; index < hex.length; index = index + step )
-            {
-                colorarray.push(parseInt(hex.substring(index, index + step), 16));
-            }
-        }
-        if (typeof (colorVal[3]) !== 'undefined') //RGB color
-        {
-            colorarray = colorVal.slice(3, 6);
-        }
-        if (typeof (colorVal[6]) !== 'undefined') //RGBA color;
-        {
-            colorarray = colorVal.slice(6, 9);
-            alfa = colorVal[9];
-        }
-        console.log(colorarray);
-        //TODO hsl
-        //**********
-        for (var i = 0; i < colorarray.length; i++) {
-            colorarray[i] = Math.round(((((colorarray[i] * 360 / 255) + angel) % 360) * 255) / 360);
-        }
-        var newRgba = 'rgba(' + colorarray[0] + ',' + colorarray[1] + ',' + colorarray[2] + ',' + alfa + ')';
-        //TODO return as input
-        console.log(newRgba);
-        return newRgba;
-    }
-    $('body').on('mouseover', '.chartTitleDiv', function () {
-        $(this).attr("normalcolor", $(this).css('background-color'));
-        $(this).css('background-color', ModifierColor($(this).css('background-color'), 90));
-    });
-    $('body').on('mouseout', '.chartTitleDiv', function () {
-        $(this).css('background-color', $(this).attr("normalcolor"));
-        $(this).removeAttr("normalcolor");
-    });
+//    $('body').on('mouseover', '.chartTitleDiv', function () {
+//        $(this).attr("normalcolor", $(this).css('background-color'));
+//        $(this).css('background-color', ModifierColor($(this).css('background-color'), 90));
+//    });
+//    $('body').on('mouseout', '.chartTitleDiv', function () {
+//        $(this).css('background-color', $(this).attr("normalcolor"));
+//        $(this).removeAttr("normalcolor");
+//    });
 
     $(document).on('click.bs.dropdown.data-api', '.plus, .minus', function (e) {
         e.stopPropagation();
