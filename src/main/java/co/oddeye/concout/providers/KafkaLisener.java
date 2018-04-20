@@ -205,7 +205,7 @@ public class KafkaLisener {
                         break;
                     }
                     default: {
-                        LOGGER.error(payload);
+                        LOGGER.info(payload);
                         break;
                     }
 

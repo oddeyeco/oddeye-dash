@@ -94,9 +94,11 @@ public class UserController {
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
             map.put("title", "Real-Time Monitor");
+            map.put("htitle", "Real-Time Monitor");
             if (optionname != null) {
                 map.put("defoptions",userDetails.getOptions(optionname));
                 map.put("title", "Real-Time Monitor "+optionname);
+                map.put("htitle", "Real-Time Monitor " + optionname);
                 map.put("nameoptions", optionname);
             }
             else
@@ -144,8 +146,7 @@ public class UserController {
 
         }
         Random rand = new Random();
-        map.put("_sotoken", rand.nextInt(90000) + 10000);
-        map.put("htitle", "Real-Time Monitor " + optionname);
+        map.put("_sotoken", rand.nextInt(90000) + 10000);        
         map.put("body", "monitorings2");
         map.put("jspart", "monitorings2js");
 

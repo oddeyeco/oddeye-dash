@@ -168,6 +168,15 @@ function findeByhash(element, array) {
     return -1;
 }
 
+function findeBy_ihash(hash, array) {
+    for (var i = 0; i < array.length; i++) {
+        if (array[i].hash === hash) {
+            return i;
+        }
+    }
+    return -1;
+}
+
 function drawUL(errorjson, table, hashindex, update) {
     if (typeof (hashindex) === "undefined")
     {
@@ -256,10 +265,14 @@ function drawUL(errorjson, table, hashindex, update) {
                             if (errorjson.isspec === 0)
                             {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a>' +
+                                        '<a href="#"><i class="fa fa-bell-slash resetregretion"></i></a>' +
+                                        '<a href="#"><i class="fa fa-trash deletemetric"></i></a>' +
+//                                        '<a href="#"><span class="glyphicon glyphicon-trash resetrules" aria-hidden="true"></span></a>' +
+                                        '</div>';
                             } else
                             {
-                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a></div>';
+                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a><a href="#"><i class="fa fa-trash deletemetric"></i></a></div>';
                             }
                             break;
                         }
@@ -385,7 +398,18 @@ function drawUL(errorjson, table, hashindex, update) {
     } else
     {
         $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
-        $("." + table).find("li#" + hashindex).attr("class", eRclass);
+        /*
+        var index = $("." + table).find("li#" + hashindex).index() % 10+1;        
+        var audio = new Audio(cp+"/assets/Sounds/"+index+".mp3");
+        audio.play();
+*/
+        $("." + table).find("li#" + hashindex).removeClass(function (index, className) {
+            return (className.match(/(^|\s)level_\S+/g) || []).join(' ');
+        });
+        $("." + table).find("li#" + hashindex).addClass("level_" + errorjson.level);
+        //var eRclass = "level_" + errorjson.level;
+
+//            .attr("class", eRclass);
         $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
 
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
@@ -462,15 +486,13 @@ function reDrawErrorList(listJson, listclass, errorjson)
         {
             if (indexregular !== -1)
             {
-//                array_regular[indexregular] = errorjson;
-
                 array_regular.splice(indexregular, 1);
-
             }
             errorjson.index = 0;
             var hash_r = errorjson.hash;
             $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {
                 $("." + listclass).find("li#" + hash_r).remove();
+                $("." + listclass).remove(".ui-effects-placeholder");
             });
 
         }
@@ -620,6 +642,85 @@ $(document).ready(function () {
     });
 
 
+    $('body').on("click", "#Show_chart", function () {
+        hashes = "";
+        if ($("#regularlist li.selected").length === 1)
+        {
+            hashes = "/" + $("#regularlist li.selected").first().attr("id");
+        } else
+        {
+            hashes = "?hashes=";
+            $("#regularlist li.selected").each(function () {
+                hashes = hashes + $(this).attr("id") + ";";
+            });
+        }
+        var win = window.open(cp + "/chart" + hashes, '_blank');
+        win.focus();
+    });
+
+
+    function cleareregresion() {
+        var sendData = {};
+        sendData.hash = $(this).attr("id");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        var token = $("meta[name='_csrf']").attr("content");
+        url = cp + "/resetregression";
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: url,
+            data: sendData,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            }
+        }).done(function (msg) {
+            if (msg.sucsses)
+            {
+                console.log("Message Sended " + sendData.hash);
+            } else
+            {
+                console.log("Request failed " + sendData.hash);
+            }
+        }).fail(function (jqXHR, textStatus) {
+            console.log("Request failed");
+        });
+    }
+    $('body').on("click", ".monitorlist li ul li a", function (e) {
+        e.stopPropagation();
+    });
+
+
+
+    $('body').on("click", ".deletemetric", function (e) {
+        e.stopPropagation();
+        $(this).closest("li").each(function () {
+            $.getJSON(cp + "/deletemetrics?hash=" + $(this).attr("id"), function (data) {});
+            var index = findeBy_ihash($(this).attr("id"), array_regular);
+            if (index !== -1)
+            {
+                array_regular.splice(index, 1);
+            }
+            index = findeBy_ihash($(this).attr("id") * 1, array_spec);
+            if (index !== -1)
+            {
+                array_spec.splice(index, 1);
+            }
+            $(this).hide("slide", {direction: "left"}, 1000, function () {
+                $(this).remove();
+                $(this).parent().remove(".ui-effects-placeholder");
+            });
+        });
+    });
+
+    $('body').on("click", ".resetregretion", function (e) {
+        e.stopPropagation();
+        $(this).closest("li").each(cleareregresion);
+    });
+
+    $('body').on("click", "#Clear_reg", function (e) {
+        $("#regularlist li.selected").each(cleareregresion);
+    });
+
 
 
     $("body").on("click", "#add_filter", function () {
@@ -627,7 +728,7 @@ $(document).ready(function () {
         var sendData = {};
         url = cp + "/addmonitoringpage/";
         sendData.optionsjson = JSON.stringify(optionsJson);
-        sendData.optionsname = $("#saveas_name").val();        
+        sendData.optionsname = $("#saveas_name").val();
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({
@@ -684,7 +785,7 @@ $(document).ready(function () {
     });
 
 
-    $("body").on("click", "#rem_filter", function () {
+    $("body").on("click", "#deleteviewconfirm", function () {
         url = cp + "/deletemonitoringpage/";
         sendData = {optionsname: nameoptions};
         var header = $("meta[name='_csrf_header']").attr("content");
@@ -711,24 +812,23 @@ $(document).ready(function () {
 
     });
 
+
+    $('body').on("click", "#rem_filter", function () {
+        $("#deleteConfirm").find('.btn-ok').attr('id', "deleteviewconfirm");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this view?");
+        $("#deleteConfirm").find('.modal-body .text-warning').html(nameoptions);
+        $("#deleteConfirm").modal('show');
+    });
+
     setInterval(function () {
         $(".monitorlist li ul li").each(function () {
             var interval = moment($(this).attr("time") * 1).diff(moment()) / -1000;
             $(this).find(".timeinterval").text(interval.toFixed(0) + "sec.");
 
-//            if ($(this).hasClass("ui-effects-placeholder"))
-//            {
-//                console.log($(this).html());
-//                if ($(this).html() === "")
-//                {
-//                    console.log("VALOD");
-//                    $(this).remove();
-//                }
-//            }
-
-
         });
     }, 1000);
+
     $("body").on("change", ".add_filter_select", function () {
         $(this).find(':selected').attr("disabled", "disabled");
         var row = $("<tr>");
@@ -855,6 +955,19 @@ $(document).ready(function () {
         }
     }
 
+
+    $('body').on("click", '.monitorlist li ul li', function () {
+        $(this).toggleClass("selected");
+
+        if ($("#regularlist .selected").length > 0)
+        {
+            $(".selected-actions").show("slide", {direction: "right"}, 1000);
+        } else
+        {
+            $(".selected-actions").hide("slide", {direction: "right"}, 1000);
+        }
+        $(".selected-actions .badge").text($("#regularlist .selected").length);
+    });
 //    redrawBoard();
     $('body').on("click", 'fieldset.collapsible legend', function () {
         if ($(this).parent().hasClass("collapsed"))

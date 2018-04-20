@@ -22,6 +22,26 @@
     </div>
 </div>    
 
+
+<div id="deleteConfirm" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Confirmation</h4>
+            </div>
+            <div class="modal-body">
+                <p>Do you want to delete this dashboard?</p>
+                <p class="text-warning"></p>
+            </div>
+            <div class="modal-footer">
+                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
+                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="Delete">
+            </div>
+        </div>
+    </div>
+</div>  
+
 <div class="clearfix"></div>
 
 <div class="row">
@@ -149,15 +169,34 @@
                     </fieldset>
                 </form>
             </div>            
-            <p class="buttons">
-                <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>
-                <button href="#" class="btn btn-xs btn-primary" id="save_filter">Save</button>
-                <button href="#" class="btn btn-xs btn-primary" id="add_filter">Save As</button>
-                <input type="text" value="${nameoptions}" id="saveas_name">
+
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="Apply group">
+                   <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>   
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="Save group">
+                    <button href="#" class="btn btn-xs btn-primary" id="save_filter">Save</button>                
+                    <button href="#" class="btn btn-xs btn-info" id="add_filter">Save As</button>
+                    <input type="text" value="${nameoptions}" id="saveas_name" class="form-control">
+                </div>
                 <c:if test="${!empty nameoptions}">
-                <button href="#" class="btn btn-xs btn-danger pull-right" id="rem_filter">Delete</button>    
-                </c:if>
-            </p>
+                <div class="btn-group pull-right" role="group" aria-label="Delete group">
+                    <button href="#" class="btn btn-xs btn-danger" id="rem_filter">Delete view</button>    
+                </div>                    
+                    
+                </c:if>                
+                
+
+            </div>            
+
+            <div class="buttons ">
+
+                
+                <div class="btn-group">
+                    
+                </div>
+
+            </div>
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
                     <h4 class="summary">
@@ -165,6 +204,16 @@
                     </h4>                 
                 </div>
             </div>      
+
+            <div class="selected-actions btn-group-vertical">              
+                <button type="button" class="btn btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="Show Chart">
+                    <i class="fa fa-area-chart"></i>                       
+                </button>
+                <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="It`s normal"><i class="fa fa-bell-slash"></i></button>
+                <span class="badge bg-green">0</span>
+                <!--<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>-->
+
+            </div>            
 
             <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
                 <!-- start List -->
@@ -180,8 +229,6 @@
                         </ul>                            
                     </li>
                 </ul>
-
-
             </div>             
         </div>
     </div>

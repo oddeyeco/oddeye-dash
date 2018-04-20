@@ -1497,7 +1497,36 @@ table.filters-table
     }
     padding: 0 0 10px 0;
 }
-
+.selected-actions
+{
+    .badge
+    {
+        font-size: 10px;
+        font-weight: normal;
+        line-height: 13px;
+        padding: 2px 6px;
+        position: absolute;
+        left: -2px;
+        top: -13px;        
+    }
+    position: fixed;
+    right: 0;
+    top:207px;
+    display: none;
+}
+.btn-toolbar
+{
+    .btn-group
+    {
+        input.form-control
+        {
+            height: 22px;
+            min-height: 22px;
+            display: inline-block;
+            width: auto;
+        }
+    }
+}
 .monitorlist
 {
     li,
@@ -1505,7 +1534,7 @@ table.filters-table
     {
         list-style: none;
         padding: 0;
-        margin: 0;        
+        margin: 0;                
     }
     li
     {
@@ -1513,6 +1542,10 @@ table.filters-table
         {
             li
             {
+                &.selected{
+                    box-shadow: none;
+                    border: inset;
+                }                                
                 .icons
                 {
                     .fa {
@@ -1523,7 +1556,7 @@ table.filters-table
                         color: red;
                     }                                        
                     text-align: right;
-                    margin: -5px -5px 0;
+                    margin: -3px -3px 0;
                     font-size: 16px;
 
                 }
@@ -1534,7 +1567,8 @@ table.filters-table
                 }
                 .level
                 {
-                    font-size: 13px;
+                    font-size: 13px;                    
+                    margin-bottom: 2px;
                 }
                 .badge
                 {

@@ -716,6 +716,7 @@ $(document).ready(function () {
             });
         });
     });
+    
     $('body').on("click", "#Show_chart", function () {
         hashes = "";
         if ($(".bulk_action tbody input[name='table_records']:checked").length === 1)
