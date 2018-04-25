@@ -959,6 +959,7 @@ i[data-toggle="tooltip"] {
                 font-size: 12px;
                 vertical-align: middle;
                 padding: 0 10px 5px 10px;
+                display: inline-block;
             }
         }
         .echart_time_icon, .chartSubIcon {
@@ -1009,13 +1010,18 @@ i[data-toggle="tooltip"] {
                 border-top-right-radius: 5px;
             }
         }
+        .btn-group.open .dropdown-toggle {
+            outline: 0;
+            border-radius: 5px;
+            padding: 3px;
+        }        
         .dropdown-menu {
             min-width: unset;
             .viewchart i, .dublicate i, .editchart i, .more i, .deletewidget i{
                 padding: 0 10px;
             }
             .dropdown-submenu {
-                position: relative;
+                position: relative;                
                 .more i:last-child {
                     float: right;
                     padding: 3px;
@@ -1025,17 +1031,28 @@ i[data-toggle="tooltip"] {
                         font-weight: bolder;
                         margin: 0;
                     }
-                    top: 0;
+                    top: -1px;
                     left: 100%;
-                    margin-top: -1px;
+                    margin-left: 2px;
+                    right: auto;
+
                 }
             }
             >li {
                 margin: 2px;
             }
-            >li>a>span {
-                margin: 0 2px;
+            >li>a
+            {
+                >span
+                {
+                    margin: 0 2px;    
+                }
+                padding: 3px 4px;
             }
+            left: auto;
+            right: 0;            
+
+
         }
     }
 

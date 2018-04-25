@@ -2039,19 +2039,19 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             {
                 widget.options.legend.data = [];
             }
-            if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
-            {
-                if (widget.options.toolbox.feature)
-                {
-                    widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
-                } else
-                {
-                    widget.options.toolbox.feature = {magicType: {show: false}};
-                }
-            } else
-            {
-                widget.options.toolbox = {};
-            }
+//            if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
+//            {
+//                if (widget.options.toolbox.feature)
+//                {
+//                    widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+//                } else
+//                {
+//                    widget.options.toolbox.feature = {magicType: {show: false}};
+//                }
+//            } else
+//            {
+//                widget.options.toolbox = {};
+//            }
 
             if (count.base === 0)
             {
@@ -2276,7 +2276,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 }
                 if (typeof (tmprow.widgets[wi].height) !== "undefined")
                 {
-                    chartobj.find(".echart_line").css("height", tmprow.widgets[wi].height);        
+                    chartobj.find(".echart_line").css("height", tmprow.widgets[wi].height);
                     if (tmprow.widgets[wi].height === "")
                     {
                         chartobj.find(".echart_line").css("height", "300px");
@@ -2655,7 +2655,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             {
                 if (singleWi.times.intervall !== "General")
                 {
-                    wraperTitle.find(".echart_time_icon").css({display: 'block'});                    
+                    wraperTitle.find(".echart_time_icon").css({display: 'block'});
                     wraperTitle.find(".echart_time .refreshEvery").html(EditForm.refreshtimes[singleWi.times.intervall]);
                 } else {
                     wraperTitle.find(".echart_time .refreshEvery").html(' ');
@@ -2838,6 +2838,21 @@ $(document).ready(function () {
         }
         gdd.rows = rows;
     }
+
+    
+    for (var ri in gdd.rows)
+    {
+        
+        for (var wi in gdd.rows[ri].widgets)
+        {
+            var wid = gdd.rows[ri].widgets[wi];
+            console.log(wid.options.title);
+            wid.title=wid.options.title;
+            delete wid.options.title;
+        }
+    }
+
+//    console.log(gdd);
     if (gdd.times) {
         if (gdd.times.intervall)
         {
@@ -2954,28 +2969,28 @@ $(document).ready(function () {
     }
 
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
-    var mousemovetimer;
-    $('body').on("mousemove", "canvas", function (e) {
-        var item = e.toElement;
-        if ($(item).parents('.locked').length > 0)
-        {
-            e.stopPropagation();
-            clearTimeout(mousemovetimer);
-
-            mousemovetimer = setTimeout(function () {
-                if (item.tagName.toUpperCase() === 'CANVAS')
-                {
-                    $(item).parents('.chartsection').append("<div class='lockedbuttons' style=''> <div class='btn-group btn-group-xs' style=''> <a class='btn btn-default viewchart' type='button' data-toggle='tooltip' data-placement='top' data-original-title='View' style=''>View</a><a class='btn btn-default csv' type='button' data-toggle='tooltip' data-placement='top' title='' data-original-title='Save as csv'>asCsv</a>");
-                    $(item).parents('.chartsection').find('.lockedbuttons').fadeIn(500);
-                    setTimeout(function () {
-                        $(item).parents('.chartsection').find('.lockedbuttons').fadeOut(500, function () {
-                            $(item).parents('.chartsection').find('.lockedbuttons').remove();
-                        });
-                    }, 5000);
-                }
-            }, 1000);
-        }
-    });
+//    var mousemovetimer;
+//    $('body').on("mousemove", "canvas", function (e) {
+//        var item = e.toElement;
+//        if ($(item).parents('.locked').length > 0)
+//        {
+//            e.stopPropagation();
+//            clearTimeout(mousemovetimer);
+//
+//            mousemovetimer = setTimeout(function () {
+//                if (item.tagName.toUpperCase() === 'CANVAS')
+//                {
+//                    $(item).parents('.chartsection').append("<div class='lockedbuttons' style=''> <div class='btn-group btn-group-xs' style=''> <a class='btn btn-default viewchart' type='button' data-toggle='tooltip' data-placement='top' data-original-title='View' style=''>View</a><a class='btn btn-default csv' type='button' data-toggle='tooltip' data-placement='top' title='' data-original-title='Save as csv'>asCsv</a>");
+//                    $(item).parents('.chartsection').find('.lockedbuttons').fadeIn(500);
+//                    setTimeout(function () {
+//                        $(item).parents('.chartsection').find('.lockedbuttons').fadeOut(500, function () {
+//                            $(item).parents('.chartsection').find('.lockedbuttons').remove();
+//                        });
+//                    }, 5000);
+//                }
+//            }, 1000);
+//        }
+//    });
 
     if ($('.text-nowrap').hasClass('current-page')) {
         $('.current-page').find('i').toggleClass('current-i');
@@ -3672,13 +3687,13 @@ $(document).on('scroll', function () {
                 $('#filter').fadeIn();
             } else
             {
-                
+
                 $('#maximize').css('display', 'block');
             }
-            
-            
+
+
         }
-        
+
     } else {
         if ($('#filter').hasClass("fix"))
         {

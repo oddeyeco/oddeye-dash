@@ -99,7 +99,7 @@
                         </div>          -->
             <div class="chartTitleDiv">
                 <div class="chartDesc wrap">
-                    <div class="borderRadius"><span class="chartSubIcon"><i class="fa fa-info"></i></span></div>
+                    <div class="borderRadius"><span class="chartSubIcon" style="display: none"><i class="fa fa-info"></i></span></div>
                     <a href="#" class="chartSubText hoverShow"></a>
                 </div>
                 <div class="chartTime wrap">
