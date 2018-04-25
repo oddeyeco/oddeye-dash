@@ -241,9 +241,10 @@ function drawUL(errorjson, table, hashindex, update) {
         UlID = "speciallist";
 
     }
-//    console.log(errorjson.flap);
+    
     if (errorjson.flap > 5)
     {
+        console.log(errorjson.info.name+" "+errorjson.flap);
         eRclass = eRclass + " flapdetect";
     }
 
