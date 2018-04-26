@@ -3692,10 +3692,37 @@ $(document).ready(function () {
         $('#maximize').fadeOut(500);
     });
     var whaittimer;
-    $('body').on("mouseover mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
+//    $('body').on("mouseover mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
+//        var elem = $(this);
+//        clearTimeout(whaittimer);
+//        whaittimer = setTimeout(function (  ) {
+//            if (elem.hasClass('chartSubIcon')) {
+//                elem.parents('.wrap').find('.hoverShow').css({
+//                    left: 0,
+//                    top: elem.parents('.wrap').find('.chartSubIcon').outerHeight()
+//                });
+//            } else if (elem.hasClass('echart_time_icon')) {
+//                elem.parents('.wrap').find('.hoverShow').css({
+//                    right: 0,
+//                    top: elem.parents('.wrap').find('.echart_time_icon').outerHeight()
+//                });
+//            }
+//            if (e.type === 'mouseover') {
+//                if (elem.parents('.wrap').find('.hoverShow').css('display') !== 'block') {
+//                    $('.hoverShow').fadeOut();
+//                }
+//                elem.parents('.wrap').find('.hoverShow').fadeIn();
+//            }
+//            if (e.type === 'mouseout') {
+//                $('.hoverShow').fadeOut();
+//            }
+//            ;
+//        }, 500);
+//    });
+    $('body').on("mouseover", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
         var elem = $(this);
         clearTimeout(whaittimer);
-        whaittimer = setTimeout(function (  ) {
+        whaittimer = setTimeout(function ( ) {
             if (elem.hasClass('chartSubIcon')) {
                 elem.parents('.wrap').find('.hoverShow').css({
                     left: 0,
@@ -3707,26 +3734,18 @@ $(document).ready(function () {
                     top: elem.parents('.wrap').find('.echart_time_icon').outerHeight()
                 });
             }
-            if (e.type === 'mouseover') {
-                if (elem.parents('.wrap').find('.hoverShow').css('display') !== 'block') {
-                    $('.hoverShow').fadeOut();
-                }
-                elem.parents('.wrap').find('.hoverShow').fadeIn();
-            }
-            if (e.type === 'mouseout') {
+            if (elem.parents('.wrap').find('.hoverShow').css('display') !== 'block') {
                 $('.hoverShow').fadeOut();
             }
-            ;
+            elem.parents('.wrap').find('.hoverShow').fadeIn();
         }, 500);
     });
-//    $('body').on('mouseover', '.chartTitleDiv', function () {
-//        $(this).attr("normalcolor", $(this).css('background-color'));
-//        $(this).css('background-color', ModifierColor($(this).css('background-color'), 90));
-//    });
-//    $('body').on('mouseout', '.chartTitleDiv', function () {
-//        $(this).css('background-color', $(this).attr("normalcolor"));
-//        $(this).removeAttr("normalcolor");
-//    });
+    $('body').on("mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
+        clearTimeout(whaittimer);
+        whaittimer = setTimeout(function ( ) {
+            $('.hoverShow').fadeOut();
+        }, 500);
+    });
 
     $(document).on('click.bs.dropdown.data-api', '.plus, .minus', function (e) {
         e.stopPropagation();
