@@ -2238,6 +2238,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         {
                             chartobj.find(".chartSubText").removeAttr("style");
                         }
+                        chartobj.find(".chartSubIcon").css({display: 'block'});
                     } else {
                         chartobj.find(".chartSubIcon").css({display: 'none'});
                     }
