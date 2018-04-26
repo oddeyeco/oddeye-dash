@@ -2039,19 +2039,19 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             {
                 widget.options.legend.data = [];
             }
-            if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
-            {
-                if (widget.options.toolbox.feature)
-                {
-                    widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
-                } else
-                {
-                    widget.options.toolbox.feature = {magicType: {show: false}};
-                }
-            } else
-            {
-                widget.options.toolbox = {};
-            }
+//            if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
+//            {
+//                if (widget.options.toolbox.feature)
+//                {
+//                    widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
+//                } else
+//                {
+//                    widget.options.toolbox.feature = {magicType: {show: false}};
+//                }
+//            } else
+//            {
+//                widget.options.toolbox = {};
+//            }
 
             if (count.base === 0)
             {
@@ -2276,7 +2276,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 }
                 if (typeof (tmprow.widgets[wi].height) !== "undefined")
                 {
-                    chartobj.find(".echart_line").css("height", tmprow.widgets[wi].height);        
+                    chartobj.find(".echart_line").css("height", tmprow.widgets[wi].height);
                     if (tmprow.widgets[wi].height === "")
                     {
                         chartobj.find(".echart_line").css("height", "300px");
@@ -2446,18 +2446,22 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
         }
     }
-
-    var title = "Edit Chart";
+    var acprefix = "Edit";
+    if (readonly)
+    {
+        acprefix = "Show";
+    }
+    var title = acprefix + " Chart";
     var W_type = dashJSON.rows[row].widgets[index].type;
 
     if (W_type === "table")
     {
-        title = "Edit Table";
+        title = acprefix + " Table";
     }
 
     if (W_type === "counter")
     {
-        title = "Edit Numeric";
+        title = acprefix + " Numeric";
     }
     if (rebuildform)
     {
@@ -2472,6 +2476,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>' +
                     '<div class="clearfix"></div>' +
                     '</div>');
+            $(".right_col .editpanel").addClass("singleedit");
 
         } else
         {
@@ -2482,8 +2487,14 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>' +
                     '<div class="clearfix"></div>' +
                     '</div>');
+            $(".right_col .editpanel").addClass("singleview");
         }
-        $(".right_col .editpanel").append($("#dash_main"));
+
+        if (dashJSON.locked)
+        {
+            $(".right_col .editpanel").addClass('locked');
+        }
+        $(".right_col .editpanel").append($("#dash_main").html());
         $(".right_col .editpanel").append('<div class="clearfix"></div>');
         if (W_type === "counter")
         {
@@ -2545,15 +2556,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
                 Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
-//                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             }
-//            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-//            {
-//                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
-//            } else
-//            {
-//                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
-//            }
 
         }
     } else
@@ -2582,18 +2585,18 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         //TODO Drow single widget title
 
 
-        console.log(dashJSON.rows[row].widgets[index]);
+//        console.log(dashJSON.rows[row].widgets[index]);
         var singleWi = dashJSON.rows[row].widgets[index];
 
         if (rebuildform) {
             wraper.prepend('<div class="chartTitleDiv">' + '<div class="chartDesc wrap">' +
-                    '<div class="borderRadius">' + '<span class="chartSubIcon">'
+                    '<div class="borderRadius">' + '<span class="chartSubIcon" style="display: none">'
                     + '<i class="fa fa-info"></i> ' + '</span>' + '</div>' +
                     '<a class="chartSubText hoverShow">' + '</a>' + '</div>' + '<div class="chartTime wrap">'
                     + '<div class="borderRadius">' + '<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
                     + '</span>' + '</div>' + '<span class="echart_time hoverShow" id="echart_line">'
                     + '<span class="last">' + '</span>' + '<span class="refreshEvery" >' + '</span>' +
-                    '</span>' + '</div>' + '<div class=chartTitle>' + '<h3>' + '</h3>' + '</div>' +
+                    '</span>' + '</div>' + '<div class=chartTitle>' + $('#charttemplate .chartTitle').html() + '</div>' +
                     "</div>");
             var wraperTitle = wraper.find('.chartTitleDiv');
         } else {
@@ -2655,7 +2658,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             {
                 if (singleWi.times.intervall !== "General")
                 {
-                    wraperTitle.find(".echart_time_icon").css({display: 'block'});                    
+                    wraperTitle.find(".echart_time_icon").css({display: 'block'});
                     wraperTitle.find(".echart_time .refreshEvery").html(EditForm.refreshtimes[singleWi.times.intervall]);
                 } else {
                     wraperTitle.find(".echart_time .refreshEvery").html(' ');
@@ -2838,6 +2841,24 @@ $(document).ready(function () {
         }
         gdd.rows = rows;
     }
+
+
+    for (var ri in gdd.rows)
+    {
+
+        for (var wi in gdd.rows[ri].widgets)
+        {
+            var wid = gdd.rows[ri].widgets[wi];
+            if (wid.options)
+            {
+                wid.title = wid.options.title;
+                delete wid.options.title;
+            }
+
+        }
+    }
+
+//    console.log(gdd);
     if (gdd.times) {
         if (gdd.times.intervall)
         {
@@ -2954,28 +2975,28 @@ $(document).ready(function () {
     }
 
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
-    var mousemovetimer;
-    $('body').on("mousemove", "canvas", function (e) {
-        var item = e.toElement;
-        if ($(item).parents('.locked').length > 0)
-        {
-            e.stopPropagation();
-            clearTimeout(mousemovetimer);
-
-            mousemovetimer = setTimeout(function () {
-                if (item.tagName.toUpperCase() === 'CANVAS')
-                {
-                    $(item).parents('.chartsection').append("<div class='lockedbuttons' style=''> <div class='btn-group btn-group-xs' style=''> <a class='btn btn-default viewchart' type='button' data-toggle='tooltip' data-placement='top' data-original-title='View' style=''>View</a><a class='btn btn-default csv' type='button' data-toggle='tooltip' data-placement='top' title='' data-original-title='Save as csv'>asCsv</a>");
-                    $(item).parents('.chartsection').find('.lockedbuttons').fadeIn(500);
-                    setTimeout(function () {
-                        $(item).parents('.chartsection').find('.lockedbuttons').fadeOut(500, function () {
-                            $(item).parents('.chartsection').find('.lockedbuttons').remove();
-                        });
-                    }, 5000);
-                }
-            }, 1000);
-        }
-    });
+//    var mousemovetimer;
+//    $('body').on("mousemove", "canvas", function (e) {
+//        var item = e.toElement;
+//        if ($(item).parents('.locked').length > 0)
+//        {
+//            e.stopPropagation();
+//            clearTimeout(mousemovetimer);
+//
+//            mousemovetimer = setTimeout(function () {
+//                if (item.tagName.toUpperCase() === 'CANVAS')
+//                {
+//                    $(item).parents('.chartsection').append("<div class='lockedbuttons' style=''> <div class='btn-group btn-group-xs' style=''> <a class='btn btn-default viewchart' type='button' data-toggle='tooltip' data-placement='top' data-original-title='View' style=''>View</a><a class='btn btn-default csv' type='button' data-toggle='tooltip' data-placement='top' title='' data-original-title='Save as csv'>asCsv</a>");
+//                    $(item).parents('.chartsection').find('.lockedbuttons').fadeIn(500);
+//                    setTimeout(function () {
+//                        $(item).parents('.chartsection').find('.lockedbuttons').fadeOut(500, function () {
+//                            $(item).parents('.chartsection').find('.lockedbuttons').remove();
+//                        });
+//                    }, 5000);
+//                }
+//            }, 1000);
+//        }
+//    });
 
     if ($('.text-nowrap').hasClass('current-page')) {
         $('.current-page').find('i').toggleClass('current-i');
@@ -3217,6 +3238,15 @@ $(document).ready(function () {
     $('body').on("click", ".deletewidget", function () {
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
+        if (getParameterByName("widget") !== null)
+        {
+            wi = getParameterByName("widget");
+        }
+
+        if (getParameterByName("row") !== null)
+        {
+            ri = getParameterByName("row");
+        }
 
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
@@ -3259,6 +3289,16 @@ $(document).ready(function () {
 
         var ri = $(this).parents(".widgetraw").index();
         var curentwi = $(this).parents(".chartsection").index();
+        if (getParameterByName("widget") !== null)
+        {
+            curentwi = getParameterByName("widget");
+        }
+
+        if (getParameterByName("row") !== null)
+        {
+            ri = getParameterByName("row");
+        }
+
         var wi = Object.keys(gdd.rows[ri].widgets).length;
         gdd.rows[ri].widgets.push(clone_obg(gdd.rows[ri].widgets[curentwi]));
         delete  gdd.rows[ri].widgets[wi].echartLine;
@@ -3417,8 +3457,22 @@ $(document).ready(function () {
         }
     });
     $('body').on("click", ".editchart", function () {
+        $(".editpanel").empty();
+        $(".editpanel").remove();
+        Edit_Form = null;
+        delete Edit_Form;
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
+        if (getParameterByName("widget") !== null)
+        {
+            single_wi = getParameterByName("widget");
+        }
+
+        if (getParameterByName("row") !== null)
+        {
+            single_ri = getParameterByName("row");
+        }
+
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
         for (var ri in gdd.rows)
@@ -3431,14 +3485,27 @@ $(document).ready(function () {
                 }
             }
         }
-        AutoRefreshSingle(single_ri, single_wi);
+        AutoRefreshSingle(single_ri, single_wi, false, true);
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".viewchart", function () {
+        $(".editpanel").empty();
+        $(".editpanel").remove();
+        Edit_Form = null;
+        delete Edit_Form;
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
+        if (getParameterByName("widget") !== null)
+        {
+            single_wi = getParameterByName("widget");
+        }
+
+        if (getParameterByName("row") !== null)
+        {
+            single_ri = getParameterByName("row");
+        }
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
         for (var ri in gdd.rows)
@@ -3493,8 +3560,19 @@ $(document).ready(function () {
     $('body').on("click", ".csv", function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
+
+        if (getParameterByName("widget") !== null)
+        {
+            single_wi = getParameterByName("widget");
+        }
+
+        if (getParameterByName("row") !== null)
+        {
+            single_ri = getParameterByName("row");
+        }
+
         var csvarray = [];
-        var filename = "chart";
+        var filename = "chart";        
         if (gdd.rows[single_ri].widgets[single_wi].title)
             if (gdd.rows[single_ri].widgets[single_wi].title.text)
             {
@@ -3526,7 +3604,7 @@ $(document).ready(function () {
                 }
             }
         }
-
+        console.log(csvarray);
         exportToCsv(filename + ".csv", csvarray);
 
     });
@@ -3672,13 +3750,13 @@ $(document).on('scroll', function () {
                 $('#filter').fadeIn();
             } else
             {
-                
+
                 $('#maximize').css('display', 'block');
             }
-            
-            
+
+
         }
-        
+
     } else {
         if ($('#filter').hasClass("fix"))
         {

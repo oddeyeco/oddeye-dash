@@ -894,6 +894,40 @@ i[data-toggle="tooltip"] {
     background-color: #fff;     
 }
 
+#singlewidget 
+{
+
+    .hide-single,
+
+    {
+        display: none;
+    }
+}
+
+.singleview
+{
+    #singlewidget 
+    {
+
+        .hide-singleview,
+
+        {
+            display: none;
+        }
+    }
+}
+.singleedit
+{
+    #singlewidget 
+    {
+        .hide-singleedit
+        {
+            display: none;
+        }
+    }    
+}
+
+
 //#singlewidget .chartsection,                 /////////////////////// singlewidget mej chartsection chka?????
 #singlewidget ,
 .rowcontent .chartsection
@@ -948,6 +982,12 @@ i[data-toggle="tooltip"] {
             color: rgb(255, 255, 255);
         }
         .chartTitle {
+            &.open .dropdown-toggle {
+                outline: 0;
+                border-radius: 5px;
+                padding: 3px;
+            }              
+
             &:hover {                
                 cursor: pointer;
             }            
@@ -959,7 +999,14 @@ i[data-toggle="tooltip"] {
                 font-size: 12px;
                 vertical-align: middle;
                 padding: 0 10px 5px 10px;
+                display: inline-block;
             }
+            h3 {
+                font-size: 18px;
+            }                                
+            display: inline-block;
+            position: relative;
+
         }
         .echart_time_icon, .chartSubIcon {
             z-index: 999;
@@ -988,12 +1035,6 @@ i[data-toggle="tooltip"] {
                 right: unset;
             }
         }
-        .chartTitle {
-            display: inline-block;
-            h3 {
-                font-size: 18px;
-            }            
-        }
         .borderRadius {
             overflow: hidden;
         }
@@ -1009,13 +1050,17 @@ i[data-toggle="tooltip"] {
                 border-top-right-radius: 5px;
             }
         }
+
         .dropdown-menu {
-            min-width: unset;
+            .resize
+            {
+                width: 100%;
+            }
             .viewchart i, .dublicate i, .editchart i, .more i, .deletewidget i{
                 padding: 0 10px;
             }
             .dropdown-submenu {
-                position: relative;
+                position: relative;                
                 .more i:last-child {
                     float: right;
                     padding: 3px;
@@ -1025,17 +1070,28 @@ i[data-toggle="tooltip"] {
                         font-weight: bolder;
                         margin: 0;
                     }
-                    top: 0;
+                    top: -1px;
                     left: 100%;
-                    margin-top: -1px;
+                    margin-left: 2px;
+                    right: auto;
+
                 }
             }
             >li {
                 margin: 2px;
+                white-space: nowrap;
             }
-            >li>a>span {
-                margin: 0 2px;
+            >li>a
+            {
+                >span
+                {
+                    margin: 0 2px;    
+                }
+                padding: 3px 4px;
             }
+            left: auto;
+            right: 0;                       
+            min-width: 105px;
         }
     }
 
@@ -1182,6 +1238,10 @@ h2.error
     .chartsection>div
     {
         border: none;
+    }
+    .dolock
+    {
+        display: none;
     }
 }
 .reflock{

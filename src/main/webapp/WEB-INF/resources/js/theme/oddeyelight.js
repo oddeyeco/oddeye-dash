@@ -164,7 +164,7 @@ var encodeHTML = function (source) {
             show: true
         },
         toolbox: {
-            show: true,
+            show: false,
 //            right: 50,
             feature: {
                 saveAsImage: {
@@ -432,7 +432,7 @@ var encodeHTML = function (source) {
         grid: {
             left: 0,
             right: 20,
-            top: 40,
+            top: 20,
             bottom: 5,
             containLabel: true
         },
