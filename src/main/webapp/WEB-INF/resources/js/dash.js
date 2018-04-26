@@ -2851,7 +2851,10 @@ $(document).ready(function () {
             var wid = gdd.rows[ri].widgets[wi];
             if (wid.options)
             {
-                wid.title = wid.options.title;
+                if (!wid.title)
+                {
+                    wid.title = wid.options.title;
+                }
                 delete wid.options.title;
             }
 
@@ -3572,7 +3575,7 @@ $(document).ready(function () {
         }
 
         var csvarray = [];
-        var filename = "chart";        
+        var filename = "chart";
         if (gdd.rows[single_ri].widgets[single_wi].title)
             if (gdd.rows[single_ri].widgets[single_wi].title.text)
             {
