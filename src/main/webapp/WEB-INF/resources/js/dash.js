@@ -3572,7 +3572,7 @@ $(document).ready(function () {
         }
 
         var csvarray = [];
-        var filename = "chart";        
+        var filename = "chart";
         if (gdd.rows[single_ri].widgets[single_wi].title)
             if (gdd.rows[single_ri].widgets[single_wi].title.text)
             {
@@ -3604,10 +3604,37 @@ $(document).ready(function () {
                 }
             }
         }
-        console.log(csvarray);
         exportToCsv(filename + ".csv", csvarray);
 
     });
+
+
+    $('body').on("click", ".imagesave", function () {
+        var single_ri = $(this).parents(".widgetraw").index();
+        var single_wi = $(this).parents(".chartsection").index();
+
+        if (getParameterByName("widget") !== null)
+        {
+            single_wi = getParameterByName("widget");
+        }
+
+        if (getParameterByName("row") !== null)
+        {
+            single_ri = getParameterByName("row");
+        }
+//        var image = (($(this).parents(".chartsection").find("canvas")[0]).toDataURL("image/png").replace("image/png", "image/octet-stream"));
+//        window.location.href=image;
+        $(this).parents(".chartsection").find(".fa-chevron-down, .dropdown-menu").hide();
+        html2canvas(document.getElementById($(this).parents(".chartsection").attr("id"))).then(canvas => {
+            console.log(canvas);
+            var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            window.location.href = image;
+            $(this).parents(".chartsection").find(".fa-chevron-down").show();
+        });
+
+
+    });
+
     $('body').on("click", "#refresh", function () {
         repaint(true, false);
     });
