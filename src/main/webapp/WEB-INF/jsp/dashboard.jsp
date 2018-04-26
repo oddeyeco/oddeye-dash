@@ -111,8 +111,8 @@
                     <ul class="dropdown-menu">
                         <li class="dolock hide-single" >
                             <div class="btn-group resize" role="group">
-                                <span class="btn btn-default plus col-xs-6" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></span>
-                                <span class="btn btn-default minus col-xs-6" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></span>                                
+                                <span class="btn btn-default plus col-xs-6" type="button" data-toggle="tooltip" data-placement="left" title="Span +"><i class="fa fa-search-plus"></i></span>
+                                <span class="btn btn-default minus col-xs-6" type="button" data-toggle="tooltip" data-placement="right" title="Span -"><i class="fa fa-search-minus"></i></span>                                
                             </div>
                         </li>
                         <li class="hide-singleview" ><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i>View</a></li>                        

@@ -2652,7 +2652,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     wraperTitle.find(".echart_time .last").html(singleWi.times.pickerlabel + " ");
                 } else
                 {
-                    wraperTitle.find(".echart_time .last").html("From " + moment(singleWi.times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(tmprow.widgets[wi].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
+                    wraperTitle.find(".echart_time .last").html("From " + moment(singleWi.times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(singleWi.times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
                 }
             } else {
                 wraperTitle.find(".echart_time .last").html(' ');
@@ -2667,6 +2667,21 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     wraperTitle.find(".echart_time .refreshEvery").html(' ');
                 }
             }
+            if (singleWi.times.intervall)
+            {
+                if (singleWi.times.intervall !== "General")
+                {
+                    wraperTitle.find(".echart_time_icon").css({display: 'block'});
+                    wraperTitle.find(".echart_time .refreshEvery").html(EditForm.refreshtimes[singleWi.times.intervall]);
+                } else {
+                    wraperTitle.find(".echart_time .refreshEvery").html(' ');
+                }
+            }
+            if (singleWi.times.intervall === "General" && !singleWi.times.pickerlabel) {
+                wraperTitle.find(".echart_time_icon").css({display: 'none'});
+            }
+        } else {
+            wraperTitle.find(".echart_time_icon").css({display: 'none'});
         }
 
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
