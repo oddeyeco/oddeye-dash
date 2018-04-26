@@ -2494,7 +2494,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         {
             $(".right_col .editpanel").addClass('locked');
         }
-        $(".right_col .editpanel").append($("#dash_main").html());
+        $(".right_col .editpanel").append($("#dash_main"));
         $(".right_col .editpanel").append('<div class="clearfix"></div>');
         if (W_type === "counter")
         {
@@ -3460,6 +3460,7 @@ $(document).ready(function () {
         }
     });
     $('body').on("click", ".editchart", function () {
+        $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();
         Edit_Form = null;
@@ -3494,6 +3495,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".viewchart", function () {
+        $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();
         Edit_Form = null;
