@@ -122,7 +122,7 @@ public class AjaxControlers {
                 metric = userDetails.getMetricsMeta().get(hash);
                 if (metric == null) {
                     jsonResult.addProperty("sucsses", Boolean.FALSE);
-                    LOGGER.warn("Metric for hash:" + hash + " for user " +userDetails.getEmail()+" not exist");
+                    LOGGER.warn("Metric for hash:" + hash + " for user " + userDetails.getEmail() + " not exist");
                     map.put("jsonmodel", jsonResult);
                     return "ajax";
                 }
@@ -200,10 +200,11 @@ public class AjaxControlers {
                             pointsJSON.add(Point.doubleValue());
                             DatapointsJSON.add(pointsJSON);
                         }
-
-                        jsonMessage.add("data", DatapointsJSON);
-
-                        jsonMessages.add(jsonuindex, jsonMessage);
+                        //TODO Check 
+                        if (DatapointsJSON.size() > 0) {
+                            jsonMessage.add("data", DatapointsJSON);
+                            jsonMessages.add(jsonuindex, jsonMessage);
+                        }
 
                     }
 
@@ -535,7 +536,7 @@ public class AjaxControlers {
                             }
                             ArrayList<Deferred<Object>> list = MetaDao.deleteMetaByList(MtrList, userDetails, KafkaLocalSender);
                             jsonResult.addProperty("sucsses", true);
-                            Deferred.groupInOrder(list).join();                            
+                            Deferred.groupInOrder(list).join();
                         } catch (Exception ex) {
                             jsonResult.addProperty("sucsses", false);
                             LOGGER.error(globalFunctions.stackTrace(ex));
@@ -807,7 +808,7 @@ public class AjaxControlers {
 //    private String paypal_percent;
 //    @Value("${paypal.fix}")
 //    private String paypal_fix;
-            jsonResult.addProperty("mp", Double.parseDouble(messageprice) );
+            jsonResult.addProperty("mp", Double.parseDouble(messageprice));
             jsonResult.addProperty("pp", Double.parseDouble(paypal_percent));
             jsonResult.addProperty("pf", Double.parseDouble(paypal_fix));
         } catch (NumberFormatException ex) {
