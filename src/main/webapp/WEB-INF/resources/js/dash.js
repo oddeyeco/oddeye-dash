@@ -3736,7 +3736,7 @@ $(document).ready(function () {
 //            ;
 //        }, 500);
 //    });
-    $('body').on("mouseover", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
+    $('body').on("mouseover", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
         var elem = $(this);
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function ( ) {
@@ -3757,7 +3757,7 @@ $(document).ready(function () {
             elem.parents('.wrap').find('.hoverShow').fadeIn();
         }, 500);
     });
-    $('body').on("mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
+    $('body').on("mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function ( ) {
             $('.hoverShow').fadeOut();
