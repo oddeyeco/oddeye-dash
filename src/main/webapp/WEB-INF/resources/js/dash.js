@@ -160,7 +160,9 @@ function savedash() {
                     {
                         if (request_R_index !== null)
                         {
-                            uri = uri + encodeURI("?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit");
+                            var action = getParameterByName("action");
+                            uri = uri + encodeURI("?widget=" + request_W_index + "&row=" + request_R_index + "&action=" + action);
+
                             if (window.location.pathname + window.location.search !== uri)
                             {
                                 window.location.href = uri;
