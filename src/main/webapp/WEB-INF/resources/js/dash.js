@@ -2607,7 +2607,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         }
         if (singleWi.title) {
             if (!singleWi.title.text) {
-                wraperTitle.find('.chartTitle').css({display: 'none'});
+                wraperTitle.find('.chartTitle h3').html('');
                 wraperTitle.removeAttr("style");
             } else {
                 wraperTitle.find('.chartTitle').css({display: 'inline-block'});
@@ -2640,7 +2640,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 wraperTitle.find('.chartSubText').attr('target', '_' + singleWi.title.subtarget);
             }
         } else {
-            wraperTitle.find('.chartTitleDiv').css({display: 'none'});
+            wraperTitle.find('.wrap').css({display: 'none'});
         }
         if (singleWi.times) {
             if (singleWi.times.pickerlabel)
@@ -3595,12 +3595,11 @@ $(document).ready(function () {
         }
 
         var csvarray = [];
-        var filename = "chart";
-        if (gdd.rows[single_ri].widgets[single_wi].title)
-            if (gdd.rows[single_ri].widgets[single_wi].title.text)
-            {
-                csvarray.push([gdd.rows[single_ri].widgets[single_wi].title.text]);
-                filename = gdd.rows[single_ri].widgets[single_wi].title.text;
+        var filename = "oddeyesave";
+            if (gdd.rows[single_ri].widgets[single_wi].title)
+            {                
+                csvarray.push([ gdd.rows[single_ri].widgets[single_wi].title.text?gdd.rows[single_ri].widgets[single_wi].title.text:"", gdd.rows[single_ri].widgets[single_wi].title.subtext? gdd.rows[single_ri].widgets[single_wi].title.subtext:""]);
+                filename = gdd.rows[single_ri].widgets[single_wi].title.text?gdd.rows[single_ri].widgets[single_wi].title.text:filename;
             }
 
         if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
@@ -3627,7 +3626,7 @@ $(document).ready(function () {
                 }
             }
         }
-        console.log(csvarray);
+//        console.log(csvarray);
         exportToCsv(filename + ".csv", csvarray);
 
     });
