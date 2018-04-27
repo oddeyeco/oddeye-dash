@@ -3596,37 +3596,47 @@ $(document).ready(function () {
 
         var csvarray = [];
         var filename = "oddeyesave";
-            if (gdd.rows[single_ri].widgets[single_wi].title)
-            {                
-                csvarray.push([ gdd.rows[single_ri].widgets[single_wi].title.text?gdd.rows[single_ri].widgets[single_wi].title.text:"", gdd.rows[single_ri].widgets[single_wi].title.subtext? gdd.rows[single_ri].widgets[single_wi].title.subtext:""]);
-                filename = gdd.rows[single_ri].widgets[single_wi].title.text?gdd.rows[single_ri].widgets[single_wi].title.text:filename;
-            }
-
-        if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
+        if (gdd.rows[single_ri].widgets[single_wi].title)
         {
-            for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+            csvarray.push([gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : "", gdd.rows[single_ri].widgets[single_wi].title.subtext ? gdd.rows[single_ri].widgets[single_wi].title.subtext : ""]);
+            filename = gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : filename;
+        }
+        if (gdd.rows[single_ri].widgets[single_wi].type === 'counter') {
+            if (gdd.rows[single_ri].widgets[single_wi].data)
             {
-                var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
-                csvarray.push([Ser.name]);
-                for (var dataind in Ser.data)
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].data)
                 {
-                    csvarray.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].data[seriesindex];
+                    csvarray.push([Ser.name, new Date(Ser.data[Ser.data.length - 1][0]), Ser.data[Ser.data.length - 1][1]]);
+                }
+            }
+        } else {
+            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
+            {
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+                {
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+                    csvarray.push([Ser.name]);
+                    for (var dataind in Ser.data)
+                    {
+                        csvarray.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+                    }
+                }
+            }
+            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
+            {
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+                {
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+                    csvarray.push([Ser.name]);
+                    for (var dataind in Ser.data)
+                    {
+                        csvarray.push([Ser.data[dataind].name, Ser.data[dataind].value]);
+                    }
                 }
             }
         }
-        if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
-        {
-            for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
-            {
-                var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
-                csvarray.push([Ser.name]);
-                for (var dataind in Ser.data)
-                {
-                    csvarray.push([Ser.data[dataind].name, Ser.data[dataind].value]);
-                }
-            }
-        }
-//        console.log(csvarray);
+        console.log(csvarray);
         exportToCsv(filename + ".csv", csvarray);
 
     });
