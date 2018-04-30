@@ -3580,7 +3580,7 @@ $(document).ready(function () {
         }, 500);
         $RIGHT_COL.css('min-height', $(window).height());
     });
-    $('body').on("click", ".csv", function () {
+    $('body').on("click", ".csv, .jsonsave, .imagesave", function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
 
@@ -3594,50 +3594,102 @@ $(document).ready(function () {
             single_ri = getParameterByName("row");
         }
 
-        var csvarray = [];
+        var saveData;
         var filename = "oddeyesave";
-        if (gdd.rows[single_ri].widgets[single_wi].title)
-        {
-            csvarray.push([gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : "", gdd.rows[single_ri].widgets[single_wi].title.subtext ? gdd.rows[single_ri].widgets[single_wi].title.subtext : ""]);
-            filename = gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : filename;
-        }
-        if (gdd.rows[single_ri].widgets[single_wi].type === 'counter') {
-            if (gdd.rows[single_ri].widgets[single_wi].data)
-            {
-                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].data)
-                {
-                    var Ser = gdd.rows[single_ri].widgets[single_wi].data[seriesindex];
-                    csvarray.push([Ser.name, new Date(Ser.data[Ser.data.length - 1][0]), Ser.data[Ser.data.length - 1][1]]);
-                }
+        var fileFotmat = "";
+
+
+        if ($(this).hasClass('jsonsave')) {
+            if (gdd.rows[single_ri].widgets[single_wi].type === 'counter') {
+
+            }
+        } else if ($(this).hasClass('csv')) {
+            if (gdd.rows[single_ri].widgets[single_wi].type === 'counter') {
+
             }
         } else {
-            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
-            {
-                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
-                {
-                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
-                    csvarray.push([Ser.name]);
-                    for (var dataind in Ser.data)
-                    {
-                        csvarray.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
-                    }
-                }
-            }
-            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
-            {
-                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
-                {
-                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
-                    csvarray.push([Ser.name]);
-                    for (var dataind in Ser.data)
-                    {
-                        csvarray.push([Ser.data[dataind].name, Ser.data[dataind].value]);
-                    }
-                }
-            }
+            alert('sorry...');
         }
-        console.log(csvarray);
-        exportToCsv(filename + ".csv", csvarray);
+
+
+
+
+
+
+//        if (gdd.rows[single_ri].widgets[single_wi].title)
+//        {
+//            saveData.push([gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : "", gdd.rows[single_ri].widgets[single_wi].title.subtext ? gdd.rows[single_ri].widgets[single_wi].title.subtext : ""]);
+//            filename = gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : filename;
+//        }
+//        if (gdd.rows[single_ri].widgets[single_wi].type === 'counter') {
+//            if (gdd.rows[single_ri].widgets[single_wi].data)
+//            {
+//                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].data)
+//                {
+//                    var Ser = gdd.rows[single_ri].widgets[single_wi].data[seriesindex];
+//                    saveData.push([Ser.name, new Date(Ser.data[Ser.data.length - 1][0]), Ser.data[Ser.data.length - 1][1]]);
+//                }
+//            }
+//        } else {
+//            if ($(this).hasClass('jsonsave')) {
+//                var saveData = {};
+//                fileFotmat = ".json";
+//                if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
+//                {
+//                    for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+//                    {
+//                        var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+//                        saveData[Ser.name] = {};
+//                        for (var dataind in Ser.data)
+//                        {
+//                            saveData[Ser.name][Ser.data[dataind].value[0]] = Ser.data[dataind].value[1];
+//                        }
+//                    }
+//                }
+//                if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
+//                {
+//                    for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+//                    {
+//                        var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+//                        saveData[Ser.name] = {};
+//                        for (var dataind in Ser.data)
+//                        {
+//                            saveData[Ser.name][Ser.data[dataind].name] = Ser.data[dataind].value;
+//                        }
+//                    }
+//                }
+//            }
+//        if ($(this).hasClass('csv')) {
+//            fileFotmat = ".csv";
+//            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
+//            {
+//                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+//                {
+//                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+//                    saveData.push([Ser.name]);
+//                    for (var dataind in Ser.data)
+//                    {
+//                        saveData.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+//                    }
+//                }
+//            }
+//            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
+//            {
+//                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+//                {
+//                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+//                    saveData.push([Ser.name]);
+//                    for (var dataind in Ser.data)
+//                    {
+//                        saveData.push([Ser.data[dataind].name, Ser.data[dataind].value]);
+//                    }
+//                }
+//            }
+//        }
+//        }
+        console.log(saveData);
+        console.log(filename + fileFotmat);
+//        exportToCsv(filename + fileFotmat, saveData);
 
     });
     $('body').on("click", "#refresh", function () {
