@@ -3713,12 +3713,15 @@ $(document).ready(function () {
         if (getParameterByName("row") !== null)
         {
             single_ri = getParameterByName("row");
-        }
-//        var image = (($(this).parents(".chartsection").find("canvas")[0]).toDataURL("image/png").replace("image/png", "image/octet-stream"));
-//        window.location.href=image;
-        $(this).parents(".chartsection").find(".fa-chevron-down, .dropdown-menu").hide();
-        html2canvas(document.getElementById($(this).parents(".chartsection").attr("id"))).then(canvas => {
-            console.log(canvas);
+        }                
+        var imageobg = document.getElementById($(this).parents(".chartsection").attr("id"));
+        if (document.getElementById('singlewidget')!= null)
+        {
+            var imageobg = document.getElementById('singlewidget');
+        }    
+        $(imageobg).find(".fa-chevron-down, .dropdown-menu").hide();
+        
+        html2canvas(imageobg).then(canvas => {            
             var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
             var filename = "oddeyeimage";
@@ -3734,9 +3737,10 @@ $(document).ready(function () {
             a.href = image;
             a.download = filename+fileFotmat;
             a.click();
-            window.URL.revokeObjectURL(image);
-//            window.location.href = image;
-            $(this).parents(".chartsection").find(".fa-chevron-down").show();
+            window.URL.revokeObjectURL(image);           
+            $(imageobg).find(".fa-chevron-down").removeAttr("style");
+            $(imageobg).find(".dropdown-menu").removeAttr("style");
+            
         });
 
 
