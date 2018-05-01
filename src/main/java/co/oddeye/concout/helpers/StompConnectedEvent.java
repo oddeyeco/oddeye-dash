@@ -61,6 +61,7 @@ public class StompConnectedEvent implements ApplicationListener<SessionConnected
     @Override
     @SuppressWarnings("unchecked")
     public void onApplicationEvent(SessionConnectedEvent event) {
+        
         StompHeaderAccessor sha = StompHeaderAccessor.wrap(event.getMessage());
         if (event.getMessage().getHeaders().get("simpUser") == null) {
             LOGGER.info("simpUser is null");
