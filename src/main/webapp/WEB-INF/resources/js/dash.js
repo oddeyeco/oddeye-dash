@@ -3720,7 +3720,22 @@ $(document).ready(function () {
         html2canvas(document.getElementById($(this).parents(".chartsection").attr("id"))).then(canvas => {
             console.log(canvas);
             var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            window.location.href = image;
+
+            var filename = "oddeyeimage";
+            var fileFotmat = ".png";
+            if (gdd.rows[single_ri].widgets[single_wi].title)
+            {                
+                filename = gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : filename;
+            }
+
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            a.href = image;
+            a.download = filename+fileFotmat;
+            a.click();
+            window.URL.revokeObjectURL(image);
+//            window.location.href = image;
             $(this).parents(".chartsection").find(".fa-chevron-down").show();
         });
 
