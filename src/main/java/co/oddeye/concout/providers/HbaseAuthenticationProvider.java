@@ -60,9 +60,11 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
         if (upat.getCredentials() == null) {
             LOGGER.debug("Authentication failed: no credentials provided");
 
-            throw new BadCredentialsException(messages.getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials",
-                    "Bad credentials"));
+            throw new InternalAuthenticationServiceException(
+                    "UserDetailsService returned null, which is an interface contract violation");
+//            throw new BadCredentialsException(messages.getMessage(
+//                    "AbstractUserDetailsAuthenticationProvider.badCredentials",
+//                    "Bad credentials"));
         }
 
 //        String presentedPassword = upat.getCredentials().toString();
@@ -70,9 +72,11 @@ public class HbaseAuthenticationProvider extends AbstractUserDetailsAuthenticati
         if (userid == null) {
             LOGGER.debug("Authentication failed: password does not match stored value");
 
-            throw new BadCredentialsException(messages.getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials",
-                    "Bad credentials"));
+            throw new InternalAuthenticationServiceException(
+                    "UserDetailsService returned null, which is an interface contract violation");
+//            throw new BadCredentialsException(messages.getMessage(
+//                    "AbstractUserDetailsAuthenticationProvider.badCredentials",
+//                    "Bad credentials"));
         } else {
             try {
                 final OddeyeUserDetails principal = (OddeyeUserDetails) ud;
