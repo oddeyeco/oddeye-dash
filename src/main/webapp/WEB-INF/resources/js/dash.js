@@ -3605,7 +3605,7 @@ $(document).ready(function () {
                 for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].data)
                 {
                     var Ser = gdd.rows[single_ri].widgets[single_wi].data[seriesindex];
-                    saveData.push([Ser.name, new Date(Ser.data[Ser.data.length - 1][0]), Ser.data[Ser.data.length - 1][1]]);
+                    saveData.push([Ser.name, Ser.data[Ser.data.length - 1][1]]);
                 }
             }
         } else {
@@ -3667,7 +3667,7 @@ $(document).ready(function () {
                 {
                     var Ser = gdd.rows[single_ri].widgets[single_wi].data[seriesindex];
                     saveData['data'][Ser.name] = {};
-                    saveData['data'][Ser.name][Ser.data[Ser.data.length - 1][0]] = Ser.data[Ser.data.length - 1][1];
+                    saveData['data'][Ser.name] = Ser.data[Ser.data.length - 1][1];
                 }
             }
         } else {
