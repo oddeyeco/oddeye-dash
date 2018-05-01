@@ -32,8 +32,6 @@
     </div>
 </div>  
 
-
-
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
 
@@ -61,25 +59,57 @@
         <div class="clearfix"></div>
     </div>
 </div>  
-
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
-        <div class="inner col-xs-12">            
-            <div class="controls text-right">
-                <div class="echart_time pull-left"></div>
-                <div class="btn-group  btn-group-xs">
-                    <a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a>
-                    <a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
-                    <a class="btn btn-default dublicate" type="button" data-toggle="tooltip" data-placement="top" title="Dublicate">Duplicate</a>               
-                    <a class="btn btn-default csv" type="button" data-toggle="tooltip" data-placement="top" title="Save as csv">asCsv</a>
-                    <a class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></a>
-                    <a class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></a>
-                    <a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i></a>
-                </div> 
-            </div>             
+        <div class="inner col-xs-12">
+            <!--                        <div class="controls text-right">
+                                        <div class="echart_time pull-left"></div>
+                                        <div class="btn-group  btn-group-xs">
+                                            <a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a>
+                                            <a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
+                                            <a class="btn btn-default dublicate" type="button" data-toggle="tooltip" data-placement="top" title="Dublicate">Duplicate</a>               
+                                            <a class="btn btn-default csv" type="button" data-toggle="tooltip" data-placement="top" title="Save as csv">asCsv</a>
+                                            <a class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></a>
+                                            <a class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></a>
+                                            <a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i></a>
+                                        </div> 
+                                    </div>             -->
+            <div class="chartTitleDiv">
+                <div class="chartDesc wrap">
+                    <div class="borderRadius"><span class="chartSubIcon" style="display: none"><i class="fa fa-info"></i></span></div>
+                    <a href="#" class="chartSubText hoverShow"></a>
+                </div>
+                <div class="chartTime wrap">
+                    <div class="borderRadius"><span class="echart_time_icon"><i class="fa fa-clock-o"></i></i></span></div>
+                    <span class="echart_time hoverShow"></span>
+                </div>
+                <div class="chartTitle btn-group">
+                    <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
+                    <ul class="dropdown-menu">
+                        <li class="dolock hide-single" >
+                            <div class="btn-group resize" role="group">
+                                <span class="btn btn-default plus col-xs-6" type="button" data-toggle="tooltip" data-placement="left" title="Span +"><i class="fa fa-search-plus"></i></span>
+                                <span class="btn btn-default minus col-xs-6" type="button" data-toggle="tooltip" data-placement="right" title="Span -"><i class="fa fa-search-minus"></i></span>                                
+                            </div>
+                        </li>
+                        <li class="hide-singleview" ><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i>View</a></li>                        
+                        <li class="dolock hide-singleedit"><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o"></i>Edit</a></li>
+                        <li class="dolock"><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa fa-files-o"></i>Duplicate</a></li>                        
+                        <li class="dropdown-submenu">
+                            <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i>Save as <i class="fa fa-caret-right"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="csv" data-toggle="tooltip" data-placement="top" title="Save as csv"><i class="fa fa-th-list"></i> Csv</a></li>
+                                <li><a class="jsonsave" data-toggle="tooltip" data-placement="top" title="Save as json"><span class="jsonIcon">{:}</span> JSON</a></li>
+                                <li><a class="imagesave" data-toggle="tooltip" data-placement="top" title="Save as Image"><i class="fa fa-picture-o"></i> Image</a></li>
+                            </ul>
+                        </li>
+                        <li role="presentation" class="divider"></li>
+                        <li class="dolock"><a class="deletewidget" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i>Remove</a></li>
+                    </ul> 
+                </div>
+            </div>          
             <div class="echart_line" style="height:300px;"></div>                   
         </div>
-
     </div>   
 </div>  
 
@@ -184,8 +214,6 @@
     <div class="x_content" id="dashcontent">        
     </div>
 </div>
-
-
 <div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

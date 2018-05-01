@@ -8,6 +8,7 @@
 <script src="${cp}/resources/numbersjs/src/numbers.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <script src="${cp}/resources/jsoneditor/dist/jsoneditor.min.js?v=${version}"></script>
+<script src="${cp}/resources/html2canvas/html2canvas.min.js?v=${version}"></script>
 
 <script>
     var gdd = ${dashInfo};
@@ -16,5 +17,4 @@
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
     </c:if>
-
 </script>
