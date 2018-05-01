@@ -789,7 +789,7 @@ ul.lastdash {
     {
         top: 0;
         background:#fff;
-        z-index: 1000;
+        z-index: 1030;
         right: 0px;        
         position: fixed;
         display: none;
@@ -985,9 +985,11 @@ i[data-toggle="tooltip"] {
             &.open .dropdown-toggle {
                 outline: 0;
                 border-radius: 5px;
-                padding: 3px;
-            }              
 
+            }              
+            .dropdown-toggle {
+                padding: 0 3px;
+            } 
             &:hover {                
                 cursor: pointer;
             }            
@@ -1055,6 +1057,9 @@ i[data-toggle="tooltip"] {
             .resize
             {
                 width: 100%;
+                .tooltip {
+                    white-space: nowrap;
+                }
             }
             .viewchart i, .dublicate i, .editchart i, .more i, .deletewidget i{
                 padding: 0 10px;
@@ -1092,6 +1097,7 @@ i[data-toggle="tooltip"] {
             left: auto;
             right: 0;                       
             min-width: 105px;
+            z-index: 1000;
         }
     }
 

@@ -160,7 +160,9 @@ function savedash() {
                     {
                         if (request_R_index !== null)
                         {
-                            uri = uri + encodeURI("?widget=" + request_W_index + "&row=" + request_R_index + "&action=edit");
+                            var action = getParameterByName("action");
+                            uri = uri + encodeURI("?widget=" + request_W_index + "&row=" + request_R_index + "&action=" + action);
+
                             if (window.location.pathname + window.location.search !== uri)
                             {
                                 window.location.href = uri;
@@ -2238,6 +2240,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         {
                             chartobj.find(".chartSubText").removeAttr("style");
                         }
+                        chartobj.find(".chartSubIcon").css({display: 'block'});
                     } else {
                         chartobj.find(".chartSubIcon").css({display: 'none'});
                     }
@@ -2494,7 +2497,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         {
             $(".right_col .editpanel").addClass('locked');
         }
-        $(".right_col .editpanel").append($("#dash_main").html());
+        $(".right_col .editpanel").append($("#dash_main"));
         $(".right_col .editpanel").append('<div class="clearfix"></div>');
         if (W_type === "counter")
         {
@@ -2604,7 +2607,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         }
         if (singleWi.title) {
             if (!singleWi.title.text) {
-                wraperTitle.find('.chartTitle').css({display: 'none'});
+                wraperTitle.find('.chartTitle h3').html('');
                 wraperTitle.removeAttr("style");
             } else {
                 wraperTitle.find('.chartTitle').css({display: 'inline-block'});
@@ -2637,7 +2640,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 wraperTitle.find('.chartSubText').attr('target', '_' + singleWi.title.subtarget);
             }
         } else {
-            wraperTitle.find('.chartTitleDiv').css({display: 'none'});
+            wraperTitle.find('.wrap').css({display: 'none'});
         }
         if (singleWi.times) {
             if (singleWi.times.pickerlabel)
@@ -2649,7 +2652,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     wraperTitle.find(".echart_time .last").html(singleWi.times.pickerlabel + " ");
                 } else
                 {
-                    wraperTitle.find(".echart_time .last").html("From " + moment(singleWi.times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(tmprow.widgets[wi].times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
+                    wraperTitle.find(".echart_time .last").html("From " + moment(singleWi.times.pickerstart).format('MM/DD/YYYY H:m:s') + " to " + moment(singleWi.times.pickerend).format('MM/DD/YYYY H:m:s') + " ");
                 }
             } else {
                 wraperTitle.find(".echart_time .last").html(' ');
@@ -2664,6 +2667,21 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     wraperTitle.find(".echart_time .refreshEvery").html(' ');
                 }
             }
+            if (singleWi.times.intervall)
+            {
+                if (singleWi.times.intervall !== "General")
+                {
+                    wraperTitle.find(".echart_time_icon").css({display: 'block'});
+                    wraperTitle.find(".echart_time .refreshEvery").html(EditForm.refreshtimes[singleWi.times.intervall]);
+                } else {
+                    wraperTitle.find(".echart_time .refreshEvery").html(' ');
+                }
+            }
+            if (singleWi.times.intervall === "General" && !singleWi.times.pickerlabel) {
+                wraperTitle.find(".echart_time_icon").css({display: 'none'});
+            }
+        } else {
+            wraperTitle.find(".echart_time_icon").css({display: 'none'});
         }
 
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
@@ -2851,7 +2869,10 @@ $(document).ready(function () {
             var wid = gdd.rows[ri].widgets[wi];
             if (wid.options)
             {
-                wid.title = wid.options.title;
+                if (!wid.title)
+                {
+                    wid.title = wid.options.title;
+                }
                 delete wid.options.title;
             }
 
@@ -3457,6 +3478,7 @@ $(document).ready(function () {
         }
     });
     $('body').on("click", ".editchart", function () {
+        $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();
         Edit_Form = null;
@@ -3491,6 +3513,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     $('body').on("click", ".viewchart", function () {
+        $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();
         Edit_Form = null;
@@ -3560,52 +3583,121 @@ $(document).ready(function () {
     $('body').on("click", ".csv", function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
-
         if (getParameterByName("widget") !== null)
         {
             single_wi = getParameterByName("widget");
         }
-
         if (getParameterByName("row") !== null)
         {
             single_ri = getParameterByName("row");
         }
-
-        var csvarray = [];
-        var filename = "chart";
+        var saveData = [];
+        var filename = "oddeyesave";
+        var fileFotmat = ".csv";
         if (gdd.rows[single_ri].widgets[single_wi].title)
-            if (gdd.rows[single_ri].widgets[single_wi].title.text)
-            {
-                csvarray.push([gdd.rows[single_ri].widgets[single_wi].title.text]);
-                filename = gdd.rows[single_ri].widgets[single_wi].title.text;
-            }
-
-        if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
         {
-            for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+            saveData.push([gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : "", gdd.rows[single_ri].widgets[single_wi].title.subtext ? gdd.rows[single_ri].widgets[single_wi].title.subtext : ""]);
+            filename = gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : filename;
+        }
+        if (gdd.rows[single_ri].widgets[single_wi].type === 'counter') {
+            if (gdd.rows[single_ri].widgets[single_wi].data)
             {
-                var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
-                csvarray.push([Ser.name]);
-                for (var dataind in Ser.data)
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].data)
                 {
-                    csvarray.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].data[seriesindex];
+                    saveData.push([Ser.name, Ser.data[Ser.data.length - 1][1]]);
+                }
+            }
+        } else {
+            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
+            {
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+                {
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+                    saveData.push([Ser.name]);
+                    for (var dataind in Ser.data)
+                    {
+                        saveData.push([Ser.name, new Date(Ser.data[dataind].value[0]), Ser.data[dataind].value[1]]);
+                    }
+                }
+            }
+            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
+            {
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+                {
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+                    saveData.push([Ser.name]);
+                    for (var dataind in Ser.data)
+                    {
+                        saveData.push([Ser.data[dataind].name, Ser.data[dataind].value]);
+                    }
                 }
             }
         }
-        if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
+        console.log(saveData);
+        exportToCsv(filename + fileFotmat, saveData);
+
+    });
+    $('body').on('click', '.jsonsave', function () {
+        var single_ri = $(this).parents(".widgetraw").index();
+        var single_wi = $(this).parents(".chartsection").index();
+        if (getParameterByName("widget") !== null)
         {
-            for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+            single_wi = getParameterByName("widget");
+        }
+        if (getParameterByName("row") !== null)
+        {
+            single_ri = getParameterByName("row");
+        }
+        var saveData = {title: {},
+            data: {}
+        };
+        var filename = "oddeyesave";
+        var fileFotmat = ".json";
+
+        if (gdd.rows[single_ri].widgets[single_wi].title)
+        {
+            saveData['title'][gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : ""] = gdd.rows[single_ri].widgets[single_wi].title.subtext ? gdd.rows[single_ri].widgets[single_wi].title.subtext : "";
+            filename = gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : filename;
+        }
+        if (gdd.rows[single_ri].widgets[single_wi].type === 'counter') {
+            if (gdd.rows[single_ri].widgets[single_wi].data)
             {
-                var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
-                csvarray.push([Ser.name]);
-                for (var dataind in Ser.data)
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].data)
                 {
-                    csvarray.push([Ser.data[dataind].name, Ser.data[dataind].value]);
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].data[seriesindex];
+                    saveData['data'][Ser.name] = {};
+                    saveData['data'][Ser.name] = Ser.data[Ser.data.length - 1][1];
+                }
+            }
+        } else {
+            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "time")
+            {
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+                {
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+                    saveData['data'][Ser.name] = {};
+                    for (var dataind in Ser.data)
+                    {
+                        saveData['data'][Ser.name][Ser.data[dataind].value[0]] = Ser.data[dataind].value[1];
+                    }
+                }
+            }
+            if (gdd.rows[single_ri].widgets[single_wi].options.xAxis[0].type === "category")
+            {
+                for (var seriesindex in gdd.rows[single_ri].widgets[single_wi].options.series)
+                {
+                    var Ser = gdd.rows[single_ri].widgets[single_wi].options.series[seriesindex];
+                    saveData['data'][Ser.name] = {};
+                    for (var dataind in Ser.data)
+                    {
+                        saveData['data'][Ser.name][Ser.data[dataind].name] = Ser.data[dataind].value;
+                    }
                 }
             }
         }
-        exportToCsv(filename + ".csv", csvarray);
-
+        console.log(saveData);
+        exportTojson(filename + fileFotmat, saveData);
     });
 
 
@@ -3713,10 +3805,10 @@ $(document).ready(function () {
         $('#maximize').fadeOut(500);
     });
     var whaittimer;
-    $('body').on("mouseover mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function (e) {
+    $('body').on("mouseover", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
         var elem = $(this);
         clearTimeout(whaittimer);
-        whaittimer = setTimeout(function (  ) {
+        whaittimer = setTimeout(function ( ) {
             if (elem.hasClass('chartSubIcon')) {
                 elem.parents('.wrap').find('.hoverShow').css({
                     left: 0,
@@ -3728,26 +3820,18 @@ $(document).ready(function () {
                     top: elem.parents('.wrap').find('.echart_time_icon').outerHeight()
                 });
             }
-            if (e.type === 'mouseover') {
-                if (elem.parents('.wrap').find('.hoverShow').css('display') !== 'block') {
-                    $('.hoverShow').fadeOut();
-                }
-                elem.parents('.wrap').find('.hoverShow').fadeIn();
-            }
-            if (e.type === 'mouseout') {
+            if (elem.parents('.wrap').find('.hoverShow').css('display') !== 'block') {
                 $('.hoverShow').fadeOut();
             }
-            ;
+            elem.parents('.wrap').find('.hoverShow').fadeIn();
         }, 500);
     });
-//    $('body').on('mouseover', '.chartTitleDiv', function () {
-//        $(this).attr("normalcolor", $(this).css('background-color'));
-//        $(this).css('background-color', ModifierColor($(this).css('background-color'), 90));
-//    });
-//    $('body').on('mouseout', '.chartTitleDiv', function () {
-//        $(this).css('background-color', $(this).attr("normalcolor"));
-//        $(this).removeAttr("normalcolor");
-//    });
+    $('body').on("mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
+        clearTimeout(whaittimer);
+        whaittimer = setTimeout(function ( ) {
+            $('.hoverShow').fadeOut();
+        }, 500);
+    });
 
     $(document).on('click.bs.dropdown.data-api', '.plus, .minus', function (e) {
         e.stopPropagation();
