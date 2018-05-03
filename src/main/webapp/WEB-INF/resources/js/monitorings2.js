@@ -16,62 +16,7 @@ var array_spec = [];
 var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option>";
 var eniumop = "<option value='='>is</option><option value='!'>is not</option>";
 function redrawBoard() {
-//    optionsJson.f_col.forEach(
-//            function (entry) {
-//                switch (entry) {
-//                    case 'actions':
-//                    {
-//                        $(".metrictable thead#manualhead tr").append(
-//                                '<th class="actions">' +
-//                                '<input type="checkbox" id="check-all" class="flat">' +
-//                                '<div class="btn-group">' +
-//                                '<button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">' +
-//                                '<span class="caret"></span>' +
-//                                '<span class="sr-only">Toggle Dropdown</span>' +
-//                                '</button>' +
-//                                '<ul class="dropdown-menu" role="menu">' +
-//                                '<li><a href="#" id="Show_chart">Show Chart</a>' +
-//                                '</li>' +
-//                                '<li class="divider"></li>' +
-//                                '<li><a href="#" id="Clear_reg">Clear Regression</a>' +
-//                                '</li>' +
-//                                '</ul>' +
-//                                '</div>' +
-//                                '</th>');
-//                        $(".metrictable thead#specialhead tr").append(
-//                                '<th class="actions">' +
-//                                '</th>');
-//                        break
-//                    }
-//                    default:
-//                    {
-//                        var obj = $('.f_col option[value=' + entry + ']');
-//                        $(".metrictable thead tr").append("<th>" + obj.attr("label") + "</th>");
-//                        break;
-//                    }
-//                }
-//                $(".metrictable tbody tr.wait td").attr("colspan", $(".metrictable thead tr th").length);
-//            }
-//    );
-//    $('.metrictable thead input.flat').iCheck({
-//        checkboxClass: 'icheckbox_flat-green',
-//        radioClass: 'iradio_flat-green'
-//    });
-//
-//    $('.bulk_action input#check-all').on('ifChecked', function () {
-//        checkState = 'all';
-//        countChecked();
-//    });
-//    $('.bulk_action input#check-all').on('ifUnchecked', function () {
-//        checkState = 'none';
-//        countChecked();
-//    });
-
     $(".monitorlist ul").html("");
-
-//    optionsJson.fcol.each(
-//            
-//    );
     if (Object.keys(errorlistJson).length > 0)
     {
         DrawErrorList(errorlistJson, $(".metrictable"));
@@ -241,10 +186,10 @@ function drawUL(errorjson, table, hashindex, update) {
         UlID = "speciallist";
 
     }
-    
+
     if (errorjson.flap > 5)
     {
-        console.log(errorjson.info.name+" "+errorjson.flap);
+        console.log(errorjson.info.name + " " + errorjson.flap);
         eRclass = eRclass + " flapdetect";
     }
 
@@ -400,10 +345,10 @@ function drawUL(errorjson, table, hashindex, update) {
     {
         $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
         /*
-        var index = $("." + table).find("li#" + hashindex).index() % 10+1;        
-        var audio = new Audio(cp+"/assets/Sounds/"+index+".mp3");
-        audio.play();
-*/
+         var index = $("." + table).find("li#" + hashindex).index() % 10+1;        
+         var audio = new Audio(cp+"/assets/Sounds/"+index+".mp3");
+         audio.play();
+         */
         $("." + table).find("li#" + hashindex).removeClass(function (index, className) {
             return (className.match(/(^|\s)level_\S+/g) || []).join(' ');
         });
@@ -854,6 +799,23 @@ $(document).ready(function () {
         });
         $("select").select2({minimumResultsForSearch: 15});
     });
+
+    $("body").on("change", ".add_notifier_select", function () {
+//        $(this).find(':selected').attr("disabled", "disabled");
+
+        var row = $("<div class='col-lg-4 col-md-6'>");
+        row.append("<div class='item notifier_label'>" + $(this).find(':selected').attr("fname") + "</div>");
+        row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + $(this).find(':selected').attr("value") + "][]' autocomplete='off'></div>");
+        $(this).parents(".filter-body").find(".notifiers-table").append(row);
+
+        //filters-table
+        $(this).find('option').prop('selected', function () {
+            return this.defaultSelected;
+        });
+        $("select").select2({minimumResultsForSearch: 15});
+
+    });
+
     if (optionsJson === null)
     {
         var levels = [];
@@ -908,6 +870,7 @@ $(document).ready(function () {
 
     } else
     {
+
         optionsJson.f_col.forEach(function (entry) {
             $(".card-fields.value .f_col option[value=" + entry + "]").prop('selected', 'selected');
         }
@@ -940,20 +903,41 @@ $(document).ready(function () {
                             '</select></td>');
                 } else
                 {
-                    var row = $("<tr>");
-                    var name = filter;
-                    var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
-                    opt.attr("disabled", "disabled");
-                    row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+                    if (optionsJson.op[section])
+                    {
+                        var row = $("<tr>");
+                        var name = filter;
+                        var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
+                        opt.attr("disabled", "disabled");
+                        row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
 
-                    row.append("<td class='action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
-                    row.append("<td class='value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
-                    row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
-                    Domsection.find(".filters-table").append(row);
+                        row.append("<td class='action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
+                        row.append("<td class='value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
+
+                        row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
+                        Domsection.find(".filters-table").append(row);
+                    }
+
                 }
+            }
+        }
+        var Domsection = $(".add_notifier_select").parents(".filter-body");
+        for (var notifier in optionsJson["notifier-v"])
+        {
+            name = notifier;
+            var opt = Domsection.find(".add_notifier_select option[value='" + name + "']:first");
+            for (var nvalue in optionsJson["notifier-v"][notifier])
+            {
+                console.log(notifier + "=" + optionsJson["notifier-v"][notifier][nvalue]);
+                var row = $("<div class='col-lg-4 col-md-6'>");
+                row.append("<div class='item notifier_label'>" + opt.attr("fname") + "</div>");
+                row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + opt.attr("value") + "][]' value='"+optionsJson["notifier-v"][notifier][nvalue]+"' autocomplete='off'></div>");
+                Domsection.find(".notifiers-table").append(row);
             }
 
         }
+
+
     }
 
 
@@ -995,7 +979,7 @@ $(document).ready(function () {
 function updateFilter() {
     var formData = $("form.form-options").serializeArray();
     optionsJson = {};
-    const regex = /[a-zA-Z.]+/g;
+    const regex = /[a-zA-Z-.]+/g;
     jQuery.each(formData, function (i, field) {
         if (field.value !== "")
         {
@@ -1022,7 +1006,9 @@ function updateFilter() {
 
             } else if (field.name.indexOf("v[") !== -1)
             {
-                name = "v";
+
+                name = field.name.substring(0, field.name.indexOf("v[") + 1)
+                console.log(name);
                 if (!optionsJson[name])
                 {
                     optionsJson[name] = {};
@@ -1033,16 +1019,26 @@ function updateFilter() {
                     var m = lname.match(regex);
                     var fgroup = m[1];
                     var fname = m[2];
+                    if (fname)
+                    {
+                        if (!optionsJson[name][fgroup])
+                        {
+                            optionsJson[name][fgroup] = {};
+                        }
+                        if (!optionsJson[name][fgroup][fname])
+                        {
+                            optionsJson[name][fgroup][fname] = [];
+                        }
+                        optionsJson[name][fgroup][fname].push(field.value);
+                    } else
+                    {
+                        if (!optionsJson[name][fgroup])
+                        {
+                            optionsJson[name][fgroup] = [];
+                        }
+                        optionsJson[name][fgroup].push(field.value);
+                    }
 
-                    if (!optionsJson[name][fgroup])
-                    {
-                        optionsJson[name][fgroup] = {};
-                    }
-                    if (!optionsJson[name][fgroup][fname])
-                    {
-                        optionsJson[name][fgroup][fname] = [];
-                    }
-                    optionsJson[name][fgroup][fname].push(field.value);
                 } else
                 {
                     var m = field.name.match(regex);
@@ -1054,8 +1050,6 @@ function updateFilter() {
                     }
                     optionsJson[name][fgroup][fname] = field.value;
                 }
-
-
             } else
             {
                 if (field.name.indexOf("[]") !== -1)
@@ -1075,4 +1069,5 @@ function updateFilter() {
 
         }
     });
+    console.log(optionsJson);
 }

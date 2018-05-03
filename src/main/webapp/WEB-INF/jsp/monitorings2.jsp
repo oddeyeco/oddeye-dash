@@ -119,7 +119,7 @@
 
                         </div>
                     </fieldset>
-                    <fieldset class="collapsible collapsed">
+                    <fieldset class="collapsible collapsed col-md-6 col-xs-12">
                         <legend> <i class="action fa fa-chevron-down"></i>Options</legend>
                         <div class="filter-body">
                             <table class="options" style="width: 100%">
@@ -167,12 +167,28 @@
                             </table>
                         </div>
                     </fieldset>
+                    <fieldset class="collapsible collapsed col-md-6 col-xs-12">
+                        <legend> <i class="action fa fa-chevron-down"></i>External notifiers</legend>
+                        <div class="filter-body">
+                            <div class="add-notifier">
+                                <label for="addNotifier" class="all_filter col-sm-4 text-right">Add Notifier</label>
+                                <select class="add_notifier_select col-sm-8" id="addNotifier"><option value="">&nbsp;</option>
+                                    <option value="email" fname="E-mail address">E-mail</option>
+                                    <option value="telegram"  fname="Telegram chat ID">Telegram</option>                                
+                                </select>
+                            </div>                            
+                            <div class="defined_notifier">
+                                <div class="notifiers-table row">
+                                </div>                                    
+                            </div>                             
+                        </div>
+                    </fieldset>
                 </form>
             </div>            
 
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                 <div class="btn-group mr-2" role="group" aria-label="Apply group">
-                   <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>   
+                    <button href="#" class="btn btn-xs btn-success" id="apply_filter">Apply</button>   
                 </div>
                 <div class="btn-group mr-2" role="group" aria-label="Save group">
                     <button href="#" class="btn btn-xs btn-primary" id="save_filter">Save</button>                
@@ -180,20 +196,20 @@
                     <input type="text" value="${nameoptions}" id="saveas_name" class="form-control">
                 </div>
                 <c:if test="${!empty nameoptions}">
-                <div class="btn-group pull-right" role="group" aria-label="Delete group">
-                    <button href="#" class="btn btn-xs btn-danger" id="rem_filter">Delete view</button>    
-                </div>                    
-                    
+                    <div class="btn-group pull-right" role="group" aria-label="Delete group">
+                        <button href="#" class="btn btn-xs btn-danger" id="rem_filter">Delete view</button>    
+                    </div>                    
+
                 </c:if>                
-                
+
 
             </div>            
 
             <div class="buttons ">
 
-                
+
                 <div class="btn-group">
-                    
+
                 </div>
 
             </div>
