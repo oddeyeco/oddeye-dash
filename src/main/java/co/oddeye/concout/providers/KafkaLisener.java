@@ -187,14 +187,14 @@ public class KafkaLisener {
                             String node = ia.getHostName();
                             for (Iterator<Map.Entry<String, PageInfo>> it = userpagelist.entrySet().iterator(); it.hasNext();) {
                                 Map.Entry<String, PageInfo> userinfoentry = it.next();
-                                if (!userinfoentry.getValue().getNode().equals(node)) {
+//                                if (!userinfoentry.getValue().getNode().equals(node)) {
                                     if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
                                         TimeUnit.SECONDS.sleep(2);
                                         user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
                                     }
                                     this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
                                     break;
-                                }
+//                                }
 
                             }
 
