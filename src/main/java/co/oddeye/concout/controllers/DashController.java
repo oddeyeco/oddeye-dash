@@ -149,14 +149,12 @@ public class DashController {
         return "index";
     }
 
-    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/dashboard/"}, method = RequestMethod.GET)
     public String getDashboards(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();
-            TimeZone timeZone = TimeZone.getTimeZone("UTC");
-            Calendar cal = Calendar.getInstance(timeZone);
+                    getAuthentication().getPrincipal()).getUserModel(true);                 
             userDetails.updateConsumption2m();
             map.put("curentuser", userDetails);
 

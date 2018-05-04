@@ -39,6 +39,13 @@ public class OddeyeUserDetails implements UserDetails {
         return ((HbaseUserDao) Userdao).getUserByUUID(getId());
     }
 
+    @Transient
+    public OddeyeUserModel getUserModel(boolean reload) {
+
+        ApplicationContext ctx = AppContext.getApplicationContext();
+        Object Userdao = ctx.getBean("Userdao");
+        return ((HbaseUserDao) Userdao).getUserByUUID(UUID.fromString(getId()) ,reload);
+    }
     // Override metods
     @Transient
     @Override
