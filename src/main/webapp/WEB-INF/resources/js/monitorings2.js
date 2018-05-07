@@ -233,7 +233,7 @@ function drawUL(errorjson, table, hashindex, update) {
         arrowclass = "fa-long-arrow-up";
         color = "red";
     }
-    var eRclass = "level_" + errorjson.level;
+    var eRclass = "level_" + errorjson.level;    
     var UlID = "regularlist";
     if (errorjson.isspec !== 0)
     {
@@ -411,8 +411,7 @@ function drawUL(errorjson, table, hashindex, update) {
         //var eRclass = "level_" + errorjson.level;
 
 //            .attr("class", eRclass);
-        $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
-
+        $("." + table).find("li#" + hashindex + " .level").html(errorjson.levelname);        
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
         var lt = errorjson.time;
         $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
