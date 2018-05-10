@@ -26,10 +26,10 @@
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">
                                     <c:if test="${Dush.value.get(\"locked\")==true}">
-                                        &nbsp; <i class="fa fa-lock"></i>
+                                        &nbsp; <i class="fa fas fa-lock"></i>
                                     </c:if>                                                               
                                     <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                        &nbsp; <i class="fa fa-unlock"></i>
+                                        &nbsp; <i class="fa fas fa-lock-open"></i>
                                     </c:if>                                      
                                     ${Dush.getKey()}</a> 
                             </li>                                
@@ -188,7 +188,7 @@
                             <li class="col-lg-12">
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span> 
-                                        <i class="fa fa-info-circle" data-toggle="tooltip" data-html="true" data-placement="left" title="" data-delay='{"hide":"1000"}' data-original-title="${fn:escapeXml(Dush.getDescription())} <div> Metrics-${Dush.getUsednames().size()}<br>Tag Filters-${Dush.getUsedtags().size()}</div>"></i>
+                                        <i class="fa fas fa-info -circle" data-toggle="tooltip" data-html="true" data-placement="left" title="" data-delay='{"hide":"1000"}' data-original-title="${fn:escapeXml(Dush.getDescription())} <div> Metrics-${Dush.getUsednames().size()}<br>Tag Filters-${Dush.getUsedtags().size()}</div>"></i>
 
                                         ${Dush.getName()}</span>
                                     <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/></span>                                    

@@ -360,7 +360,10 @@
                     <compress>true</compress>                    
                     <includes>
                         <include>bootstrap/bootstrap.less</include>
-                        <include>font-awesome/font-awesome.less</include>
+                        <include>font-awesome/fontawesome.less</include>
+                        <include>font-awesome/fa-solid.less</include>
+                        <include>font-awesome/fa-regular.less</include>
+                        <include>font-awesome/fa-brands.less</include>                        
                         <include>main.less</include>
                         <include>dash/maindash.less</include>                        
                     </includes>

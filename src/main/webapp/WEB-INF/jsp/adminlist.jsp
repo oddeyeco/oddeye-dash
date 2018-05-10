@@ -30,13 +30,13 @@
                                         <c:choose>
                                             <c:when test="${config.getValue().path == 'edit'}">
                                                 <sec:authorize access="hasRole('EDIT')">
-                                                    <a href="<c:url value="/${path}/edit/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fa-pencil"></i> Edit </a>
+                                                    <a href="<c:url value="/${path}/edit/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> Edit </a>
                                                 </sec:authorize>
                                             </c:when>                                                    
                                             <c:when test="${config.getValue().path == 'alowswitch'}">
                                                 <sec:authorize access="hasRole('ROLE_CAN_SWICH')">
                                                     <c:if test="${model[config.getValue().path]}">
-                                                        <a href="<c:url value="/${path}/switch/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fa-pencil"></i> Switch </a>    
+                                                        <a href="<c:url value="/${path}/switch/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> Switch </a>    
                                                     </c:if>
                                                 </sec:authorize>
                                             </c:when>

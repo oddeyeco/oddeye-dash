@@ -39,7 +39,7 @@
             <div class="pull-left item_title " >
                 <div class="title_text">
                     <span></span> 
-                    <i class="change_title_row fa fa-pencil"></i>
+                    <i class="change_title_row fa fas fa-pencil-alt"></i>
                 </div>              
                 <div class="title_input">
                     <input class="enter_title_row" type="text" name="row" value="" >
@@ -48,7 +48,7 @@
             </div>  
             <div class="btn-group  btn-group-xs">
                 <a class="btn btn-default addcounter" type="button" data-toggle="tooltip" data-placement="top" title="Add Counter widget"><i class="fa fa-code"></i></a>
-                <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fa-line-chart"></i></a>
+                <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fas fa-chart-line"></i></a>
                 <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title="View row as JSON" ><i class="fa fa-edit"></i></a>
                 <a class="btn btn-default colapserow" data-toggle="tooltip" data-placement="top" title="Collapse" type="button"><i class="fa fa-chevron-up"></i></a>
                 <a class="btn btn-default deleterow" type="button" data-toggle="tooltip" data-placement="top" title="Delete row"><i class="fa fa-trash"></i></a>
@@ -76,15 +76,15 @@
                                     </div>             -->
             <div class="chartTitleDiv">
                 <div class="chartDesc wrap">
-                    <div class="borderRadius"><span class="chartSubIcon" style="display: none"><i class="fa fa-info"></i></span></div>
+                    <div class="borderRadius"><span class="chartSubIcon" style="display: none"><i class="fa fas fa-info "></i></span></div>
                     <a href="#" class="chartSubText hoverShow"></a>
                 </div>
                 <div class="chartTime wrap">
-                    <div class="borderRadius"><span class="echart_time_icon"><i class="fa fa-clock-o"></i></i></span></div>
+                    <div class="borderRadius"><span class="echart_time_icon"><i class="fa far fa-clock"></i></i></span></div>
                     <span class="echart_time hoverShow"></span>
                 </div>
                 <div class="chartTitle btn-group">
-                    <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fa-chevron-down"></span></div>
+                    <div data-toggle="dropdown" class="dropdown-toggle"><h3></h3><span class="fa fas fa-chevron-down"></span></div>
                     <ul class="dropdown-menu">
                         <li class="dolock hide-single" >
                             <div class="btn-group resize" role="group">
@@ -93,14 +93,14 @@
                             </div>
                         </li>
                         <li class="hide-singleview" ><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i>View</a></li>                        
-                        <li class="dolock hide-singleedit"><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o"></i>Edit</a></li>
-                        <li class="dolock"><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa fa-files-o"></i>Duplicate</a></li>                        
+                        <li class="dolock hide-singleedit"><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fas fa-edit"></i>Edit</a></li>
+                        <li class="dolock"><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa far fa-copy"></i>Duplicate</a></li>                        
                         <li class="dropdown-submenu">
                             <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i>Save as <i class="fa fa-caret-right"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a class="csv" data-toggle="tooltip" data-placement="top" title="Save as csv"><i class="fa fa-th-list"></i> Csv</a></li>
                                 <li><a class="jsonsave" data-toggle="tooltip" data-placement="top" title="Save as json"><span class="jsonIcon">{:}</span> JSON</a></li>
-                                <li><a class="imagesave" data-toggle="tooltip" data-placement="top" title="Save as Image"><i class="fa fa-picture-o"></i> Image</a></li>
+                                <li><a class="imagesave" data-toggle="tooltip" data-placement="top" title="Save as Image"><i class="fa far fa-image"></i> Image</a></li>
                             </ul>
                         </li>
                         <li role="presentation" class="divider"></li>
@@ -116,12 +116,12 @@
 <div class="x_panel fulldash" style="display: none">
 
     <div class="dash_header">
-        <div class="pull-left item_title" ><div class="title_text"><span>${dashname}</span> <i class="change_title fa fa-pencil"></i></div>  <div class="title_input"><input class="enter_title" type="text" name="name" id="name" value="${dashname}"> <i class="savetitle fa fa-check"></i></div></div>        
+        <div class="pull-left item_title" ><div class="title_text"><span>${dashname}</span> <i class="change_title fa fas fa-pencil-alt"></i></div>  <div class="title_input"><input class="enter_title" type="text" name="name" id="name" value="${dashname}"> <i class="savetitle fa fa-check"></i></div></div>        
         <div class="pull-right"> 
             <div class="btn-group"> 
 
                 <div class="btn-group btn-group-xs">
-                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash(Ctrl+S)"><i class="fa fa-floppy-o"></i></button>
+                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash(Ctrl+S)"><i class="fa far fa-save"></i></button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only"></span>
@@ -157,7 +157,7 @@
                     <i class="fa fa fa-eye-slash" ></i>
                 </div>
                 <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
-                    <i class="fa fa-lock" ></i>
+                    <i class="fa fas fa-lock" ></i>
                 </div>
             </div>            
             <div class="form-group-custom pull-left form-horizontal filtermargin col-sm-6">

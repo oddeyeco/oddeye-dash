@@ -41,7 +41,7 @@
                     <div class="col-xs-6 col-md-6 ">            
                         <div class="x_content "> 
                             <div class="x_title">
-                                <h2><i class="fa fa-line-chart"></i> Regression</h2>     
+                                <h2><i class="fa fas fa-chart-line"></i> Regression</h2>     
                                 <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
                                 <div class="clearfix"></div>
                             </div>                

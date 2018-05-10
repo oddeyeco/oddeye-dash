@@ -2621,9 +2621,9 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         if (rebuildform) {
             wraper.prepend('<div class="chartTitleDiv">' + '<div class="chartDesc wrap">' +
                     '<div class="borderRadius">' + '<span class="chartSubIcon" style="display: none">'
-                    + '<i class="fa fa-info"></i> ' + '</span>' + '</div>' +
+                    + '<i class="fa fas fa-info "></i> ' + '</span>' + '</div>' +
                     '<a class="chartSubText hoverShow">' + '</a>' + '</div>' + '<div class="chartTime wrap">'
-                    + '<div class="borderRadius">' + '<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
+                    + '<div class="borderRadius">' + '<span class="echart_time_icon">' + '<i class="fa far fa-clock"></i>'
                     + '</span>' + '</div>' + '<span class="echart_time hoverShow" id="echart_line">'
                     + '<span class="last">' + '</span>' + '<span class="refreshEvery" >' + '</span>' +
                     '</span>' + '</div>' + '<div class=chartTitle>' + $('#charttemplate .chartTitle').html() + '</div>' +

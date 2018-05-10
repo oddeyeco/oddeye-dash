@@ -269,7 +269,7 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
         html = html + '<tr id="' + errorjson.hash + '" class="' + trclass + '">';
         if (errorjson.isspec === 0)
         {
-            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
+            html = html + '<td class="icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fas fa-chart-area"></i></a><i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></td>';
         } else
         {
             html = html + '<td><i class="fa fa-bell" style="color:red; font-size: 18px;"></i></td>';

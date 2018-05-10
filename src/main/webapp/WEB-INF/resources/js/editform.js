@@ -239,7 +239,7 @@ class EditForm {
                                 {
                                     if (vars[varsindex] !== "")
                                     {
-                                        jobject.append("<span class='control-label tag_label " + item.prop_key + "' ><span class='tagspan'><span class='text'>" + vars[varsindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                                        jobject.append("<span class='control-label tag_label " + item.prop_key + "' ><span class='tagspan'><span class='text'>" + vars[varsindex] + "</span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                                     }
                                 }
                             }
@@ -331,7 +331,7 @@ class EditForm {
                     {
                         if (item.info.text)
                         {
-                            jobject.append(' <i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="' + item.info.text + '">');
+                            jobject.append(' <i class="fa fas fa-info -circle" data-toggle="tooltip" data-placement="top" title="' + item.info.text + '">');
                         }
                     }
 
@@ -849,7 +849,7 @@ class EditForm {
         contener.find(".edit-query[count!=1]").each(function () {
             if (!$(this).find('.fa').hasClass('q_warning'))
             {
-                var worn = $('<i class="fa fa-info-circle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
+                var worn = $('<i class="fa fas fa-info -circle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
                 worn.appendTo($(this));
 //                worn.tooltip();
             }
@@ -955,7 +955,7 @@ class EditForm {
             var input = $(this).parents(".form-group").find(".data-label");
             if (input.hasClass("metrics"))
             {
-                input.append("<span class='control-label metrics tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                input.append("<span class='control-label metrics tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                 input.find(".tagspan").last().hide();
                 input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
                 var metricinput = input.find("input");
@@ -964,7 +964,7 @@ class EditForm {
 
             if (input.hasClass("tags"))
             {
-                input.append("<span class='control-label tags tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                input.append("<span class='control-label tags tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                 input.find(".tagspan").last().hide();
                 input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fa-remove"></i></a></div>');
                 var tagkinput = input.find("input#tagk");

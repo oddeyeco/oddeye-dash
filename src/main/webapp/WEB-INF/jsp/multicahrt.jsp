@@ -8,7 +8,7 @@
             </div>
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><i class="fa fa-area-chart"></i> Chart </h2>        
+                    <h2><i class="fa fas fa-chart-area"></i> Chart </h2>        
                     <div class="filter">
                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
