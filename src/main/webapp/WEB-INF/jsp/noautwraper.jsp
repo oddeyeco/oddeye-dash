@@ -22,7 +22,7 @@
                     <div class="menu_section">
                         <!--<h3>Navigation</h3>-->
                         <ul class="nav side-menu">
-                            <li><a  href="https://www.oddeye.co/"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
+                            <li><a  href="https://www.oddeye.co/"><i class="fa fas fa-home" aria-hidden="true"></i>Home</a></li>
                             <li><a href="https://www.oddeye.co/documentation/"><i class="fa fas fa-info -circle" aria-hidden="true"></i>About</a></li>
                         </ul>
                     </div>
