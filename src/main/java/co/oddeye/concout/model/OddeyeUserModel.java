@@ -131,8 +131,6 @@ public class OddeyeUserModel implements Serializable {
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
     private Map<String, String> OptionsList;
-    
-    
 
     private ConsumptionList consumptionList;
 
@@ -885,8 +883,8 @@ public class OddeyeUserModel implements Serializable {
             }
             if (this.sotokenJSON.containsKey(sotoken)) {
                 this.sotokenJSON.remove(sotoken);
-            }            
-            if ((this.sotokenlist.isEmpty())&&(this.sotokenJSON.isEmpty())) {
+            }
+            if ((this.sotokenlist.isEmpty()) && (this.sotokenJSON.isEmpty())) {
                 this.listenerContainer.stop();
             }
         }
@@ -1114,8 +1112,11 @@ public class OddeyeUserModel implements Serializable {
      * @param referal the referal to set
      */
     public void setReferal(OddeyeUserModel referal) {
-        this.referal = referal;
-        this.sreferal = referal.getId().toString();
+        if (referal != null) {
+            this.referal = referal;
+            this.sreferal = referal.getId().toString();
+        }
+
     }
 
 //    /**
@@ -1171,8 +1172,7 @@ public class OddeyeUserModel implements Serializable {
     }
 
     public Map<String, String> addOptions(String OptionsName, String OptionsInfo, HbaseUserDao Userdao) throws Exception {
-        if (OptionsList==null)
-        {
+        if (OptionsList == null) {
             OptionsList = new TreeMap<>();
         }
         OptionsList.put(OptionsName, OptionsInfo);
@@ -1192,7 +1192,8 @@ public class OddeyeUserModel implements Serializable {
 
     public String getOptions(String OptionsName) {
         return OptionsList.get(OptionsName);
-    }    
+    }
+
     /**
      * @return the OptionsList
      */
@@ -1218,8 +1219,8 @@ public class OddeyeUserModel implements Serializable {
     /**
      * @param OptionsList the OptionsList to set
      */
-    public void setOptionsList(Map<String, String> OptionsList) {        
+    public void setOptionsList(Map<String, String> OptionsList) {
         this.OptionsList = OptionsList;
     }
-    
+
 }

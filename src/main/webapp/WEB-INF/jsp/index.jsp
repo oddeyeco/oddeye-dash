@@ -30,7 +30,9 @@
             <!-- Bootstrap -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />      
             <!-- Font Awesome -->
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/font-awesome.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fa-solid.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fa-regular.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />
             <!-- iCheck -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />        
             <!-- bootstrap-progressbar -->
@@ -82,7 +84,7 @@
                                 <div class="menu_section">
                                     <!--<h3>Navigation</h3>-->
                                     <ul class="nav side-menu">
-                                        <li><a><i class="fa fa-info "></i> Personal <span class="fa fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fas fa-info  "></i> Personal <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/profile"/>"> Profile</a></li>
                                                 <li><a href="<c:url value="/dashboard/"/>"><span>Dashboards</span></a></li>
@@ -90,7 +92,7 @@
                                                 <li><a href="https://www.oddeye.co/documentation/" target="_blank">Help</a></li>
                                             </ul>
                                         </li>
-                                        <li><a><i class="fa fa-clock-o"></i> Monitoring <span class="fa fa-chevron-down"></span></a>
+                                        <li><a><i class="fa far fa-bell"></i> Monitoring <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/monitoring"/>">Real Time</a></li>
                                                     <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
@@ -106,17 +108,17 @@
                                                 <li><a href="<c:url value="/errorsanalysis"/>">Detailed</a></li>
                                             </ul>
                                         </li>                                        
-                                        <li><a><i class="fa fa-desktop"></i> Dashboards (${curentuser.getDushList().size()}) <span class="fa fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fas fa-desktop"></i> Dashboards (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                 <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
                                                     <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
                                                             <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                                &nbsp; <i  type="button" class="fa fa-lock"></i>
+                                                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
                                                             </c:if>                                                               
                                                             <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                                &nbsp; <i  type="button" class="fa fa-unlock"></i>
+                                                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
                                                             </c:if>                                                                  
                                                             ${Dush.key}                                                             
                                                         </a>
@@ -127,7 +129,7 @@
                                             </ul>
                                         </li>
                                         <sec:authorize access="hasRole('ADMIN')">
-                                            <li><a><i class="fa fa-edit"></i> Managment <span class="fa fa-chevron-down"></span></a>
+                                            <li><a><i class="fa fa-edit"></i> Managment <span class="fa fas fa-chevron-down"></span></a>
                                                 <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
                                                         <li><a href="<c:url value="/userslist"/>" >Users</a></li>
@@ -144,7 +146,7 @@
                                             </li>
                                         </sec:authorize>   
                                         <%--<sec:authorize access="hasRole('ROLE_CAN_SWICH')">
-                                            <li><a><i class="fa fa-asterisk"></i> Administrations <span class="fa fa-chevron-down"></span></a>
+                                            <li><a><i class="fa fa-asterisk"></i> Administrations <span class="fa fas fa-chevron-down"></span></a>
                                                 <ul class="nav child_menu">                                                                                        
                                                      <li><a href="<c:url value="/templatelist"/>" >Templates</a></li>                                         
                                                 </ul>
@@ -168,7 +170,7 @@
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>                            
                         <a data-toggle="tooltip" data-placement="top" title="Monitoring" href="<c:url value="/monitoring"/>">
-                            <span class="fa fa-clock-o" aria-hidden="true"></span>
+                            <span class="fa far fa-clock" aria-hidden="true"></span>
                         </a>                                                        
                         <!--                        <a data-toggle="tooltip" data-placement="top" title="Lock">
                                                     <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
@@ -194,7 +196,7 @@
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
                                                 <b>Switched to ${curentuser.getSwitchUser().getEmail()}</b>
                                             </c:if>                                            
-                                            <span class=" fa fa-angle-down"></span>
+                                            <span class=" fa fas fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
                                             <li class="">     

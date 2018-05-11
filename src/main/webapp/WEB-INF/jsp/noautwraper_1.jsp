@@ -14,8 +14,8 @@
             <li class="sidebar-brand"><a class="calc-logo " href="https://www.oddeye.co/"><img src="/OddeyeCoconut/assets/images/logowhite.png" alt="logo" width="65px" style="float: left"></a></li>
         </ul>
         <ul class="sidebar-nav" id="sidebar">
-            <li><a  href="https://www.oddeye.co/"><i class="fa fa-home" aria-hidden="true"></i>Home</a></li>
-            <li><a href="https://www.oddeye.co/documentation/"><i class="fa fa-info-circle" aria-hidden="true"></i>About</a></li>
+            <li><a  href="https://www.oddeye.co/"><i class="fa fas fa-home" aria-hidden="true"></i>Home</a></li>
+            <li><a href="https://www.oddeye.co/documentation/"><i class="fa fas fa-info -circle" aria-hidden="true"></i>About</a></li>
         </ul>
     </div>
 

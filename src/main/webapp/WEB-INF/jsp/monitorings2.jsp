@@ -51,7 +51,7 @@
             <div id="query_form_content">
                 <form class="form-options">
                     <fieldset id="filters" class="collapsible collapsed">
-                        <legend><i class="action fa fa-chevron-down"></i>Filters</legend>
+                        <legend><i class="action fa fas fa-chevron-down"></i>Filters</legend>
                         <div class="filter-body">
                             <div class="filters row">
                                 <div class="filter all_filter col-sm-4">
@@ -119,8 +119,8 @@
 
                         </div>
                     </fieldset>
-                    <fieldset class="collapsible collapsed col-md-6 col-xs-12">
-                        <legend> <i class="action fa fa-chevron-down"></i>Options</legend>
+                    <fieldset class="collapsible collapsed">
+                        <legend> <i class="action fa fas fa-chevron-down"></i>Options</legend>
                         <div class="filter-body">
                             <table class="options" style="width: 100%">
                                 <tbody><tr>
@@ -223,9 +223,9 @@
 
             <div class="selected-actions btn-group-vertical">              
                 <button type="button" class="btn btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="Show Chart">
-                    <i class="fa fa-area-chart"></i>                       
+                    <i class="fa fas fa-chart-area"></i>                       
                 </button>
-                <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="It`s normal"><i class="fa fa-bell-slash"></i></button>
+                <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="It`s normal"><i class="fa far fa-bell-slash"></i></button>
                 <span class="badge bg-green">0</span>
                 <!--<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>-->
 

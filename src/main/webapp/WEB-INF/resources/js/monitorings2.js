@@ -170,15 +170,15 @@ function drawUL(errorjson, table, hashindex, update) {
     var color = "red";
     if (errorjson.action === 2)
     {
-        arrowclass = "fa-long-arrow-down";
+        arrowclass = "fas fa-long-arrow-alt-down";
         color = "green";
     }
     if (errorjson.action === 3)
     {
-        arrowclass = "fa-long-arrow-up";
+        arrowclass = "fas fa-long-arrow-alt-up";
         color = "red";
     }
-    var eRclass = "level_" + errorjson.level;
+    var eRclass = "level_" + errorjson.level;    
     var UlID = "regularlist";
     if (errorjson.isspec !== 0)
     {
@@ -210,15 +210,15 @@ function drawUL(errorjson, table, hashindex, update) {
                         {
                             if (errorjson.isspec === 0)
                             {
-//                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fa-area-chart"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a>' +
-                                        '<a href="#"><i class="fa fa-bell-slash resetregretion"></i></a>' +
-                                        '<a href="#"><i class="fa fa-trash deletemetric"></i></a>' +
+//                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fas fa-chart-area"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
+                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fas fa-chart-area"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a>' +
+                                        '<a href="#"><i class="fa far fa-bell-slash resetregretion"></i></a>' +
+                                        '<a href="#"><i class="fa far fa-trash-alt deletemetric"></i></a>' +
 //                                        '<a href="#"><span class="glyphicon glyphicon-trash resetrules" aria-hidden="true"></span></a>' +
                                         '</div>';
                             } else
                             {
-                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a><a href="#"><i class="fa fa-trash deletemetric"></i></a></div>';
+                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a><a href="#"><i class="fa far fa-trash-alt deletemetric"></i></a></div>';
                             }
                             break;
                         }
@@ -234,10 +234,10 @@ function drawUL(errorjson, table, hashindex, update) {
                         {
                             if (errorjson.isspec === 0)
                             {
-                                var valuearrowclass = "fa-long-arrow-down";
+                                var valuearrowclass = "fas fa-long-arrow-alt-down";
                                 if (errorjson.upstate)
                                 {
-                                    valuearrowclass = "fa-long-arrow-up";
+                                    valuearrowclass = "fas fa-long-arrow-alt-up";
                                 }
                                 html = html + '<div class="valueinfo"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</div>';
                             }
@@ -356,8 +356,7 @@ function drawUL(errorjson, table, hashindex, update) {
         //var eRclass = "level_" + errorjson.level;
 
 //            .attr("class", eRclass);
-        $("." + table).find("li#" + hashindex + " .level div").html(errorjson.levelname);
-
+        $("." + table).find("li#" + hashindex + " .level").html(errorjson.levelname);        
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
         var lt = errorjson.time;
         $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
@@ -376,10 +375,10 @@ function drawUL(errorjson, table, hashindex, update) {
 //errorjson.flap
         if (errorjson.isspec === 0)
         {
-            var valuearrowclass = "fa-long-arrow-down";
+            var valuearrowclass = "fas fa-long-arrow-alt-down";
             if (errorjson.upstate)
             {
-                valuearrowclass = "fa-long-arrow-up";
+                valuearrowclass = "fas fa-long-arrow-alt-up";
             }
             $("." + table).find("li#" + hashindex + " .valueinfo").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
         } else

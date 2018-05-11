@@ -52,8 +52,8 @@ public class KafkaLisener {
 
     public CountDownLatch countDownReceiveMetric = new CountDownLatch(6);
     public CountDownLatch countDownReceiveAction = new CountDownLatch(6);
-    
-    public final String groupId = UUID.randomUUID().toString()+"appdash";
+
+    public final String groupId = UUID.randomUUID().toString() + "appdash";
 
     @KafkaListener(id = "receiveMetric", topics = "${kafka.metrictopic}", groupId = "#{__listener.groupId}")
     public void receiveMetric(List<String> list) {
@@ -97,7 +97,7 @@ public class KafkaLisener {
         countDownReceiveMetric.countDown();
     }
 
-    @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}" , groupId = "#{__listener.groupId}")
+    @KafkaListener(id = "receiveAction", topics = "${dash.semaphore.topic}", groupId = "#{__listener.groupId}")
     public void receiveAction(List<String> list) {
 //        String payload = list.get(0);
 //        System.out.println("receiveAction list.size : " + list.size());        
@@ -185,16 +185,18 @@ public class KafkaLisener {
                         try {
                             InetAddress ia = InetAddress.getLocalHost();
                             String node = ia.getHostName();
+                            if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
+                                TimeUnit.SECONDS.sleep(2);
+                                user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
+                            }
                             for (Iterator<Map.Entry<String, PageInfo>> it = userpagelist.entrySet().iterator(); it.hasNext();) {
                                 Map.Entry<String, PageInfo> userinfoentry = it.next();
-                                if (userinfoentry.getValue().getNode().equals(node)) {
-                                    if (!jsonResult.getAsJsonObject().get("node").getAsString().equals(node)) {
-                                        TimeUnit.SECONDS.sleep(2);
-                                        user = Userdao.getUserByUUID(UUID.fromString(jsonResult.getAsJsonObject().get("UUID").getAsString()), true);
-                                    }
+
+                                if (!userinfoentry.getValue().getNode().equals(node)) {
                                     this.template.convertAndSendToUser(user.getId().toString(), "/info", jsonResult.toString());
-                                    break;
                                 }
+//                                break;
+//                                }
 
                             }
 

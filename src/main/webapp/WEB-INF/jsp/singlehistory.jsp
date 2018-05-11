@@ -41,7 +41,7 @@
                     <div class="col-xs-6 col-md-6 ">            
                         <div class="x_content "> 
                             <div class="x_title">
-                                <h2><i class="fa fa-line-chart"></i> Regression</h2>     
+                                <h2><i class="fa fas fa-chart-line"></i> Regression</h2>     
                                 <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
                                 <div class="clearfix"></div>
                             </div>                
@@ -134,11 +134,11 @@
                                         <c:set value="" var="arrowclass"/>
                                         <c:set value="red" var="color"/>
                                         <c:if test="${listitem.getState()==2}">
-                                            <c:set value="fa-long-arrow-down" var="arrowclass"/>
+                                            <c:set value="fas fa-long-arrow-alt-down" var="arrowclass"/>
                                             <c:set value="green" var="color"/>
                                         </c:if>
                                         <c:if test="${listitem.getState()==3||listitem.getState()==0}">
-                                            <c:set value="fa-long-arrow-up" var="arrowclass"/>
+                                            <c:set value="fas fa-long-arrow-alt-up" var="arrowclass"/>
                                             <c:set value="red" var="color"/>
                                         </c:if>                                        
                                         <i class="action fa ${arrowclass}" style="color:${color};"></i>

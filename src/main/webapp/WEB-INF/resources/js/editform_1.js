@@ -102,7 +102,7 @@ class EditForm {
                 {
                     if (tags[tagindex] !== "")
                     {
-                        this.formwraper.find("#tab_metrics form#" + qindex + "_query div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query div.tags").append("<span class='control-label query_tag tag_label' ><span class='tagspan'><span class='text'>" + tags[tagindex] + "</span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                     }
                 }
 
@@ -111,7 +111,7 @@ class EditForm {
                 {
                     if (metrics[metricindex] !== "")
                     {
-                        this.formwraper.find("#tab_metrics form#" + qindex + "_query div.metrics").append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'>" + metrics[metricindex] + "</span><a><i class='fa fa-pencil'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
+                        this.formwraper.find("#tab_metrics form#" + qindex + "_query div.metrics").append("<span class='control-label query_metric tag_label' ><span class='tagspan'><span class='text'>" + metrics[metricindex] + "</span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fa-remove'></i></a></span></span>");
                     }
                 }
                 if (aggregator === "")

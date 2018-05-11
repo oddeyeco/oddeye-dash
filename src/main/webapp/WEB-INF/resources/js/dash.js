@@ -1724,20 +1724,29 @@ var queryCallback = function (inputdata) {
                 }
 //*************************************            
 //            console.log(widget.options.series);
-                if (redraw)
-                {
-                    var datalist = [];
-                    for (var key in widget.options.series)
+                try {
+                    if (redraw)
                     {
-                        var ss = widget.options.series[key];
-                        datalist.push({data: ss.data});
-                    }
-                    chart.setOption({series: datalist, xAxis: widget.options.xAxis});
+                        var datalist = [];
+                        for (var key in widget.options.series)
+                        {
+                            var ss = widget.options.series[key];
+                            datalist.push({data: ss.data});
+                        }
+                        chart.setOption({series: datalist, xAxis: widget.options.xAxis});
 
-                } else
-                {
-                    chart.setOption(widget.options, true);
+                    } else
+                    {
+                        chart.setOption(widget.options, true);
+                    }
+                } catch (e) {
+                    console.log("***********1743*****************");
+                    console.log(e);
+                    console.log(widget);
+                    console.log("*******************************");
                 }
+
+
 
                 chart.hideLoading();
                 lockq[ri + " " + wi] = false;
@@ -2062,7 +2071,17 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 {
                     tmpseries[tk].data = [];
                 }
-                chart.setOption(widget.options);
+                try {
+                    chart.setOption(widget.options);
+                } catch (e) {
+                    console.log("***********2076*****************");
+                    console.log(e);
+                    console.log(widget);
+                    console.log("*******************************");
+                }
+
+
+
                 return;
             }
             if (getParameterByName('metrics', uri))
@@ -2353,8 +2372,16 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         tmprow.widgets[wi].options.series[0] = {};
                     }
                     tmprow.widgets[wi].options.series[0].type = "line";
+                    try {
+                        tmprow.widgets[wi].echartLine.setOption(tmprow.widgets[wi].options);
+                    } catch (e) {
+                        console.log("***********2376*****************");
+                        console.log(e);
+                        console.log(tmprow.widgets[wi]);
+                        console.log("*******************************");
+                    }
 
-                    tmprow.widgets[wi].echartLine.setOption(tmprow.widgets[wi].options);
+
                 }
             }
 
@@ -2594,9 +2621,9 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         if (rebuildform) {
             wraper.prepend('<div class="chartTitleDiv">' + '<div class="chartDesc wrap">' +
                     '<div class="borderRadius">' + '<span class="chartSubIcon" style="display: none">'
-                    + '<i class="fa fa-info"></i> ' + '</span>' + '</div>' +
+                    + '<i class="fa fas fa-info "></i> ' + '</span>' + '</div>' +
                     '<a class="chartSubText hoverShow">' + '</a>' + '</div>' + '<div class="chartTime wrap">'
-                    + '<div class="borderRadius">' + '<span class="echart_time_icon">' + '<i class="fa fa-clock-o"></i>'
+                    + '<div class="borderRadius">' + '<span class="echart_time_icon">' + '<i class="fa far fa-clock"></i>'
                     + '</span>' + '</div>' + '<span class="echart_time hoverShow" id="echart_line">'
                     + '<span class="last">' + '</span>' + '<span class="refreshEvery" >' + '</span>' +
                     '</span>' + '</div>' + '<div class=chartTitle>' + $('#charttemplate .chartTitle').html() + '</div>' +
@@ -2689,7 +2716,16 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
         } else
         {
-            echartLine.setOption(dashJSON.rows[row].widgets[index].options);
+            try {
+                echartLine.setOption(dashJSON.rows[row].widgets[index].options);
+            } catch (e) {
+                console.log("***********1743*****************");
+                console.log(e);
+                console.log(dashJSON.rows[row].widgets[index]);
+                console.log("*******************************");
+            }
+
+
         }
     }
 //    }
@@ -3713,21 +3749,21 @@ $(document).ready(function () {
         if (getParameterByName("row") !== null)
         {
             single_ri = getParameterByName("row");
-        }                
+        }
         var imageobg = document.getElementById($(this).parents(".chartsection").attr("id"));
-        if (document.getElementById('singlewidget')!= null)
+        if (document.getElementById('singlewidget') != null)
         {
             var imageobg = document.getElementById('singlewidget');
-        }    
+        }
         $(imageobg).find(".fa-chevron-down, .dropdown-menu").hide();
-        
-        html2canvas(imageobg).then(canvas => {            
+
+        html2canvas(imageobg).then(canvas => {
             var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
 
             var filename = "oddeyeimage";
             var fileFotmat = ".png";
             if (gdd.rows[single_ri].widgets[single_wi].title)
-            {                
+            {
                 filename = gdd.rows[single_ri].widgets[single_wi].title.text ? gdd.rows[single_ri].widgets[single_wi].title.text : filename;
             }
 
@@ -3735,12 +3771,12 @@ $(document).ready(function () {
             document.body.appendChild(a);
             a.style = "display: none";
             a.href = image;
-            a.download = filename+fileFotmat;
+            a.download = filename + fileFotmat;
             a.click();
-            window.URL.revokeObjectURL(image);           
+            window.URL.revokeObjectURL(image);
             $(imageobg).find(".fa-chevron-down").removeAttr("style");
             $(imageobg).find(".dropdown-menu").removeAttr("style");
-            
+
         });
 
 
