@@ -119,7 +119,7 @@
 
                         </div>
                     </fieldset>
-                    <fieldset class="collapsible collapsed">
+                    <fieldset class="collapsible collapsed col-md-6 col-xs-12">
                         <legend> <i class="action fa fas fa-chevron-down"></i>Options</legend>
                         <div class="filter-body">
                             <table class="options" style="width: 100%">
@@ -168,7 +168,7 @@
                         </div>
                     </fieldset>
                     <fieldset class="collapsible collapsed col-md-6 col-xs-12">
-                        <legend> <i class="action fa fa-chevron-down"></i>External notifiers</legend>
+                        <legend> <i class="action fa fas fa-chevron-down"></i>External notifiers</legend>
                         <div class="filter-body">
                             <div class="add-notifier">
                                 <label for="addNotifier" class="all_filter col-sm-4 text-right">Add Notifier</label>
