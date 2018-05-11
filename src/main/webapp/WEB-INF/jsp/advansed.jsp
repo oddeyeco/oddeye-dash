@@ -39,7 +39,7 @@
             <div class="col-md-4 col-sm-4 col-xs-6">            
                 <div class="x_content "> 
                     <div class="x_title">
-                        <h2><i class="fa fa-weibo"></i> Info</h2>                                         
+                        <h2><i class="fa fas fa-info"></i> Info</h2>                                         
                         <div class="clearfix"></div>
                     </div>                
                     <ul class="">
