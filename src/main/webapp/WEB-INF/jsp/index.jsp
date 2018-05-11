@@ -196,7 +196,7 @@
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
                                                 <b>Switched to ${curentuser.getSwitchUser().getEmail()}</b>
                                             </c:if>                                            
-                                            <span class=" fa fa-angle-down"></span>
+                                            <span class=" fa fas fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
                                             <li class="">     

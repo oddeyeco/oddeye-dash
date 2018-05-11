@@ -244,12 +244,12 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
     var color = "red";
     if (errorjson.action === 2)
     {
-        arrowclass = "fa-long-arrow-down";
+        arrowclass = "fas fa-long-arrow-alt-down";
         color = "green";
     }
     if (errorjson.action === 3)
     {
-        arrowclass = "fa-long-arrow-up";
+        arrowclass = "fas fa-long-arrow-alt-up";
         color = "red";
     }
     var trclass = "level_" + errorjson.level;
@@ -262,7 +262,7 @@ function drawRaw(errorjson, table, hashindex = null, update = false) {
     {
 //        if (arrowclass === "")
 //        {
-//            arrowclass = "fa-long-arrow-up";
+//            arrowclass = "fas fa-long-arrow-alt-up";
 //            color = "red";
 //        }
         var html = "";

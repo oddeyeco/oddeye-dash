@@ -66,7 +66,7 @@ var calc = {
             check_hbase_rest: {count: 23, type: 'single', text: "HBase rest", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Rest"},
             check_hbase_thrift: {count: 19, type: 'single', text: "HBase thrift", src: '/OddeyeCoconut/assets/images/integration/hbase.png', name: "HBase Thrift"},
             check_cassandra: {count: 23, type: 'single', text: "Cassandra", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', name: "Cassandra"},
-            check_cassandra3: {count: 23, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', name: "Cassandra 3"},
+            check_cassandra3: {count: 29, type: 'single', text: "Cassandra3", src: '/OddeyeCoconut/assets/images/integration/cassandra.png', name: "Cassandra 3"},
             check_riak: {count: 10/*?????*/, type: 'single', text: "Riak", src: '/OddeyeCoconut/assets/images/integration/Riak.png', name: "Riak"}
         }},
     hadoop_check: {text: "Distributed manager", childs: {

@@ -368,12 +368,12 @@ function drawRaw(errorjson, table, hashindex, update) {
     var color = "red";
     if (errorjson.action === 2)
     {
-        arrowclass = "fa-long-arrow-down";
+        arrowclass = "fas fa-long-arrow-alt-down";
         color = "green";
     }
     if (errorjson.action === 3)
     {
-        arrowclass = "fa-long-arrow-up";
+        arrowclass = "fas fa-long-arrow-alt-up";
         color = "red";
     }
     var trclass = "level_" + errorjson.level;
@@ -391,7 +391,7 @@ function drawRaw(errorjson, table, hashindex, update) {
     {
 //        if (arrowclass === "")
 //        {
-//            arrowclass = "fa-long-arrow-up";
+//            arrowclass = "fas fa-long-arrow-alt-up";
 //            color = "red";
 //        }
         var html = "";
@@ -422,10 +422,10 @@ function drawRaw(errorjson, table, hashindex, update) {
 
         if (errorjson.isspec === 0)
         {
-            var valuearrowclass = "fa-long-arrow-down";
+            var valuearrowclass = "fas fa-long-arrow-alt-down";
             if (errorjson.upstate)
             {
-                valuearrowclass = "fa-long-arrow-up";
+                valuearrowclass = "fas fa-long-arrow-alt-up";
             }
             html = html + '<td class="message"><i class="action fa ' + valuearrowclass + '"></i> ' + message + '</td>';
         } else
@@ -478,10 +478,10 @@ function drawRaw(errorjson, table, hashindex, update) {
         table.find("tbody tr#" + hashindex).attr('time', errorjson.time);
         if (errorjson.isspec === 0)
         {
-            var valuearrowclass = "fa-long-arrow-down";
+            var valuearrowclass = "fas fa-long-arrow-alt-down";
             if (errorjson.upstate)
             {
-                valuearrowclass = "fa-long-arrow-up";
+                valuearrowclass = "fas fa-long-arrow-alt-up";
             }
             table.find("tbody tr#" + hashindex + " .message").html('<i class="action fa ' + valuearrowclass + '"></i> ' + message);
         } else

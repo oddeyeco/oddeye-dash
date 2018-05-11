@@ -134,11 +134,11 @@
                                         <c:set value="" var="arrowclass"/>
                                         <c:set value="red" var="color"/>
                                         <c:if test="${listitem.getState()==2}">
-                                            <c:set value="fa-long-arrow-down" var="arrowclass"/>
+                                            <c:set value="fas fa-long-arrow-alt-down" var="arrowclass"/>
                                             <c:set value="green" var="color"/>
                                         </c:if>
                                         <c:if test="${listitem.getState()==3||listitem.getState()==0}">
-                                            <c:set value="fa-long-arrow-up" var="arrowclass"/>
+                                            <c:set value="fas fa-long-arrow-alt-up" var="arrowclass"/>
                                             <c:set value="red" var="color"/>
                                         </c:if>                                        
                                         <i class="action fa ${arrowclass}" style="color:${color};"></i>
