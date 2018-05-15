@@ -18,8 +18,8 @@
                 </li>
                 <li role="presentation" class="<c:if test="${tab == \"level-tab\"}">active</c:if>  "><a href="#level_content" role="tab" id="level-tab" data-toggle="tab" aria-expanded="false">Levels Settings</a>
                 </li>
-                <li role="presentation" class="<c:if test="${tab == \"notifier-tab\"}">active</c:if>"><a href="#notifier_content" role="tab" id="notifier-tab" data-toggle="tab" aria-expanded="false">Notifier</a>
-                </li>
+<!--                <li role="presentation" class="<c:if test="${tab == \"notifier-tab\"}">active</c:if>"><a href="#notifier_content" role="tab" id="notifier-tab" data-toggle="tab" aria-expanded="false">Notifier</a>
+                </li>-->
                 <li role="presentation" class="<c:if test="${tab == \"pass-tab\"}">active</c:if>"><a href="#tab_pass" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Security</a>
                 </li>
 
@@ -146,7 +146,7 @@
                     <!-- end user projects -->
 
                 </div>
-                <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"notifier-tab\"}">active</c:if>" id="notifier_content" aria-labelledby="notifier_content">
+<!--                <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"notifier-tab\"}">active</c:if>" id="notifier_content" aria-labelledby="notifier_content">
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <form class="form-horizontal form-label-left form-filter" name="send_email" id="email_note">
                             <div class="x_title">                            
@@ -171,7 +171,7 @@
                             </div>                        
                         </form>
                     </div>                            
-                </div>
+                </div>-->
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"pass-tab\"}">active</c:if>" id="tab_pass" aria-labelledby="pass-tab">
                     <div class="x_content">                                        
                         <form:form method="post" action="${cp}/profile/changepassword" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="passwordform">
