@@ -1176,9 +1176,9 @@ public class OddeyeUserModel implements Serializable {
             OptionsList = new TreeMap<>();
         }
         OptionsList.put(OptionsName, OptionsInfo);
-//        if (!email.equals("demodemo@oddeye.co")) {
+        if (!email.equals("demodemo@oddeye.co")) {
             Userdao.saveOptions(id, OptionsName, OptionsInfo);
-//        }
+        }
         return OptionsList;
     }
 
