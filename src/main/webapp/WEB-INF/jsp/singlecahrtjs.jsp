@@ -8,7 +8,7 @@
     balanse = ${curentuser.getBalance()};
     </c:if>    
     var hashcode = ${metric.hashCode()};
-    var merictype = ${metric.getType()};
+    var merictype = ${metric.getType().ordinal()};
     var formatter = format_metric;
     var s_formatter = format_percent;
     var abc_formatter = format_metric;    

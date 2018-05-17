@@ -446,7 +446,7 @@ public class AjaxControlers {
                     final JsonObject tagsjson = new JsonObject();
                     metricjson.addProperty("name", metric.getName());
                     metricjson.addProperty("hash", metric.hashCode());
-                    metricjson.addProperty("type", metric.getType());
+                    metricjson.addProperty("type", metric.getType().ordinal());
                     metricjson.addProperty("typename", metric.getTypeName());
                     metricjson.addProperty("lasttime", metric.getLasttime());
                     metricjson.addProperty("inittime", metric.getInittime());

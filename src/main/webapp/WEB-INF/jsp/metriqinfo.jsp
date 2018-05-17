@@ -27,7 +27,7 @@
                     </div>                    
                 </div>
 
-                <c:if test="${metric.getType()!=0}">
+                <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
                     <div class="col-sm-6 col-xs-12">            
                         <div class="x_content "> 
                             <div class="x_title">
@@ -117,7 +117,7 @@
 
 
         </div>
-        <c:if test="${metric.getType()!=0}">
+        <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
@@ -153,7 +153,7 @@
             </div>   
         </c:if>
     </div>
-    <c:if test="${metric.getType()!=0}">
+    <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
         <div class="row">
             <div class="col-xs-12">
                 <div class="x_panel">

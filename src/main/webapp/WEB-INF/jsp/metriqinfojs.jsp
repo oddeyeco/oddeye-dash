@@ -3,8 +3,8 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
-<script>
-    var merictype = ${metric.getType()};
+<script>    
+    var merictype = ${metric.getType().ordinal()};
     var formatter = format_metric;
     var s_formatter = "{value} %";
     var abc_formatter = format_metric;

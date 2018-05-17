@@ -37,7 +37,7 @@
                         </ul>                
                     </div>                    
                 </div>
-                <c:if test="${metric.getType()!=0}">
+                <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
                     <div class="col-xs-6 col-md-6 ">            
                         <div class="x_content "> 
                             <div class="x_title">
@@ -155,7 +155,7 @@
                                         </div>
                                     </td>
                                     <td class="message" value="${listitem.getMessage()}">
-                                        <c:if test="${metric.getType()>0}">                                            
+                                        <c:if test="${metric.getType()>OddeeyMetricTypesEnum.SPECIAL}">                                            
                                             <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${listitem.getStartvalue()}" />
                                         </c:if>
 
