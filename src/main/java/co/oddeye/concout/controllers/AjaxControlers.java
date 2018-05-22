@@ -15,6 +15,7 @@ import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
 import co.oddeye.concout.core.SendToKafka;
 import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.core.OddeeyMetricTypesEnum;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -295,6 +296,53 @@ public class AjaxControlers {
         return "ajax";
     }
 
+    @RequestMapping(value = {"/gettypesinfo"})
+    public String GetMetricsTypesInfo(ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+        JsonObject jsondata = new JsonObject();
+//        List<String> data = new ArrayList<>();
+        OddeyeUserModel userDetails = null;
+
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+
+        }
+
+        if (userDetails != null) {
+            try {
+                if ((userDetails.getSwitchUser() != null)) {
+                    if (userDetails.getSwitchUser().getAlowswitch()) {
+                        userDetails = userDetails.getSwitchUser();
+                    }
+                }
+
+                ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
+                jsonResult.addProperty("sucsses", true);                
+                jsonResult.addProperty("count", Metriclist.getTypeMap().size());
+                JsonObject typejson = new JsonObject();
+                for (Map.Entry<OddeeyMetricTypesEnum, Integer> typeentry:Metriclist.getTypeMapSorted().entrySet())
+                {
+                   JsonObject typejsonitem = new JsonObject();    
+                   typejsonitem.addProperty("value", typeentry.getKey().getShort());
+                   typejsonitem.addProperty("count", typeentry.getValue());
+                   typejson.add(typeentry.getKey().toString(), typejsonitem);
+                }
+                
+                jsonResult.add("data", typejson);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
     @RequestMapping(value = {"/getmetricsnamesinfo"})
     public String GetMetricsNamesInfo(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -319,12 +367,8 @@ public class AjaxControlers {
 
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
                 jsonResult.addProperty("sucsses", true);
-
-                Map<String, Integer> data = new HashMap<>();
-
                 Gson gson = new Gson();
-
-                jsonResult.addProperty("count", data.size());
+                jsonResult.addProperty("count", Metriclist.GetNames().size());
                 jsonResult.add("dataspecial", gson.toJsonTree(Metriclist.getSpecialNameMapSorted()).getAsJsonObject());
                 jsonResult.add("dataregular", gson.toJsonTree(Metriclist.getRegularNameMapSorted()).getAsJsonObject());
             } catch (Exception ex) {
@@ -433,6 +477,8 @@ public class AjaxControlers {
                 ConcoutMetricMetaList Metriclist;
                 if (key.equals("_name")) {
                     Metriclist = userDetails.getMetricsMeta().getbyName(value);
+                } else if (key.equals("_type")) {
+                    Metriclist = userDetails.getMetricsMeta().getbyType(value);
                 } else {
                     Metriclist = userDetails.getMetricsMeta().getbyTag(key, value);
                 }
@@ -843,6 +889,7 @@ public class AjaxControlers {
             try {
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
+                jsonResult.addProperty("types", userDetails.getMetricsMeta().getTypeMap().size());
                 jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
                 jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
                 jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());
@@ -879,6 +926,7 @@ public class AjaxControlers {
 //                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 //                }                
                 jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
+                jsonResult.addProperty("types", userDetails.getMetricsMeta().getTypeMap().size());
                 jsonResult.addProperty("tagscount", userDetails.getMetricsMeta().getTagsList().size());
                 jsonResult.addProperty("count", userDetails.getMetricsMeta().size());
                 jsonResult.addProperty("uniqtagscount", userDetails.getMetricsMeta().getTaghashlist().size());

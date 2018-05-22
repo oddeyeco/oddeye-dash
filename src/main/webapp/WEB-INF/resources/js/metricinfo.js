@@ -19,7 +19,9 @@ function getmetainfo(tagkey) {
         success: function (data) {
             if (data.sucsses)
             {
+                console.log(data);
                 $('#metrics').html(data.names);
+                $('#typecount').html(data.types);
 //                    $('#metrics').after('<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>');
                 $('#tags').html(data.tagscount);
                 $('#count').html(data.count);
@@ -28,7 +30,7 @@ function getmetainfo(tagkey) {
                 $("#tagslist").html('');
 
 
-                jQuery.each(data.tags, function (i, val) {                    
+                jQuery.each(data.tags, function (i, val) {
                     $("#tagslist").append('<div class="col-lg-2 col-sm-3 col-xs-6 tile_stats_count">' +
                             '<span class="count_top"><i class="fa fa-th-list"></i> Tag "' + i + '" count </span>' +
                             '<div class="count spincrement">' + val + '</div>' +
@@ -46,10 +48,58 @@ function getmetainfo(tagkey) {
 }
 var tablemeta = null;
 var tablelist = null;
+
+function getmetatypes(tablename) {
+    var url = cp + "/gettypesinfo";    
+    $.ajax({
+        url: url,
+        dataType: 'json',
+        type: 'POST',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+            if (data.sucsses)
+            {
+                var table = $(tablename);
+                for (var i in data.data)
+                {
+                    var val = data.data[i];
+                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='type' value='" + val.value + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val.count + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_type' value='" + val.value + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_type' value='" + val.value + "'><i class='fa far fa-trash-alt-o'></i> Delete</a></td></tr>");
+                }
+//                $('#listtable').DataTable({});
+                $('#listtable').find('td input.rawflat').iCheck({
+                    checkboxClass: 'icheckbox_flat-green',
+                    radioClass: 'iradio_flat-green'
+                });
+                tablelist = $('#listtable').DataTable({
+                    "order": [[1, "asc"]],
+                    'columnDefs': [{
+                            'orderable': false,
+                            'targets': [0, 3] /* 1st one, start by the right */
+                        }]});
+                $('#listtable').find('td input.rawflat').iCheck({
+                    checkboxClass: 'icheckbox_flat-green',
+                    radioClass: 'iradio_flat-green'
+                });
+                tablelist.on('draw', function () {
+                    $('#listtable').find('td input.rawflat').iCheck({
+                        checkboxClass: 'icheckbox_flat-green',
+                        radioClass: 'iradio_flat-green'
+                    });
+                });
+                $("#modall1").modal('show');
+            }
+            ;
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            $("#listtablediv").html("Loading Error");
+        }
+    });    
+}
+
 function getmetanames(tablename) {
     var url = cp + "/getmetricsnamesinfo";
-    var tags = 'name';
-
     $.ajax({
         url: url,
         dataType: 'json',
@@ -151,6 +201,8 @@ function getmetatags(key) {
         }
     });
 }
+
+
 var maetricrawHTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{firsttime}</a></td><td class="text-nowrap"><a>{lasttime}</a></td> <td class="text-nowrap"><a>{livedays}</a></td><td class="text-nowrap"><a>{silencedays}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-primary btn-xs clreg" value="{hash}"> Clear Regression </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa far fa-trash-alt-o"></i> Delete </a></td></tr>';
 var chartLinck = '<a href="' + cp + '/chart/{hash}" target="_blank"><i class="fa fas fa-chart-area" style="font-size: 18px;"></i></a>';
 function getmetrics(key, idvalue, id, draw) {
@@ -191,7 +243,7 @@ function getmetrics(key, idvalue, id, draw) {
                 input = input.replace("{firsttime}", moment(metric.inittime).format("YYYY-MM-DD HH:mm:ss"));
                 input = input.replace("{livedays}", metric.livedays);
                 input = input.replace("{silencedays}", metric.silencedays);
-                
+
                 biginput = biginput + input;
             }
 
@@ -264,6 +316,10 @@ $(document).ready(function () {
             {
                 $("#modall1").find(".modal-title").text("Metric Names list");
                 getmetanames("#listtable");
+            } else if (tagkey === "_type")
+            {
+                $("#modall1").find(".modal-title").text("Metric Names list");
+                getmetatypes("#listtable");
             } else
             {
                 $("#modall1").find(".modal-title").text('Tag "' + tagkey + '" list');
@@ -426,7 +482,9 @@ $(document).ready(function () {
             }).done(function (msg) {
                 if (msg.sucsses)
                 {
-                    setTimeout(function (){location.reload();}, 1000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 } else
                 {
                     console.log("Request failed");

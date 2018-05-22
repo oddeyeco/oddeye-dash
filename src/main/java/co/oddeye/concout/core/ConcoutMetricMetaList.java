@@ -7,6 +7,7 @@ package co.oddeye.concout.core;
 
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeeyMetricMetaList;
+import co.oddeye.core.OddeeyMetricTypesEnum;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     private final Map<String, Integer> RegularNameMap = new HashMap<>();
     private final Map<String, Integer> SpecialNameMap = new HashMap<>();
     private final Map<String, Integer> NameMap = new HashMap<>();
+    private final Map<OddeeyMetricTypesEnum, Integer> TypeMap = new HashMap<>();
 
     public ConcoutMetricMetaList() {
         super();
@@ -193,6 +195,20 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
         return SortbyName;
     }
 
+    
+
+    public ConcoutMetricMetaList getbyType(String type) {
+        Integer tp = Integer.parseInt(type);
+        ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
+        for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
+            if (OddeeyMetricTypesEnum.values()[tp].getShort() == MetricMeta.getValue().getType().getShort() ) {
+                SortbyName.add(MetricMeta.getValue());
+            }
+
+        }
+        return SortbyName;
+    }            
+            
     public ConcoutMetricMetaList getbyName(String name) {
         ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
         for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
@@ -201,7 +217,6 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             }
 
         }
-//        SortbyName.sort(OddeeyMetricMeta::compareTo);
         return SortbyName;
     }
 
@@ -249,10 +264,12 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 //        Collections.sort(list);
         return new TreeMap<>(RegularNameMap);
     }
+
     //Gidem lav chi
     public void updateIndexes() {
         getTagsList().clear();
         NameMap.clear();
+        getTypeMap().clear();
         SpecialNameMap.clear();
         RegularNameMap.clear();
         this.entrySet().forEach((e) -> {
@@ -261,7 +278,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     }
 
     public void updateIndex(OddeeyMetricMeta e) {
-        Integer count;        
+        Integer count;
         getTaghashlist().add(e.getTags().hashCode());
         for (Map.Entry<String, OddeyeTag> tag : e.getTags().entrySet()) {
             try {
@@ -284,6 +301,13 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             }
 
         }
+
+        count = 1;
+        if (getTypeMap().containsKey(e.getType())) {
+            count = getTypeMap().get(e.getType()) + 1;
+        }
+        getTypeMap().put(e.getType(), count);
+
         count = 1;
         if (NameMap.containsKey(e.getName())) {
             count = NameMap.get(e.getName()) + 1;
@@ -304,4 +328,15 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             RegularNameMap.put(e.getName(), count);
         }
     }
+
+    /**
+     * @return the TypeMap
+     */
+    public Map<OddeeyMetricTypesEnum, Integer> getTypeMap() {
+        return TypeMap;
+    }
+    
+    public Map<OddeeyMetricTypesEnum, Integer> getTypeMapSorted() {
+        return new TreeMap<>(TypeMap);
+    }    
 }
