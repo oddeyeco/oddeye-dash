@@ -822,7 +822,7 @@ public class AjaxControlers {
                         }
                     }
 
-                    uri = stormurl + "topology/" + tid + "/component/SendNotifierBolt";
+                    uri = stormurl + "topology/" + tid + "/component/NotifierSenderBolt";
                     JsonElement ErrorboltSum = OddeyeHttpURLConnection.getGetJSON(uri);
                     for (JsonElement ksst : ErrorboltSum.getAsJsonObject().get("inputStats").getAsJsonArray()) {
                         if (ksst.getAsJsonObject().get("stream").getAsString().equals("default")) {
