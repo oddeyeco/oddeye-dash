@@ -2,29 +2,82 @@
 <script src="${cp}/resources/echarts/dist/echarts.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
-<script>    
+<script>
     var balanse = 0;
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
-    </c:if>    
+    </c:if>
     var hashcode = ${metric.hashCode()};
     var merictype = ${metric.getType().ordinal()};
     var formatter = format_metric;
-    var s_formatter = format_percent;
-    var abc_formatter = format_metric;    
-    
+    var abc_formatter = format_metric;
+    var s_formatter = "format_metric";
+
+    console.log(merictype);
+
     switch (merictype) {
+        case 3:
+            formatter = formatops;
+            s_formatter = "formatops";
+            abc_formatter = formatops;
+            break;//formatops                
         case 4:
-            formatter =format_percent;
+            formatter = format_percent;
             s_formatter = "{value} %";
             abc_formatter = format_percent;
             break;//formatops          
-        default:                        
+        default:
             formatter = format_metric;
             s_formatter = "format_metric";
             abc_formatter = format_metric;
             break;
     }
+    
+    var markPoint = {data: [
+            {type: 'max', name: 'max', 'unit': s_formatter,
+                itemStyle: {color: "#ff0000"},
+                label: {
+                    normal: {position: "right", formatter: abc_formatter},
+                    emphasis: {position: "right", formatter: abc_formatter}
+                }},
+            {type: 'min', name: 'min', symbolRotate: 180,
+                itemStyle: {color: "#b6a2de"},
+                label: {
+                    normal: {position: "left", formatter: abc_formatter},
+                    emphasis: {position: "left", formatter: abc_formatter}
+                }}
+        ]
+    };
+    var markLine = {
+        data: [
+            {type: 'average', name: 'average', 'unit': s_formatter, label: {
+                    normal: {formatter: abc_formatter},
+                    emphasis: {formatter: abc_formatter}
+                }}
+        ]
+    };    
+    
+    switch (merictype) {
+        case 2:
+            markPoint = {};
+            markLine = {
+                data: [
+                    {type: 'max', name: 'max', 'unit': s_formatter, label: {
+                            normal: {formatter: abc_formatter},
+                            emphasis: {formatter: abc_formatter}
+                        }},
+                    {type: 'min', name: 'min', 'unit': s_formatter, label: {
+                            normal: {formatter: abc_formatter},
+                            emphasis: {formatter: abc_formatter}
+                        }}
+                ]
+            };
+            break;     
+        default:
+
+            break;
+    }    
+    
     pickerlabel = "Last 1 day";
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var timer;
@@ -37,7 +90,7 @@
         }, interval);
 
         $('#reportrange span').html(pickerlabel);
-        PicerOptionSet1.minDate = getmindate();        
+        PicerOptionSet1.minDate = getmindate();
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
 
         $('body').on("click", "#Clear_reg", function () {
@@ -57,7 +110,9 @@
             }).done(function (msg) {
                 if (msg.sucsses)
                 {
-                    setTimeout(function (){location.reload();}, 1000);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1000);
                 } else
                 {
                     alert("Request failed");
@@ -86,7 +141,7 @@
         clearTimeout(timer);
 
         drawEchart(url, echartLine);
-        timer = setInterval(function () {            
+        timer = setInterval(function () {
             ReDrawEchart(url, echartLine);
         }, interval);
 
@@ -115,8 +170,75 @@
 
             var calcmin = 0;
             var clacmax = 100;
+            var grid = {
+                top: 50,
+                x2: 200,
+                y2: 80,
+                containLabel: true
+            };
+            var series = [{
+                    name: chartline.metric,
+                    type: 'line',
+                    areaStyle: {
+                        normal: {opacity: 0.4}
+                    },
+                    markPoint: markPoint,
+                    markLine: markLine,
+                    data: chdata
+                },
+                {
+                    name: 'Last',
+                    type: 'gauge',
+                    axisLabel: {show: false},
+                    center: ['90%', 220],
+                    radius: 140,
+                    startAngle: 90,
+                    endAngle: -90,
+                    min: calcmin,
+                    max: clacmax,
+                    splitNumber: 3,
+                    axisLine: {
+                        lineStyle: {
+                            width: 10
+                        }
+                    },
+                    title: {
+                        show: true,
+                        offsetCenter: ["30%", -160],
+                        textStyle: {
+                            color: '#333',
+                            fontSize: 15
+                        }
+                    },
+                    detail: {
+                        offsetCenter: ["50%", "140%"],
+                        formatter: formatter
+                    },
+                    data: [{value: chdataMath[chdataMath.length - 1], name: 'Last Value'}]
+                }];
+
 
             switch (merictype) {
+                case 2:
+                    grid = {
+                        top: 50,
+                        x2: 40,
+                        y2: 80,
+                        containLabel: true
+                    };
+                    series = [{
+                            name: chartline.metric,
+                            type: 'line',
+                            areaStyle: {
+                                normal: {opacity: 0.4}
+                            },
+                            markPoint: markPoint,
+                            markLine: markLine,
+                            data: chdata
+                        }];
+
+                    break;
+
                 case 4:
                     calcmin = 0;
                     clacmax = 100;
@@ -155,69 +277,8 @@
                         start: 0,
                         end: 100
                     }],
-                grid: {
-                    top: 50,
-                    x2: 200,
-                    y2: 80
-                },
-                series: [{
-                        name: chartline.metric,
-                        type: 'line',
-                        areaStyle: {
-                            normal: {opacity: 0.4}
-                        },
-                        markPoint: {
-                            data: [
-                                {type: 'max', name: 'max', 'unit': s_formatter, label: {
-                                        normal: {position: "top", formatter: abc_formatter},
-                                        emphasis: {position: "top",formatter: abc_formatter}
-                                    }},
-                                {type: 'min', name: 'min', label: {
-                                        normal: {position: "top", formatter: abc_formatter},
-                                        emphasis: {position: "top",formatter: abc_formatter}
-                                    }}
-                            ]
-                        },
-                        markLine: {
-                            data: [
-                                {type: 'average', name: 'average',  'unit': s_formatter, label: {
-                                        normal: {formatter: abc_formatter},
-                                        emphasis: {formatter: abc_formatter}
-                                    }}
-                            ]
-                        },
-                        data: chdata
-                    },
-                    {
-                        name: 'Last',
-                        type: 'gauge',
-                        axisLabel: {show: false},
-                        center: ['90%', 220],
-                        radius: 140,
-                        startAngle: 90,
-                        endAngle: -90,
-                        min: calcmin,
-                        max: clacmax,
-                        splitNumber: 3,
-                        axisLine: {
-                            lineStyle: {
-                                width: 10
-                            }
-                        },
-                        title: {
-                            show: true,
-                            offsetCenter: ["30%", -160],
-                            textStyle: {
-                                color: '#333',
-                                fontSize: 15
-                            }
-                        },
-                        detail: {
-                            offsetCenter: ["50%", "140%"],
-                            formatter: formatter
-                        },
-                        data: [{value: chdataMath[chdataMath.length - 1], name: 'Last Value'}]
-                    }]
+                grid: grid,
+                series: series
             });
         });
     }
@@ -225,7 +286,7 @@
 
 
     function ReDrawEchart(uri, chart)
-    {        
+    {
         $.getJSON(uri, null, function (data) {
             var date = [];
             var chdata = [];
@@ -241,21 +302,25 @@
             }
             var options = chart.getOption();
 
-            options.series[1].data[0].value = chdataMath[chdataMath.length - 1];
-            switch (merictype) {
-                case 4:
-                    options.series[1].min = 0;
-                    options.series[1].max = 100;
-                    break;
+            if (options.series[1])
+            {
+                options.series[1].data[0].value = chdataMath[chdataMath.length - 1];
+                switch (merictype) {
+                    case 4:
+                        options.series[1].min = 0;
+                        options.series[1].max = 100;
+                        break;
 
-                default:
-                    options.series[1].min = Math.min.apply(null, chdataMath);
-                    options.series[1].max = Math.max.apply(null, chdataMath);
-                    break;
-            }            
-            
-            options.series[0].data = chdata;            
-            chart.setOption({series:options.series});
+                    default:
+                        options.series[1].min = Math.min.apply(null, chdataMath);
+                        options.series[1].max = Math.max.apply(null, chdataMath);
+                        break;
+                }
+            }
+
+
+            options.series[0].data = chdata;
+            chart.setOption({series: options.series});
 
         }
         );

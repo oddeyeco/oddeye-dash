@@ -239,6 +239,7 @@ var encodeHTML = function (source) {
                                 {
                                     value = Number.isInteger(value) ? value : value.toFixed(2);
                                 }
+                                console.log(param.data);
                                 if (param.data.unit.search("{value}") !== -1)
                                 {
                                     value = param.data.unit.replace("{value}", value);
