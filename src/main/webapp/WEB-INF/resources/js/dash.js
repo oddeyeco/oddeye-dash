@@ -912,7 +912,7 @@ var queryCallback = function (inputdata) {
                     return compareNameName(a, b);
                 });
 
-
+                chart.find(".chartsection").addClass("tmpfix");
                 for (var val in widget.data)
                 {
 
@@ -948,7 +948,8 @@ var queryCallback = function (inputdata) {
                     }
                     var avalue = value.split(" ");
 
-                    if (!redraw)
+                    JQcounter = chart.find("#" + widget.data[val].id + val);
+                    if ((!redraw) || (JQcounter.length === 0))
                     {
                         JQcounter = $(basecounter);
                         chart.append(JQcounter);
@@ -990,6 +991,7 @@ var queryCallback = function (inputdata) {
                         JQcounter.attr("id", widget.data[val].id + val);
                     } else
                     {
+                        JQcounter.removeClass("tmpfix");
                         JQcounter = chart.find("#" + widget.data[val].id + val);
                     }
 //                    console.log(avalue[0]);
@@ -1020,6 +1022,15 @@ var queryCallback = function (inputdata) {
                     {
                         JQcounter.find(".count .number").text(avalue[numberindex]);
                     }
+                }
+                chart.find(".tmpfix").remove();
+                if (chart.find(".chartsection").length === 0)
+                {
+                    JQcounter = $(basecounter);
+                    chart.append(JQcounter);
+                    JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
+                    JQcounter.find('.tile-stats h3').text("No data");
+                    chart.append(JQcounter);
                 }
                 lockq[ri + " " + wi] = false;
 
@@ -1726,24 +1737,32 @@ var queryCallback = function (inputdata) {
 //            console.log(widget.options.series);
                 try {
                     if (redraw)
-                    {
+                    {                        
                         var datalist = [];
-                        for (var key in widget.options.series)
+                        if (chart.getOption().series.length === widget.options.series.length)
                         {
-                            var ss = widget.options.series[key];
-                            datalist.push({data: ss.data});
+                            for (var key in widget.options.series)
+                            {
+                                var ss = widget.options.series[key];
+                                datalist.push({data: ss.data});
+                            }
+                            chart.setOption({series: datalist, xAxis: widget.options.xAxis});
+                        } else
+                        {                            
+                            chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
                         }
-                        chart.setOption({series: datalist, xAxis: widget.options.xAxis});
 
                     } else
-                    {
+                    {                        
                         chart.setOption(widget.options, true);
                     }
                 } catch (e) {
-                    console.log("***********1743*****************");
-                    console.log(e);
-                    console.log(widget);
-                    console.log("*******************************");
+//                    console.log("***********1760*****************");
+//                    console.log(e);
+//                    console.log(widget);
+//                    console.log(uri);
+//                    console.log(data);
+//                    console.log("*******************************");
                 }
 
 
@@ -2023,9 +2042,15 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         {
             if (chart._dom.className !== "echart_line_single")
             {
-                if (chart._dom.className + $(chart._dom).css('width') !== $(chart._dom).children().css('width'))
+                if ($(chart._dom).css('width') !== $(chart._dom).children().css('width'))
                 {
-                    chart.resize();
+                    try {
+                        chart.resize();
+                    } catch (e) {
+                        console.log(e);
+                    }
+
+
                 }
                 if (redraw)
                 {
@@ -2050,19 +2075,6 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             {
                 widget.options.legend.data = [];
             }
-//            if ((widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"))
-//            {
-//                if (widget.options.toolbox.feature)
-//                {
-//                    widget.options.toolbox.feature.magicType.show = (!(widget.type === "pie" || widget.type === "funnel" || widget.type === "gauge" || widget.type === "treemap"));
-//                } else
-//                {
-//                    widget.options.toolbox.feature = {magicType: {show: false}};
-//                }
-//            } else
-//            {
-//                widget.options.toolbox = {};
-//            }
 
             if (count.base === 0)
             {
