@@ -149,6 +149,12 @@ public class ProfileController {
                     map.put("message", "Metric not exist");
                     return "index";
                 }
+                
+                if (meta.isSpecial())
+                {
+                    return "redirect:/history/"+meta.hashCode();
+                }
+                
                 GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
