@@ -4,6 +4,7 @@
     Author     : vahan
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div id="main"></div>
 <div id="confirmTrue" class="modal fade" tabindex="-1">
@@ -11,12 +12,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation succeed</h4>
+                <h4 class="modal-title"><spring:message code="login.Confirmationsucceed"/></h4>
             </div>
             <div class="modal-body">
-                <p>Your email address has been successfully confirmed.</p>
-                <p>Please use your credentials to login.</p>
-                <p class="text-warning"></p>
+                <spring:message code="login.Confirmationsucceedbody"/>
             </div>
             <div class="modal-footer">
                 <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
@@ -30,12 +29,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation failed</h4>
+                <h4 class="modal-title"><spring:message code="login.Confirmationfail"/></h4>
             </div>
             <div class="modal-body">
-                <p>Your email address has already been confirmed.</p>
-                <p>Please use your credentials to login.</p>
-                <p class="text-warning"></p>
+                <spring:message code="login.Confirmationfailbody"/>
             </div>
             <div class="modal-footer">
                 <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
@@ -51,7 +48,7 @@
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped active" role="progressbar"
                          aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width:100%">
-                        Loading...
+                        <spring:message code="loading"/>
                     </div>
                 </div>            
             </div>            
@@ -61,28 +58,28 @@
             <form action="<c:url value="/login/"/>" method="post" class="form-horizontal" id="loginform">                
                 <c:if test="${param.error != null}">
                     <div class="alert alert-danger" role="alert">
-                        <strong>Oh!</strong> Invalid username and password.
+                        <spring:message code="login.fail"/>                        
                     </div>                                  
                 </c:if>              
-                <div class="form-group">                
-                    <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter email" required="">                
+                <div class="form-group">        
+                    <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="<spring:message code="login.entermail"/>" required="">                
                     <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                 </div>
                 <div class="form-group">                
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Password" required="">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="login.password"/>" required="">
                 </div>
                 <div class="form-group">                
-                    <input type="checkbox" name="remember-me" class="flat" id="remember-me"/><label for="remember-me" class="remember-me"> Remember Me</label>
+                    <input type="checkbox" name="remember-me" class="flat" id="remember-me"/><label for="remember-me" class="remember-me"><spring:message code="login.rememberme"/></label>
                 </div>  
                 <div class="form-group">  
                     <input type="hidden"                
                            name="${_csrf.parameterName}"
                            value="${_csrf.token}"/>                           
-                    <button class="btn btn-primary btn-block" type="submit"> Log in </button>
+                    <button class="btn btn-primary btn-block" type="submit"><spring:message code="login"/></button>
                     <c:if test="${param.error != null}">                        
                         <!--<a href="<c:url value="/preset"/>" class="btn btn-warning btn-block">Reset password</a>-->
                     </c:if>                      
-                    <div class="pull-left">New to site?<a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"> Create Account </a>
+                    <div class="pull-left"><spring:message code="login.isnew"/><a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"><spring:message code="createaccount"/></a>
 
                     </div>              
                 </div>              
