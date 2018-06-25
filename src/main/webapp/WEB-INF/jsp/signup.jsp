@@ -6,20 +6,23 @@
 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <div id="confirmError" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation failed</h4>
+                <h4 class="modal-title">
+                    <spring:message code="sineup.Confirmationfail"/>
+                </h4>
             </div>
             <div class="modal-body">
-                <p>Confirmation code is not exist.</p>
-                <p>Please sign up, or check your email for confirmation instructions.</p>
+                <p><spring:message code="sineup.Confirmationcodeisnotexist"/></p>
+                <p><spring:message code="sineup.Signuporcheck"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
+                <input   type="button" class="btn btn-success " data-dismiss="modal" value="OK">
             </div>
         </div>
     </div>
@@ -31,10 +34,8 @@
     <div class="row">
         <div class="col-lg-4 col-xs-12 text-right">
             <a href="https://www.oddeye.co/"><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                            
-            <div>
-                Demo Login
-                <br>Login: demodemo@oddeye.co
-                <br>Password: 123456
+            <div> 
+                <spring:message code="sineup.demoinfo"/>
             </div>
         </div>    
         <div class=" contactform col-lg-6 col-xs-12">               
@@ -96,7 +97,7 @@
 
                 <div class="clearfix"></div>
                 <div class="separator">
-                    <p class="change_link">Already a member?<a class="btn btn-href btn-sm" href="<c:url value="/login/" />" > Log in </a>
+                    <p class="change_link"><spring:message code="sineup.member"/><a class="btn btn-href btn-sm" href="<c:url value="/login/" />" > <spring:message code="sineup.login"/> </a>
                     </p>
                 </div>                    
             </form:form>           
