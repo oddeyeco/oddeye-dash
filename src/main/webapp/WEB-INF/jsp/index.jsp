@@ -66,7 +66,7 @@
                                 <div class="navbar nav_title" style="border: 0;">
                                         <a href="<c:url value="/"/>" >
                                     <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
-                                    <span class="site_title" style="width: auto">Home</span> </a>
+                                    <span class="site_title" style="width: auto"><spring:message code="index.home"/></span> </a>
                             </div>
                             <div class="clearfix"></div>
                             <!-- menu profile quick info -->
@@ -84,17 +84,17 @@
                                 <div class="menu_section">
                                     <!--<h3>Navigation</h3>-->
                                     <ul class="nav side-menu">
-                                        <li><a><i class="fa fas fa-info  "></i> Personal <span class="fa fas fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fas fa-info  "></i> <spring:message code="index.personal"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
-                                                <li><a href="<c:url value="/profile"/>"> Profile</a></li>
-                                                <li><a href="<c:url value="/dashboard/"/>"><span>Dashboards</span></a></li>
-                                                <li><a href="<c:url value="/infrastructure/"/>">Infrastructure</a></li>
-                                                <li><a href="https://www.oddeye.co/documentation/" target="_blank">Help</a></li>
+                                                <li><a href="<c:url value="/profile"/>"> <spring:message code="index.profile"/></a></li>
+                                                <li><a href="<c:url value="/dashboard/"/>"><spring:message code="index.personaldashboards"/></a></li>
+                                                <li><a href="<c:url value="/infrastructure/"/>"><spring:message code="index.infrastructure"/></a></li>
+                                                <li><a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.help"/></a></li>
                                             </ul>
                                         </li>
-                                        <li><a><i class="fa far fa-bell"></i> Monitoring <span class="fa fas fa-chevron-down"></span></a>
+                                        <li><a><i class="fa far fa-bell"></i> <spring:message code="index.monitoring"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
-                                                <li><a href="<c:url value="/monitoring"/>">Real Time</a></li>
+                                                <li><a href="<c:url value="/monitoring"/>"><spring:message code="index.realtime"/></a></li>
                                                     <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
@@ -105,12 +105,12 @@
                                                     </li>
                                                 </c:forEach>                                                
 
-                                                <li><a href="<c:url value="/errorsanalysis"/>">Detailed</a></li>
+                                                    <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.detailed"/></a></li>
                                             </ul>
                                         </li>                                        
-                                        <li><a><i class="fa fas fa-desktop"></i> Dashboards (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.DashboardsDushlist"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
-                                                <li><a href="<c:url value="/dashboard/new"/>" id="newdush">New Dashboard</a></li>
+                                                <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="index.newDashboard"/></a></li>
                                                     <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
@@ -194,8 +194,8 @@
                                                 ${curentuser.getEmail()}                                                                                                                                              
                                             </c:if>
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <b>Switched to ${curentuser.getSwitchUser().getEmail()}</b>
-                                            </c:if>                                            
+                                                <b><spring:message code="index.switchedto"/> ${curentuser.getSwitchUser().getEmail()}</b>
+                                            </c:if>&nbsp;                                 
                                             <span class=" fa fas fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -204,7 +204,7 @@
                                                 <c:set var="balance" value="${curentuser.getBalance()}" />
                                                 <c:if test="${balance>0}">
                                                     <a href="javascript:;" class="user-profile">
-                                                        Balance 
+                                                        <spring:message code="balance"/>&nbsp;
                                                         <c:if test="${balance<Double.MAX_VALUE}">
                                                             <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
                                                         </c:if>
@@ -219,14 +219,14 @@
                                                     <c:if test="${curentuser.getAlowswitch()}">
                                                         <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="15px">
                                                     </c:if>                                                    
-                                                    Allow Edit                                            
+                                                    <spring:message code="index.allowedit"/>                                            
                                                 </a>
                                             </li> 
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> Switch off</a></li>
+                                                <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchoff"/></a></li>
                                                 </c:if>
                                                 <c:url value="/logout/" var="logoutUrl" />
-                                            <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i>Logout</a></li>
+                                                <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="Logout"/> </a></li>
                                         </ul>
                                     </li>
                                     <!--                                    <li role="presentation" class="dropdown">
@@ -310,7 +310,7 @@
                         <c:if test="${!curentuser.getActive()}">
                             <div class="clearfix"></div>
                             <div class="alert alert-danger alert-dismissible fade in " role="alert">
-                                You are not activate.
+                                <spring:message code="index.alertnotactivate"/>
                             </div>
                         </c:if>                                         
                         <c:catch var="e">
@@ -343,7 +343,7 @@
                                 <p>  Для начала работы мы с радостью предоставляем вам 50 OddEye Coin -ов (в дальнейшем OC ). Чтобы продолжить   нужно установить агент OddEye для этого можно скачать и запустить агент для linux или windows или воспользоваться API и отправлять данные из любой удобной вам среды.</p>
                                 <p>Подробнее можно узнать по ссылкам</p>
                                 <ul>
-                                    <li><a href="#"> скачать Агент linux</a> </li>
+                                    <li><a href="#">скачать Агент linux</a> </li>
                                     <li><a href="#">скачать Агент windows</a></li>
                                     <li><a href="#">описание  API</a></li>
                                     <li><a href="#">как установить Агент linux</a></li>
@@ -355,7 +355,7 @@
                                 </ul>
                             </div>
                             <div class="modal-footer">
-                                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">                                
+                                <input   type="button" class="btn btn-default" data-dismiss="modal" value="Close">                                
                             </div>
                         </div>
                     </div>

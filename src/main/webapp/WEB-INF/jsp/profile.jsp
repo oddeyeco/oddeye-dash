@@ -1,12 +1,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2 class="text-justify">User (UUID = ${activeuser.getId().toString()}) </h2>
+                <h2 class="text-justify"><spring:message code="profile.userID"/> ${activeuser.getId().toString()} </h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -32,7 +33,7 @@
                             ${activeuser.getTimezone()}
                         </li>
                     </ul>
-                    <a class="btn btn-success" href="${cp}/profile/edit"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                            <a class="btn btn-success" href="${cp}/profile/edit"><i class="fa fa-edit m-right-xs"></i><spring:message code="profile.editProfile"/></a>
                     <br />                    
                 </div>        
                 <div class="col-sm-9 col-xs-12 profile_left">                    

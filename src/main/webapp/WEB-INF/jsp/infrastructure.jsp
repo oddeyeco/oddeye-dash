@@ -1,11 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_panel">               
             <div class="row">
                 <div class="col-md-2 col-sm-3 col-xs-12 profile_left">
-                    <h4 ><b>Filter</b> <i class="action fa fa-chevron-up hidefilter"></i> </h4>
+                    <h4 ><b><spring:message code="infrastructure.filter"/></b> <i class="action fa fa-chevron-up hidefilter"></i> </h4>
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
 
@@ -15,12 +16,12 @@
             <div class="col-md-2 col-sm-3 col-xs-12 profile_left">                                
                 <form class="form-horizontal form-label-left form-filter profile_left-form">
                     <div class="form-group">
-                        <label class="col-md-12 col-sm-12 col-xs-12">For Metric</label>
+                        <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="infrastructure.forMetric"/></label>
                         <div class="col-lg-12 col-sm-12 col-xs-12">
                             <input class="form-control autocomplete-append-metric filter-input" type="text" name="metric_input" id="metric_input" tagkey="metric" value="">
                             <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
                         </div>    
-                        <label class="col-md-12 col-sm-12 col-xs-12">Tags</label>
+                        <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="infrastructure.tags"/></label>
                         <div id="tagsconteger" style="clear: both">                            
                             <c:forEach items="${taglist}" var="tagitem">   
                                 <div class="form-group tag-grop draggable" style="display: none">
@@ -40,10 +41,10 @@
                     <div class="form-group">                        
                         <div class="row text-right">
                             <div class="col-md-6  col-xs-12 text-left">
-                                <button class="btn btn-success" type="button" value="Default" id="Save">Save</button>        
+                                <button class="btn btn-success" type="button" value="Default" id="Save"><spring:message code="save"/></button>        
                             </div>
                             <div class="col-md-6  col-xs-12">
-                                <button class=" btn btn-primary" type="button" value="Default" id="Show">Display</button>        
+                                <button class=" btn btn-primary" type="button" value="Default" id="Show"><spring:message code="display"/></button>        
                             </div>
                         </div>
                     </div>                        

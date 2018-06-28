@@ -1,21 +1,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css?v=${version}" rel="stylesheet">
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="x_panel">
             <div class="x_title">
-                <h2>Advanced analytics</h2>
+                <h2><spring:message code="errorsanalysis.advancedAnalytic.h2"/></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">                 
                 <%--<c:set var="group_item" value="host" />--%>   
                 <div class="col-md-2 col-sm-3 col-xs-12 profile_left">
-                    <h3>Filter</h3>
+                    <h3><spring:message code="errorsanalysis.filter.h3"/></h3>
                     <form class="form-horizontal form-label-left">
                         <div class="form-group">
-                            <label class="col-md-12 col-sm-12 col-xs-12">Group by</label>
+                            <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.group"/></label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <select class="form-control" name="group_item">
                                     <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
@@ -26,7 +27,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-12 col-sm-12 col-xs-12">Show Tag</label>
+                            <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.showTag"/></label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <select class="form-control" name="ident_tag">
                                     <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
@@ -38,10 +39,10 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-12 col-sm-12 col-xs-12">Level</label>
+                            <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.level"/></label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <select class="form-control" name="level" id="level">
-                                    <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > Custom </option>  
+                                    <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > <spring:message code="errorsanalysis.custom"/> </option>  
                                     <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
                                         <option <c:if test="${level_item == level.key}"> selected="true" </c:if>  value="${level.key}"> ${curentuser.getAlertLevels().getName(level.key)} </option>
                                     </c:forEach>
@@ -50,38 +51,38 @@
                         </div>                        
 
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12">Min Value</label>
+                                        <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minValue"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minValue}" name="minValue"></input>
                             </div>
                         </div>                    
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12">Min Percent</label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minPercent"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minPersent}" name="minPersent"></input>
                             </div>
                         </div>                  
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12">Min Predict Percent</label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minPredictPercent"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minPredictPersent}" name="minPredictPersent"></input>
                             </div>
                         </div>                            
 
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12">Min Weight</label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minWeight"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minWeight}" name="minWeight"></input>
                             </div>
                         </div>                                            
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12">Min Recurrence Count</label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minRecurrenceCount"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minRecurrenceCount}" name="minRecurrenceCount"></input>
                             </div>
                         </div>                                            
                         <div class="form-group">
-                            <label class="col-md-12 col-sm-12 col-xs-12">Time interval (sec)</label>
+                            <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.timeInterval"/></label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <input class="form-control" value="${minRecurrenceTimeInterval}" name="minRecurrenceTimeInterval"></input>
                             </div>
@@ -92,7 +93,7 @@
                         <div class="form-group">                        
                             <div class="col-md-12 col-sm-12 col-xs-12 text-right">
                                 <!--<button class="btn btn-success" type="button" value="Default">Set as Default</button>-->
-                                <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+                                <button class="btn btn-primary" type="submit" value="Submit"><spring:message code="submit"/></button>
                             </div>
                         </div>                         
                     </form>

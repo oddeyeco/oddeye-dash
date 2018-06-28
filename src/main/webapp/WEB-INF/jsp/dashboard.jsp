@@ -1,5 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div id="myModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
 
@@ -18,11 +18,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation</h4>
+                <h4 class="modal-title"><spring:message code="dashboard.Modal.confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p>Dashboard needs to be saved before locking.</p>
-                <p class="text-warning">Save dashboard?</p>
+                <p><spring:message code="dashboard.Modal.needsSavedDashboard"/></p>
+                <p class="text-warning"><spring:message code="dashboard.Modal.saveDashboard?"/></p>
             </div>
             <div class="modal-footer">
                 <input  type="button" class="btn btn-default" data-dismiss="modal" value="No">
@@ -127,7 +127,7 @@
                         <span class="sr-only"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a class="savedashasTemplate">Save As Template </a>
+                        <li><a class="savedashasTemplate"><spring:message code="dashboard.saveAsTemplate"/></a>
                         </li>
                     </ul>
                 </div>                  
@@ -162,12 +162,12 @@
             </div>            
             <div class="form-group-custom pull-left form-horizontal filtermargin col-sm-6">
                 <div class="large">
-                    <label class="control-label control-label-top text-nowrap down-sample-label" for="global-down-sample">Down sample 
+                    <label class="control-label control-label-top text-nowrap down-sample-label" for="global-down-sample"><spring:message code="dashboard.downSample"/>
                     </label>
                     <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
                 </div>
                 <div class="large">
-                    <label class="control-label control-label-top" for="global-down-sample-ag">Aggregator
+                    <label class="control-label control-label-top" for="global-down-sample-ag"><spring:message code="dashboard.agregator"/>
                     </label>        
                     <div class="select2wraper global-down-sample-ag-wraper">
                         <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input" data-width="100%">                        
@@ -176,7 +176,7 @@
                 </div>
                 <div class="small">
                     <label id="downsampling_label" class="control-label control-label-top" for="global-downsampling-switsh">
-                        Enabled
+                        <spring:message code="dashboard.enabled"/>
                     </label>
                     <div class="checkbox" style="display: inline-block">
                         <input type="checkbox" style="display: none" class="js-switch-general" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh" /> 
@@ -190,17 +190,17 @@
                 </div>                  
                 <div id="refresh_wrap" class="">
                     <select id="refreshtime" name="refreshtime" class="form-control query_input" data-width="100%">
-                        <option value="" selected>Refresh Off</option>
-                        <option value="5000">Refresh every 5s</option>
-                        <option value="10000">Refresh every 10s</option>
-                        <option value="30000">Refresh every 30s</option>
-                        <option value="60000">Refresh every 1m</option>
-                        <option value="300000">Refresh every 5m</option>
-                        <option value="900000">Refresh every 15m</option>
-                        <option value="1800000">Refresh every 30m</option>
-                        <option value="3600000">Refresh every 1h</option>
-                        <option value="7200000">Refresh every 2h</option>
-                        <option value="86400000">Refresh every 1d</option>                
+                        <option value="" selected><spring:message code="dashboard.refreshOff"/></option>
+                        <option value="5000"><spring:message code="dashboard.refresh5s"/></option>
+                        <option value="10000"><spring:message code="dashboard.refresh10s"/></option>
+                        <option value="30000"><spring:message code="dashboard.refresh30s"/></option>
+                        <option value="60000"><spring:message code="dashboard.refresh1m"/></option>
+                        <option value="300000"><spring:message code="dashboard.refresh5m"/></option>
+                        <option value="900000"><spring:message code="dashboard.refresh15m"/></option>
+                        <option value="1800000"><spring:message code="dashboard.refresh30m"/></option>
+                        <option value="3600000"><spring:message code="dashboard.refresh1h"/></option>
+                        <option value="7200000"><spring:message code="dashboard.refresh2h"/></option>
+                        <option value="86400000"><spring:message code="dashboard.refresh1d"/></option>                
                     </select>            
                 </div>
                 <div id="refresh" class="reflock"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" >                        
@@ -219,10 +219,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation</h4>
+                <h4 class="modal-title"><spring:message code="dashboard.Modal.confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p>Do you want to delete this dashboard?</p>
+                <p><spring:message code="dashboard.Modal.wantToDelete"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
@@ -237,7 +237,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Json Editor</h4>
+                <h4 class="modal-title"><spring:message code="dashboard.Modal.jsonEditor"/></h4>
             </div>
             <div class="modal-body">
                 <div id="dasheditor"></div>

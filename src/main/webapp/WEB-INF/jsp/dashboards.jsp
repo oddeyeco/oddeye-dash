@@ -13,8 +13,8 @@
     <div class="col-md-8">
         <div class="x_panel">    
             <div class="x_title">
-                <h2>My Dashboards (${activeuser.getDushList().size()})</h2>
-                <a class="btn btn-success btn-sm pull-right" href="<spring:url value="/dashboard/new"  htmlEscape="true"/>" >New Dashboard </a>
+                <h2><spring:message code="dashboards.myDashboards"/> (${activeuser.getDushList().size()})</h2>
+                <a class="btn btn-success btn-sm pull-right" href="<spring:url value="/dashboard/new"  htmlEscape="true"/>" ><spring:message code="dashboards.newDashboard"/> </a>
                 <div class="clearfix"></div>
             </div>
 
@@ -41,9 +41,9 @@
         </div>    
         <div class="x_panel">    
             <div class="x_title">
-                <h2>Statistic</h2>         
-                <a id="Get_Agent" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true" />" target="_blank" >Get Agent</a>
-                <a id="Agent_Guide" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/"  htmlEscape="true"/>" target="_blank">Agent Guide</a>
+                <h2><spring:message code="dashboards.statistic"/></h2>         
+                <a id="Get_Agent" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true" />" target="_blank" ><spring:message code="dashboards.getAgent"/></a>
+                <a id="Agent_Guide" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/"  htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.guideAgent"/></a>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -56,12 +56,12 @@
     <div class="col-md-4">
         <div class="x_panel balace_part">          
             <div class="x_title">
-                <h2>Balance</h2>                               
+                <h2><spring:message code="balance"/></h2>                               
                 <div class="clearfix"></div>
             </div>
             <div class="row tile_count">
                 <div class="col-sm-6 col-xs-12 tile_stats_count">
-                    <h4 class="count_top">Available</h4>
+                    <h4 class="count_top"><spring:message code="dashboards.available"/></h4>
                     <div class="count">
                         <c:set var="balance" value="${curentuser.getBalance()}" />
                         <c:if test="${balance<Double.MAX_VALUE}">
@@ -88,10 +88,10 @@
             </span>                          -->
                 </div>
                 <div class="col-sm-6 col-xs-12 tile_stats_count Consumptions">
-                    <h4 class="count_top">Burn rate</h4>
+                    <h4 class="count_top"><spring:message code="dashboards.burnrate"/></h4>
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />                    
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left">Today </span>
+                        <span class="pull-left"><spring:message code="dashboards.burnrateToday"/> </span>
                         <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -103,7 +103,7 @@
                     </div>                                 
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left">Yesterday </span>
+                        <span class="pull-left"><spring:message code="dashboards.burnrateYesterday"/> </span>
                         <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -115,7 +115,7 @@
                     </div>                          
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left">This month</span>
+                        <span class="pull-left"><spring:message code="dashboards.burnrateThisMonth"/></span>
                         <div class="green" id="thismonth">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -127,7 +127,7 @@
                     </div>
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(1)}" />
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left">Previous month</span>
+                        <span class="pull-left"><spring:message code="dashboards.burnratePreviousMonth"/></span>
                         <div class="green" id="prevmonth">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -148,10 +148,10 @@
 
 
                 <div class="col-xs-12 moreunits">
-                    <h4>Get more</h4>
+                    <h4><spring:message code="dashboards.getMore"/></h4>
                     <div class="clearfix"></div>
                     <div class="pull-left col-sm-6 col-xs-12 od">                                                
-                        <label for="amount"> Pay </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="1"> USD<br>
+                        <label for="amount"> <spring:message code="dashboards.getMorePay"/> </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="1"> <spring:message code="usd"/><br>
                         <!--<label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1" step="0.001"> Units-->
                     </div>
                     <div class="pull-right col-sm-6 col-xs-12 pp">
@@ -178,7 +178,7 @@
         </div>         
         <div class="x_panel">          
             <div class="x_title">
-                <h2>Available templates</h2>
+                <h2><spring:message code="dashboards.availableTemplates"/></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -199,7 +199,7 @@
                 </div>
             </div>             
             <div class="x_title">
-                <h2>My templates</h2>
+                <h2><spring:message code="dashboards.myTemplates"/></h2>
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
