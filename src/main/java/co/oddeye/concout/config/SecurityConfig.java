@@ -15,7 +15,6 @@ import co.oddeye.concout.providers.RefererRedirectionAuthenticationSuccessHandle
 import co.oddeye.concout.providers.UserDetailsServiceImpl;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -25,7 +24,9 @@ import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -36,16 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    private String cookiename;
 //    @Value("${sesion.cookie.value}")
 //    private String cookievalue;
-    
-    
 //    @Autowired
 //    private HbaseAuthenticationProvider authProvider;
     @Autowired
     private UserDetailsServiceImpl userService;
+
     @Autowired
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService);
-        auth.authenticationProvider(authProvider());        
+        auth.authenticationProvider(authProvider());
     }
 
     @Bean
@@ -54,8 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setUserDetailsService(userService);
 //        authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
-    }    
-    
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        http.userDetailsService(userService);
@@ -65,18 +65,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
         http
                 .authorizeRequests()
-                .antMatchers("/calculator/**","/resources/**", "/assets/**", "/signup/", "/", 
-                        "/confirm/**", "/about/**", "/pricing/**", "/documentation/**", 
-                        "/faq/**", "/contact/**","/login/**", "/gugush.txt").permitAll()
-                .antMatchers("/getstat*","/getpayinfo*").permitAll()
-//                .antMatchers("/getdata*").permitAll()
-//                .antMatchers("/gettagkey*").permitAll()
-//                .antMatchers("/gettagvalue*").permitAll()
-                .antMatchers("/test","/demomb/").permitAll()
-                .antMatchers(HttpMethod.POST,"/paypal/ipn/**").permitAll()
-                
+                .antMatchers("/calculator/**", "/resources/**", "/assets/**", "/signup/", "/",
+                        "/confirm/**", "/about/**", "/pricing/**", "/documentation/**",
+                        "/faq/**", "/contact/**", "/login/**", "/gugush.txt").permitAll()
+                .antMatchers("/getstat*", "/getpayinfo*").permitAll()
+                //                .antMatchers("/getdata*").permitAll()
+                //                .antMatchers("/gettagkey*").permitAll()
+                //                .antMatchers("/gettagvalue*").permitAll()
+                .antMatchers("/test", "/demomb/").permitAll()
+                .antMatchers(HttpMethod.POST, "/paypal/ipn/**").permitAll()
                 .antMatchers("/subscribe/**").permitAll()
-                .antMatchers("/userslist*","/paymentslist/**").hasAnyAuthority("ROLE_USERMANAGER")
+                .antMatchers("/userslist*", "/paymentslist/**").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/user/**").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/user/switch/**").hasAnyAuthority("ROLE_CAN_SWICH")
                 .antMatchers("/templatelist*").hasAnyAuthority("ROLE_USERMANAGER")
@@ -90,6 +89,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().rememberMe().userDetailsService(userService).tokenValiditySeconds(1209600)
                 .and().csrf().ignoringAntMatchers("/paypal/ipn/**");
 //                .and().addFilterBefore(new StickySesionCookieFilter(cookiename,cookievalue),UsernamePasswordAuthenticationFilter.class);
+
+        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+        encodingFilter.setEncoding("UTF-8");
+        encodingFilter.setForceEncoding(true);
+
+        http.addFilterBefore(encodingFilter, CsrfFilter.class);
 
     }
 
