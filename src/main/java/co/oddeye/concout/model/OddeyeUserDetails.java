@@ -77,25 +77,25 @@ public class OddeyeUserDetails implements UserDetails {
     @Transient
     @Override
     public boolean isAccountNonExpired() {
-        return getUserModel().getActive();
+        return true;
     }
 
     @Transient
     @Override
     public boolean isAccountNonLocked() {
-        return getUserModel().getActive();
+        return true;
     }
 
     @Transient
     @Override
     public boolean isCredentialsNonExpired() {
-        return getUserModel().getActive();
+        return true;
     }
 
     @Transient
     @Override
     public boolean isEnabled() {
-        return getUserModel().getActive();
+        return true;
     }
 
     /**
