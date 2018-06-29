@@ -4,7 +4,9 @@
     Author     : vahan
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
+
 <div class="x_panel">
-<h1>UPS Error</h1>    
+    <h1><spring:message code="usererror.UPSerror"/></h1>    
 <h2>${message}</h2>    
 </div>

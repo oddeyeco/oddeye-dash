@@ -1,17 +1,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
 <div class="">
     <div class="row">
 
         <div class="x_title">            
-            <h1>Metric <a href="${cp}/chart/${metric.hashCode()}">${metric.getName()} </a> State info by <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h1>
+            <h1><spring:message code="metriginfo.Metric.h1" arguments="${cp},${metric.hashCode()},${metric.getName()}"/> <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h1>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="x_panel">
                 <div class="col-sm-6 col-xs-12">
                     <div class="x_content "> 
                         <div class="x_title">
-                            <h2><i class="fa fa-asterisk"></i> Tags</h2>                                         
+                            <h2><i class="fa fa-asterisk"></i> <spring:message code="metriginfo.tags.h2"/></h2>                                         
                             <div class="clearfix"></div>
                         </div>                
                         <ul class="">
@@ -31,13 +33,13 @@
                     <div class="col-sm-6 col-xs-12">            
                         <div class="x_content "> 
                             <div class="x_title">
-                                <h2><i class="fa fas fa-chart-line"></i> Regression</h2>     
+                                <h2><i class="fa fas fa-chart-line"></i> <spring:message code="metriginfo.regression.h2"/></h2>     
                                 <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
                                 <div class="clearfix"></div>
                             </div>                
                             <ul class="">                                                 
                                 <li>
-                                    <span class="name">Correlation Coefficient </span>                            
+                                    <span class="name"><spring:message code="metriginfo.correlationCoefficient"/> </span>                            
                                     <span class="value text-success">
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getR() == Double.NaN}">
@@ -52,7 +54,7 @@
                                     </span>                            
                                 </li>
                                 <li>
-                                    <span class="name">Slope </span>
+                                    <span class="name"><spring:message code="metriginfo.slope"/> </span>
                                     <span class="value text-success">                                        
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getSlope() == Double.NaN}">
@@ -68,7 +70,7 @@
                                 </li>                         
 
                                 <li>
-                                    <span class="name">RSquare</span>
+                                    <span class="name"><spring:message code="metriginfo.rSquare"/> </span>
                                     <span class="value text-success">
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getRSquare() == Double.NaN}">
@@ -83,7 +85,7 @@
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="name">Counts </span>
+                                    <span class="name"><spring:message code="metriginfo.counts"/> </span>
                                     <span class="value text-success">${metric.getRegression().getN()}</span>
                                 </li>
                             </ul>   
@@ -92,7 +94,7 @@
                 </c:if>
                 <div class="x_content timelinecontener"> 
                     <div class="x_title">
-                        <h2>Time Line</h2>  
+                        <h2><spring:message code="metriginfo.timeLine.h2"/></h2>  
                         <div class="clearfix"></div>
                     </div>                        
                     <ul class="horizontaltimeline" id="horizontaltimeline">
@@ -121,7 +123,7 @@
             <div class="col-lg-6 col-md-12 col-sm-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Metric: ${metric.getName()} Rules</h2>
+                        <h2><spring:message code="metriginfo.metric.h2" arguments="${metric.getName()}"/> </h2>
                         <div class="clearfix"></div>               
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12">     
@@ -129,11 +131,11 @@
                             <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
                                 <thead>
                                     <tr>                                                        
-                                        <th>Date</th>
-                                        <th>Average</th>
-                                        <th>Deviation</th>
-                                        <th>Minimum</th>
-                                        <th>Maximum</th>
+                                        <th><spring:message code="metriginfo.date"/></th>
+                                        <th><spring:message code="metriginfo.average"/></th>
+                                        <th><spring:message code="metriginfo.deviation"/></th>
+                                        <th><spring:message code="metriginfo.minimum"/></th>
+                                        <th><spring:message code="metriginfo.maximum"/></th>
                                     </tr>
                                 </thead>                        
                                 <c:forEach items="${Rules}" var="rule" varStatus="loop">                            
@@ -158,7 +160,7 @@
             <div class="col-xs-12">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Graphic Analysis</h2>
+                        <h2><spring:message code="metriginfo.graphicAnalysis.h2"/></h2>
                         <div class="clearfix"></div>                
                     </div>
                     <div class="x_content">

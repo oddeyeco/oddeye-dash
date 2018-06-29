@@ -86,7 +86,7 @@ public class AjaxControlers {
     private String paypal_fix;
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
-    public String singlecahrt(@RequestParam(value = "tags", required = false) String tags,
+    public String singlechart(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) Integer hash,
             @RequestParam(value = "metrics", required = false) String metrics,
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,

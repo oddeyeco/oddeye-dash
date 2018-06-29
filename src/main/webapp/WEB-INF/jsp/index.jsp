@@ -86,15 +86,15 @@
                                     <ul class="nav side-menu">
                                         <li><a><i class="fa fas fa-info  "></i> <spring:message code="index.personal"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
-                                                <li><a href="<c:url value="/profile"/>"> <spring:message code="index.profile"/></a></li>
-                                                <li><a href="<c:url value="/dashboard/"/>"><spring:message code="index.personaldashboards"/></a></li>
-                                                <li><a href="<c:url value="/infrastructure/"/>"><spring:message code="index.infrastructure"/></a></li>
-                                                <li><a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.help"/></a></li>
+                                                <li><a href="<c:url value="/profile"/>"> <spring:message code="index.personal.Profile"/></a></li>
+                                                <li><a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.Dashboards"/></span></a></li>
+                                                <li><a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.Infrastructure"/></a></li>
+                                                <li><a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.Help"/></a></li>
                                             </ul>
                                         </li>
                                         <li><a><i class="fa far fa-bell"></i> <spring:message code="index.monitoring"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
-                                                <li><a href="<c:url value="/monitoring"/>"><spring:message code="index.realtime"/></a></li>
+                                                <li><a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.RealTime"/></a></li>
                                                     <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
@@ -105,12 +105,12 @@
                                                     </li>
                                                 </c:forEach>                                                
 
-                                                    <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.detailed"/></a></li>
+                                                    <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.Detailed"/></a></li>
                                             </ul>
                                         </li>                                        
-                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.DashboardsDushlist"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushlist"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
-                                                <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="index.newDashboard"/></a></li>
+                                                <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="index.dashboardsDushlist.newDashboard"/></a></li>
                                                     <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
@@ -129,18 +129,18 @@
                                             </ul>
                                         </li>
                                         <sec:authorize access="hasRole('ADMIN')">
-                                            <li><a><i class="fa fa-edit"></i> Managment <span class="fa fas fa-chevron-down"></span></a>
+                                            <li><a><i class="fa fa-edit"></i> <spring:message code="managment"/> <span class="fa fas fa-chevron-down"></span></a>
                                                 <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
-                                                        <li><a href="<c:url value="/userslist"/>" >Users</a></li>
-                                                        <li><a href="<c:url value="/cookreport"/>" >CookAREKY</a></li>
-                                                        <li><a href="<c:url value="/paymentslist"/>" >Payments</a></li>
+                                                        <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.Users"/></a></li>
+                                                        <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.CookAREKY"/></a></li>
+                                                        <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.Payments"/></a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                                        <li><a href="<c:url value="/pages"/>" >Content</a></li>
+                                                        <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.Content"/></a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('USERMANAGER')">
-                                                        <li><a href="<c:url value="/templatelist"/>" >Templates</a></li>
+                                                        <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.Templates"/></a></li>
                                                         </sec:authorize>                                                        
                                                 </ul>
                                             </li>

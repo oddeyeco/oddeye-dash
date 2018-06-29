@@ -124,15 +124,15 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th>Metric Name</th>
+                                                        <th><spring:message code="errorsanalysis.metricName"/></th>
                                                         <th>${ident_tag} </th>
-                                                        <th>Value</th>
-                                                        <th>Weight</th>
-                                                        <th>Deviation %</th>
-                                                        <th>Predict Deviation %</th>
-                                                        <th>Recurrence</th>
-                                                        <th>Level</th>
-                                                        <th>Time</th>
+                                                        <th><spring:message code="errorsanalysis.value"/></th>
+                                                        <th><spring:message code="errorsanalysis.weight"/></th>
+                                                        <th><spring:message code="errorsanalysis.deviation%"/></th>
+                                                        <th><spring:message code="errorsanalysis.predictDeviation%"/></th>
+                                                        <th><spring:message code="errorsanalysis.recurrence"/></th>
+                                                        <th><spring:message code="errorsanalysis.level"/></th>
+                                                        <th><spring:message code="errorsanalysis.time"/></th>
                                                     </tr>
                                                 </thead>
 

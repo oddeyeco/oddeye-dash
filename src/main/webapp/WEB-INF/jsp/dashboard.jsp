@@ -222,7 +222,7 @@
                 <h4 class="modal-title"><spring:message code="dashboard.Modal.confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p><spring:message code="dashboard.Modal.wantToDelete"/></p>
+                <p><spring:message code="dashboard.Modal.deleteDashboard?"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">

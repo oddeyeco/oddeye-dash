@@ -6,17 +6,17 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>                    
-    Too many data points, please change display filter.
+    <spring:message code="monitorings2.manyalert"/>
 </div> 
 
 <div id="lostconnection" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">                
-                <h4 class="modal-title">Connection Lost</h4>
+                <h4 class="modal-title"><spring:message code="monitorings2.Modal.connectionLost"/></h4>
             </div>
             <div class="modal-body">
-                <p>Websocket connection interrupted, please refresh your browser</p>
+                <p><spring:message code="monitorings2.Modal.refreshBrowser"/></p>
                 <p class="text-warning"></p>
             </div>
         </div>
@@ -29,10 +29,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation</h4>
+                <h4 class="modal-title"><spring:message code="monitorings2.Modal.confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p>Do you want to delete this dashboard?</p>
+                <p><spring:message code="monitorings2.Modal.deleteDashboard?"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">

@@ -79,7 +79,7 @@
                     <c:if test="${param.error != null}">                        
                         <!--<a href="<c:url value="/preset"/>" class="btn btn-warning btn-block">Reset password</a>-->
                     </c:if>                      
-                    <div class="pull-left"><spring:message code="login.isnew"/><a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"><spring:message code="createaccount"/></a>
+                    <div class="pull-left"><spring:message code="login.isnew"/><a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"><spring:message code="createAccount"/></a>
 
                     </div>              
                 </div>              

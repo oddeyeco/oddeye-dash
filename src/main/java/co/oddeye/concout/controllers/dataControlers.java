@@ -74,7 +74,7 @@ public class dataControlers {
     }
 
     @RequestMapping(value = "/chart/{metricshash}", method = RequestMethod.GET)
-    public String singlecahrt(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
+    public String singlechart(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
@@ -104,8 +104,8 @@ public class dataControlers {
                     return "redirect:/history/" + meta.hashCode();
                 }
 
-                map.put("body", "singlecahrt");
-                map.put("jspart", "singlecahrtjs");
+                map.put("body", "singlechart");
+                map.put("jspart", "singlechartjs");
                 GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
                 ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
                 meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);

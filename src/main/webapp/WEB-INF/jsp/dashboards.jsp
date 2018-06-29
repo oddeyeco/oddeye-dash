@@ -151,7 +151,7 @@
                     <h4><spring:message code="dashboards.getMore"/></h4>
                     <div class="clearfix"></div>
                     <div class="pull-left col-sm-6 col-xs-12 od">                                                
-                        <label for="amount"> <spring:message code="dashboards.getMorePay"/> </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="1"> <spring:message code="usd"/><br>
+                        <label for="amount"> <spring:message code="dashboards.pay"/> </label> <input id="oddeyeAmmount" type="number" name="amount" value="1" step="1"> <spring:message code="usd"/><br>
                         <!--<label for="quantity"> Get </label><input id="oddeyeQuantity" type="number" name="quantity" value="1" step="0.001"> Units-->
                     </div>
                     <div class="pull-right col-sm-6 col-xs-12 pp">

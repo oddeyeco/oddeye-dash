@@ -5,8 +5,10 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
+
 <div class="x_panel">
-    <h1>Not exist Error </h1>    
+    <h1><spring:message code="pageerror.notExist.h1"/></h1>    
     <h2 class="alert alert-danger alert-dismissible fade in " role="alert">    
-        "${body}" Not exist</h2>    
+        "${body}" <spring:message code="pageerror.notExist.h2"/></h2>    
 </div>

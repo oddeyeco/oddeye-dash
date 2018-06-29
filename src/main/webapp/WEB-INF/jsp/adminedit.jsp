@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%-- 
     Document   : adminedit
     Created on : Feb 23, 2017, 9:31:26 AM
@@ -15,12 +16,12 @@
                 <c:when test="${config.getValue().type == 'actions'}">
                     <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                            <button type="reset" class="btn btn-primary" name="cancel">Cancel</button>
+                            <button type="reset" class="btn btn-primary" name="cancel"><spring:message code="cancel"/></button>
                             <sec:authorize access="hasRole('EDIT')">
-                                <button type="submit" class="btn btn-success" name="act" value="Save">Save</button>
+                                <button type="submit" class="btn btn-success" name="act" value="Save"><spring:message code="save"/></button>
                             </sec:authorize>
                             <sec:authorize access="hasRole('DELETE')">
-                                <button type="submit" class="btn btn-danger" name="act" value="Delete">Delete</button>
+                                <button type="submit" class="btn btn-danger" name="act" value="Delete"><spring:message code="delete"/></button>
                             </sec:authorize>
                         </div>
                     </div>                

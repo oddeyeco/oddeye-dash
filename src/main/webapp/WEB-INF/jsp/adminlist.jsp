@@ -2,15 +2,16 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css?v=${version}" rel="stylesheet">
 
 <div class="x_panel">
     <div class="x_title">
-        <h2 class="col-md-3" >List of ${modelname}</h2>        
+        <h2 class="col-md-3" ><spring:message code="adminlist.listOf.h2"/> ${modelname}</h2>        
         <div class="clearfix"></div>
     </div>        
     <div class="x_content" id="dashcontent">     
-        <a href="<c:url value="/${path}/new/"/>" class="btn btn-info btn-sm pull-right"><i class="fa fa-navicon"></i> New </a>
+        <a href="<c:url value="/${path}/new/"/>" class="btn btn-info btn-sm pull-right"><i class="fa fa-navicon"></i> <spring:message code="adminlist.new"/> </a>
         <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
             <thead>                
                 <tr>
@@ -30,13 +31,13 @@
                                         <c:choose>
                                             <c:when test="${config.getValue().path == 'edit'}">
                                                 <sec:authorize access="hasRole('EDIT')">
-                                                    <a href="<c:url value="/${path}/edit/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> Edit </a>
+                                                    <a href="<c:url value="/${path}/edit/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> <spring:message code="adminlist.edit"/> </a>
                                                 </sec:authorize>
                                             </c:when>                                                    
                                             <c:when test="${config.getValue().path == 'alowswitch'}">
                                                 <sec:authorize access="hasRole('ROLE_CAN_SWICH')">
                                                     <c:if test="${model[config.getValue().path]}">
-                                                        <a href="<c:url value="/${path}/switch/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> Switch </a>    
+                                                        <a href="<c:url value="/${path}/switch/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> <spring:message code="adminlist.switch"/> </a>    
                                                     </c:if>
                                                 </sec:authorize>
                                             </c:when>
@@ -96,7 +97,7 @@
 
                                     <c:when test="${config.getValue().type == 'userstatus'}">    
                                         <c:if test="${model.getListenerContainer().isRunning()}">
-                                            <span class="label label-success">looks monitoring ${model.getSotokenlist().size()}</span><br>
+                                            <span class="label label-success"><spring:message code="adminlist.looksmonitoring"/> ${model.getSotokenlist().size()}</span><br>
                                         </c:if>   
 
                                         <c:forEach items="${model.getPagelist() }" var="item">   
