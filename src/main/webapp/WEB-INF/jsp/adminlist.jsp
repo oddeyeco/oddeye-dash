@@ -31,7 +31,7 @@
                                         <c:choose>
                                             <c:when test="${config.getValue().path == 'edit'}">
                                                 <sec:authorize access="hasRole('EDIT')">
-                                                    <a href="<c:url value="/${path}/edit/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> <spring:message code="adminlist.edit"/> </a>
+                                                    <a href="<c:url value="/${path}/edit/${model.getId()}"/>" class="btn btn-info btn-xs" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> <spring:message code="edit"/> </a>
                                                 </sec:authorize>
                                             </c:when>                                                    
                                             <c:when test="${config.getValue().path == 'alowswitch'}">

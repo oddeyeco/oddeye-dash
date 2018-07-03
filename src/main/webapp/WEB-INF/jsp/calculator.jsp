@@ -62,7 +62,7 @@
                     <thead>
                         <tr>
                             <th><spring:message code="calculator.instance"/></th>
-                            <th><spring:message code="calculator.metrics"/></th>
+                            <th><spring:message code="metrics"/></th>
                             <th><spring:message code="usd"/></th>
                             
                         </tr>                                                
@@ -71,7 +71,7 @@
                     </tbody>
                     <tfoot>
                         <tr id="total">
-                          <th><spring:message code="calculator.total"/></th>
+                          <th><spring:message code="total:"/></th>
                             <td class="unit"></td>
                             <td class="usd"></td>
                         </tr>                               

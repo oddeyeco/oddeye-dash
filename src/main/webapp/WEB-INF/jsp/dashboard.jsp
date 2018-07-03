@@ -93,7 +93,7 @@
                             </div>
                         </li>
                         <li class="hide-singleview" ><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i><spring:message code="dashboard.chart.View"/></a></li>                        
-                        <li class="dolock hide-singleedit"><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fas fa-edit"></i><spring:message code="dashboard.chart.Edit"/></a></li>
+                        <li class="dolock hide-singleedit"><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fas fa-edit"></i><spring:message code="edit"/></a></li>
                         <li class="dolock"><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa far fa-copy"></i><spring:message code="dashboard.chart.Duplicate"/></a></li>                        
                         <li class="dropdown-submenu">
                             <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i><spring:message code="dashboard.chart.SaveAs"/> <i class="fa fa-caret-right"></i></a>

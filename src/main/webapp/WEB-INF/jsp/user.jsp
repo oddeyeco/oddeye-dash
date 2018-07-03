@@ -9,20 +9,21 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <div class="x_panel">
     <div class="profile_left">
         <div class="row tile_count">
             <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-list"></i> <spring:message code="user.metricNames"/></span>
+                <span class="count_top"><i class="fa fa-list"></i> <spring:message code="metricNames"/></span>
                 <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" height='50px' ></div>                   
             </div>                                                
             <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="user.totalTags"/></span>
+                <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="totalTags"/></span>
                 <div class="count" id="tags"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                 <span class="count_bottom">&nbsp;</span>
             </div>                                                
             <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="user.metrics"/></span>
+                <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="metrics"/></span>
                 <div class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                 <span class="count_bottom">&nbsp;</span>
             </div>                                                          

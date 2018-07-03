@@ -110,7 +110,7 @@
                                         </li>                                        
                                         <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushlist"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
-                                                <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="index.dashboardsDushlist.newDashboard"/></a></li>
+                                                <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="dashboards.newDashboard"/></a></li>
                                                     <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         

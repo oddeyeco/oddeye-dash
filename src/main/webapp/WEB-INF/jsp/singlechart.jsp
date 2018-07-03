@@ -12,7 +12,8 @@
                 <div class="col-xs-4 col-md-3">
                     <div class="x_content "> 
                         <div class="x_title">
-                            <h2><i class="fa fa-asterisk"></i> <spring:message code="singlechart.tags.h2"/></h2>                                         
+                            <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/></h2>
+                             
                             <div class="clearfix"></div>
                         </div>                
                         <ul class="">
@@ -30,13 +31,14 @@
                 <div class="col-xs-4 col-md-3 ">            
                     <div class="x_content "> 
                         <div class="x_title">
-                            <h2><i class="fa fas fa-chart-line"></i> <spring:message code="singlechart.regression.h2"/></h2>     
+                            <h2><i class="fa fas fa-chart-line"></i> <spring:message code="regression.h2"/></h2>     
+ 
                             <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
                             <div class="clearfix"></div>
                         </div>                
                         <ul class="">                                                 
                             <li>
-                                <span class="name"><spring:message code="singlechart.correlationCoefficient"/> </span>                            
+                                <span class="name"><spring:message code="regression.correlationCoefficient"/> </span>                            
                                 <span class="value text-success">
                                     <c:choose>
                                         <c:when test="${metric.getRegression().getR() == Double.NaN}">
@@ -51,7 +53,8 @@
                                 </span>                            
                             </li>
                             <li>
-                                <span class="name"><spring:message code="singlechart.slope"/> </span>
+
+                                <span class="name"><spring:message code="regression.slope"/> </span>
                                 <span class="value text-success">                                        
                                     <c:choose>
                                         <c:when test="${metric.getRegression().getSlope() == Double.NaN}">
@@ -67,7 +70,7 @@
                             </li>                         
 
                             <li>
-                                <span class="name"><spring:message code="singlechart.rSquare"/></span>
+                                <span class="name"><spring:message code="regression.rSquare"/></span>
                                 <span class="value text-success">
                                     <c:choose>
                                         <c:when test="${metric.getRegression().getRSquare() == Double.NaN}">
@@ -82,7 +85,7 @@
                                 </span>
                             </li>
                             <li>
-                                <span class="name"><spring:message code="singlechart.counts"/> </span>
+                                <span class="name"><spring:message code="regression.counts"/> </span>
                                 <span class="value text-success">${metric.getRegression().getN()}</span>
                             </li>
                         </ul>   
@@ -96,7 +99,7 @@
             </div>
             <div class="x_panel">
                 <div class="x_title">
-                    <h2><i class="fa fas fa-chart-area"></i> <spring:message code="singlechart.chart.h2"/></h2>        
+                    <h2><i class="fa fas fa-chart-area"></i> <spring:message code="chart.h2"/></h2>        
                     <div class="filter">
                         <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
                             <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>

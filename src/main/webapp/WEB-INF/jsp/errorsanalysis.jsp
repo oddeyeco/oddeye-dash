@@ -13,7 +13,7 @@
             <div class="x_content">                 
                 <%--<c:set var="group_item" value="host" />--%>   
                 <div class="col-md-2 col-sm-3 col-xs-12 profile_left">
-                    <h3><spring:message code="errorsanalysis.filter.h3"/></h3>
+                    <h3><spring:message code="filter"/></h3>
                     <form class="form-horizontal form-label-left">
                         <div class="form-group">
                             <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.group"/></label>
@@ -39,7 +39,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.level"/></label>
+                            <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="level"/></label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <select class="form-control" name="level" id="level">
                                     <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > <spring:message code="errorsanalysis.custom"/> </option>  
@@ -51,32 +51,32 @@
                         </div>                        
 
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                        <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minValue"/></label>
+                                        <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="minValue"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minValue}" name="minValue"></input>
                             </div>
                         </div>                    
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minPercent"/></label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="minPercent"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minPersent}" name="minPersent"></input>
                             </div>
                         </div>                  
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minPredictPercent"/></label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="minPredictPercent"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minPredictPersent}" name="minPredictPersent"></input>
                             </div>
                         </div>                            
 
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minWeight"/></label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="minWeight"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minWeight}" name="minWeight"></input>
                             </div>
                         </div>                                            
                         <div class="form-group customvalue" <c:if test="${level_item != -1}"> style="display: none"</c:if> >
-                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.custom.minRecurrenceCount"/></label>
+                                <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="minRecurrenceCount"/></label>
                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                     <input class="form-control" value="${minRecurrenceCount}" name="minRecurrenceCount"></input>
                             </div>
@@ -124,14 +124,14 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th><spring:message code="errorsanalysis.metricName"/></th>
+                                                        <th><spring:message code="metricName"/></th>
                                                         <th>${ident_tag} </th>
                                                         <th><spring:message code="errorsanalysis.value"/></th>
                                                         <th><spring:message code="errorsanalysis.weight"/></th>
                                                         <th><spring:message code="errorsanalysis.deviation%"/></th>
                                                         <th><spring:message code="errorsanalysis.predictDeviation%"/></th>
                                                         <th><spring:message code="errorsanalysis.recurrence"/></th>
-                                                        <th><spring:message code="errorsanalysis.level"/></th>
+                                                        <th><spring:message code="level"/></th>
                                                         <th><spring:message code="errorsanalysis.time"/></th>
                                                     </tr>
                                                 </thead>

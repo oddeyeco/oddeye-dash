@@ -60,8 +60,8 @@
                                     <div class="add-filter">
                                         <label for="all_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
                                         <select class="add_filter_select col-sm-8" id="allfilter"><option value="">&nbsp;</option>
-                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="monitorings2.metricName"/></option>
-                                            <option value="level" fname="Level" alias="level"><spring:message code="monitorings2.level"/></option>                                
+                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="metricName"/></option>
+                                            <option value="level" fname="Level" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="Tags">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
@@ -80,8 +80,8 @@
                                     <div class="add-filter">
                                         <label for="ml_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
                                         <select class="add_filter_select col-sm-8" id="mlfilter"><option value="">&nbsp;</option>
-                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="monitorings2.metricName"/></option>
-                                            <option value="level" fname="Level" alias="level"><spring:message code="monitorings2.level"/></option>                                
+                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="metricName"/></option>
+                                            <option value="level" fname="Level" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="Tags">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
@@ -100,8 +100,8 @@
                                     <div class="add-filter">
                                         <label for="manual_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
                                         <select class="add_filter_select col-sm-8" id="manualfilter"><option value="">&nbsp;</option>
-                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="monitorings2.metricName"/></option>
-                                            <option value="level" fname="Level" alias="level"><spring:message code="monitorings2.level"/></option>                                
+                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="metricName"/></option>
+                                            <option value="level" fname="Level" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="Tags">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
@@ -133,21 +133,21 @@
                                                 <option value="actions" label="actions" key="actions"><spring:message code="monitorings2.displayFieldsActions"/>
                                                 </option>
 
-                                                <option value="level" label="Level" key="levelname" ><spring:message code="monitorings2.displayFieldsLevel"/>
+                                                <option value="level" label="Level" key="levelname" ><spring:message code="Level"/>
                                                 </option> 
                                                 <option value="updatecounter"  key="updatecounter" label="Update Counter"><spring:message code="monitorings2.displayFieldsUpdateCounter"/>
                                                 </option>                                                          
                                                 <option value="updateinterval"  key="updateinterval" label="Update Interval"><spring:message code="monitorings2.displayFieldsUpdateInterval"/>
                                                 </option>                                                                                                   
-                                                <option value="info_name"  key="info.name" label="Metric name"><spring:message code="monitorings2.displayFieldsMetricName"/>
+                                                <option value="info_name"  key="info.name" label="Metric name"><spring:message code="metricName"/>
                                                 </option>                                                    
-                                                <option value="Start_Time"  key="StartTime" label="Start Time"><spring:message code="monitorings2.displayFieldsStartTime"/>
+                                                <option value="Start_Time"  key="StartTime" label="Start Time"><spring:message code="startTime"/>
                                                 </option> 
-                                                <option value="Last_Time"  key="LastTime" label="Last Time"><spring:message code="monitorings2.displayFieldsLastTime"/>
+                                                <option value="Last_Time"  key="LastTime" label="Last Time"><spring:message code="lastTime"/>
                                                 </option>   
-                                                <option value="duration"  key="duration" label="Duration"><spring:message code="monitorings2.displayFieldsDuration"/>
+                                                <option value="duration"  key="duration" label="Duration"><spring:message code="duration"/>
                                                 </option>                                                                                                    
-                                                <option value="info"  key="info" label="Info"><spring:message code="monitorings2.displayFieldsInfo"/>
+                                                <option value="info"  key="info" label="Info"><spring:message code="info"/>
                                                 </option>                                                          
                                                 <optgroup label="Tags">
                                                     <c:forEach items="${list}" var="tagitem">   
@@ -217,7 +217,7 @@
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
                     <h4 class="summary">
-                        <b><spring:message code="monitorings2.total"/></b><span class="Tablecount">0</span><b><spring:message code="monitorings2.machineLearned"/></b><span class="regcount">0</span><b><spring:message code="monitorings2.manuallyDefined"/></b><span class="Speccount">0 </span>
+                        <b><spring:message code="total:"/></b><span class="Tablecount">0</span><b><spring:message code="monitorings2.machineLearned"/></b><span class="regcount">0</span><b><spring:message code="monitorings2.manuallyDefined"/></b><span class="Speccount">0 </span>
                     </h4>                 
                 </div>
             </div>      

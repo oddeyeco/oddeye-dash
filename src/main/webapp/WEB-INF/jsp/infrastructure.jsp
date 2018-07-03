@@ -6,7 +6,7 @@
         <div class="x_panel">               
             <div class="row">
                 <div class="col-md-2 col-sm-3 col-xs-12 profile_left">
-                    <h4 ><b><spring:message code="infrastructure.filter"/></b> <i class="action fa fa-chevron-up hidefilter"></i> </h4>
+                    <h4 ><b><spring:message code="filter"/></b> <i class="action fa fa-chevron-up hidefilter"></i> </h4>
                 </div>
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
 
@@ -21,7 +21,7 @@
                             <input class="form-control autocomplete-append-metric filter-input" type="text" name="metric_input" id="metric_input" tagkey="metric" value="">
                             <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
                         </div>    
-                        <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="infrastructure.tags"/></label>
+                        <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="tags"/></label>
                         <div id="tagsconteger" style="clear: both">                            
                             <c:forEach items="${taglist}" var="tagitem">   
                                 <div class="form-group tag-grop draggable" style="display: none">

@@ -112,11 +112,11 @@
                                 <tr>
                                     <th>#</th>
                                     <th><spring:message code="profileedit.levelsSettings.name"/></th>
-                                    <th><spring:message code="profileedit.levelsSettings.minValue"/></th>
-                                    <th><spring:message code="profileedit.levelsSettings.minPercent"/></th>
-                                    <th><spring:message code="profileedit.levelsSettings.minWeight"/></th>
-                                    <th><spring:message code="profileedit.levelsSettings.minRecurrenceCount"/></th>
-                                    <th><spring:message code="profileedit.levelsSettings.minPredictPercent"/></th>
+                                    <th><spring:message code="minValue"/></th>
+                                    <th><spring:message code="minPercent"/></th>
+                                    <th><spring:message code="minWeight"/></th>
+                                    <th><spring:message code="minRecurrenceCount"/></th>
+                                    <th><spring:message code="minPredictPercent"/></th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -13,7 +13,7 @@
                 <div class="col-sm-6 col-xs-12">
                     <div class="x_content "> 
                         <div class="x_title">
-                            <h2><i class="fa fa-asterisk"></i> <spring:message code="metriginfo.tags.h2"/></h2>                                         
+                            <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/></h2>                                         
                             <div class="clearfix"></div>
                         </div>                
                         <ul class="">
@@ -33,13 +33,13 @@
                     <div class="col-sm-6 col-xs-12">            
                         <div class="x_content "> 
                             <div class="x_title">
-                                <h2><i class="fa fas fa-chart-line"></i> <spring:message code="metriginfo.regression.h2"/></h2>     
+                                <h2><i class="fa fas fa-chart-line"></i> <spring:message code="regression.h2"/></h2>     
                                 <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
                                 <div class="clearfix"></div>
                             </div>                
                             <ul class="">                                                 
                                 <li>
-                                    <span class="name"><spring:message code="metriginfo.correlationCoefficient"/> </span>                            
+                                    <span class="name"><spring:message code="regression.correlationCoefficient"/> </span>                            
                                     <span class="value text-success">
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getR() == Double.NaN}">
@@ -54,7 +54,7 @@
                                     </span>                            
                                 </li>
                                 <li>
-                                    <span class="name"><spring:message code="metriginfo.slope"/> </span>
+                                    <span class="name"><spring:message code="regression.slope"/> </span>
                                     <span class="value text-success">                                        
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getSlope() == Double.NaN}">
@@ -70,7 +70,7 @@
                                 </li>                         
 
                                 <li>
-                                    <span class="name"><spring:message code="metriginfo.rSquare"/> </span>
+                                    <span class="name"><spring:message code="regression.rSquare"/> </span>
                                     <span class="value text-success">
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getRSquare() == Double.NaN}">
@@ -85,7 +85,7 @@
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="name"><spring:message code="metriginfo.counts"/> </span>
+                                    <span class="name"><spring:message code="regression.counts"/> </span>
                                     <span class="value text-success">${metric.getRegression().getN()}</span>
                                 </li>
                             </ul>   

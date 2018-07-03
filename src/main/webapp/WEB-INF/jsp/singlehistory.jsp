@@ -6,6 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 ">
@@ -22,7 +23,7 @@
                 <div class="col-xs-6 col-md-6">
                     <div class="x_content "> 
                         <div class="x_title">
-                            <h2><i class="fa fa-asterisk"></i> Tags</h2>                                         
+                            <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/></h2>                                         
                             <div class="clearfix"></div>
                         </div>                
                         <ul class="">
@@ -41,13 +42,13 @@
                     <div class="col-xs-6 col-md-6 ">            
                         <div class="x_content "> 
                             <div class="x_title">
-                                <h2><i class="fa fas fa-chart-line"></i> Regression</h2>     
+                                <h2><i class="fa fas fa-chart-line"></i> <spring:message code="regression.h2"/></h2>     
                                 <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
                                 <div class="clearfix"></div>
                             </div>                
                             <ul class="">                                                 
                                 <li>
-                                    <span class="name">Correlation Coefficient </span>                            
+                                    <span class="name"><spring:message code="regression.correlationCoefficient"/> </span>                            
                                     <span class="value text-success">
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getR() == Double.NaN}">
@@ -62,7 +63,7 @@
                                     </span>                            
                                 </li>
                                 <li>
-                                    <span class="name">Slope </span>
+                                    <span class="name"><spring:message code="regression.slope"/> </span>
                                     <span class="value text-success">                                        
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getSlope() == Double.NaN}">
@@ -78,7 +79,7 @@
                                 </li>                         
 
                                 <li>
-                                    <span class="name">RSquare</span>
+                                    <span class="name"><spring:message code="regression.rSquare"/></span>
                                     <span class="value text-success">
                                         <c:choose>
                                             <c:when test="${metric.getRegression().getRSquare() == Double.NaN}">
@@ -93,7 +94,7 @@
                                     </span>
                                 </li>
                                 <li>
-                                    <span class="name">Counts </span>
+                                    <span class="name"><spring:message code="regression.counts"/> </span>
                                     <span class="value text-success">${metric.getRegression().getN()}</span>
                                 </li>
                             </ul>   
@@ -116,12 +117,12 @@
                         <thead>
                             <tr>
                                 <!--<th>#</th>-->
-                                <th>State</th>
-                                <th>Level</th>
-                                <th>Info</th>                                
-                                <th>Last Time</th>     
-                                <th>Duration</th>                                     
-                                <th>Start Time</th>
+                                <th><spring:message code="singlehistory.state"/></th>
+                                <th><spring:message code="level"/></th>
+                                <th><spring:message code="info"/></th>                                
+                                <th><spring:message code="lastTime"/></th>     
+                                <th><spring:message code="duration"/></th>                                     
+                                <th><spring:message code="startTime"/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -149,7 +150,7 @@
                                                 ${listitem.getLevelName()}
                                             </c:if>
                                             <c:if test="${listitem.getLevel()==-1}">
-                                                OK
+                                                <spring:message code="singlehistory.ok"/>
                                             </c:if>
 
                                         </div>

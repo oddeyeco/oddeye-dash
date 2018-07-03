@@ -14,7 +14,7 @@
 </h2>
 <div class="row tile_count">
     <div class="col-lg-2 col-sm-4 col-xs-6 tile_stats_count">
-        <span class="count_top"><i class="fa fa-list"></i> <spring:message code="metricinfo.metricNames"/></span>
+        <span class="count_top"><i class="fa fa-list"></i> <spring:message code="metricNames"/></span>
         <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" height='50px' ></div>       
         <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="_name"><spring:message code="metricinfo.showList"/></a></span>
     </div>                                                                                           
@@ -26,7 +26,7 @@
 </div>
 
 <h2>
-    <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="metricinfo.totalTags"/> </span> 
+    <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="totalTags"/> </span> 
     (<span class="count" id="tags"><img src="${cp}/assets/images/loading.gif" height='50px'></span>)
 </h2>
 <div class="row tile_count" id="tagslist">
