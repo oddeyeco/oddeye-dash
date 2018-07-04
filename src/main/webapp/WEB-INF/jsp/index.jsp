@@ -194,7 +194,7 @@
                                                 ${curentuser.getEmail()}                                                                                                                                              
                                             </c:if>
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <b><spring:message code="index.switchedto"/> ${curentuser.getSwitchUser().getEmail()}</b>
+                                                <b><spring:message code="index.switchedto"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
                                             </c:if>&nbsp;                                 
                                             <span class=" fa fas fa-angle-down"></span>
                                         </a>
@@ -316,7 +316,7 @@
                         <c:if test="${curentuser.getMetricsMeta().size()==0}">
                             <div class="clearfix"></div>
                             <div class="alert alert-danger alert-dismissible fade in " role="alert">                                
-                                <spring:message code="index.installagent"/>
+                                <spring:message code="index.installAgent"/>
                             </div>
                         </c:if>                            
                         <c:catch var="e">

@@ -7,7 +7,7 @@
         <div class="modal-content">
             <div class="modal-header custom-modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Successfully  saved </h4>
+                <h4 class="modal-title"><spring:message code="dashboard.Modal.successfullySaved"/> </h4>
             </div>
         </div>
 
@@ -219,7 +219,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><spring:message code="dashboard.Modal.confirmation"/></h4>
+                <h4 class="modal-title"><spring:message code="confirmation"/></h4>
             </div>
             <div class="modal-body">
                 <p><spring:message code="dashboard.Modal.deleteDashboard?"/></p>
