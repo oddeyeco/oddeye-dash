@@ -540,7 +540,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                         index++;
                     }
                     final PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), family, qualifiers, values);
-                    BaseTsdb.getClient().put(request);
+                    BaseTsdb.getClient().put(request).join();
                 }
             }
         }
