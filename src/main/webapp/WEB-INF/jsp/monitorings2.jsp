@@ -29,7 +29,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><spring:message code="monitorings2.Modal.confirmation"/></h4>
+                <h4 class="modal-title"><spring:message code="confirmation"/></h4>
             </div>
             <div class="modal-body">
                 <p><spring:message code="monitorings2.Modal.deleteDashboard?"/></p>
