@@ -929,6 +929,10 @@ public class OddeyeUserModel implements Serializable {
      * @return the alowswitch
      */
     public Boolean getAlowswitch() {
+        if (alowswitch==null)
+        {
+            alowswitch =false;
+        }            
         return alowswitch;
     }
 
