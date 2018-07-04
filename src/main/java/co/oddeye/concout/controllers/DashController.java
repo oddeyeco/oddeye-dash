@@ -83,7 +83,7 @@ public class DashController {
     private String paypal_fix;
 
     @RequestMapping(value = "/infrastructure", method = RequestMethod.GET)
-    public String test(ModelMap map) {
+    public String infrastructure(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel user;
         if (auth != null
@@ -119,7 +119,16 @@ public class DashController {
                 taglistprioryty.add("location");
                 taglistprioryty.add("host");
             } else {
-                map.put("metric_input", filter.get("metric_input").getAsString());
+                if (filter.has("metric_input"))
+                {
+                    map.put("metric_input", filter.get("metric_input").getAsString());
+                }
+                else
+                {
+                    map.put("metric_input", "");
+                }
+                
+                
                 for (Map.Entry<String, JsonElement> f_item : filter.entrySet()) {
                     if (user.getMetricsMeta().getTagsList().containsKey(f_item.getValue().getAsString())) {
                         taglistprioryty.add(f_item.getValue().getAsString());
