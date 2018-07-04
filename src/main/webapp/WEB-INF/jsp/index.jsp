@@ -313,6 +313,12 @@
                                 <spring:message code="index.alertnotactivate"/>
                             </div>
                         </c:if>                                         
+                        <c:if test="${curentuser.getMetricsMeta().size()==0}">
+                            <div class="clearfix"></div>
+                            <div class="alert alert-danger alert-dismissible fade in " role="alert">                                
+                                <spring:message code="index.installagent"/>
+                            </div>
+                        </c:if>                            
                         <c:catch var="e">
                             <c:import url="${body}.jsp" />
                         </c:catch>

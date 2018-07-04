@@ -112,6 +112,7 @@ public class AdminContentControllers extends GRUDControler {
                     getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
+            
         } else {
             map.put("isAuthentication", false);
         }
