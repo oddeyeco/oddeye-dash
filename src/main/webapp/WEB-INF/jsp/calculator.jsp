@@ -71,7 +71,7 @@
                     </tbody>
                     <tfoot>
                         <tr id="total">
-                          <th><spring:message code="total:"/></th>
+                          <th><spring:message code="total"/></th>
                             <td class="unit"></td>
                             <td class="usd"></td>
                         </tr>                               

@@ -6,17 +6,17 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
     </button>                    
-    <spring:message code="monitorings2.manyalert"/>
+    <spring:message code="monitorings2.manyAlert"/>
 </div> 
 
 <div id="lostconnection" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">                
-                <h4 class="modal-title"><spring:message code="monitorings2.Modal.connectionLost"/></h4>
+                <h4 class="modal-title"><spring:message code="monitorings2.modal.connectionLost"/></h4>
             </div>
             <div class="modal-body">
-                <p><spring:message code="monitorings2.Modal.refreshBrowser"/></p>
+                <p><spring:message code="monitorings2.modal.refreshBrowser"/></p>
                 <p class="text-warning"></p>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 <h4 class="modal-title"><spring:message code="confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p><spring:message code="monitorings2.Modal.deleteDashboard?"/></p>
+                <p><spring:message code="monitorings2.modal.deleteDashboard?"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
@@ -132,8 +132,7 @@
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
                                                 <option value="actions" label="actions" key="actions"><spring:message code="monitorings2.displayFieldsActions"/>
                                                 </option>
-
-                                                <option value="level" label="Level" key="levelname" ><spring:message code="Level"/>
+                                                <option value="level" label="Level" key="levelname" ><spring:message code="level"/>
                                                 </option> 
                                                 <option value="updatecounter"  key="updatecounter" label="Update Counter"><spring:message code="monitorings2.displayFieldsUpdateCounter"/>
                                                 </option>                                                          
@@ -217,7 +216,7 @@
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
                     <h4 class="summary">
-                        <b><spring:message code="total:"/></b><span class="Tablecount">0</span><b><spring:message code="monitorings2.machineLearned"/></b><span class="regcount">0</span><b><spring:message code="monitorings2.manuallyDefined"/></b><span class="Speccount">0 </span>
+                        <b><spring:message code="total"/></b><span class="Tablecount">0</span><b><spring:message code="monitorings2.machineLearned"/></b><span class="regcount">0</span><b><spring:message code="monitorings2.manuallyDefined"/></b><span class="Speccount">0 </span>
                     </h4>                 
                 </div>
             </div>      

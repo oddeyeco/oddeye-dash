@@ -12,10 +12,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><spring:message code="login.Confirmationsucceed"/></h4>
+                <h4 class="modal-title"><spring:message code="login.confirmationSucceed"/></h4>
             </div>
             <div class="modal-body">
-                <spring:message code="login.Confirmationsucceedbody"/>
+                <spring:message code="login.confirmationSucceedBody"/>
             </div>
             <div class="modal-footer">
                 <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
@@ -32,7 +32,7 @@
                 <h4 class="modal-title"><spring:message code="confirmationFail"/></h4>
             </div>
             <div class="modal-body">
-                <spring:message code="login.Confirmationfailbody"/>
+                <spring:message code="login.confirmationFailBody"/>
             </div>
             <div class="modal-footer">
                 <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
@@ -62,14 +62,14 @@
                     </div>                                  
                 </c:if>              
                 <div class="form-group">        
-                    <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="<spring:message code="login.entermail"/>" required="">                
+                    <input type="email" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="<spring:message code="login.enterMail"/>" required="">                
                     <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                 </div>
                 <div class="form-group">                
                     <input type="password" class="form-control" id="password" name="password" placeholder="<spring:message code="login.password"/>" required="">
                 </div>
                 <div class="form-group">                
-                    <input type="checkbox" name="remember-me" class="flat" id="remember-me"/><label for="remember-me" class="remember-me"><spring:message code="login.rememberme"/></label>
+                    <input type="checkbox" name="remember-me" class="flat" id="remember-me"/><label for="remember-me" class="remember-me"><spring:message code="login.rememberMe"/></label>
                 </div>  
                 <div class="form-group">  
                     <input type="hidden"                
@@ -79,7 +79,7 @@
                     <c:if test="${param.error != null}">                        
                         <!--<a href="<c:url value="/preset"/>" class="btn btn-warning btn-block">Reset password</a>-->
                     </c:if>                      
-                    <div class="pull-left"><spring:message code="login.isnew"/><a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"><spring:message code="createAccount"/></a>
+                    <div class="pull-left"><spring:message code="login.isNew"/><a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"><spring:message code="createAccount"/></a>
 
                     </div>              
                 </div>              

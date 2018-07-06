@@ -17,8 +17,8 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <p><spring:message code="sineup.ConfirmationNotExist"/></p>
-                <p><spring:message code="sineup.Signuporcheck"/></p>
+                <p><spring:message code="sineup.confirmationNotExist"/></p>
+                <p><spring:message code="sineup.signupOrCheck"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
@@ -35,7 +35,7 @@
         <div class="col-lg-4 col-xs-12 text-right">
             <a href="https://www.oddeye.co/"><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                            
             <div> 
-                <spring:message code="sineup.demoinfo"/>
+                <spring:message code="sineup.demoInfo"/>
             </div>
         </div>    
         <div class=" contactform col-lg-6 col-xs-12">               

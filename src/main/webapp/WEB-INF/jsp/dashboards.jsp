@@ -88,10 +88,10 @@
             </span>                          -->
                 </div>
                 <div class="col-sm-6 col-xs-12 tile_stats_count Consumptions">
-                    <h4 class="count_top"><spring:message code="dashboards.burnrate"/></h4>
+                    <h4 class="count_top"><spring:message code="dashboards.burnRate"/></h4>
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />                    
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left"><spring:message code="dashboards.burnrateToday"/> </span>
+                        <span class="pull-left"><spring:message code="dashboards.burnRateToday"/> </span>
                         <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -103,7 +103,7 @@
                     </div>                                 
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left"><spring:message code="dashboards.burnrateYesterday"/> </span>
+                        <span class="pull-left"><spring:message code="dashboards.burnRateYesterday"/> </span>
                         <div class="green">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -115,7 +115,7 @@
                     </div>                          
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left"><spring:message code="dashboards.burnrateThisMonth"/></span>
+                        <span class="pull-left"><spring:message code="dashboards.burnRateThisMonth"/></span>
                         <div class="green" id="thismonth">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
@@ -127,7 +127,7 @@
                     </div>
                     <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(1)}" />
                     <div class="count_bottom clearfix">                        
-                        <span class="pull-left"><spring:message code="dashboards.burnratePreviousMonth"/></span>
+                        <span class="pull-left"><spring:message code="dashboards.burnRatePreviousMonth"/></span>
                         <div class="green" id="prevmonth">
                             <c:if test="${Consumption!=null}">
                                 <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                

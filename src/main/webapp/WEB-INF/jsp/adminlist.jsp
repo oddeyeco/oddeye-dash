@@ -97,7 +97,7 @@
 
                                     <c:when test="${config.getValue().type == 'userstatus'}">    
                                         <c:if test="${model.getListenerContainer().isRunning()}">
-                                            <span class="label label-success"><spring:message code="adminlist.looksmonitoring"/> ${model.getSotokenlist().size()}</span><br>
+                                            <span class="label label-success"><spring:message code="adminlist.looksMonitoring"/> ${model.getSotokenlist().size()}</span><br>
                                         </c:if>   
 
                                         <c:forEach items="${model.getPagelist() }" var="item">   
