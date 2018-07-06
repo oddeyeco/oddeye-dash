@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>oddeye.concout</groupId>
     <artifactId>OddeyeCoconut</artifactId>
-    <version>0.7.5</version>
+    <version>0.8.0</version>
     <packaging>war</packaging>
     <name>OddeyeCoconut</name>
     <properties>
@@ -62,17 +62,7 @@
         <dependency>
             <groupId>co.oddeye</groupId>
             <artifactId>oddeye-core</artifactId>
-            <version>0.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>net.opentsdb</groupId>
-                    <artifactId>opentsdb</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>0.6</version>            
         </dependency>
         <dependency>
             <groupId>org.springframework.kafka</groupId>
@@ -105,47 +95,7 @@
             <groupId>com.googlecode.htmlcompressor</groupId>
             <artifactId>htmlcompressor</artifactId>
             <version>1.5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hbase</groupId>
-            <artifactId>asynchbase</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>            
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>log4j-over-slf4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
-            </exclusions>            
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty</artifactId>
-            <version>3.10.6.Final</version>
-        </dependency>
+        </dependency>        
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
@@ -241,62 +191,7 @@
             <artifactId>jul-to-slf4j</artifactId>
             <version>1.7.25</version>
             <scope>compile</scope>
-        </dependency>        
-        <dependency>
-            <groupId>net.opentsdb</groupId>
-            <artifactId>opentsdb</artifactId>
-            <version>2.4.0RC1</version>  
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>                
-                <exclusion>
-                    <groupId>org.jboss.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>log4j-over-slf4j</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hbase</groupId>
-                    <artifactId>asynchbase</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.netty</groupId>
-                    <artifactId>netty</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-annotations</artifactId>
-                </exclusion>
-            </exclusions>                        
-        </dependency>                                            
+        </dependency>                
     </dependencies>
     <build>
         <plugins>
