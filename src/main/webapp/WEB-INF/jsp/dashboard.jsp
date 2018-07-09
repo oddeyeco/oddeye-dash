@@ -92,19 +92,19 @@
                                 <span class="btn btn-default minus col-xs-6" type="button" data-toggle="tooltip" data-placement="right" title="Span -"><i class="fa fa-search-minus"></i></span>                                
                             </div>
                         </li>
-                        <li class="hide-singleview" ><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i><spring:message code="dashboard.chart.View"/></a></li>                        
+                        <li class="hide-singleview" ><a class="viewchart" data-toggle="tooltip" data-placement="top" title="View"><i class="fa fa-eye"></i><spring:message code="dashboard.chart.view"/></a></li>                        
                         <li class="dolock hide-singleedit"><a class="editchart" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fas fa-edit"></i><spring:message code="edit"/></a></li>
-                        <li class="dolock"><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa far fa-copy"></i><spring:message code="dashboard.chart.Duplicate"/></a></li>                        
+                        <li class="dolock"><a class="dublicate" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa far fa-copy"></i><spring:message code="dashboard.chart.duplicate"/></a></li>                        
                         <li class="dropdown-submenu">
-                            <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i><spring:message code="dashboard.chart.SaveAs"/> <i class="fa fa-caret-right"></i></a>
+                            <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i><spring:message code="dashboard.chart.saveAs"/> <i class="fa fa-caret-right"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a class="csv" data-toggle="tooltip" data-placement="top" title="Save as csv"><i class="fa fa-th-list"></i> <spring:message code="dashboard.chart.SaveAs.Csv"/></a></li>
-                                <li><a class="jsonsave" data-toggle="tooltip" data-placement="top" title="Save as json"><span class="jsonIcon">{:}</span> <spring:message code="dashboard.chart.SaveAs.JSON"/></a></li>
-                                <li><a class="imagesave" data-toggle="tooltip" data-placement="top" title="Save as Image"><i class="fa far fa-image"></i> <spring:message code="dashboard.chart.SaveAs.Image"/></a></li>
+                                <li><a class="csv" data-toggle="tooltip" data-placement="top" title="Save as csv"><i class="fa fa-th-list"></i> <spring:message code="dashboard.chart.saveAs.csv"/></a></li>
+                                <li><a class="jsonsave" data-toggle="tooltip" data-placement="top" title="Save as json"><span class="jsonIcon">{:}</span> <spring:message code="dashboard.chart.saveAs.json"/></a></li>
+                                <li><a class="imagesave" data-toggle="tooltip" data-placement="top" title="Save as Image"><i class="fa far fa-image"></i> <spring:message code="dashboard.chart.saveAs.image"/></a></li>
                             </ul>
                         </li>
                         <li role="presentation" class="divider"></li>
-                        <li class="dolock"><a class="deletewidget" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i><spring:message code="dashboard.chart.Remove"/></a></li>
+                        <li class="dolock"><a class="deletewidget" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i><spring:message code="dashboard.chart.remove"/></a></li>
                     </ul> 
                 </div>
             </div>          

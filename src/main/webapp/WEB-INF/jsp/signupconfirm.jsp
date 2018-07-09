@@ -12,7 +12,7 @@
         <div class="col-lg-4 col-xs-12 text-right">
             <a href="${cp}/"><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                            
             <div>
-               <spring:message code="sineup.demoinfo"/>
+               <spring:message code="sineup.demoInfo"/>
             </div>
         </div>    
         <div class="col-lg-4 col-xs-12 text-right">

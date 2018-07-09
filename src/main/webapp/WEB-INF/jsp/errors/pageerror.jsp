@@ -8,7 +8,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
 
 <div class="x_panel">
-    <h1><spring:message code="pageerror.notExist.h1"/></h1>    
+    <h1><spring:message code="pageerror.h1"/></h1>    
     <h2 class="alert alert-danger alert-dismissible fade in " role="alert">    
-        "${body}" <spring:message code="pageerror.notExist.h2"/></h2>    
+        <spring:message code="pageerror.h2" arguments="${title},${body}"/> </h2>    
 </div>

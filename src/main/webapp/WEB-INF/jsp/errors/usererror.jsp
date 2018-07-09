@@ -7,6 +7,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
 
 <div class="x_panel">
-    <h1><spring:message code="usererror.UPSerror"/></h1>    
+    <h1><spring:message code="usererror.errorUPS"/></h1>    
 <h2>${message}</h2>    
 </div>

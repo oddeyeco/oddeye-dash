@@ -86,15 +86,15 @@
                                     <ul class="nav side-menu">
                                         <li><a><i class="fa fas fa-info  "></i> <spring:message code="index.personal"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
-                                                <li><a href="<c:url value="/profile"/>"> <spring:message code="index.personal.Profile"/></a></li>
-                                                <li><a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.Dashboards"/></span></a></li>
-                                                <li><a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.Infrastructure"/></a></li>
-                                                <li><a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.Help"/></a></li>
+                                                <li><a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a></li>
+                                                <li><a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.dashboards"/></span></a></li>
+                                                <li><a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a></li>
+                                                <li><a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a></li>
                                             </ul>
                                         </li>
                                         <li><a><i class="fa far fa-bell"></i> <spring:message code="index.monitoring"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
-                                                <li><a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.RealTime"/></a></li>
+                                                <li><a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a></li>
                                                     <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
@@ -105,10 +105,10 @@
                                                     </li>
                                                 </c:forEach>                                                
 
-                                                    <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.Detailed"/></a></li>
+                                                    <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a></li>
                                             </ul>
                                         </li>                                        
-                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushlist"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                 <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="dashboards.newDashboard"/></a></li>
                                                     <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
@@ -129,18 +129,18 @@
                                             </ul>
                                         </li>
                                         <sec:authorize access="hasRole('ADMIN')">
-                                            <li><a><i class="fa fa-edit"></i> <spring:message code="managment"/> <span class="fa fas fa-chevron-down"></span></a>
+                                            <li><a><i class="fa fa-edit"></i> <spring:message code="index.managment"/> <span class="fa fas fa-chevron-down"></span></a>
                                                 <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
-                                                        <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.Users"/></a></li>
-                                                        <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.CookAREKY"/></a></li>
-                                                        <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.Payments"/></a></li>
+                                                        <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
+                                                        <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                                        <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                                        <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.Content"/></a></li>
+                                                        <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('USERMANAGER')">
-                                                        <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.Templates"/></a></li>
+                                                        <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
                                                         </sec:authorize>                                                        
                                                 </ul>
                                             </li>
@@ -194,7 +194,7 @@
                                                 ${curentuser.getEmail()}                                                                                                                                              
                                             </c:if>
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <b><spring:message code="index.switchedto"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
+                                                <b><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
                                             </c:if>&nbsp;                                 
                                             <span class=" fa fas fa-angle-down"></span>
                                         </a>
@@ -219,14 +219,14 @@
                                                     <c:if test="${curentuser.getAlowswitch()}">
                                                         <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="15px">
                                                     </c:if>                                                    
-                                                    <spring:message code="index.allowedit"/>                                            
+                                                    <spring:message code="index.allowEdit"/>                                            
                                                 </a>
                                             </li> 
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchoff"/></a></li>
+                                                <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li>
                                                 </c:if>
                                                 <c:url value="/logout/" var="logoutUrl" />
-                                                <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="Logout"/> </a></li>
+                                                <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="logout"/> </a></li>
                                         </ul>
                                     </li>
                                     <!--                                    <li role="presentation" class="dropdown">
@@ -310,7 +310,7 @@
                         <c:if test="${!curentuser.getActive()}">
                             <div class="clearfix"></div>
                             <div class="alert alert-danger alert-dismissible fade in " role="alert">
-                                <spring:message code="index.alertnotactivate"/>
+                                <spring:message code="index.alertNotActivate"/>
                             </div>
                         </c:if>                                         
                         <c:if test="${curentuser.getMetricsMeta().size()==0}">

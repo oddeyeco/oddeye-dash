@@ -6,7 +6,7 @@
     <div class="row">
 
         <div class="x_title">            
-            <h1><spring:message code="metriginfo.Metric.h1" arguments="${cp},${metric.hashCode()},${metric.getName()}"/> <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h1>
+            <h1><spring:message code="metriginfo.metric.h1" arguments="${cp},${metric.hashCode()},${metric.getName()}"/> <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h1>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="x_panel">
