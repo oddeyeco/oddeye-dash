@@ -39,7 +39,7 @@ public class TemplateValidator implements Validator {
         try {
             if (TemplateDAO.checkByName(template))
             {
-                errors.rejectValue("name", "name.Exist", "name for user is exist.");
+                errors.rejectValue("name", "name.exist", "name for user is exist.");
             }
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));

@@ -95,11 +95,11 @@ public class UserValidator implements Validator {
         }
         
         if (!(user.getOldpasswordst(selfuser)).equals(selfuser.getPasswordst())) {
-            errors.rejectValue("oldpassword", "oldpassword.passwordNotCorrect", "Passwords don't correct.");
+            errors.rejectValue("oldpassword", "oldpassword.passwordMismatch", "Passwords mismatch.");
         }        
         
         if (!(user.getPasswordst()).equals(user.getPasswordsecondst())) {
-            errors.rejectValue("passwordsecond", "passwordsecond.passwordDontMatch", "Passwords don't match.");
+            errors.rejectValue("passwordsecond", "passwordsecond.passwordMismatch", "Passwords mismatch.");
         }
 
     }    

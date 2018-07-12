@@ -41,6 +41,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  *
@@ -57,7 +59,9 @@ public class DefaultController {
     private OddeyeMailSender mailSender;
     @Autowired
     private DatabaseReader geoip;
-
+    @Autowired
+    private MessageSource messageSource;
+    
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -95,7 +99,8 @@ public class DefaultController {
             return "redirect:/profile/edit#Security";
         }
         map.put("isAuthentication", false);
-        map.put("title", "Login");
+        map.put("title", messageSource.getMessage("title.login",new String[]{""},LocaleContextHolder.getLocale()));
+//      map.put("title", "");
         map.put("slug", "login");
         map.put("body", "login");
         map.put("jspart", "loginjs");
@@ -140,7 +145,7 @@ public class DefaultController {
             return redirecttodashboard();
         }
         map.put("isAuthentication", false);
-        map.put("title", "Login");
+        map.put("title", messageSource.getMessage("title.login",new String[]{""},LocaleContextHolder.getLocale()));
         map.put("slug", "login");
         map.put("body", "login");
         map.put("jspart", "loginjs");
@@ -170,7 +175,8 @@ public class DefaultController {
         }
         switch (slug) {
             case "calculator": {
-                map.put("title", "Monitoring Price Calculator");
+                map.put("title", messageSource.getMessage("title.monitoringPriceCalculator",new String[]{""},LocaleContextHolder.getLocale()));
+//              map.put("title", "Monitoring Price Calculator");
                 map.put("ogimage", "oddeyecalcog.png");
 
                 break;
@@ -319,7 +325,8 @@ public class DefaultController {
                 map.put("message", ex.toString());
             }
         }
-        map.put("title", "Sign Up");
+        map.put("title", messageSource.getMessage("title.signUp",new String[]{""},LocaleContextHolder.getLocale()));
+//      map.put("title", "Sign Up");
         return "indexPrime";
         //else
 

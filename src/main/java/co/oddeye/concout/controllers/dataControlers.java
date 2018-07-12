@@ -29,6 +29,8 @@ import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,6 +54,10 @@ public class dataControlers {
     HbaseMetaDao MetaDao;
     @Autowired
     HbaseErrorHistoryDao ErrorHistoryDao;
+    
+    @Autowired
+    private MessageSource messageSource;
+    
     @Autowired
     private BaseTsdbConnect BaseTsdb;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
@@ -226,7 +232,8 @@ public class dataControlers {
                 String hashes = request.getParameter("hashes");
                 String hashesarr = "[" + hashes.replaceAll(";", ",") + "]";
                 map.put("hashes", hashesarr);
-                map.put("title", "Multi Chart");
+                map.put("title", messageSource.getMessage("title.multiChart",new String[]{""},LocaleContextHolder.getLocale()));
+//              map.put("title", "");
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -51,6 +51,8 @@ import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
@@ -77,6 +79,8 @@ public class ProfileController {
     private BaseTsdbConnect BaseTsdb;
     @Autowired
     HbaseDataDao DataDao;
+    @Autowired
+    MessageSource messageSource;
 
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
@@ -104,12 +108,13 @@ public class ProfileController {
                     map.put("activeuser", userDetails.getSwitchUser());
                 }
             }
-            map.put("title", "My Account");
+            map.put("title", messageSource.getMessage("title.myAccount",new String[]{""},LocaleContextHolder.getLocale()));
 
         } else {
             layaut = "indexPrime";
         }
-        map.put("htitle", "Account Detail");
+        map.put("htitle", messageSource.getMessage("htitle.accountDetail.h1",new String[]{""},LocaleContextHolder.getLocale()));
+//      map.put("htitle", "Account Detail");
         map.put("body", "profile");
         map.put("jspart", "profilejs");
 
@@ -267,13 +272,15 @@ public class ProfileController {
                     map.put("newuserdata", userDetails.getSwitchUser());
                 }
             }
-            map.put("title", "Change Profile");
+            map.put("title", messageSource.getMessage("title.changeProfile",new String[]{""},LocaleContextHolder.getLocale()));
+ //         map.put("title", "Change Profile");
             DefaultController.setLocaleInfo(map);
 
         } else {
             layaut = "indexPrime";
         }
-        map.put("htitle", "Account control");
+        map.put("htitle", messageSource.getMessage("htitle.accountControl.h1",new String[]{""},LocaleContextHolder.getLocale()));
+//      map.put("htitle", "Account control");
         map.put("body", "profileedit");
         map.put("jspart", "profileeditjs");
         map.put("tab", "general-tab");
@@ -306,7 +313,8 @@ public class ProfileController {
 
             DefaultController.setLocaleInfo(map);
 
-            DefaultController.setLocaleInfo(map);
+            map.put("title", messageSource.getMessage("title.password",new String[]{""},LocaleContextHolder.getLocale()));
+//          map.put("title", "Password");
             if (result.hasErrors()) {
                 map.put("result", result);
             } else {
@@ -314,8 +322,9 @@ public class ProfileController {
                     final Map<String, Object> EditConfig = new LinkedHashMap<>();
                     EditConfig.put("password", new HashMap<String, Object>() {
                         {
-                            put("path", "password");
-                            put("title", "Password");
+                            put("title", messageSource.getMessage("title.password",new String[]{""},LocaleContextHolder.getLocale()));
+//                          put("title", "Password");
+                            put("path", "password");                            
                             put("retitle", "Re enter Password");
                             put("type", "password");
                         }

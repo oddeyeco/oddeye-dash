@@ -49,6 +49,8 @@ import java.util.logging.Level;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
@@ -76,6 +78,9 @@ public class UserController {
     @Autowired
     ConsumerFactory consumerFactory;
 
+    @Autowired
+    private MessageSource messageSource;
+    
     private final SimpMessagingTemplate template;
 
     @Autowired
@@ -93,12 +98,14 @@ public class UserController {
                     getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
-            map.put("title", "Real-Time Monitor");
-            map.put("htitle", "Real-Time Monitor");
+            map.put("title", messageSource.getMessage("title.realTimeMonitor",new String[]{""},LocaleContextHolder.getLocale()));
+//          map.put("title", "Real-Time Monitor");
+            map.put("htitle", messageSource.getMessage("htitle.realTimeMonitor.h1",new String[]{""},LocaleContextHolder.getLocale()));
+//          map.put("htitle", "Real-Time Monitor");
             if (optionname != null) {
                 map.put("defoptions",userDetails.getOptions(optionname));
-                map.put("title", "Real-Time Monitor "+optionname);
-                map.put("htitle", "Real-Time Monitor " + optionname);
+                map.put("title", messageSource.getMessage("title.realTimeMonitor",new String[]{""},LocaleContextHolder.getLocale()) +" "+ optionname);
+                map.put("htitle", messageSource.getMessage("htitle.realTimeMonitor.h1",new String[]{""},LocaleContextHolder.getLocale()) +" "+ optionname);
                 map.put("nameoptions", optionname);
             }
             else
@@ -164,7 +171,7 @@ public class UserController {
                     getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
-            map.put("title", "Real-Time Monitor");
+            map.put("title", messageSource.getMessage("title.RealTimeMonitor",new String[]{""},LocaleContextHolder.getLocale()));
             String group_item = request.getParameter("group_item");
             String ident_tag = request.getParameter("ident_tag");
 
@@ -369,7 +376,8 @@ public class UserController {
             map.put("curentuser", userDetails);
             map.put("activeuser", userDetails);
             map.put("ErrorsDao", ErrorsDao);
-            map.put("title", "Analysis");
+            map.put("title", messageSource.getMessage("title.analysis",new String[]{""},LocaleContextHolder.getLocale()));
+//          map.put("title", "Analysis");
             String group_item = request.getParameter("group_item");
 
             String ident_tag = request.getParameter("ident_tag");
@@ -464,7 +472,8 @@ public class UserController {
             }
 
         }
-        map.put("htitle", "Detailing analytics");
+        map.put("htitle", messageSource.getMessage("htitle.detailingAnalytics.h1",new String[]{""},LocaleContextHolder.getLocale()));
+//      map.put("htitle", "Detailing analytics");
         map.put("body", "errorsanalysis");
         map.put("jspart", "errorsanalysisjs");
 

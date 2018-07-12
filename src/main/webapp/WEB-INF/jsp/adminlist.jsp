@@ -16,7 +16,9 @@
             <thead>                
                 <tr>
                     <c:forEach items="${configMap}" var="config">   
-                        <th id="th_${config.getKey()}" <c:if test="${not empty config.getValue().displayclass}">class="${config.getValue().displayclass}"</c:if> >  ${config.getValue().title}</th>
+                        <th id="th_${config.getKey()}" <c:if test="${not empty config.getValue().displayclass}">class="${config.getValue().displayclass}"</c:if> > 
+                            <spring:message code="${config.getValue().title}"/>
+                        </th>
                         </c:forEach>                    
                 </tr>              
             </thead>

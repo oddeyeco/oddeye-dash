@@ -37,7 +37,7 @@ public class AdminPaymentControlers extends GRUDControler {
         AddViewConfig("first_name", new HashMap<String, Object>() {
             {
                 put("path", "first_name");
-                put("title", "first_name");
+                put("title", "adminlist.firstName");
                 put("type", "String");
             }
         }).AddViewConfig("user", new HashMap<String, Object>() {
