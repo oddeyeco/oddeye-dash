@@ -312,7 +312,7 @@ public class ProfileController {
             userValidator.passwordvalidate(newuserdata, currentUser, result);
 
             DefaultController.setLocaleInfo(map);
-
+            map.put("htitle", messageSource.getMessage("htitle.accountControl.h1",new String[]{""},LocaleContextHolder.getLocale()));
             map.put("title", messageSource.getMessage("title.password",new String[]{""},LocaleContextHolder.getLocale()));
 //          map.put("title", "Password");
             if (result.hasErrors()) {
@@ -325,7 +325,7 @@ public class ProfileController {
                             put("title", messageSource.getMessage("title.password",new String[]{""},LocaleContextHolder.getLocale()));
 //                          put("title", "Password");
                             put("path", "password");                            
-                            put("retitle", "Re enter Password");
+                            put("retitle", messageSource.getMessage("retitle.reEnterPassword",new String[]{""},LocaleContextHolder.getLocale()));
                             put("type", "password");
                         }
                     });

@@ -43,7 +43,7 @@ public class AdminPaymentControlers extends GRUDControler {
         }).AddViewConfig("user", new HashMap<String, Object>() {
             {
                 put("path", "user");
-                put("title", "User");
+                put("title", "adminlist.user");
                 put("type", "Object");
                 put("display", "email");
 
@@ -51,39 +51,39 @@ public class AdminPaymentControlers extends GRUDControler {
         }).AddViewConfig("payer_email", new HashMap<String, Object>() {
             {
                 put("path", "payer_email");
-                put("title", "Payer email");
+                put("title", "adminlist.payerEmail");
                 put("type", "String");                
 
             }
         }).AddViewConfig("payment_date", new HashMap<String, Object>() {
             {
                 put("path", "payment_date");
-                put("title", "Date");
+                put("title", "adminlist.date");
                 put("type", "Date");
                 put("displayclass", "orderdesc");
             }
         }).AddViewConfig("payment_gross", new HashMap<String, Object>() {
             {
                 put("path", "payment_gross");
-                put("title", "Payment gross");
+                put("title", "adminlist.paymentGross");
                 put("type", "Double");
             }
         }).AddViewConfig("payment_fee", new HashMap<String, Object>() {
             {
                 put("path", "payment_fee");
-                put("title", "Payment fee");
+                put("title", "adminlist.paymentFee");
                 put("type", "Double");
             }
         }).AddViewConfig("mc_currency", new HashMap<String, Object>() {
             {
                 put("path", "mc_currency");
-                put("title", "Currency");
+                put("title", "adminlist.currency");
                 put("type", "String");
             }
         }).AddViewConfig("points", new HashMap<String, Object>() {
             {
                 put("path", "points");
-                put("title", "points");
+                put("title", "adminlist.points");
                 put("type", "Double");
             }
         });

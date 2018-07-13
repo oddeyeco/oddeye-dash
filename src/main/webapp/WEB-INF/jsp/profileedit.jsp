@@ -34,7 +34,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"><spring:message code="profileedit.firstName"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <form:input path="name" cssClass="form-control" required="" placeholder="First Name *"/>
+                                    <spring:message code="profileedit.firstName" var="ph"/> 
+                                    <form:input path="name" cssClass="form-control" required="" placeholder="${ph}"/>
                                     <form:errors path="name" />
                                 </div>
                             </div>
@@ -42,7 +43,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname"><spring:message code="profileedit.lastName"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <form:input path="lastname" cssClass="form-control" placeholder="Last Name"/>
+                                    <spring:message code="profileedit.lastName" var="ph"/> 
+                                    <form:input path="lastname" cssClass="form-control" placeholder="${ph} *"/>
                                     <form:errors path="lastname" />
                                 </div>
                             </div>                    
@@ -50,7 +52,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company"><spring:message code="profileedit.companyName"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-                                    <form:input path="company" cssClass="form-control" placeholder="Company name"/>
+                                    <spring:message code="profileedit.companyName" var="ph"/>
+                                    <form:input path="company" cssClass="form-control" placeholder="${ph} *"/>
                                     <form:errors path="company" />
                                 </div>
                             </div>
@@ -67,8 +70,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="city"><spring:message code="profileedit.city"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-
-                                    <form:input path="city" cssClass="form-control" placeholder="City"/>
+                                    <spring:message code="profileedit.city" var="ph"/>    
+                                    <form:input path="city" cssClass="form-control" placeholder="${ph} *"/>
                                     <form:errors path="city" />                    
                                 </div>
                             </div>
@@ -76,8 +79,8 @@
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="region"><spring:message code="profileedit.region"/> 
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
-
-                                    <form:input path="region" cssClass="form-control" placeholder="Region"/>
+                                    <spring:message code="profileedit.region" var="ph"/> 
+                                    <form:input path="region" cssClass="form-control" placeholder="${ph}"/>
                                     <form:errors path="region" />              
                                 </div>
                             </div>
@@ -179,21 +182,24 @@
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name"><spring:message code="profileedit.security.oldPassword"/></label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <form:input path="oldpassword" cssClass="form-control" required="" placeholder="Old Password" type="password"/>
+                                    <spring:message code="profileedit.security.oldPassword" var="ph"/>
+                                    <form:input path="oldpassword" cssClass="form-control" required="" placeholder="${ph}" type="password"/>
                                     <form:errors path="oldpassword" />
                                 </div>                              
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name"><spring:message code="profileedit.security.newPassword"/></label>
-                                <div class="col-md-8 col-sm-8 col-xs-12">                                    
-                                    <input id="password" name="password" class="form-control" placeholder="New Password" type="password" value="">
+                                <div class="col-md-8 col-sm-8 col-xs-12">
+                                    <spring:message code="profileedit.security.newPassword" var="ph"/>
+                                    <input id="password" name="password" class="form-control" placeholder="${ph}" type="password" value="">
                                     <form:errors path="password" />
                                 </div>                               
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name"><spring:message code="profileedit.security.reEnterNewPassword"/></label>
                                 <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <form:input path="passwordsecond" cssClass="form-control" required="" placeholder="Re enter New Password" type="password"/>
+                                    <spring:message code="profileedit.security.reEnterNewPassword" var="ph"/>
+                                    <form:input path="passwordsecond" cssClass="form-control" required="" placeholder="${ph}" type="password"/>
                                     <form:errors path="passwordsecond" />
                                 </div>
                                 <div class="col-md-2 col-sm-2 col-xs-12">

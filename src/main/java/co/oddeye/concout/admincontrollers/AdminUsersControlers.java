@@ -69,56 +69,56 @@ public class AdminUsersControlers extends GRUDControler {
         AddViewConfig("email", new HashMap<String, Object>() {
             {
                 put("path", "email");
-                put("title", "E-Mail");
+                put("title", "adminlist.email");
                 put("type", "String");
             }
         }).AddViewConfig("name", new HashMap<String, Object>() {
             {
                 put("path", "fullname");
-                put("title", "Name");
+                put("title", "adminlist.name");
                 put("type", "String");
             }
         }).AddViewConfig("balance", new HashMap<String, Object>() {
             {
                 put("path", "balance");
-                put("title", "Balance");
+                put("title", "adminlist.balance");
                 put("type", "Double");
             }
         }).AddViewConfig("Company", new HashMap<String, Object>() {
             {
                 put("path", "company");
-                put("title", "Company");
+                put("title", "adminlist.company");
                 put("type", "String");
             }
         }).AddViewConfig("Country", new HashMap<String, Object>() {
             {
                 put("path", "country");
-                put("title", "Country");
+                put("title", "adminlist.country");
                 put("type", "String");
             }
         }).AddViewConfig("Sinedate", new HashMap<String, Object>() {
             {
                 put("path", "sinedate");
-                put("title", " Sinedate");
+                put("title", "adminlist.signedDate");
                 put("type", "Date");
                 put("displayclass", "orderdesc");
             }
         }).AddViewConfig("mailconfirm", new HashMap<String, Object>() {
             {
                 put("path", "mailconfirm");
-                put("title", "is Mailconfirm");
+                put("title", "adminlist.isMailConfirm");
                 put("type", "boolean");
             }
         }).AddViewConfig("active", new HashMap<String, Object>() {
             {
                 put("path", "active");
-                put("title", "is Active");
+                put("title", "adminlist.isActive");
                 put("type", "boolean");
             }
         }).AddViewConfig("referal", new HashMap<String, Object>() {
             {
                 put("path", "referal");
-                put("title", "Referal");
+                put("title", "adminlist.referal");
                 put("type", "Object");
                 put("display", "email");
                 put("items", null);
@@ -140,18 +140,18 @@ public class AdminUsersControlers extends GRUDControler {
         .AddViewConfig("actions", new HashMap<String, Object>() {
             {
                 put("path", "edit");
-                put("title", " Actions");
+                put("title", "adminlist.actions");
                 put("type", "actions");
             }
         }).AddViewConfig("userswitch", new HashMap<String, Object>() {
             {
                 put("path", "alowswitch");
-                put("title", " Switch to user");
+                put("title", "adminlist.switchToUser");
                 put("type", "actions");
             }
         }).AddViewConfig("activity", new HashMap<String, Object>() {
             {
-                put("title", " Monitoring conneted");
+                put("title", "adminlist.monitoringConneted");
                 put("type", "userstatus");
             }
         });
@@ -181,7 +181,7 @@ public class AdminUsersControlers extends GRUDControler {
         AddEditConfig("email", new HashMap<String, Object>() {
             {
                 put("path", "email");
-                put("title", "E-Mail");
+                put("title", "adminlist.email");
                 put("type", "String");
                 put("required", true);
 
@@ -189,96 +189,96 @@ public class AdminUsersControlers extends GRUDControler {
         }).AddEditConfig("name", new HashMap<String, Object>() {
             {
                 put("path", "name");
-                put("title", " First Name");
+                put("title", "adminlist.firstName");
                 put("type", "String");
             }
         }).AddEditConfig("lastname", new HashMap<String, Object>() {
             {
                 put("path", "lastname");
-                put("title", " Last Name");
+                put("title", "adminlist.lastName");
                 put("type", "String");
             }
         }).AddEditConfig("password", new HashMap<String, Object>() {
             {
                 put("path", "password");
-                put("title", "Password");
-                put("retitle", "Re enter Password");
+                put("title", "adminlist.password");
+                put("retitle", "adminlist.reEnterPassword");
                 put("type", "password");
             }
         }).AddEditConfig("Company", new HashMap<String, Object>() {
             {
                 put("path", "company");
-                put("title", "Company");
+                put("title", "adminlist.company");
                 put("type", "String");
             }
         }).AddEditConfig("Country", new HashMap<String, Object>() {
             {
                 put("path", "country");
-                put("title", "Country");
+                put("title", "adminlist.country");
                 put("type", "Select");
                 put("items", country);
             }
         }).AddEditConfig("Timezone", new HashMap<String, Object>() {
             {
                 put("path", "timezone");
-                put("title", " Timezone");
+                put("title", "adminlist.timezone");
                 put("type", "Select");
                 put("items", timezones);
             }
         }).AddEditConfig("referal", new HashMap<String, Object>() {
             {
                 put("path", "sreferal");
-                put("title", "Referal");
+                put("title", "adminlist.referal");
                 put("type", "Select");
                 put("items", null);
             }
         }).AddEditConfig("balance", new HashMap<String, Object>() {
             {
                 put("path", "balance");
-                put("title", "Balance");
+                put("title", "adminlist.balance");
                 put("type", "float");
             }
         }).AddEditConfig("unlimit", new HashMap<String, Object>() {
             {
                 put("path", "unlimit");
-                put("title", "is Unlimit");
+                put("title", "adminlist.isUnlimit");
                 put("type", "boolean");
             }
         }).AddEditConfig("alowswitch", new HashMap<String, Object>() {
             {
                 put("path", "alowswitch");
-                put("title", "is Alowswitch");
+                put("title", "adminlist.isAlowswitch");
                 put("type", "boolean");
             }
         }).AddEditConfig("Authorities", new HashMap<String, Object>() {
             {
                 put("path", "authorities");
-                put("title", " Authorities");
+                put("title", "adminlist.privilege");
                 put("type", "MultiSelect");
                 put("items", OddeyeUserModel.getAllRoles());
             }
         }).AddEditConfig("active", new HashMap<String, Object>() {
             {
                 put("path", "active");
-                put("title", "is Active");
+                put("title", "adminlist.isActive");
                 put("type", "boolean");
             }
         }).AddEditConfig("firstlogin", new HashMap<String, Object>() {
             {
                 put("path", "firstlogin");
-                put("title", "Firstlogin");
+                put("title", "adminlist.firstLogin");
                 put("type", "boolean");
             }
         }).AddEditConfig("mailconfirm", new HashMap<String, Object>() {
             {
                 put("path", "mailconfirm");
-                put("title", "is Mailconfirm");
+                put("title", "adminlist.isMailConfirm");
                 put("type", "boolean");
             }
         }).AddEditConfig("actions", new HashMap<String, Object>() {
             {
                 put("path", "actions");
-                put("title", " Actions");
+                put("title", "adminlist.actions");
                 put("type", "actions");
             }
         });
