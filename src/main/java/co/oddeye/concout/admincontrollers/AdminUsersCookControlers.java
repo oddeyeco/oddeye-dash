@@ -71,25 +71,25 @@ public class AdminUsersCookControlers extends GRUDControler {
         AddViewConfig("email", new HashMap<String, Object>() {
             {
                 put("path", "email");
-                put("title", "E-Mail");
+                put("title", "adminlist.email");
                 put("type", "String");
             }
         }).AddViewConfig("name", new HashMap<String, Object>() {
             {
                 put("path", "fullname");
-                put("title", "Name");
+                put("title", "adminlist.name");
                 put("type", "String");
             }
         }).AddViewConfig("balance", new HashMap<String, Object>() {
             {
                 put("path", "balance");
-                put("title", "Balance");
+                put("title", "adminlist.balance");
                 put("type", "Double");
             }
         }).AddViewConfig("referal", new HashMap<String, Object>() {
             {
                 put("path", "referal");
-                put("title", "Referal");
+                put("title", "adminlist.referal");
                 put("type", "Object");
                 put("display", "email");
                 put("items", null);
@@ -97,14 +97,14 @@ public class AdminUsersCookControlers extends GRUDControler {
         }).AddViewConfig("Sinedate", new HashMap<String, Object>() {
             {
                 put("path", "sinedate");
-                put("title", " Sinedate");
+                put("title", "adminlist.signedDate");
                 put("type", "Date");
                 put("displayclass", "orderdesc");
             }
         }).AddViewConfig("Cookesinfo", new HashMap<String, Object>() {
             {
                 put("path", "cookies");
-                put("title", " Cookes info");
+                put("title", "adminlist.cookiesInfo");
                 put("type", "cookies");                
             }
         });
