@@ -18,6 +18,8 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,6 +43,9 @@ public class AdminTemplateControlers extends GRUDControler {
 
     @Autowired
     private TemplateValidator TemplateValidator;
+    
+     @Autowired
+    private MessageSource messageSource;
 
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AdminTemplateControlers.class);
 
@@ -48,25 +53,25 @@ public class AdminTemplateControlers extends GRUDControler {
         AddViewConfig("name", new HashMap<String, Object>() {
             {
                 put("path", "name");
-                put("title", "Name");
+                put("title", messageSource.getMessage("adminlist.name",new String[]{""},LocaleContextHolder.getLocale()));
                 put("type", "String");
             }
         }).AddViewConfig("type", new HashMap<String, Object>() {
             {
                 put("path", "type");
-                put("title", " Type");
+                put("title", messageSource.getMessage("adminlist.type",new String[]{""},LocaleContextHolder.getLocale()));
                 put("type", "Enum");
             }
         }).AddViewConfig("timestamp", new HashMap<String, Object>() {
             {
                 put("path", "time");
-                put("title", " Date");
+                put("title", messageSource.getMessage("adminlist.date",new String[]{""},LocaleContextHolder.getLocale()));
                 put("type", "Date");
             }
         }).AddViewConfig("user", new HashMap<String, Object>() {
             {
                 put("path", "user");
-                put("title", " user");
+                put("title", messageSource.getMessage("adminlist.user",new String[]{""},LocaleContextHolder.getLocale()));
                 put("type", "Object");
                 put("display", "email");
 
@@ -74,18 +79,18 @@ public class AdminTemplateControlers extends GRUDControler {
         }).AddViewConfig("actions", new HashMap<String, Object>() {
             {
                 put("path", "edit");
-                put("title", " Actions");
+                put("title", messageSource.getMessage("adminlist.actions",new String[]{""},LocaleContextHolder.getLocale()));
                 put("type", "actions");
             }
         }).AddViewConfig("tags", new HashMap<String, Object>() {
             {
-                put("title", " Tags");
+                put("title", messageSource.getMessage("tags",new String[]{""},LocaleContextHolder.getLocale()));
                 put("path", "usedtags");                
                 put("type", "List");
             }
         }).AddViewConfig("metrics", new HashMap<String, Object>() {
             {
-                put("title", " Metrics");
+                put("title", messageSource.getMessage("metrics",new String[]{""},LocaleContextHolder.getLocale()));
                 put("path", "usednames");                
                 put("type", "List");
             }
