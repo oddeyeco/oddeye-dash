@@ -37,7 +37,7 @@
                             <li role="presentation" class="<c:if test="${tab == \"pass-tab\"}">active</c:if>"><a href="#tab_pass" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
                             </li>
                     </c:when>                                                
-                    <c:when test="${(!empty result) && (tab == \"pass-tab\")}">
+                    <c:when test="${(!empty result) && (tab == \"general-tab\")}">
                         <li role="presentation" class="<c:if test="${tab == \"general-tab\"}">active</c:if>  ">
                                 <a href="#general_content" id="general-tab" role="tab" data-toggle="tab" aria-expanded="false">
                                 <spring:message code="profileedit.general"/>

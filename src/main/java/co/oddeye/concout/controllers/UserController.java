@@ -417,34 +417,34 @@ public class UserController {
 
             if (int_level_item == -1) {
                 String minValue = request.getParameter("minValue");
-                if (minValue == null) {
+                if ((minValue == null)||(minValue.isEmpty())) {
                     map.put("minValue", 1);
                 } else {
                     map.put("minValue", Math.abs(Double.parseDouble(minValue)));
                 }
 
                 String minPersent = request.getParameter("minPersent");
-                if (minValue == null) {
+                if ((minPersent == null)||(minPersent.isEmpty())) {
                     map.put("minPersent", 50);
                 } else {
                     map.put("minPersent", Math.abs(Double.parseDouble(minPersent)));
                 }
 
                 String minWeight = request.getParameter("minWeight");
-                if (minValue == null) {
+                if ((minWeight == null)||(minWeight.isEmpty())) {
                     map.put("minWeight", 14);
                 } else {
                     map.put("minWeight", Math.abs((short) Math.round(Float.parseFloat(minWeight))));
                 }
 
                 String minRecurrenceCount = request.getParameter("minRecurrenceCount");
-                if (minValue == null) {
+                if ((minRecurrenceCount == null)||(minRecurrenceCount.isEmpty())) {
                     map.put("minRecurrenceCount", 2);
                 } else {
                     map.put("minRecurrenceCount", Math.abs((short) Math.round(Float.parseFloat(minRecurrenceCount))));
                 }
                 String minPredictPersent = request.getParameter("minPredictPersent");
-                if (minValue == null) {
+                if ((minPredictPersent == null)||(minPredictPersent.isEmpty())) {
                     map.put("minPredictPersent", 50);
                 } else {
                     map.put("minPredictPersent", Math.abs(Float.parseFloat(minPredictPersent)));
