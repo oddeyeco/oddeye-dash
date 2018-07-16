@@ -9,26 +9,62 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
-            <h2><spring:message code="profileedit.controlSecure.h2"/> </h2>
+            <h2><spring:message code="profileedit.controlSecure.h2"/></h2>
             <div class="clearfix"></div>
         </div>    
         <div class="" role="tabpanel" data-example-id="togglable-tabs">
-            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                                
-                <li role="presentation" class="<c:if test="${tab == \"general-tab\"}">active</c:if>  "><a href="#general_content" id="general-tab" role="tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.general"/></a>
-                </li>
-                <li role="presentation" class="<c:if test="${tab == \"level-tab\"}">active</c:if>  "><a href="#level_content" role="tab" id="level-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.levelsSettings"/></a>
-                </li>
-<!--                <li role="presentation" class="<c:if test="${tab == \"notifier-tab\"}">active</c:if>"><a href="#notifier_content" role="tab" id="notifier-tab" data-toggle="tab" aria-expanded="false">Notifier</a>
-                </li>-->
-                <li role="presentation" class="<c:if test="${tab == \"pass-tab\"}">active</c:if>"><a href="#tab_pass" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
-                </li>
-
+            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">    
+                <c:choose>
+                    <c:when test="${(!empty result) && (tab == \"level-tab\")}">
+                        <li role="presentation" class="disabled <c:if test="${tab == \"general-tab\"}">active</c:if>  ">
+                                <a id="general-tab" role="tab" aria-expanded="false">
+                                <spring:message code="profileedit.general"/>
+                            </a>
+                        </li>
+                        <li role="presentation" class="<c:if test="${tab == \"level-tab\"}">active</c:if>  "><a href="#level_content" role="tab" id="level-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.levelsSettings"/></a>
+                            </li>
+                            <li role="presentation" class="disabled <c:if test="${tab == \"pass-tab\"}">active</c:if>"><a role="tab" id="profile-tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
+                            </li>
+                    </c:when>    
+                    <c:when test="${(!empty result) && (tab == \"pass-tab\")}">
+                        <li role="presentation" class="disabled <c:if test="${tab == \"general-tab\"}">active</c:if>  ">
+                                <a  id="general-tab" aria-expanded="false">
+                                <spring:message code="profileedit.general"/>
+                            </a>
+                        </li>
+                        <li role="presentation" class="disabled <c:if test="${tab == \"level-tab\"}">active</c:if>  "><a  role="tab" id="level-tab" aria-expanded="false"><spring:message code="profileedit.levelsSettings"/></a>
+                            </li>
+                            <li role="presentation" class="<c:if test="${tab == \"pass-tab\"}">active</c:if>"><a href="#tab_pass" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
+                            </li>
+                    </c:when>                                                
+                    <c:when test="${(!empty result) && (tab == \"pass-tab\")}">
+                        <li role="presentation" class="<c:if test="${tab == \"general-tab\"}">active</c:if>  ">
+                                <a href="#general_content" id="general-tab" role="tab" data-toggle="tab" aria-expanded="false">
+                                <spring:message code="profileedit.general"/>
+                            </a>
+                        </li>
+                        <li role="presentation" class="disabled <c:if test="${tab == \"level-tab\"}">active</c:if>  "><a role="tab" id="level-tab" aria-expanded="false"><spring:message code="profileedit.levelsSettings"/></a>
+                            </li>
+                            <li role="presentation" class="disabled <c:if test="${tab == \"pass-tab\"}">active</c:if>"><a role="tab" id="profile-tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
+                            </li>
+                    </c:when>    
+                    <c:otherwise>
+                        <li role="presentation" class="<c:if test="${tab == \"general-tab\"}">active</c:if>  ">
+                                <a href="#general_content" id="general-tab" role="tab" data-toggle="tab" aria-expanded="false">
+                                <spring:message code="profileedit.general"/>
+                            </a>
+                        </li>
+                        <li role="presentation" class="<c:if test="${tab == \"level-tab\"}">active</c:if>  "><a href="#level_content" role="tab" id="level-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.levelsSettings"/></a>
+                            </li>
+                            <li role="presentation" class="<c:if test="${tab == \"pass-tab\"}">active</c:if>"><a href="#tab_pass" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
+                            </li>
+                    </c:otherwise>
+                </c:choose>                
             </ul>
             <div id="myTabContent" class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"general-tab\"}">active</c:if> " id="general_content" aria-labelledby="general_content">
-                    <div class="x_content">
-                        <br>                        
+                        <div class="x_content">
+                            <br>                        
                         <form:form method="post" action="${cp}/profile/saveuser" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="userdata">                            
                             <div class="form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name"><spring:message code="profileedit.firstName"/> <span class="required">*</span>
@@ -100,13 +136,9 @@
                             <div class="clearfix"></div>
                         </form:form>                                                
                     </div>                
-
                 </div>
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"level-tab\"}">active</c:if> " id="level_content" aria-labelledby="level_content">
-
-                    <!-- start user projects -->
                     <form:form method="post" action="${cp}/profile/saveuserlevels" modelAttribute="newuserleveldata" novalidate="true" cssClass="form-horizontal form-label-left">                            
-<!--                    <form name="levelssetings" id="levelssetings" enctype="multipart/form-data">-->
                         <table class="data table table-striped no-margin">
                             <thead>
                                 <tr>
@@ -131,7 +163,7 @@
                                                 <form:errors path="AlertLevels[${AlertLevel.getKey()}][${Value.getKey()}]" />
                                                 <!--<input class="form-control" value="${Value.getValue()}" type="number" name="[${AlertLevel.getKey()}][${Value.getKey()}]">-->    
                                             </td>
-                                            </c:forEach>                                
+                                        </c:forEach>                                
                                     </tr>                    
                                 </c:forEach>
                             </tbody>
@@ -142,39 +174,11 @@
                                 <button type="submit" class="btn btn-success"><spring:message code="submit"/></button>
                             </div>
                         </div>                        
-                    
-                    </form:form>
-                    <!-- end user projects -->
 
+                    </form:form>                    
                 </div>
-<!--                <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"notifier-tab\"}">active</c:if>" id="notifier_content" aria-labelledby="notifier_content">
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                        <form class="form-horizontal form-label-left form-filter" name="send_email" id="email_note">
-                            <div class="x_title">                            
-                                <h5>For Email <input type="checkbox" class="js-switch-small" id="send_email" name="send_email" /> </h5><input class="form-control filter-input" type="text" name="email_input" id="email_input" value=""></div>                            
-                                    <jsp:include page="filterform.jsp" />  
-                            <div class="form-group">                        
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                                    <button class="btn btn-success savefilter" type="button">Save</button>                                            
-                                </div>
-                            </div>                        
-                        </form>
-                    </div>
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                        <form class="form-horizontal form-label-left form-filter" name="send_telegram" id="telegram_note">
-                            <div class="x_title">
-                                <h5>For Telegram <input type="checkbox" class="js-switch-small" id="send_telegram" name="send_telegram" /> </h5><input class="form-control filter-input" type="text" name="telegram_input" id="telegram_input" value=""></div>
-                                    <jsp:include page="filterform.jsp" />  
-                            <div class="form-group">                        
-                                <div class="col-md-12 col-sm-12 col-xs-12 text-right">
-                                    <button class="btn btn-success savefilter" type="button" >Save</button>        
-                                </div>
-                            </div>                        
-                        </form>
-                    </div>                            
-                </div>-->
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"pass-tab\"}">active</c:if>" id="tab_pass" aria-labelledby="pass-tab">
-                    <div class="x_content">                                        
+                        <div class="x_content">                                        
                         <form:form method="post" action="${cp}/profile/changepassword" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="passwordform">
                             <div class="form-group">
                                 <label class="control-label col-md-2 col-sm-2 col-xs-12" for="name"><spring:message code="profileedit.security.oldPassword"/></label>
