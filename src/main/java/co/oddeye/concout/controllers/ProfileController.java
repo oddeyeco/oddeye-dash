@@ -288,7 +288,7 @@ public class ProfileController {
         return layaut;
     }
 
-    @RequestMapping(value = "/profile/saveuser", method = RequestMethod.GET)
+    @RequestMapping(value = {"/profile/saveuser","/profile/changepassword","/profile/saveuserlevels"}, method = RequestMethod.GET)
     public String createuserGet(@ModelAttribute("curentuser") OddeyeUserModel newcurentuser, BindingResult result,
             ModelMap map
     ) {

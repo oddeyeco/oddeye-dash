@@ -5,13 +5,13 @@
  */
 package co.oddeye.concout.config;
 
+import co.oddeye.concout.convertor.StringToDoubleConvertor;
 import co.oddeye.concout.providers.ApplicationContextProvider;
 import com.maxmind.geoip2.DatabaseReader;
 import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
@@ -22,16 +22,17 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -57,9 +58,17 @@ public class Config implements WebMvcConfigurer {
 
     @Value("${geoipfile}")
     private String geoipfile;
+    
+    @Autowired
+    StringToDoubleConvertor stringToDoubleConvertor;
 
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Config.class);
 
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(stringToDoubleConvertor);        
+    }    
+    
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();

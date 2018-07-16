@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package co.oddeye.concout.validator;
+
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.AlertLevel;
 import java.util.Map;
@@ -32,44 +33,34 @@ public class LevelsValidator implements Validator {
         for (Map.Entry<Integer, Map<Integer, Double>> levelEntry : user.getAlertLevels().entrySet()) {
             for (Map.Entry<Integer, Double> level : levelEntry.getValue().entrySet()) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "empty.value", "Value must not be empty.");
-                
-
-                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_PECENT))
-                {
-                    if (level.getValue()<0)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
+                if (level.getValue() != null) {
+                    if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_PECENT)) {
+                        if (level.getValue() < 0) {
+                            errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
+                        }
+                    }
+                    if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_PREDICTPERSENT)) {
+                        if (level.getValue() < 0) {
+                            errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
+                        }
+                    }
+                    if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_WEIGTH)) {
+                        if (level.getValue() < 0) {
+                            errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
+                        }
+                        if (level.getValue() > 16) {
+                            errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "16value", "Value more than 16.");
+                        }
+                    }
+                    if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_RECCOUNT)) {
+                        if (level.getValue() < 0) {
+                            errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
+                        }
+                        if (level.getValue() > 15) {
+                            errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "10value", "Value more than 15.");
+                        }
                     }
                 }
-                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_PREDICTPERSENT))
-                {
-                    if (level.getValue()<0)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
-                    }
-                }                
-                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_WEIGTH))
-                {
-                    if (level.getValue()<0)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
-                    }
-                    if (level.getValue()>16)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "16value", "Value more than 16.");
-                    }                    
-                }                                
-                if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_RECCOUNT))
-                {
-                    if (level.getValue()<0)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "negativvalue", "Value less than 0.");
-                    }
-                    if (level.getValue()>15)
-                    {
-                        errors.rejectValue("AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "15value", "Value more than 15.");
-                    }                    
-                }                                                
             }
         }
 
