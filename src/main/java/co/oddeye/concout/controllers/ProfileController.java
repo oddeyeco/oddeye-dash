@@ -151,7 +151,7 @@ public class ProfileController {
                 if (meta == null) {
                     map.put("body", "errors/usererror");
                     map.put("jspart", "errorjs");
-                    map.put("message", "Metric not exist");
+                    map.put("message",  messageSource.getMessage("MetricNotexist",new String[]{""},LocaleContextHolder.getLocale()));
                     return "index";
                 }
                 
