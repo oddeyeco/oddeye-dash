@@ -4,7 +4,7 @@
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css?v=${version}" rel="stylesheet">
 <div class="page-title">
     <div class="title_right">
-        <h3>Event by "${Error.getName()} at <fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.getTimezone()}" detail</h3>
+        <h3>Events by "${Error.getName()} at <fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.getTimezone()}" detailed</h3>
     </div>
 </div>
 

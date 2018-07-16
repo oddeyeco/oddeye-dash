@@ -34,12 +34,12 @@ public class TemplateValidator implements Validator {
     public void validate(Object target, Errors errors) {
         DashboardTemplate template = (DashboardTemplate) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Dashboard must not be empty.");        
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "dashboard.empty", "Dashboard must not be empty.");        
         byte[] key;
         try {
             if (TemplateDAO.checkByName(template))
             {
-                errors.rejectValue("name", "name.exist", "name for user is exist.");
+                errors.rejectValue("name", "name.exist", "Name for user is exist.");
             }
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
