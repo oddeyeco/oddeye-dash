@@ -132,7 +132,7 @@
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                     <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>
-                                    <button type="submit" class="btn btn-success"><spring:message code="submit"/></button>
+                                    <button type="submit" class="btn btn-success"><spring:message code="save"/></button>
                                 </div>
                             </div>
 
@@ -174,7 +174,7 @@
                         <div class="form-group">
                             <div class="pull-right">
                                 <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>
-                                <button type="submit" class="btn btn-success"><spring:message code="submit"/></button>
+                                <button type="submit" class="btn btn-success"><spring:message code="save"/></button>
                             </div>
                         </div>                        
 
