@@ -76,25 +76,25 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname"><spring:message code="profileedit.lastName"/> <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lastname"><spring:message code="profileedit.lastName"/> 
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <spring:message code="profileedit.lastName" var="ph"/> 
-                                    <form:input path="lastname" cssClass="form-control" placeholder="${ph} *"/>
+                                    <form:input path="lastname" cssClass="form-control" placeholder="${ph}"/>
                                     <form:errors path="lastname" />
                                 </div>
                             </div>                    
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company"><spring:message code="profileedit.companyName"/> <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="company"><spring:message code="profileedit.companyName"/> 
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <spring:message code="profileedit.companyName" var="ph"/>
-                                    <form:input path="company" cssClass="form-control" placeholder="${ph} *"/>
+                                    <form:input path="company" cssClass="form-control" placeholder="${ph} "/>
                                     <form:errors path="company" />
                                 </div>
                             </div>
                             <div class="form-group">   
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country"><spring:message code="profileedit.country"/> <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="country"><spring:message code="profileedit.country"/>
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
 
@@ -103,11 +103,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="city"><spring:message code="profileedit.city"/> <span class="required">*</span>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="city"><spring:message code="profileedit.city"/> 
                                 </label>
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <spring:message code="profileedit.city" var="ph"/>    
-                                    <form:input path="city" cssClass="form-control" placeholder="${ph} *"/>
+                                    <form:input path="city" cssClass="form-control" placeholder="${ph}"/>
                                     <form:errors path="city" />                    
                                 </div>
                             </div>

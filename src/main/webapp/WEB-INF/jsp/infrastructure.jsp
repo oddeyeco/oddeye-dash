@@ -31,7 +31,8 @@
                                         </label>
                                         <div class="col-lg-12 col-sm-12 col-xs-12">
                                         <c:set value="${tagitem.key}_input" var="inputname" />
-                                        <input class="form-control autocomplete-append filter-input" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="${filter.get(inputname).getAsString()}" placeholder="Type value for filter...">
+                                        <spring:message code="infrastructure.valueFilter" var="ph"/>
+                                        <input class="form-control autocomplete-append filter-input" type="text" name="${tagitem.key}_input" id="${tagitem.key}_input" tagkey="${tagitem.key}" value="${filter.get(inputname).getAsString()}" placeholder="${ph}">
                                         <div class="autocomplete-container_${tagitem.key}" style="position: relative; float: left; width: 400px; margin: 0px;"></div>
                                     </div>
                                 </div>

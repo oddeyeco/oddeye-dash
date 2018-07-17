@@ -20,7 +20,8 @@
                 </h2>
                 <div class="col-xs-12form-group top_search">
                     <div class="input-group">
-                        <input class="form-control search-query" placeholder="Search check..." type="text">
+                        <spring:message code="calculator.search" var="ph"/>
+                        <input class="form-control search-query" placeholder="${ph}" type="text">
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button"><spring:message code="calculator.searchGo"/></button>
                         </span>
@@ -82,7 +83,7 @@
         </div>
     </div>
     <div   class="col-lg-10 col-md-9 ">
-        <div id="hostcheck"  >
+        <div id="hostcheck" >
         </div>
     </div>
 </div>

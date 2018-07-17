@@ -50,19 +50,23 @@
 
 
                 <div class="form-group">
-                    <form:input path="email" cssClass="form-control" type="email" required="" placeholder="E-Mail *"/>                    
+                    <spring:message code="adminlist.email" var="ph"/>
+                    <form:input path="email" cssClass="form-control" type="email" required="" placeholder="${ph} *"/>                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="email" />
                 </div>
                 <div class="form-group">
-                    <form:input path="password" cssClass="form-control" type="password" required="" placeholder="Password *"/>
+                    <spring:message code="adminlist.password" var="ph"/>
+                    <form:input path="password" cssClass="form-control" type="password" required="" placeholder="${ph} *"/>
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="password" />
                 </div>
                 <div class="form-group">
-                    <form:input path="passwordsecond" cssClass="form-control" type="password" required="" placeholder="Re enter Password *"/>
+                    <spring:message code="adminlist.reEnterPassword" var="ph"/>
+                    <form:input path="passwordsecond" cssClass="form-control" type="password" required="" placeholder="${ph} *"/>
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="passwordsecond"  />
                 </div>                
                 <div class="form-group">
-                    <form:input path="name" cssClass="form-control" required="" placeholder="First Name *"/>
+                    <spring:message code="adminlist.firstName" var="ph"/>
+                    <form:input path="name" cssClass="form-control" required="" placeholder="${ph} *"/>
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="name" />
                 </div>
                 <div class="form-group">
