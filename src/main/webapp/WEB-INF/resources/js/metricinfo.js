@@ -60,7 +60,7 @@ function getmetatypes(tablename) {
                 for (var i in data.data)
                 {
                     var val = data.data[i];
-                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='type' value='" + val.value + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val.count + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_type' value='" + val.value + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_type' value='" + val.value + "'><i class='fa far fa-trash-alt-o'></i> Delete</a></td></tr>");
+                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='type' value='" + val.value + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val.count + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_type' value='" + val.value + "'><i class='fa fa-list'></i> "+locale["metricinfo.showList"]+"</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_type' value='" + val.value + "'><i class='fa far fa-trash-alt-o'></i> "+locale["delete"]+"</a></td></tr>");
                 }
 //                $('#listtable').DataTable({});
                 $('#listtable').find('td input.rawflat').iCheck({
@@ -109,13 +109,13 @@ function getmetanames(tablename) {
                 for (var i in data.dataspecial)
                 {
                     var val = data.dataspecial[i];
-                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_name' value='" + i + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_name' value='" + i + "'><i class='fa far fa-trash-alt-o'></i> Delete</a></td></tr>");
+                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_name' value='" + i + "'><i class='fa fa-list'></i> "+locale["metricinfo.showList"]+"</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_name' value='" + i + "'><i class='fa far fa-trash-alt-o'></i> "+locale["delete"]+"</a></td></tr>");
                 }
                 for (var i in data.dataregular)
                 {
                     var val = data.dataregular[i];
                     var table = $(tablename);
-                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_name' value='" + i + "'><i class='fa fa-list'></i> Show List</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_name' value='" + i + "'><i class='fa far fa-trash-alt-o'></i> Delete</a></td></tr>");
+                    table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='_name' value='" + i + "'><i class='fa fa-list'></i> "+locale["metricinfo.showList"]+"</a>  <a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='_name' value='" + i + "'><i class='fa far fa-trash-alt-o'></i> "+locale["delete"]+"</a></td></tr>");
                 }
 //                $('#listtable').DataTable({});
                 $('#listtable').find('td input.rawflat').iCheck({
@@ -166,7 +166,7 @@ function getmetatags(key) {
                     var i = ikey.replace(re, "_");
                     var id = key + "_" + i;
                     id = id.replace(re, "_");
-                    $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + ikey + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + ikey + "</td><td class='count'> " + val + "</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='" + key + "' value='" + ikey + "'><i class='fa fa-list'></i> Show List</a><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + ikey + "'><i class='fa far fa-trash-alt-o'></i> Delete</a></td></tr>");
+                    $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + ikey + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + ikey + "</td><td class='count'> " + val + "</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-primary btn-xs showtagsl2' key='" + key + "' value='" + ikey + "'><i class='fa fa-list'></i> "+locale["metricinfo.showList"]+"</a><a href='javascript:void(0)' class='btn btn-danger btn-xs deletemetrics' key='" + key + "' value='" + ikey + "'><i class='fa far fa-trash-alt-o'></i> "+locale["delete"]+"</a></td></tr>");
                 });
 
 
@@ -286,7 +286,7 @@ $(document).ready(function () {
 
     $('body').on("click", ".showtags", function () {
         $("#modall1").find(".modal-body").html("");
-        $("#modall1").find(".modal-body").append('<div id="listtablediv" class="table-responsive"><table id="listtable" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%"><thead><tr><th><input type="checkbox" class="rawflat checkall" name="table_records"> </th><th>Name</th><th>Count</th><th><a href="#" class="deletemetriclistgroup btn btn-danger btn-xs pull-right"><i class="fa far fa-trash-alt-o"></i> Delete selected</a></th></tr> </thead><tbody></tbody> </table></div>');
+        $("#modall1").find(".modal-body").append('<div id="listtablediv" class="table-responsive"><table id="listtable" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%"><thead><tr><th><input type="checkbox" class="rawflat checkall" name="table_records"> </th><th>'+locale["name2"]+'</th><th>'+locale["count"]+'</th><th><a href="#" class="deletemetriclistgroup btn btn-danger btn-xs pull-right"><i class="fa far fa-trash-alt-o"></i> '+locale["deleteSelected"]+'</a></th></tr> </thead><tbody></tbody> </table></div>');
 
         $('#listtable th input.checkall').iCheck({
             checkboxClass: 'icheckbox_flat-green',
@@ -303,21 +303,21 @@ $(document).ready(function () {
         var tagkey = $(this).attr("value");
         if (!tagkey)
         {
-            $("#modall1").find(".modal-title").text("Metric Names list");
+            $("#modall1").find(".modal-title").text(locale["metricsList"]);
             getmetanames("#listtable");
         } else
         {
             if (tagkey === "_name")
             {
-                $("#modall1").find(".modal-title").text("Metric Names list");
+                $("#modall1").find(".modal-title").text(locale["metricsList"]);
                 getmetanames("#listtable");
             } else if (tagkey === "_type")
             {
-                $("#modall1").find(".modal-title").text("Metric Names list");
+                $("#modall1").find(".modal-title").text(locale["typesList"]);
                 getmetatypes("#listtable");
             } else
             {
-                $("#modall1").find(".modal-title").text('Tag "' + tagkey + '" list');
+                $("#modall1").find(".modal-title").text(locale["metricinfo.tagList"].replace("{0}",tagkey));
                 getmetatags(tagkey);
             }
         }
@@ -325,7 +325,8 @@ $(document).ready(function () {
     });
 
     $('body').on("click", ".showtagsl2", function () {
-        $("#modall2").find(".modal-title").text("Show list with " + $(this).attr("key") + " is " + $(this).attr("value"));
+        //$("#modall2").find(".modal-title").text("Show list with " + $(this).attr("key") + " is " + $(this).attr("value"));
+        $("#modall2").find(".modal-title").text(locale["metricinfo.metricsWithTag"].replace("{0}",$(this).attr("key")).replace("{1}",$(this).attr("value")));      
         $("#modall2").find(".modal-body").html("");
         var key = $(this).attr("key");
         var val = $(this).attr("value");

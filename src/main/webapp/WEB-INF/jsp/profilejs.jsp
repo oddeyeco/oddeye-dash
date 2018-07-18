@@ -8,6 +8,15 @@
     
     var locale = {
       "metricinfo.showList":"<spring:message code="metricinfo.showList"/>",
-      "metricinfo.tagtitle":"<spring:message code="metricinfo.tagtitle" javaScriptEscape="true"/>"
+      "metricinfo.tagtitle":"<spring:message code="metricinfo.tagtitle" javaScriptEscape="true"/>",
+      "metricsList":"<spring:message code="metricsList"/>",
+      "typesList":"<spring:message code="typesList"/>",
+      "name2":"<spring:message code="name2" javaScriptEscape="true"/>",
+      "count":"<spring:message code="count" javaScriptEscape="true"/>",
+      "delete":"<spring:message code="delete" javaScriptEscape="true"/>",
+      "deleteSelected":"<spring:message code="deleteSelected" javaScriptEscape="true"/>",
+      "metricinfo.tagList":"<spring:message code="metricinfo.tagList" javaScriptEscape="true"/>",
+      "metricinfo.metricsWithTag":"<spring:message code="metricinfo.metricsWithTag" javaScriptEscape="true"/>"
+      
     }
 </script>

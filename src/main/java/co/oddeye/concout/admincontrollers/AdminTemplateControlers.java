@@ -48,7 +48,7 @@ public class AdminTemplateControlers extends GRUDControler {
         AddViewConfig("name", new HashMap<String, Object>() {
             {
                 put("path", "name");
-                put("title", "adminlist.name");
+                put("title", "name2");
                 put("type", "String");
             }
         }).AddViewConfig("type", new HashMap<String, Object>() {
@@ -94,7 +94,7 @@ public class AdminTemplateControlers extends GRUDControler {
         AddEditConfig("name", new HashMap<String, Object>() {
             {
                 put("path", "name");
-                put("title", "adminlist.name");
+                put("title", "name2");
                 put("type", "String");
                 put("required", true);
 
