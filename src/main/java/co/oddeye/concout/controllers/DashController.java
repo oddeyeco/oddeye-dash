@@ -21,7 +21,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Locale;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,9 +63,9 @@ public class DashController {
     @Autowired
     private HbaseDushboardTemplateDAO TemplateDAO;
     @Autowired
-    HbaseMetaDao MetaDao;    
+    HbaseMetaDao MetaDao;
     @Autowired
-    MessageSource messageSource;    
+    MessageSource messageSource;
 
     @Value("${dash.semaphore.topic}")
     private String semaphoretopic;
@@ -121,16 +120,12 @@ public class DashController {
                 taglistprioryty.add("location");
                 taglistprioryty.add("host");
             } else {
-                if (filter.has("metric_input"))
-                {
+                if (filter.has("metric_input")) {
                     map.put("metric_input", filter.get("metric_input").getAsString());
-                }
-                else
-                {
+                } else {
                     map.put("metric_input", "");
                 }
-                
-                
+
                 for (Map.Entry<String, JsonElement> f_item : filter.entrySet()) {
                     if (user.getMetricsMeta().getTagsList().containsKey(f_item.getValue().getAsString())) {
                         taglistprioryty.add(f_item.getValue().getAsString());
@@ -167,7 +162,7 @@ public class DashController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel(true);                 
+                    getAuthentication().getPrincipal()).getUserModel(true);
             userDetails.updateConsumption2m();
             map.put("curentuser", userDetails);
 
@@ -335,7 +330,7 @@ public class DashController {
                         oldname = oldname.trim();
                         userDetails.removeDush(oldname, Userdao);
                     }
-                    String node = "";
+                    String node;
                     InetAddress ia;
 
                     ia = InetAddress.getLocalHost();
@@ -492,33 +487,32 @@ public class DashController {
             }
 
             String filterinfo = request.getParameter("filter");
-            if (filtername != null) {
-                userDetails.addFiltertemplate(filtername, filterinfo, Userdao);
+            userDetails.addFiltertemplate(filtername, filterinfo, Userdao);
 
-                JsonObject Jsonchangedata = new JsonObject();
-                Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
-                Jsonchangedata.addProperty("action", "changefilter");
-                Jsonchangedata.addProperty("filter", filterinfo);
-                Jsonchangedata.addProperty("filtername", filtername);
+            JsonObject Jsonchangedata = new JsonObject();
+            Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
+            Jsonchangedata.addProperty("action", "changefilter");
+            Jsonchangedata.addProperty("filter", filterinfo);
+            Jsonchangedata.addProperty("filtername", filtername);
 
-                // Send chenges to kafka
-                ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
-                messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
-                    @Override
-                    public void onSuccess(SendResult<Integer, String> result) {
-                        if (LOGGER.isInfoEnabled()) {
-                            LOGGER.info("Kafka savemonitoringsetings onSuccess");
-                        }
+            // Send chenges to kafka
+            ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
+            messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
+                @Override
+                public void onSuccess(SendResult<Integer, String> result) {
+                    if (LOGGER.isInfoEnabled()) {
+                        LOGGER.info("Kafka savemonitoringsetings onSuccess");
                     }
+                }
 
-                    @Override
-                    public void onFailure(Throwable ex) {
-                        LOGGER.error("Kafka savemonitoringsetings onFailure:" + ex);
-                    }
-                });
+                @Override
+                public void onFailure(Throwable ex) {
+                    LOGGER.error("Kafka savemonitoringsetings onFailure:" + ex);
+                }
+            });
 
-                jsonResult.addProperty("sucsses", true);
-            }
+            jsonResult.addProperty("sucsses", true);
+
         } else {
             jsonResult.addProperty("sucsses", false);
         }
@@ -526,7 +520,7 @@ public class DashController {
         map.put("jsonmodel", jsonResult);
         return "ajax";
     }
-    
+
     @RequestMapping(value = {"/addmonitoringpage/"})
     public String savemonitoringOptions(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -549,13 +543,13 @@ public class DashController {
             if (!optionsname.isEmpty()) {
                 try {
                     userDetails.addOptions(optionsname, optionsinfo, Userdao);
-                    
+
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
                     Jsonchangedata.addProperty("action", "changeoptions");
                     Jsonchangedata.addProperty("options", optionsinfo);
                     Jsonchangedata.addProperty("optionsname", optionsname);
-                    
+
                     // Send chenges to kafka
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
@@ -565,13 +559,13 @@ public class DashController {
                                 LOGGER.info("Kafka savemonitoringsetings onSuccess");
                             }
                         }
-                        
+
                         @Override
                         public void onFailure(Throwable ex) {
                             LOGGER.error("Kafka savemonitoringsetings onFailure:" + ex);
                         }
                     });
-                    
+
                     jsonResult.addProperty("sucsses", true);
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
@@ -583,9 +577,8 @@ public class DashController {
 
         map.put("jsonmodel", jsonResult);
         return "ajax";
-    }  
-    
-    
+    }
+
     @RequestMapping(value = {"/deletemonitoringpage/"})
     public String deletemonitoringOptions(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -600,16 +593,16 @@ public class DashController {
                 }
             }
             String optionsname = request.getParameter("optionsname");
-            
+
             if (!optionsname.isEmpty()) {
                 try {
                     userDetails.removeOptions(optionsname, Userdao);
-                    
+
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
-                    Jsonchangedata.addProperty("action", "deleteoptions");                    
+                    Jsonchangedata.addProperty("action", "deleteoptions");
                     Jsonchangedata.addProperty("optionsname", optionsname);
-                    
+
                     // Send chenges to kafka
                     ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
                     messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
@@ -619,13 +612,13 @@ public class DashController {
                                 LOGGER.info("Kafka savemonitoringsetings onSuccess");
                             }
                         }
-                        
+
                         @Override
                         public void onFailure(Throwable ex) {
                             LOGGER.error("Kafka savemonitoringsetings onFailure:" + ex);
                         }
                     });
-                    
+
                     jsonResult.addProperty("sucsses", true);
                 } catch (Exception ex) {
                     LOGGER.error(globalFunctions.stackTrace(ex));
@@ -637,6 +630,6 @@ public class DashController {
 
         map.put("jsonmodel", jsonResult);
         return "ajax";
-    }      
-    
+    }
+
 }
