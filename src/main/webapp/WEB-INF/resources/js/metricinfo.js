@@ -18,23 +18,18 @@ function getmetainfo(tagkey) {
         },
         success: function (data) {
             if (data.sucsses)
-            {
-                console.log(data);
+            {                
                 $('#metrics').html(data.names);
                 $('#typecount').html(data.types);
-//                    $('#metrics').after('<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="name">Show List</a></span>');
                 $('#tags').html(data.tagscount);
                 $('#count').html(data.count);
-//                    $('#uniqtagscount').html(data.uniqtagscount);
-
                 $("#tagslist").html('');
-
-
+                console.log(locale);//Tag "' + i + '" count 
                 jQuery.each(data.tags, function (i, val) {
                     $("#tagslist").append('<div class="col-lg-2 col-sm-3 col-xs-6 tile_stats_count">' +
-                            '<span class="count_top"><i class="fa fa-th-list"></i> Tag "' + i + '" count </span>' +
+                            '<span class="count_top"><i class="fa fa-th-list"></i> '+locale["metricinfo.tagtitle"].replace("{0}",i) +'</span>' +
                             '<div class="count spincrement">' + val + '</div>' +
-                            '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">Show List</a></span>' +
+                            '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">'+locale["metricinfo.showList"]+'</a></span>' +
                             '</div>');
                 });
 

@@ -1,8 +1,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
+<script>
+    var chartsdata = ${data};
+    var p_data = ${p_data};    
+</script>
+
 <script>    
     var merictype = ${metric.getType().ordinal()};
     var formatter = format_metric;
@@ -20,9 +26,6 @@
             abc_formatter = format_metric;
             break;
     }
-
-    var chartsdata = ${data};
-    var p_data = ${p_data};
 
 //    console.log(predictend);
     //Error.getRegression().predict(Long.parseLong(startdate)/1000)    

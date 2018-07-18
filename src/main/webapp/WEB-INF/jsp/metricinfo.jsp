@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
- <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %> 
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %> 
  
 <h2>
     <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="metricinfo.totalMetrics"/></span> 

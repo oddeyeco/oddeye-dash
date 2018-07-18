@@ -3,16 +3,22 @@
     Created on : Apr 12, 2017, 12:14:35 PM
     Author     : vahan
 --%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
 <script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>
-<!--<script src="${cp}/assets/js/metricinfo.min.js?v=${version}"></script>-->
-<script src="${cp}/resources/js/metricinfo.js?v=${version}"></script>
+<script src="${cp}/assets/js/metricinfo.min.js?v=${version}"></script>
+<!--<script src="${cp}/resources/js/metricinfo.js?v=${version}"></script>-->
 <script>
     var header = $("meta[name='_csrf_header']").attr("content");
     var token = $("meta[name='_csrf']").attr("content");
     var pp =${paypal_percent};
     var pf = ${paypal_fix};
+    var locale = {
+      "metricinfo.showList":"<spring:message code="metricinfo.showList"/>",
+      "metricinfo.tagtitle":"<spring:message code="metricinfo.tagtitle" javaScriptEscape="true"/>"
+    }    
+    
     $(document).ready(function () {
         $(".Consumptions .green").each(function (){
            var val=$(this).text();
