@@ -12,6 +12,7 @@ import freemarker.template.TemplateException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.context.annotation.Bean;
@@ -132,7 +133,7 @@ public class Config implements WebMvcConfigurer {
     @Bean(name = "localeResolver")
     public LocaleResolver getLocaleResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
-//        slr.setDefaultLocale(new Locale("en"));
+        slr.setDefaultLocale(new Locale("en"));
         return slr;
     }
 

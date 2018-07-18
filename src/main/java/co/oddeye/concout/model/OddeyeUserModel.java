@@ -207,8 +207,13 @@ public class OddeyeUserModel implements Serializable {
             if (Arrays.equals(property.qualifier(), "referal".getBytes())) {
                 this.sreferal = new String(property.value());
                 try {
-                    UUID uuid = UUID.fromString(this.sreferal);
-                    this.referal = this.Userdao.getUserByUUID(this.sreferal);
+                    if (this.sreferal != null) {
+                        if (!this.sreferal.equals(id.toString())) {
+                            UUID uuid = UUID.fromString(this.sreferal);
+                            this.referal = this.Userdao.getUserByUUID(this.sreferal);
+                        }
+
+                    }
                 } catch (IllegalArgumentException exception) {
                     this.referal = null;
                     this.sreferal = null;
@@ -929,10 +934,9 @@ public class OddeyeUserModel implements Serializable {
      * @return the alowswitch
      */
     public Boolean getAlowswitch() {
-        if (alowswitch==null)
-        {
-            alowswitch =false;
-        }            
+        if (alowswitch == null) {
+            alowswitch = false;
+        }
         return alowswitch;
     }
 
