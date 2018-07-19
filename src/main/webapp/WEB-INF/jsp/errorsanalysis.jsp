@@ -44,7 +44,7 @@
                                 <select class="form-control" name="level" id="level">
                                     <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > <spring:message code="errorsanalysis.custom"/> </option>  
                                     <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
-                                        <option <c:if test="${level_item == level.key}"> selected="true" </c:if>  value="${level.key}"> ${curentuser.getAlertLevels().getName(level.key)} </option>
+                                        <option <c:if test="${level_item == level.key}"> selected="true" </c:if>  value="${level.key}"> <!-- ${curentuser.getAlertLevels().getName(level.key)} --><spring:message code="level_${level.key}"/> </option>
                                     </c:forEach>
                                 </select>
                             </div>

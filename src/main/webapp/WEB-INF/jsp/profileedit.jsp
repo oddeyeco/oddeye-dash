@@ -159,7 +159,7 @@
                                     <tr>
                                         <td>${loopgrups.index+1}</td>
                                         <td><spring:message code="level_${AlertLevel.getKey()}"/>
-                                            <!--${newuserdata.getAlertLevels().getName(AlertLevel.getKey())}-->                                                                               
+                                         <!--  ${newuserdata.getAlertLevels().getName(AlertLevel.getKey())} -->                                                                               
                                         </td>
                                         <c:forEach items="${AlertLevel.getValue()}" var="Value" >
                                             <td>                                                

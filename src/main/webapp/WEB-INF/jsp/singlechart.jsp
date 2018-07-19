@@ -33,7 +33,7 @@
                         <div class="x_title">
                             <h2><i class="fa fas fa-chart-line"></i> <spring:message code="regression.h2"/></h2>     
  
-                            <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg">Clear</button>    
+                            <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg"><spring:message code="clear"/></button>    
                             <div class="clearfix"></div>
                         </div>                
                         <ul class="">                                                 
