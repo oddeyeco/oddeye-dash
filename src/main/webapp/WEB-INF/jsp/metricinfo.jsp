@@ -46,7 +46,7 @@ http://joaopereirawd.github.io/animatedModal.js/-->
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="close"/></button>
             </div>
         </div>
 
@@ -66,7 +66,7 @@ http://joaopereirawd.github.io/animatedModal.js/-->
                 <p>Some text in the modal.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="close"/></button>
             </div>
         </div>
 
