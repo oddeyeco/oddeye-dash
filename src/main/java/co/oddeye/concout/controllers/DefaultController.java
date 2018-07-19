@@ -343,18 +343,18 @@ public class DefaultController {
 
         for (String countryCode : locales) {
             Locale obj = new Locale("", countryCode);
-            country.put(obj.getCountry(), obj.getDisplayCountry());
+            country.put(obj.getCountry(), obj.getDisplayCountry(LocaleContextHolder.getLocale()));
         }
 
         String[] ids = TimeZone.getAvailableIDs();
-        for (String tzone : ids) {
+        for (String tzone : ids) {          
             TimeZone timeZone = TimeZone.getTimeZone(tzone);
             int offset = timeZone.getOffset(System.currentTimeMillis()) / 1000 / 60 / 60;
             String prefix = "UTC+";
             if (offset < 0) {
                 prefix = "UTC";
             }
-            timezones.put(timeZone.getID(), timeZone.getID() + "(" + prefix + offset + ")");
+            timezones.put(timeZone.getID(), timeZone.getID() + "(" + prefix + offset + ")");            
         }
 
         map.put("countryList", country);
