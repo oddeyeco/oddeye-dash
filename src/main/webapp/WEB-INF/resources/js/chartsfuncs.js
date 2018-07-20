@@ -7,7 +7,7 @@
 /* global moment, balanse */
 
 var merticdivator = 1000;
-
+var DtPicerlocale;
 var pickerstart;
 var pickerend;
 var pickerlabel = "Last 5 minutes";
@@ -43,17 +43,17 @@ var jsonmaker = function (k, v)
 };
 
 var subtractlist = {
-    "5m-ago":[5,"minute"],
-    "15m-ago":[15,"minute"],
-    "30m-ago":[30,"minute"],
-    "1h-ago":[1, 'hour'],
-    "3h-ago":[3, 'hour'],
-    "6h-ago":[6, 'hour'],
-    "12h-ago":[12, 'hour'],
-    "24h-ago":[24, 'hour'],
-    "3d-ago":[3, 'day'],
-    "7d-ago":[7, 'day'],
-    "30d-ago":[30, 'day']
+    "5m-ago": [5, "minute"],
+    "15m-ago": [15, "minute"],
+    "30m-ago": [30, "minute"],
+    "1h-ago": [1, 'hour'],
+    "3h-ago": [3, 'hour'],
+    "6h-ago": [6, 'hour'],
+    "12h-ago": [12, 'hour'],
+    "24h-ago": [24, 'hour'],
+    "3d-ago": [3, 'day'],
+    "7d-ago": [7, 'day'],
+    "30d-ago": [30, 'day']
 };
 
 var rangeslabels = {
@@ -69,18 +69,16 @@ var rangeslabels = {
     'Last 7 day': "7d-ago",
     'Last 30 day': "30d-ago"
 };
-function getmindate () {        
-        if (balanse > 0)
-        {
-            return moment().subtract(1, 'year');
-        } else {
-            return moment().subtract(7, 'day');
-        }
-    };
-    
-    
-    
-    
+function getmindate() {
+    if (balanse > 0)
+    {
+        return moment().subtract(1, 'year');
+    } else {
+        return moment().subtract(7, 'day');
+    }
+};
+
+
 var PicerOptionSet1 = {
     startDate: moment().subtract(5, 'minute'),
     endDate: moment(),
@@ -112,16 +110,7 @@ var PicerOptionSet1 = {
     cancelClass: 'btn-small',
     format: 'MM/DD/YYYY H:m:s',
     separator: ' to ',
-    locale: {
-        applyLabel: 'Submit',
-        cancelLabel: 'Clear',
-        fromLabel: 'From',
-        toLabel: 'To',
-        customRangeLabel: 'Custom',
-        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        firstDay: 1
-    }
+    locale: {}
 };
 
 
@@ -160,16 +149,7 @@ var PicerOptionSet2 = {
     cancelClass: 'btn-small',
     format: 'MM/DD/YYYY H:m:s',
     separator: ' to ',
-    locale: {
-        applyLabel: 'Submit',
-        cancelLabel: 'Clear',
-        fromLabel: 'From',
-        toLabel: 'To',
-        customRangeLabel: 'Custom',
-        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-        firstDay: 1
-    }
+    locale: {}
 };
 
 
@@ -197,8 +177,8 @@ var rangescustomds = {
 };
 var cbJson = function (JSON, wraper)
 {
-    
-    return function (start, end, label) {        
+
+    return function (start, end, label) {
         if (!JSON.times)
         {
             JSON.times = {};
@@ -268,7 +248,7 @@ var s2d = function (str) {
 var format_date = function (value, b) {
     var a = new Date(value);
     var year = a.getFullYear();
-    var month = a.getMonth()+1;
+    var month = a.getMonth() + 1;
     var date = a.getDate();
     var hour = a.getHours();
     var min = a.getMinutes();
@@ -705,14 +685,14 @@ var formatpsi = function (params) {
     return (format_metric(params)) + "psi";
 };
 
-var format_percent = function (params, type) {    
-    var val = paramtoval(params);    
+var format_percent = function (params, type) {
+    var val = paramtoval(params);
     return val.toFixed(2) + " %";
 };
-var format_volume = function (params, type) {        
-    
+var format_volume = function (params, type) {
+
     var divatior = 1000;
-    var val = paramtoval(params);       
+    var val = paramtoval(params);
     var neg = 1;
     if (val !== 0)
     {
@@ -754,13 +734,13 @@ var format_volume = function (params, type) {
     return (val * neg).toFixed(2) + "" + metric;
 };
 
-var format_metric = function (params, type) {        
+var format_metric = function (params, type) {
     if (typeof (type) === "undefined")
     {
         type = "m";
     }
     var divatior = 10;
-    var val = paramtoval(params);    
+    var val = paramtoval(params);
     var neg = 1;
     if (val !== 0)
     {
@@ -930,9 +910,9 @@ function clone_obg(obj) {
 
 function paramtoval(params)
 {
-    var val = null;    
-    if( (typeof params === "object") && (params !== null) )
-    {        
+    var val = null;
+    if ((typeof params === "object") && (params !== null))
+    {
         if (isNaN(params.value))
         {
             if (params.value.constructor === Array)

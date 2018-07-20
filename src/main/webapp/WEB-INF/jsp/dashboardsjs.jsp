@@ -35,7 +35,7 @@
       "lastTime":"<spring:message code="lastTime" javaScriptEscape="true"/>",      
       "aliveDays":"<spring:message code="aliveDays" javaScriptEscape="true"/>",      
       "silenceDays":"<spring:message code="silenceDays" javaScriptEscape="true"/>"    
-    }    
+    };    
     
     $(document).ready(function () {
         $(".Consumptions .green").each(function (){

@@ -3,6 +3,8 @@
     Created on : May 23, 2017, 11:54:11 AM
     Author     : vahan
 --%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
 <script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>
@@ -13,7 +15,26 @@
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};
     var hashcode = ${metric.hashCode()};
-
+    
+    var DtPicerlocale = {
+            applyLabel: '<spring:message code="submit"/>',
+            cancelLabel: '<spring:message code="clear"/>',
+            fromLabel: 'From',
+            toLabel: 'To',
+            customRangeLabel: 'Custom',
+            daysOfWeek: ['<spring:message code="su"/>',
+                         '<spring:message code="mo"/>','<spring:message code="tu"/>',
+                         '<spring:message code="we"/>','<spring:message code="th"/>',
+                         '<spring:message code="fr"/>','<spring:message code="sa"/>'],
+             
+           monthNames: ['<spring:message code="january"/>','<spring:message code="february"/>',
+                        '<spring:message code="march"/>','<spring:message code="april"/>',
+                        '<spring:message code="may"/>','<spring:message code="june"/>',
+                        '<spring:message code="july"/>','<spring:message code="august"/>',
+                        '<spring:message code="september"/>','<spring:message code="october"/>',
+                        '<spring:message code="november"/>','<spring:message code="december"/>'],
+            firstDay: 1
+    };
     $(document).ready(function () {
         var series = {
             name: "errors",
@@ -107,8 +128,8 @@
         $('#reportrange').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
-            startDate: moment(${date.getTime()})
-
+            startDate: moment(${date.getTime()}),
+            locale:DtPicerlocale
         },
                 function (start, end, label) {
                     window.open(cp + "/history/${metric.hashCode()}/" + start.utc().valueOf(), "_self");

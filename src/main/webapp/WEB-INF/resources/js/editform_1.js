@@ -9,7 +9,7 @@
 
 class EditForm {
 
-    constructor(formwraper, row, index, dashJSON) {        
+    constructor(formwraper, row, index, dashJSON) {
         this.formwraper = formwraper;
         this.row = row;
         this.index = index;
@@ -39,8 +39,8 @@ class EditForm {
                 }
             }
         }
-        ;
-
+        
+        PicerOptionSet2.locale = DtPicerlocale;
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(dashJSON[row]["widgets"][index], $('#reportrange_private')));
 
         var formhtml = $("#form_template").html();

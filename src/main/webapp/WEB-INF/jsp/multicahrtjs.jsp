@@ -1,13 +1,25 @@
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
-<script>
-    
+<script>    
     var balanse = 0;
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
-    </c:if>        
+    </c:if> 
+        
+        var DtPicerlocale = {
+            applyLabel: '<spring:message code="submit"/>',
+            cancelLabel: '<spring:message code="clear"/>',
+            fromLabel: 'From',
+            toLabel: 'To',
+            customRangeLabel: 'Custom',
+            daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>', '<spring:message code="tu"/>', '<spring:message code="we"/>', '<spring:message code="th"/>', '<spring:message code="fr"/>', '<spring:message code="sa"/>'],
+            monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
+            firstDay: 1
+    };
     pickerlabel = "Last 1 hour";
     var hashes =${hashes};
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
@@ -22,7 +34,8 @@
     window.onresize = echartLine.resize;
     $(document).ready(function () {
         $('#reportrange span').html(pickerlabel);
-        PicerOptionSet1.minDate = getmindate();        
+        PicerOptionSet1.minDate = getmindate();  
+        PicerOptionSet1.locale=DtPicerlocale;
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
         drawEchart(hashes, echartLine);
     });

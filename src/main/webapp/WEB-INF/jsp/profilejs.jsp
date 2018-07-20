@@ -1,4 +1,5 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
 <script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>
 <!--<script src="${cp}/assets/js/metricinfo.min.js?v=${version}"></script>-->

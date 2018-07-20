@@ -26,7 +26,7 @@
             </div>
             <div class="modal-footer">
                 <input  type="button" class="btn btn-default" data-dismiss="modal" value="No">
-                <input id="savelock" type="button" class="btn btn-success" data-dismiss="modal" value="Yes">
+                <input id="savelock" type="button" class="btn btn-success nowrap" data-dismiss="modal" value="Yes">
             </div>
         </div>
     </div>

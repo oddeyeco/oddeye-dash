@@ -2488,22 +2488,21 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
         }
     }
-    var acprefix = "Edit";
+    var acprefix = "dash.edit";
     if (readonly)
     {
-        acprefix = "Show";
+        acprefix = "dash.show";
     }
-    var title = acprefix + " Chart";
+    var title = locale[acprefix + ".chart"];
     var W_type = dashJSON.rows[row].widgets[index].type;
 
     if (W_type === "table")
     {
-        title = acprefix + " Table";
+        var title = locale[acprefix + ".table"];
     }
-
     if (W_type === "counter")
-    {
-        title = acprefix + " Numeric";
+    {        
+        var title = locale[acprefix + ".counter"];
     }
     if (rebuildform)
     {
@@ -2511,10 +2510,10 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         if (!readonly)
         {
             $(".right_col .editpanel").append('<div class="x_title dash_action">' +
-                    '<h1 class="col-md-3">' + title + '</h1>' +
+                    '<h1 class="col-md-4 nowrap">' + title + '</h1>' +
                     '<div class="pull-right">' +
-                    '<span><a class="btn btn-primary savedash"  type="button">Save </a></span>' +
-                    '<a class="btn btn-primary backtodush" type="button">Back to Dash </a>' +
+                    '<span><a class="btn btn-primary savedash"  type="button">'+ locale["save"] +' </a></span>' +
+                    '<a class="btn btn-primary backtodush" type="button">'+ locale["dash.backToDash"] +' </a>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
                     '</div>');
@@ -2525,7 +2524,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             $(".right_col .editpanel").append('<div class="x_title dash_action">' +
                     '<h1 class="col-md-3">' + title + '</h1>' +
                     '<div class="pull-right">' +
-                    '<a class="btn btn-primary backtodush" type="button">Back to Dash </a>' +
+                    '<a class="btn btn-primary backtodush" type="button">'+ locale["dash.backToDash"] +' </a>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
                     '</div>');
@@ -3042,7 +3041,7 @@ $(document).ready(function () {
     if (typeof getmindate === "function") {
         PicerOptionSet1.minDate = getmindate();
     }
-
+    PicerOptionSet1.locale=DtPicerlocale;
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
 //    var mousemovetimer;
 //    $('body').on("mousemove", "canvas", function (e) {
