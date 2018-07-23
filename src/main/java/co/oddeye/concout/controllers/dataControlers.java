@@ -16,10 +16,12 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +29,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
+import org.hbase.async.Scanner;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -54,10 +57,10 @@ public class dataControlers {
     HbaseMetaDao MetaDao;
     @Autowired
     HbaseErrorHistoryDao ErrorHistoryDao;
-    
+
     @Autowired
     private MessageSource messageSource;
-    
+
     @Autowired
     private BaseTsdbConnect BaseTsdb;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(dataControlers.class);
@@ -150,46 +153,74 @@ public class dataControlers {
                 }
 
                 map.put("activeuser", userDetails);
-//                if (userDetails.getMetricsMeta() == null) {
-//                    try {
-//                        userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
-//                    } catch (Exception ex) {
-//                        LOGGER.error(globalFunctions.stackTrace(ex));
-//                    }
-//                }
+
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
 
-                GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
-                ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
-                meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+                GetRequest getMetricErrors = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
+                ArrayList<KeyValue> rowM = BaseTsdb.getClient().get(getMetricErrors).joinUninterruptibly();
+                meta = new OddeeyMetricMeta(rowM, BaseTsdb.getTsdb(), false);
 
                 byte[] historykey = ArrayUtils.addAll(meta.getUUIDKey(), meta.getKey());
-                historykey = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(date));
-                String ss = Hex.encodeHexString(historykey);
 
-                getMetric = new GetRequest(ErrorHistoryDao.getTablename().getBytes(), historykey, "h".getBytes());
-                row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
-
-                List<ErrorState> list = new ArrayList<>(row.size());
-                int lastlevel = -255;
-                for (KeyValue KV : row) {
-                    ErrorState lasterror = null;
-                    try {
-                        JsonElement json = globalFunctions.getJsonParser().parse((new String(KV.value())));
-                        lasterror = new ErrorState(json.getAsJsonObject());
-                    } catch (Exception e) {
-                        LOGGER.error(globalFunctions.stackTrace(e));
-                    }
-
-                    if (lasterror == null) {
-                        continue;
-                    }
-                    if (lastlevel != lasterror.getLevel()) {
-                        list.add(lasterror);
-                    }
-
-                    lastlevel = lasterror.getLevel();
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                cal.setTimeInMillis(date);
+                cal.setTimeZone(TimeZone.getTimeZone(currentUser.getTimezone()));
+                if (cal.get(Calendar.HOUR_OF_DAY) > 0) {
+                    cal.set(Calendar.HOUR_OF_DAY, 0);
                 }
+                cal.set(Calendar.MINUTE, 0);
+                cal.set(Calendar.SECOND, 0);
+                cal.set(Calendar.MILLISECOND, 0);
+
+                
+                Calendar cala = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                cala.setTimeInMillis(cal.getTimeInMillis());
+                long startTime = cala.getTimeInMillis();
+
+                byte[] historykey1 = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(cala));
+                cala.add(Calendar.DATE, 1);
+                long endTime = cala.getTimeInMillis();
+                byte[] historykey2 = ArrayUtils.addAll(historykey, globalFunctions.getDayKey(cala));
+
+//                String ss = Hex.encodeHexString(historykey);
+                getMetricErrors = new GetRequest(ErrorHistoryDao.getTablename().getBytes(), historykey1, "h".getBytes());
+                ArrayList<KeyValue> row1 = BaseTsdb.getClient().get(getMetricErrors).joinUninterruptibly();
+                getMetricErrors = new GetRequest(ErrorHistoryDao.getTablename().getBytes(), historykey2, "h".getBytes());
+                ArrayList<KeyValue> row2 = BaseTsdb.getClient().get(getMetricErrors).joinUninterruptibly();
+//                Scanner scanner = BaseTsdb.getClient().newScanner(ErrorHistoryDao.getTablename());
+//                scanner.setFamily("h".getBytes());
+//                scanner.setStartKey(historykey1);
+//                scanner.setStopKey(historykey2);
+
+                List<ErrorState> list = new ArrayList<>();
+                int lastlevel = -255;
+                ArrayList<ArrayList<KeyValue>> rows = new ArrayList<>();
+                rows.add(row1);
+                rows.add(row2);
+                for (ArrayList<KeyValue> row : rows) {
+                    for (KeyValue KV : row) {
+                        ErrorState lasterror = null;
+                        try {
+                            JsonElement json = globalFunctions.getJsonParser().parse((new String(KV.value())));
+                            lasterror = new ErrorState(json.getAsJsonObject());
+                        } catch (Exception e) {
+                            LOGGER.error(globalFunctions.stackTrace(e));
+                        }
+
+                        if (lasterror == null) {
+                            continue;
+                        }
+                        if ((lasterror.getTime() < startTime) || (lasterror.getTime() > endTime)) {
+                            continue;
+                        }
+                        if (lastlevel != lasterror.getLevel()) {
+                            list.add(lasterror);
+                        }
+
+                        lastlevel = lasterror.getLevel();
+                    }
+                }
+
                 class RecipeCompare implements Comparator<ErrorState> {
 
                     @Override
@@ -232,7 +263,7 @@ public class dataControlers {
                 String hashes = request.getParameter("hashes");
                 String hashesarr = "[" + hashes.replaceAll(";", ",") + "]";
                 map.put("hashes", hashesarr);
-                map.put("title", messageSource.getMessage("title.multiChart",new String[]{""},LocaleContextHolder.getLocale()));
+                map.put("title", messageSource.getMessage("title.multiChart", new String[]{""}, LocaleContextHolder.getLocale()));
 //              map.put("title", "");
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
