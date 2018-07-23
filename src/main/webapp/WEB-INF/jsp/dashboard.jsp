@@ -47,11 +47,11 @@
                 </div>
             </div>  
             <div class="btn-group  btn-group-xs">
-                <a class="btn btn-default addcounter" type="button" data-toggle="tooltip" data-placement="top" title="Add Counter widget"><i class="fa fa-code"></i></a>
-                <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title="Add chart widget"><i class="fa fas fa-chart-line"></i></a>
-                <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title="View row as JSON" ><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default colapserow" data-toggle="tooltip" data-placement="top" title="Collapse" type="button"><i class="fa fa-chevron-up"></i></a>
-                <a class="btn btn-default deleterow" type="button" data-toggle="tooltip" data-placement="top" title="Delete row"><i class="fa fa-trash"></i></a>
+                <a class="btn btn-default addcounter" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addCounterWidget"/>' ><i class="fa fa-code"></i></a>
+                <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addChartWidget"/>' ><i class="fa fas fa-chart-line"></i></a>
+                <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.viewRowJSON"/>' ><i class="fa fa-edit"></i></a>
+                <a class="btn btn-default colapserow" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.collapse"/>' type="button"><i class="fa fa-chevron-up"></i></a>
+                <a class="btn btn-default deleterow" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.deleteRow"/>' ><i class="fa fa-trash"></i></a>
             </div>  
         </div>
         <div class="rowcontent raw">
@@ -136,7 +136,7 @@
                     <a class="btn btn-default" type="button" id="showasjson" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.viewDashJSON"/>"><i class="fa fa-edit"></i></a>
                 </div>
                 <div class="btn-group btn-group-xs">
-                    <a class="btn btn-default" type="button" id="addrow" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.addRaw"/>"><i class="fa fa-plus"></i></a>
+                    <a class="btn btn-default" type="button" id="addrow" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.addRow"/>"><i class="fa fa-plus"></i></a>
                 </div>         
                 <div class="btn-group btn-group-xs">
                     <a class="btn btn-default deletedash" type="button" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.deleteDashboard"/>"><i class="fa fa-trash"></i></a>
