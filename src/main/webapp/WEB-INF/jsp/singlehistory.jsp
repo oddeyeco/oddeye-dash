@@ -7,7 +7,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<%@ page import="co.oddeye.core.OddeeyMetricTypesEnum" %>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_title">
@@ -23,7 +23,7 @@
                 <div class="col-xs-6 col-md-6">
                     <div class="x_content "> 
                         <div class="x_title">
-                            <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/></h2>                                         
+                            <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/> </h2>                                         
                             <div class="clearfix"></div>
                         </div>                
                         <ul class="">
@@ -31,7 +31,8 @@
                                 <c:if test="${Tag.getKey() != \"UUID\"}">
                                     <li>
                                         <span class="name"> ${Tag.getKey()}: </span>
-                                        <span class="value text-success"> ${Tag.getValue()}</span>
+                                        <span class="value text-success"> ${Tag.getValue()}
+                                        </span>
                                     </li>
                                 </c:if>    
                             </c:forEach>
@@ -163,7 +164,7 @@
                                     </td>                                    
                                     <jsp:setProperty name="dateValue" property="time" value="${listitem.getTime()}"/>
                                     <td class="time" value ="${listitem.getTime()}">                                        
-                                        <fmt:formatDate type="both" pattern="HH:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>
+                                        <fmt:formatDate type="both" pattern="MM/dd H:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>
                                     </td>   
                                     <td class="timeinterval" value ="${lasttime-listitem.getTime()}">                                                                                
                                     </td>                                       
@@ -172,7 +173,7 @@
                                         <c:if test="${listitem.getLevel()>=0}">
                                             <c:if test="${not empty listitem.getStarttimes()[listitem.getLevel()]}">
                                                 <jsp:setProperty name="dateValue" property="time" value="${listitem.getStarttimes()[listitem.getLevel()]}"/>
-                                                <fmt:formatDate type="both" pattern="MM/dd HH:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>                                            
+                                                <fmt:formatDate type="both" pattern="MM/dd hh:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>                                            
                                             </c:if>
                                         </c:if>
                                     </td>       
