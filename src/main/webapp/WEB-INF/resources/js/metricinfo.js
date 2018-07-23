@@ -43,7 +43,8 @@ function getmetainfo(tagkey) {
 var tablemeta = null;
 var tablelist = null;
 
-var maetricrawHTML = '';
+var maetricrow_regular_HTML = '';
+var maetricrow_special_HTML = '';
 var chartLinck = '';
 
 function getmetatypes(tablename) {
@@ -203,7 +204,8 @@ function getmetrics(key, idvalue, id, draw) {
 
 //    var re = new RegExp("[//.|///]", 'g');
 //    id = id.replace(re, "_");
-    var html = maetricrawHTML;
+
+    
     var url = cp + "/getmetrics?key=" + key + "&value=" + idvalue;
     $.getJSON(url, function (value) {
 //        console.log(value);
@@ -212,14 +214,22 @@ function getmetrics(key, idvalue, id, draw) {
         {
             for (var k in value.data) {
                 var metric = value.data[k];
-                var input = html.replace("{metricname}", metric.name);
+                
+                if (metric.type !== 0)
+                {
+                var html = maetricrow_regular_HTML;
+                } else
+                {
+                    var html = maetricrow_special_HTML;
+                }                
+                var input = html.replace("{metricname}", metric.name);                
                 if (metric.type !== 0)
                 {
                     var icons = chartLinck.replace("{hash}", JSON.stringify(metric.hash));
-                    input = input.replace("{icons}", icons);
+                    input = input.replace("{icons}", icons);                    
                 } else
                 {
-                    input = input.replace("{icons}", "");
+                    input = input.replace("{icons}", "");                    
                 }
                 var sttags = "";
                 for (var ind in metric.tags)
@@ -271,7 +281,8 @@ function getmetrics(key, idvalue, id, draw) {
 tmphide = true;
 $(document).ready(function () {
 
-    maetricrawHTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{firsttime}</a></td><td class="text-nowrap"><a>{lasttime}</a></td> <td class="text-nowrap"><a>{livedays}</a></td><td class="text-nowrap"><a>{silencedays}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-primary btn-xs clreg" value="{hash}"> ' + locale["metricinfo.clearRegression"] + ' </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa far fa-trash-alt-o"></i> ' + locale["delete"] + ' </a></td></tr>';
+    maetricrow_regular_HTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{firsttime}</a></td><td class="text-nowrap"><a>{lasttime}</a></td> <td class="text-nowrap"><a>{livedays}</a></td><td class="text-nowrap"><a>{silencedays}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-primary btn-xs clreg" value="{hash}"> ' + locale["metricinfo.clearRegression"] + ' </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa far fa-trash-alt-o"></i> ' + locale["delete"] + ' </a></td></tr>';
+    maetricrow_special_HTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{firsttime}</a></td><td class="text-nowrap"><a>{lasttime}</a></td> <td class="text-nowrap"><a>{livedays}</a></td><td class="text-nowrap"><a>{silencedays}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa far fa-trash-alt-o"></i> ' + locale["delete"] + ' </a></td></tr>';
     chartLinck = '<a href="' + cp + '/chart/{hash}" target="_blank"><i class="fa fas fa-chart-area" style="font-size: 18px;"></i></a>';
 
     getmetainfo();
