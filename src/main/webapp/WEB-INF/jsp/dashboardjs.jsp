@@ -32,11 +32,12 @@
       "dash.row":"<spring:message code="dash.row"/>"      
     };
     var DtPicerlocale = {
-            applyLabel: '<spring:message code="submit"/>',
-            cancelLabel: '<spring:message code="clear"/>',
-            fromLabel: 'From',
-            toLabel: 'To',
-            customRangeLabel: 'Custom',
+            applyLabel: '<spring:message code="datetime.submit"/>',
+            cancelLabel: '<spring:message code="datetime.clear"/>',
+            fromLabel: '<spring:message code="datetime.from"/>',
+            toLabel: '<spring:message code="datetime.to"/>',
+            customRangeLabel: '<spring:message code="datetime.custom"/>',
+            weekLabel: "Y",
             daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>', '<spring:message code="tu"/>', '<spring:message code="we"/>', '<spring:message code="th"/>', '<spring:message code="fr"/>', '<spring:message code="sa"/>'],
             monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
             firstDay: 1

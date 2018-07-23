@@ -7,7 +7,6 @@
 /* global moment, balanse */
 
 var merticdivator = 1000;
-var DtPicerlocale;
 var pickerstart;
 var pickerend;
 var pickerlabel = "Last 5 minutes";
@@ -183,7 +182,7 @@ var cbJson = function (JSON, wraper)
         {
             JSON.times = {};
         }
-
+        console.log(label);
         JSON.times.pickerstart = start.valueOf();
         JSON.times.pickerend = end.valueOf();
         JSON.times.pickerlabel = label;
