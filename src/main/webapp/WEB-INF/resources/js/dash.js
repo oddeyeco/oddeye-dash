@@ -239,10 +239,9 @@ function btnlock() {
 function locktooltip() {
 
     if ($('#btnlock').hasClass('btnunlock')) {
-        $('#btnlock').attr('data-original-title', 'Unlock Dashboard(Ctrl+L)');
-
+        $('#btnlock').attr('data-original-title', locale["dash.title.unlockDashboard"]);
     } else {
-        $('#btnlock').attr('data-original-title', 'Lock Dashboard(Ctrl+L)');
+        $('#btnlock').attr('data-original-title', locale["dash.title.lockDashboard"]);
 
     }
 }
@@ -2191,7 +2190,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         var name = "";
         if (typeof tmprow.name === "undefined")
         {
-            name = 'Row:' + ri;
+            name = locale["dash.row"] + ri;
         } else
         {
             name = tmprow.name;

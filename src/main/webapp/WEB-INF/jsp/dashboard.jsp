@@ -121,7 +121,7 @@
             <div class="btn-group"> 
 
                 <div class="btn-group btn-group-xs">
-                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="Save Dash(Ctrl+S)"><i class="fa far fa-save"></i></button>
+                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.saveDash"/>"><i class="fa far fa-save"></i></button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only"></span>
@@ -133,13 +133,13 @@
                 </div>                  
 
                 <div class="btn-group btn-group-xs">
-                    <a class="btn btn-default" type="button" id="showasjson" data-toggle="tooltip" data-placement="top" title="View dash as JSON"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-default" type="button" id="showasjson" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.viewDashJSON"/>"><i class="fa fa-edit"></i></a>
                 </div>
                 <div class="btn-group btn-group-xs">
-                    <a class="btn btn-default" type="button" id="addrow" data-toggle="tooltip" data-placement="top" title="Add raw"><i class="fa fa-plus"></i></a>
+                    <a class="btn btn-default" type="button" id="addrow" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.addRaw"/>"><i class="fa fa-plus"></i></a>
                 </div>         
                 <div class="btn-group btn-group-xs">
-                    <a class="btn btn-default deletedash" type="button" data-toggle="tooltip" data-placement="top" title="Delete Dashboard"><i class="fa fa-trash"></i></a>
+                    <a class="btn btn-default deletedash" type="button" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.deleteDashboard"/>"><i class="fa fa-trash"></i></a>
                 </div>
             </div>
         </div>
@@ -184,7 +184,7 @@
                 </div>
             </div>          
             <div class="refresh-block">
-                <div id="reportrange" class="" data-toggle="tooltip"  title="Graph Time Interval" data-placement="bottom" >
+                <div id="reportrange" class="" data-toggle="tooltip"  title="<spring:message code="dashboard.title.quickRanges"/>" data-placement="bottom" >
                     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                     <span></span> <b class="caret"></b>
                 </div>                  
@@ -203,7 +203,7 @@
                         <option value="86400000"><spring:message code="dashboard.refresh1d"/></option>                
                     </select>            
                 </div>
-                <div id="refresh" class="reflock"  data-toggle="tooltip"  title="Refresh" data-placement="bottom" >                        
+                <div id="refresh" class="reflock"  data-toggle="tooltip"  title="<spring:message code="dashboard.title.refresh"/>" data-placement="bottom" >                        
                     <i class="glyphicon glyphicon-refresh"></i>
                 </div>
 
