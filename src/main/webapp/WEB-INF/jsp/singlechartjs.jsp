@@ -85,8 +85,16 @@
             fromLabel: 'From',
             toLabel: 'To',
             customRangeLabel: 'Custom',
-            daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>', '<spring:message code="tu"/>', '<spring:message code="we"/>', '<spring:message code="th"/>', '<spring:message code="fr"/>', '<spring:message code="sa"/>'],
-            monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
+            daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>',
+                         '<spring:message code="tu"/>', '<spring:message code="we"/>',
+                         '<spring:message code="th"/>', '<spring:message code="fr"/>',
+                         '<spring:message code="sa"/>'],
+            monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>',
+                         '<spring:message code="march"/>', '<spring:message code="april"/>',
+                         '<spring:message code="may"/>', '<spring:message code="june"/>',
+                         '<spring:message code="july"/>', '<spring:message code="august"/>',
+                         '<spring:message code="september"/>', '<spring:message code="october"/>',
+                         '<spring:message code="november"/>', '<spring:message code="december"/>'],
             firstDay: 1
     };
     pickerlabel = "Last 1 day";

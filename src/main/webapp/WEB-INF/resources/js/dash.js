@@ -2206,7 +2206,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             colapserow.addClass('expandrow');
             colapserow.find('i').removeClass('fa-chevron-up');
             colapserow.find('i').addClass('fa-chevron-down');
-            colapserow.attr('data-original-title', 'Expand');
+            colapserow.attr('data-original-title', locale["dash.title.expand"]);
 
             continue;
         }

@@ -29,7 +29,8 @@
       
       "dash.title.lockDashboard":"<spring:message code="dash.title.lockDashboard"/>",
       "dash.title.unlockDashboard":"<spring:message code="dash.title.unlockDashboard"/>",     
-      "dash.row":"<spring:message code="dash.row"/>"      
+      "dash.row":"<spring:message code="dash.row"/>",      
+      "dash.title.expand":"<spring:message code="dash.title.expand"/>"      
     };
     var DtPicerlocale = {
             applyLabel: '<spring:message code="datetime.submit"/>',
