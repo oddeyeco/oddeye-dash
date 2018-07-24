@@ -39,7 +39,8 @@
       "datetime.lastdays2":"<spring:message code="datetime.lastdays2"/>",
 
       "datetime.lastonehoure":"<spring:message code="datetime.lastonehoure"/>",
-      "datetime.lastoneday":"<spring:message code="datetime.lastoneday"/>"    
+      "datetime.lastoneday":"<spring:message code="datetime.lastoneday"/>", 
+      "datetime.general":"<spring:message code="datetime.general"/>"    
     };
     var DtPicerlocale = {
             applyLabel: '<spring:message code="datetime.submit"/>',

@@ -90,6 +90,8 @@ $(document).ready(function () {
         format: 'MM/DD/YYYY H:m:s',
         locale: DtPicerlocale
     };
+    
+    pickerlabel = replaceArgumets(locale["datetime.lastminute"], [5]);
 
     PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastminute"], [5])] = [moment().subtract(5, 'minute')];
     PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastminute"], [15])] = [moment().subtract(15, 'minute')];
@@ -115,9 +117,7 @@ $(document).ready(function () {
         timePicker: true,
         timePicker24Hour: true,
         timePickerIncrement: 15,
-        ranges: {
-            'General': [],
-        },
+        ranges: {},
         buttonClasses: ['btn btn-default'],
         applyClass: 'btn-small btn-primary',
         cancelClass: 'btn-small',
@@ -126,6 +126,7 @@ $(document).ready(function () {
         locale: DtPicerlocale
     };
 
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.general"], [])] = [];
     PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastminute"], [5])] = [moment().subtract(5, 'minute')];
     PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastminute"], [15])] = [moment().subtract(15, 'minute')];
     PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastminute"], [30])] = [moment().subtract(30, 'minute')];
@@ -158,7 +159,7 @@ $(document).ready(function () {
     rangeslabels[replaceArgumets(locale["datetime.lasthoures2"], [12])] = "12h-ago";
     rangeslabels[replaceArgumets(locale["datetime.lastoneday"], [])] = "1d-ago";
     rangeslabels[replaceArgumets(locale["datetime.lastdays"], [3])] = "3d-ago";
-    rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";   
+    rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";
 });
 var rangescustomds = {
     0: [],
@@ -207,7 +208,7 @@ var cbJson = function (JSON, wraper)
             {
                 JSON.times.generalds = rangescustomds[1];
             }
-        } else if (JSON.times.pickerlabel === "General")
+        } else if (JSON.times.pickerlabel === locale["datetime.general"])
         {
             wraper.find('span').html("");
             delete JSON.times.generalds;
