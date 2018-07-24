@@ -30,18 +30,32 @@
       "dash.title.lockDashboard":"<spring:message code="dash.title.lockDashboard"/>",
       "dash.title.unlockDashboard":"<spring:message code="dash.title.unlockDashboard"/>",     
       "dash.row":"<spring:message code="dash.row"/>",      
-      "dash.title.expand":"<spring:message code="dash.title.expand"/>"      
+      "dash.title.expand":"<spring:message code="dash.title.expand"/>",
+      
+      "datetime.lastminute":"<spring:message code="datetime.lastminute"/>",
+      "datetime.lasthoures":"<spring:message code="datetime.lasthoures"/>",
+      "datetime.lasthoures2":"<spring:message code="datetime.lasthoures2"/>",
+      "datetime.lastdays":"<spring:message code="datetime.lastdays"/>",
+      "datetime.lastdays2":"<spring:message code="datetime.lastdays2"/>",
+
+      "datetime.lastonehoure":"<spring:message code="datetime.lastonehoure"/>",
+      "datetime.lastoneday":"<spring:message code="datetime.lastoneday"/>", 
+      "datetime.general":"<spring:message code="datetime.general"/>"    
     };
     var DtPicerlocale = {
-            applyLabel: '<spring:message code="submit"/>',
-            cancelLabel: '<spring:message code="clear"/>',
-            fromLabel: 'From',
-            toLabel: 'To',
-            customRangeLabel: 'Custom',
+            applyLabel: '<spring:message code="datetime.submit"/>',
+            cancelLabel: '<spring:message code="datetime.clear"/>',
+            fromLabel: '<spring:message code="datetime.from"/>',
+            toLabel: '<spring:message code="datetime.to"/>',
+            customRangeLabel: '<spring:message code="datetime.custom"/>',
+            weekLabel: '<spring:message code="datetime.weekLabel"/>',
             daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>', '<spring:message code="tu"/>', '<spring:message code="we"/>', '<spring:message code="th"/>', '<spring:message code="fr"/>', '<spring:message code="sa"/>'],
             monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
             firstDay: 1
     };
+    
+    console.log(replaceArgumets(locale["datetime.lastminute"],[5]));
+    
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
     </c:if>

@@ -13,6 +13,19 @@ var headers = {};
 headers["page"] = document.URL;
 
 globalconnect(headers);
+function replaceArgumets(str,argumets)
+{
+        const regex = /{(\d*?)}/g;        
+        var text = str.replace(regex, function (strOut, strIn) {
+            if (argumets[strIn])
+            {
+                return argumets[strIn];
+            }
+            return strOut;
+        });  
+        return text;
+}
+
 function updatecounter(counter, widget)
 {
     if (widget.title)
