@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global moment, balanse */
+/* global moment, balanse, locale, DtPicerlocale */
 
 var merticdivator = 1000;
 var pickerstart;
@@ -12,6 +12,9 @@ var pickerend;
 var pickerlabel = "Last 5 minutes";
 var PicerOptionSet1 = {};
 var PicerOptionSet2 = {};
+
+var rangeslabelsds = {};
+var rangeslabels = {};
 var jsonmaker = function (k, v)
 {
     if (k === "visible")
@@ -55,20 +58,6 @@ var subtractlist = {
     "7d-ago": [7, 'day'],
     "30d-ago": [30, 'day']
 };
-
-var rangeslabels = {
-    'Last 5 minutes': "5m-ago",
-    'Last 15 minutes': "15m-ago",
-    'Last 30 minutes': "30m-ago",
-    'Last 1 hour': "1h-ago",
-    'Last 3 hour': "3h-ago",
-    'Last 6 hour': "6h-ago",
-    'Last 12 hour': "12h-ago",
-    'Last 1 day': "24h-ago",
-    'Last 3 day': "3d-ago",
-    'Last 7 day': "7d-ago",
-    'Last 30 day': "30d-ago"
-};
 function getmindate() {
     if (balanse > 0)
     {
@@ -93,18 +82,7 @@ $(document).ready(function () {
         timePicker: true,
         timePicker24Hour: true,
         timePickerIncrement: 5,
-        ranges: {
-            'Last 5 minutes': [moment().subtract(5, 'minute')],
-            'Last 15 minutes': [moment().subtract(15, 'minute')],
-            'Last 30 minutes': [moment().subtract(30, 'minute')],
-            'Last 1 hour': [moment().subtract(1, 'hour')],
-            'Last 3 hour': [moment().subtract(3, 'hour')],
-            'Last 6 hour': [moment().subtract(6, 'hour')],
-            'Last 12 hour': [moment().subtract(12, 'hour')],
-            'Last 1 day': [moment().subtract(24, 'hour')],
-            'Last 3 day': [moment().subtract(3, 'day')],
-            'Last 7 day': [moment().subtract(7, 'day')]
-        },
+        ranges: {},
         opens: 'left',
         buttonClasses: ['btn btn-default'],
         applyClass: 'btn-small btn-primary',
@@ -112,6 +90,18 @@ $(document).ready(function () {
         format: 'MM/DD/YYYY H:m:s',
         locale: DtPicerlocale
     };
+
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastminute"], [5])] = [moment().subtract(5, 'minute')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastminute"], [15])] = [moment().subtract(15, 'minute')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastminute"], [30])] = [moment().subtract(30, 'minute')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastonehoure"], [])] = [moment().subtract(1, 'hour')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lasthoures"], [3])] = [moment().subtract(3, 'hour')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lasthoures2"], [6])] = [moment().subtract(6, 'hour')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lasthoures2"], [12])] = [moment().subtract(12, 'hour')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastoneday"], [])] = [moment().subtract(24, 'hour')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastdays"], [3])] = [moment().subtract(3, 'day')];
+    PicerOptionSet1.ranges[replaceArgumets(locale["datetime.lastdays2"], [7])] = [moment().subtract(7, 'day')];
+
 
     PicerOptionSet2 = {
         minDate: moment().subtract(1, 'year'),
@@ -127,17 +117,6 @@ $(document).ready(function () {
         timePickerIncrement: 15,
         ranges: {
             'General': [],
-            'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
-            'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
-            'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
-            'Last 1 hour': [moment().subtract(1, 'hour'), moment()],
-            'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
-            'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
-            'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
-            'Last 1 day': [moment().subtract(24, 'hour'), moment()],
-            'Last 3 day': [moment().subtract(3, 'day'), moment()],
-            'Last 7 day': [moment().subtract(7, 'day'), moment()],
-            'Last 30 day': [moment().subtract(30, 'day'), moment()]
         },
         buttonClasses: ['btn btn-default'],
         applyClass: 'btn-small btn-primary',
@@ -146,27 +125,41 @@ $(document).ready(function () {
         separator: ' to ',
         locale: DtPicerlocale
     };
+
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastminute"], [5])] = [moment().subtract(5, 'minute')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastminute"], [15])] = [moment().subtract(15, 'minute')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastminute"], [30])] = [moment().subtract(30, 'minute')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastonehoure"], [])] = [moment().subtract(1, 'hour')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lasthoures"], [3])] = [moment().subtract(3, 'hour')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lasthoures2"], [6])] = [moment().subtract(6, 'hour')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lasthoures2"], [12])] = [moment().subtract(12, 'hour')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastoneday"], [])] = [moment().subtract(24, 'hour')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays"], [3])] = [moment().subtract(3, 'day')];
+    PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays2"], [7])] = [moment().subtract(7, 'day')];
+
+    rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [5])] = [];
+    rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [15])] = [];
+    rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [30])] = [];
+    rangeslabelsds[replaceArgumets(locale["datetime.lastonehoure"], [])] = ["1m", "avg", true];
+    rangeslabelsds[replaceArgumets(locale["datetime.lasthoures"], [3])] = ["1m", "avg", true];
+    rangeslabelsds[replaceArgumets(locale["datetime.lasthoures2"], [6])] = ["2m", "avg", true];
+    rangeslabelsds[replaceArgumets(locale["datetime.lasthoures2"], [12])] = ["4m", "avg", true];
+    rangeslabelsds[replaceArgumets(locale["datetime.lastoneday"], [])] = ["30m", "avg", true];
+    rangeslabelsds[replaceArgumets(locale["datetime.lastdays"], [3])] = ["1h", "avg", true];
+    rangeslabelsds[replaceArgumets(locale["datetime.lastdays2"], [7])] = ["4h", "avg", true];
+
+
+    rangeslabels[replaceArgumets(locale["datetime.lastminute"], [5])] = "5m-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lastminute"], [15])] = "15m-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lastminute"], [30])] = "30m-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lastonehoure"], [])] = "1h-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lasthoures"], [3])] = "3h-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lasthoures2"], [6])] = "6h-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lasthoures2"], [12])] = "12h-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lastoneday"], [])] = "1d-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lastdays"], [3])] = "3d-ago";
+    rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";   
 });
-
-
-
-
-
-
-
-var rangeslabelsds = {
-    'Last 5 minutes': [],
-    'Last 15 minutes': [],
-    'Last 30 minutes': [],
-    'Last 1 hour': ["1m", "avg", true],
-    'Last 3 hour': ["1m", "avg", true],
-    'Last 6 hour': ["2m", "avg", true],
-    'Last 12 hour': ["4m", "avg", true],
-    'Last 1 day': ["30m", "avg", true],
-    'Last 3 day': ["1h", "avg", true],
-    'Last 7 day': ["4h", "avg", true]
-};
-
 var rangescustomds = {
     0: [],
     1: ["1m", "avg", true],
@@ -184,7 +177,6 @@ var cbJson = function (JSON, wraper)
         {
             JSON.times = {};
         }
-        console.log(label);
         JSON.times.pickerstart = start.valueOf();
         JSON.times.pickerend = end.valueOf();
         JSON.times.pickerlabel = label;

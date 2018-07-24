@@ -340,15 +340,8 @@ $(document).ready(function () {
 
     $('body').on("click", ".showtagsl2", function () {
 //      $("#modall2").find(".modal-title").text("Show list with " + $(this).attr("key") + " is " + $(this).attr("value"));
-        const regex = /{(\d*?)}/g;
         var arg = [$(this).attr("key"), $(this).attr("value"), $(this).attr("valuetext")];
-        var text = $(this).attr("title_text").replace(regex, function (strOut, strIn) {
-            if (arg[strIn])
-            {
-                return arg[strIn];
-            }
-            return strOut;
-        });
+        var text = replaceArgumets($(this).attr("title_text"),arg);
         $("#modall2").find(".modal-title").text(text);
         $("#modall2").find(".modal-body").html("");
         var key = $(this).attr("key");
