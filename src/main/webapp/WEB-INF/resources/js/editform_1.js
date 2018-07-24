@@ -39,8 +39,6 @@ class EditForm {
                 }
             }
         }
-        
-        PicerOptionSet2.locale = DtPicerlocale;
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(dashJSON[row]["widgets"][index], $('#reportrange_private')));
 
         var formhtml = $("#form_template").html();

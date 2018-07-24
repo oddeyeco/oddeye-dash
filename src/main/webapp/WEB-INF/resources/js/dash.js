@@ -1861,7 +1861,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
     if (json.times)
     {
-        if (json.times.pickerlabel === "Custom")
+        if (json.times.pickerlabel === DtPicerlocale["customRangeLabel"])
         {
             start = json.times.pickerstart;
             end = json.times.pickerend;
@@ -1883,7 +1883,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
     if (widget.times)
     {
-        if (widget.times.pickerlabel === "Custom")
+        if (widget.times.pickerlabel === DtPicerlocale["customRangeLabel"])
         {
             start = widget.times.pickerstart;
             end = widget.times.pickerend;
@@ -2825,7 +2825,7 @@ $(document).ready(function () {
 
         if (moment(gdd.times.pickerstart).isValid())
         {
-            gdd.times.pickerlabel = "Custom";
+            gdd.times.pickerlabel = DtPicerlocale["customRangeLabel"];
         } else
         {
             gdd.times.pickerlabel = gdd.times.pickerstart;
@@ -2938,7 +2938,7 @@ $(document).ready(function () {
         }
 
         $('#reportrange span').html(label);
-        if (label === "Custom")
+        if (label === DtPicerlocale["customRangeLabel"])
         {
             PicerOptionSet1.startDate = moment(gdd.times.pickerstart);
             PicerOptionSet1.endDate = moment(gdd.times.pickerend);
@@ -2979,7 +2979,7 @@ $(document).ready(function () {
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";
         var enddate = "now";
-        if (gdd.times.pickerlabel === "Custom")
+        if (gdd.times.pickerlabel === DtPicerlocale["customRangeLabel"])
         {
             startdate = gdd.times.pickerstart;
             enddate = gdd.times.pickerend;
@@ -3040,7 +3040,8 @@ $(document).ready(function () {
     if (typeof getmindate === "function") {
         PicerOptionSet1.minDate = getmindate();
     }
-    PicerOptionSet1.locale=DtPicerlocale;
+    
+//    PicerOptionSet1.locale=DtPicerlocale;
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
 //    var mousemovetimer;
 //    $('body').on("mousemove", "canvas", function (e) {

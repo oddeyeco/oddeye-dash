@@ -10,7 +10,8 @@ var merticdivator = 1000;
 var pickerstart;
 var pickerend;
 var pickerlabel = "Last 5 minutes";
-
+var PicerOptionSet1 = {};
+var PicerOptionSet2 = {};
 var jsonmaker = function (k, v)
 {
     if (k === "visible")
@@ -75,81 +76,82 @@ function getmindate() {
     } else {
         return moment().subtract(7, 'day');
     }
-};
+}
+;
+
+$(document).ready(function () {
+    PicerOptionSet1 = {
+        startDate: moment().subtract(5, 'minute'),
+        endDate: moment(),
+        minDate: moment().subtract(1, 'year'),
+        maxDate: moment().add(1, 'days'),
+        dateLimit: {
+            days: 60
+        },
+        showDropdowns: true,
+        showWeekNumbers: true,
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 5,
+        ranges: {
+            'Last 5 minutes': [moment().subtract(5, 'minute')],
+            'Last 15 minutes': [moment().subtract(15, 'minute')],
+            'Last 30 minutes': [moment().subtract(30, 'minute')],
+            'Last 1 hour': [moment().subtract(1, 'hour')],
+            'Last 3 hour': [moment().subtract(3, 'hour')],
+            'Last 6 hour': [moment().subtract(6, 'hour')],
+            'Last 12 hour': [moment().subtract(12, 'hour')],
+            'Last 1 day': [moment().subtract(24, 'hour')],
+            'Last 3 day': [moment().subtract(3, 'day')],
+            'Last 7 day': [moment().subtract(7, 'day')]
+        },
+        opens: 'left',
+        buttonClasses: ['btn btn-default'],
+        applyClass: 'btn-small btn-primary',
+        cancelClass: 'btn-small',
+        format: 'MM/DD/YYYY H:m:s',
+        locale: DtPicerlocale
+    };
+
+    PicerOptionSet2 = {
+        minDate: moment().subtract(1, 'year'),
+        maxDate: moment().add(1, 'days'),
+        drops: "up",
+        dateLimit: {
+            days: 60
+        },
+        showDropdowns: true,
+        showWeekNumbers: true,
+        timePicker: true,
+        timePicker24Hour: true,
+        timePickerIncrement: 15,
+        ranges: {
+            'General': [],
+            'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
+            'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
+            'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
+            'Last 1 hour': [moment().subtract(1, 'hour'), moment()],
+            'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
+            'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
+            'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
+            'Last 1 day': [moment().subtract(24, 'hour'), moment()],
+            'Last 3 day': [moment().subtract(3, 'day'), moment()],
+            'Last 7 day': [moment().subtract(7, 'day'), moment()],
+            'Last 30 day': [moment().subtract(30, 'day'), moment()]
+        },
+        buttonClasses: ['btn btn-default'],
+        applyClass: 'btn-small btn-primary',
+        cancelClass: 'btn-small',
+        format: 'MM/DD/YYYY H:m:s',
+        separator: ' to ',
+        locale: DtPicerlocale
+    };
+});
 
 
-var PicerOptionSet1 = {
-    startDate: moment().subtract(5, 'minute'),
-    endDate: moment(),
-    minDate: moment().subtract(1, 'year'),
-    maxDate: moment().add(1, 'days'),
-    dateLimit: {
-        days: 60
-    },
-    showDropdowns: true,
-    showWeekNumbers: true,
-    timePicker: true,
-    timePicker24Hour: true,
-    timePickerIncrement: 5,
-    ranges: {
-        'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
-        'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
-        'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
-        'Last 1 hour': [moment().subtract(1, 'hour'), moment()],
-        'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
-        'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
-        'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
-        'Last 1 day': [moment().subtract(24, 'hour'), moment()],
-        'Last 3 day': [moment().subtract(3, 'day'), moment()],
-        'Last 7 day': [moment().subtract(7, 'day'), moment()]
-    },
-    opens: 'left',
-    buttonClasses: ['btn btn-default'],
-    applyClass: 'btn-small btn-primary',
-    cancelClass: 'btn-small',
-    format: 'MM/DD/YYYY H:m:s',
-    separator: ' to ',
-    locale: {}
-};
 
 
-var PicerOptionSet2 = {
-//    startDate: moment().subtract(5, 'minute'),
-//    endDate: moment(),
-    minDate: moment().subtract(1, 'year'),
-    maxDate: moment().add(1, 'days'),
-    drops: "up",
-    dateLimit: {
-        days: 60
-    },
-    showDropdowns: true,
-    showWeekNumbers: true,
-    timePicker: true,
-    timePicker24Hour: true,
-    timePickerIncrement: 15,
-    ranges: {
-        'General': [],
-        'Last 5 minutes': [moment().subtract(5, 'minute'), moment()],
-        'Last 15 minutes': [moment().subtract(15, 'minute'), moment()],
-        'Last 30 minutes': [moment().subtract(30, 'minute'), moment()],
-        'Last 1 hour': [moment().subtract(1, 'hour'), moment()],
-        'Last 3 hour': [moment().subtract(3, 'hour'), moment()],
-        'Last 6 hour': [moment().subtract(6, 'hour'), moment()],
-        'Last 12 hour': [moment().subtract(12, 'hour'), moment()],
-        'Last 1 day': [moment().subtract(24, 'hour'), moment()],
-        'Last 3 day': [moment().subtract(3, 'day'), moment()],
-        'Last 7 day': [moment().subtract(7, 'day'), moment()],
-        'Last 30 day': [moment().subtract(30, 'day'), moment()]
-    },
-//    opens: 'left',
-//    drops: 'up',
-    buttonClasses: ['btn btn-default'],
-    applyClass: 'btn-small btn-primary',
-    cancelClass: 'btn-small',
-    format: 'MM/DD/YYYY H:m:s',
-    separator: ' to ',
-    locale: {}
-};
+
 
 
 var rangeslabelsds = {
@@ -186,7 +188,8 @@ var cbJson = function (JSON, wraper)
         JSON.times.pickerstart = start.valueOf();
         JSON.times.pickerend = end.valueOf();
         JSON.times.pickerlabel = label;
-        if (JSON.times.pickerlabel === "Custom")
+//        if (JSON.times.pickerlabel === "Custom")
+        if (JSON.times.pickerlabel === DtPicerlocale["customRangeLabel"])
         {
             wraper.find('span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
             var interval = (end - start) / 1000 / 60 / 60;
@@ -232,7 +235,7 @@ var cb = function (start, end, label) {
     pickerend = end;
     pickerlabel = label;
 
-    if (pickerlabel === "Custom")
+    if (pickerlabel === DtPicerlocale["customRangeLabel"])
     {
         $('#reportrange span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
     } else

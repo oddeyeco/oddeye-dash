@@ -921,7 +921,7 @@ class EditForm {
 
             if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel)
             {
-                if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel !== "Custom")
+                if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel !== DtPicerlocale["customRangeLabel"])
                 {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
@@ -934,8 +934,7 @@ class EditForm {
                 }
             }
         }
-        PicerOptionSet2.minDate = getmindate();
-        PicerOptionSet2.locale=DtPicerlocale;
+        PicerOptionSet2.minDate = getmindate();        
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');
