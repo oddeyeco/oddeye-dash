@@ -8,7 +8,9 @@
 <script src="${cp}/resources/echarts/dist/echarts.js?v=${version}"></script>
 <script src="${cp}/resources/echarts/dist/extension/dataTool.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
-<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
+<!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
+<script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
+
 <script>
 var echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
 

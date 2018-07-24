@@ -10,7 +10,9 @@
 <script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>
 <script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
-<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
+<!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
+<script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
+
 <script>
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};

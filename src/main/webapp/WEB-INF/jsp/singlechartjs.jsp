@@ -3,7 +3,9 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <script src="${cp}/resources/echarts/dist/echarts.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
-<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>
+<!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
+<script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
+
 <script>
     
     var locale = {
@@ -44,6 +46,8 @@
         monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
         firstDay: 1
     };    
+    
+    
     
     var balanse = 0;
     <c:if test="${curentuser.getBalance()!=null}">
@@ -116,25 +120,7 @@
 
             break;
     }    
-    var DtPicerlocale = {
-            applyLabel: '<spring:message code="submit"/>',
-            cancelLabel: '<spring:message code="clear"/>',
-            fromLabel: 'From',
-            toLabel: 'To',
-            customRangeLabel: 'Custom',
-            daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>',
-                         '<spring:message code="tu"/>', '<spring:message code="we"/>',
-                         '<spring:message code="th"/>', '<spring:message code="fr"/>',
-                         '<spring:message code="sa"/>'],
-            monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>',
-                         '<spring:message code="march"/>', '<spring:message code="april"/>',
-                         '<spring:message code="may"/>', '<spring:message code="june"/>',
-                         '<spring:message code="july"/>', '<spring:message code="august"/>',
-                         '<spring:message code="september"/>', '<spring:message code="october"/>',
-                         '<spring:message code="november"/>', '<spring:message code="december"/>'],
-            firstDay: 1
-    };
-    pickerlabel = "Last 1 day";
+    
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var timer;
     var interval = 10000;
@@ -144,10 +130,9 @@
         timer = setInterval(function () {
             ReDrawEchart(uri, echartLine);
         }, interval);
-
+        pickerlabel = locale["datetime.lastoneday"];
         $('#reportrange span').html(pickerlabel);
-        PicerOptionSet1.minDate = getmindate();
-        PicerOptionSet1.locale=DtPicerlocale;       
+        PicerOptionSet1.minDate = getmindate();            
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
 
         $('body').on("click", "#Clear_reg", function () {
@@ -181,7 +166,7 @@
     });
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
-        if (pickerlabel === "Custom")
+        if (pickerlabel === DtPicerlocale["customRangeLabel"])
         {
             var url = cp + "/getdata?hash=" + hashcode + "&startdate=" + pickerstart + "&enddate=" + pickerend;
         } else
@@ -217,6 +202,7 @@
         $.getJSON(uri, null, function (data) {
             var chdata = [];
             var chdataMath = [];
+            
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var ind in chartline.data) {
@@ -233,8 +219,9 @@
                 y2: 80,
                 containLabel: true
             };
+
             var series = [{
-                    name: chartline.metric,
+                    name: chartline ? chartline.metric :"b",
                     type: 'line',
                     areaStyle: {
                         normal: {opacity: 0.4}
@@ -284,7 +271,7 @@
                         containLabel: true
                     };
                     series = [{
-                            name: chartline.metric,
+                            name: chartline ? chartline.metric :"",
                             type: 'line',
                             areaStyle: {
                                 normal: {opacity: 0.4}
@@ -311,7 +298,7 @@
             chart.hideLoading();
             chart.setOption({
                 title: {
-                    text: chartline.metric
+                    text: chartline ? chartline.metric :"",
                 },
                 tooltip: {
                     trigger: 'axis'

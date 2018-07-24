@@ -160,16 +160,16 @@
                     </div>
                     <!-- /menu footer buttons -->
                     <div class="sidebar-footer hidden-small">
-                        <a href="<c:url value="/logout/" />" data-toggle="tooltip" data-placement="top" title="Logout" >
+                        <a href="<c:url value="/logout/" />" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' >
                             <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="FullScreen" id="FullScreen">
+                        <a data-toggle="tooltip" data-placement="top" title='<spring:message code="fullScreen"/>' id="FullScreen">
                             <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title="Settings" href="${cp}/profile/edit">
+                        <a data-toggle="tooltip" data-placement="top" title='<spring:message code="settings"/>' href="${cp}/profile/edit">
                             <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                         </a>                            
-                        <a data-toggle="tooltip" data-placement="top" title="Monitoring" href="<c:url value="/monitoring"/>">
+                        <a data-toggle="tooltip" data-placement="top" title='<spring:message code="index.monitoring"/>' href="<c:url value="/monitoring"/>">
                             <span class="fa far fa-clock" aria-hidden="true"></span>
                         </a>                                                        
                         <!--                        <a data-toggle="tooltip" data-placement="top" title="Lock">
