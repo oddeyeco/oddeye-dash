@@ -176,12 +176,12 @@ $('body').on('click', '.integration', function () {
         $("#" + $(this).attr('value')).toggleClass('checked');
         key = $("#" + $(this).attr('value')).parents('.panel-collapse').attr('id').replace('collapse_', '');
     }
-    $('#heading_' + key + " .selectedcount").text($('#collapse_' + key + ' .checked').length + "/" + $('#collapse_' + key + ' .integration').length);
+    $('#heading_' + key + " .selectedcount").text($('#collapse_' + key + ' .checked').length + "/" + $('#collapse_' + key + ' .integration').length);    
 });
 $('body').on('click', '#reset', function () {
     $('.integration').removeClass('checked');
     $('.panel').each(function () {
-        var key = $(this).find('a').attr('href').replace('collapse_', '');
+        var key = $(this).find('a').attr('href');        
         $(this).find('.selectedcount').text($(key + ' .checked').length + "/" + $(key + ' .integration').length);
     });
 });
