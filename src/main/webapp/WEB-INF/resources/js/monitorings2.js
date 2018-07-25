@@ -1006,8 +1006,7 @@ function updateFilter() {
             } else if (field.name.indexOf("v[") !== -1)
             {
 
-                name = field.name.substring(0, field.name.indexOf("v[") + 1)
-                console.log(name);
+                name = field.name.substring(0, field.name.indexOf("v[") + 1);                
                 if (!optionsJson[name])
                 {
                     optionsJson[name] = {};
@@ -1067,6 +1066,5 @@ function updateFilter() {
             }
 
         }
-    });
-    console.log(optionsJson);
+    });    
 }
