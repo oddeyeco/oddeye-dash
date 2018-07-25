@@ -39,6 +39,7 @@
     "check_mysql": "MySQL server statistics about queries against server, InnoDB buffer pool access, cache and network utilization",
     "check_nagios": "Support for executing existing Nagios plugins and sending output to OddEye servers as special checks ",
     "check_network_bytes": "Reads files from /sys/class/net/ and provides network rx/tx statistic network interfaces of Linux machines",
+    "check_nvidia_gpu": "Collects detailed statistics about Nvidia GPU's  memory, utilization,  fan speed, temperature and power usage",
     "check_nginx": "Collects statistics from NginX Community server about connections, connected client, requests per second",
     "check_oddeye": "Sends heartbeats and response times to OddEye servers, which allows OddEye to detect host aliveness",
     "check_phpfpm": "Collect statistics from PHP FPM about active and idle fpm workers, connections, requests per second",

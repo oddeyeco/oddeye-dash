@@ -13,14 +13,16 @@ var calc = {
             check_network_bytes: {count: 2, type: 'multi', text: "Network bytes", inclass: "checked", isbegin: true, multiText: "Network Interface Count", src: '/OddeyeCoconut/assets/images/integration/Network.png', name: "Network"},
             check_ipconntrack: {count: 2, type: 'single', text: "IPConntrack", src: '/OddeyeCoconut/assets/images/integration/ip.png', name: "IP Conntrack"},
             check_load_average: {count: 3, type: 'single', text: "Load average", src: '/OddeyeCoconut/assets/images/integration/Load.png', name: "Load Average"},
-            check_tcpconn: {count: 14/*12*/, type: 'single', text: "Tcp", src: '/OddeyeCoconut/assets/images/integration/TCP.png', name: "TCP Connections"}
+            check_tcpconn: {count: 14/*12*/, type: 'single', text: "Tcp", src: '/OddeyeCoconut/assets/images/integration/TCP.png', name: "TCP Connections"},
+            check_nvidia_gpu: {count: 14, type: 'multi', text: "Nvidia CUDA", multiText: "Nvidia CUDA Count", src: '/OddeyeCoconut/assets/images/integration/nvidia.png', name: "Nvidia CUDA"}
 
         }},
     file_systems_check: {text: "File systems", childs: {
             check_hadoop_datanode: {count: 18, type: 'single', text: "HDFS datanode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS datanode"},
             check_hadoop_namenode: {count: 41, type: 'single', text: "HDFS namenode", src: '/OddeyeCoconut/assets/images/integration/hadoop.png', name: "HDFS namenode"},
             check_ceph: {count: 14, type: 'single', text: "Ceph", src: '/OddeyeCoconut/assets/images/integration/ceph.png', name: "Ceph"},
-            check_btrfs: {count: 5, type: 'multi', multiText: "Disks Count", text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', name: "BTRFS"}
+            check_btrfs: {count: 5, type: 'multi', multiText: "Disks Count", text: "BTRFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', name: "BTRFS"},
+//            check_lizardfs: {count: 5, type: 'multi', multiText: "Disks Count", text: "LizardFS", src: '/OddeyeCoconut/assets/images/integration/btrfs.png', name: "LizardFS"}
         }},
     webservers_check: {text: "Web Servers", childs: {
             check_apache: {count: 7, type: 'single', text: "Apache", src: '/OddeyeCoconut/assets/images/integration/apache.png', name: "Apache"},
