@@ -46,7 +46,7 @@ var tablelist = null;
 var maetricrow_regular_HTML = '';
 var maetricrow_special_HTML = '';
 var chartLinck = '';
-
+var lang;
 function getmetatypes(tablename) {
     var url = cp + "/gettypesinfo";
     $.ajax({
@@ -71,11 +71,13 @@ function getmetatypes(tablename) {
                     radioClass: 'iradio_flat-green'
                 });
                 tablelist = $('#listtable').DataTable({
+                    "language": lang,
                     "order": [[1, "asc"]],
                     'columnDefs': [{
                             'orderable': false,
                             'targets': [0, 3] /* 1st one, start by the right */
                         }]});
+
                 $('#listtable').find('td input.rawflat').iCheck({
                     checkboxClass: 'icheckbox_flat-green',
                     radioClass: 'iradio_flat-green'
@@ -126,6 +128,7 @@ function getmetanames(tablename) {
                     radioClass: 'iradio_flat-green'
                 });
                 tablelist = $('#listtable').DataTable({
+                    "language": lang,
                     "order": [[1, "asc"]],
                     'columnDefs': [{
                             'orderable': false,
@@ -175,6 +178,7 @@ function getmetatags(key) {
 
 
                 tablelist = $('#listtable').DataTable({
+                    "language": lang,
                     "order": [[1, "asc"]],
                     'columnDefs': [{
                             'orderable': false,
@@ -205,7 +209,7 @@ function getmetrics(key, idvalue, id, draw) {
 //    var re = new RegExp("[//.|///]", 'g');
 //    id = id.replace(re, "_");
 
-    
+
     var url = cp + "/getmetrics?key=" + key + "&value=" + idvalue;
     $.getJSON(url, function (value) {
 //        console.log(value);
@@ -214,22 +218,22 @@ function getmetrics(key, idvalue, id, draw) {
         {
             for (var k in value.data) {
                 var metric = value.data[k];
-                
+
                 if (metric.type !== 0)
                 {
-                var html = maetricrow_regular_HTML;
+                    var html = maetricrow_regular_HTML;
                 } else
                 {
                     var html = maetricrow_special_HTML;
-                }                
-                var input = html.replace("{metricname}", metric.name);                
+                }
+                var input = html.replace("{metricname}", metric.name);
                 if (metric.type !== 0)
                 {
                     var icons = chartLinck.replace("{hash}", JSON.stringify(metric.hash));
-                    input = input.replace("{icons}", icons);                    
+                    input = input.replace("{icons}", icons);
                 } else
                 {
-                    input = input.replace("{icons}", "");                    
+                    input = input.replace("{icons}", "");
                 }
                 var sttags = "";
                 for (var ind in metric.tags)
@@ -254,6 +258,7 @@ function getmetrics(key, idvalue, id, draw) {
             $("#" + id).find("tbody").append(biginput);
 
             tablemeta = $("#" + id).DataTable({
+                "language": lang,
                 "order": [[1, "asc"]],
                 'columnDefs': [{
                         'orderable': false,
@@ -280,6 +285,29 @@ function getmetrics(key, idvalue, id, draw) {
 }
 tmphide = true;
 $(document).ready(function () {
+
+    lang = {"processing": locale["dataTable.processing"],
+        "search": locale["dataTable.search"],
+        "lengthMenu": locale["dataTable.lengthMenu"],
+        "info": locale["dataTable.info"],
+        "infoEmpty": locale["dataTable.infoEmpty"],
+        "infoFiltered": locale["dataTable.infoFiltered"],
+        "infoPostFix": locale["dataTable.infoPostFix"],
+        "loadingRecords": locale["dataTable.loadingRecords"],
+        "zeroRecords": locale["dataTable.zeroRecords"],
+        "emptyTable": locale["dataTable.emptyTable"],
+        "paginate": {
+            "first": locale["dataTable.paginate.first"],
+            "previous": locale["dataTable.paginate.previous"],
+            "next": locale["dataTable.paginate.next"],
+            "last": locale["dataTable.paginate.last"]
+        },
+        "aria": {
+            "sortAscending": locale["dataTable.aria.sortAscending"],
+            "sortDescending": locale["dataTable.aria.sortDescending"]
+        }
+    };
+
 
     maetricrow_regular_HTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{firsttime}</a></td><td class="text-nowrap"><a>{lasttime}</a></td> <td class="text-nowrap"><a>{livedays}</a></td><td class="text-nowrap"><a>{silencedays}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-primary btn-xs clreg" value="{hash}"> ' + locale["metricinfo.clearRegression"] + ' </a><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa far fa-trash-alt-o"></i> ' + locale["delete"] + ' </a></td></tr>';
     maetricrow_special_HTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap"><a>{type}</a></td><td class="text-nowrap"><a>{firsttime}</a></td><td class="text-nowrap"><a>{lasttime}</a></td> <td class="text-nowrap"><a>{livedays}</a></td><td class="text-nowrap"><a>{silencedays}</a></td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-danger btn-xs deletemetric" value="{hash}"><i class="fa far fa-trash-alt-o"></i> ' + locale["delete"] + ' </a></td></tr>';
@@ -341,7 +369,7 @@ $(document).ready(function () {
     $('body').on("click", ".showtagsl2", function () {
 //      $("#modall2").find(".modal-title").text("Show list with " + $(this).attr("key") + " is " + $(this).attr("value"));
         var arg = [$(this).attr("key"), $(this).attr("value"), $(this).attr("valuetext")];
-        var text = replaceArgumets($(this).attr("title_text"),arg);
+        var text = replaceArgumets($(this).attr("title_text"), arg);
         $("#modall2").find(".modal-title").text(text);
         $("#modall2").find(".modal-body").html("");
         var key = $(this).attr("key");

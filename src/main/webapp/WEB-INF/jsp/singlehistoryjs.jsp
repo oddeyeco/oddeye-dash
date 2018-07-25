@@ -41,7 +41,24 @@
 
         "datetime.lastonehoure": "<spring:message code="datetime.lastonehoure"/>",
         "datetime.lastoneday": "<spring:message code="datetime.lastoneday"/>",
-        "datetime.general": "<spring:message code="datetime.general"/>"
+        "datetime.general": "<spring:message code="datetime.general"/>",
+
+        "dataTable.processing":"<spring:message code="dataTable.processing" javaScriptEscape="true"/>",
+        "dataTable.search":"<spring:message code="dataTable.search" javaScriptEscape="true"/>",
+        "dataTable.lengthMenu":"<spring:message code="dataTable.lengthMenu" javaScriptEscape="true"/>",
+        "dataTable.info":"<spring:message code="dataTable.info" javaScriptEscape="true"/>",
+        "dataTable.infoEmpty":"<spring:message code="dataTable.infoEmpty" javaScriptEscape="true"/>",
+        "dataTable.infoFiltered":"<spring:message code="dataTable.infoFiltered" javaScriptEscape="true"/>",
+        "dataTable.infoPostFix":"<spring:message code="dataTable.infoPostFix" javaScriptEscape="true"/>",
+        "dataTable.loadingRecords":"<spring:message code="dataTable.loadingRecords" javaScriptEscape="true"/>",
+        "dataTable.zeroRecords":"<spring:message code="dataTable.zeroRecords" javaScriptEscape="true"/>",
+        "dataTable.emptyTable":"<spring:message code="dataTable.emptyTable" javaScriptEscape="true"/>",
+        "dataTable.paginate.first":"<spring:message code="dataTable.paginate.first" javaScriptEscape="true"/>",
+        "dataTable.paginate.previous":"<spring:message code="dataTable.paginate.previous" javaScriptEscape="true"/>",
+        "dataTable.paginate.next":"<spring:message code="dataTable.paginate.next" javaScriptEscape="true"/>",
+        "dataTable.paginate.last":"<spring:message code="dataTable.paginate.last" javaScriptEscape="true"/>",
+        "dataTable.aria.sortAscending":"<spring:message code="dataTable.aria.sortAscending" javaScriptEscape="true"/>",
+        "dataTable.aria.sortDescending":"<spring:message code="dataTable.aria.sortDescending" javaScriptEscape="true"/>"
     };
     
     var DtPicerlocale = {
@@ -56,6 +73,27 @@
         firstDay: 1
     };
     $(document).ready(function () {
+        lang = {"processing": locale["dataTable.processing"],
+        "search": locale["dataTable.search"],
+        "lengthMenu": locale["dataTable.lengthMenu"],
+        "info": locale["dataTable.info"],
+        "infoEmpty": locale["dataTable.infoEmpty"],
+        "infoFiltered": locale["dataTable.infoFiltered"],
+        "infoPostFix": locale["dataTable.infoPostFix"],
+        "loadingRecords": locale["dataTable.loadingRecords"],
+        "zeroRecords": locale["dataTable.zeroRecords"],
+        "emptyTable": locale["dataTable.emptyTable"],
+        "paginate": {
+            "first": locale["dataTable.paginate.first"],
+            "previous": locale["dataTable.paginate.previous"],
+            "next": locale["dataTable.paginate.next"],
+            "last": locale["dataTable.paginate.last"]
+        },
+        "aria": {
+            "sortAscending": locale["dataTable.aria.sortAscending"],
+            "sortDescending": locale["dataTable.aria.sortDescending"]
+        }
+    };
         var series = {
             name: "errors",
             type: "line",
@@ -168,6 +206,7 @@
         });
 
         $('#datatable').dataTable({
+            "language": lang,
             "pagingType": "full_numbers",
             "lengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]]
         });
