@@ -100,7 +100,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
                         if (Arrays.equals(cell.qualifier(), "timestamp".getBytes())) {
                             OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
 //                            if (metric.getTags().get("UUID").getValue().equals("9c9d4578-e47e-4e49-add2-0d258ac7b94b")) {
-                            Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
+                            try {
+                                Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
+                            } catch (Exception e) {
+                                LOGGER.error(globalFunctions.stackTrace(e));
+                            }
                             fullmetalist.add(metric);
 //                            System.out.println(fullmetalist.size());
                         }
@@ -108,7 +112,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
                     }
                 }
             }
-
+            LOGGER.error(fullmetalist.size() + "");
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         } finally {
