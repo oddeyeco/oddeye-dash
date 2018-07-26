@@ -102,10 +102,11 @@ public class HbaseMetaDao extends HbaseBaseDao {
 //                            if (metric.getTags().get("UUID").getValue().equals("9c9d4578-e47e-4e49-add2-0d258ac7b94b")) {
                             try {
                                 Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
+                                fullmetalist.add(metric);
                             } catch (Exception e) {
                                 LOGGER.error(globalFunctions.stackTrace(e));
                             }
-                            fullmetalist.add(metric);
+                            
 //                            System.out.println(fullmetalist.size());
                         }
 
