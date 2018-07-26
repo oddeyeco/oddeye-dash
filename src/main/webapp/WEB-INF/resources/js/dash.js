@@ -2891,55 +2891,57 @@ $(document).ready(function () {
     });
 //Old style Update te new
 
-
-    if (gdd.times.pickerlabel === "Last 1 hour")
+    if (gdd.times)
     {
-        gdd.times.pickerlabel = locale["datetime.lastonehoure"];
-    }
-    if (gdd.times.pickerlabel === "Last 3 hour")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
-    }
-    if (gdd.times.pickerlabel === "Last 6 hour")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
-    }
-    if (gdd.times.pickerlabel === "Last 12 hour")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
-    }
-
-    if (gdd.times.pickerlabel === "Last 1 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
-    }
-
-    if (gdd.times.pickerlabel === "Last 3 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
-    }
-
-    if (gdd.times.pickerlabel === "Last 7 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
-    }
-    if (gdd.times.pickerlabel === "Last 30 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
-    }
-
-    if (!gdd.times.pickervalue)
-    {
-        gdd.times.pickervalue = rangeslabels[gdd.times.pickerlabel];
-    } else
-    {
-        for (var label in rangeslabels)
+        if (gdd.times.pickerlabel === "Last 1 hour")
         {
-            if (rangeslabels[label] === gdd.times.pickervalue)
-            {
-                gdd.times.pickerlabel = label;
-            }
+            gdd.times.pickerlabel = locale["datetime.lastonehoure"];
+        }
+        if (gdd.times.pickerlabel === "Last 3 hour")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
+        }
+        if (gdd.times.pickerlabel === "Last 6 hour")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
+        }
+        if (gdd.times.pickerlabel === "Last 12 hour")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
+        }
 
+        if (gdd.times.pickerlabel === "Last 1 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
+        }
+
+        if (gdd.times.pickerlabel === "Last 3 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
+        }
+
+        if (gdd.times.pickerlabel === "Last 7 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
+        }
+        if (gdd.times.pickerlabel === "Last 30 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
+        }
+
+        if (!gdd.times.pickervalue)
+        {
+            gdd.times.pickervalue = rangeslabels[gdd.times.pickerlabel];
+        } else
+        {
+            for (var label in rangeslabels)
+            {
+                if (rangeslabels[label] === gdd.times.pickervalue)
+                {
+                    gdd.times.pickerlabel = label;
+                }
+
+            }
         }
     }
     if (!gdd.rows) {
