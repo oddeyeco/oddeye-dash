@@ -1867,21 +1867,6 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             end = json.times.pickerend;
         } else
         {
-            if (!json.times.pickervalue)
-            {
-                json.times.pickervalue = rangeslabels[json.times.pickerlabel];
-            }
-
-            if (json.times.pickervalue !== rangeslabels[json.times.pickerlabel])
-            {
-                json.times.pickervalue = rangeslabels[json.times.pickerlabel];
-            }
-//            console.log("******************************************");            
-//            console.log(json.times.pickerlabel);
-//            console.log(json.times.pickervalue);
-//            console.log(rangeslabels);
-//            console.log(rangeslabels[json.times.pickervalue]);
-//            console.log("******************************************");
             if (json.times.pickervalue)
             {
                 if (typeof (json.times.pickervalue) !== "undefined")
@@ -2906,6 +2891,7 @@ $(document).ready(function () {
     });
 //Old style Update te new
 
+
     if (gdd.times.pickerlabel === "Last 1 hour")
     {
         gdd.times.pickerlabel = locale["datetime.lastonehoure"];
@@ -2945,8 +2931,17 @@ $(document).ready(function () {
     if (!gdd.times.pickervalue)
     {
         gdd.times.pickervalue = rangeslabels[gdd.times.pickerlabel];
-    }
+    } else
+    {
+        for (var label in rangeslabels)
+        {
+            if (rangeslabels[label] === gdd.times.pickervalue)
+            {
+                gdd.times.pickerlabel = label;
+            }
 
+        }
+    }
     if (!gdd.rows) {
         var rows = [];
         for (var ri in gdd)
@@ -2973,42 +2968,73 @@ $(document).ready(function () {
             var wid = gdd.rows[ri].widgets[wi];
             if (wid.times)
             {
-                if (wid.times.pickerlabel === "Last 1 hour")
+                if (wid.times.pickerlabel)
                 {
-                    wid.times.pickerlabel = locale["datetime.lastonehoure"];
-                }
-                if (wid.times.pickerlabel === "Last 3 hour")
+                    if (wid.times.pickerlabel === "Last 1 hour")
+                    {
+                        wid.times.pickerlabel = locale["datetime.lastonehoure"];
+                    }
+                    if (wid.times.pickerlabel === "Last 3 hour")
+                    {
+                        wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
+                    }
+                    if (wid.times.pickerlabel === "Last 6 hour")
+                    {
+                        wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
+                    }
+                    if (wid.times.pickerlabel === "Last 12 hour")
+                    {
+                        wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
+                    }
+
+                    if (wid.times.pickerlabel === "Last 1 day")
+                    {
+                        wid.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
+                    }
+
+                    if (wid.times.pickerlabel === "Last 3 day")
+                    {
+                        wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
+                    }
+
+                    if (wid.times.pickerlabel === "Last 7 day")
+                    {
+                        wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
+                    }
+                    if (wid.times.pickerlabel === "Last 30 day")
+                    {
+                        wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
+                    }
+
+                    if (!wid.times.pickervalue)
+                    {
+                        wid.times.pickervalue = rangeslabels[wid.times.pickerlabel];
+                    } else
+                    {
+                        for (var label in rangeslabels)
+                        {
+                            if (rangeslabels[label] === wid.times.pickervalue)
+                            {
+                                wid.times.pickerlabel = label;
+                            }
+
+                        }
+                    }
+                } else
                 {
-                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
-                }
-                if (wid.times.pickerlabel === "Last 6 hour")
-                {
-                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
-                }
-                if (wid.times.pickerlabel === "Last 12 hour")
-                {
-                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
+                    if (wid.times.pickervalue)
+                    {
+                        for (var label in rangeslabels)
+                        {
+                            if (rangeslabels[label] === wid.times.pickervalue)
+                            {
+                                wid.times.pickerlabel = label;
+                            }
+
+                        }
+                    }
                 }
 
-                if (wid.times.pickerlabel === "Last 1 day")
-                {
-                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
-                }
-
-                if (wid.times.pickerlabel === "Last 3 day")
-                {
-                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
-                }
-
-                if (wid.times.pickerlabel === "Last 7 day")
-                {
-                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
-                }
-                if (wid.times.pickerlabel === "Last 30 day")
-                {
-                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
-                }
-                wid.times.pickervalue = gdd.times.pickervalue = rangeslabels[wid.times.pickerlabel];
             }
 
             if (wid.options)
