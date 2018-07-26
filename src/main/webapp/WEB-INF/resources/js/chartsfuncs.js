@@ -139,6 +139,7 @@ $(document).ready(function () {
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastoneday"], [])] = [moment().subtract(24, 'hour')];
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays"], [3])] = [moment().subtract(3, 'day')];
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays2"], [7])] = [moment().subtract(7, 'day')];
+        PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays2"], [30])] = [moment().subtract(30, 'day')];
 
         rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [5])] = [];
         rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [15])] = [];
@@ -149,19 +150,24 @@ $(document).ready(function () {
         rangeslabelsds[replaceArgumets(locale["datetime.lasthoures2"], [12])] = ["4m", "avg", true];
         rangeslabelsds[replaceArgumets(locale["datetime.lastoneday"], [])] = ["30m", "avg", true];
         rangeslabelsds[replaceArgumets(locale["datetime.lastdays"], [3])] = ["1h", "avg", true];
-        rangeslabelsds[replaceArgumets(locale["datetime.lastdays2"], [7])] = ["4h", "avg", true];
+        rangeslabelsds[replaceArgumets(locale["datetime.lastdays2"], [7])] = ["4h", "avg", true];         
 
-
+        rangeslabels[replaceArgumets(DtPicerlocale["customRangeLabel"], [])] = "custom";
+        rangeslabels[replaceArgumets(locale["datetime.general"], [])] = "general";        
+        
         rangeslabels[replaceArgumets(locale["datetime.lastminute"], [5])] = "5m-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastminute"], [15])] = "15m-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastminute"], [30])] = "30m-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastonehoure"], [])] = "1h-ago";
+//        
         rangeslabels[replaceArgumets(locale["datetime.lasthoures"], [3])] = "3h-ago";
         rangeslabels[replaceArgumets(locale["datetime.lasthoures2"], [6])] = "6h-ago";
         rangeslabels[replaceArgumets(locale["datetime.lasthoures2"], [12])] = "12h-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastoneday"], [])] = "1d-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastdays"], [3])] = "3d-ago";
-        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";
+        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";    
+        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [30])] = "30d-ago";    
+//        console.log(rangeslabels0);
     }
 });
 var rangescustomds = {
@@ -183,9 +189,9 @@ var cbJson = function (JSON, wraper)
         }
         JSON.times.pickerstart = start.valueOf();
         JSON.times.pickerend = end.valueOf();
-        JSON.times.pickerlabel = label;
-//        if (JSON.times.pickerlabel === "Custom")
-        if (JSON.times.pickerlabel === DtPicerlocale["customRangeLabel"])
+        JSON.times.pickervalue = rangeslabels[label];                
+        JSON.times.pickerlabel = label;                
+        if (JSON.times.pickervalue === "custom")
         {
             wraper.find('span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
             var interval = (end - start) / 1000 / 60 / 60;
@@ -211,18 +217,19 @@ var cbJson = function (JSON, wraper)
             {
                 JSON.times.generalds = rangescustomds[1];
             }
-        } else if (JSON.times.pickerlabel === locale["datetime.general"])
+        } else if (JSON.times.pickervalue === "general")
         {
             wraper.find('span').html("");
             delete JSON.times.generalds;
             delete JSON.times.pickerstart;
             delete JSON.times.pickerend;
             delete JSON.times.pickerlabel;
+            delete JSON.times.pickervalue;
         } else
         {
-            wraper.find('span').html(JSON.times.pickerlabel);
-            JSON.times.generalds = rangeslabelsds[JSON.times.pickerlabel];
-        }
+            wraper.find('span').html(label);
+            JSON.times.generalds = rangeslabelsds[label];
+        }        
     };
 };
 

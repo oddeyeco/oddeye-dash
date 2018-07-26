@@ -922,7 +922,7 @@ class EditForm {
             if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel)
             {
                 if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel !== DtPicerlocale["customRangeLabel"])
-                {
+                {                                        
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
                     $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
