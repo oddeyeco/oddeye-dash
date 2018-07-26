@@ -38,10 +38,20 @@
       "datetime.lasthoures2":"<spring:message code="datetime.lasthoures2"/>",
       "datetime.lastdays":"<spring:message code="datetime.lastdays"/>",
       "datetime.lastdays2":"<spring:message code="datetime.lastdays2"/>",
-
       "datetime.lastonehoure":"<spring:message code="datetime.lastonehoure"/>",
       "datetime.lastoneday":"<spring:message code="datetime.lastoneday"/>", 
-      "datetime.general":"<spring:message code="datetime.general"/>"    
+      "datetime.general":"<spring:message code="datetime.general"/>", 
+      
+      "editform.jsonManualEdit":"<spring:message code="editform.jsonManualEdit"/>",
+      
+      "editchartform.general":"<spring:message code="editchartform.general"/>",    
+      "editchartform.metrics":"<spring:message code="editchartform.metrics"/>",    
+      "editchartform.axes":"<spring:message code="editchartform.axes"/>",    
+      "editchartform.dataZoom":"<spring:message code="editchartform.dataZoom"/>", 
+      "editchartform.legend":"<spring:message code="editchartform.legend"/>", 
+      "editchartform.display":"<spring:message code="editchartform.display"/>", 
+      "editchartform.timeRange":"<spring:message code="editchartform.timeRange"/>", 
+      "editchartform.json":"<spring:message code="editchartform.json"/>" 
     };
     var DtPicerlocale = {
             applyLabel: '<spring:message code="datetime.submit"/>',
