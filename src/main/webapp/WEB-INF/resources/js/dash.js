@@ -428,43 +428,47 @@ var queryCallback = function (inputdata) {
                                 {
                                     yAxis = 0;
                                 }
-
                                 for (var ind in chdata)
-                                {
-                                    var val = chdata[ind];
-                                    if (widget.q[q_index].info.inverse)
+                                {                                    
+                                    if (Object.keys(widget.q[q_index]).length>0 )
                                     {
-                                        val[1] = -1 * val[1];
-                                    }
-                                    switch (widget.type) {
-                                        case 'pie':
+                                        var val = chdata[ind];
+
+                                        if (widget.q[q_index].info.inverse)
                                         {
-                                            //TODO Mi ban anel
-//                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
-                                            break;
+                                            val[1] = -1 * val[1];
                                         }
-                                        case 'bar':
-                                        {
-                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
-                                            break;
-                                        }
-                                        case 'line':
-                                        {
-                                            var tmptitle = false
-                                            if (widget.title)
+
+
+                                        switch (widget.type) {
+                                            case 'pie':
                                             {
-                                                tmptitle = widget.title.text;
+                                                //TODO Mi ban anel
+//                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
+                                                break;
                                             }
-                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
-                                            break;
+                                            case 'bar':
+                                            {
+                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                                break;
+                                            }
+                                            case 'line':
+                                            {
+                                                var tmptitle = false
+                                                if (widget.title)
+                                                {
+                                                    tmptitle = widget.title.text;
+                                                }
+                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
+                                                break;
+                                            }
+                                            default:
+                                            {
+                                                break
+                                            }
                                         }
-                                        default:
-                                        {
-                                            break
-                                        }
+
                                     }
-
-
                                 }
                                 var yAxis = 0;
                                 if (series.yAxisIndex)
