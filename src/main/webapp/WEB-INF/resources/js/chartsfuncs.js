@@ -139,6 +139,7 @@ $(document).ready(function () {
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastoneday"], [])] = [moment().subtract(24, 'hour')];
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays"], [3])] = [moment().subtract(3, 'day')];
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays2"], [7])] = [moment().subtract(7, 'day')];
+        PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays2"], [30])] = [moment().subtract(30, 'day')];
 
         rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [5])] = [];
         rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [15])] = [];
@@ -165,6 +166,7 @@ $(document).ready(function () {
         rangeslabels[replaceArgumets(locale["datetime.lastoneday"], [])] = "1d-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastdays"], [3])] = "3d-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";    
+        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [30])] = "30d-ago";    
 //        console.log(rangeslabels0);
     }
 });

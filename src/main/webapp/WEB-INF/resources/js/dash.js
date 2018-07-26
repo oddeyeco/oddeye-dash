@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale */
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
@@ -1736,7 +1736,7 @@ var queryCallback = function (inputdata) {
 //            console.log(widget.options.series);
                 try {
                     if (redraw)
-                    {                        
+                    {
                         var datalist = [];
                         if (chart.getOption().series.length === widget.options.series.length)
                         {
@@ -1747,12 +1747,12 @@ var queryCallback = function (inputdata) {
                             }
                             chart.setOption({series: datalist, xAxis: widget.options.xAxis});
                         } else
-                        {                            
+                        {
                             chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
                         }
 
                     } else
-                    {                        
+                    {
                         chart.setOption(widget.options, true);
                     }
                 } catch (e) {
@@ -1867,20 +1867,14 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             end = json.times.pickerend;
         } else
         {
-//            console.log(rangeslabels.length+"ssss");
-            if (json.times.pickerlabel==="Last 1 hour") 
-            {
-                json.times.pickerlabel = locale["datetime.lastonehoure"];
-            }
-            
             if (!json.times.pickervalue)
             {
-                json.times.pickervalue= rangeslabels[json.times.pickerlabel];
+                json.times.pickervalue = rangeslabels[json.times.pickerlabel];
             }
-            
-            if (json.times.pickervalue!==rangeslabels[json.times.pickerlabel])
+
+            if (json.times.pickervalue !== rangeslabels[json.times.pickerlabel])
             {
-                json.times.pickervalue=rangeslabels[json.times.pickerlabel];
+                json.times.pickervalue = rangeslabels[json.times.pickerlabel];
             }
 //            console.log("******************************************");            
 //            console.log(json.times.pickerlabel);
@@ -1911,9 +1905,9 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             usePersonalTime = true;
         } else
         {
-            if (typeof (rangeslabels[widget.times.pickervalue]) !== "undefined")
+            if (typeof (widget.times.pickervalue) !== "undefined")
             {
-                start = rangeslabels[widget.times.pickervalue];
+                start = widget.times.pickervalue;
                 end = "now";
                 usePersonalTime = true;
             }
@@ -2522,7 +2516,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         var title = locale[acprefix + ".table"];
     }
     if (W_type === "counter")
-    {        
+    {
         var title = locale[acprefix + ".counter"];
     }
     if (rebuildform)
@@ -2533,8 +2527,8 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             $(".right_col .editpanel").append('<div class="x_title dash_action">' +
                     '<h1 class="col-md-4 nowrap">' + title + '</h1>' +
                     '<div class="pull-right">' +
-                    '<span><a class="btn btn-primary savedash"  type="button">'+ locale["save"] +' </a></span>' +
-                    '<a class="btn btn-primary backtodush" type="button">'+ locale["dash.backToDash"] +' </a>' +
+                    '<span><a class="btn btn-primary savedash"  type="button">' + locale["save"] + ' </a></span>' +
+                    '<a class="btn btn-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </a>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
                     '</div>');
@@ -2545,7 +2539,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             $(".right_col .editpanel").append('<div class="x_title dash_action">' +
                     '<h1 class="col-md-3">' + title + '</h1>' +
                     '<div class="pull-right">' +
-                    '<a class="btn btn-primary backtodush" type="button">'+ locale["dash.backToDash"] +' </a>' +
+                    '<a class="btn btn-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </a>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
                     '</div>');
@@ -2850,7 +2844,7 @@ $(document).ready(function () {
         {
             gdd.times.pickerlabel = DtPicerlocale["customRangeLabel"];
             gdd.times.pickervalue = "custom";
-            
+
         } else
         {
             gdd.times.pickervalue = gdd.times.pickerstart;
@@ -2911,6 +2905,48 @@ $(document).ready(function () {
         rowdrag = false;
     });
 //Old style Update te new
+
+    if (gdd.times.pickerlabel === "Last 1 hour")
+    {
+        gdd.times.pickerlabel = locale["datetime.lastonehoure"];
+    }
+    if (gdd.times.pickerlabel === "Last 3 hour")
+    {
+        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
+    }
+    if (gdd.times.pickerlabel === "Last 6 hour")
+    {
+        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
+    }
+    if (gdd.times.pickerlabel === "Last 12 hour")
+    {
+        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
+    }
+
+    if (gdd.times.pickerlabel === "Last 1 day")
+    {
+        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
+    }
+
+    if (gdd.times.pickerlabel === "Last 3 day")
+    {
+        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
+    }
+
+    if (gdd.times.pickerlabel === "Last 7 day")
+    {
+        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
+    }
+    if (gdd.times.pickerlabel === "Last 30 day")
+    {
+        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
+    }
+
+    if (!gdd.times.pickervalue)
+    {
+        gdd.times.pickervalue = rangeslabels[gdd.times.pickerlabel];
+    }
+
     if (!gdd.rows) {
         var rows = [];
         for (var ri in gdd)
@@ -2925,8 +2961,6 @@ $(document).ready(function () {
                 rows.push({widgets: wid});
                 delete gdd[ri];
             }
-
-
         }
         gdd.rows = rows;
     }
@@ -2934,10 +2968,49 @@ $(document).ready(function () {
 
     for (var ri in gdd.rows)
     {
-
         for (var wi in gdd.rows[ri].widgets)
         {
             var wid = gdd.rows[ri].widgets[wi];
+            if (wid.times)
+            {
+                if (wid.times.pickerlabel === "Last 1 hour")
+                {
+                    wid.times.pickerlabel = locale["datetime.lastonehoure"];
+                }
+                if (wid.times.pickerlabel === "Last 3 hour")
+                {
+                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
+                }
+                if (wid.times.pickerlabel === "Last 6 hour")
+                {
+                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
+                }
+                if (wid.times.pickerlabel === "Last 12 hour")
+                {
+                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
+                }
+
+                if (wid.times.pickerlabel === "Last 1 day")
+                {
+                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
+                }
+
+                if (wid.times.pickerlabel === "Last 3 day")
+                {
+                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
+                }
+
+                if (wid.times.pickerlabel === "Last 7 day")
+                {
+                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
+                }
+                if (wid.times.pickerlabel === "Last 30 day")
+                {
+                    wid.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
+                }
+                wid.times.pickervalue = gdd.times.pickervalue = rangeslabels[wid.times.pickerlabel];
+            }
+
             if (wid.options)
             {
                 if (!wid.title)
@@ -2957,20 +3030,12 @@ $(document).ready(function () {
             $("#refreshtime").val(gdd.times.intervall);
         }
         var label = pickerlabel;
+
         if (gdd.times.pickerlabel)
         {
             label = gdd.times.pickerlabel;
         }
-        var pickervalue = rangeslabels[label];
-        if (gdd.times.pickervalue)
-        {
-            pickervalue = gdd.times.pickervalue;
-        }
-        else
-        {
-            gdd.times.pickervalue = rangeslabels[label];
-        }
-
+        var pickervalue = gdd.times.pickervalue;
 
         $('#reportrange span').html(label);
         if (pickervalue === "custom")
@@ -3013,7 +3078,7 @@ $(document).ready(function () {
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";
-        var enddate = "now";        
+        var enddate = "now";
         if (gdd.times.pickervalue === 'custom')
         {
             startdate = gdd.times.pickerstart;
@@ -3075,7 +3140,7 @@ $(document).ready(function () {
     if (typeof getmindate === "function") {
         PicerOptionSet1.minDate = getmindate();
     }
-    
+
 //    PicerOptionSet1.locale=DtPicerlocale;
     $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
 //    var mousemovetimer;
@@ -3246,8 +3311,7 @@ $(document).ready(function () {
         if (gdd.times.pickervalue)
         {
             pickervalue = gdd.times.pickervalue;
-        }
-        else
+        } else
         {
             gdd.times.pickervalue = rangeslabels[label];
         }
