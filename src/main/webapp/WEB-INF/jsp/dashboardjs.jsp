@@ -54,9 +54,6 @@
             monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
             firstDay: 1
     };
-    
-    console.log(replaceArgumets(locale["datetime.lastminute"],[5]));
-    
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
     </c:if>

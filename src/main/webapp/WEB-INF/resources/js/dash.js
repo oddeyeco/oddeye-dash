@@ -1861,17 +1861,38 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
     if (json.times)
     {
-        if (json.times.pickerlabel === DtPicerlocale["customRangeLabel"])
+        if (json.times.pickervalue === "custom")
         {
             start = json.times.pickerstart;
             end = json.times.pickerend;
         } else
         {
-            if (json.times.pickerlabel)
+//            console.log(rangeslabels.length+"ssss");
+            if (json.times.pickerlabel==="Last 1 hour") 
             {
-                if (typeof (rangeslabels[json.times.pickerlabel]) !== "undefined")
+                json.times.pickerlabel = locale["datetime.lastonehoure"];
+            }
+            
+            if (!json.times.pickervalue)
+            {
+                json.times.pickervalue= rangeslabels[json.times.pickerlabel];
+            }
+            
+            if (json.times.pickervalue!==rangeslabels[json.times.pickerlabel])
+            {
+                json.times.pickervalue=rangeslabels[json.times.pickerlabel];
+            }
+//            console.log("******************************************");            
+//            console.log(json.times.pickerlabel);
+//            console.log(json.times.pickervalue);
+//            console.log(rangeslabels);
+//            console.log(rangeslabels[json.times.pickervalue]);
+//            console.log("******************************************");
+            if (json.times.pickervalue)
+            {
+                if (typeof (json.times.pickervalue) !== "undefined")
                 {
-                    start = rangeslabels[json.times.pickerlabel];
+                    start = json.times.pickervalue;
                 } else
                 {
                     start = json.times.pickerstart;
@@ -1883,16 +1904,16 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
 
     if (widget.times)
     {
-        if (widget.times.pickerlabel === DtPicerlocale["customRangeLabel"])
+        if (widget.times.pickervalue === "custom")
         {
             start = widget.times.pickerstart;
             end = widget.times.pickerend;
             usePersonalTime = true;
         } else
         {
-            if (typeof (rangeslabels[widget.times.pickerlabel]) !== "undefined")
+            if (typeof (rangeslabels[widget.times.pickervalue]) !== "undefined")
             {
-                start = rangeslabels[widget.times.pickerlabel];
+                start = rangeslabels[widget.times.pickervalue];
                 end = "now";
                 usePersonalTime = true;
             }
@@ -2287,11 +2308,12 @@ function redrawAllJSON(dashJSON, redraw = false) {
 
                 if (tmprow.widgets[wi].times)
                 {
-                    if (tmprow.widgets[wi].times.pickerlabel)
+                    if (tmprow.widgets[wi].times.pickervalue)
                     {
                         chartobj.find(".echart_time_icon").css({display: 'block'});
-                        if (tmprow.widgets[wi].times.pickerlabel !== "Custom")
+                        if (tmprow.widgets[wi].times.pickervalue !== "custom")
                         {
+                            //??????
                             chartobj.find(".echart_time").append(tmprow.widgets[wi].times.pickerlabel + " ");
                         } else
                         {
@@ -2680,12 +2702,13 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             wraperTitle.find('.wrap').css({display: 'none'});
         }
         if (singleWi.times) {
-            if (singleWi.times.pickerlabel)
+            if (singleWi.times.pickervalue)
             {
                 ;
                 wraperTitle.find(".echart_time_icon").css({display: 'block'});
-                if (singleWi.times.pickerlabel !== "Custom")
+                if (singleWi.times.pickervalue !== "custom")
                 {
+                    //?????
                     wraperTitle.find(".echart_time .last").html(singleWi.times.pickerlabel + " ");
                 } else
                 {
@@ -2714,7 +2737,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     wraperTitle.find(".echart_time .refreshEvery").html(' ');
                 }
             }
-            if (singleWi.times.intervall === "General" && !singleWi.times.pickerlabel) {
+            if (singleWi.times.intervall === "General" && !singleWi.times.pickervalue) {
                 wraperTitle.find(".echart_time_icon").css({display: 'none'});
             }
         } else {
@@ -2826,9 +2849,11 @@ $(document).ready(function () {
         if (moment(gdd.times.pickerstart).isValid())
         {
             gdd.times.pickerlabel = DtPicerlocale["customRangeLabel"];
+            gdd.times.pickervalue = "custom";
+            
         } else
         {
-            gdd.times.pickerlabel = gdd.times.pickerstart;
+            gdd.times.pickervalue = gdd.times.pickerstart;
         }
 
         for (var label in rangeslabels)
@@ -2936,9 +2961,19 @@ $(document).ready(function () {
         {
             label = gdd.times.pickerlabel;
         }
+        var pickervalue = rangeslabels[label];
+        if (gdd.times.pickervalue)
+        {
+            pickervalue = gdd.times.pickervalue;
+        }
+        else
+        {
+            gdd.times.pickervalue = rangeslabels[label];
+        }
+
 
         $('#reportrange span').html(label);
-        if (label === DtPicerlocale["customRangeLabel"])
+        if (pickervalue === "custom")
         {
             PicerOptionSet1.startDate = moment(gdd.times.pickerstart);
             PicerOptionSet1.endDate = moment(gdd.times.pickerend);
@@ -2978,16 +3013,16 @@ $(document).ready(function () {
 
     $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
         var startdate = "5m-ago";
-        var enddate = "now";
-        if (gdd.times.pickerlabel === DtPicerlocale["customRangeLabel"])
+        var enddate = "now";        
+        if (gdd.times.pickervalue === 'custom')
         {
             startdate = gdd.times.pickerstart;
             enddate = gdd.times.pickerend;
         } else
         {
-            if (typeof (rangeslabels[gdd.times.pickerlabel]) !== "undefined")
+            if (typeof (gdd.times.pickervalue) !== "undefined")
             {
-                startdate = rangeslabels[gdd.times.pickerlabel];
+                startdate = gdd.times.pickervalue;
             } else
             {
                 startdate = gdd.times.pickerstart;
@@ -3207,9 +3242,20 @@ $(document).ready(function () {
         {
             label = gdd.times.pickerlabel;
         }
+        var pickervalue = rangeslabels[label];
+        if (gdd.times.pickervalue)
+        {
+            pickervalue = gdd.times.pickervalue;
+        }
+        else
+        {
+            gdd.times.pickervalue = rangeslabels[label];
+        }
+
+
 
         $('#reportrange span').html(label);
-        if (label === "Custom")
+        if (pickervalue === "custom")
         {
             PicerOptionSet1.startDate = moment(gdd.times.pickerstart);
             PicerOptionSet1.endDate = moment(gdd.times.pickerend);
