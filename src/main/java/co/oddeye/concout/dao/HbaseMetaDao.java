@@ -106,8 +106,6 @@ public class HbaseMetaDao extends HbaseBaseDao {
                             } catch (Exception e) {
                                 LOGGER.error(globalFunctions.stackTrace(e));
                             }
-                            
-//                            System.out.println(fullmetalist.size());
                         }
 
                     }
