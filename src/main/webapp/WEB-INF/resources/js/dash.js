@@ -557,6 +557,10 @@ var queryCallback = function (inputdata) {
 
                                 if (widget.q[q_index].xAxisIndex)
                                 {
+                                    if (!widget.options.xAxis[widget.q[q_index].xAxisIndex[0]])
+                                    {
+                                        widget.q[q_index].xAxisIndex[0] = 0;
+                                    }                                    
                                     if (Array.isArray(widget.q[q_index].xAxisIndex))
                                     {
                                         m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex[0]].m_sample;
