@@ -428,43 +428,47 @@ var queryCallback = function (inputdata) {
                                 {
                                     yAxis = 0;
                                 }
-
                                 for (var ind in chdata)
                                 {
-                                    var val = chdata[ind];
-                                    if (widget.q[q_index].info.inverse)
+                                    if (Object.keys(widget.q[q_index]).length > 0)
                                     {
-                                        val[1] = -1 * val[1];
-                                    }
-                                    switch (widget.type) {
-                                        case 'pie':
+                                        var val = chdata[ind];
+
+                                        if (widget.q[q_index].info.inverse)
                                         {
-                                            //TODO Mi ban anel
-//                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
-                                            break;
+                                            val[1] = -1 * val[1];
                                         }
-                                        case 'bar':
-                                        {
-                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
-                                            break;
-                                        }
-                                        case 'line':
-                                        {
-                                            var tmptitle = false
-                                            if (widget.title)
+
+
+                                        switch (widget.type) {
+                                            case 'pie':
                                             {
-                                                tmptitle = widget.title.text;
+                                                //TODO Mi ban anel
+//                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
+                                                break;
                                             }
-                                            series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
-                                            break;
+                                            case 'bar':
+                                            {
+                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                                break;
+                                            }
+                                            case 'line':
+                                            {
+                                                var tmptitle = false
+                                                if (widget.title)
+                                                {
+                                                    tmptitle = widget.title.text;
+                                                }
+                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
+                                                break;
+                                            }
+                                            default:
+                                            {
+                                                break
+                                            }
                                         }
-                                        default:
-                                        {
-                                            break
-                                        }
+
                                     }
-
-
                                 }
                                 var yAxis = 0;
                                 if (series.yAxisIndex)
@@ -521,100 +525,106 @@ var queryCallback = function (inputdata) {
 
                         for (var index in data.chartsdata)
                         {
-
-                            var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                            var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                            if (typeof (widget.q[q_index].info) !== "undefined")
+                            if (Object.keys(widget.q[q_index]).length > 0)
                             {
-                                if (widget.q[q_index].info.alias)
+                                var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                                var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                                if (typeof (widget.q[q_index].info) !== "undefined")
                                 {
-                                    if (widget.q[q_index].info.alias !== "")
+                                    if (widget.q[q_index].info.alias)
                                     {
-                                        name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
-                                    }
+                                        if (widget.q[q_index].info.alias !== "")
+                                        {
+                                            name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
+                                        }
 
-                                }
-                                if (widget.q[q_index].info.alias2)
-                                {
-                                    if (widget.q[q_index].info.alias2 !== "")
+                                    }
+                                    if (widget.q[q_index].info.alias2)
                                     {
-                                        name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
+                                        if (widget.q[q_index].info.alias2 !== "")
+                                        {
+                                            name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
+                                        }
                                     }
                                 }
-                            }
 
-                            var chdata = [];
-                            var val;
-                            for (var ind in data.chartsdata[index].data) {
-                                chdata.push(data.chartsdata[index].data[ind][1]);
-                                val = data.chartsdata[index].data[ind][1];
-                            }
-
-                            if (widget.q[q_index].xAxisIndex)
-                            {
-                                if (Array.isArray(widget.q[q_index].xAxisIndex))
-                                {
-                                    m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex[0]].m_sample;
-                                } else
-                                {
-                                    m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;
+                                var chdata = [];
+                                var val;
+                                for (var ind in data.chartsdata[index].data) {
+                                    chdata.push(data.chartsdata[index].data[ind][1]);
+                                    val = data.chartsdata[index].data[ind][1];
                                 }
-                            }
-                            if (m_sample === "avg")
-                            {
-                                val = numbers.statistic.mean(chdata);
-                            }
-                            if (m_sample === "min")
-                            {
-                                val = numbers.basic.min(chdata);
-                            }
-                            if (m_sample === "max")
-                            {
-                                val = numbers.basic.max(chdata);
-                            }
-                            if (m_sample === "total")
-                            {
-                                val = numbers.basic.sum(chdata);
-                            }
-                            if (m_sample === "product")
-                            {
-                                val = numbers.basic.product(chdata);
-                            }
-                            if (m_sample === "count")
-                            {
-                                val = chdata.length;
-                            }
-                            var tmpname = name;
-                            if (name2)
-                            {
-                                tmpname = name2;
-                            }
 
-                            if (!tmp_series_1[name])
-                            {
-                                tmp_series_1[name] = [];
-                            }
-                            if (widget.q[q_index].info.inverse)
-                            {
-                                val = -1 * val;
-                            }
-                            var yAxis = 0;
-                            if (widget.q[q_index].yAxisIndex)
-                            {
-                                if (Array.isArray(widget.q[q_index].yAxisIndex))
+                                if (widget.q[q_index].xAxisIndex)
                                 {
-                                    yAxis = widget.q[q_index].yAxisIndex[0];
-                                } else
-                                {
-                                    yAxis = widget.q[q_index].yAxisIndex;
+                                    if (!widget.options.xAxis[widget.q[q_index].xAxisIndex[0]])
+                                    {
+                                        widget.q[q_index].xAxisIndex[0] = 0;
+                                    }                                    
+                                    if (Array.isArray(widget.q[q_index].xAxisIndex))
+                                    {
+                                        m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex[0]].m_sample;
+                                    } else
+                                    {
+                                        m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex].m_sample;
+                                    }
                                 }
+                                if (m_sample === "avg")
+                                {
+                                    val = numbers.statistic.mean(chdata);
+                                }
+                                if (m_sample === "min")
+                                {
+                                    val = numbers.basic.min(chdata);
+                                }
+                                if (m_sample === "max")
+                                {
+                                    val = numbers.basic.max(chdata);
+                                }
+                                if (m_sample === "total")
+                                {
+                                    val = numbers.basic.sum(chdata);
+                                }
+                                if (m_sample === "product")
+                                {
+                                    val = numbers.basic.product(chdata);
+                                }
+                                if (m_sample === "count")
+                                {
+                                    val = chdata.length;
+                                }
+                                var tmpname = name;
+                                if (name2)
+                                {
+                                    tmpname = name2;
+                                }
+
+                                if (!tmp_series_1[name])
+                                {
+                                    tmp_series_1[name] = [];
+                                }
+                                if (widget.q[q_index].info.inverse)
+                                {
+                                    val = -1 * val;
+                                }
+                                var yAxis = 0;
+                                if (widget.q[q_index].yAxisIndex)
+                                {
+                                    if (Array.isArray(widget.q[q_index].yAxisIndex))
+                                    {
+                                        yAxis = widget.q[q_index].yAxisIndex[0];
+                                    } else
+                                    {
+                                        yAxis = widget.q[q_index].yAxisIndex;
+                                    }
+                                }
+                                if (!widget.options.yAxis[yAxis])
+                                {
+                                    yAxis = 0;
+                                }
+                                tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[yAxis].unit, isinverse: widget.q[q_index].info.inverse});
+                                sdata.push({value: val, name: name});
                             }
-                            if (!widget.options.yAxis[yAxis])
-                            {
-                                yAxis = 0;
-                            }
-                            tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[yAxis].unit, isinverse: widget.q[q_index].info.inverse});
-                            sdata.push({value: val, name: name});
                         }
 
                         if (widget.type === "treemap")
@@ -2891,55 +2901,57 @@ $(document).ready(function () {
     });
 //Old style Update te new
 
-
-    if (gdd.times.pickerlabel === "Last 1 hour")
+    if (gdd.times)
     {
-        gdd.times.pickerlabel = locale["datetime.lastonehoure"];
-    }
-    if (gdd.times.pickerlabel === "Last 3 hour")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
-    }
-    if (gdd.times.pickerlabel === "Last 6 hour")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
-    }
-    if (gdd.times.pickerlabel === "Last 12 hour")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
-    }
-
-    if (gdd.times.pickerlabel === "Last 1 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
-    }
-
-    if (gdd.times.pickerlabel === "Last 3 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
-    }
-
-    if (gdd.times.pickerlabel === "Last 7 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
-    }
-    if (gdd.times.pickerlabel === "Last 30 day")
-    {
-        gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
-    }
-
-    if (!gdd.times.pickervalue)
-    {
-        gdd.times.pickervalue = rangeslabels[gdd.times.pickerlabel];
-    } else
-    {
-        for (var label in rangeslabels)
+        if (gdd.times.pickerlabel === "Last 1 hour")
         {
-            if (rangeslabels[label] === gdd.times.pickervalue)
-            {
-                gdd.times.pickerlabel = label;
-            }
+            gdd.times.pickerlabel = locale["datetime.lastonehoure"];
+        }
+        if (gdd.times.pickerlabel === "Last 3 hour")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [3]);
+        }
+        if (gdd.times.pickerlabel === "Last 6 hour")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [6]);
+        }
+        if (gdd.times.pickerlabel === "Last 12 hour")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lasthoures"], [12]);
+        }
 
+        if (gdd.times.pickerlabel === "Last 1 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastoneday"], []);
+        }
+
+        if (gdd.times.pickerlabel === "Last 3 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays"], [3]);
+        }
+
+        if (gdd.times.pickerlabel === "Last 7 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [7]);
+        }
+        if (gdd.times.pickerlabel === "Last 30 day")
+        {
+            gdd.times.pickerlabel = replaceArgumets(locale["datetime.lastdays2"], [30]);
+        }
+
+        if (!gdd.times.pickervalue)
+        {
+            gdd.times.pickervalue = rangeslabels[gdd.times.pickerlabel];
+        } else
+        {
+            for (var label in rangeslabels)
+            {
+                if (rangeslabels[label] === gdd.times.pickervalue)
+                {
+                    gdd.times.pickerlabel = label;
+                }
+
+            }
         }
     }
     if (!gdd.rows) {
