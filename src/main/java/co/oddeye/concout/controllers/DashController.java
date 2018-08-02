@@ -22,6 +22,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -297,7 +299,14 @@ public class DashController {
             map.put("jspart", "dashboardjs");
 
             if (userDetails.getDush(dashname) == null) {
-                throw new ResourceNotFoundException(dashname + " not exists");
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                    if (userDetails.getDush(dashname) == null) {
+                        throw new ResourceNotFoundException(dashname + " not exists");
+                    }
+                } catch (InterruptedException ex) {
+                    LOGGER.error("lalaal");
+                }
             }
 
             return "index";
