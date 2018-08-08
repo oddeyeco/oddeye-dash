@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+<div id="saveModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
 
         <!-- Modal content-->
@@ -10,7 +10,6 @@
                 <h4 class="modal-title"><spring:message code="dashboard.Modal.successfullySaved"/> </h4>
             </div>
         </div>
-
     </div>
 </div>
 <div id="lockConfirm" class="modal fade" tabindex="-1">

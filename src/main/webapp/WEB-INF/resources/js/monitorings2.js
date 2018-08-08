@@ -178,7 +178,7 @@ function drawUL(errorjson, table, hashindex, update) {
         arrowclass = "fas fa-long-arrow-alt-up";
         color = "red";
     }
-    var eRclass = "level_" + errorjson.level;    
+    var eRclass = "level_" + errorjson.level;
     var UlID = "regularlist";
     if (errorjson.isspec !== 0)
     {
@@ -356,7 +356,7 @@ function drawUL(errorjson, table, hashindex, update) {
         //var eRclass = "level_" + errorjson.level;
 
 //            .attr("class", eRclass);
-        $("." + table).find("li#" + hashindex + " .level").html(errorjson.levelname);        
+        $("." + table).find("li#" + hashindex + " .level").html(errorjson.levelname);
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
         var lt = errorjson.time;
         $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
@@ -687,10 +687,20 @@ $(document).ready(function () {
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                alert("Data Saved ");
+                $('#saveModal .modal-title').text("Successfully  saved");
+                $('#saveModal').modal('show');
+
+                setTimeout(function () {
+                    $('#saveModal').modal('hide');
+                }, 2000);
             } else
             {
-                alert("Request failed");
+                $('#saveModal .modal-title').text("Error saving data");
+                $('#saveModal').modal('show');
+
+                setTimeout(function () {
+                    $('#saveModal').modal('hide');
+                }, 2000);
             }
         }).fail(function (jqXHR, textStatus) {
             alert("Request failed");
@@ -930,7 +940,7 @@ $(document).ready(function () {
                 console.log(notifier + "=" + optionsJson["notifier-v"][notifier][nvalue]);
                 var row = $("<div class='col-lg-4 col-md-6'>");
                 row.append("<div class='item notifier_label'>" + opt.attr("fname") + "</div>");
-                row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + opt.attr("value") + "][]' value='"+optionsJson["notifier-v"][notifier][nvalue]+"' autocomplete='off'></div>");
+                row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + opt.attr("value") + "][]' value='" + optionsJson["notifier-v"][notifier][nvalue] + "' autocomplete='off'></div>");
                 Domsection.find(".notifiers-table").append(row);
             }
 
@@ -1006,7 +1016,7 @@ function updateFilter() {
             } else if (field.name.indexOf("v[") !== -1)
             {
 
-                name = field.name.substring(0, field.name.indexOf("v[") + 1);                
+                name = field.name.substring(0, field.name.indexOf("v[") + 1);
                 if (!optionsJson[name])
                 {
                     optionsJson[name] = {};
@@ -1066,5 +1076,5 @@ function updateFilter() {
             }
 
         }
-    });    
+    });
 }
