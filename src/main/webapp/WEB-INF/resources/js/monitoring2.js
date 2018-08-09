@@ -559,8 +559,8 @@ function checkfilter(message)
                     filtred = value !== filtervalue;
                 } else
                 {
-                    console.log(value);
-                    console.log(filterop);
+//                    console.log(value);
+//                    console.log(filterop);
                 }
                 if (!filtred)
                 {
@@ -714,7 +714,7 @@ $(document).ready(function () {
         url = cp + "/addmonitoringpage/";
         sendData.optionsjson = JSON.stringify(optionsJson);
         sendData.optionsname = nameoptions;
-        console.log(sendData.optionsname);
+//        console.log(sendData.optionsname);
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         $.ajax({
@@ -947,7 +947,7 @@ $(document).ready(function () {
             var opt = Domsection.find(".add_notifier_select option[value='" + name + "']:first");
             for (var nvalue in optionsJson["notifier-v"][notifier])
             {
-                console.log(notifier + "=" + optionsJson["notifier-v"][notifier][nvalue]);
+//                console.log(notifier + "=" + optionsJson["notifier-v"][notifier][nvalue]);
                 var row = $("<div class='col-lg-4 col-md-6'>");
                 row.append("<div class='item notifier_label'>" + opt.attr("fname") + "</div>");
                 row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + opt.attr("value") + "][]' value='" + optionsJson["notifier-v"][notifier][nvalue] + "' autocomplete='off'></div>");

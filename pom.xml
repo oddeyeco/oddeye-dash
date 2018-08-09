@@ -232,7 +232,7 @@
                                 <jsSourceFile>general.js</jsSourceFile>                                                                
                                 <jsSourceFile>public.js</jsSourceFile>                                                                
                                 <jsSourceFile>chartsfuncs.js</jsSourceFile>                                                                
-                                <jsSourceFile>monitoring.js</jsSourceFile>                                                                
+                                <jsSourceFile>monitoring2.js</jsSourceFile>                                                                
                                 <jsSourceFile>stomp.js</jsSourceFile>                                                                
                                 <jsSourceFile>metricinfo.js</jsSourceFile>  
                                 <jsSourceFile>calc.js</jsSourceFile>  
