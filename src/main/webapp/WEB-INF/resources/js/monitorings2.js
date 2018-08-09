@@ -728,10 +728,20 @@ $(document).ready(function () {
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                alert("Data Saved ");
+                $('#saveModal .modal-title').text("Successfully  saved");
+                $('#saveModal').modal('show');
+
+                setTimeout(function () {
+                    $('#saveModal').modal('hide');
+                }, 2000);
             } else
             {
-                alert("Request failed");
+                $('#saveModal .modal-title').text("Error saving data");
+                $('#saveModal').modal('show');
+
+                setTimeout(function () {
+                    $('#saveModal').modal('hide');
+                }, 2000);
             }
         }).fail(function (jqXHR, textStatus) {
             alert("Request failed");
