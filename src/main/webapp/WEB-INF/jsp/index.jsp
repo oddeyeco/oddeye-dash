@@ -30,8 +30,8 @@
             <!-- Bootstrap -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />      
             <!-- Font Awesome -->
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fa-solid.css?v=${version}" />
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fa-regular.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />
             <!-- iCheck -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />        

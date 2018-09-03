@@ -3,6 +3,7 @@
 @color_3: #ff0000;
 @color_4: #f1f6f7;
 @color_5: #666666;
+@color_hover: #5bc0de;
 @font_family_1: helvetica;
 @background_color_1: white;
 @background_color_3: #e3e3e3;
@@ -49,6 +50,14 @@ and open the template in the editor.
 #refresh_wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
   height: 30px;
 }*/
+
+a:hover, a:focus {
+    color: @color_hover;    
+}
+
+.samegroup:hover {
+    color: @color_hover;    
+}
 
 .main_menu .fa { //For  Font Awesome 5 in custom css
                  font-family: 'Font Awesome 5 Free';
@@ -575,29 +584,7 @@ span.tagspan {
         }
     }
 }
-.monitorlist
-{
-    .level_5 {
-        font-weight: bold;
-        background-color: @background_color_4;
-    }
-    .level_4 {
-        background-color: @background_color_5;
-    }
-    .level_3 {
-        background-color: @background_color_6;
-    }
-    .level_2,
-    .level_1,
-    .level_0
-    {
-        background-color: white;
-    }    
-    .level_-1 {
-        background-color: @background_color_9;
 
-    }
-}
 .level_5 {
     font-weight: bold;
     .level {
@@ -1671,11 +1658,9 @@ table.filters-table
                 }                
                 .metricname
                 {
-                    a{
-                        width: 100%;
+                    a{                        
                         padding: 5px;
-                        margin: -5px;
-                        display: block;
+                        margin: -5px;                        
                     }
                     border: 1px solid #d5d5d5;                    
                     padding: 5px;
@@ -1741,6 +1726,28 @@ table.filters-table
 
         list-style: none;                    
     }    
+
+    .level_5 {
+        font-weight: bold;
+        background-color: @background_color_4;
+    }
+    .level_4 {
+        background-color: @background_color_5;
+    }
+    .level_3 {
+        background-color: @background_color_6;
+    }
+    .level_2,
+    .level_1,
+    .level_0
+    {
+        background-color: white;
+    }    
+    .level_-1 {
+        background-color: @background_color_9;
+
+    }    
+    
     list-style: none;
     padding: 0;
     margin: 0;

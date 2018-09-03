@@ -31,8 +31,8 @@
             <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css?v=${version}" />
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
             <!-- font-awesome -->
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fa-solid.css?v=${version}" />
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fa-regular.css?v=${version}" />            
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />            
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />
         </head>
 

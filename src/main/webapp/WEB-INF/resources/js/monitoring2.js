@@ -289,13 +289,13 @@ function drawUL(errorjson, table, hashindex, update) {
                             {
                                 if (value)
                                 {
-                                    html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div><a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                    html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div> <i class="samegroup fas fa-object-group" data-key="_name" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="Select identic"></i> <a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
                                 }
 
 
                             } else
                             {
-                                html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
+                                html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div> <i class="samegroup fas fa-object-group" data-key="_name" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="Select identic"></i> ' + value + '</div></div>';
                             }
                             break;
                         }
@@ -313,7 +313,6 @@ function drawUL(errorjson, table, hashindex, update) {
                             }
 
                             var value = errorjson;
-
                             $.each(path, function (i, item) {
                                 if (value)
                                 {
@@ -324,7 +323,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
                             if (value)
                             {
-                                html = html + '<div class="' + entry.replace(re, " ") + '"><div>' + value + '</div></div>';
+                                html = html + '<div class="' + entry.replace(re, " ") + '"><div><i class="samegroup fas fa-object-group" data-key="' + path.join("_") + '" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="Select identic"></i> ' + value + '</div></div>';
                             }
 
                             break;
@@ -667,6 +666,29 @@ $(document).ready(function () {
     });
 
 
+    $('body').on("click", "#Move_down", function (e) {
+
+        $("li.selected").each(function () {
+            $(this).hide("slide", {direction: "left"}, 1000, function () {
+                $(this).parent().append(this);
+                $(this).show("slide", {direction: "left"}, 1000);
+            });
+
+        });
+    });
+
+    $('body').on("click", "#Move_top", function (e) {
+
+        $("li.selected").each(function () {
+            $(this).hide("slide", {direction: "left"}, 1000, function () {
+                $(this).parent().prepend(this);
+                $(this).show("slide", {direction: "left"}, 1000);
+            });
+
+        });
+    });
+
+
 
     $("body").on("click", "#add_filter", function () {
         updateFilter();
@@ -958,10 +980,19 @@ $(document).ready(function () {
 
 
     }
-
-
-    $('body').on("click", '.monitorlist li ul li', function () {
-        $(this).toggleClass("selected");
+    $('body').on("click", '.monitorlist li ul li .samegroup', function (e) {
+        e.stopPropagation();
+        var ctrl = e.ctrlKey;
+        
+        var key = $(this).attr("data-key");
+        var value = $(this).attr("data-value");
+        if (!ctrl)
+        {
+            $(".selected").toggleClass("selected");
+        }
+        $("[data-key='" + key + "'][data-value='" + value + "']").each(function () {
+            $(this).parents("li:first").addClass("selected");
+        });
 
         if ($("#regularlist .selected").length > 0)
         {
@@ -971,6 +1002,20 @@ $(document).ready(function () {
             $(".selected-actions").hide("slide", {direction: "right"}, 1000);
         }
         $(".selected-actions .badge").text($("#regularlist .selected").length);
+    });
+
+    $('body').on("click", '.monitorlist li ul li', function (e) {
+
+        $(this).toggleClass("selected");
+        if ($("#regularlist .selected").length > 0)
+        {
+            $(".selected-actions").show("slide", {direction: "right"}, 1000);
+        } else
+        {
+            $(".selected-actions").hide("slide", {direction: "right"}, 1000);
+        }
+        $(".selected-actions .badge").text($("#regularlist .selected").length);
+
     });
 //    redrawBoard();
     $('body').on("click", 'fieldset.collapsible legend', function () {

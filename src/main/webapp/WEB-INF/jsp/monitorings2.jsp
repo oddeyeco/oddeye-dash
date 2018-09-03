@@ -236,10 +236,12 @@
             </div>      
 
             <div class="selected-actions btn-group-vertical">              
+                <button type="button" class="btn btn-secondary" id="Move_top"  data-toggle="tooltip" data-placement="left" title="Move to top"><i class="fa fas fa-angle-double-up"></i></button>
                 <button type="button" class="btn btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="Show Chart">
                     <i class="fa fas fa-chart-area"></i>                       
                 </button>
                 <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="It`s normal"><i class="fa far fa-bell-slash"></i></button>
+                <button type="button" class="btn btn-secondary" id="Move_down"  data-toggle="tooltip" data-placement="left" title="Move to bottom"><i class="fa fas fa-angle-double-down"></i></button>
                 <span class="badge bg-green">0</span>
                 <!--<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>-->
 
