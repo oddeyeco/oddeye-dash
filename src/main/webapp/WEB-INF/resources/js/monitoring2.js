@@ -337,6 +337,8 @@ function drawUL(errorjson, table, hashindex, update) {
 
         html = html + "</li>";
         $("." + table).find("ul#" + UlID).prepend(html);
+        
+        $("." + table).find("li#" + errorjson.hash).find('[data-toggle="tooltip"]').tooltip();
         $("." + table).find("li#" + errorjson.hash).show("slide", {direction: "left"}, 1000);
 
 
