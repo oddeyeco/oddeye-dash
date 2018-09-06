@@ -698,7 +698,7 @@ class ChartEditForm extends EditForm {
                                 ]},
                             
                             {tag: "div", class: "form-group form-group-custom typemap typefunnel typeline typebars", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value} replace part of the label for a Alias, Alias secondary, data respectively values"}},
                                     {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
