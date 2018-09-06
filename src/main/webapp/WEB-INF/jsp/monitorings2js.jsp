@@ -26,5 +26,5 @@
     var cp = "${cp}";
 </script> 
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
-<!--<script src="${cp}/assets/js/monitoring2.min.js?v=${version}"></script>-->
-<script src="${cp}/resources/js/monitoring2.js?v=${version}"></script>
+<script src="${cp}/assets/js/monitoring2.min.js?v=${version}"></script>
+<!--<script src="${cp}/resources/js/monitoring2.js?v=${version}"></script>-->
