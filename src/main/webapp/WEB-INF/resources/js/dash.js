@@ -653,7 +653,7 @@ var queryCallback = function (inputdata) {
 
                                 data.push({value: val, name: key, children: cildren, unit: widget.options.yAxis[yAxis].unit});
                             }
-                            series.name = series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;                                  
+                            series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;                                  
                             series.data = data;
                             series.upperLabel = {"normal": {"show": true, "height": 20}};
                             widget.options.series.push(series);
