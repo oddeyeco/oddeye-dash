@@ -188,8 +188,7 @@ function savedash() {
     dounmodifier();
 }
 
-function btnlock() {
-
+function btnlock() {        
     if ($('#btnlock').hasClass('btnunlock'))
 
     {
@@ -197,6 +196,10 @@ function btnlock() {
         {
             $('#btnlock').parents('.fulldash').toggleClass('locked');
             $('.dash_header,.text-right').hide();
+        }        
+        if ($('#btnlock').parents('.singleview').hasClass('locked'))
+        {
+            $('#btnlock').parents('.singleview').toggleClass('locked');
         }
 
         $('.dash_header,.text-right').show(500);
@@ -207,7 +210,7 @@ function btnlock() {
         delete gdd.locked;
 
     } else
-    {
+    {        
         if (dashmodifier === true) {
             $('#lockConfirm').modal('show');
             $('#lockConfirm').on('shown.bs.modal', function () {
@@ -220,6 +223,10 @@ function btnlock() {
 
                 if (!$('#btnlock').parents('.fulldash').hasClass('locked')) {
                     $('#btnlock').parents('.fulldash').toggleClass('locked');
+                }
+
+                if (!$('#btnlock').parents('.singleview').hasClass('locked')) {
+                    $('#btnlock').parents('.singleview').toggleClass('locked');
                 }
             });
 
@@ -560,7 +567,7 @@ var queryCallback = function (inputdata) {
                                     if (!widget.options.xAxis[widget.q[q_index].xAxisIndex[0]])
                                     {
                                         widget.q[q_index].xAxisIndex[0] = 0;
-                                    }                                    
+                                    }
                                     if (Array.isArray(widget.q[q_index].xAxisIndex))
                                     {
                                         m_sample = widget.options.xAxis[widget.q[q_index].xAxisIndex[0]].m_sample;
@@ -3958,6 +3965,8 @@ $(document).ready(function () {
         $('.dash_header,.text-right').hide(500, function () {
             if (!btn.parents('.fulldash').hasClass('locked'))
                 btn.parents('.fulldash').toggleClass('locked');
+            if (!btn.parents('.singleview').hasClass('locked'))
+                btn.parents('.singleview').toggleClass('locked');
         });
         btn.toggleClass('btnunlock');
         btn.find('i').toggleClass('fa-unlock');
