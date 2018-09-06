@@ -61,7 +61,7 @@ var pieformater = function (params) {
     return formatter;
 };
 var abcformater = function (params) {
-    var formatter = params.data.unit;    
+    var formatter = params.data.unit;
     if (params.data.formatter)
     {
         formatter = params.data.formatter;
@@ -97,8 +97,18 @@ var abcformater = function (params) {
     {
         formatter = window[formatter](value);
     } else
-    {     
-        formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
+    {        
+        if (params.treePathInfo)
+        {
+            if (params.treePathInfo[1])
+            {
+                formatter = formatter.replace(new RegExp("{a1}", 'g'), params.treePathInfo[1].name);
+            }
+        } else
+        {
+            formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
+        }
+
         formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
         if (typeof (valueformatter) === "function")
         {
@@ -191,7 +201,7 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
             formatter: function (params) {
-                var out = "";                
+                var out = "";
                 if (params.constructor === Array)
                 {
 
@@ -199,7 +209,7 @@ var encodeHTML = function (source) {
                     if (param.value instanceof Array)
                     {
                         firstparam = format_date(param.value[0], 1);
-                        out = "<strong>" +firstparam + " " + params[0].name+"</strong>";
+                        out = "<strong>" + firstparam + " " + params[0].name + "</strong>";
                     }
                     for (var ind in params)
                     {
@@ -237,7 +247,7 @@ var encodeHTML = function (source) {
                                 if (typeof (value) !== "string")
                                 {
                                     value = Number.isInteger(value) ? value : value.toFixed(2);
-                                }                                
+                                }
                                 if (param.data.unit.search("{value}") !== -1)
                                 {
                                     value = param.data.unit.replace("{value}", value);
@@ -255,13 +265,13 @@ var encodeHTML = function (source) {
                                 value = Number.isInteger(value) ? value : value.toFixed(2);
                             }
 
-                        }                        
-                        var tmpname =  param.seriesName;
+                        }
+                        var tmpname = param.seriesName;
                         if (param.data.hname)
                         {
-                            tmpname = tmpname+":"+param.data.hname;
+                            tmpname = tmpname + ":" + param.data.hname;
                         }
-                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + tmpname+ ' : ' + value;
+                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + tmpname + ' : ' + value;
                     }
                 } else
                 {
