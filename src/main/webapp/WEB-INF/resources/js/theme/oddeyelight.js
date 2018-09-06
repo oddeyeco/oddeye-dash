@@ -61,8 +61,7 @@ var pieformater = function (params) {
     return formatter;
 };
 var abcformater = function (params) {
-
-    var formatter = params.data.unit;
+    var formatter = params.data.unit;    
     if (params.data.formatter)
     {
         formatter = params.data.formatter;
@@ -98,7 +97,7 @@ var abcformater = function (params) {
     {
         formatter = window[formatter](value);
     } else
-    {
+    {     
         formatter = formatter.replace(new RegExp("{a1}", 'g'), params.seriesName);
         formatter = formatter.replace(new RegExp("{a2}", 'g'), params.name);
         if (typeof (valueformatter) === "function")

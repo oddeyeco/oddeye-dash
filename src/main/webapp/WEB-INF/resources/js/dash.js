@@ -188,7 +188,7 @@ function savedash() {
     dounmodifier();
 }
 
-function btnlock() {        
+function btnlock() {
     if ($('#btnlock').hasClass('btnunlock'))
 
     {
@@ -196,7 +196,7 @@ function btnlock() {
         {
             $('#btnlock').parents('.fulldash').toggleClass('locked');
             $('.dash_header,.text-right').hide();
-        }        
+        }
         if ($('#btnlock').parents('.singleview').hasClass('locked'))
         {
             $('#btnlock').parents('.singleview').toggleClass('locked');
@@ -210,7 +210,7 @@ function btnlock() {
         delete gdd.locked;
 
     } else
-    {        
+    {
         if (dashmodifier === true) {
             $('#lockConfirm').modal('show');
             $('#lockConfirm').on('shown.bs.modal', function () {
@@ -653,7 +653,7 @@ var queryCallback = function (inputdata) {
 
                                 data.push({value: val, name: key, children: cildren, unit: widget.options.yAxis[yAxis].unit});
                             }
-                            series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;
+                            series.name = key;                            
                             series.data = data;
                             series.upperLabel = {"normal": {"show": true, "height": 20}};
                             widget.options.series.push(series);
@@ -1271,6 +1271,12 @@ var queryCallback = function (inputdata) {
                         {
                             $.each(ser.data, function (i, val) {
                                 val.formatter = widget.label.parts;
+                                if (val.children)
+                                {
+                                    $.each(val.children, function (i, val2) {
+                                        val2.formatter = widget.label.parts;
+                                    });
+                                }
                             });
 
                         }
@@ -1325,7 +1331,6 @@ var queryCallback = function (inputdata) {
                         {
                             if (ser.label.normal.show || typeof (ser.label.normal.show) === "undefined")
                             {
-
                                 switch (ser.type) {
                                     case 'pie':
                                     {

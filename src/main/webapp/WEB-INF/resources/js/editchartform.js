@@ -94,6 +94,10 @@ class ChartEditForm extends EditForm {
                     $(this).parents('.edit-display').find('.custominputs >.typepie').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typepie)').fadeOut(duration);
                     break
+                case 'treemap':  // if (x === 'value2')
+                    $(this).parents('.edit-display').find('.custominputs >.typemap').fadeIn(duration);
+                    $(this).parents('.edit-display').find('.custominputs >:not(.typemap)').fadeOut(duration);
+                    break                    
                 case 'funnel':  // if (x === 'value2')
                     $(this).parents('.edit-display').find('.custominputs >.typefunnel').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typefunnel)').fadeOut(duration);
@@ -652,7 +656,7 @@ class ChartEditForm extends EditForm {
                                 ]}
                         ]},
                     {tag: "div", class: "form_main_block pull-left custominputs", content: [
-                            {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
+                            {tag: "div", class: "form-group form-group-custom typeline typebars typemap", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label Position", lfor: "display_label_pos"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "inside", options: {
                                             'top': 'Top',
@@ -678,7 +682,7 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom typepie ", content: [
+                            {tag: "div", class: "form-group form-group-custom typepie", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label Position", lfor: "display_label_pos"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "outside", options: {
                                             'outside': 'Outside',
@@ -688,8 +692,13 @@ class ChartEditForm extends EditForm {
                                         }}
 
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom typepie typefunnel typeline typebars", content: [
+                            {tag: "div", class: "form-group form-group-custom typepie", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value},{p} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
+                                    {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
+                                ]},
+                            
+                            {tag: "div", class: "form-group form-group-custom typemap typefunnel typeline typebars", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: "Label format", lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
                                     {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
@@ -699,7 +708,7 @@ class ChartEditForm extends EditForm {
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label", name: "display_label", key_path: 'label.show', default: false}
                                         ]}
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom typepie typefunnel", content: [
+                            {tag: "div", class: "form-group form-group-custom typepie typefunnel typemap", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: "Label show", lfor: "display_label_2"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_2", name: "display_label_2", key_path: 'label.show', default: true}
