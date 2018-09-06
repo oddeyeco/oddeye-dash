@@ -344,7 +344,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
     } else
     {
-        $("." + table).find("li#" + hashindex + " .info.name").effect("shake", {direction: "down", distance: 2}, "slow");
+        $("." + table).find("li#" + hashindex + " .info.metricname").effect("shake", {direction: "down", distance: 2}, "slow");
         /*
          var index = $("." + table).find("li#" + hashindex).index() % 10+1;        
          var audio = new Audio(cp+"/assets/Sounds/"+index+".mp3");
