@@ -398,17 +398,17 @@ public class OddeyeUserModel implements Serializable {
      */
     public Map<String, String> addDush(String DushName, String DushInfo, HbaseUserDao Userdao) throws Exception {
         DushList.put(DushName, DushInfo);
-//        if (!email.equals("demodemo@oddeye.co")) {
+        if (!email.equals("demodemo@oddeye.co")) {
             Userdao.saveDush(id, DushName, DushInfo);
-//        }
+        }
         return DushList;
     }
 
     public Map<String, String> removeDush(String DushName, HbaseUserDao Userdao) throws Exception {
         DushList.remove(DushName);
-//        if (!email.equals("demodemo@oddeye.co")) {
+        if (!email.equals("demodemo@oddeye.co")) {
             Userdao.removeDush(id, DushName);
-//        }
+        }
         return DushList;
     }
 
@@ -1184,17 +1184,17 @@ public class OddeyeUserModel implements Serializable {
             OptionsList = new TreeMap<>();
         }
         OptionsList.put(OptionsName, OptionsInfo);
-//        if (!email.equals("demodemo@oddeye.co")) {
+        if (!email.equals("demodemo@oddeye.co")) {
             Userdao.saveOptions(id, OptionsName, OptionsInfo);
-//        }
+        }
         return OptionsList;
     }
 
     public Map<String, String> removeOptions(String OptionsName, HbaseUserDao Userdao) throws Exception {
         OptionsList.remove(OptionsName);
-//        if (!email.equals("demodemo@oddeye.co")) {
+        if (!email.equals("demodemo@oddeye.co")) {
             Userdao.removeOptions(id, OptionsName);
-//        }
+        }
         return OptionsList;
     }
 
