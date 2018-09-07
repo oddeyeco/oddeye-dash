@@ -1785,12 +1785,12 @@ var queryCallback = function (inputdata) {
                         chart.setOption(widget.options, true);
                     }
                 } catch (e) {
-//                    console.log("***********1760*****************");
-//                    console.log(e);
-//                    console.log(widget);
-//                    console.log(uri);
-//                    console.log(data);
-//                    console.log("*******************************");
+                    console.log("***********1760*****************");
+                    console.log(e);
+                    console.log(widget);
+                    console.log(uri);
+                    console.log(data);
+                    console.log("*******************************");
                 }
 
 
