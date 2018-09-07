@@ -1239,6 +1239,12 @@ var queryCallback = function (inputdata) {
                         delete widget.options.dataZoom;
                         break;
                     }
+                    case 'treemap':
+                    {
+                        delete widget.options.dataZoom;
+                        widget.legend.show=false;
+                        break;
+                    }                    
                     default:
                     {
                         break
