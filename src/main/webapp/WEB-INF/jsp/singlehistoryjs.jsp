@@ -208,6 +208,7 @@
         $('#datatable').dataTable({
             "language": lang,
             "pagingType": "full_numbers",
+            "scrollX": true,
             "lengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]]
         });
     });

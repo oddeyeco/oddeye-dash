@@ -19,8 +19,8 @@
 
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 ">
-            <div class="x_panel"  style="height: 182px">
-                <div class="col-xs-6 col-md-6">
+            <div class="x_panel">
+                <div class="col-sm-6 col-xs-12">
                     <div class="x_content "> 
                         <div class="x_title">
                             <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/> </h2>                                         
@@ -40,8 +40,8 @@
                     </div>                    
                 </div>
                 <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
-                    <div class="col-xs-6 col-md-6 ">            
-                        <div class="x_content "> 
+                    <div class="col-sm-6 col-xs-12">            
+                        <div class="x_content ">
                             <div class="x_title">
                                 <h2><i class="fa fas fa-chart-line"></i> <spring:message code="regression.h2"/></h2>     
                                 <button class="btn btn-warning pull-right btn-sm noMargin" type="button" value="Default" id="Clear_reg"><spring:message code="clear"/></button>    
@@ -114,7 +114,7 @@
             <div class="x_panel">                                     
                 <div class="x_content" style="display: block;">
                     <!-- start List -->
-                    <table id="datatable" class="table metrictable table-striped bulk_action">
+                    <table id="datatable" class="table table-condensed metrictable table-striped bulk_action">
                         <thead>
                             <tr>
                                 <!--<th>#</th>-->
