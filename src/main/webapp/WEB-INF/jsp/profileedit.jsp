@@ -142,6 +142,7 @@
                 </div>
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"level-tab\"}">active</c:if> " id="level_content" aria-labelledby="level_content">
                     <form:form method="post" action="${cp}/profile/saveuserlevels" modelAttribute="newuserleveldata" novalidate="true" cssClass="form-horizontal form-label-left">                            
+                        <div class="table-responsive">
                         <table class="data table table-striped no-margin">
                             <thead>
                                 <tr>
@@ -172,6 +173,7 @@
                                 </c:forEach>
                             </tbody>
                         </table>
+                        </div>
                         <div class="form-group">
                             <div class="pull-right">
                                 <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>

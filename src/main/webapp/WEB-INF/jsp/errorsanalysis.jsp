@@ -119,7 +119,7 @@
                                     </a>
 
                                     <div id="collapse_${showgroup_rp}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading${showgroup_rp}" aria-expanded="true">
-                                        <div class="panel-body">
+                                        <div class="panel-body table-responsive">
                                             <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
                                                 <thead>
                                                     <tr>
