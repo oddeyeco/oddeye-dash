@@ -320,30 +320,30 @@ function fullscreenrequest(fullscreen)
         setCookie("fullscreen", true, {path: '/'});
         var right_col_style = $(".right_col").attr('style');
         setCookie("right_col_style", right_col_style, {path: '/'});
-        if (window.location.pathname.indexOf("monitoring") !== -1)
-        {
-            $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").hide();
+//        if (window.location.pathname.indexOf("monitoring") !== -1)
+//        {
+            $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").hide();
             $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('margin', "0");
             $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
             $(".profile_right").css("width", "100%");
             $RIGHT_COL.css('min-height', $(window).height());
-        } else
-        {
-            location.reload();
-        }
+//        } else
+//        {
+//            location.reload();
+//        }
     } else
     {
         setCookie("fullscreen", false, {path: '/'});
-        if (window.location.pathname.indexOf("monitoring") !== -1)
-        {
-            $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").show();
+//        if (window.location.pathname.indexOf("monitoring") !== -1)
+//        {
+            $(".nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").show();
             $(".right_col").attr('style', getCookie('right_col_style'));
-            $(".profile_right,.widgetraw,.fulldash").removeAttr('style');
+            $(".left_col,.profile_right,.widgetraw,.fulldash").removeAttr('style');
             $RIGHT_COL.css('min-height', $(window).height());
-        } else
-        {
-            location.reload();
-        }
+//        } else
+//        {
+//            location.reload();
+//        }
 
     }
 
@@ -384,7 +384,7 @@ function ModifierColor(color, angel) {
 var fullscreen = getCookie('fullscreen');
 if (fullscreen == 'true')
 {
-    $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title,.profile_left").hide();
+    $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").hide();
     var right_col_style = "";
     right_col_style = $(".right_col").attr('style');
     setCookie("right_col_style", right_col_style, {path: '/'});
