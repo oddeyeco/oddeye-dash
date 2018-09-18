@@ -106,15 +106,15 @@
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 ">
             <div class="x_panel">
-                <div id="echart_line" class="echart_line_single" style="height: 160px"></div>
+                <div id="echart_line" class="echart_line_single" style="height: 185px"></div>
             </div>
 
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12 profile_right">
             <div class="x_panel">                                     
-                <div class="x_content" style="display: block;">
+                <div class="x_content table-responsive" style="display: block;">
                     <!-- start List -->
-                    <table id="datatable" class="table table-condensed metrictable table-striped bulk_action">
+                    <table id="datatable" class="table metrictable table-striped bulk_action">
                         <thead>
                             <tr>
                                 <!--<th>#</th>-->
@@ -182,9 +182,9 @@
                         </tbody>
                     </table>     
 
-                    <!-- end of List -->                        
-                </div>
+                    <!-- end of List -->                                        
             </div>                                    
         </div>
     </div>
+</div>
 </div>
