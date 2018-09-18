@@ -163,7 +163,7 @@
                         <h2><spring:message code="metriginfo.graphicAnalysis.h2"/></h2>
                         <div class="clearfix"></div>                
                     </div>
-                    <div class="x_content">
+                    <div class="x_content table-responsive">
                         <!--<canvas id="lineChart"></canvas>-->
                         <div id="echart_line" style="height:600px;"></div>
                     </div>                    
