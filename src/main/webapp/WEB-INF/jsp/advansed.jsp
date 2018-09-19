@@ -20,7 +20,7 @@
                 <h2><spring:message code="advansed.metricInfo" arguments="${Error.getName()}"/> </h2>
                 <div class="clearfix"></div>               
             </div>
-            <div class="col-md-4 col-sm-4 col-xs-6">            
+            <div class="col-md-4 col-sm-4 col-xs-12">            
                 <div class="x_content "> 
                     <div class="x_title">
                         <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/></h2>                                         
@@ -39,7 +39,7 @@
                     </ul>                
                 </div>
             </div>                
-            <div class="col-md-4 col-sm-4 col-xs-6">            
+            <div class="col-md-4 col-sm-4 col-xs-12">            
                 <div class="x_content "> 
                     <div class="x_title">
                         <h2><i class="fa fas fa-info"></i> <spring:message code="info"/></h2>                                         
@@ -77,7 +77,7 @@
 
                 </div>
             </div> 
-            <div class="col-md-4 col-sm-4 col-xs-6">            
+            <div class="col-md-4 col-sm-4 col-xs-12">            
                 <div class="x_content "> 
                     <div class="x_title">
                         <h2><i class="fa fas fa-chart-line"></i> <spring:message code="regression.h2"/></h2>     
@@ -196,7 +196,7 @@
                 <div class="clearfix"></div>               
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12">            
-                <div class="x_content ">                
+                <div class="x_content table-responsive">                
                     <table class="table table-striped table-bordered dataTable no-footer metrictable" role="grid" aria-describedby="datatable-fixed-header_info">
                         <thead>
                             <tr>                                                        
@@ -230,7 +230,7 @@
                 <h2><spring:message code="metriginfo.graphicAnalysis.h2"/></h2>
                 <div class="clearfix"></div>                
             </div>
-            <div class="x_content">
+            <div class="x_content table-responsive">
                 <!--<canvas id="lineChart"></canvas>-->
                 <div id="echart_line" style="height:600px;"></div>
             </div>                    

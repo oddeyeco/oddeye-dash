@@ -9,7 +9,7 @@
                 <h1><spring:message code="singlechart.chartFor.h1" arguments="${cp},${metric.hashCode()},${metric.getDisplayName()},${metric.getTypeName()}"/></h1>
             </div>
             <div class="x_panel">
-                <div class="col-sm-6 col-xs-12">
+                <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="x_content "> 
                         <div class="x_title">
                             <h2><i class="fa fa-asterisk"></i> <spring:message code="tags"/></h2>
@@ -28,7 +28,7 @@
                         </ul>                
                     </div>                    
                 </div>
-                <div class="col-sm-6 col-xs-12">            
+                <div class="col-md-3 col-sm-6 col-xs-12">        
                     <div class="x_content "> 
                         <div class="x_title">
                             <h2><i class="fa fas fa-chart-line"></i> <spring:message code="regression.h2"/></h2>     
@@ -108,7 +108,7 @@
                     </div>                    
                     <div class="clearfix"></div>
                 </div>                                                
-                <div class="x_content">
+                <div class="x_content table-responsive">
                     <div id="echart_line" style="height:600px;"></div>
                 </div> 
             </div>            

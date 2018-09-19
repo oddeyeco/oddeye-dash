@@ -19,7 +19,7 @@
 
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 ">
-            <div class="x_panel">
+            <div class="x_panel panelTagsRegres">
                 <div class="col-sm-6 col-xs-12">
                     <div class="x_content "> 
                         <div class="x_title">
