@@ -7,7 +7,7 @@
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
 
 <script>
-    
+
     var locale = {
         "save": "<spring:message code="save"/>",
         "dash.backToDash": "<spring:message code="dash.backToDash"/>",
@@ -34,7 +34,7 @@
         "datetime.lastoneday": "<spring:message code="datetime.lastoneday"/>",
         "datetime.general": "<spring:message code="datetime.general"/>"
     };
-    
+
     var DtPicerlocale = {
         applyLabel: '<spring:message code="datetime.submit"/>',
         cancelLabel: '<spring:message code="datetime.clear"/>',
@@ -45,10 +45,10 @@
         daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>', '<spring:message code="tu"/>', '<spring:message code="we"/>', '<spring:message code="th"/>', '<spring:message code="fr"/>', '<spring:message code="sa"/>'],
         monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
         firstDay: 1
-    };    
-    
-    
-    
+    };
+
+
+
     var balanse = 0;
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
@@ -75,7 +75,7 @@
             abc_formatter = format_metric;
             break;
     }
-    
+
     var markPoint = {data: [
             {type: 'max', name: 'max', 'unit': s_formatter,
                 itemStyle: {color: "#ff0000"},
@@ -98,8 +98,8 @@
                     emphasis: {formatter: abc_formatter}
                 }}
         ]
-    };    
-    
+    };
+
     switch (merictype) {
         case 2:
             markPoint = {};
@@ -115,12 +115,12 @@
                         }}
                 ]
             };
-            break;     
+            break;
         default:
 
             break;
-    }    
-    
+    }
+
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var timer;
     var interval = 10000;
@@ -132,7 +132,7 @@
         }, interval);
         pickerlabel = locale["datetime.lastoneday"];
         $('#reportrange span').html(pickerlabel);
-        PicerOptionSet1.minDate = getmindate();            
+        PicerOptionSet1.minDate = getmindate();
         $('#reportrange').daterangepicker(PicerOptionSet1, cb);
 
         $('body').on("click", "#Clear_reg", function () {
@@ -202,7 +202,7 @@
         $.getJSON(uri, null, function (data) {
             var chdata = [];
             var chdataMath = [];
-            
+
             for (var k in data.chartsdata) {
                 var chartline = data.chartsdata[k];
                 for (var ind in chartline.data) {
@@ -221,7 +221,7 @@
             };
 
             var series = [{
-                    name: chartline ? chartline.metric :"b",
+                    name: chartline ? chartline.metric : "b",
                     type: 'line',
                     areaStyle: {
                         normal: {opacity: 0.4}
@@ -271,7 +271,7 @@
                         containLabel: true
                     };
                     series = [{
-                            name: chartline ? chartline.metric :"",
+                            name: chartline ? chartline.metric : "",
                             type: 'line',
                             areaStyle: {
                                 normal: {opacity: 0.4}
@@ -294,11 +294,10 @@
                     break;
             }
 
-
             chart.hideLoading();
             chart.setOption({
                 title: {
-                    text: chartline ? chartline.metric :"",
+                    text: chartline ? chartline.metric : "",
                 },
                 tooltip: {
                     trigger: 'axis'

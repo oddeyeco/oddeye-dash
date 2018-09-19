@@ -2,14 +2,15 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
+<script src="${cp}/resources/js/kalman.js?v=${version}"></script>
 <!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
 <script>
     var chartsdata = ${data};
-    var p_data = ${p_data};    
+    var p_data = ${p_data};
 </script>
 
-<script>    
+<script>
     var merictype = ${metric.getType().ordinal()};
     var formatter = format_metric;
     var s_formatter = "{value} %";
@@ -69,14 +70,28 @@
         });
 
         var serie2 = clone_obg(defserie);
-        serie2.name = "Data of current hour";
+        serie2.name = "Master data";
         serie2.type = "line";
         serie2.data = chartsdata;
         serie2.xAxisIndex = 1;
-//        serie2.lineStyle = {};
-//        serie2.lineStyle.width = 5;
-//        serie2.tooltip = {trigger: 'axis'};
         series.push(serie2);
+
+
+        var kalmanFilter = new KalmanFilter({R: 0.01, Q: 1});
+//            console.log(series[0].data);
+        var dataKalman = chartsdata.map(function (v) {
+            var localjson = clone_obg(v);
+            localjson.value[1] = kalmanFilter.filter(v.value[1]);
+            return localjson;
+        });
+//            console.log(dataKalman);
+        var localser = clone_obg(serie2);
+        localser.name = "Kalman filter data";
+        localser.data = dataKalman;
+        series.push(localser);
+
+        console.log(series);
+
         var serieLinereg = clone_obg(defserie);
         serieLinereg.name = "Predicted by regression";
         serieLinereg.type = "line";
@@ -95,7 +110,7 @@
         serie.itemStyle = {normal: {borderColor: colorPalette[2], color: "rgba(200, 200, 200, 0.7)", borderWidth: 4}};
         series.push(serie);
         serie = clone_obg(serie);
-        legend = ["Rule info", "Predicted by regression", "Data of current hour"];
+        legend = ["Rule info", "Predicted by regression", "Master data", "Kalman filter data"];
         echartLine.setOption({
             title: {
                 text: ""
@@ -152,6 +167,13 @@
                     start: 0,
                     end: 100
                 }],
+            grid: {
+                left: 0,
+                right: 20,
+                top: 30,
+                bottom: 5,
+                containLabel: true
+            },
             series: series
         });
 
@@ -175,8 +197,10 @@
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                setTimeout(function (){location.reload();}, 1000);
-                
+                setTimeout(function () {
+                    location.reload();
+                }, 1000);
+
             } else
             {
                 alert("Request failed");
