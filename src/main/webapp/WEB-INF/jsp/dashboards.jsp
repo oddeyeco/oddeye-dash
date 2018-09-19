@@ -42,12 +42,12 @@
         <div class="x_panel">    
             <div class="x_title">
                 <div class="row">
-                    <div class="col-md-6 col-xs-12">
+                    <div class="col-md-6 col-xs-12 pull-left">
                      <h2><spring:message code="dashboards.statistic"/></h2>
                     </div>         
-                    <div class="col-md-6">
-                     <div class="col-xs-6"><a id="Get_Agent" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true" />" target="_blank" ><spring:message code="dashboards.getAgent"/></a></div>
-                     <div class="col-xs-6"><a id="Agent_Guide" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/"  htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.guideAgent"/></a></div>
+                    <div class="col-md-6 col-xs-12">
+                    <a id="Get_Agent" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true" />" target="_blank" ><spring:message code="dashboards.getAgent"/></a>
+                    <a id="Agent_Guide" class="idcheck btn btn-success btn-sm pull-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/"  htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.guideAgent"/></a>
                     </div>
                 </div>
                 <div class="clearfix"></div>
