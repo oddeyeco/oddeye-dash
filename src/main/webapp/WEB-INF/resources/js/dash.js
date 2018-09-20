@@ -653,7 +653,7 @@ var queryCallback = function (inputdata) {
 
                                 data.push({value: val, name: key, children: cildren, unit: widget.options.yAxis[yAxis].unit});
                             }
-                            series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;                                  
+                            series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;
                             series.data = data;
                             series.upperLabel = {"normal": {"show": true, "height": 20}};
                             widget.options.series.push(series);
@@ -877,7 +877,7 @@ var queryCallback = function (inputdata) {
                     }
 
                 }
-
+                // Second part
                 if (widget.options.xAxis[xAxis_Index].type === "time")
                 {
                     if (end === "now")
@@ -889,7 +889,18 @@ var queryCallback = function (inputdata) {
                     }
                     if (subtractlist[start])
                     {
-                        widget.options.xAxis[xAxis_Index].min = moment(widget.options.xAxis[xAxis_Index].max).subtract(subtractlist[start][0], subtractlist[start][1]).valueOf();
+                        switch (widget.type) {
+                            case 'line':
+                            {
+                                widget.options.xAxis[xAxis_Index].min = moment(widget.options.xAxis[xAxis_Index].max).subtract(subtractlist[start][0], subtractlist[start][1]).valueOf();
+                                break;
+                            }
+                            default:
+                            {
+                                delete widget.options.xAxis[xAxis_Index].min;
+                                break
+                            }
+                        }
                     } else
                     {
                         if (moment(start).isValid())
@@ -1242,9 +1253,9 @@ var queryCallback = function (inputdata) {
                     case 'treemap':
                     {
                         delete widget.options.dataZoom;
-                        widget.options.legend.show=false;
+                        widget.options.legend.show = false;
                         break;
-                    }                    
+                    }
                     default:
                     {
                         break
@@ -1596,42 +1607,6 @@ var queryCallback = function (inputdata) {
 
                 if (widget.manual)
                 {
-//                    for (var oldkey in oldseries)
-//                    {
-//                        for (var sind in widget.options.series)
-//                        {
-//                            if (widget.options.series[sind].name === oldseries[oldkey].name)
-//                            {
-//
-//                                for (var key in oldseries[oldkey]) {
-//                                    if (key === "data")
-//                                    {
-////                                        if (oldseries[oldkey].type === "gauge")
-////                                        {
-////                                            for (i = 0; i < widget.options.series[sind].data.length; i++)
-////                                            {
-////                                                widget.options.series[sind].data[i].subname = oldseries[sind].data[i].subname;
-////                                                widget.options.series[sind].data[i].name = oldseries[sind].data[i].name;
-////                                            }
-//
-////                                        }
-//                                        continue;
-//                                    }
-//                                    if (key === "axisLabel")
-//                                    {
-//                                        console.log(widget.options.series[sind][key]);
-//                                    }
-//
-//
-//                                    widget.options.series[sind][key] = oldseries[oldkey][key];
-//                                    widget.options.series[sind].restored = true;
-//                                }
-//                                delete oldseries[oldkey];
-//                                break;
-//                            }
-//                        }
-//                    }
-
                     for (var oldkey in oldseries)
                     {
                         for (var sind in widget.options.series)
@@ -1761,8 +1736,7 @@ var queryCallback = function (inputdata) {
                         widget.options.legend.data = tmpLegendSer;
                     }
                 }
-//*************************************            
-//            console.log(widget.options.series);
+//*************************************                        
                 try {
                     if (redraw)
                     {
