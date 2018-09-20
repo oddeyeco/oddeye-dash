@@ -207,10 +207,11 @@
 
         $('#datatable').dataTable({
             "language": lang,
-            "pagingType": "full_numbers",
-            //"scrollX": true,
+            "pagingType": "full_numbers",            
             "lengthMenu": [[25, 50, 100, 200, -1], [25, 50, 100, 200, "All"]]
         });
+        $RIGHT_COL.css('min-height', $(window).height());
+        
     });
     window.onresize = echartLine.resize;
 
