@@ -427,7 +427,7 @@ function reDrawErrorList(listJson, listclass, errorjson)
             {
                 array_regular[indexregular] = errorjson;
                 drawUL(array_regular[indexregular], listclass, array_regular[indexregular].hash, true);
-            }
+            }            
         } else
         {
             if (indexregular !== -1)
@@ -438,12 +438,14 @@ function reDrawErrorList(listJson, listclass, errorjson)
             var hash_r = errorjson.hash;
             $("." + listclass).find("li#" + hash_r).hide("slide", {direction: "left"}, 1000, function () {
                 $("." + listclass).find("li#" + hash_r).remove();
-                $("." + listclass).remove(".ui-effects-placeholder");
+                $("." + listclass).find(".ui-effects-placeholder").remove();                                
             });
-
+//            console.log($("." + listclass).find(".ui-effects-placeholder").length);
         }
     } else
     {
+//        console.log($("." + listclass).remove(".ui-effects-placeholder").length);
+
         var indexspec = findeByhash(errorjson, array_spec);
         if (filtred)
         {
@@ -473,9 +475,9 @@ function reDrawErrorList(listJson, listclass, errorjson)
             errorjson.index = 0;
             var hash_s = errorjson.hash;
             $("." + listclass).find("li#" + hash_s).fadeOut(400, function () {
-                $("." + listclass).find("li#" + hash_s).remove();
-            });
-
+                $("." + listclass).find("li#" + hash_s).remove();                
+                $("." + listclass).find(".ui-effects-placeholder").remove();
+            });            
         }
     }
 }
