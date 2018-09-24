@@ -477,6 +477,13 @@ var queryCallback = function (inputdata) {
 
                                     }
                                 }
+                                                                
+//                                if ((Object.keys(data.chartsdata).length === 1) &&(count.base === 1))
+//                                {
+//                                    series.itemStyle = {normal: {color: function (params) {
+//                                                return colorPalette[params.dataIndex % colorPalette.length];
+//                                            }}};
+//                                }
                                 var yAxis = 0;
                                 if (series.yAxisIndex)
                                 {
@@ -520,6 +527,7 @@ var queryCallback = function (inputdata) {
                                 widget.options.series.push(series);
                             }
                         }
+
                     }
 
                     if (widget.options.xAxis[xAxis_Index].type === "category")
