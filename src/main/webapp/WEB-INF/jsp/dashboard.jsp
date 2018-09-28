@@ -152,7 +152,7 @@
     <div id="dash_main">
         <div id="filter" class="filter raw">
             <div class="pull-right smpadding">
-                <div id="minimize" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title='Hide Filter'>                        
+                <div id="minimize" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title="<spring:message code="dash.title.hideFilter"/>">                        
                     <i class="fa fa fa-eye-slash" ></i>
                 </div>
                 <div id="btnlock" class="pull-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
@@ -243,8 +243,8 @@
 
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
-                <input type="button" id="applyrowjson" class="btn btn-ok" value="Apply">
+                <input   type="button" class="btn btn-default" data-dismiss="modal"value="<spring:message code="close"/>">
+                <input type="button" id="applyrowjson" class="btn btn-ok" value="<spring:message code="apply"/>">
             </div>
         </div>
     </div>

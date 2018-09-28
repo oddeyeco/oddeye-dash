@@ -37,7 +37,8 @@
         "contains":"<spring:message code="contains"/>",
         "doesntContain":"<spring:message code="doesntContain"/>",
         "equal":"<spring:message code="equal"/>",
-        "notEqual":"<spring:message code="notEqual"/>"   
+        "notEqual":"<spring:message code="notEqual"/>",
+        "title.selectIdentic":"<spring:message code="title.selectIdentic"/>"
         };        
 </script> 
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>

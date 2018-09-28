@@ -188,8 +188,8 @@
                             <div class="add-notifier">
                                 <label for="addNotifier" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addNotifier"/></label>
                                 <select class="add_notifier_select col-sm-8" id="addNotifier"><option value="">&nbsp;</option>
-                                    <option value="email" fname="E-mail address"><spring:message code="monitorings2.addNotifierEmail"/></option>
-                                    <option value="telegram"  fname="Telegram chat ID"><spring:message code="monitorings2.addNotifierTelegram"/></option>                                
+                                    <option value="email" fname="<spring:message code="monitorings2.addressEmail"/>"><spring:message code="monitorings2.addNotifierEmail"/></option>
+                                    <option value="telegram"  fname="<spring:message code="monitorings2.chatIdTelegram"/>"><spring:message code="monitorings2.addNotifierTelegram"/></option>                                
                                 </select>
                             </div>                            
                             <div class="defined_notifier">
@@ -237,12 +237,10 @@
             </div>      
 
             <div class="selected-actions btn-group-vertical">              
-                <button type="button" class="btn btn-secondary" id="Move_top"  data-toggle="tooltip" data-placement="left" title="Move to top"><i class="fa fas fa-angle-double-up"></i></button>
-                <button type="button" class="btn btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="Show Chart">
-                    <i class="fa fas fa-chart-area"></i>                       
-                </button>
-                <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="Reduce Severity"><i class="fa far fa-bell-slash"></i></button>
-                <button type="button" class="btn btn-secondary" id="Move_down"  data-toggle="tooltip" data-placement="left" title="Move to bottom"><i class="fa fas fa-angle-double-down"></i></button>
+                <button type="button" class="btn btn-secondary" id="Move_top"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.top"/>"><i class="fa fas fa-angle-double-up"></i></button>
+                <button type="button" class="btn btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="<spring:message code="dash.show.chart"/>"><i class="fa fas fa-chart-area"></i></button>
+                <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.reduceSeverity"/>"><i class="fa far fa-bell-slash"></i></button>
+                <button type="button" class="btn btn-secondary" id="Move_down"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.bottom"/>"><i class="fa fas fa-angle-double-down"></i></button>
                 <span class="badge bg-green">0</span>
                 <!--<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>-->
 

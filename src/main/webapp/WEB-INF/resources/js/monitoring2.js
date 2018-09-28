@@ -122,7 +122,7 @@ function findeBy_ihash(hash, array) {
     return -1;
 }
 
-function drawUL(errorjson, table, hashindex, update) {
+function drawUL(errorjson, table, hashindex, update) {    
     if (typeof (hashindex) === "undefined")
     {
         hashindex = null;
@@ -192,7 +192,7 @@ function drawUL(errorjson, table, hashindex, update) {
         console.log(errorjson.info.name + " " + errorjson.flap);
         eRclass = eRclass + " flapdetect";
     }
-
+    
     if (!update)
     {
         var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + moment().format("x") + '">';
@@ -278,7 +278,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
                         case  "levelname":
                         {
-                            html = html + '<div class="label label-info level inline">' + errorjson.levelname + '</div>';
+                            html = html + '<div class="label label-info level inline">' + locale['level_'+errorjson.level]  + '</div>';
                             break;
                         }
                         //html = html + "<div><span class='timeinterval'>0</span> <span class='refreshes'>1</span></div>";
@@ -289,13 +289,13 @@ function drawUL(errorjson, table, hashindex, update) {
                             {
                                 if (value)
                                 {
-                                    html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div> <i class="samegroup fas fa-object-group" data-key="_name" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="Select identic"></i> <a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
+                                    html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div> <i class="samegroup fas fa-object-group" data-key="_name" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="'+ locale['title.selectIdentic'] +'"></i> <a href="' + cp + '/metriq/' + errorjson.hash + '" target="_blank">' + value + '</a></div></div>';
                                 }
 
 
                             } else
                             {
-                                html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div> <i class="samegroup fas fa-object-group" data-key="_name" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="Select identic"></i> ' + value + '</div></div>';
+                                html = html + '<div class="metricname ' + entry.replace(re, " ") + '"><div> <i class="samegroup fas fa-object-group" data-key="_name" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="'+ locale["title.selectIdentic"] +'"></i> ' + value + '</div></div>';
                             }
                             break;
                         }
@@ -323,7 +323,7 @@ function drawUL(errorjson, table, hashindex, update) {
 
                             if (value)
                             {
-                                html = html + '<div class="' + entry.replace(re, " ") + '"><div><i class="samegroup fas fa-object-group" data-key="' + path.join("_") + '" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title="Select identic"></i> ' + value + '</div></div>';
+                                html = html + '<div class="' + entry.replace(re, " ") + '"><div><i class="samegroup fas fa-object-group" data-key="' + path.join("_") + '" data-value="' + value + '" data-toggle="tooltip" data-placement="top" title ="'+ locale["title.selectIdentic"]+'"></i> ' + value + '</div></div>';
                             }
 
                             break;
@@ -357,7 +357,7 @@ function drawUL(errorjson, table, hashindex, update) {
         //var eRclass = "level_" + errorjson.level;
 
 //            .attr("class", eRclass);
-        $("." + table).find("li#" + hashindex + " .level").html(errorjson.levelname);
+        $("." + table).find("li#" + hashindex + " .level").html(locale['level_'+errorjson.level]);
         var st = errorjson.starttimes[errorjson.level] ? errorjson.starttimes[errorjson.level] : errorjson.time;
         var lt = errorjson.time;
         $("." + table).find("li#" + hashindex + " .duration").html(moment.duration(lt - st).humanize());
