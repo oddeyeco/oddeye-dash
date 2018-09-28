@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global moment, cp, headerName, token, uuid, sotoken, filterOldJson */
+/* global moment, cp, headerName, token, uuid, sotoken, filterOldJson ,*/
 
 var socket;
 var stompClient;
@@ -13,8 +13,8 @@ var errorlistJson = {};
 var array_regular = [];
 var array_spec = [];
 //var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option><option value='!*'>none</option><option value='*'>any</option> <option value='regexp'>RegExp true</option><option value='regexp'>RegExp false</option>";
-var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option>";
-var eniumop = "<option value='='>is</option><option value='!'>is not</option>";
+var strop = "<option value='~'>" + locale['contains'] + "</option><option value='!~'>" + locale['doesntContain'] + "</option><option value='=='>" + locale['equal'] + "</option><option value='!='>" + locale['notEqual'] + "</option>";
+var eniumop = "<option value='='>" + locale['is'] + "</option><option value='!'>" + locale['isNot'] + "</option>";
 function redrawBoard() {
     $(".monitorlist ul").html("");
     if (Object.keys(errorlistJson).length > 0)
@@ -828,7 +828,7 @@ $(document).ready(function () {
         {
 
             row.append('<td class="action"><select class="operators_' + $(this).find(':selected').attr("value") + '" name="op[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + ']">' + eniumop + '</select> </td>');
-            row.append('<td class="value"><select class="value" id="values_' + $(this).find(':selected').attr("value") + '_1" name="v[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + '][]" multiple="multiple" size="4"><option value="0">All</option><option value="1">Low</option><option value="2">Guarded</option><option value="3">Elevated</option><option value="4">High</option><option value="5">Severe</option></select></td>');
+            row.append('<td class="value"><select class="value" id="values_' + $(this).find(':selected').attr("value") + '_1" name="v[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + '][]" multiple="multiple" size="4"><option value="0">' + locale["level_0"] + '</option><option value="1">' + locale["level_1"] + '</option><option value="2">' + locale["level_2"] + '</option><option value="3">' + locale["level_3"] + '</option><option value="4">' + locale["level_4"] + '</option><option value="5">' + locale["level_5"] + '</option></select></td>');
         } else
         {
             row.append("<td class='action'> <select class='operators_subject' name='op[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "'>" + strop + " </select> </td>");
@@ -901,12 +901,12 @@ $(document).ready(function () {
 
             row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
             row.append('<td class="value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
-                    '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>All</option>' +
-                    '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>Low</option>' +
-                    '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>Guarded</option>' +
-                    '<option value="3" ' + (levels.indexOf("3") !== -1 ? ' selected="selected" ' : "") + '>Elevated</option>' +
-                    '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>High</option>' +
-                    '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + ' >Severe</option>' +
+                    '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_0"] + '</option>' +
+                    '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_1"] + '</option>' +
+                    '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_2"] + '</option>' +
+                    '<option value="3" ' + (levels.indexOf("3") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_3"] + '</option>' +
+                    '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_4"] + '</option>' +
+                    '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_5"] + '</option>' +
                     '</select></td>');
         }
         $(".card-fields.value .f_col option").prop('selected', 'selected');
@@ -939,12 +939,12 @@ $(document).ready(function () {
                     row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
                     row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
                     row.append('<td class="value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
-                            '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>All</option>' +
-                            '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>Low</option>' +
-                            '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>Guarded</option>' +
-                            '<option value="3" ' + (levels.indexOf("3") !== -1 ? ' selected="selected" ' : "") + '>Elevated</option>' +
-                            '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>High</option>' +
-                            '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + ' >Severe</option>' +
+                            '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_0"] + '</option>' +
+                            '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_1"] + '</option>' +
+                            '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_2"] + '</option>' +
+                            '<option value="3" ' + (levels.indexOf("3") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_3"] + '</option>' +
+                            '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_4"] + '</option>' +
+                            '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_5"] + '</option>' +
                             '</select></td>');
                 } else
                 {

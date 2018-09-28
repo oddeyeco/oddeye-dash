@@ -1,3 +1,4 @@
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -74,8 +75,8 @@
                                     <div class="add-filter">
                                         <label for="all_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
                                         <select class="add_filter_select col-sm-8" id="allfilter"><option value="">&nbsp;</option>
-                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="metricName"/></option>
-                                            <option value="level" fname="Level" alias="level"><spring:message code="level"/></option>                                
+                                            <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
+                                            <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="Tags">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
@@ -94,8 +95,8 @@
                                     <div class="add-filter">
                                         <label for="ml_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
                                         <select class="add_filter_select col-sm-8" id="mlfilter"><option value="">&nbsp;</option>
-                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="metricName"/></option>
-                                            <option value="level" fname="Level" alias="level"><spring:message code="level"/></option>                                
+                                            <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
+                                            <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="Tags">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
@@ -114,8 +115,8 @@
                                     <div class="add-filter">
                                         <label for="manual_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
                                         <select class="add_filter_select col-sm-8" id="manualfilter"><option value="">&nbsp;</option>
-                                            <option value="info.name" fname="Metric Name" alias="metric"><spring:message code="metricName"/></option>
-                                            <option value="level" fname="Level" alias="level"><spring:message code="level"/></option>                                
+                                            <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
+                                            <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="Tags">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
