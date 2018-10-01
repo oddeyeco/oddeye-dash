@@ -66,7 +66,7 @@
 
             <div id="query_form_content">
                 <form class="form-options">
-                    <fieldset id="filters" class="collapsible collapsed">
+                    <fieldset id="filters" class="collapsible collapsed">                        
                         <legend><i class="action fa fas fa-chevron-down"></i><spring:message code="monitorings2.filters"/></legend>
                         <div class="filter-body">
                             <div class="filters row">
@@ -77,10 +77,10 @@
                                         <select class="add_filter_select col-sm-8" id="allfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                             <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
-                                            <optgroup label="Tags">
+                                            <optgroup label="<spring:message code="optionsTags"/>">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                    <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                    <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
                                                 </c:forEach>                                
                                             </optgroup>
                                         </select>
@@ -97,10 +97,10 @@
                                         <select class="add_filter_select col-sm-8" id="mlfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                             <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
-                                            <optgroup label="Tags">
+                                            <optgroup label="<spring:message code="optionsTags"/>">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                    <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                    <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
                                                 </c:forEach>                                
                                             </optgroup>
                                         </select>
@@ -117,10 +117,10 @@
                                         <select class="add_filter_select col-sm-8" id="manualfilter"><option value="">&nbsp;</option>
                                             <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                             <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
-                                            <optgroup label="Tags">
+                                            <optgroup label="<spring:message code="optionsTags"/>">
                                                 <c:forEach items="${list}" var="tagitem">   
                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                    <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                    <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
                                                 </c:forEach>                                
                                             </optgroup>
                                         </select>
@@ -163,11 +163,11 @@
                                                 </option>                                                                                                    
                                                 <option value="info"  key="info" label="Info"><spring:message code="info"/>
                                                 </option>                                                          
-                                                <optgroup label="Tags">
+                                                <optgroup label="<spring:message code="optionsTags"/>">
                                                     <c:forEach items="${list}" var="tagitem">   
                                                         <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
                                                         <option value="info_tags_${tagitem.key}_value"
-                                                                key="info.tags.${tagitem.key}.value" label="${text}"> ${text} (${tagitem.value.size()}) </option>
+                                                                key="info.tags.${tagitem.key}.value" label="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
                                                 </optgroup>
                                                 <option value="message" key="message" label="message"><spring:message code="monitorings2.displayFieldsMessage"/>

@@ -98,14 +98,14 @@
                                                     <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                                               
+
                                                             ${option.key}                                                             
                                                         </a>
 
                                                     </li>
                                                 </c:forEach>                                                
 
-                                                    <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a></li>
+                                                <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a></li>
                                             </ul>
                                         </li>                                        
                                         <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
@@ -226,7 +226,7 @@
                                                 <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li>
                                                 </c:if>
                                                 <c:url value="/logout/" var="logoutUrl" />
-                                                <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="logout"/> </a></li>
+                                            <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="logout"/> </a></li>
                                         </ul>
                                     </li>
                                     <!--                                    <li role="presentation" class="dropdown">
@@ -391,7 +391,11 @@
             <!-- Bootstrap -->
             <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>
             <!-- moment.js -->
-            <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>        
+            <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>
+            <c:if test="${not empty pageContext.response.locale}" >
+                <script src="${cp}/resources/js/moment/locale/${pageContext.response.locale}.js?v=${version}"></script>
+            </c:if>            
+
             <!--bootstrap-progressbar--> 
             <script src="${cp}/resources/bootstrap-progressbar/bootstrap-progressbar.min.js?v=${version}"></script>
             <!--iCheck--> 
@@ -486,6 +490,13 @@
                  &noscript=1"/>
             </noscript>
             <!-- End Facebook Pixel Code -->
+            <c:if test="${not empty pageContext.response.locale}" >
+                <script>
+                    moment.locale('${pageContext.response.locale}');
+                </script>
+            </c:if>              
+            
+            
         </body>
     </html>
 </compress:html>
