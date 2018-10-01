@@ -148,7 +148,7 @@
                                     <td class="level" >
                                         <div>
                                             <c:if test="${listitem.getLevel()>-1}">
-                                                ${listitem.getLevelName()}
+                                              ${listitem.getLevelName()}  <!--<%--<spring:message code="level_${listitem.getLevel()}"/>--%>-->
                                             </c:if>
                                             <c:if test="${listitem.getLevel()==-1}">
                                                 <spring:message code="singlehistory.ok"/>
