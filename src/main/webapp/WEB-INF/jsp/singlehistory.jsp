@@ -132,7 +132,7 @@
                             <c:set value="${dateValue.getTime()}" var="lasttime"/>
                             <c:forEach items="${list}" var="listitem" varStatus="loop">   
                                 <tr class="level_${listitem.getLevel()}" level="${listitem.getLevel()}" time="${listitem.getTime()}">
-                                    <td>
+                                    <td class="col-xs-1">
                                         <c:set value="" var="arrowclass"/>
                                         <c:set value="red" var="color"/>
                                         <c:if test="${listitem.getState()==2}">
@@ -145,10 +145,10 @@
                                         </c:if>                                        
                                         <i class="action fa ${arrowclass}" style="color:${color};"></i>
                                     </td>                                    
-                                    <td class="level" >
+                                    <td class="level col-xs-1" >
                                         <div>
                                             <c:if test="${listitem.getLevel()>-1}">
-                                              ${listitem.getLevelName()}  <!--<%--<spring:message code="level_${listitem.getLevel()}"/>--%>-->
+                                             <spring:message code="level_${listitem.getLevel()}"/>
                                             </c:if>
                                             <c:if test="${listitem.getLevel()==-1}">
                                                 <spring:message code="singlehistory.ok"/>
