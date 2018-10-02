@@ -23,7 +23,7 @@ class EditForm {
             checked = this.dashJSON.rows[this.row]["widgets"][this.index].manual;
         }
 
-        this.formwraper.append('<div class="pull-right tabcontrol"><label class="control-label" >JSON Manual Edit:</label>' +
+        this.formwraper.append('<div class="pull-right tabcontrol"><label class="control-label" >' + locale["editform.jsonManualEdit"] + '</label>' +
                 '<div class="checkbox" style="display: inline-block">' +
                 '<input type="checkbox" class="js-switch-small"  chart_prop_key="manual" id="manual" name="manual" key_path="manual" /> ' +
                 '</div> '
@@ -586,9 +586,9 @@ class EditForm {
 
     get tabs()
     {
-        return [{id: "general-tab", title: "General", contentid: "tab_general"},
-            {id: "metrics-tab", title: "Metrics", contentid: "tab_metric"},
-            {id: "json-tab", title: "Json", contentid: "tab_json"}
+        return [{id: "general-tab", title: locale["editchartform.general"], contentid: "tab_general"},
+            {id: "metrics-tab", title: locale["editchartform.metrics"], contentid: "tab_metric"},
+            {id: "json-tab", title: locale["editchartform.json"], contentid: "tab_json"}
         ];
     }
 
@@ -794,7 +794,7 @@ class EditForm {
 
     get privaterefreshtimes() {
         return {
-            "General": "Refresh General",
+            "locale['editchartform.general']": "Refresh General",
             "off": "Refresh Off",
             " 5000": "Refresh every 5s",
             " 10000": "Refresh every 10s",

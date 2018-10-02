@@ -113,14 +113,14 @@ class ChartEditForm extends EditForm {
 
     gettabs()
     {
-        return [{id: "general-tab", title: "General", contentid: "tab_general"},
-            {id: "metrics-tab", title: "Metrics", contentid: "tab_metric"},
-            {id: "axes-tab", title: "Axes", contentid: "tab_axes"},
-            {id: "data_zoom_tab", title: "Data Zoom", contentid: "tab_data_zoom"},
-            {id: "legend-tab", title: "Legend", contentid: "tab_legend"},
-            {id: "display-tab", title: "Display", contentid: "tab_display"},
-            {id: "time-tab", title: "Time Range", contentid: "tab_time"},
-            {id: "json-tab", title: "Json", contentid: "tab_json"}
+        return [{id: "general-tab", title: locale["editchartform.general"], contentid: "tab_general"},
+            {id: "metrics-tab", title: locale["editchartform.metrics"], contentid: "tab_metric"},
+            {id: "axes-tab", title: locale["editchartform.axes"], contentid: "tab_axes"},
+            {id: "data_zoom_tab", title: locale["editchartform.dataZoom"], contentid: "tab_data_zoom"},
+            {id: "legend-tab", title: locale["editchartform.legend"], contentid: "tab_legend"},
+            {id: "display-tab", title: locale["editchartform.display"], contentid: "tab_display"},
+            {id: "time-tab", title: locale["editchartform.timeRange"], contentid: "tab_time"},
+            {id: "json-tab", title: locale["editchartform.json"], contentid: "tab_json"}
         ];
     }
 
@@ -136,7 +136,7 @@ class ChartEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
-        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: 'Info', checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'title.show', default: true}}};
+        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"], checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'title.show', default: true}}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
