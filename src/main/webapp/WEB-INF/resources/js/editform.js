@@ -360,16 +360,16 @@ class EditForm {
     }
     get targetoptions()
     {
-        return {"": "&nbsp;", "self": "Self", "blank": "Blank"};
+        return {"": "&nbsp;", "self": locale["editchartform.self"], "blank": locale["editchartform.blank"] };
     }
 
     get xpositionoptions()
     {
-        return {"": "&nbsp;", "center": "Center", "left": "Left", "right": "Right"};
+        return {"": "&nbsp;", "center": locale["editchartform.center"], "left": locale["editchartform.left"], "right": locale["editchartform.right"]};
     }
     get ypositionoptions()
     {
-        return {"": "&nbsp;", "center": "Center", "top": "Top", "bottom": "Bottom"};
+        return {"": "&nbsp;", "center": locale["editchartform.center"], "top": locale["editchartform.top"], "bottom": locale["editchartform.bottom"]};
     }
     get spanoptions()
     {
@@ -598,13 +598,13 @@ class EditForm {
         this.tabcontent.tab_general = {};
         this.tabcontent.tab_metric = {};
         this.tabcontent.tab_json = {};
-        var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_dimensions", label: {show: true, text: 'Dimensions', checker: false}};
+        var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_dimensions", label: {show: true, text: locale["editchartform.dimensions"], checker: false}};
         edit_dimensions.content = [{tag: "div", class: "form-group form-group-custom", content: [
-                    {tag: "label", class: "control-label control-label-custom", text: "Span", lfor: "dimensions_span"},
+                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.span"], lfor: "dimensions_span"},
                     {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
                 ]},
             {tag: "div", class: "form-group form-group-custom", content: [
-                    {tag: "label", class: "control-label control-label-custom", text: "Height", lfor: "dimensions_height"},
+                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.height"], lfor: "dimensions_height"},
                     {tag: "input", type: "text", class: "form-control dimensions_input", prop_key: "height", id: "dimensions_height", name: "dimensions_height", key_path: 'height', default: "300px"}
                 ]}
         ];
@@ -613,41 +613,41 @@ class EditForm {
         var edit_q = {tag: "div", class: 'forms', id: "edit_q"};
         var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
                     {tag: "div", class: "form-group form-group-custom forinside", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Disabled", lfor: "metric_check_disabled"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.disabled"], lfor: "metric_check_disabled"},
                             {tag: "input", type: "checkbox", class: "js-switch-small metric_check_disabled", prop_key: "check_disabled", id: "{index}_metric_check_disabled", name: "metric_check_disabled", key_path: 'check_disabled', default: false}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Tags", lfor: "tags"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["tags"], lfor: "tags"},
                             {tag: "div", class: "data-label tags", prop_key: "tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label tags", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Metrics", lfor: "metrics"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["metrics"], lfor: "metrics"},
                             {tag: "div", class: "data-label metrics", prop_key: "metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "aggregator"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.aggregator"], lfor: "aggregator"},
                             {tag: "select", class: "form-control query_input aggregator", prop_key: "aggregator", id: "{index}_aggregator", name: "aggregator", key_path: 'info.aggregator', default: "", options: this.aggregatoroptions},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Alias", lfor: "alias", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.alias"], lfor: "alias", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
                             {tag: "input", type: "text", class: "form-control query_input alias", prop_key: "alias", id: "{index}_alias", name: "alias", key_path: 'info.alias', default: ""},
-                            {tag: "label", class: "control-label", text: "Alias secondary", lfor: "alias2", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
+                            {tag: "label", class: "control-label", text: locale["editchartform.aliasSecondary"], lfor: "alias2", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
                             {tag: "input", type: "text", class: "form-control query_input alias2", prop_key: "alias2", id: "{index}_alias2", name: "alias2", key_path: 'info.alias2', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Down sample", lfor: "down-sample"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.downSample"], lfor: "down-sample"},
                             {tag: "input", type: "text", class: "form-control query_input down-sample-time", prop_key: "time", id: "{index}_down-sample-time", name: "down-sample-time", key_path: 'info.ds.time', default: ""},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "down-sample-aggregator"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.aggregator"], lfor: "down-sample-aggregator"},
                             {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: EditForm.aggregatoroptions2},
-                            {tag: "label", class: "control-label", text: "Disable downsampling", lfor: "disable_downsampling"},
+                            {tag: "label", class: "control-label", text: locale["editchartform.disableDownsampling"], lfor: "disable_downsampling"},
                             {tag: "input", type: "checkbox", class: "js-switch-small disable_downsampling", prop_key: "downsamplingstate", id: "{index}_disable_downsampling", name: "disable_downsampling", key_path: 'info.downsamplingstate', default: false}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Rate", lfor: "alias2"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.rate"], lfor: "alias2"},
                             {tag: "input", type: "checkbox", class: "js-switch-small enable_rate", prop_key: "rate", id: "{index}_enable_rate", name: "enable_rate", key_path: 'info.rate', default: false}
                         ]},
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
-                        text: "Dublicate",
+                        text: locale["editchartform.dublicate"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 var qitem = clone_obg(current.dashJSON.rows[current.row]["widgets"][current.index].q[curindex]);
@@ -661,7 +661,7 @@ class EditForm {
                         }
                     },
                     {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
-                        text: "Remove",
+                        text: locale["editchartform.remove"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 current.dashJSON.rows[current.row]["widgets"][current.index].q.splice(curindex, 1);
@@ -677,7 +677,7 @@ class EditForm {
                 ]}
         ];
         edit_q.content = [{tag: "button", class: "btn btn-success Addq btn-xs",
-                text: "Add",
+                text: locale["editchartform.add"],
                 id: "addq",
                 key_path: "q",
                 check_dublicates: this.check_q_dublicates,

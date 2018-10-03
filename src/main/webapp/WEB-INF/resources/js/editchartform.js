@@ -114,11 +114,11 @@ class ChartEditForm extends EditForm {
     gettabs()
     {
         return [{id: "general-tab", title: locale["editchartform.general"], contentid: "tab_general"},
-            {id: "metrics-tab", title: locale["editchartform.metrics"], contentid: "tab_metric"},
+            {id: "metrics-tab", title: locale["metrics"], contentid: "tab_metric"},
             {id: "axes-tab", title: locale["editchartform.axes"], contentid: "tab_axes"},
             {id: "data_zoom_tab", title: locale["editchartform.dataZoom"], contentid: "tab_data_zoom"},
             {id: "legend-tab", title: locale["editchartform.legend"], contentid: "tab_legend"},
-            {id: "display-tab", title: locale["editchartform.display"], contentid: "tab_display"},
+            {id: "display-tab", title: locale["display"], contentid: "tab_display"},
             {id: "time-tab", title: locale["editchartform.timeRange"], contentid: "tab_time"},
             {id: "json-tab", title: locale["editchartform.json"], contentid: "tab_json"}
         ];
@@ -139,16 +139,16 @@ class ChartEditForm extends EditForm {
         var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"], checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'title.show', default: true}}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
-                    {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_text"},
+                    {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'title.text', default: ""},
-                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "title_font"},
+                    {tag: "label", class: "control-label control-label-custom2", text: locale["editchartform.fontSize"], lfor: "title_font"},
                     {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "title_font", name: "title_font", key_path: 'title.style.fontSize', default: "18"},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subtitle", id: "button_title_subtitle", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subtitle",
                         content: [
-                            {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_link"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.link"], lfor: "title_link"},
                             {tag: "input", type: "text", class: "form-control title_input", prop_key: "link", id: "title_link", name: "title_link", key_path: 'title.link', default: ""},
-                            {tag: "label", class: "control-label control-label-custom2", text: "Target", lfor: "title_target"},
+                            {tag: "label", class: "control-label control-label-custom2", text: locale["editchartform.target"], lfor: "title_target"},
                             {tag: "select", class: "form-control title_select_gen", prop_key: "target", id: "title_target", name: "title_target", key_path: 'title.target', default: "", options: this.targetoptions}
                         ]
                     }
@@ -156,16 +156,16 @@ class ChartEditForm extends EditForm {
                 ]},
             {tag: "div", class: "form-group form-group-custom",
                 content: [
-                    {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_subtext"},
+                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.description"], lfor: "title_subtext"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "subtext", id: "title_subtext", name: "title_subtext", key_path: 'title.subtext', default: ""},
-                    {tag: "label", class: "control-label control-label-custom2", text: "Font Size ", lfor: "description_font"},
+                    {tag: "label", class: "control-label control-label-custom2", text: locale["editchartform.fontSize"], lfor: "description_font"},
                     {tag: "input", type: "number", class: "form-control title_input_large general_font", prop_key: "text", id: "description_font", name: "description_font", key_path: 'title.subtextStyle.fontSize', default: "12"},
                     {tag: "i", class: "dropdown_button fa fa-chevron-circle-down", target: "title_subdescription", id: "button_title_description", actions: {click: this.opencontent}},
                     {tag: "div", class: "form-group form-group-custom", style: "display: none;", id: "title_subdescription",
                         content: [
-                            {tag: "label", class: "control-label control-label-custom", text: "Link", lfor: "title_sublink"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.link"], lfor: "title_sublink"},
                             {tag: "input", type: "text", class: "form-control title_input", prop_key: "sublink", id: "title_sublink", name: "title_sublink", key_path: 'title.sublink', default: ""},
-                            {tag: "label", class: "control-label control-label-custom2", text: "Target", lfor: "title_subtarget"},
+                            {tag: "label", class: "control-label control-label-custom2", text: locale["editchartform.target"], lfor: "title_subtarget"},
                             {tag: "select", class: "form-control title_select_gen ", prop_key: "subtarget", id: "title_subtarget", name: "title_subtarget", key_path: 'title.subtarget', default: "", options: this.targetoptions}
                         ]
                     }
@@ -173,35 +173,35 @@ class ChartEditForm extends EditForm {
                 ]},
             {tag: "div", class: "raw", content: [
                     {tag: "div", id: "buttons_div", content: [
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "position_block", id: "button_title_position", text: "Positions", content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "color_block", id: "button_title_color", text: "Colors", content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
-                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "border_block", id: "button_title_border", text: "Border", content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}}
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "position_block", id: "button_title_position", text: locale["editchartform.positions"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "color_block", id: "button_title_color", text: locale["editchartform.colors"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
+                            {tag: "button", type: "button", class: "btn btn-primary btn-xs button_title_adv", target: "border_block", id: "button_title_border", text: locale["editchartform.border"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}}
                         ]}
                 ]},
             {tag: "div", id: "position_block", style: "display: none;", content: [{
                         tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom", text: "X", lfor: "title_x_position"},
                             {tag: "select", class: "form-control title_select", prop_key: "x", id: "title_x_position", name: "title_x_position", key_path: 'title.x', default: "", options: this.xpositionoptions},
-                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: "OR"},
+                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
                             {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "title_x_position_text", name: "title_x_position_text", key_path: 'title.x', default: ""},
                             {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"},
                             {tag: "label", class: "control-label control-label_Y", text: "Y", lfor: "title_y_position"},
                             {tag: "select", class: "form-control title_select", prop_key: "y", id: "title_y_position", name: "title_y_position", key_path: 'title.y', default: "", options: this.ypositionoptions},
-                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: "OR"},
+                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
                             {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'title.y', default: ""},
                             {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                         ]
                     }]},
             {tag: "div", id: "color_block", style: "display: none;", content: [{
                         tag: "div", class: "form-group form-group-custom", id: "title_color", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: "Border", lfor: "title_border_color"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.border"], lfor: "title_border_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]},
-                            {tag: "label", class: "control-label control-label-custom", text: "Background", lfor: "title_background_color"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.background"], lfor: "title_background_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "title_background_color", name: "title_background_color", key_path: 'title.style.backgroundColor', default: ""},
@@ -213,14 +213,14 @@ class ChartEditForm extends EditForm {
                     },
 
                     {tag: "div", class: "form-group form-group-custom ", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: "Title", lfor: "title_name_color"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_name_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "TitleColor", id: "title_name_color", name: "title_name_color", key_path: 'title.style.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]},
-                            {tag: "label", class: "control-label control-label-custom", text: "Description", lfor: "title_description_color"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.description"], lfor: "title_description_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "descriptioncolor", id: "title_description_color", name: "title_description_color", key_path: 'title.subtextStyle.color', default: ""},
@@ -233,14 +233,14 @@ class ChartEditForm extends EditForm {
 
             {tag: "div", id: "border_block", style: "display: none;", content: [{
                         tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: "Color", lfor: "title_border_color"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.color"], lfor: "title_border_color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]},
-                            {tag: "label", class: "control-label control-label2", text: "Width", lfor: "title_border_width"},
+                            {tag: "label", class: "control-label control-label2", text: locale["editchartform.width"], lfor: "title_border_width"},
                             {tag: "div", class: "titile_input_midle2", content: [
                                     {tag: "div", class: "input-group", content: [
                                             {tag: "input", type: "number", class: "form-control titile_input_midle", prop_key: "borderWidth", id: "title_border_width", name: "title_border_width", key_path: 'title.style.borderWidth', default: ""}
@@ -253,30 +253,30 @@ class ChartEditForm extends EditForm {
         this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
 
         this.tabcontent.tab_axes = {};
-        var edit_axes_y = {tag: "div", class: 'form_main_block pull-left', id: "edit_y", label: {show: true, text: 'Y axes'}};
+        var edit_axes_y = {tag: "div", class: 'form_main_block pull-left', id: "edit_y", label: {show: true, text: locale["editchartform.Yaxes"]}};
         var current = this;
 
         var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_yaxes", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_y"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Text", lfor: "axes_name_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.text"], lfor: "axes_name_y"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_y", name: "axes_name_y", key_path: 'name', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.position"], lfor: "axes_position_y"},
                             {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_y", name: "axes_position_y", key_path: 'position', default: "", options: this.ypos}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.splitNumber"], lfor: "axes_splitNumber_y"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_y", name: "splitNumber_y", key_path: 'splitNumber', default: ""}
                         ]},
 
                     {tag: "div", class: "form-group  ", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y color", lfor: "axes_color_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Ycolor"], lfor: "axes_color_y"},
 
                             {tag: "div", class: "titile_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
@@ -286,25 +286,25 @@ class ChartEditForm extends EditForm {
                                 ]}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.fontSizeLabel"], lfor: "lable_size_y"},
                             {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "size_x", id: "{index}_label_size_y", name: "lable_size_y", key_path: 'axisLabel.fontSize', default: "12"},
-                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: locale["editchartform.text"], lfor: "text_size_x"},
                             {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "text_size_y", id: "{index}_text_size_y", name: "text_size_y", key_path: 'nameTextStyle.fontSize', default: "12"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.unit"], lfor: "axes_unit_y"},
                             {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Y-Min", lfor: "axes_min_y"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Y-Min"], lfor: "axes_min_y"},
                             {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "min", id: "{index}_axes_min_y", name: "axes_min_y", key_path: 'min', default: ""},
-                            {tag: "label", class: "control-label control-label-custom-axes", text: "Y-Max", lfor: "axes_max_y"},
+                            {tag: "label", class: "control-label control-label-custom-axes", text: locale["editchartform.Y-Max"], lfor: "axes_max_y"},
                             {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "max", id: "{index}_axes_max_y", name: "axes_max_y", key_path: 'max', default: ""}
                         ]},
 //                   
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesy",
-                        text: "Dublicate",
+                        text: locale["editchartform.dublicate"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 var qitem = clone_obg(current.dashJSON.rows[current.row].widgets[current.index].options.yAxis[curindex]);
@@ -320,7 +320,7 @@ class ChartEditForm extends EditForm {
                         }
                     },
                     {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeaxesy",
-                        text: "Remove",
+                        text: locale["editchartform.remove"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 current.dashJSON.rows[current.row].widgets[current.index].options.yAxis.splice(curindex, 1);
@@ -336,7 +336,7 @@ class ChartEditForm extends EditForm {
                     }
                 ]}];
         edit_axes_y.content = [{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
-                        text: "Add",
+                        text: locale["editchartform.add"],
                         id: "addq",
                         key_path: "options.yAxis",
                         template: axes_template,
@@ -359,31 +359,31 @@ class ChartEditForm extends EditForm {
                 ]}]
                 ;
 
-        var edit_axes_x = {tag: "section", class: 'form_main_block pull-left', id: "edit_x", label: {show: true, text: 'X axes'}};
+        var edit_axes_x = {tag: "section", class: 'form_main_block pull-left', id: "edit_x", label: {show: true, text: locale["editchartform.Xaxes"]}};
         var current = this;
 
         var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_xaxes", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Show", lfor: "axes_show_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["ditchartform.show"], lfor: "axes_show_x"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Text", lfor: "axes_name_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.text"], lfor: "axes_name_x"},
                             {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_x", name: "axes_name_x", key_path: 'name', default: ""}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Position", lfor: "axes_position_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.position"], lfor: "axes_position_x"},
                             {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Split Number", lfor: "axes_splitNumber_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.splitNumber"], lfor: "axes_splitNumber_x"},
                             {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_x", name: "splitNumber_x", key_path: 'splitNumber', default: ""}
                         ]},
 
                     {tag: "div", class: "form-group ", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "X color", lfor: "axes_color_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Xcolor"], lfor: "axes_color_x"},
 
                             {tag: "div", class: "titile_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
@@ -393,14 +393,14 @@ class ChartEditForm extends EditForm {
                                 ]}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: " Font Size Label", lfor: "lable_size_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.fontSizeLabel"], lfor: "lable_size_x"},
                             {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "size_x", id: "{index}_label_size_x", name: "lable_size_x", key_path: 'axisLabel.fontSize', default: "12"},
-                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: "Text", lfor: "text_size_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: locale["editchartform.text"], lfor: "text_size_x"},
                             {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "text_size_x", id: "{index}_text_size_x", name: "text_size_x", key_path: 'nameTextStyle.fontSize', default: "12"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Scale", lfor: "axes_mode_x"},
-                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "time", options: {time: "Time", category: "Series"}, actions: {"change": function () {
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.scale"], lfor: "axes_mode_x"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "type", id: "{index}_axes_mode_x", name: "axes_mode_x", key_path: 'type', default: "time", options: {time: locale["editchartform.time"], category: locale["editchartform.series"]}, actions: {"change": function () {
                                         if ($(this).val() === 'category') {
                                             $(this).parent().parent().find('.only-Series').fadeIn();
                                         } else {
@@ -409,7 +409,7 @@ class ChartEditForm extends EditForm {
                                     }}}
                         ]},
                     {tag: "div", class: "form-group form-group-custom only-Series", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Value", lfor: "axes_value_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.value"], lfor: "axes_value_x"},
                             {tag: "select", class: "form-control axes_select", prop_key: "m_sample", id: "{index}_axes_value_x", name: "axes_value_x", key_path: 'm_sample', default: "", options: {"avg": "Avg",
                                     "min": "Min",
                                     "max": "Max",
@@ -420,7 +420,7 @@ class ChartEditForm extends EditForm {
                         ]},
 
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateaxesx",
-                        text: "Dublicate",
+                        text: locale["editchartform.dublicate"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 var qitem = clone_obg(current.dashJSON.rows[current.row].widgets[current.index].options.xAxis[curindex]);
@@ -437,7 +437,7 @@ class ChartEditForm extends EditForm {
                         }
                     },
                     {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeaxesx",
-                        text: "Remove",
+                        text: locale["editchartform.remove"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 current.dashJSON.rows[current.row].widgets[current.index].options.xAxis.splice(curindex, 1);
@@ -454,7 +454,7 @@ class ChartEditForm extends EditForm {
                     }
                 ]}];
         edit_axes_x.content = [{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
-                        text: "Add",
+                        text: locale["editchartform.add"],
                         id: "addq",
                         key_path: "options.xAxis",
                         template: axes_template,
@@ -777,7 +777,7 @@ class ChartEditForm extends EditForm {
                             {tag: "div", type: "choose_array", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_data_zoom_yAxisIndex", name: "data_zoom_yAxisIndex"}
                         ]},
                     {tag: "div", class: "btn btn-success dublicateq btn-xs pull-right", id: "{index}_dublicatedatazoom",
-                        text: "Dublicate",
+                        text: locale["editchartform.dublicate"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 var qitem = clone_obg(current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom[curindex]);
@@ -789,7 +789,7 @@ class ChartEditForm extends EditForm {
                         }
                     },
                     {tag: "div", class: "btn btn-danger removeq btn-xs pull-right", id: "{index}_removedatazoom",
-                        text: "Remove",
+                        text: locale["editchartform.remove"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom.splice(curindex, 1);
@@ -804,7 +804,7 @@ class ChartEditForm extends EditForm {
 
         var edit_data_zoom = {tag: "div", class: 'forms', id: "edit_data_zoom"};
         edit_data_zoom.content = [{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-success Addq btn-xs",
-                        text: "Add",
+                        text: locale["editchartform.add"],
                         id: "addq",
                         key_path: "options.dataZoom",
                         template: data_zoom_template,
@@ -823,14 +823,14 @@ class ChartEditForm extends EditForm {
                 ]}];
         this.tabcontent.tab_data_zoom.forms = [edit_data_zoom];//suren
         var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label control-label-custom-legend", text: "Axis Indexes"},
+                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.axisIndexes"]},
                 {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
                 {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
                 {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
                 {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
             ]};
         var inversef = {tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label control-label-custom-legend", text: "Inverse"},
+                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.inverse"]},
                 {tag: "input", type: "checkbox", class: "js-switch-small enable_inverse", prop_key: "inverse", id: "{index}_enable_inverse", name: "enable_inverse", key_path: 'info.inverse', default: false}
             ]};
         this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, inversef);
@@ -872,12 +872,12 @@ class ChartEditForm extends EditForm {
     }
     get ypos()
     {
-        return {"": "&nbsp", left: "Left", right: "Right"};
+        return {"": "&nbsp", left: locale["editchartform.left"], right: locale["editchartform.right"]};
     }
 
     get xpos()
     {
-        return {"": "&nbsp", bottom: "Bottom", top: "Top"};
+        return {"": "&nbsp", bottom: locale["editchartform.bottom"], top: locale["editchartform.top"]};
     }
     get legendOrient()
     {
