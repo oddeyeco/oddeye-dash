@@ -658,13 +658,13 @@ class ChartEditForm extends EditForm {
 
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
-                                    {tag: "label", class: "control-label control-label-custom120 ", text: locale["editchartform.stacked"], lfor: "display_stacked"},
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.stacked"], lfor: "display_stacked"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: false}
                                         ]}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typeline", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.smooth"], lfor: "display_smooth"},
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.smooth"], lfor: "display_smooth"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "smooth", id: "display_smooth", name: "display_smooth", key_path: 'smooth', default: true}
                                         ]}
