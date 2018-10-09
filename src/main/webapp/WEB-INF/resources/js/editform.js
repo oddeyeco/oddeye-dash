@@ -392,14 +392,14 @@ class EditForm {
                     , "formathexadecimal0": "Hexadecimal(0x)"
                     , "formathexadecimal": "Hexadecimal"
                 }},
-            currency: {label: "Currency", items: {"$ {value}": "Dollars ($)"
+            currency: {label: locale["editform.currency"], items: {"$ {value}": "Dollars ($)"
                     , "£ {value}": "Pounds (£)"
                     , "€ {value}": "Euro (€)"
                     , "¥ {value}": "Yen (¥)"
                     , "{value} руб.": "Rubles (руб)"
 
                 }},
-            time: {label: "Time", items: {"formathertz": "Hertz (1/s)"
+            time: {label: locale["editchartform.time"], items: {"formathertz": "Hertz (1/s)"
                     , "timens": "Nanoseconds (ns)"
                     , "timemicros": "microseconds (µs)"
                     , "timems": "Milliseconds (ms)"
@@ -408,19 +408,19 @@ class EditForm {
                     , "timeh": "Hours (h)"
                     , "timed": "Days d"
                 }},
-            dataiec: {label: "Data IEC", items: {"dataBit": "Bits"
+            dataiec: {label: locale["editform.dataIEC"], items: {"dataBit": "Bits"
                     , "dataBytes": "Bytes"
                     , "dataKiB": "Kibibytes"
                     , "dataMiB": "Mebibytes"
                     , "dataGiB": "Gibibytes"
                 }},
-            data_metric: {label: "Data (Metric)", items: {"dataBitmetric": "Bits"
+            data_metric: {label: locale["editform.dataMetric"], items: {"dataBitmetric": "Bits"
                     , "dataBytesmetric": "Bytes"
                     , "dataKiBmetric": "Kilobytes"
                     , "dataMiBmetric": "Megabytes"
                     , "dataGiBmetric": "Gigabytes"
                 }},
-            datarate: {label: "Data Rate", items: {"formatPpS": "Packets/s"
+            datarate: {label: locale["editform.dataRate"], items: {"formatPpS": "Packets/s"
                     , "formatbpS": "Bits/s"
                     , "formatBpS": "Bytes/s"
                     , "formatKbpS": "Kilobits/s"
@@ -431,7 +431,7 @@ class EditForm {
                     , "formatGBpS": "Gigabytes/s"
                 }},
             Throughput: {
-                label: "Throughput",
+                label: locale["editform.throughput"],
                 items: {
                     "formatops": "Ops/sec (ops)",
                     "formatrps": "Reads/sec (rps)",
@@ -443,7 +443,7 @@ class EditForm {
                 }
             },
             Lenght: {
-                label: "Lenght",
+                label: locale["editform.lenght"],
                 items: {
                     "formatmm": "Millimeter (mm)",
                     "formatm": "Meter (m)",
@@ -452,7 +452,7 @@ class EditForm {
                 }
             },
             Velocity: {
-                label: "Velocity",
+                label: locale["editform.velocity"],
                 items: {
                     "{value} m/s": "m/s",
                     "{value} km/h": "km/h",
@@ -461,7 +461,7 @@ class EditForm {
                 }
             },
             Volume: {
-                label: "Volume",
+                label: locale["editform.volume"],
                 items: {
                     "formatmL": "Millilitre",
                     "formatL": "Litre",
@@ -469,7 +469,7 @@ class EditForm {
                 }
             },
             Energy: {
-                label: "Energy",
+                label: locale["editform.energy"],
                 items: {
                     "formatW": "Watt (W)",
                     "formatKW": "Kilowatt (KW)",
@@ -486,7 +486,7 @@ class EditForm {
                 }
             },
             Temperature: {
-                label: "Temperature",
+                label: locale["editform.temperature"],
                 items: {
                     "{value} °C": "Celsius (°C)",
                     "{value} °F": "Farenheit (°F)",
@@ -494,7 +494,7 @@ class EditForm {
                 }
             },
             Pressure: {
-                label: "Pressure",
+                label: locale["editform.pressure"],
                 items: {
                     "{value} mbar": "Millibars",
                     "{value} hPa": "Hectopascals",
