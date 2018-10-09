@@ -107,6 +107,7 @@ class ChartEditForm extends EditForm {
                     $(this).parents('.edit-display').find('.custominputs > .form-group').fadeOut(duration);
                     break
             }
+            $(this).parents('.edit-display').find('.custominputs > .typeall').fadeIn(0);
 
         });
     }
@@ -613,7 +614,7 @@ class ChartEditForm extends EditForm {
 
                                 ]}
                         ]},
-                    {tag: "div", class: "form_main_block pull-left custominputs", content: [
+                    {tag: "div", class: "form_main_block pull-left custominputs",label: {show: true, text: locale["editchartform.options"],class:"typeline typebars"}, content: [
                             {tag: "div", class: "form-group form-group-custom typeline", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.points"], lfor: "display_points"},
                                     {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "none", options: {
@@ -655,9 +656,21 @@ class ChartEditForm extends EditForm {
 
                                         }}
 
-                                ]}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
+                                    {tag: "label", class: "control-label control-label-custom120 ", text: locale["editchartform.stacked"], lfor: "display_stacked"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: false}
+                                        ]}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom typeline", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.smooth"], lfor: "display_smooth"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "smooth", id: "display_smooth", name: "display_smooth", key_path: 'smooth', default: true}
+                                        ]}
+                                ]}                            
                         ]},
-                    {tag: "div", class: "form_main_block pull-left custominputs", content: [
+                    {tag: "div",id:"valod", class: "form_main_block pull-left custominputs",label: {show: true, text: locale["editchartform.labels"],class:"typeline typebars typemap typepie typefunnel"}, content: [
                             {tag: "div", class: "form-group form-group-custom typeline typebars typemap", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelPosition"], lfor: "display_label_pos"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "inside", options: {
@@ -716,18 +729,7 @@ class ChartEditForm extends EditForm {
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_2", name: "display_label_2", key_path: 'label.show', default: true}
                                         ]}
                                 ]},
-                            {tag: "div", class: "form-group form-group-custom typeline typebars", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.stacked"], lfor: "display_stacked"},
-                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "stacked", id: "display_stacked", name: "display_stacked", key_path: 'stacked', default: false}
-                                        ]}
-                                ]},
-                            {tag: "div", class: "form-group form-group-custom typeline", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.smooth"], lfor: "display_smooth"},
-                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "smooth", id: "display_smooth", name: "display_smooth", key_path: 'smooth', default: true}
-                                        ]}
-                                ]}
+
                         ]}
                 ]}
         ];

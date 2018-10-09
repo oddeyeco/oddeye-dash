@@ -119,7 +119,7 @@ class EditForm {
 
     }
     drawcontent(formcontent, contener, initval, template_index)
-    {
+    {        
         if (formcontent)
         {
             for (var c_index in formcontent)
@@ -213,6 +213,15 @@ class EditForm {
                     {
                         jobject.attr('style', item.style);
                     }
+//***************************
+                        if (item.label)
+                        {
+                                jobject.append('<h4 class="form-group '+item.label.class+'"><label class="control-label" >' + item.label.text + '</label></h4>');
+                        }
+
+//***************************
+
+
 
                     var form = this;
 
@@ -348,11 +357,19 @@ class EditForm {
                             form.change($(this));
                         };
                     }
-
+ 
                     if (item.content)
                     {
                         this.drawcontent(item.content, jobject, initval, template_index);
                     }
+//                    else
+//                    {
+//                        if (item.id=="valod")
+//                        {
+//                        console.log(item.);    
+//                        }
+//                        
+//                    }
                 }
 
             }
