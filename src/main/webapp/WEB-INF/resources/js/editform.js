@@ -646,9 +646,9 @@ class EditForm {
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.aggregator"], lfor: "aggregator"},
                             {tag: "select", class: "form-control query_input aggregator", prop_key: "aggregator", id: "{index}_aggregator", name: "aggregator", key_path: 'info.aggregator', default: "", options: this.aggregatoroptions},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.alias"], lfor: "alias", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.alias"], lfor: "alias", info: {text: locale["editform.alias.text"]}},
                             {tag: "input", type: "text", class: "form-control query_input alias", prop_key: "alias", id: "{index}_alias", name: "alias", key_path: 'info.alias', default: ""},
-                            {tag: "label", class: "control-label", text: locale["editform.aliasSecondary"], lfor: "alias2", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
+                            {tag: "label", class: "control-label control-label-custom155", text: locale["editform.aliasSecondary"], lfor: "alias2", info: {text: locale["editform.aliasSecondary.text"]}},
                             {tag: "input", type: "text", class: "form-control query_input alias2", prop_key: "alias2", id: "{index}_alias2", name: "alias2", key_path: 'info.alias2', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
@@ -656,7 +656,7 @@ class EditForm {
                             {tag: "input", type: "text", class: "form-control query_input down-sample-time", prop_key: "time", id: "{index}_down-sample-time", name: "down-sample-time", key_path: 'info.ds.time', default: ""},
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.aggregator"], lfor: "down-sample-aggregator"},
                             {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: EditForm.aggregatoroptions2},
-                            {tag: "label", class: "control-label", text: locale["editform.disableDownsampling"], lfor: "disable_downsampling"},
+                            {tag: "label", class: "control-label control-label-custom155", text: locale["editform.disableDownsampling"], lfor: "disable_downsampling"},
                             {tag: "input", type: "checkbox", class: "js-switch-small disable_downsampling", prop_key: "downsamplingstate", id: "{index}_disable_downsampling", name: "disable_downsampling", key_path: 'info.downsamplingstate', default: false}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [

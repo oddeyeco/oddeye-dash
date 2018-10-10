@@ -516,28 +516,28 @@ class ChartEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form_main_block pull-left", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "X", lfor: "legend_x_position"},
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: "X", lfor: "legend_x_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "x", id: "legend_x_position", name: "legend_x_position", key_path: 'options.legend.x', default: "", options: this.xpositionoptions},
                                     {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
                                     {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "legend_x_position_text", name: "legend_x_position_text", key_path: 'options.legend.x', default: ""},
                                     {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom-legend2", text: "Y", lfor: "legend_y_position"},
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: "Y", lfor: "legend_y_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "y", id: "legend_y_position", name: "legend_y_position", key_path: 'options.legend.y', default: "", options: this.ypositionoptions},
                                     {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
                                     {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "legend_y_position_text", name: "legend_y_position_text", key_path: 'options.legend.y', default: ""},
                                     {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.shapeWidth"], lfor: "legend_shape_width"},
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.shapeWidth"], lfor: "legend_shape_width"},
                                     {tag: "input", type: "number", class: "form-control title_select", prop_key: "itemWidth", id: "legend_shape_width", name: "legend_shape_width", key_path: 'options.legend.itemWidth', default: ""},
                                     {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editform.height"], lfor: "legend_shape_height"},
                                     {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "itemHeight", id: "legend_shape_height", name: "legend_shape_height", key_path: 'options.legend.itemHeight', default: ""},
                                     {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.borderColor"], lfor: "legend_border_color"},
+                                    {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.borderColor"], lfor: "legend_border_color"},
                                     {tag: "div", class: "color-button", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "legend_border_color", name: "legend_border_color", key_path: 'options.legend.borderColor', default: ""},
@@ -562,7 +562,7 @@ class ChartEditForm extends EditForm {
                 content: [
                     {tag: "div", class: "form_main_block pull-left", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.chartType"], lfor: "display_charttype"},
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.type"], lfor: "display_charttype"},
                                     {tag: "select", class: "form-control title_input_small", prop_key: "type", id: "display_charttype", name: "display_charttype", key_path: 'type', default: "", options: {
                                             "line": locale["editchartform.lines"],
                                             "bar": locale["editchartform.bars"],
@@ -575,7 +575,7 @@ class ChartEditForm extends EditForm {
 
                                             }
                                         }},
-                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.color"], lfor: "backgroundColor"},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.color"], lfor: "backgroundColor"},
                                     {tag: "div", class: "color-button", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "backgroundColor", name: "backgroundColor", key_path: 'options.backgroundColor', default: ""},
@@ -589,7 +589,7 @@ class ChartEditForm extends EditForm {
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "animation", id: "display_animation", name: "display_animation", key_path: 'options.animation', default: true}
                                         ]},
-                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.containsLabel"], lfor: "display_containLabel"},
+                                    {tag: "label", class: "control-label control-label-custom155", text: locale["editchartform.containsLabel"], lfor: "display_containLabel"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "containLabel", id: "display_containLabel", name: "display_containLabel", key_path: 'options.grid.containLabel', default: true}
                                         ]}
@@ -597,19 +597,19 @@ class ChartEditForm extends EditForm {
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.left"], lfor: "padding_left"},
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_left", name: "padding_left", prop_key: "x", key_path: 'options.grid.x'},
-                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.top"], lfor: "padding_top"},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.top"], lfor: "padding_top"},
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_top", name: "padding_top", prop_key: "y", key_path: 'options.grid.y'}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.right"], lfor: "padding_right"},
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_right", name: "padding_right", prop_key: "x2", key_path: 'options.grid.x2'},
-                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.bottom"], lfor: "padding_bottom"},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.bottom"], lfor: "padding_bottom"},
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_bottom", name: "padding_bottom", prop_key: "y2", key_path: 'options.grid.y2'}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.width"], lfor: "padding_width"},
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_width", name: "padding_width", prop_key: "width", key_path: 'options.grid.width'},
-                                    {tag: "label", class: "control-label control-label-custom", text: locale["editform.height"], lfor: "padding_height"},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editform.height"], lfor: "padding_height"},
                                     {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_height", name: "padding_height", prop_key: "height", key_path: 'options.grid.height'}
 
                                 ]}
@@ -701,19 +701,19 @@ class ChartEditForm extends EditForm {
                                     {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelPosition"], lfor: "display_label_pos"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "outside", options: {
                                             'outside': locale["editchartform.outside"],
-                                            'inner': locale["editchartform.inner"],
+                                            'inner': locale["editchartform.inside"],
                                             'center': locale["editchartform.center"]
 
                                         }}
 
                                 ]},
                             {tag: "div", class: "form-group form-group-custom typepie", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelFormat"], lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value},{p} replace part of the label for a Alias, Alias secondary, data, and percent respectively values"}},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelFormat"], lfor: "display_label_parts", info: {text: locale["editchartform.labelFormat.text"]}},
                                     {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
                             
                             {tag: "div", class: "form-group form-group-custom typemap typefunnel typeline typebars", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelFormat"], lfor: "display_label_parts", info: {text: "Use patterns {a1},{a2},{value} replace part of the label for a Alias, Alias secondary, data respectively values"}},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelFormat"], lfor: "display_label_parts", info: {text: locale["editchartform.labelFormat.text2"]}},
                                     {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
 
@@ -756,7 +756,7 @@ class ChartEditForm extends EditForm {
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.type"], lfor: "datazoom_type"},
                             {tag: "select", class: "form-control query_input datazoom_type_width", prop_key: "type", id: "{index}_datazoom_type", name: "datazoom_type", key_path: 'type', default: "slider",
-                                options: {"slider": locale["editchartform.slider"], "inside": locale["editchartform.inside"]}
+                                options: {"slider": locale["editchartform.slider"], "inside": locale["editchartform.inner"]}
                                 , actions: {"change": function () {
                                         if ($(this).val() === 'slider') {
                                             $(this).parent().parent().find('.forslider').fadeIn();
@@ -827,7 +827,7 @@ class ChartEditForm extends EditForm {
                 ]}];
         this.tabcontent.tab_data_zoom.forms = [edit_data_zoom];//suren
         var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.axisIndexes"]},
+                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.axesIndexes"]},
                 {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
                 {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
                 {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
