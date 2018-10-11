@@ -365,7 +365,7 @@ class ChartEditForm extends EditForm {
 
         var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_xaxes", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["ditchartform.show"], lfor: "axes_show_x"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_x"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
