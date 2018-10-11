@@ -101,10 +101,30 @@ public class HbaseMetaDao extends HbaseBaseDao {
                             OddeeyMetricMeta metric = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
 //                            if (metric.getTags().get("UUID").getValue().equals("9c9d4578-e47e-4e49-add2-0d258ac7b94b")) {
                             try {
-                                Userdao.getUserByUUID(metric.getTags().get("UUID").getValue()).getMetricsMeta().add(metric);
-                                fullmetalist.add(metric);
+                                OddeyeUserModel user = Userdao.getUserByUUID(metric.getTags().get("UUID").getValue());
+                                if (user != null) {
+                                    user.getMetricsMeta().add(metric);
+                                    fullmetalist.add(metric);
+                                } else {
+                                    LOGGER.error(metric.toString());
+                                    final DeleteRequest req = new DeleteRequest(table, row.get(0).key());
+                                    try {
+                                        BaseTsdb.getClient().delete(req).join();
+                                    } catch (Exception ex) {
+                                        LOGGER.error(globalFunctions.stackTrace(ex));
+                                    }
+
+                                }
+
                             } catch (Exception e) {
                                 LOGGER.error(globalFunctions.stackTrace(e));
+                                final DeleteRequest req = new DeleteRequest(table, row.get(0).key());
+                                try {
+                                    BaseTsdb.getClient().delete(req).join();
+                                } catch (Exception ex) {
+                                    LOGGER.error(globalFunctions.stackTrace(ex));
+                                }
+
                             }
                         }
 
