@@ -7,6 +7,7 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
+    <%@ taglib prefix="udf" uri="https://app.oddeye.co/OddeyeCoconut/oddeyetaglib" %>
     <c:set var="version" value="0.2.16" scope="request"/>
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
     <!DOCTYPE html>
@@ -68,7 +69,7 @@
                                     <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
                                     <span class="site_title" style="width: auto"><spring:message code="index.home"/></span> </a>
                             </div>
-                            <div class="clearfix"></div>
+                            <div class="clearfix"></div>                            
                             <!-- menu profile quick info -->
                             <!--                            <div class="profile">
                                                             <div class="profile_info">                                    
@@ -393,7 +394,9 @@
             <!-- moment.js -->
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>
             <c:if test="${not empty pageContext.response.locale}" >
-                <script src="${cp}/resources/js/moment/locale/${pageContext.response.locale}.js?v=${version}"></script>
+                <c:if test="${udf:fileExists('/resources/js/moment/locale/' += pageContext.response.locale.language += '.js')}">
+                    <script src="${cp}/resources/js/moment/locale/${pageContext.response.locale.language}.js?v=${version}"></script>
+                </c:if>                                
             </c:if>            
 
             <!--bootstrap-progressbar--> 
@@ -495,8 +498,8 @@
                     moment.locale('${pageContext.response.locale}');
                 </script>
             </c:if>              
-            
-            
+
+
         </body>
     </html>
 </compress:html>
