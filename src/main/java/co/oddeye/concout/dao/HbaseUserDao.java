@@ -12,6 +12,7 @@ import co.oddeye.concout.core.ConsumptionList;
 import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.core.AlertLevel;
 import co.oddeye.core.globalFunctions;
 import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
@@ -47,12 +48,15 @@ import org.hbase.async.ValueFilter;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import java.util.LinkedHashMap;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 import javax.servlet.http.Cookie;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -389,6 +393,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             OddeyeUserModel user;
             if (getUsers().containsKey(uuid)) {
                 user = getUsers().get(uuid);
+                user.getCookies().clear();
             } else {
                 user = new OddeyeUserModel();
             }
@@ -396,7 +401,103 @@ public class HbaseUserDao extends HbaseBaseDao {
             if (userkvs.isEmpty()) {
                 return null;
             }
-            user.inituser(userkvs, this);
+            System.out.println("****************************************************");
+
+            for (Field field : user.getClass().getDeclaredFields()) {
+                if (field.isAnnotationPresent(HbaseColumn.class)) {
+                    PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
+                    for (KeyValue kv : userkvs) {
+                        String q = new String(kv.qualifier());
+                        for (Annotation an : field.getDeclaredAnnotations()) {
+                            if (an.annotationType().equals(HbaseColumn.class)) {
+                                HbaseColumn anotation = (HbaseColumn) an;
+                                if ((Arrays.equals(kv.family(), anotation.family().getBytes()))) {
+                                    if (anotation.qualifier().isEmpty()) {
+                                        if (ArrayList.class.isAssignableFrom(field.getType())) {
+                                            if (field.getName().equals("cookies")) {
+                                                Method getter = PDescriptor.getReadMethod();
+                                                Object value = getter.invoke(user);
+                                                String cname = new String(kv.qualifier());
+                                                String cvalue = new String(kv.value());
+                                                ((ArrayList<Cookie>) value).add(new Cookie(cname, cvalue));
+                                            }
+
+                                        }
+                                    } else {
+                                        if ((Arrays.equals(kv.qualifier(), anotation.qualifier().getBytes()))) {
+                                            Method setter = PDescriptor.getWriteMethod();
+                                            Object newvalue = null;
+
+                                            switch (field.getType().getCanonicalName()) {
+                                                case "java.util.UUID":
+                                                    newvalue = UUID.fromString(new String(kv.value()));                                                    
+                                                    setter.invoke(user, new Object[]{newvalue});
+                                                    break;                                                
+                                                case "java.lang.String":
+                                                    newvalue = new String(kv.value());
+                                                    setter.invoke(user, new Object[]{newvalue});
+                                                    break;
+                                                case "java.util.Collection":
+                                                    if (field.getName().equals("authorities")) {
+                                                        String token;
+                                                        StringTokenizer tokens = new StringTokenizer(new String(kv.value()).replaceAll("\\[|\\]", ""), ",");
+                                                        newvalue = new ArrayList<>();
+                                                        while (tokens.hasMoreTokens()) {
+                                                            token = tokens.nextToken();
+                                                            token = token.trim();
+                                                            ((ArrayList<GrantedAuthority>) newvalue).add(new SimpleGrantedAuthority(token));
+                                                        }                                                        
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                    }
+
+                                                    break;
+                                                case "java.lang.Double":
+                                                    newvalue = ByteBuffer.wrap(kv.value()).getDouble();//Bytes.getLong(property.value());
+                                                    setter.invoke(user, new Object[]{newvalue});
+                                                    break;
+                                                case "co.oddeye.core.AlertLevel":
+                                                    newvalue = globalFunctions.getGson().fromJson(new String(kv.value()), AlertLevel.class);
+                                                    setter.invoke(user, new Object[]{newvalue});
+                                                    break;
+
+                                                case "java.lang.Boolean":
+                                                    if (kv.value().length == 1) {
+                                                        newvalue = kv.value()[0] != (byte) 0;
+                                                    }
+                                                    if (kv.value().length == 4) {
+                                                        newvalue = Bytes.getInt(kv.value()) != 0;
+                                                    }
+                                                    setter.invoke(user, new Object[]{newvalue});
+                                                    break;
+                                                case "byte[]":
+                                                    switch (field.getName()) {
+                                                        case "password":
+                                                            user.setPasswordByte(kv.value());
+                                                            break;
+                                                        default:
+                                                            newvalue = kv.value();
+                                                            setter.invoke(user, new Object[]{newvalue});
+                                                            break;
+                                                    }
+
+                                                    break;
+                                                default:
+                                                    System.out.println(field.getType().getCanonicalName());
+                                                    break;
+                                            }
+
+                                        }
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+//            user.inituser(userkvs, this);
             try {
                 TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
             } catch (NoSuchUniqueName e) {

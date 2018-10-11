@@ -31,7 +31,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -59,7 +58,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  */
 public class OddeyeUserModel implements Serializable {
 
-    private transient HbaseUserDao Userdao;
+//    private transient HbaseUserDao Userdao;
 
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class);
     private static final long serialVersionUID = 465895478L;
@@ -75,6 +74,7 @@ public class OddeyeUserModel implements Serializable {
     public final static String ROLE_EDIT = "ROLE_EDIT";
     public final static String ROLE_CAN_SWICH = "ROLE_CAN_SWICH";
     @Id
+    @HbaseColumn(qualifier = "UUID", family = "personalinfo")
     private UUID id;
     @HbaseColumn(qualifier = "lastname", family = "personalinfo")
     private String lastname;
@@ -123,7 +123,7 @@ public class OddeyeUserModel implements Serializable {
     private transient OddeyeUserModel referal;
     @HbaseColumn(qualifier = "referal", family = "technicalinfo")
     private transient String sreferal;
-
+                           
     @HbaseColumn(family = "cookesinfo")
     private transient ArrayList<Cookie> cookies = new ArrayList<>();
 
@@ -192,203 +192,203 @@ public class OddeyeUserModel implements Serializable {
 
     }
 
-    public void inituser(ArrayList<KeyValue> userkvs, HbaseUserDao udao) {
-        this.Userdao = udao;
-        authorities.clear();
-        cookies.clear();
-
-        userkvs.stream().map((property) -> {
-            if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
-                this.id = UUID.fromString(new String(property.value()));
-                this.sinedate = new Date(property.timestamp());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "referal".getBytes())) {
-                this.sreferal = new String(property.value());
-                try {
-                    if (this.sreferal != null) {
-                        if (!this.sreferal.equals(id.toString())) {
-                            UUID uuid = UUID.fromString(this.sreferal);
-                            this.referal = this.Userdao.getUserByUUID(this.sreferal);
-                        }
-
-                    }
-                } catch (IllegalArgumentException exception) {
-                    this.referal = null;
-                    this.sreferal = null;
-                    //handle the case where string is not valid UUID 
-                }
-
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "email".getBytes())) {
-                this.email = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "password".getBytes())) {
-                this.password = property.value();
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "solt".getBytes())) {
-                this.solt = property.value();
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "name".getBytes())) {
-                this.name = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "lastname".getBytes())) {
-                this.lastname = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "company".getBytes())) {
-                this.company = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "country".getBytes())) {
-                this.country = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "city".getBytes())) {
-                this.city = new String(property.value());
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "authorities".getBytes())) {
-                String token;
-                StringTokenizer tokens = new StringTokenizer(new String(property.value()).replaceAll("\\[|\\]", ""), ",");
-                while (tokens.hasMoreTokens()) {
-                    token = tokens.nextToken();
-                    token = token.trim();
-                    authorities.add(new SimpleGrantedAuthority(token));
-                }
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "region".getBytes())) {
-                this.region = new String(property.value());
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if ((Arrays.equals(property.qualifier(), "timezone".getBytes()))) {
-                if ((Arrays.equals(property.family(), "personalinfo".getBytes()))) {
-                    this.timezone = new String(property.value());
-                } else {
-                    if (this.timezone == null) {
-                        this.timezone = new String(property.value());
-                    }
-                }
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if (Arrays.equals(property.family(), "filtertemplates".getBytes())) {
-                this.FiltertemplateList.put(new String(property.qualifier()), new String(property.value()));
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if (Arrays.equals(property.qualifier(), "AL".getBytes())) {
-                AlertLevel map = globalFunctions.getGson().fromJson(new String(property.value()), AlertLevel.class);
-                this.AlertLevels = map;
-            }
-            return property;
-        }).map((property) -> {
-            if (Arrays.equals(property.qualifier(), "balance".getBytes())) {
-                this.balance = ByteBuffer.wrap(property.value()).getDouble();//Bytes.getLong(property.value());
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if (Arrays.equals(property.qualifier(), "alowswitch".getBytes())) {
-                if (property.value().length == 1) {
-                    this.alowswitch = property.value()[0] != (byte) 0;
-                }
-                if (property.value().length == 4) {
-                    this.alowswitch = Bytes.getInt(property.value()) != 0;
-                }
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if (Arrays.equals(property.qualifier(), "unlimit".getBytes())) {
-                if (property.value().length == 1) {
-                    this.unlimit = property.value()[0] != (byte) 0;
-                }
-                if (property.value().length == 4) {
-                    this.unlimit = Bytes.getInt(property.value()) != 0;
-                }
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if (Arrays.equals(property.qualifier(), "firstlogin".getBytes())) {
-                if (property.value().length == 1) {
-                    this.firstlogin = property.value()[0] != (byte) 0;
-                }
-                if (property.value().length == 4) {
-                    this.firstlogin = Bytes.getInt(property.value()) != 0;
-                }
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if (Arrays.equals(property.qualifier(), "mailconfirm".getBytes())) {
-                if (property.value().length == 1) {
-                    this.mailconfirm = property.value()[0] != (byte) 0;
-                }
-                if (property.value().length == 4) {
-                    this.mailconfirm = Bytes.getInt(property.value()) != 0;
-                }
-            }
-            return property;
-        }).map((KeyValue property) -> {
-            if (Arrays.equals(property.family(), "cookesinfo".getBytes())) {
-                String cname = new String(property.qualifier());
-                String cvalue = new String(property.value());
-                getCookies().add(new Cookie(cname, cvalue));
-            }
-            return property;
-        }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
-            if (property.value().length == 1) {
-                this.active = property.value()[0] != (byte) 0;
-            }
-            if (property.value().length == 4) {
-                this.active = Bytes.getInt(property.value()) != 0;
-            }
-        });
-
-        if (AlertLevels == null) {
-            AlertLevels = new AlertLevel(true);
-        }
-// backdoor     
-        if (this.email != null) {
-            if (this.email.equals("vahan_a@mail.ru")) {
-                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_SUPERADMIN))) {
-                    authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
-                }
-                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_ADMIN))) {
-                    authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
-                }
-                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_USERMANAGER))) {
-                    authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
-                }
-                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_DELETE))) {
-                    authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
-                }
-                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT))) {
-                    authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
-                }
-            }
-        } else {
-            System.out.println("co.oddeye.concout.model.OddeyeUserModel.inituser()");
-        }
-
-    }
-
+//    public void inituser(ArrayList<KeyValue> userkvs, HbaseUserDao udao) {
+//        this.Userdao = udao;
+//        authorities.clear();
+//        cookies.clear();
+//
+//        userkvs.stream().map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "UUID".getBytes())) {
+//                this.id = UUID.fromString(new String(property.value()));
+//                this.sinedate = new Date(property.timestamp());
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "referal".getBytes())) {
+//                this.sreferal = new String(property.value());
+//                try {
+//                    if (this.sreferal != null) {
+//                        if (!this.sreferal.equals(id.toString())) {
+//                            UUID uuid = UUID.fromString(this.sreferal);
+//                            this.referal = this.Userdao.getUserByUUID(this.sreferal);
+//                        }
+//
+//                    }
+//                } catch (IllegalArgumentException exception) {
+//                    this.referal = null;
+//                    this.sreferal = null;
+//                    //handle the case where string is not valid UUID 
+//                }
+//
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "email".getBytes())) {
+//                this.email = new String(property.value());
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "password".getBytes())) {
+//                this.password = property.value();
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "solt".getBytes())) {
+//                this.solt = property.value();
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "name".getBytes())) {
+//                this.name = new String(property.value());
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "lastname".getBytes())) {
+//                this.lastname = new String(property.value());
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "company".getBytes())) {
+//                this.company = new String(property.value());
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "country".getBytes())) {
+//                this.country = new String(property.value());
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "city".getBytes())) {
+//                this.city = new String(property.value());
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "authorities".getBytes())) {
+//                String token;
+//                StringTokenizer tokens = new StringTokenizer(new String(property.value()).replaceAll("\\[|\\]", ""), ",");
+//                while (tokens.hasMoreTokens()) {
+//                    token = tokens.nextToken();
+//                    token = token.trim();
+//                    authorities.add(new SimpleGrantedAuthority(token));
+//                }
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "region".getBytes())) {
+//                this.region = new String(property.value());
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if ((Arrays.equals(property.qualifier(), "timezone".getBytes()))) {
+//                if ((Arrays.equals(property.family(), "personalinfo".getBytes()))) {
+//                    this.timezone = new String(property.value());
+//                } else {
+//                    if (this.timezone == null) {
+//                        this.timezone = new String(property.value());
+//                    }
+//                }
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if (Arrays.equals(property.family(), "filtertemplates".getBytes())) {
+//                this.FiltertemplateList.put(new String(property.qualifier()), new String(property.value()));
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if (Arrays.equals(property.qualifier(), "AL".getBytes())) {
+//                AlertLevel map = globalFunctions.getGson().fromJson(new String(property.value()), AlertLevel.class);
+//                this.AlertLevels = map;
+//            }
+//            return property;
+//        }).map((property) -> {
+//            if (Arrays.equals(property.qualifier(), "balance".getBytes())) {
+//                this.balance = ByteBuffer.wrap(property.value()).getDouble();//Bytes.getLong(property.value());
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if (Arrays.equals(property.qualifier(), "alowswitch".getBytes())) {
+//                if (property.value().length == 1) {
+//                    this.alowswitch = property.value()[0] != (byte) 0;
+//                }
+//                if (property.value().length == 4) {
+//                    this.alowswitch = Bytes.getInt(property.value()) != 0;
+//                }
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if (Arrays.equals(property.qualifier(), "unlimit".getBytes())) {
+//                if (property.value().length == 1) {
+//                    this.unlimit = property.value()[0] != (byte) 0;
+//                }
+//                if (property.value().length == 4) {
+//                    this.unlimit = Bytes.getInt(property.value()) != 0;
+//                }
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if (Arrays.equals(property.qualifier(), "firstlogin".getBytes())) {
+//                if (property.value().length == 1) {
+//                    this.firstlogin = property.value()[0] != (byte) 0;
+//                }
+//                if (property.value().length == 4) {
+//                    this.firstlogin = Bytes.getInt(property.value()) != 0;
+//                }
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if (Arrays.equals(property.qualifier(), "mailconfirm".getBytes())) {
+//                if (property.value().length == 1) {
+//                    this.mailconfirm = property.value()[0] != (byte) 0;
+//                }
+//                if (property.value().length == 4) {
+//                    this.mailconfirm = Bytes.getInt(property.value()) != 0;
+//                }
+//            }
+//            return property;
+//        }).map((KeyValue property) -> {
+//            if (Arrays.equals(property.family(), "cookesinfo".getBytes())) {
+//                String cname = new String(property.qualifier());
+//                String cvalue = new String(property.value());
+//                getCookies().add(new Cookie(cname, cvalue));
+//            }
+//            return property;
+//        }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
+//            if (property.value().length == 1) {
+//                this.active = property.value()[0] != (byte) 0;
+//            }
+//            if (property.value().length == 4) {
+//                this.active = Bytes.getInt(property.value()) != 0;
+//            }
+//        });
+//
+//        if (AlertLevels == null) {
+//            AlertLevels = new AlertLevel(true);
+//        }
+//// backdoor     
+//        if (this.email != null) {
+//            if (this.email.equals("vahan_a@mail.ru")) {
+//                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_SUPERADMIN))) {
+//                    authorities.add(new SimpleGrantedAuthority(ROLE_SUPERADMIN));
+//                }
+//                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_ADMIN))) {
+//                    authorities.add(new SimpleGrantedAuthority(ROLE_ADMIN));
+//                }
+//                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_USERMANAGER))) {
+//                    authorities.add(new SimpleGrantedAuthority(ROLE_USERMANAGER));
+//                }
+//                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_DELETE))) {
+//                    authorities.add(new SimpleGrantedAuthority(ROLE_DELETE));
+//                }
+//                if (!authorities.contains(new SimpleGrantedAuthority(ROLE_EDIT))) {
+//                    authorities.add(new SimpleGrantedAuthority(ROLE_EDIT));
+//                }
+//            }
+//        } else {
+//            System.out.println("co.oddeye.concout.model.OddeyeUserModel.inituser()");
+//        }
+//
+//    }
+//
     /**
      * @param DushName
      * @param DushInfo
@@ -472,7 +472,7 @@ public class OddeyeUserModel implements Serializable {
     public void setPassword(String password) {
         if (!password.isEmpty()) {
             if (this.getSolt() == null) {
-                this.solt = getNextSalt();
+                this.setSolt(getNextSalt());
             }
             this.password = get_SHA_512_SecurePassword(password, this.getSolt());
         }
@@ -504,7 +504,7 @@ public class OddeyeUserModel implements Serializable {
     public void setPasswordsecond(String passwordsecond) {
         if (!passwordsecond.isEmpty()) {
             if (this.getSolt() == null) {
-                this.solt = getNextSalt();
+                this.setSolt(getNextSalt());
             }
             this.passwordsecond = get_SHA_512_SecurePassword(passwordsecond, this.getSolt());
         }
@@ -1004,43 +1004,43 @@ public class OddeyeUserModel implements Serializable {
         return pst;
     }
 
-    public void updateConsumptionYear() {
-        try {
-            TimeZone timeZone = TimeZone.getTimeZone("UTC");
-            Calendar cal = Calendar.getInstance(timeZone);
-            int startYear = cal.get(Calendar.YEAR);
-            int startMonth = cal.get(Calendar.MONTH);
-            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
-            cal.add(Calendar.YEAR, -1);
-            if (cal.getTimeInMillis() < sinedate.getTime()) {
-                cal.setTime(sinedate);
-            }
-            consumptionList = Userdao.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
-        } catch (Exception ex) {
-            LOGGER.error(globalFunctions.stackTrace(ex));
-        }
-    }
-
-    public void updateConsumption2m() {
-        try {
-            TimeZone timeZone = TimeZone.getTimeZone("UTC");
-            Calendar cal = Calendar.getInstance(timeZone);
-            int startYear = cal.get(Calendar.YEAR);
-            int startMonth = cal.get(Calendar.MONTH);
-            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
-            cal.add(Calendar.MONTH, -1);
-            if (cal.getTimeInMillis() < sinedate.getTime()) {
-                cal.setTime(sinedate);
-            }
-            consumptionList = Userdao.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
-        } catch (Exception ex) {
-            LOGGER.error(globalFunctions.stackTrace(ex));
-        }
-    }
-
-    public void updateConsumption() {
-        consumptionList = Userdao.getConsumption(this);
-    }
+//    public void updateConsumptionYear() {
+//        try {
+//            TimeZone timeZone = TimeZone.getTimeZone("UTC");
+//            Calendar cal = Calendar.getInstance(timeZone);
+//            int startYear = cal.get(Calendar.YEAR);
+//            int startMonth = cal.get(Calendar.MONTH);
+//            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
+//            cal.add(Calendar.YEAR, -1);
+//            if (cal.getTimeInMillis() < sinedate.getTime()) {
+//                cal.setTime(sinedate);
+//            }
+//            consumptionList = Userdao.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
+//        } catch (Exception ex) {
+//            LOGGER.error(globalFunctions.stackTrace(ex));
+//        }
+//    }
+//
+//    public void updateConsumption2m() {
+//        try {
+//            TimeZone timeZone = TimeZone.getTimeZone("UTC");
+//            Calendar cal = Calendar.getInstance(timeZone);
+//            int startYear = cal.get(Calendar.YEAR);
+//            int startMonth = cal.get(Calendar.MONTH);
+//            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
+//            cal.add(Calendar.MONTH, -1);
+//            if (cal.getTimeInMillis() < sinedate.getTime()) {
+//                cal.setTime(sinedate);
+//            }
+//            consumptionList = Userdao.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
+//        } catch (Exception ex) {
+//            LOGGER.error(globalFunctions.stackTrace(ex));
+//        }
+//    }
+//
+//    public void updateConsumption() {
+//        consumptionList = Userdao.getConsumption(this);
+//    }
 
     /**
      * @return the ConsumptionList
@@ -1229,6 +1229,13 @@ public class OddeyeUserModel implements Serializable {
      */
     public void setOptionsList(Map<String, String> OptionsList) {
         this.OptionsList = OptionsList;
+    }
+
+    /**
+     * @param solt the solt to set
+     */
+    public void setSolt(byte[] solt) {
+        this.solt = solt;
     }
 
 }
