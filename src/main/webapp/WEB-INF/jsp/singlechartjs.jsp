@@ -53,8 +53,8 @@
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
     </c:if>
-    var hashcode = ${metric.hashCode()};
-    var merictype = ${metric.getType().ordinal()};
+    var hashcode = ${hashcode};
+    var merictype = ${type};
     var formatter = format_metric;
     var abc_formatter = format_metric;
     var s_formatter = "format_metric";

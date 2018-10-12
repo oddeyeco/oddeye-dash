@@ -108,19 +108,31 @@ public class dataControlers {
 //                    }
 //                }
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
+                if (meta != null) {
+                    if (meta.isSpecial()) {
+                        return "redirect:/history/" + meta.hashCode();
+                    }
 
-                if (meta.isSpecial()) {
-                    return "redirect:/history/" + meta.hashCode();
+                    map.put("body", "singlechart");
+                    map.put("jspart", "singlechartjs");
+                    GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
+                    ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
+                    meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
+
+                    map.put("metric", meta);
+                    map.put("title", meta.getDisplayName() + "|" + meta.getDisplayTags("|"));
+                    map.put("hashcode", meta.hashCode());
+                    map.put("type", meta.getType().ordinal());
+                }
+                else
+                {
+                    map.put("body", "singlechart");
+                    map.put("jspart", "singlechartjs");   
+                    map.put("hashcode", metricshash);
+                    map.put("type", 3);                    
+                    map.put("title", metricshash);
                 }
 
-                map.put("body", "singlechart");
-                map.put("jspart", "singlechartjs");
-                GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());
-                ArrayList<KeyValue> row = BaseTsdb.getClient().get(getMetric).joinUninterruptibly();
-                meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
-
-                map.put("metric", meta);
-                map.put("title", meta.getDisplayName() + "|" + meta.getDisplayTags("|"));
             } catch (Exception ex) {
                 Logger.getLogger(dataControlers.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -172,7 +184,6 @@ public class dataControlers {
                 cal.set(Calendar.SECOND, 0);
                 cal.set(Calendar.MILLISECOND, 0);
 
-                
                 Calendar cala = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                 cala.setTimeInMillis(cal.getTimeInMillis());
                 long startTime = cala.getTimeInMillis();

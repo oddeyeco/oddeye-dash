@@ -89,13 +89,8 @@
                                 <span class="value text-success">${metric.getRegression().getN()}</span>
                             </li>
                         </ul>   
-
-
-
                     </div>
                 </div>                 
-
-
             </div>
             <div class="x_panel">
                 <div class="x_title">
