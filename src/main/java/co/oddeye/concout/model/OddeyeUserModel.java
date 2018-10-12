@@ -127,6 +127,7 @@ public class OddeyeUserModel implements Serializable {
     @HbaseColumn(family = "cookesinfo")
     private transient ArrayList<Cookie> cookies = new ArrayList<>();
 
+    @HbaseColumn(qualifier = "UUID", family = "personalinfo",type="timestamp")
     private Date sinedate;
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
@@ -1004,44 +1005,6 @@ public class OddeyeUserModel implements Serializable {
         return pst;
     }
 
-//    public void updateConsumptionYear() {
-//        try {
-//            TimeZone timeZone = TimeZone.getTimeZone("UTC");
-//            Calendar cal = Calendar.getInstance(timeZone);
-//            int startYear = cal.get(Calendar.YEAR);
-//            int startMonth = cal.get(Calendar.MONTH);
-//            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
-//            cal.add(Calendar.YEAR, -1);
-//            if (cal.getTimeInMillis() < sinedate.getTime()) {
-//                cal.setTime(sinedate);
-//            }
-//            consumptionList = Userdao.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
-//        } catch (Exception ex) {
-//            LOGGER.error(globalFunctions.stackTrace(ex));
-//        }
-//    }
-//
-//    public void updateConsumption2m() {
-//        try {
-//            TimeZone timeZone = TimeZone.getTimeZone("UTC");
-//            Calendar cal = Calendar.getInstance(timeZone);
-//            int startYear = cal.get(Calendar.YEAR);
-//            int startMonth = cal.get(Calendar.MONTH);
-//            LOGGER.info(this.getEmail() + ":" + startYear + "/" + startMonth + " " + cal.getTime());
-//            cal.add(Calendar.MONTH, -1);
-//            if (cal.getTimeInMillis() < sinedate.getTime()) {
-//                cal.setTime(sinedate);
-//            }
-//            consumptionList = Userdao.getConsumption(this, startYear, startMonth, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH));
-//        } catch (Exception ex) {
-//            LOGGER.error(globalFunctions.stackTrace(ex));
-//        }
-//    }
-//
-//    public void updateConsumption() {
-//        consumptionList = Userdao.getConsumption(this);
-//    }
-
     /**
      * @return the ConsumptionList
      */
@@ -1109,6 +1072,13 @@ public class OddeyeUserModel implements Serializable {
         return sinedate;
     }
 
+    /**
+     * @param sinedate the sinedate to set
+     */
+    public void setSinedate(Date sinedate) {
+        this.sinedate = sinedate;
+    }
+    
     /**
      * @return the referal
      */
@@ -1236,6 +1206,13 @@ public class OddeyeUserModel implements Serializable {
      */
     public void setSolt(byte[] solt) {
         this.solt = solt;
+    }
+
+    /**
+     * @param consumptionList the consumptionList to set
+     */
+    public void setConsumptionList(ConsumptionList consumptionList) {
+        this.consumptionList = consumptionList;
     }
 
 }

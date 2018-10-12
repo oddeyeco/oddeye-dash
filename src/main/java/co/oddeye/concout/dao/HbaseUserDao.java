@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -400,9 +401,7 @@ public class HbaseUserDao extends HbaseBaseDao {
             byte[] TsdbID;
             if (userkvs.isEmpty()) {
                 return null;
-            }
-            System.out.println("****************************************************");
-
+            }            
             for (Field field : user.getClass().getDeclaredFields()) {
                 if (field.isAnnotationPresent(HbaseColumn.class)) {
                     PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
@@ -427,63 +426,68 @@ public class HbaseUserDao extends HbaseBaseDao {
                                         if ((Arrays.equals(kv.qualifier(), anotation.qualifier().getBytes()))) {
                                             Method setter = PDescriptor.getWriteMethod();
                                             Object newvalue = null;
-
-                                            switch (field.getType().getCanonicalName()) {
-                                                case "java.util.UUID":
-                                                    newvalue = UUID.fromString(new String(kv.value()));                                                    
-                                                    setter.invoke(user, new Object[]{newvalue});
-                                                    break;                                                
-                                                case "java.lang.String":
-                                                    newvalue = new String(kv.value());
-                                                    setter.invoke(user, new Object[]{newvalue});
-                                                    break;
-                                                case "java.util.Collection":
-                                                    if (field.getName().equals("authorities")) {
-                                                        String token;
-                                                        StringTokenizer tokens = new StringTokenizer(new String(kv.value()).replaceAll("\\[|\\]", ""), ",");
-                                                        newvalue = new ArrayList<>();
-                                                        while (tokens.hasMoreTokens()) {
-                                                            token = tokens.nextToken();
-                                                            token = token.trim();
-                                                            ((ArrayList<GrantedAuthority>) newvalue).add(new SimpleGrantedAuthority(token));
-                                                        }                                                        
+                                            //&& (field.getType().getCanonicalName().equals("java.util.Date"))
+                                            if (anotation.type().equals("timestamp") ) {
+                                                newvalue = new Date(kv.timestamp());
+                                                setter.invoke(user, new Object[]{newvalue});
+                                            } else {
+                                                switch (field.getType().getCanonicalName()) {
+                                                    case "java.util.UUID":
+                                                        newvalue = UUID.fromString(new String(kv.value()));
                                                         setter.invoke(user, new Object[]{newvalue});
-                                                    }
-
-                                                    break;
-                                                case "java.lang.Double":
-                                                    newvalue = ByteBuffer.wrap(kv.value()).getDouble();//Bytes.getLong(property.value());
-                                                    setter.invoke(user, new Object[]{newvalue});
-                                                    break;
-                                                case "co.oddeye.core.AlertLevel":
-                                                    newvalue = globalFunctions.getGson().fromJson(new String(kv.value()), AlertLevel.class);
-                                                    setter.invoke(user, new Object[]{newvalue});
-                                                    break;
-
-                                                case "java.lang.Boolean":
-                                                    if (kv.value().length == 1) {
-                                                        newvalue = kv.value()[0] != (byte) 0;
-                                                    }
-                                                    if (kv.value().length == 4) {
-                                                        newvalue = Bytes.getInt(kv.value()) != 0;
-                                                    }
-                                                    setter.invoke(user, new Object[]{newvalue});
-                                                    break;
-                                                case "byte[]":
-                                                    switch (field.getName()) {
-                                                        case "password":
-                                                            user.setPasswordByte(kv.value());
-                                                            break;
-                                                        default:
-                                                            newvalue = kv.value();
+                                                        break;
+                                                    case "java.lang.String":
+                                                        newvalue = new String(kv.value());
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+                                                    case "java.util.Collection":
+                                                        if (field.getName().equals("authorities")) {
+                                                            String token;
+                                                            StringTokenizer tokens = new StringTokenizer(new String(kv.value()).replaceAll("\\[|\\]", ""), ",");
+                                                            newvalue = new ArrayList<>();
+                                                            while (tokens.hasMoreTokens()) {
+                                                                token = tokens.nextToken();
+                                                                token = token.trim();
+                                                                ((ArrayList<GrantedAuthority>) newvalue).add(new SimpleGrantedAuthority(token));
+                                                            }
                                                             setter.invoke(user, new Object[]{newvalue});
-                                                            break;
-                                                    }
+                                                        }
 
-                                                    break;
-                                                default:
-                                                    System.out.println(field.getType().getCanonicalName());
-                                                    break;
+                                                        break;
+                                                    case "java.lang.Double":
+                                                        newvalue = ByteBuffer.wrap(kv.value()).getDouble();//Bytes.getLong(property.value());
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+                                                    case "co.oddeye.core.AlertLevel":
+                                                        newvalue = globalFunctions.getGson().fromJson(new String(kv.value()), AlertLevel.class);
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+
+                                                    case "java.lang.Boolean":
+                                                        if (kv.value().length == 1) {
+                                                            newvalue = kv.value()[0] != (byte) 0;
+                                                        }
+                                                        if (kv.value().length == 4) {
+                                                            newvalue = Bytes.getInt(kv.value()) != 0;
+                                                        }
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+                                                    case "byte[]":
+                                                        switch (field.getName()) {
+                                                            case "password":
+                                                                user.setPasswordByte(kv.value());
+                                                                break;
+                                                            default:
+                                                                newvalue = kv.value();
+                                                                setter.invoke(user, new Object[]{newvalue});
+                                                                break;
+                                                        }
+
+                                                        break;
+                                                    default:
+                                                        System.out.println(field.getType().getCanonicalName());
+                                                        break;
+                                                }
                                             }
 
                                         }

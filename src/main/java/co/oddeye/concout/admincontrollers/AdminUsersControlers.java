@@ -9,6 +9,7 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.service.OddeyeUserService;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
@@ -56,6 +57,8 @@ public class AdminUsersControlers extends GRUDControler {
 
     @Autowired
     private HbaseUserDao Userdao;
+    @Autowired
+    private OddeyeUserService UserService;    
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -318,8 +321,8 @@ public class AdminUsersControlers extends GRUDControler {
         } else {
             map.put("isAuthentication", false);
         }
-        OddeyeUserModel model = Userdao.getUserByUUID(UUID.fromString(id), true);
-        model.updateConsumptionYear();
+        OddeyeUserModel model = Userdao.getUserByUUID(UUID.fromString(id), true);        
+        UserService.updateConsumptionYear(model);
         map.put("model", model);
 //
 //        String baseUrl = mailSender.getBaseurl(request);
@@ -461,8 +464,8 @@ public class AdminUsersControlers extends GRUDControler {
 
                         } catch (Exception e) {
                             LOGGER.error(globalFunctions.stackTrace(e));
-                        }
-                        updateuser.updateConsumptionYear();
+                        }                        
+                        UserService.updateConsumptionYear(updateuser);
                         updateuser.setReferal(Userdao.getUserByUUID(updateuser.getSreferal()));
                         map.put("model", updateuser);
                     }

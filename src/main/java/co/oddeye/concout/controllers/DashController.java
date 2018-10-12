@@ -13,6 +13,7 @@ import co.oddeye.concout.exception.ResourceNotFoundException;
 import co.oddeye.concout.model.DashboardTemplate;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.service.OddeyeUserService;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -62,6 +63,10 @@ public class DashController {
     private KafkaTemplate<Integer, String> conKafkaTemplate;
     @Autowired
     private HbaseUserDao Userdao;
+    
+    @Autowired
+    private OddeyeUserService UserService;
+    
     @Autowired
     private HbaseDushboardTemplateDAO TemplateDAO;
     @Autowired
@@ -165,7 +170,7 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel(true);
-            userDetails.updateConsumption2m();
+            UserService.updateConsumption2m(userDetails);
             map.put("curentuser", userDetails);
 
             map.put("activeuser", userDetails);
