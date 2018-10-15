@@ -32,6 +32,11 @@
       "dash.title.unlockDashboard":"<spring:message code="dash.title.unlockDashboard"/>",     
       "dash.row":"<spring:message code="dash.row"/>",      
       "dash.title.expand":"<spring:message code="dash.title.expand"/>",
+      "dash.modal.deleteRow?":"<spring:message code="dash.modal.deleteRow?"/>",
+      "dash.modal.deleteChart?":"<spring:message code="dash.modal.deleteChart?"/>",
+      "dash.modal.deleteDashboard?":"<spring:message code="dash.modal.deleteDashboard?"/>",
+      "dash.errorSavingData":"<spring:message code="dash.errorSavingData"/>",
+      
       
       "datetime.lastminute":"<spring:message code="datetime.lastminute"/>",
       "datetime.lasthoures":"<spring:message code="datetime.lasthoures"/>",
@@ -85,7 +90,7 @@
       "editform.energy":"<spring:message code="editform.energy"/>",
       "editform.temperature":"<spring:message code="editform.temperature"/>",
       "editform.pressure":"<spring:message code="editform.pressure"/>",      
-      "":"<spring:message code=""/>",
+      "editform.title.mergeSimilarQueries":"<spring:message code="editform.title.mergeSimilarQueries"/>",
       "":"<spring:message code=""/>",
       "":"<spring:message code=""/>",
       "":"<spring:message code=""/>",
@@ -202,7 +207,8 @@
       "countereditform.fontSize":"<spring:message code="countereditform.fontSize"/>",
       "countereditform.subtitle":"<spring:message code="countereditform.subtitle"/>",
       "countereditform.box":"<spring:message code="countereditform.box"/>",
-      "":"<spring:message code=""/>",
+      
+      "dashboard.Modal.successfullySaved":"<spring:message code="dashboard.Modal.successfullySaved"/>",
       "":"<spring:message code=""/>",
       "":"<spring:message code=""/>",
       "":"<spring:message code=""/>",

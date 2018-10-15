@@ -38,7 +38,11 @@
         "doesntContain":"<spring:message code="doesntContain"/>",
         "equal":"<spring:message code="equal"/>",
         "notEqual":"<spring:message code="notEqual"/>",
-        "title.selectIdentic":"<spring:message code="title.selectIdentic"/>"
+        "title.selectIdentic":"<spring:message code="title.selectIdentic"/>",
+        "monitorings2.modal.deleteView?":"<spring:message code="monitorings2.modal.deleteView?"/>",
+        "dashboard.Modal.successfullySaved":"<spring:message code="dashboard.Modal.successfullySaved"/>",
+        "dash.errorSavingData":"<spring:message code="dash.errorSavingData"/>",
+        "":"<spring:message code=""/>"
         };        
 </script> 
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>

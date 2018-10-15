@@ -24,8 +24,8 @@
                 <p class="text-warning"><spring:message code="dashboard.Modal.saveDashboard?"/></p>
             </div>
             <div class="modal-footer">
-                <input  type="button" class="btn btn-default" data-dismiss="modal" value="No">
-                <input id="savelock" type="button" class="btn btn-success nowrap" data-dismiss="modal" value="Yes">
+                <input  type="button" class="btn btn-default" data-dismiss="modal" value="<spring:message code="no"/>">
+                <input id="savelock" type="button" class="btn btn-success nowrap" data-dismiss="modal" value="<spring:message code="yes"/>">
             </div>
         </div>
     </div>
@@ -225,8 +225,8 @@
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
-                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="Delete">
+                <input   type="button" class="btn btn-default" data-dismiss="modal" value="<spring:message code="close"/>">
+                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="<spring:message code="delete"/>">
             </div>
         </div>
     </div>
