@@ -125,8 +125,8 @@
                         <span class="caret"></span>
                         <span class="sr-only"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a class="savedashasTemplate"><spring:message code="dashboard.saveAsTemplate"/></a>
+                    <ul class="dropdown-menu minWidth140" role="menu">
+                        <li><a class="savedashasTemplate text-center"><spring:message code="dashboard.saveAsTemplate"/></a>
                         </li>
                     </ul>
                 </div>                  
