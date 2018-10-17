@@ -729,7 +729,7 @@ $(document).ready(function () {
                 }, 2000);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
 
     });
@@ -770,7 +770,7 @@ $(document).ready(function () {
                 }, 2000);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
 
     });
@@ -795,10 +795,10 @@ $(document).ready(function () {
                 window.location = cp + "/monitoring/";
             } else
             {
-                alert("Request failed");
+                alert(locale["requestFailed"]);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
 
     });
