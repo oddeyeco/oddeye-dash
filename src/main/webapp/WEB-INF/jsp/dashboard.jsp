@@ -21,7 +21,7 @@
             </div>
             <div class="modal-body">
                 <p><spring:message code="dashboard.Modal.needsSavedDashboard"/></p>
-                <p class="text-warning"><spring:message code="dashboard.Modal.saveDashboard?"/></p>
+                <p class="text-warning"><spring:message code="dashboard.Modal.confirmSaveDashboard"/></p>
             </div>
             <div class="modal-footer">
                 <input  type="button" class="btn btn-default" data-dismiss="modal" value="<spring:message code="no"/>">
@@ -221,7 +221,7 @@
                 <h4 class="modal-title"><spring:message code="confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p><spring:message code="dashboard.Modal.deleteDashboard?"/></p>
+                <p><spring:message code="dashboard.Modal.confirmDelDashboard"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">

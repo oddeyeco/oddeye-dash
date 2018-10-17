@@ -32,9 +32,9 @@
       "dash.title.unlockDashboard":"<spring:message code="dash.title.unlockDashboard"/>",     
       "dash.row":"<spring:message code="dash.row"/>",      
       "dash.title.expand":"<spring:message code="dash.title.expand"/>",
-      "dash.modal.deleteRow?":"<spring:message code="dash.modal.deleteRow?"/>",
-      "dash.modal.deleteChart?":"<spring:message code="dash.modal.deleteChart?"/>",
-      "dash.modal.deleteDashboard?":"<spring:message code="dash.modal.deleteDashboard?"/>",
+      "dash.modal.confirmDelRow":"<spring:message code="dash.modal.confirmDelRow"/>",
+      "dash.modal.confirmDelChart":"<spring:message code="dash.modal.confirmDelChart"/>",
+      "dash.modal.confirmDelDashboard":"<spring:message code="dash.modal.confirmDelDashboard"/>",
       "dash.errorSavingData":"<spring:message code="dash.errorSavingData"/>",
       
       

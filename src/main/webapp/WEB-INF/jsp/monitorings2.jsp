@@ -47,7 +47,7 @@
                 <h4 class="modal-title"><spring:message code="confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p><spring:message code="monitorings2.modal.deleteDashboard?"/></p>
+                <p><spring:message code="monitorings2.modal.confirmDelDashboard"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
