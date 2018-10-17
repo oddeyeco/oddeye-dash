@@ -11,6 +11,9 @@
 </script>
 
 <script>
+    var locale = {
+        "requestFailed":"<spring:message code="requestFailed"/>"
+        };   
     var merictype = ${metric.getType().ordinal()};
     var formatter = format_metric;
     var s_formatter = "{value} %";
@@ -203,10 +206,10 @@
 
             } else
             {
-                alert("Request failed");
+                alert(locale["requestFailed"]);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
     });
 </script>

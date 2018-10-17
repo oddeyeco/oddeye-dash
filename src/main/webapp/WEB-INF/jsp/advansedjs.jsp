@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
@@ -11,6 +12,9 @@
     var legend = [];
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
+    var locale = {
+        "requestFailed":"<spring:message code="requestFailed"/>"
+        };        
 //TODO check host type for formater
     var defserie = {
         name: null,
@@ -158,10 +162,10 @@
                location.reload();
             } else
             {
-                alert("Request failed");
+                alert(locale["equestFailed"]);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["equestFailed"]);
         });
     });
 </script>
