@@ -128,8 +128,8 @@
                                                         <th>${ident_tag} </th>
                                                         <th><spring:message code="errorsanalysis.value"/></th>
                                                         <th><spring:message code="errorsanalysis.weight"/></th>
-                                                        <th><spring:message code="errorsanalysis.deviation%"/></th>
-                                                        <th><spring:message code="errorsanalysis.predictDeviation%"/></th>
+                                                        <th><spring:message code="errorsanalysis.deviation"/></th>
+                                                        <th><spring:message code="errorsanalysis.predictDeviation"/></th>
                                                         <th><spring:message code="errorsanalysis.recurrence"/></th>
                                                         <th><spring:message code="level"/></th>
                                                         <th><spring:message code="errorsanalysis.time"/></th>

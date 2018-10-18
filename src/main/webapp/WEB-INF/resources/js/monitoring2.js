@@ -807,7 +807,7 @@ $(document).ready(function () {
     $('body').on("click", "#rem_filter", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleteviewconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html(locale["monitorings2.modal.deleteView?"]);
+        $("#deleteConfirm").find('.modal-body p').html(locale["monitorings2.modal.confirmDelView"]);
         $("#deleteConfirm").find('.modal-body .text-warning').html(nameoptions);
         $("#deleteConfirm").modal('show');
     });
