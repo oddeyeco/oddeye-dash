@@ -271,73 +271,74 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     public void addUser(OddeyeUserModel user) throws Exception {
         //TODO change for put qualifuers[][]
-        UUID uuid = user.getId();
-        final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
-        final PutRequest putname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "name".getBytes(), user.getName().getBytes());
-        final PutRequest putemail = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "email".getBytes(), user.getEmail().getBytes());
-        final PutRequest putlastname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "lastname".getBytes(), user.getLastname().getBytes());
-
-        if (user.getCompany() != null) {
-            final PutRequest putcompany = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "company".getBytes(), user.getCompany().getBytes());
-            BaseTsdb.getClient().put(putcompany);
-        }
-        if (user.getCountry() != null) {
-            final PutRequest putcountry = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "country".getBytes(), user.getCountry().getBytes());
-            BaseTsdb.getClient().put(putcountry);
-
-        }
-        if (user.getCity() != null) {
-//            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"), Bytes.toBytes(user.getCity()));
-            final PutRequest putcity = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "city".getBytes(), user.getCity().getBytes());
-            BaseTsdb.getClient().put(putcity);
-        }
-
-        if (user.getTimezone() != null) {
-            final PutRequest puttimezone = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "timezone".getBytes(), user.getTimezone().getBytes());
-            BaseTsdb.getClient().put(puttimezone);
-        }
-
-        if (user.getRegion() != null) {
-            final PutRequest putregion = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "region".getBytes(), user.getRegion().getBytes());
-            BaseTsdb.getClient().put(putregion);
-        }
-        if (user.getPasswordByte() != null) {
-            final PutRequest putpassword = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "password".getBytes(), user.getPasswordByte());
-            BaseTsdb.getClient().put(putpassword);
-
-        }
-        if (user.getSolt() != null) {
-            final PutRequest putsolt = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "solt".getBytes(), user.getSolt());
-            BaseTsdb.getClient().put(putsolt);
-
-        }
-        if (user.getActive() != null) {
-            final PutRequest putactive = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "active".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
-            BaseTsdb.getClient().put(putactive);
-        }
-
-        if (user.getFirstlogin() != null) {
-            final PutRequest firstlogin = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "firstlogin".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
-            BaseTsdb.getClient().put(firstlogin);
-        }
-        if (user.getMailconfirm() != null) {
-            final PutRequest mailconfirm = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "mailconfirm".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
-            BaseTsdb.getClient().put(mailconfirm);
-        }
-        if (user.getAuthorities() != null) {
-            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
-            BaseTsdb.getClient().put(putAuthorities);
-        }
-        if (user.getBalance() != null) {
-            byte[] bytes = new byte[8];
-            ByteBuffer.wrap(bytes).putDouble(user.getBalance());
-            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "balance".getBytes(), bytes);
-            BaseTsdb.getClient().put(putAuthorities);
-        }
-        BaseTsdb.getClient().put(putUUID);
-        BaseTsdb.getClient().put(putname);
-        BaseTsdb.getClient().put(putemail);
-        BaseTsdb.getClient().put(putlastname).join();
+        byte[] key = user.getId().toString().getBytes();
+//        UUID uuid = user.getId();
+//        final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
+//        final PutRequest putname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "name".getBytes(), user.getName().getBytes());
+//        final PutRequest putemail = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "email".getBytes(), user.getEmail().getBytes());
+//        final PutRequest putlastname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "lastname".getBytes(), user.getLastname().getBytes());
+//
+//        if (user.getCompany() != null) {
+//            final PutRequest putcompany = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "company".getBytes(), user.getCompany().getBytes());
+//            BaseTsdb.getClient().put(putcompany);
+//        }
+//        if (user.getCountry() != null) {
+//            final PutRequest putcountry = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "country".getBytes(), user.getCountry().getBytes());
+//            BaseTsdb.getClient().put(putcountry);
+//
+//        }
+//        if (user.getCity() != null) {
+////            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"), Bytes.toBytes(user.getCity()));
+//            final PutRequest putcity = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "city".getBytes(), user.getCity().getBytes());
+//            BaseTsdb.getClient().put(putcity);
+//        }
+//
+//        if (user.getTimezone() != null) {
+//            final PutRequest puttimezone = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "timezone".getBytes(), user.getTimezone().getBytes());
+//            BaseTsdb.getClient().put(puttimezone);
+//        }
+//
+//        if (user.getRegion() != null) {
+//            final PutRequest putregion = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "region".getBytes(), user.getRegion().getBytes());
+//            BaseTsdb.getClient().put(putregion);
+//        }
+//        if (user.getPasswordByte() != null) {
+//            final PutRequest putpassword = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "password".getBytes(), user.getPasswordByte());
+//            BaseTsdb.getClient().put(putpassword);
+//
+//        }
+//        if (user.getSolt() != null) {
+//            final PutRequest putsolt = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "solt".getBytes(), user.getSolt());
+//            BaseTsdb.getClient().put(putsolt);
+//
+//        }
+//        if (user.getActive() != null) {
+//            final PutRequest putactive = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "active".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
+//            BaseTsdb.getClient().put(putactive);
+//        }
+//
+//        if (user.getFirstlogin() != null) {
+//            final PutRequest firstlogin = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "firstlogin".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
+//            BaseTsdb.getClient().put(firstlogin);
+//        }
+//        if (user.getMailconfirm() != null) {
+//            final PutRequest mailconfirm = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "mailconfirm".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
+//            BaseTsdb.getClient().put(mailconfirm);
+//        }
+//        if (user.getAuthorities() != null) {
+//            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
+//            BaseTsdb.getClient().put(putAuthorities);
+//        }
+//        if (user.getBalance() != null) {
+//            byte[] bytes = new byte[8];
+//            ByteBuffer.wrap(bytes).putDouble(user.getBalance());
+//            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "balance".getBytes(), bytes);
+//            BaseTsdb.getClient().put(putAuthorities);
+//        }
+//        BaseTsdb.getClient().put(putUUID);
+//        BaseTsdb.getClient().put(putname);
+//        BaseTsdb.getClient().put(putemail);
+//        BaseTsdb.getClient().put(putlastname).join();
     }
 
     public Map<String, HashMap<String, Object>> saveAll(OddeyeUserModel user, OddeyeUserModel newuser, Map<String, Object> editConfig) throws Exception {
