@@ -16,7 +16,6 @@ import co.oddeye.concout.validator.LevelsValidator;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
-import co.oddeye.core.OddeeyMetricTypesEnum;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

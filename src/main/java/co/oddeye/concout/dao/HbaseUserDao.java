@@ -94,6 +94,181 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     }
 
+    public OddeyeUserModel getAvalibleUserByUUID(UUID uuid) {
+        return getUsers().get(uuid);
+    }
+
+    public OddeyeUserModel getUserByUUID(UUID uuid) {
+        return getUserByUUID(uuid, false);
+    }
+
+    public OddeyeUserModel getUserByUUID(String uuid) {
+        try {
+            return getUserByUUID(UUID.fromString(uuid), false);
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
+    public OddeyeUserDetails getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
+        OddeyeUserModel user = getUserByUUID(uuid, reload);
+        OddeyeUserDetails result = new OddeyeUserDetails(uuid);
+        if (initmeta) {
+            try {
+                user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        }
+
+        return result;
+    }
+
+    public OddeyeUserModel getUserByUUID(UUID uuid, boolean reload) {
+        if (!reload && getUsers().containsKey(uuid)) {
+            return getUsers().get(uuid);
+        }
+        try {
+            GetRequest get = new GetRequest(table, uuid.toString().getBytes());
+            final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
+            OddeyeUserModel user;
+            if (getUsers().containsKey(uuid)) {
+                user = getUsers().get(uuid);
+                user.getCookies().clear();
+            } else {
+                user = new OddeyeUserModel();
+            }
+            byte[] TsdbID;
+            if (userkvs.isEmpty()) {
+                return null;
+            }
+            for (Field field : user.getClass().getDeclaredFields()) {
+                if (field.isAnnotationPresent(HbaseColumn.class)) {
+                    PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
+                    for (KeyValue kv : userkvs) {
+                        String q = new String(kv.qualifier());
+                        for (Annotation an : field.getDeclaredAnnotations()) {
+                            if (an.annotationType().equals(HbaseColumn.class)) {
+                                HbaseColumn anotation = (HbaseColumn) an;
+                                if ((Arrays.equals(kv.family(), anotation.family().getBytes()))) {
+                                    if (anotation.qualifier().isEmpty()) {
+                                        if (ArrayList.class.isAssignableFrom(field.getType())) {
+                                            if (field.getName().equals("cookies")) {
+                                                Method getter = PDescriptor.getReadMethod();
+                                                Object value = getter.invoke(user);
+                                                String cname = new String(kv.qualifier());
+                                                String cvalue = new String(kv.value());
+                                                ((ArrayList<Cookie>) value).add(new Cookie(cname, cvalue));
+                                            }
+
+                                        }
+                                    } else {
+                                        if ((Arrays.equals(kv.qualifier(), anotation.qualifier().getBytes()))) {
+                                            Method setter = PDescriptor.getWriteMethod();
+                                            Object newvalue = null;
+                                            //&& (field.getType().getCanonicalName().equals("java.util.Date"))
+                                            if (anotation.type().equals("timestamp")) {
+                                                newvalue = new Date(kv.timestamp());
+                                                setter.invoke(user, new Object[]{newvalue});
+                                            } else {
+                                                switch (field.getType().getCanonicalName()) {
+                                                    case "java.util.UUID":
+                                                        newvalue = UUID.fromString(new String(kv.value()));
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+                                                    case "java.lang.String":
+                                                        newvalue = new String(kv.value());
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+                                                    case "java.util.Collection":
+                                                        if (field.getName().equals("authorities")) {
+                                                            String token;
+                                                            StringTokenizer tokens = new StringTokenizer(new String(kv.value()).replaceAll("\\[|\\]", ""), ",");
+                                                            newvalue = new ArrayList<>();
+                                                            while (tokens.hasMoreTokens()) {
+                                                                token = tokens.nextToken();
+                                                                token = token.trim();
+                                                                ((ArrayList<GrantedAuthority>) newvalue).add(new SimpleGrantedAuthority(token));
+                                                            }
+                                                            setter.invoke(user, new Object[]{newvalue});
+                                                        }
+
+                                                        break;
+                                                    case "java.lang.Double":
+                                                        newvalue = ByteBuffer.wrap(kv.value()).getDouble();//Bytes.getLong(property.value());
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+                                                    case "co.oddeye.core.AlertLevel":
+                                                        newvalue = globalFunctions.getGson().fromJson(new String(kv.value()), AlertLevel.class);
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+
+                                                    case "java.lang.Boolean":
+                                                        if (kv.value().length == 1) {
+                                                            newvalue = kv.value()[0] != (byte) 0;
+                                                        }
+                                                        if (kv.value().length == 4) {
+                                                            newvalue = Bytes.getInt(kv.value()) != 0;
+                                                        }
+                                                        setter.invoke(user, new Object[]{newvalue});
+                                                        break;
+                                                    case "byte[]":
+                                                        switch (field.getName()) {
+                                                            case "password":
+                                                                user.setPasswordByte(kv.value());
+                                                                break;
+                                                            default:
+                                                                newvalue = kv.value();
+                                                                setter.invoke(user, new Object[]{newvalue});
+                                                                break;
+                                                        }
+
+                                                        break;
+                                                    default:
+                                                        System.out.println(field.getType().getCanonicalName());
+                                                        break;
+                                                }
+                                            }
+
+                                        }
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+//            user.inituser(userkvs, this);
+            try {
+                TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
+            } catch (NoSuchUniqueName e) {
+                TsdbID = BaseTsdb.getTsdb().assignUid("tagv", user.getId().toString());
+            }
+
+            user.setTsdbID(TsdbID);
+            getUsers().put(user.getId(), user);
+            usersbyEmail.put(user.getEmail(), user);
+            user.setDushList(getAllDush(uuid));
+            user.setOptionsList(getAllOptions(uuid));
+            return getUsers().get(uuid);
+
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+        return null;
+    }
+
+    /**
+     * @return the usersbyUUID
+     */
+    public Map<UUID, OddeyeUserModel> getUsers() {
+        return usersbyUUID;
+    }
+
     public void addUser(OddeyeUserModel user) throws Exception {
         //TODO change for put qualifuers[][]
         UUID uuid = user.getId();
@@ -163,6 +338,92 @@ public class HbaseUserDao extends HbaseBaseDao {
         BaseTsdb.getClient().put(putname);
         BaseTsdb.getClient().put(putemail);
         BaseTsdb.getClient().put(putlastname).join();
+    }
+
+    public Map<String, HashMap<String, Object>> saveAll(OddeyeUserModel user, OddeyeUserModel newuser, Map<String, Object> editConfig) throws Exception {
+        Map<String, HashMap<String, Object>> changedata = new HashMap<>();
+        for (Map.Entry<String, Object> configEntry : editConfig.entrySet()) {
+//            HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
+            HashMap<?, ?> config = (HashMap<?, ?>) configEntry.getValue();
+            String name = (String) config.get("path");
+            try {
+                Field field = user.getClass().getDeclaredField(name);
+                Annotation[] Annotations = field.getDeclaredAnnotations();
+                if (Annotations.length > 0) {
+                    for (Annotation annotation : Annotations) {
+                        if (annotation.annotationType().equals(HbaseColumn.class)) {
+                            try {
+                                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
+                                Method getter = PDescriptor.getReadMethod();
+                                Object value = getter.invoke(user);
+                                Object newvalue = getter.invoke(newuser);
+                                //type="collection"
+                                boolean ischange = false;
+
+                                switch (((HbaseColumn) annotation).type()) {
+                                    case "password":
+                                        getter = user.getClass().getDeclaredMethod("getPasswordByte");
+                                        value = getter.invoke(user);
+                                        newvalue = getter.invoke(newuser);
+                                        if (newvalue != null) {
+                                            if (!Arrays.equals((byte[]) newvalue, (byte[]) value)) {
+                                                ischange = true;
+                                            }
+                                        }
+                                        break;
+                                    case "collection":
+                                        if (!value.toString().equals(newvalue.toString())) {
+                                            ischange = true;
+                                        }
+                                        break;
+                                    default:
+                                        if ((value == null)) {
+                                            if (newvalue != null) {
+                                                ischange = true;
+                                            }
+                                            break;
+                                        }
+                                        if ((newvalue == null)) {
+                                            if (value != null) {
+                                                ischange = true;
+                                            }
+                                            break;
+                                        }
+                                        if (!value.equals(newvalue)) {
+                                            ischange = true;
+                                        }
+                                        break;
+                                }
+
+                                if (ischange) {
+
+                                    Method setter = PDescriptor.getWriteMethod();
+                                    String family = ((HbaseColumn) annotation).family();
+                                    if (!changedata.containsKey(family)) {
+                                        changedata.put(family, new HashMap<>());
+                                    }
+                                    if (((HbaseColumn) annotation).type().equals("password")) {
+                                        changedata.get(family).put("password", newuser.getPasswordByte());
+                                        changedata.get(family).put("solt", newuser.getSolt());
+                                    } else {
+                                        setter.invoke(user, newvalue);
+                                        changedata.get(family).put(((HbaseColumn) annotation).qualifier(), newvalue);
+                                    }
+
+                                }
+
+                            } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                                LOGGER.error(globalFunctions.stackTrace(e));
+                            }
+                        }
+
+                    }
+                }
+            } catch (NoSuchFieldException | SecurityException e) {
+            }
+        }
+        PutHbase(changedata, user);
+        return changedata;
     }
 
     public void saveSineUpCookes(OddeyeUserModel user, Cookie[] cookies) throws Exception {
@@ -345,180 +606,12 @@ public class HbaseUserDao extends HbaseBaseDao {
         return null;
     }
 
-    public OddeyeUserModel getAvalibleUserByUUID(UUID uuid) {
-        return getUsers().get(uuid);
-    }
-
-    public OddeyeUserModel getUserByUUID(UUID uuid) {
-        return getUserByUUID(uuid, false);
-    }
-
-    public OddeyeUserModel getUserByUUID(String uuid) {
-        try {
-            return getUserByUUID(UUID.fromString(uuid), false);
-        } catch (Exception e) {
-            return null;
-        }
-
-    }
-
-    public OddeyeUserDetails getUserByUUID(UUID uuid, boolean reload, boolean initmeta) {
-        OddeyeUserModel user = getUserByUUID(uuid, reload);
-        OddeyeUserDetails result = new OddeyeUserDetails(uuid, this);
-        if (initmeta) {
-            try {
-                user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
-            } catch (Exception ex) {
-                LOGGER.error(globalFunctions.stackTrace(ex));
-            }
-        }
-
-        return result;
-    }
-
     public void updateMetaList(OddeyeUserModel user) {
         try {
             user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-    }
-
-    public OddeyeUserModel getUserByUUID(UUID uuid, boolean reload) {
-        if (!reload && getUsers().containsKey(uuid)) {
-            return getUsers().get(uuid);
-        }
-        try {
-            GetRequest get = new GetRequest(table, uuid.toString().getBytes());
-            final ArrayList<KeyValue> userkvs = BaseTsdb.getClient().get(get).join();
-            OddeyeUserModel user;
-            if (getUsers().containsKey(uuid)) {
-                user = getUsers().get(uuid);
-                user.getCookies().clear();
-            } else {
-                user = new OddeyeUserModel();
-            }
-            byte[] TsdbID;
-            if (userkvs.isEmpty()) {
-                return null;
-            }            
-            for (Field field : user.getClass().getDeclaredFields()) {
-                if (field.isAnnotationPresent(HbaseColumn.class)) {
-                    PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
-                    for (KeyValue kv : userkvs) {
-                        String q = new String(kv.qualifier());
-                        for (Annotation an : field.getDeclaredAnnotations()) {
-                            if (an.annotationType().equals(HbaseColumn.class)) {
-                                HbaseColumn anotation = (HbaseColumn) an;
-                                if ((Arrays.equals(kv.family(), anotation.family().getBytes()))) {
-                                    if (anotation.qualifier().isEmpty()) {
-                                        if (ArrayList.class.isAssignableFrom(field.getType())) {
-                                            if (field.getName().equals("cookies")) {
-                                                Method getter = PDescriptor.getReadMethod();
-                                                Object value = getter.invoke(user);
-                                                String cname = new String(kv.qualifier());
-                                                String cvalue = new String(kv.value());
-                                                ((ArrayList<Cookie>) value).add(new Cookie(cname, cvalue));
-                                            }
-
-                                        }
-                                    } else {
-                                        if ((Arrays.equals(kv.qualifier(), anotation.qualifier().getBytes()))) {
-                                            Method setter = PDescriptor.getWriteMethod();
-                                            Object newvalue = null;
-                                            //&& (field.getType().getCanonicalName().equals("java.util.Date"))
-                                            if (anotation.type().equals("timestamp") ) {
-                                                newvalue = new Date(kv.timestamp());
-                                                setter.invoke(user, new Object[]{newvalue});
-                                            } else {
-                                                switch (field.getType().getCanonicalName()) {
-                                                    case "java.util.UUID":
-                                                        newvalue = UUID.fromString(new String(kv.value()));
-                                                        setter.invoke(user, new Object[]{newvalue});
-                                                        break;
-                                                    case "java.lang.String":
-                                                        newvalue = new String(kv.value());
-                                                        setter.invoke(user, new Object[]{newvalue});
-                                                        break;
-                                                    case "java.util.Collection":
-                                                        if (field.getName().equals("authorities")) {
-                                                            String token;
-                                                            StringTokenizer tokens = new StringTokenizer(new String(kv.value()).replaceAll("\\[|\\]", ""), ",");
-                                                            newvalue = new ArrayList<>();
-                                                            while (tokens.hasMoreTokens()) {
-                                                                token = tokens.nextToken();
-                                                                token = token.trim();
-                                                                ((ArrayList<GrantedAuthority>) newvalue).add(new SimpleGrantedAuthority(token));
-                                                            }
-                                                            setter.invoke(user, new Object[]{newvalue});
-                                                        }
-
-                                                        break;
-                                                    case "java.lang.Double":
-                                                        newvalue = ByteBuffer.wrap(kv.value()).getDouble();//Bytes.getLong(property.value());
-                                                        setter.invoke(user, new Object[]{newvalue});
-                                                        break;
-                                                    case "co.oddeye.core.AlertLevel":
-                                                        newvalue = globalFunctions.getGson().fromJson(new String(kv.value()), AlertLevel.class);
-                                                        setter.invoke(user, new Object[]{newvalue});
-                                                        break;
-
-                                                    case "java.lang.Boolean":
-                                                        if (kv.value().length == 1) {
-                                                            newvalue = kv.value()[0] != (byte) 0;
-                                                        }
-                                                        if (kv.value().length == 4) {
-                                                            newvalue = Bytes.getInt(kv.value()) != 0;
-                                                        }
-                                                        setter.invoke(user, new Object[]{newvalue});
-                                                        break;
-                                                    case "byte[]":
-                                                        switch (field.getName()) {
-                                                            case "password":
-                                                                user.setPasswordByte(kv.value());
-                                                                break;
-                                                            default:
-                                                                newvalue = kv.value();
-                                                                setter.invoke(user, new Object[]{newvalue});
-                                                                break;
-                                                        }
-
-                                                        break;
-                                                    default:
-                                                        System.out.println(field.getType().getCanonicalName());
-                                                        break;
-                                                }
-                                            }
-
-                                        }
-                                    }
-
-                                }
-
-                            }
-                        }
-                    }
-                }
-
-            }
-//            user.inituser(userkvs, this);
-            try {
-                TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
-            } catch (NoSuchUniqueName e) {
-                TsdbID = BaseTsdb.getTsdb().assignUid("tagv", user.getId().toString());
-            }
-
-            user.setTsdbID(TsdbID);
-            getUsers().put(user.getId(), user);
-            usersbyEmail.put(user.getEmail(), user);
-            user.setDushList(getAllDush(uuid));
-            user.setOptionsList(getAllOptions(uuid));
-            return getUsers().get(uuid);
-
-        } catch (Exception ex) {
-            LOGGER.error(globalFunctions.stackTrace(ex));
-        }
-        return null;
     }
 
     public void saveDush(UUID id, String DushName, String DushInfo) throws Exception {
@@ -651,92 +744,6 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
     }
 
-    public Map<String, HashMap<String, Object>> saveAll(OddeyeUserModel user, OddeyeUserModel newuser, Map<String, Object> editConfig) throws Exception {
-        Map<String, HashMap<String, Object>> changedata = new HashMap<>();
-        for (Map.Entry<String, Object> configEntry : editConfig.entrySet()) {
-//            HashMap<String, Object> config = (HashMap<String, Object>) configEntry.getValue();
-            HashMap<?, ?> config = (HashMap<?, ?>) configEntry.getValue();
-            String name = (String) config.get("path");
-            try {
-                Field field = user.getClass().getDeclaredField(name);
-                Annotation[] Annotations = field.getDeclaredAnnotations();
-                if (Annotations.length > 0) {
-                    for (Annotation annotation : Annotations) {
-                        if (annotation.annotationType().equals(HbaseColumn.class)) {
-                            try {
-                                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
-                                Method getter = PDescriptor.getReadMethod();
-                                Object value = getter.invoke(user);
-                                Object newvalue = getter.invoke(newuser);
-                                //type="collection"
-                                boolean ischange = false;
-
-                                switch (((HbaseColumn) annotation).type()) {
-                                    case "password":
-                                        getter = user.getClass().getDeclaredMethod("getPasswordByte");
-                                        value = getter.invoke(user);
-                                        newvalue = getter.invoke(newuser);
-                                        if (newvalue != null) {
-                                            if (!Arrays.equals((byte[]) newvalue, (byte[]) value)) {
-                                                ischange = true;
-                                            }
-                                        }
-                                        break;
-                                    case "collection":
-                                        if (!value.toString().equals(newvalue.toString())) {
-                                            ischange = true;
-                                        }
-                                        break;
-                                    default:
-                                        if ((value == null)) {
-                                            if (newvalue != null) {
-                                                ischange = true;
-                                            }
-                                            break;
-                                        }
-                                        if ((newvalue == null)) {
-                                            if (value != null) {
-                                                ischange = true;
-                                            }
-                                            break;
-                                        }
-                                        if (!value.equals(newvalue)) {
-                                            ischange = true;
-                                        }
-                                        break;
-                                }
-
-                                if (ischange) {
-
-                                    Method setter = PDescriptor.getWriteMethod();
-                                    String family = ((HbaseColumn) annotation).family();
-                                    if (!changedata.containsKey(family)) {
-                                        changedata.put(family, new HashMap<>());
-                                    }
-                                    if (((HbaseColumn) annotation).type().equals("password")) {
-                                        changedata.get(family).put("password", newuser.getPasswordByte());
-                                        changedata.get(family).put("solt", newuser.getSolt());
-                                    } else {
-                                        setter.invoke(user, newvalue);
-                                        changedata.get(family).put(((HbaseColumn) annotation).qualifier(), newvalue);
-                                    }
-
-                                }
-
-                            } catch (IntrospectionException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                                LOGGER.error(globalFunctions.stackTrace(e));
-                            }
-                        }
-
-                    }
-                }
-            } catch (NoSuchFieldException | SecurityException e) {
-            }
-        }
-        PutHbase(changedata, user);
-        return changedata;
-    }
-
     public void saveUserPersonalinfo(OddeyeUserModel user, Map<String, Object> changedata) throws Exception {
         if (changedata.size() > 0) {
             byte[][] qualifiers = new byte[changedata.size()][];
@@ -769,13 +776,6 @@ public class HbaseUserDao extends HbaseBaseDao {
     public void saveAlertLevels(OddeyeUserModel curentuser, String levelsJSON) {
         final PutRequest put = new PutRequest(table, curentuser.getId().toString().getBytes(), "technicalinfo".getBytes(), "AL".getBytes(), levelsJSON.getBytes());
         BaseTsdb.getClient().put(put);
-    }
-
-    /**
-     * @return the usersbyUUID
-     */
-    public Map<UUID, OddeyeUserModel> getUsers() {
-        return usersbyUUID;
     }
 
     public void deleteUser(OddeyeUserModel newUser) {
@@ -882,14 +882,14 @@ public class HbaseUserDao extends HbaseBaseDao {
     }
 
     public boolean isPaymentNew(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
-        byte[] family = "c".getBytes();
+//        byte[] family = "c".getBytes();
         byte[][] qualifiers = new byte[10][];
         byte[][] values = new byte[10][];
         byte[] end_key = ArrayUtils.addAll(user.getId().toString().getBytes(), payment.getIpn_track_id().getBytes());
 
         final GetRequest request = new GetRequest(paymentstable, end_key);
         ArrayList<KeyValue> paymentt = BaseTsdb.getClient().get(request).join();
-        return paymentt.size() == 0;
+        return paymentt.isEmpty();
     }
 
     public void addPayment(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
