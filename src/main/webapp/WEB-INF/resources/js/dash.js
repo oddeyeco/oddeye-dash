@@ -3297,7 +3297,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelRow"] + $(this).parents(".raw-controls").find(".title_text span").text() + " ?");
+        $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelRow"], [$(this).parents(".raw-controls").find(".title_text span").text()]) );
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
         domodifier();
@@ -3473,19 +3473,19 @@ $(document).ready(function () {
         {
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelChart"] + gdd.rows[ri].widgets[wi].title.text + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[gdd.rows[ri].widgets[wi].title.text]) );
             } else
             {
-                $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelChart"] + wi + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[wi]) );
             }
         } else
         {
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelChart"] + gdd.rows[ri].widgets[wi].title.text + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[gdd.rows[ri].widgets[wi].title.text]) );
             } else
             {
-                $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelChart"] + wi + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[wi]) );
             }
         }
 

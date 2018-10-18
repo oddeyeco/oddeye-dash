@@ -17,9 +17,10 @@ function replaceArgumets(str,argumets)
 {
         const regex = /{(\d*?)}/g;        
         var text = str.replace(regex, function (strOut, strIn) {
-            if (argumets[strIn])
+            var str = argumets[strIn].toString();
+            if (str)
             {
-                return argumets[strIn];
+                return str;
             }
             return strOut;
         });  

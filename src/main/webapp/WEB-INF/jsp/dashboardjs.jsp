@@ -32,8 +32,8 @@
       "dash.title.unlockDashboard":"<spring:message code="dash.title.unlockDashboard"/>",     
       "dash.row":"<spring:message code="dash.row"/>",      
       "dash.title.expand":"<spring:message code="dash.title.expand"/>",
-      "dash.modal.confirmDelRow":"<spring:message code="dash.modal.confirmDelRow"/>",
-      "dash.modal.confirmDelChart":"<spring:message code="dash.modal.confirmDelChart"/>",
+      "dash.modal.confirmDelRow":"<spring:message code="dash.modal.confirmDelRow" javaScriptEscape="true"/>",
+      "dash.modal.confirmDelChart":"<spring:message code="dash.modal.confirmDelChart" javaScriptEscape="true"/>",
       "dash.modal.confirmDelDashboard":"<spring:message code="dash.modal.confirmDelDashboard"/>",
       "dash.errorSavingData":"<spring:message code="dash.errorSavingData"/>",
       
@@ -90,12 +90,7 @@
       "editform.energy":"<spring:message code="editform.energy"/>",
       "editform.temperature":"<spring:message code="editform.temperature"/>",
       "editform.pressure":"<spring:message code="editform.pressure"/>",      
-      "editform.title.mergeSimilarQueries":"<spring:message code="editform.title.mergeSimilarQueries"/>",
-      "":"<spring:message code=""/>",
-      "":"<spring:message code=""/>",
-      "":"<spring:message code=""/>",
-      
-      
+      "editform.title.mergeSimilarQueries":"<spring:message code="editform.title.mergeSimilarQueries"/>",      
       
       "info":"<spring:message code="info"/>",
       "title":"<spring:message code="title"/>",
@@ -208,12 +203,7 @@
       "countereditform.subtitle":"<spring:message code="countereditform.subtitle"/>",
       "countereditform.box":"<spring:message code="countereditform.box"/>",
       
-      "dashboard.Modal.successfullySaved":"<spring:message code="dashboard.Modal.successfullySaved"/>",
-      "":"<spring:message code=""/>",
-      "":"<spring:message code=""/>",
-      "":"<spring:message code=""/>",
-      "":"<spring:message code=""/>",
-      "":"<spring:message code=""/>"
+      "dashboard.Modal.successfullySaved":"<spring:message code="dashboard.Modal.successfullySaved"/>"
     };
 
     var DtPicerlocale = {
