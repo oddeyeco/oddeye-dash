@@ -73,6 +73,8 @@
                 {
                     input.val(metric_input);
                 }
+                $("#echart_line").css('height', '800px');
+                echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
 
                 drawstructure();
 
@@ -83,7 +85,7 @@
             var uri = cp + "/gettagvalue?key=" + input.attr("tagkey") + "&filter=" + encodeURIComponent("^(.*)$");
             $.getJSON(uri, null, function (data) {
                 input.autocomplete({
-                    lookup: Object.keys(data.data),                    
+                    lookup: Object.keys(data.data),
                     minChars: 0
                 });
             });
@@ -123,13 +125,14 @@
         });
 
         var url = cp + "/getdata?metrics=" + $("#metric_input").val() + ";&tags=" + tags + ";&aggregator=none&downsample=&startdate=5m-ago&enddate=now";
-        
+
         $.getJSON(url, null, function (data) {
             var categories = [];
             var categoriesch = [];
             var datach = [];
             var datanames = [];
             var links = [];
+            var linkid = 0;
             var x = 0;
             var y = 0;
 
@@ -144,7 +147,6 @@
 //                console.log($("#"+tindex+"_input").parents(".tag-grop").attr("class"));
             }
 
-
             for (var dataindex in values)
             {
                 x++;
@@ -155,19 +157,34 @@
                     var name = false;
 
                     var index = tagstree.indexOf(tagindexindex);
+
                     if (index !== -1)
                     {
                         name = tagindexindex + "~" + values[dataindex].tags[tagindexindex];
                         size = imgsizes[tagindexindex];
                         symbol = img[tagindexindex];
-                        links.push({
-                            "label": {
-                                "normal": {
+                        if (tagstree[index - 1])
+                        {
+                            linkid++;
+                            links.push({
+                                emphasis: {
+                                    label: {
+                                        show: false
+                                    }
+                                },
+                                "label": {
+                                    position: 'left',
                                     "show": false
-                                }
-                            },
-                            "id":dataindex ,"source": tagstree[index - 1] + '~' + values[dataindex].tags[tagstree[index - 1]], "target": name, name: null, "lineStyle": {"normal": {}}});
+                                },
+                                "id": linkid,
+                                "source": tagstree[index - 1] + '~' + values[dataindex].tags[tagstree[index - 1]],
+                                "target": name,
+                                name: null}
+                            );
+                        }
+
                     }
+
                     if (name === false)
                     {
                         continue;
@@ -191,7 +208,7 @@
 //                            "y": Math.cos(x)*(index+1),
                             "x": x * 20,
                             "y": index * 500,
-                            "value":values[dataindex].tags[tagindexindex],
+                            "value": values[dataindex].tags[tagindexindex],
 //                            "value":index*5000000000,
                             "name": tagindexindex,
                             "id": name,
@@ -203,7 +220,7 @@
                                 "normal": {
                                     "show": false
                                 }
-                            } ,                           
+                            },
                             "draggable": true
 
                         });
@@ -211,12 +228,11 @@
                 }
 
             }
+
+            console.log(links);
             datach.sort(function (a, b) {
                 return compareStrings(a.category, b.category);
             });
-            $("#echart_line").css('height', '800px');
-            echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
-
             var option = {
                 tooltip: {},
                 toolbox: {
@@ -280,7 +296,8 @@
 
 
                 ]};
-            echartLine.setOption(option);
+
+            echartLine.setOption(option, true);
         });
     }
     ;

@@ -120,6 +120,7 @@
             var links = [];
             var x = 0;
             var y = 0;
+            var linkid = 0;
             var values = Object.values(data.chartsdata);
             values.sort(function (a, b) {
                 return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
@@ -143,16 +144,25 @@
                     var index = tagstree.indexOf(tagindexindex);
                     if (index !== -1)
                     {
+                        linkid++;
                         name = tagindexindex + "~" + values[dataindex].tags[tagindexindex];
 //                        size = imgsizes[tagindexindex];
 //                        symbol = img[tagindexindex];
                         links.push({
-                            "label": {
-                                "normal": {
-                                    "show": false
+                            emphasis: {
+                                label: {
+                                    show: false
                                 }
                             },
-                            "source": tagstree[index - 1] + '~' + values[dataindex].tags[tagstree[index - 1]], "target": name, name: null, "lineStyle": {"normal": {}}});
+                            "label": {
+                                position: 'left',
+                                "show": false
+                            },
+                            "id": linkid,
+                            "source": tagstree[index - 1] + '~' + values[dataindex].tags[tagstree[index - 1]],
+                            "target": name,
+                            name: null}
+                        );
                     }
                     if (name === false)
                     {
@@ -185,7 +195,7 @@
                             "attributes": {
                                 "modularity_class": 8
                             },
-                            "value": values[dataindex].data[values[dataindex].data.length - 1][1].toFixed(2),
+                            "value": values[dataindex].tags[tagindexindex],
                             "label": {
                                 "normal": {
                                     "show": false
@@ -281,8 +291,6 @@
                             }
                         }
                     }
-
-
                 ]};
 //            console.log(graph.nodes[1]);
 //            console.log(graph.links[1]);
