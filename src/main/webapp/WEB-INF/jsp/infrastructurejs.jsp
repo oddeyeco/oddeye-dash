@@ -126,8 +126,7 @@
 
         var url = cp + "/getdata?metrics=" + $("#metric_input").val() + ";&tags=" + tags + ";&aggregator=none&downsample=&startdate=5m-ago&enddate=now";
 
-        $.getJSON(url, null, function (data) {
-            console.log(data);
+        $.getJSON(url, null, function (data) {            
             var categories = [];
             var categoriesch = [];
             var datach = [];
