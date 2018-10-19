@@ -134,15 +134,13 @@
             var linkid = 0;
             var y = 0;
 
-            var values = Object.values(data.chartsdata);
-//            values.sort(function (a, b) {
-//                return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
-//            });            
-            for (var tindex in values[0].tags)
+            var values = Object.values(data.chartsdata);          
+            if (values[0])
             {
-
-                $("#" + tindex + "_input").parents(".tag-grop").fadeIn();
-//                console.log($("#"+tindex+"_input").parents(".tag-grop").attr("class"));
+                for (var tindex in values[0].tags)
+                {                    
+                    $("#" + tindex + "_input").parents(".tag-grop").fadeIn();
+                }
             }
 
 

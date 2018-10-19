@@ -23,7 +23,7 @@
                         </div>    
                         <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="tags"/></label>
                         <div id="tagsconteger" style="clear: both">                            
-                            <c:forEach items="${taglist}" var="tagitem">   
+                            <c:forEach items="${taglist}" var="tagitem">                                  
                                 <div class="form-group tag-grop draggable" style="display: none">
                                     <label class=" col-lg-12 col-sm-12 col-xs-12">
                                         ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}
