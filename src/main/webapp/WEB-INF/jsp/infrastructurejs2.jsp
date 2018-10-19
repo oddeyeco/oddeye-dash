@@ -195,10 +195,10 @@
 //                            "value":index*5000000000,
                             "name": tagindexindex,
                             "id": name,
-//                            "symbolSize":(tagstree.length-index+1)*5,
-                            "symbolSize": size,
+                            "symbolSize":(tagstree.length-index+1)*5,
+//                            "symbolSize": size,
                             "category": tagindexindex,
-                            "symbol": symbol,
+//                            "symbol": symbol,
                             "label": {
                                 "normal": {
                                     "show": false

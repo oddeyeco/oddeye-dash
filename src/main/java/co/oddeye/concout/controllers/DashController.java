@@ -85,8 +85,8 @@ public class DashController {
     @Value("${paypal.fix}")
     private String paypal_fix;
 
-    @RequestMapping(value = "/infrastructure", method = RequestMethod.GET)
-    public String infrastructure(ModelMap map) {
+    @RequestMapping(value = {"/infrastructure/","/infrastructure/{version}/"}, method = RequestMethod.GET)
+    public String infrastructure(ModelMap map,@PathVariable(required = false) String version) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel user;
         if (auth != null
@@ -95,16 +95,8 @@ public class DashController {
                 !(auth instanceof AnonymousAuthenticationToken)) {
             user = ((OddeyeUserDetails) auth.getPrincipal()).getUserModel();
             map.put("curentuser", user);
-//            if (user.getMetricsMeta() == null) {
-//                try {
-//                    user.setMetricsMeta(MetaDao.getByUUID(user.getId()));
-//                } catch (Exception ex) {
-//                    LOGGER.error(globalFunctions.stackTrace(ex));
-//                }
-//            }
 
             LinkedHashMap<String, Boolean> taglist = new LinkedHashMap<>();
-//            taglistprioryty = {"cluster"}
             JsonObject filter = null;
             try {
                 if (user.getFiltertemplateList().containsKey("oddeye_base_infrastructure")) {
@@ -144,18 +136,20 @@ public class DashController {
             user.getMetricsMeta().getTagsList().entrySet().stream().filter((tag) -> (!taglist.containsKey(tag.getKey()))).forEachOrdered((tag) -> {
                 taglist.put(tag.getKey(), false);
             });
-
-//user.getMetricsMeta().getTagsList()
             map.put("taglist", taglist);
-//            map.put("initmetric", taglist);
-
         }
         map.put("htitle", messageSource.getMessage("htitle.infrastructure.h1", new String[]{""}, LocaleContextHolder.getLocale()));
-//      map.put("htitle", "Infrastructure visualization");
         map.put("body", "infrastructure");
-        map.put("jspart", "infrastructurejs");
+        if (version!=null)
+        {
+            map.put("jspart", "infrastructurejs"+version);
+        }
+        else
+        {
+            map.put("jspart", "infrastructurejs");
+        }
+        
         map.put("title", messageSource.getMessage("title.infrastructure", new String[]{""}, LocaleContextHolder.getLocale()));
-//      map.put("title", "My Infrastructure");
         return "index";
     }
 
