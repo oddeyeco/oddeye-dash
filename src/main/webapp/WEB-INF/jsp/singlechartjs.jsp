@@ -32,7 +32,8 @@
 
         "datetime.lastonehoure": "<spring:message code="datetime.lastonehoure"/>",
         "datetime.lastoneday": "<spring:message code="datetime.lastoneday"/>",
-        "datetime.general": "<spring:message code="datetime.general"/>"
+        "datetime.general": "<spring:message code="datetime.general"/>",
+        "requestFailed": "<spring:message code="requestFailed"/>"
     };
 
     var DtPicerlocale = {
@@ -157,10 +158,10 @@
                     }, 1000);
                 } else
                 {
-                    alert("Request failed");
+                    alert(locale["requestFailed"]);
                 }
             }).fail(function (jqXHR, textStatus) {
-                alert("Request failed");
+                alert(locale["requestFailed"]);
             });
         });
     });

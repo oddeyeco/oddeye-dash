@@ -87,7 +87,7 @@ function doeditTitle(e) {
 }
 ;
 function opensave() {
-    $('#saveModal .modal-title').text("Successfully  saved");
+    $('#saveModal .modal-title').text(locale["dashboard.Modal.successfullySaved"]);
     $('#saveModal').modal('show');
 
     setTimeout(function () {
@@ -176,7 +176,7 @@ function savedash() {
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                $('#saveModal .modal-title').text("Error saving data");
+                $('#saveModal .modal-title').text(locale["dash.errorSavingData"]);
                 $('#saveModal').modal('show');
                 setTimeout(function () {
                     $('#saveModal').modal('hide');
@@ -3297,7 +3297,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete row " + $(this).parents(".raw-controls").find(".title_text span").text() + "?");
+        $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelRow"], [$(this).parents(".raw-controls").find(".title_text span").text()]) );
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
         domodifier();
@@ -3473,19 +3473,19 @@ $(document).ready(function () {
         {
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + gdd.rows[ri].widgets[wi].title.text + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[gdd.rows[ri].widgets[wi].title.text]) );
             } else
             {
-                $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + wi + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[wi]) );
             }
         } else
         {
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + gdd.rows[ri].widgets[wi].title.text + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[gdd.rows[ri].widgets[wi].title.text]) );
             } else
             {
-                $("#deleteConfirm").find('.modal-body p').html("Do you want to delete chart " + wi + " ?");
+                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[wi]) );
             }
         }
 
@@ -3618,7 +3618,7 @@ $(document).ready(function () {
     $('body').on("click", ".deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this dashboard?");
+        $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelDashboard"]);
         $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
         $("#deleteConfirm").modal('show');
     });

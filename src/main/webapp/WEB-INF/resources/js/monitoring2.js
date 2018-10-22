@@ -713,7 +713,7 @@ $(document).ready(function () {
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                $('#saveModal .modal-title').text("Successfully  saved");
+                $('#saveModal .modal-title').text(locale["dashboard.Modal.successfullySaved"]);
                 $('#saveModal').modal('show');
 
                 setTimeout(function () {
@@ -721,7 +721,7 @@ $(document).ready(function () {
                 }, 2000);
             } else
             {
-                $('#saveModal .modal-title').text("Error saving data");
+                $('#saveModal .modal-title').text(locale["dash.errorSavingData"]);
                 $('#saveModal').modal('show');
 
                 setTimeout(function () {
@@ -729,7 +729,7 @@ $(document).ready(function () {
                 }, 2000);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
 
     });
@@ -754,7 +754,7 @@ $(document).ready(function () {
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                $('#saveModal .modal-title').text("Successfully  saved");
+                $('#saveModal .modal-title').text(locale["dashboard.Modal.successfullySaved"]);
                 $('#saveModal').modal('show');
 
                 setTimeout(function () {
@@ -762,7 +762,7 @@ $(document).ready(function () {
                 }, 2000);
             } else
             {
-                $('#saveModal .modal-title').text("Error saving data");
+                $('#saveModal .modal-title').text(locale["dash.errorSavingData"]);
                 $('#saveModal').modal('show');
 
                 setTimeout(function () {
@@ -770,7 +770,7 @@ $(document).ready(function () {
                 }, 2000);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
 
     });
@@ -795,10 +795,10 @@ $(document).ready(function () {
                 window.location = cp + "/monitoring/";
             } else
             {
-                alert("Request failed");
+                alert(locale["requestFailed"]);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
 
     });
@@ -807,7 +807,7 @@ $(document).ready(function () {
     $('body').on("click", "#rem_filter", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleteviewconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html("Do you want to delete this view?");
+        $("#deleteConfirm").find('.modal-body p').html(locale["monitorings2.modal.confirmDelView"]);
         $("#deleteConfirm").find('.modal-body .text-warning').html(nameoptions);
         $("#deleteConfirm").modal('show');
     });

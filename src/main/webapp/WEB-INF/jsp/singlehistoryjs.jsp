@@ -18,9 +18,10 @@
     var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};
     var hashcode = ${metric.hashCode()};    
     var locale = {
+        "requestFailed": "<spring:message code="requestFailed"/>",
+        
         "save": "<spring:message code="save"/>",
         "dash.backToDash": "<spring:message code="dash.backToDash"/>",
-
         "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
         "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
         "dash.edit.table": "<spring:message code="dash.edit.table"/>",
@@ -237,10 +238,10 @@
                 }, 1000);
             } else
             {
-                alert("Request failed");
+                alert(locale["requestFailed"]);
             }
         }).fail(function (jqXHR, textStatus) {
-            alert("Request failed");
+            alert(locale["requestFailed"]);
         });
     });
 </script>

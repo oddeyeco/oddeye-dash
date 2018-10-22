@@ -128,8 +128,8 @@
                                                         <th>${ident_tag} </th>
                                                         <th><spring:message code="errorsanalysis.value"/></th>
                                                         <th><spring:message code="errorsanalysis.weight"/></th>
-                                                        <th><spring:message code="errorsanalysis.deviation%"/></th>
-                                                        <th><spring:message code="errorsanalysis.predictDeviation%"/></th>
+                                                        <th><spring:message code="errorsanalysis.deviation"/></th>
+                                                        <th><spring:message code="errorsanalysis.predictDeviation"/></th>
                                                         <th><spring:message code="errorsanalysis.recurrence"/></th>
                                                         <th><spring:message code="level"/></th>
                                                         <th><spring:message code="errorsanalysis.time"/></th>
@@ -165,7 +165,7 @@
                                                             </td>
                                                             <td class="persent"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getPersent_predict()}" /></td>
                                                             <td class="persent">${metric.getRecurrenceTmp()}</td>
-                                                            <td class="level_${curentuser.getAlertLevels().getErrorLevel(metric)}">${curentuser.getAlertLevels().getName(curentuser.getAlertLevels().getErrorLevel(metric))}</td>
+                                                            <td class="level_${curentuser.getAlertLevels().getErrorLevel(metric)}"><spring:message code="level_${curentuser.getAlertLevels().getErrorLevel(metric)}"/></td>
                                                             <td class="time">
                                                                 <jsp:useBean id="dateValue" class="java.util.Date"/>
                                                                 <jsp:setProperty name="dateValue" property="time" value="${metric.getTimestamp()*1000}"/>

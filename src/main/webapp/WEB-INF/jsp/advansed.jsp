@@ -55,7 +55,7 @@
                             <span class="value text-success"> ${Error.getWeight()}</span>
                         </li>
                         <li>
-                            <span class="name"> <spring:message code="errorsanalysis.deviation%"/> </span>
+                            <span class="name"> <spring:message code="errorsanalysis.deviation"/> </span>
                             <span class="value text-success"> 
                                 <c:choose>
                                     <c:when test="${Error.getPersent_weight() == Double.NaN}">
@@ -86,7 +86,7 @@
                     </div>                
                     <ul class="">
                         <li>
-                            <span class="name"> <spring:message code="regression.predictDeviation%"/> </span>
+                            <span class="name"> <spring:message code="regression.predictDeviation"/> </span>
                             <span class="value text-success">
                                 <c:choose>
                                     <c:when test="${Error.getRegression().predict(Error.getTimestamp()) == Double.NaN}">

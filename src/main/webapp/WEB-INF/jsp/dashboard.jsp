@@ -21,11 +21,11 @@
             </div>
             <div class="modal-body">
                 <p><spring:message code="dashboard.Modal.needsSavedDashboard"/></p>
-                <p class="text-warning"><spring:message code="dashboard.Modal.saveDashboard?"/></p>
+                <p class="text-warning"><spring:message code="dashboard.Modal.confirmSaveDashboard"/></p>
             </div>
             <div class="modal-footer">
-                <input  type="button" class="btn btn-default" data-dismiss="modal" value="No">
-                <input id="savelock" type="button" class="btn btn-success nowrap" data-dismiss="modal" value="Yes">
+                <input  type="button" class="btn btn-default" data-dismiss="modal" value="<spring:message code="no"/>">
+                <input id="savelock" type="button" class="btn btn-success nowrap" data-dismiss="modal" value="<spring:message code="yes"/>">
             </div>
         </div>
     </div>
@@ -125,8 +125,8 @@
                         <span class="caret"></span>
                         <span class="sr-only"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a class="savedashasTemplate"><spring:message code="dashboard.saveAsTemplate"/></a>
+                    <ul class="dropdown-menu minWidth140" role="menu">
+                        <li><a class="savedashasTemplate text-center"><spring:message code="dashboard.saveAsTemplate"/></a>
                         </li>
                     </ul>
                 </div>                  
@@ -221,12 +221,12 @@
                 <h4 class="modal-title"><spring:message code="confirmation"/></h4>
             </div>
             <div class="modal-body">
-                <p><spring:message code="dashboard.Modal.deleteDashboard?"/></p>
+                <p><spring:message code="dashboard.Modal.confirmDelDashboard"/></p>
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-default" data-dismiss="modal"value="Close">
-                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="Delete">
+                <input   type="button" class="btn btn-default" data-dismiss="modal" value="<spring:message code="close"/>">
+                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="<spring:message code="delete"/>">
             </div>
         </div>
     </div>

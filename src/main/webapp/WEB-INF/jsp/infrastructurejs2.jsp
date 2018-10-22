@@ -73,8 +73,6 @@
                 {
                     input.val(metric_input);
                 }
-                $("#echart_line").css('height', '800px');
-                echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
 
                 drawstructure();
 
@@ -108,7 +106,7 @@
         var tagstree = [];
         $('.tag-grop').each(function () {
             if ($(this).find("input.filter-switch").prop('checked'))
-            {                
+            {
                 $(this).fadeIn();
                 var val = "*";
                 if ($(this).find("input.filter-input").val() !== "")
@@ -126,20 +124,17 @@
 
         var url = cp + "/getdata?metrics=" + $("#metric_input").val() + ";&tags=" + tags + ";&aggregator=none&downsample=&startdate=5m-ago&enddate=now";
 
-        $.getJSON(url, null, function (data) {            
+        $.getJSON(url, null, function (data) {
             var categories = [];
             var categoriesch = [];
             var datach = [];
             var datanames = [];
             var links = [];
-            var linkid = 0;
             var x = 0;
+            var linkid = 0;
             var y = 0;
 
-            var values = Object.values(data.chartsdata);
-//            values.sort(function (a, b) {
-//                return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
-//            }); 
+            var values = Object.values(data.chartsdata);          
             if (values[0])
             {
                 for (var tindex in values[0].tags)
@@ -159,34 +154,28 @@
                     var name = false;
 
                     var index = tagstree.indexOf(tagindexindex);
-
                     if (index !== -1)
                     {
+                        linkid++;
                         name = tagindexindex + "~" + values[dataindex].tags[tagindexindex];
                         size = imgsizes[tagindexindex];
-                        symbol = img[tagindexindex];
-                        if (tagstree[index - 1])
-                        {
-                            linkid++;
-                            links.push({
-                                emphasis: {
-                                    label: {
-                                        show: false
-                                    }
-                                },
-                                "label": {
-                                    position: 'left',
-                                    "show": false
-                                },
-                                "id": linkid,
-                                "source": tagstree[index - 1] + '~' + values[dataindex].tags[tagstree[index - 1]],
-                                "target": name,
-                                name: null}
-                            );
-                        }
-
+                        symbol = img[tagindexindex];                        
+                        links.push({
+                            emphasis: {
+                                label: {
+                                    show: false,
+                                }
+                            },
+                            "label": {
+                                position: 'left',
+                                "show": false
+                            },
+                            "id": linkid,
+                            "source": tagstree[index - 1] + '~' + values[dataindex].tags[tagstree[index - 1]],
+                            "target": name,
+                            name: null}
+                        );
                     }
-
                     if (name === false)
                     {
                         continue;
@@ -214,10 +203,10 @@
 //                            "value":index*5000000000,
                             "name": tagindexindex,
                             "id": name,
-//                            "symbolSize":(tagstree.length-index+1)*5,
-                            "symbolSize": size,
+                            "symbolSize": (tagstree.length - index + 1) * 5,
+//                            "symbolSize": size,
                             "category": tagindexindex,
-                            "symbol": symbol,
+//                            "symbol": symbol,
                             "label": {
                                 "normal": {
                                     "show": false
@@ -230,33 +219,26 @@
                 }
 
             }
-
             datach.sort(function (a, b) {
                 return compareStrings(a.category, b.category);
             });
+            $("#echart_line").css('height', '800px');
+            echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
+
             var option = {
+                title: {
+                    top: 'bottom',
+                    left: 'right'
+                },
                 tooltip: {},
-                toolbox: {
-                    feature: {
-                        magicType: {show: false},
-                        saveAsImage: {
-                            show: true
-                        }
-                    }
-                },
                 legend: [{
-                        selectedMode: 'false',
-                        top: 20,
-                        left: 20,
-                        data: categories
+                        // selectedMode: 'single',
+                        data: categoriesch.map(function (a) {
+                            return a.name;
+                        })
                     }],
-                grid: {
-                    x: 0,
-                    x2: 0,
-                    y: 0,
-                    y2: 0
-                },
-                animation: false,
+                animationDuration: 1500,
+                animationEasingUpdate: 'quinticInOut',
                 series: [
                     {
 //                        color: [ '#ffb980', '#d87a80', '#b6a2de', '#8d98b3'],                        
@@ -275,30 +257,36 @@
                         data: datach,
                         links: links,
                         categories: categoriesch,
+//                        data: graph.nodes,
+//                        links: graph.links,
+//                        categories: categories,
                         focusNodeAdjacency: true,
                         roam: true,
-                        label: {
+                        itemStyle: {
                             normal: {
-//                                show: true,
-                                position: 'top',
-                                formatter: function (param)
-                                {
-                                    var arr = param.name.split("~");
-                                    return arr[arr.length - 1];
-                                }
+                                borderColor: '#fff',
+                                borderWidth: 1,
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.3)'
                             }
                         },
+                        label: {
+                            position: 'right',
+                            formatter: '{c}'
+                        },
                         lineStyle: {
-                            normal: {
-                                type: "solid"
+                            color: 'source',
+                            curveness: 0
+                        },
+                        emphasis: {
+                            lineStyle: {
+                                width: 10
                             }
                         }
                     }
-
-
                 ]};
-
-            echartLine.setOption(option, true);
+            echartLine.setOption(option);
+            console.log(option);
         });
     }
     ;

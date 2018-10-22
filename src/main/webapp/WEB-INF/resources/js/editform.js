@@ -23,7 +23,7 @@ class EditForm {
             checked = this.dashJSON.rows[this.row]["widgets"][this.index].manual;
         }
 
-        this.formwraper.append('<div class="pull-right tabcontrol"><label class="control-label" >JSON Manual Edit:</label>' +
+        this.formwraper.append('<div class="pull-right tabcontrol"><label class="control-label" >' + locale["editform.jsonManualEdit"] + '</label>' +
                 '<div class="checkbox" style="display: inline-block">' +
                 '<input type="checkbox" class="js-switch-small"  chart_prop_key="manual" id="manual" name="manual" key_path="manual" /> ' +
                 '</div> '
@@ -119,7 +119,7 @@ class EditForm {
 
     }
     drawcontent(formcontent, contener, initval, template_index)
-    {
+    {        
         if (formcontent)
         {
             for (var c_index in formcontent)
@@ -213,6 +213,15 @@ class EditForm {
                     {
                         jobject.attr('style', item.style);
                     }
+//***************************
+                        if (item.label)
+                        {
+                                jobject.append('<h4 class="form-group '+item.label.class+'"><label class="control-label" >' + item.label.text + '</label></h4>');
+                        }
+
+//***************************
+
+
 
                     var form = this;
 
@@ -348,11 +357,19 @@ class EditForm {
                             form.change($(this));
                         };
                     }
-
+ 
                     if (item.content)
                     {
                         this.drawcontent(item.content, jobject, initval, template_index);
                     }
+//                    else
+//                    {
+//                        if (item.id=="valod")
+//                        {
+//                        console.log(item.);    
+//                        }
+//                        
+//                    }
                 }
 
             }
@@ -360,16 +377,16 @@ class EditForm {
     }
     get targetoptions()
     {
-        return {"": "&nbsp;", "self": "Self", "blank": "Blank"};
+        return {"": "&nbsp;", "self": locale["editform.self"], "blank": locale["editform.blank"] };
     }
 
     get xpositionoptions()
     {
-        return {"": "&nbsp;", "center": "Center", "left": "Left", "right": "Right"};
+        return {"": "&nbsp;", "center": locale["editchartform.center"], "left": locale["editchartform.left"], "right": locale["editchartform.right"]};
     }
     get ypositionoptions()
     {
-        return {"": "&nbsp;", "center": "Center", "top": "Top", "bottom": "Bottom"};
+        return {"": "&nbsp;", "center": locale["editchartform.center"], "top": locale["editchartform.top"], "bottom": locale["editchartform.bottom"]};
     }
     get spanoptions()
     {
@@ -392,14 +409,14 @@ class EditForm {
                     , "formathexadecimal0": "Hexadecimal(0x)"
                     , "formathexadecimal": "Hexadecimal"
                 }},
-            currency: {label: "Currency", items: {"$ {value}": "Dollars ($)"
+            currency: {label: locale["editform.currency"], items: {"$ {value}": "Dollars ($)"
                     , "£ {value}": "Pounds (£)"
                     , "€ {value}": "Euro (€)"
                     , "¥ {value}": "Yen (¥)"
                     , "{value} руб.": "Rubles (руб)"
 
                 }},
-            time: {label: "Time", items: {"formathertz": "Hertz (1/s)"
+            time: {label: locale["editchartform.time"], items: {"formathertz": "Hertz (1/s)"
                     , "timens": "Nanoseconds (ns)"
                     , "timemicros": "microseconds (µs)"
                     , "timems": "Milliseconds (ms)"
@@ -408,19 +425,19 @@ class EditForm {
                     , "timeh": "Hours (h)"
                     , "timed": "Days d"
                 }},
-            dataiec: {label: "Data IEC", items: {"dataBit": "Bits"
+            dataiec: {label: locale["editform.dataIEC"], items: {"dataBit": "Bits"
                     , "dataBytes": "Bytes"
                     , "dataKiB": "Kibibytes"
                     , "dataMiB": "Mebibytes"
                     , "dataGiB": "Gibibytes"
                 }},
-            data_metric: {label: "Data (Metric)", items: {"dataBitmetric": "Bits"
+            data_metric: {label: locale["editform.dataMetric"], items: {"dataBitmetric": "Bits"
                     , "dataBytesmetric": "Bytes"
                     , "dataKiBmetric": "Kilobytes"
                     , "dataMiBmetric": "Megabytes"
                     , "dataGiBmetric": "Gigabytes"
                 }},
-            datarate: {label: "Data Rate", items: {"formatPpS": "Packets/s"
+            datarate: {label: locale["editform.dataRate"], items: {"formatPpS": "Packets/s"
                     , "formatbpS": "Bits/s"
                     , "formatBpS": "Bytes/s"
                     , "formatKbpS": "Kilobits/s"
@@ -431,7 +448,7 @@ class EditForm {
                     , "formatGBpS": "Gigabytes/s"
                 }},
             Throughput: {
-                label: "Throughput",
+                label: locale["editform.throughput"],
                 items: {
                     "formatops": "Ops/sec (ops)",
                     "formatrps": "Reads/sec (rps)",
@@ -443,7 +460,7 @@ class EditForm {
                 }
             },
             Lenght: {
-                label: "Lenght",
+                label: locale["editform.lenght"],
                 items: {
                     "formatmm": "Millimeter (mm)",
                     "formatm": "Meter (m)",
@@ -452,7 +469,7 @@ class EditForm {
                 }
             },
             Velocity: {
-                label: "Velocity",
+                label: locale["editform.velocity"],
                 items: {
                     "{value} m/s": "m/s",
                     "{value} km/h": "km/h",
@@ -461,7 +478,7 @@ class EditForm {
                 }
             },
             Volume: {
-                label: "Volume",
+                label: locale["editform.volume"],
                 items: {
                     "formatmL": "Millilitre",
                     "formatL": "Litre",
@@ -469,7 +486,7 @@ class EditForm {
                 }
             },
             Energy: {
-                label: "Energy",
+                label: locale["editform.energy"],
                 items: {
                     "formatW": "Watt (W)",
                     "formatKW": "Kilowatt (KW)",
@@ -486,7 +503,7 @@ class EditForm {
                 }
             },
             Temperature: {
-                label: "Temperature",
+                label: locale["editform.temperature"],
                 items: {
                     "{value} °C": "Celsius (°C)",
                     "{value} °F": "Farenheit (°F)",
@@ -494,7 +511,7 @@ class EditForm {
                 }
             },
             Pressure: {
-                label: "Pressure",
+                label: locale["editform.pressure"],
                 items: {
                     "{value} mbar": "Millibars",
                     "{value} hPa": "Hectopascals",
@@ -586,9 +603,9 @@ class EditForm {
 
     get tabs()
     {
-        return [{id: "general-tab", title: "General", contentid: "tab_general"},
-            {id: "metrics-tab", title: "Metrics", contentid: "tab_metric"},
-            {id: "json-tab", title: "Json", contentid: "tab_json"}
+        return [{id: "general-tab", title: locale["editchartform.general"], contentid: "tab_general"},
+            {id: "metrics-tab", title: locale["editchartform.metrics"], contentid: "tab_metric"},
+            {id: "json-tab", title: locale["editchartform.json"], contentid: "tab_json"}
         ];
     }
 
@@ -598,13 +615,13 @@ class EditForm {
         this.tabcontent.tab_general = {};
         this.tabcontent.tab_metric = {};
         this.tabcontent.tab_json = {};
-        var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_dimensions", label: {show: true, text: 'Dimensions', checker: false}};
+        var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_dimensions", label: {show: true, text: locale["editform.dimensions"], checker: false}};
         edit_dimensions.content = [{tag: "div", class: "form-group form-group-custom", content: [
-                    {tag: "label", class: "control-label control-label-custom", text: "Span", lfor: "dimensions_span"},
+                    {tag: "label", class: "control-label control-label-custom120", text: locale["editform.span"], lfor: "dimensions_span"},
                     {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
                 ]},
             {tag: "div", class: "form-group form-group-custom", content: [
-                    {tag: "label", class: "control-label control-label-custom", text: "Height", lfor: "dimensions_height"},
+                    {tag: "label", class: "control-label control-label-custom120", text: locale["editform.height"], lfor: "dimensions_height"},
                     {tag: "input", type: "text", class: "form-control dimensions_input", prop_key: "height", id: "dimensions_height", name: "dimensions_height", key_path: 'height', default: "300px"}
                 ]}
         ];
@@ -613,41 +630,41 @@ class EditForm {
         var edit_q = {tag: "div", class: 'forms', id: "edit_q"};
         var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
                     {tag: "div", class: "form-group form-group-custom forinside", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Disabled", lfor: "metric_check_disabled"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.disabled"], lfor: "metric_check_disabled"},
                             {tag: "input", type: "checkbox", class: "js-switch-small metric_check_disabled", prop_key: "check_disabled", id: "{index}_metric_check_disabled", name: "metric_check_disabled", key_path: 'check_disabled', default: false}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Tags", lfor: "tags"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["tags"], lfor: "tags"},
                             {tag: "div", class: "data-label tags", prop_key: "tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label tags", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Metrics", lfor: "metrics"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["metrics"], lfor: "metrics"},
                             {tag: "div", class: "data-label metrics", prop_key: "metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "aggregator"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.aggregator"], lfor: "aggregator"},
                             {tag: "select", class: "form-control query_input aggregator", prop_key: "aggregator", id: "{index}_aggregator", name: "aggregator", key_path: 'info.aggregator', default: "", options: this.aggregatoroptions},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Alias", lfor: "alias", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.alias"], lfor: "alias", info: {text: locale["editform.alias.text"]}},
                             {tag: "input", type: "text", class: "form-control query_input alias", prop_key: "alias", id: "{index}_alias", name: "alias", key_path: 'info.alias', default: ""},
-                            {tag: "label", class: "control-label", text: "Alias secondary", lfor: "alias2", info: {text: "Use patterns like {tag:tagname} replace part of the alias for a tag value or {metric} replace part of the alias for a metric name value"}},
+                            {tag: "label", class: "control-label control-label-custom155", text: locale["editform.aliasSecondary"], lfor: "alias2", info: {text: locale["editform.aliasSecondary.text"]}},
                             {tag: "input", type: "text", class: "form-control query_input alias2", prop_key: "alias2", id: "{index}_alias2", name: "alias2", key_path: 'info.alias2', default: ""}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Down sample", lfor: "down-sample"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.downSample"], lfor: "down-sample"},
                             {tag: "input", type: "text", class: "form-control query_input down-sample-time", prop_key: "time", id: "{index}_down-sample-time", name: "down-sample-time", key_path: 'info.ds.time', default: ""},
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Aggregator", lfor: "down-sample-aggregator"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.aggregator"], lfor: "down-sample-aggregator"},
                             {tag: "select", class: "form-control query_input down-sample-aggregator", prop_key: "aggregator", id: "{index}_down-sample-aggregator", name: "down-sample-aggregator", key_path: 'info.ds.aggregator', default: "", options: EditForm.aggregatoroptions2},
-                            {tag: "label", class: "control-label", text: "Disable downsampling", lfor: "disable_downsampling"},
+                            {tag: "label", class: "control-label control-label-custom155", text: locale["editform.disableDownsampling"], lfor: "disable_downsampling"},
                             {tag: "input", type: "checkbox", class: "js-switch-small disable_downsampling", prop_key: "downsamplingstate", id: "{index}_disable_downsampling", name: "disable_downsampling", key_path: 'info.downsamplingstate', default: false}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom-legend", text: "Rate", lfor: "alias2"},
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.rate"], lfor: "alias2"},
                             {tag: "input", type: "checkbox", class: "js-switch-small enable_rate", prop_key: "rate", id: "{index}_enable_rate", name: "enable_rate", key_path: 'info.rate', default: false}
                         ]},
                     {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
-                        text: "Dublicate",
+                        text: locale["editchartform.dublicate"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 var qitem = clone_obg(current.dashJSON.rows[current.row]["widgets"][current.index].q[curindex]);
@@ -661,7 +678,7 @@ class EditForm {
                         }
                     },
                     {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
-                        text: "Remove",
+                        text: locale["editchartform.remove"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
                                 current.dashJSON.rows[current.row]["widgets"][current.index].q.splice(curindex, 1);
@@ -677,7 +694,7 @@ class EditForm {
                 ]}
         ];
         edit_q.content = [{tag: "button", class: "btn btn-success Addq btn-xs",
-                text: "Add",
+                text: locale["editchartform.add"],
                 id: "addq",
                 key_path: "q",
                 check_dublicates: this.check_q_dublicates,
@@ -704,7 +721,7 @@ class EditForm {
         this.tabcontent.tab_time = {};
         var edit_time = {tag: "form", class: 'form-horizontal form-label-left edit-times pull-left', id: "edit_time"};
         edit_time.content = [{tag: "div", class: "form-group form-group-custom filter", content: [
-                    {tag: "label", class: "control-label pull-left", text: "Times", lfor: "padding_height"},
+                    {tag: "label", class: "control-label pull-left", text: locale["editform.times"], lfor: "padding_height"},
                     {tag: "div", id: "reportrange_private", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
                         content: [
                             {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
@@ -722,15 +739,15 @@ class EditForm {
 
         this.tabcontent.tab_time.forms = [edit_time];
         this.tabcontent.tab_json = {};
-        var edit_json = {tag: "form", class: 'edit-ljson', id: "edit_json", label: {show: true, text: 'Json Editor', checker: false}};
+        var edit_json = {tag: "form", class: 'edit-ljson', id: "edit_json", label: {show: true, text: locale["editform.jsonEditor"], checker: false}};
 
         edit_json.content = [{tag: "div", id: "jsoneditor"},
             {tag: "div", class: "col-md-12 col-sm-12 col-xs-12 text-right", content: [
-                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonReset", text: "Reset", actions: {click: function () {
+                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonReset", text: locale["reset"], actions: {click: function () {
                                 var jsonstr = JSON.stringify(current.dashJSON.rows[current.row]["widgets"][current.index], jsonmaker);
                                 current.editor.set(JSON.parse(jsonstr));
                             }}},
-                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonApply", text: "Apply", actions: {click: function () {
+                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonApply", text: locale["apply"], actions: {click: function () {
                                 var tmpJson = current.editor.get();
                                 clearTimeout(current.dashJSON.rows[current.row]["widgets"][current.index].timer);
                                 for (var key in tmpJson)
@@ -794,18 +811,18 @@ class EditForm {
 
     get privaterefreshtimes() {
         return {
-            "General": "Refresh General",
-            "off": "Refresh Off",
-            " 5000": "Refresh every 5s",
-            " 10000": "Refresh every 10s",
-            " 30000": "Refresh every 30s",
-            " 60000": "Refresh every 1m",
-            " 300000": "Refresh every 5m",
-            " 900000": "Refresh every 15m",
-            " 1800000": "Refresh every 30m",
-            " 3600000": "Refresh every 1h",
-            " 7200000": "Refresh every 2h",
-            " 86400000": "Refresh every 1d"
+            "locale['editchartform.general']": locale["editform.refreshGeneral"],
+            "off": locale["editform.refreshOff"],
+            " 5000": locale["editform.refresh5s"],
+            " 10000": locale["editform.refresh10s"],
+            " 30000": locale["editform.refresh30s"],
+            " 60000": locale["editform.refresh1m"],
+            " 300000": locale["editform.refresh5m"],
+            " 900000": locale["editform.refresh15m"],
+            " 1800000": locale["editform.refresh30m"],
+            " 3600000": locale["editform.refresh1h"],
+            " 7200000": locale["editform.refresh2h"],
+            " 86400000": locale["editform.refresh1d"]
         };
     }
     check_q_dublicates(contener, json) {
@@ -849,7 +866,7 @@ class EditForm {
         contener.find(".edit-query[count!=1]").each(function () {
             if (!$(this).find('.fa').hasClass('q_warning'))
             {
-                var worn = $('<i class="fa fas fa-info-circle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title="For better performance and readability we suggest to merge similar queries!"></i>');
+                var worn = $('<i class="fa fas fa-info-circle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title= "'+ locale["editform.title.mergeSimilarQueries"] +'" ></i>');
                 worn.appendTo($(this));
 //                worn.tooltip();
             }
