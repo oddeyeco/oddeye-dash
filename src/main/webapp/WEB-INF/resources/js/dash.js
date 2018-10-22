@@ -477,7 +477,7 @@ var queryCallback = function (inputdata) {
 
                                     }
                                 }
-                                                                
+
 //                                if ((Object.keys(data.chartsdata).length === 1) &&(count.base === 1))
 //                                {
 //                                    series.itemStyle = {normal: {color: function (params) {
@@ -537,6 +537,7 @@ var queryCallback = function (inputdata) {
                         delete widget.options.xAxis[xAxis_Index].min;
                         var sdata = [];
                         var tmp_series_1 = {};
+                        var nullkeylist = {};
 
                         for (var index in data.chartsdata)
                         {
@@ -637,6 +638,7 @@ var queryCallback = function (inputdata) {
                                 {
                                     yAxis = 0;
                                 }
+                                nullkeylist[tmpname] = true;
                                 tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[yAxis].unit, isinverse: widget.q[q_index].info.inverse});
                                 sdata.push({value: val, name: name});
                             }
@@ -668,6 +670,10 @@ var queryCallback = function (inputdata) {
 //                            console.log(series);
                         } else
                         {
+//                            tmp_series_1.sort(function (a, b) {
+//                                return (a.length < b.length) ? -1 : (a.length > b) ? 1 : 0;;
+//                            });
+
                             for (var key in tmp_series_1)
                             {
                                 var series = clone_obg(defserie);
@@ -757,8 +763,6 @@ var queryCallback = function (inputdata) {
                                 }
                                 if (series.type === "line")
                                 {
-//                                if (!widget.manual)
-//                                {
                                     if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                     {
                                         series.showSymbol = true;
@@ -768,11 +772,8 @@ var queryCallback = function (inputdata) {
                                         delete series.symbol;
                                         delete series.showSymbol;
                                     }
-//                                }
 
                                 }
-
-
                                 if (series.type === "gauge")
                                 {
                                     if (!series.axisLabel)
@@ -883,8 +884,8 @@ var queryCallback = function (inputdata) {
                             }
                         }
                     }
-
                 }
+
                 // Second part
                 if (widget.options.xAxis[xAxis_Index].type === "time")
                 {
@@ -936,7 +937,32 @@ var queryCallback = function (inputdata) {
         count.value--;
 
         if (count.value === 0)
-        {
+        {            
+            for (var nullindex in nullkeylist)
+            {    
+                var rr={};
+                for (var Sind in widget.options.series)
+                {
+                    var isnull = true;                        
+                    for (var Dind in widget.options.series[Sind].data)
+                    {
+                        if (widget.options.series[Sind].data[Dind].name === nullindex)
+                        {
+                            rr=clone_obg(widget.options.series[Sind].data[Dind]);
+                            isnull = false;
+                            break;
+                        }
+                    }
+                    if (isnull)
+                    {
+                        rr.name = nullindex;              
+                        rr.value = null;
+                        widget.options.series[Sind].data.push(rr);                        
+                    }
+                }
+            }
+
+
             if (widget.type === "counter")
             {
                 if (!redraw)
@@ -3297,7 +3323,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelRow"], [$(this).parents(".raw-controls").find(".title_text span").text()]) );
+        $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelRow"], [$(this).parents(".raw-controls").find(".title_text span").text()]));
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
         domodifier();
@@ -3473,19 +3499,19 @@ $(document).ready(function () {
         {
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[gdd.rows[ri].widgets[wi].title.text]) );
+                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [gdd.rows[ri].widgets[wi].title.text]));
             } else
             {
-                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[wi]) );
+                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [wi]));
             }
         } else
         {
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[gdd.rows[ri].widgets[wi].title.text]) );
+                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [gdd.rows[ri].widgets[wi].title.text]));
             } else
             {
-                $("#deleteConfirm").find('.modal-body p').html( replaceArgumets(locale["dash.modal.confirmDelChart"],[wi]) );
+                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [wi]));
             }
         }
 
