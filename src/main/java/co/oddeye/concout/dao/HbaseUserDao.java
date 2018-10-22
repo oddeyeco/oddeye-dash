@@ -272,6 +272,14 @@ public class HbaseUserDao extends HbaseBaseDao {
     public void addUser(OddeyeUserModel user) throws Exception {
         //TODO change for put qualifuers[][]
         byte[] key = user.getId().toString().getBytes();
+        
+            for (Field field : user.getClass().getDeclaredFields()) {
+                if (field.isAnnotationPresent(HbaseColumn.class)) {
+                    PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
+                    // TODO create put request
+                }
+            }
+        
 //        UUID uuid = user.getId();
 //        final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
 //        final PutRequest putname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "name".getBytes(), user.getName().getBytes());
