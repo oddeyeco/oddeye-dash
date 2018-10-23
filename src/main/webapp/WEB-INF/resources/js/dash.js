@@ -737,12 +737,13 @@ var queryCallback = function (inputdata) {
 //                        console.log(key);
                                 if (series.type === "bar")
                                 {
-                                    if ((Object.keys(tmp_series_1).length === 1) && (count.base === 1))
-                                    {
-                                        series.itemStyle = {normal: {color: function (params) {
-                                                    return colorPalette[params.dataIndex % colorPalette.length];
-                                                }}};
-                                    }
+//                                    console.log(Object.keys(tmp_series_1));
+//                                    if ((Object.keys(tmp_series_1).length === 1) && (count.base === 1))
+//                                    {
+//                                        series.itemStyle = {normal: {color: function (params) {
+//                                                    return colorPalette[params.dataIndex % colorPalette.length];
+//                                                }}};
+//                                    }
                                     series.data = tmp_series_1[key];
                                 } else
                                 {
@@ -937,27 +938,27 @@ var queryCallback = function (inputdata) {
         count.value--;
 
         if (count.value === 0)
-        {            
+        {
             for (var nullindex in nullkeylist)
-            {    
-                var rr={};
+            {
+                var rr = {};
                 for (var Sind in widget.options.series)
                 {
-                    var isnull = true;                        
+                    var isnull = true;
                     for (var Dind in widget.options.series[Sind].data)
                     {
                         if (widget.options.series[Sind].data[Dind].name === nullindex)
                         {
-                            rr=clone_obg(widget.options.series[Sind].data[Dind]);
+                            rr = clone_obg(widget.options.series[Sind].data[Dind]);
                             isnull = false;
                             break;
                         }
                     }
                     if (isnull)
                     {
-                        rr.name = nullindex;              
+                        rr.name = nullindex;
                         rr.value = null;
-                        widget.options.series[Sind].data.push(rr);                        
+                        widget.options.series[Sind].data.push(rr);
                     }
                 }
             }
@@ -1098,9 +1099,18 @@ var queryCallback = function (inputdata) {
 
             } else
             {
+                widget.options.series.sort(function (a, b) {
+                    return compareStrings(a.name, b.name);
+                });
                 switch (widget.type) {
-                    case 'bars':
+                    case 'bar':
                     {
+                        if (widget.options.series.length === 1)
+                        {                            
+                            widget.options.series[0].itemStyle = {normal: {color: function (params) {
+                                        return colorPalette[params.dataIndex % colorPalette.length];
+                                    }}};
+                        }
                         widget.options.tooltip.trigger = 'axis';
                         break;
                     }
@@ -1115,11 +1125,6 @@ var queryCallback = function (inputdata) {
                         break
                     }
                 }
-
-                widget.options.series.sort(function (a, b) {
-                    return compareStrings(a.name, b.name);
-                });
-//            }
 
                 for (var ind in widget.options.xAxis)
                 {
