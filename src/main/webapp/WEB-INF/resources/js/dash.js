@@ -735,31 +735,16 @@ var queryCallback = function (inputdata) {
                                 series.name = key;
 
 //                        console.log(key);
-                                if (series.type === "bar")
-                                {
-//                                    console.log(Object.keys(tmp_series_1));
-//                                    if ((Object.keys(tmp_series_1).length === 1) && (count.base === 1))
-//                                    {
-//                                        series.itemStyle = {normal: {color: function (params) {
-//                                                    return colorPalette[params.dataIndex % colorPalette.length];
-//                                                }}};
-//                                    }
-                                    series.data = tmp_series_1[key];
-                                } else
-                                {
-                                    series.data = tmp_series_1[key];
-                                    if (series.type === "gauge")
-                                    {
-                                        for (i = 0; i < series.data.length; i++)
-                                        {
-                                            series.data[i].subname = series.data[i].name;
-                                            key = key.replace("\\n", '\n');
-                                            key = key.replace("\\r", '\r');
-                                            series.data[i].name = key;
-//                                            console.log(series.data[i]);
-//                                            console.log(series);
-                                        }
 
+                                series.data = tmp_series_1[key];
+                                if (series.type === "gauge")
+                                {
+                                    for (i = 0; i < series.data.length; i++)
+                                    {
+                                        series.data[i].subname = series.data[i].name;
+                                        key = key.replace("\\n", '\n');
+                                        key = key.replace("\\r", '\r');
+                                        series.data[i].name = key;
                                     }
                                 }
                                 if (series.type === "line")
@@ -1106,7 +1091,7 @@ var queryCallback = function (inputdata) {
                     case 'bar':
                     {
                         if (widget.options.series.length === 1)
-                        {                            
+                        {
                             widget.options.series[0].itemStyle = {normal: {color: function (params) {
                                         return colorPalette[params.dataIndex % colorPalette.length];
                                     }}};
