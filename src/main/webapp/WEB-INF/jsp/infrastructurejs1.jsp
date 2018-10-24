@@ -9,7 +9,6 @@
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
-
 <script>
     var echartLine;
     var metric_input = '${metric_input}';
@@ -122,6 +121,8 @@
             var y = 0;
             var linkid = 0;
             var values = Object.values(data.chartsdata);
+            var maxvalue = 0;
+            var minvalue = Infinity;
             values.sort(function (a, b) {
                 return (a.tags[0] > b.tags[0]) ? 1 : ((a.tags[0] < b.tags[0]) ? -1 : 0);
             });
@@ -137,6 +138,10 @@
             var id = 1;
             for (var dataindex in values)
             {
+//                var chdata = [];
+//                for (var ind in values[dataindex].data) {
+//                    chdata.push(values[dataindex].data[ind][1]);                    
+//                }
                 for (var tagindexindex in tagstree)
                 {
 
@@ -158,7 +163,8 @@
                     }
                     if (!obj)
                     {
-                        prent.data[tag] = {id: id, data: {}};
+                        prent.data[tag] = {id: id, value: values[dataindex].data[values[dataindex].data.length - 1][1],name:values[dataindex].tags[tagstree[tagindexindex]], data: {}};
+                        obj=prent.data[tag];
                         links.push({
                             emphasis: {
                                 label: {
@@ -169,35 +175,84 @@
                                 position: 'left',
                                 "show": false
                             },
-                            "id": prent.id+"-"+id,
-                            "source": prent.id+"",
-                            "target": id+"",
-                            name: prent.id+"-"+id}
-                        );                                                
-                        datach.push({
-                            "x": id * 20,
-                            "y": tagindexindex * 500,
-                            "id": id+"",
-                            "name": tagstree[tagindexindex],
-                            "category": tagstree[tagindexindex],
-                            "itemStyle": null,
-                            "symbolSize": (tagstree.length - tagindexindex + 1) * 5,
-                            "attributes": {
-                                "modularity_class": 8
-                            },
-                            "value": values[dataindex].tags[tagstree[tagindexindex]],
-                            "label": {
-                                "normal": {
-                                    "show": false
-                                }
-                            }
-
-                        });
+                            "id": prent.id + "-" + id,
+                            "source": prent.id + "",
+                            "target": id + "",
+                            name: prent.id + "-" + id}
+                        );
+//                        datach.push({
+//                            "x": id * 20,
+//                            "y": tagindexindex * 500,
+//                            "id": id + "",
+//                            "name": tagstree[tagindexindex],
+//                            "category": tagstree[tagindexindex],
+//                            "itemStyle": null,
+//                            "symbolSize": (tagstree.length - tagindexindex + 1) * 5,
+//                            "attributes": {
+//                                "modularity_class": 8
+//                            },
+////                            "value": values[dataindex].tags[tagstree[tagindexindex]],
+//                            "value": values[dataindex].data[values[dataindex].data.length - 1][1],
+//                            "label": {
+//                                "normal": {
+//                                    "show": false
+//                                }
+//                            }
+//
+//                        });
                         id++;
 
+                    } else
+                    {
+                        obj.value = obj.value + values[dataindex].data[values[dataindex].data.length - 1][1];
+                    }                    
+                    maxvalue=Math.max(maxvalue,obj.value);
+                    if (obj.value>0)
+                    {
+                        minvalue=Math.min(minvalue,obj.value);
+//                        console.log("mmm"+minvalue);
                     }
+                    
                 }
             }
+            function eachtree(item, level)
+            {
+//                console.log("***********" + level);
+//                console.log(item);
+                for (var gindex in item.data)
+                {
+                    if (Object.keys(item.data[gindex].data).length > 0)
+                    {
+                        eachtree(item.data[gindex], level + 1);
+                    }                    
+                    datach.push({
+                        "x": item.data[gindex].id * 20,
+                        "y": level * 500,
+                        "id": item.data[gindex].id + "",
+                        "name": item.data[gindex].name,
+                        "category": tagstree[level],
+                        "itemStyle": null,
+                        "symbolSize": Math.max(item.data[gindex].value*50/maxvalue,5) ,
+                        "attributes": {
+                            "modularity_class": 8
+                        },
+//                            "value": values[dataindex].tags[tagstree[tagindexindex]],
+                        "value": format_metric_big(item.data[gindex].value) ,
+                        "label": {
+                            "normal": {
+                                "show": false
+                            }
+                        }
+
+                    });
+
+                }
+
+
+            }
+            ;
+            eachtree(graphtree, 0);
+//            console.log(graphtree);
 //            links.push({
 //                emphasis: {
 //                    label: {

@@ -150,11 +150,11 @@ $(document).ready(function () {
         rangeslabelsds[replaceArgumets(locale["datetime.lasthoures2"], [12])] = ["4m", "avg", true];
         rangeslabelsds[replaceArgumets(locale["datetime.lastoneday"], [])] = ["30m", "avg", true];
         rangeslabelsds[replaceArgumets(locale["datetime.lastdays"], [3])] = ["1h", "avg", true];
-        rangeslabelsds[replaceArgumets(locale["datetime.lastdays2"], [7])] = ["4h", "avg", true];         
+        rangeslabelsds[replaceArgumets(locale["datetime.lastdays2"], [7])] = ["4h", "avg", true];
 
         rangeslabels[replaceArgumets(DtPicerlocale["customRangeLabel"], [])] = "custom";
-        rangeslabels[replaceArgumets(locale["datetime.general"], [])] = "general";        
-        
+        rangeslabels[replaceArgumets(locale["datetime.general"], [])] = "general";
+
         rangeslabels[replaceArgumets(locale["datetime.lastminute"], [5])] = "5m-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastminute"], [15])] = "15m-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastminute"], [30])] = "30m-ago";
@@ -165,8 +165,8 @@ $(document).ready(function () {
         rangeslabels[replaceArgumets(locale["datetime.lasthoures2"], [12])] = "12h-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastoneday"], [])] = "1d-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastdays"], [3])] = "3d-ago";
-        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";    
-        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [30])] = "30d-ago";    
+        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";
+        rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [30])] = "30d-ago";
 //        console.log(rangeslabels0);
     }
 });
@@ -189,8 +189,8 @@ var cbJson = function (JSON, wraper)
         }
         JSON.times.pickerstart = start.valueOf();
         JSON.times.pickerend = end.valueOf();
-        JSON.times.pickervalue = rangeslabels[label];                
-        JSON.times.pickerlabel = label;                
+        JSON.times.pickervalue = rangeslabels[label];
+        JSON.times.pickerlabel = label;
         if (JSON.times.pickervalue === "custom")
         {
             wraper.find('span').html(start.format('MM/DD/YYYY H:m:s') + ' - ' + end.format('MM/DD/YYYY H:m:s'));
@@ -229,7 +229,7 @@ var cbJson = function (JSON, wraper)
         {
             wraper.find('span').html(label);
             JSON.times.generalds = rangeslabelsds[label];
-        }        
+        }
     };
 };
 
@@ -733,6 +733,124 @@ var format_volume = function (params, type) {
 //                val = val;
                 metric = " ";
                 break;
+            }
+        }
+    }
+    return (val * neg).toFixed(2) + "" + metric;
+};
+
+
+var format_metric_big = function (params, type) {
+    if (typeof (type) === "undefined")
+    {
+        type = "m";
+    }
+    var divatior = 10;
+    var val = paramtoval(params);
+    var neg = 1;
+    if (val !== 0)
+    {
+        var neg = val / Math.abs(val);
+    }
+    var val = Math.abs(val);
+    var metric = " ";
+    if (val !== 0)
+    {
+        var level = Math.floor(Math.log(val) / Math.log(divatior));
+        if (level < -9)
+        {
+            val = (val / Math.pow(divatior, level));
+            level = -9;
+        }
+        if (level > 26)
+        {
+            val = (val / Math.pow(divatior, level));
+            level = 26;
+        }
+        if (level > 0)
+        {
+            switch (level)
+            {
+                case 0:
+                case 1:
+                case 2:
+                {
+//                val = val;
+                    metric = " ";
+                    break;
+                }
+                case 3:
+                case 4:
+//            case 5:
+                {
+                    val = (val / Math.pow(divatior, 3));
+                    metric = " k";
+                    break;
+                }
+                case 5:
+                case 6:
+                case 7:
+                {
+                    val = (val / Math.pow(divatior, 6));
+                    metric = " M";
+                    break;
+                }
+                case 8:
+                case 9:
+                case 10:
+                {
+                    val = (val / Math.pow(divatior, 9));
+                    metric = " G";
+                    break;
+                }
+                case 11:
+                case 12:
+                case 13:
+
+                {
+                    val = (val / Math.pow(divatior, 12));
+                    metric = " T";
+                    break;
+                }
+                case 14:
+                case 15:
+                case 16:
+                {
+                    val = (val / Math.pow(divatior, 15));
+                    metric = " P";
+                    break;
+                }
+                case 17:
+                case 18:
+                case 19:
+                {
+                    val = (val / Math.pow(divatior, 18));
+                    metric = " E";
+                    break;
+                }
+                case 20:
+                case 21:
+                case 22:
+                {
+                    val = (val / Math.pow(divatior, 21));
+                    metric = " Z";
+                    break;
+                }
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                {
+                    val = (val / Math.pow(divatior, 24));
+                    metric = " Y";
+                    break;
+                }
+                default:
+                {
+                    val = (val / Math.pow(divatior, level));
+                    metric = " ";
+                    break;
+                }
             }
         }
     }
