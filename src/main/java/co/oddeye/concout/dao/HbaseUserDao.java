@@ -159,7 +159,11 @@ public class HbaseUserDao extends HbaseBaseDao {
                                                 Object value = getter.invoke(user);
                                                 String cname = new String(kv.qualifier());
                                                 String cvalue = new String(kv.value());
-                                                ((ArrayList<Cookie>) value).add(new Cookie(cname, cvalue));
+                                                if (!cname.isEmpty())
+                                                {
+                                                    ((ArrayList<Cookie>) value).add(new Cookie(cname, cvalue));
+                                                }
+                                                
                                             }
 
                                         }
@@ -272,14 +276,35 @@ public class HbaseUserDao extends HbaseBaseDao {
     public void addUser(OddeyeUserModel user) throws Exception {
         //TODO change for put qualifuers[][]
         byte[] key = user.getId().toString().getBytes();
-        
-            for (Field field : user.getClass().getDeclaredFields()) {
-                if (field.isAnnotationPresent(HbaseColumn.class)) {
-                    PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
-                    // TODO create put request
+
+        Map<String, HashMap<String, Object>> changedata = new HashMap<>();
+        for (Field field : user.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(HbaseColumn.class)) {
+                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
+                Method getter = PDescriptor.getReadMethod();
+                Object value = getter.invoke(user);
+                if (value != null) {
+                    for (Annotation an : field.getDeclaredAnnotations()) {
+                        if (an instanceof HbaseColumn) {
+                            String family = ((HbaseColumn) an).family();
+                            if (!changedata.containsKey(family)) {
+                                changedata.put(family, new HashMap<>());
+                            }
+                            if (((HbaseColumn) an).type().equals("password")) {
+                                changedata.get(family).put("password", user.getPasswordByte());
+                                changedata.get(family).put("solt", user.getSolt());
+                            } else {
+                                changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
+                            }
+                        }
+
+                    }
                 }
+
+                // TODO create put request
             }
-        
+        }
+        PutHbase(changedata, user);
 //        UUID uuid = user.getId();
 //        final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
 //        final PutRequest putname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "name".getBytes(), user.getName().getBytes());
@@ -719,35 +744,57 @@ public class HbaseUserDao extends HbaseBaseDao {
             for (Map.Entry<String, HashMap<String, Object>> data : changedata.entrySet()) {
                 byte[] family = data.getKey().getBytes();
                 if (data.getValue().size() > 0) {
-                    byte[][] qualifiers = new byte[data.getValue().size()][];
-                    byte[][] values = new byte[data.getValue().size()][];
-                    int index = 0;
+//                    byte[][] qualifiers = new byte[data.getValue().size()][];
+//                    byte[][] values = new byte[data.getValue().size()][];
+
+                    ArrayList<byte[]> qualifiers = new ArrayList<>();
+                    ArrayList<byte[]> values = new ArrayList<>();
                     for (Map.Entry<String, Object> Hbasedata : data.getValue().entrySet()) {
-                        qualifiers[index] = Hbasedata.getKey().getBytes();
+
+                        boolean isvalid = false;
                         if (Hbasedata.getValue() instanceof byte[]) {
-                            values[index] = (byte[]) Hbasedata.getValue();
+                            isvalid = true;
+                            values.add((byte[]) Hbasedata.getValue());
                         }
                         if (Hbasedata.getValue() instanceof String) {
-                            values[index] = ((String) Hbasedata.getValue()).getBytes();
+                            isvalid = true;
+                            values.add(((String) Hbasedata.getValue()).getBytes());
                         }
+                        if (Hbasedata.getValue() instanceof UUID) {
+                            isvalid = true;
+                            values.add(((UUID) Hbasedata.getValue()).toString().getBytes());
+                        }
+
                         if (Hbasedata.getValue() instanceof Collection) {
-                            values[index] = Hbasedata.getValue().toString().getBytes();
+                            isvalid = true;
+                            values.add(Hbasedata.getValue().toString().getBytes());
                         }
                         if (Hbasedata.getValue() instanceof Boolean) {
-                            values[index] = (Bytes.fromInt((Boolean) Hbasedata.getValue() ? 1 : 0));
+                            isvalid = true;
+                            values.add((Bytes.fromInt((Boolean) Hbasedata.getValue() ? 1 : 0)));
                         }
                         if (Hbasedata.getValue() instanceof Long) {
-                            values[index] = (Bytes.fromLong((Long) Hbasedata.getValue()));
+                            isvalid = true;
+                            values.add((Bytes.fromLong((Long) Hbasedata.getValue())));
                         }
                         if (Hbasedata.getValue() instanceof Double) {
+                            isvalid = true;
                             byte[] bytes = new byte[8];
                             ByteBuffer.wrap(bytes).putDouble((Double) Hbasedata.getValue());
-                            values[index] = bytes;
+                            values.add(bytes);
                         }
-                        index++;
+                        if (isvalid) {
+                            qualifiers.add(Hbasedata.getKey().getBytes());
+                        }
+
                     }
-                    final PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), family, qualifiers, values);
-                    BaseTsdb.getClient().put(request).join();
+
+                    byte[][] q = qualifiers.toArray(new byte[qualifiers.size()][]);
+                    byte[][] v = values.toArray(new byte[values.size()][]);
+                    if (qualifiers.size() > 0) {
+                        final PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), family, q, v);
+                        BaseTsdb.getClient().put(request).join();
+                    }
                 }
             }
         }
