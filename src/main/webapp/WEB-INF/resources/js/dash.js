@@ -1801,7 +1801,6 @@ var queryCallback = function (inputdata) {
                 }
             }
             var GlobalRefresh = true;
-            console.log(widget.times.intervall);
             if (widget.times)
             {
                 if (widget.times.intervall)
