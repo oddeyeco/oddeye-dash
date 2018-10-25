@@ -58,6 +58,20 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  */
 public class OddeyeUserModel implements Serializable {
 
+    /**
+     * @return the template
+     */
+    public String getTemplate() {
+        return template;
+    }
+
+    /**
+     * @param template the template to set
+     */
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
 //    private transient HbaseUserDao Userdao;
 
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class);
@@ -114,6 +128,8 @@ public class OddeyeUserModel implements Serializable {
     private Double balance;
     @HbaseColumn(qualifier = "alowswitch", family = "technicalinfo")
     private Boolean alowswitch;
+    @HbaseColumn(qualifier = "template", family = "technicalinfo")
+    private String template = "default";        
     @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
     private Collection<GrantedAuthority> authorities;
     @HbaseColumn(qualifier = "*", family = "filtertemplates")
@@ -755,6 +771,10 @@ public class OddeyeUserModel implements Serializable {
             updatesdata.put("timezone", newcurentuser.getTimezone());
         }
 
+        if (!newcurentuser.getTemplate().equals(this.template)) {
+            this.template = newcurentuser.getTemplate();
+            updatesdata.put("template", newcurentuser.getTemplate());
+        }        
         return updatesdata;
     }
 

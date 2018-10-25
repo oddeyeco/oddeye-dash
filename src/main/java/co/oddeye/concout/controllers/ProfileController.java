@@ -372,8 +372,9 @@ public class ProfileController {
                 map.put("result", result);
             } else {
                 try {
-                    Map<String, Object> changedata = currentUser.updateBaseData(newuserdata);
-                    Userdao.saveUserPersonalinfo(currentUser, changedata);
+                    currentUser.updateBaseData(newuserdata);
+
+                    Map<String, HashMap<String, Object>> changedata = Userdao.addUser(currentUser);
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", currentUser.getId().toString());
                     Jsonchangedata.addProperty("action", "updateuser");

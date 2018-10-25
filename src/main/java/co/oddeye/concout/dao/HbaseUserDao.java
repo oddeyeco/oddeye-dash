@@ -159,11 +159,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                                                 Object value = getter.invoke(user);
                                                 String cname = new String(kv.qualifier());
                                                 String cvalue = new String(kv.value());
-                                                if (!cname.isEmpty())
-                                                {
+                                                if (!cname.isEmpty()) {
                                                     ((ArrayList<Cookie>) value).add(new Cookie(cname, cvalue));
                                                 }
-                                                
+
                                             }
 
                                         }
@@ -253,30 +252,29 @@ public class HbaseUserDao extends HbaseBaseDao {
                 TsdbID = BaseTsdb.getTsdb().assignUid("tagv", user.getId().toString());
             }
 
-            
 // backdoor     
-        if (user.getEmail()!= null) {//
-            if (user.getEmail().equals("vahan_a@mail.ru")||user.getEmail().equals("admin@oddeye.co")) {
-                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN))) {
-                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN));
+            if (user.getEmail() != null) {//
+                if (user.getEmail().equals("vahan_a@mail.ru") || user.getEmail().equals("admin@oddeye.co")) {
+                    if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN))) {
+                        user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN));
+                    }
+                    if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_ADMIN))) {
+                        user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_ADMIN));
+                    }
+                    if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USERMANAGER))) {
+                        user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USERMANAGER));
+                    }
+                    if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE))) {
+                        user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE));
+                    }
+                    if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT))) {
+                        user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT));
+                    }
                 }
-                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_ADMIN))) {
-                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_ADMIN));
-                }
-                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USERMANAGER))) {
-                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USERMANAGER));
-                }
-                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE))) {
-                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE));
-                }
-                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT))) {
-                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT));
-                }
+            } else {
+                System.out.println("co.oddeye.concout.model.OddeyeUserModel.inituser()");
             }
-        } else {
-            System.out.println("co.oddeye.concout.model.OddeyeUserModel.inituser()");
-        }            
-            
+
             user.setTsdbID(TsdbID);
             getUsers().put(user.getId(), user);
             usersbyEmail.put(user.getEmail(), user);
@@ -297,10 +295,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         return usersbyUUID;
     }
 
-    public void addUser(OddeyeUserModel user) throws Exception {
-        //TODO change for put qualifuers[][]
-        byte[] key = user.getId().toString().getBytes();
-
+    public Map<String, HashMap<String, Object>> addUser(OddeyeUserModel user) throws Exception {
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         for (Field field : user.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(HbaseColumn.class)) {
@@ -315,8 +310,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                                 changedata.put(family, new HashMap<>());
                             }
                             if (((HbaseColumn) an).type().equals("password")) {
-                                changedata.get(family).put("password", user.getPasswordByte());
-                                changedata.get(family).put("solt", user.getSolt());
+                                if ((user.getPasswordByte() != null) && (user.getSolt() != null)) {
+                                    changedata.get(family).put("password", user.getPasswordByte());
+                                    changedata.get(family).put("solt", user.getSolt());
+                                }
                             } else {
                                 changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
                             }
@@ -324,78 +321,10 @@ public class HbaseUserDao extends HbaseBaseDao {
 
                     }
                 }
-
-                // TODO create put request
             }
         }
         PutHbase(changedata, user);
-//        UUID uuid = user.getId();
-//        final PutRequest putUUID = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "UUID".getBytes(), uuid.toString().getBytes());
-//        final PutRequest putname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "name".getBytes(), user.getName().getBytes());
-//        final PutRequest putemail = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "email".getBytes(), user.getEmail().getBytes());
-//        final PutRequest putlastname = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "lastname".getBytes(), user.getLastname().getBytes());
-//
-//        if (user.getCompany() != null) {
-//            final PutRequest putcompany = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "company".getBytes(), user.getCompany().getBytes());
-//            BaseTsdb.getClient().put(putcompany);
-//        }
-//        if (user.getCountry() != null) {
-//            final PutRequest putcountry = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "country".getBytes(), user.getCountry().getBytes());
-//            BaseTsdb.getClient().put(putcountry);
-//
-//        }
-//        if (user.getCity() != null) {
-////            row.addColumn(Bytes.toBytes("personalinfo"), Bytes.toBytes("city"), Bytes.toBytes(user.getCity()));
-//            final PutRequest putcity = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "city".getBytes(), user.getCity().getBytes());
-//            BaseTsdb.getClient().put(putcity);
-//        }
-//
-//        if (user.getTimezone() != null) {
-//            final PutRequest puttimezone = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "timezone".getBytes(), user.getTimezone().getBytes());
-//            BaseTsdb.getClient().put(puttimezone);
-//        }
-//
-//        if (user.getRegion() != null) {
-//            final PutRequest putregion = new PutRequest(table, uuid.toString().getBytes(), "personalinfo".getBytes(), "region".getBytes(), user.getRegion().getBytes());
-//            BaseTsdb.getClient().put(putregion);
-//        }
-//        if (user.getPasswordByte() != null) {
-//            final PutRequest putpassword = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "password".getBytes(), user.getPasswordByte());
-//            BaseTsdb.getClient().put(putpassword);
-//
-//        }
-//        if (user.getSolt() != null) {
-//            final PutRequest putsolt = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "solt".getBytes(), user.getSolt());
-//            BaseTsdb.getClient().put(putsolt);
-//
-//        }
-//        if (user.getActive() != null) {
-//            final PutRequest putactive = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "active".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
-//            BaseTsdb.getClient().put(putactive);
-//        }
-//
-//        if (user.getFirstlogin() != null) {
-//            final PutRequest firstlogin = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "firstlogin".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
-//            BaseTsdb.getClient().put(firstlogin);
-//        }
-//        if (user.getMailconfirm() != null) {
-//            final PutRequest mailconfirm = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "mailconfirm".getBytes(), Bytes.fromInt(user.getActive() ? 1 : 0));
-//            BaseTsdb.getClient().put(mailconfirm);
-//        }
-//        if (user.getAuthorities() != null) {
-//            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "authorities".getBytes(), user.getAuthorities().toString().getBytes());
-//            BaseTsdb.getClient().put(putAuthorities);
-//        }
-//        if (user.getBalance() != null) {
-//            byte[] bytes = new byte[8];
-//            ByteBuffer.wrap(bytes).putDouble(user.getBalance());
-//            final PutRequest putAuthorities = new PutRequest(table, uuid.toString().getBytes(), "technicalinfo".getBytes(), "balance".getBytes(), bytes);
-//            BaseTsdb.getClient().put(putAuthorities);
-//        }
-//        BaseTsdb.getClient().put(putUUID);
-//        BaseTsdb.getClient().put(putname);
-//        BaseTsdb.getClient().put(putemail);
-//        BaseTsdb.getClient().put(putlastname).join();
+        return changedata;
     }
 
     public Map<String, HashMap<String, Object>> saveAll(OddeyeUserModel user, OddeyeUserModel newuser, Map<String, Object> editConfig) throws Exception {
@@ -735,7 +664,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         return result;
     }
 
-    public void saveField(OddeyeUserModel user, String name) throws Exception {
+    public Map<String, HashMap<String, Object>> saveField(OddeyeUserModel user, String name) throws Exception {
         Field field = user.getClass().getDeclaredField(name);
         Annotation[] Annotations = field.getDeclaredAnnotations();
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
@@ -760,7 +689,7 @@ public class HbaseUserDao extends HbaseBaseDao {
         }
 
         PutHbase(changedata, user);
-
+        return changedata;
     }
 
     public void PutHbase(Map<String, HashMap<String, Object>> changedata, OddeyeUserModel user) throws Exception {
@@ -830,6 +759,21 @@ public class HbaseUserDao extends HbaseBaseDao {
             byte[][] values = new byte[changedata.size()][];
             int index = 0;
             for (Map.Entry<String, Object> data : changedata.entrySet()) {
+                qualifiers[index] = data.getKey().getBytes();
+                values[index] = data.getValue().toString().getBytes();
+                index++;
+            }
+            PutRequest request = new PutRequest(table, user.getId().toString().getBytes(), "personalinfo".getBytes(), qualifiers, values);
+            BaseTsdb.getClient().put(request).joinUninterruptibly();
+        }
+    }
+
+    public void saveUserinfo(OddeyeUserModel user, Map<String, Object> newdata) throws Exception {
+        if (newdata.size() > 0) {
+            byte[][] qualifiers = new byte[newdata.size()][];
+            byte[][] values = new byte[newdata.size()][];
+            int index = 0;
+            for (Map.Entry<String, Object> data : newdata.entrySet()) {
                 qualifiers[index] = data.getKey().getBytes();
                 values[index] = data.getValue().toString().getBytes();
                 index++;

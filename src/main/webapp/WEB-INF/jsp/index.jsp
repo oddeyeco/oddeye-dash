@@ -54,6 +54,7 @@
 
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />        
             <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css?v=${version}" />-->      
+            ${curentuser.getTemplate()}
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
 
 
@@ -192,7 +193,7 @@
                                     <li class="">                                        
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <c:if test="${curentuser.getSwitchUser()==null}">
-                                                ${curentuser.getEmail()}                                                                                                                                              
+                                                ${curentuser.getEmail()}
                                             </c:if>
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
                                                 <b><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
