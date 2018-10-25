@@ -1,5 +1,4 @@
-/* -- changes for dark_theme -- */
-
+/* -- changes for dark_theme_2 -- */
 @color_OEgreen: #8bc53f;
 @color_OEblue: #00adee;
 @color_OEgreen2: #92ad57;
@@ -22,13 +21,14 @@
 @border_color_2: rgba(0, 0, 0, 0.5);
 @border_left_color_1: #cccccc;*/
 
-body .container.body .right_col,footer {
-    background: #141616;
+body .container.body .right_col, footer {
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/fonDark.jpg);
 }
 
 body {
     color: rgb(255, 255, 255);
-    background: #0f0f0f;
+    //background-image: linear-gradient(180deg,rgba(0, 0, 0, 0) 80%,rgba(0, 141, 193, 0.2)), url(/OddeyeCoconut/assets/images/dark_img/body-bg.jpg);
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/body-bg.jpg);
     font-size: 14px;
     font-weight: 400;
     line-height: 1.471;
@@ -51,11 +51,11 @@ a:hover {
     color: #ffffff !important;
 }
 .nav_title {
-    background: #0f0f0f;
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/body-bg.jpg);
     border-radius: 0;
 }
 .nav_menu {
-    background: #0f0f0f;
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/bg_line.jpg);
     border-bottom: 1px solid #656768;
     box-shadow: 0 1px 10px #67922f;
 }
@@ -82,10 +82,10 @@ a:hover {
     color: #00adee;
 }
 
-//---- left-col ----
+// ---- left-col ----
 
 .left_col {
-    background: #0f0f0f;
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/body-bg.jpg);
 }
 .main_menu i.fa.fas,.main_menu i.fa.far{
     color: #ffffff;
@@ -104,7 +104,7 @@ a:hover {
 }
 .nav.side-menu>li>a:hover, .nav.side-menu>li.active>a {
     text-shadow: #bddd93 1px 0 0;
-    background: linear-gradient(135deg, #171717, #292929);
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/bg_line_mini.jpg);
     box-shadow: rgba(0,173,238,0.8) -1px 1px 5px;
     font-size: 16px;
 }
@@ -114,10 +114,10 @@ a:hover {
     box-shadow: inset -2px 0 5px rgba(3, 167, 227, 0.8), rgb(70, 70, 70) 0 1px 0;
 }
 .nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid rgb(10, 173, 238);
+    border-left: 1px solid @color_OEblue2;
 }
 .nav-md ul.nav.child_menu li:before {
-    background: rgb(10, 173, 238);
+    background: @color_OEblue2;
 }
 .nav.child_menu>li>a {
     color: rgb(255, 255, 255);
@@ -134,9 +134,13 @@ a:hover {
 .nav li.current-page {
     background: linear-gradient(90deg, #0f0f0f, rgba(8, 112, 150, 0.3));
 }
-//---- right-col ----
+.menu_section {
+    margin-bottom: 10px;
+}
+// ---- right-col ----
+
 .x_panel {
-    background: linear-gradient(180deg,#141616 10px,#222426 100px);
+    background: linear-gradient(180deg,#141616 10px,#1d1d1d 100px);
     border: 1px solid #333434;
     border-radius: 4px;
     box-shadow: -1px -1px 0 0 hsla(0,0%,100%,.1), 1px 1px 0 0 rgba(0,0,0,.3);
@@ -163,7 +167,7 @@ a:hover {
 }
 
 .tile_count .tile_stats_count {
-    background-color: rgba(31, 31, 31, 0.4);
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/fonDark.jpg);
     border-radius: 4px;
     box-shadow: inset 0 1px 2px rgba(200,200,200,0.2);
     margin-left: 10px;
@@ -171,6 +175,11 @@ a:hover {
 .tile_count .tile_stats_count:before {
     border: 0;
 }
+span.count_top, div.count.spincrement, div.count{
+    background: url(/OddeyeCoconut/assets/images/dark_img/title_ground.png) repeat 0 0 rgba(0, 0, 0, 0);
+}
+
+
 
 a.gotodash {
     margin: 3px;
@@ -197,9 +206,7 @@ a.gotodash:hover {
     color: #8bc53f;
 }
 
-
-
-//---- sidebare-footer ----
+// ---- sidebare-footer ----
 
 .sidebar-footer {
     background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1));
@@ -217,3 +224,6 @@ div.sidebar-footer.hidden-small>a:hover {
 .sidebar-footer a:hover {
     background: #000000;
 }
+
+
+

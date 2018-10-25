@@ -262,6 +262,7 @@
                         <include>main.less</include>
                         <include>dash/maindash.less</include>                        
                         <include>dash/dark_theme.less</include>
+                        <include>dash/dark_theme2.less</include>
                     </includes>
                 </configuration>
                 <executions>

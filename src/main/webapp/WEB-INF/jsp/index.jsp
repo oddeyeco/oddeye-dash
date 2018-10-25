@@ -61,18 +61,17 @@
             </c:if>                        
 
             <c:if test="${not empty curentuser.getTemplate()}" >
-
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
                         <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />
                     </c:when>
-                    <c:otherwise>
-                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
+                    <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />
+                    </c:when>                        
+                    <c:otherwise>                      
                     </c:otherwise>                                                    
                 </c:choose>
-
-
-
             </c:if>            
 
 
