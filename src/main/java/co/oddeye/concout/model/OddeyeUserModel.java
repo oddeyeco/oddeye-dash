@@ -349,7 +349,11 @@ public class OddeyeUserModel implements Serializable {
             if (Arrays.equals(property.family(), "cookesinfo".getBytes())) {
                 String cname = new String(property.qualifier());
                 String cvalue = new String(property.value());
-                getCookies().add(new Cookie(cname, cvalue));
+                if ((cname!=null)&&(!cname.isEmpty()))
+                {
+                    getCookies().add(new Cookie(cname, cvalue));
+                }
+                
             }
             return property;
         }).filter((property) -> (Arrays.equals(property.qualifier(), "active".getBytes()))).forEach((property) -> {
