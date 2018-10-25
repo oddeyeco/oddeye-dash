@@ -5,7 +5,7 @@
  */
 
 
-/* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor, cp */
+/* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor, cp, locale */
 
 class EditForm {
 
