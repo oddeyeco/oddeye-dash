@@ -261,6 +261,7 @@
                         <include>font-awesome/brands.less</include>                        
                         <include>main.less</include>
                         <include>dash/maindash.less</include>                        
+                        <include>dash/dark_theme.less</include>
                     </includes>
                 </configuration>
                 <executions>
