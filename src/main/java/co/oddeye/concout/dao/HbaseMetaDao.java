@@ -107,12 +107,12 @@ public class HbaseMetaDao extends HbaseBaseDao {
                                     fullmetalist.add(metric);
                                 } else {
                                     LOGGER.error(metric.toString());
-                                    final DeleteRequest req = new DeleteRequest(table, row.get(0).key());
-                                    try {
-                                        BaseTsdb.getClient().delete(req).join();
-                                    } catch (Exception ex) {
-                                        LOGGER.error(globalFunctions.stackTrace(ex));
-                                    }
+//                                    final DeleteRequest req = new DeleteRequest(table, row.get(0).key());
+//                                    try {
+//                                        BaseTsdb.getClient().delete(req).join();
+//                                    } catch (Exception ex) {
+//                                        LOGGER.error(globalFunctions.stackTrace(ex));
+//                                    }
 
                                 }
 

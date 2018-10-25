@@ -26,9 +26,8 @@ public class OddeyeUserDetails implements UserDetails {
     private final String id;
 //    private final transient HbaseUserDao Userdao;
 
-    public OddeyeUserDetails(UUID uid, HbaseUserDao aThis) {
+    public OddeyeUserDetails(UUID uid) {
         id = uid.toString();
-//        Userdao = aThis;
     }
     
     @Transient

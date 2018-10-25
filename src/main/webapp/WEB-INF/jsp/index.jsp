@@ -54,8 +54,28 @@
 
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />        
             <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css?v=${version}" />-->      
-             <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />-->
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />
+
+
+            <c:if test="${not curentuser.getTemplate()}" >
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
+            </c:if>                        
+
+            <c:if test="${not empty curentuser.getTemplate()}" >
+
+                <c:choose>
+                    <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />
+                    </c:when>
+                    <c:otherwise>
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
+                    </c:otherwise>                                                    
+                </c:choose>
+
+
+
+            </c:if>            
+
+
 
 
         </head>
@@ -193,7 +213,7 @@
                                     <li class="">                                        
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                             <c:if test="${curentuser.getSwitchUser()==null}">
-                                                ${curentuser.getEmail()}                                                                                                                                              
+                                                ${curentuser.getEmail()}
                                             </c:if>
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
                                                 <b><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
@@ -370,13 +390,13 @@
                 </div>                        
             </c:if>
             <script>
-                var headerName = "${_csrf.headerName}";
-                var token = "${_csrf.token}";
-                var cp = "${cp}";
-                var uuid = "${curentuser.getId()}";
-                var Firstlogin = false;
+            var headerName = "${_csrf.headerName}";
+            var token = "${_csrf.token}";
+            var cp = "${cp}";
+            var uuid = "${curentuser.getId()}";
+            var Firstlogin = false;
                 <c:if test="${not empty curentuser}">
-                Firstlogin = ${curentuser.getFirstlogin()};
+            Firstlogin = ${curentuser.getFirstlogin()};
                 </c:if>
 
             </script>                                         
@@ -496,7 +516,7 @@
             <!-- End Facebook Pixel Code -->
             <c:if test="${not empty pageContext.response.locale}" >
                 <script>
-                    moment.locale('${pageContext.response.locale}');
+                moment.locale('${pageContext.response.locale}');
                 </script>
             </c:if>              
 

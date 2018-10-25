@@ -128,7 +128,20 @@
                                     <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                        
                                     <form:errors path="timezone" />
                                 </div>
-                            </div>                
+                            </div>       
+                            <div class="form-group">                    
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="timezone"><spring:message code="profileedit.template"/>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                    <form:select path="template" cssClass="form-control select2_tz" tabindex="-1">
+                                        <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
+                                        <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
+                                    </form:select>
+                                    <form:errors path="template" />
+                                </div>
+                            </div>                                 
+
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                     <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>
@@ -143,36 +156,36 @@
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"level-tab\"}">active</c:if> " id="level_content" aria-labelledby="level_content">
                     <form:form method="post" action="${cp}/profile/saveuserlevels" modelAttribute="newuserleveldata" novalidate="true" cssClass="form-horizontal form-label-left">                            
                         <div class="table-responsive">
-                        <table class="data table table-striped no-margin">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th><spring:message code="profileedit.levelsSettings.name"/></th>
-                                    <th><spring:message code="minValue"/></th>
-                                    <th><spring:message code="minPercent"/></th>
-                                    <th><spring:message code="minWeight"/></th>
-                                    <th><spring:message code="minRecurrenceCount"/></th>
-                                    <th><spring:message code="minPredictPercent"/></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${newuserdata.getAlertLevels()}" var="AlertLevel" varStatus="loopgrups">
+                            <table class="data table table-striped no-margin">
+                                <thead>
                                     <tr>
-                                        <td>${loopgrups.index+1}</td>
-                                        <td><spring:message code="level_${AlertLevel.getKey()}"/>
-                                         <!--  ${newuserdata.getAlertLevels().getName(AlertLevel.getKey())} -->                                                                               
-                                        </td>
-                                        <c:forEach items="${AlertLevel.getValue()}" var="Value" >
-                                            <td>                                                
-                                                <form:input path="AlertLevels[${AlertLevel.getKey()}][${Value.getKey()}]" cssClass="form-control"/>
-                                                <form:errors path="AlertLevels[${AlertLevel.getKey()}][${Value.getKey()}]" />
-                                                <!--<input class="form-control" value="${Value.getValue()}" type="number" name="[${AlertLevel.getKey()}][${Value.getKey()}]">-->    
+                                        <th>#</th>
+                                        <th><spring:message code="profileedit.levelsSettings.name"/></th>
+                                        <th><spring:message code="minValue"/></th>
+                                        <th><spring:message code="minPercent"/></th>
+                                        <th><spring:message code="minWeight"/></th>
+                                        <th><spring:message code="minRecurrenceCount"/></th>
+                                        <th><spring:message code="minPredictPercent"/></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach items="${newuserdata.getAlertLevels()}" var="AlertLevel" varStatus="loopgrups">
+                                        <tr>
+                                            <td>${loopgrups.index+1}</td>
+                                            <td><spring:message code="level_${AlertLevel.getKey()}"/>
+                                                <!--  ${newuserdata.getAlertLevels().getName(AlertLevel.getKey())} -->                                                                               
                                             </td>
-                                        </c:forEach>                                
-                                    </tr>                    
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                                            <c:forEach items="${AlertLevel.getValue()}" var="Value" >
+                                                <td>                                                
+                                                    <form:input path="AlertLevels[${AlertLevel.getKey()}][${Value.getKey()}]" cssClass="form-control"/>
+                                                    <form:errors path="AlertLevels[${AlertLevel.getKey()}][${Value.getKey()}]" />
+                                                    <!--<input class="form-control" value="${Value.getValue()}" type="number" name="[${AlertLevel.getKey()}][${Value.getKey()}]">-->    
+                                                </td>
+                                            </c:forEach>                                
+                                        </tr>                    
+                                    </c:forEach>
+                                </tbody>
+                            </table>
                         </div>
                         <div class="form-group">
                             <div class="pull-right">

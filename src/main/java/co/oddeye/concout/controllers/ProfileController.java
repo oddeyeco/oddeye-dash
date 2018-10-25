@@ -16,7 +16,6 @@ import co.oddeye.concout.validator.LevelsValidator;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
-import co.oddeye.core.OddeeyMetricTypesEnum;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -373,8 +372,9 @@ public class ProfileController {
                 map.put("result", result);
             } else {
                 try {
-                    Map<String, Object> changedata = currentUser.updateBaseData(newuserdata);
-                    Userdao.saveUserPersonalinfo(currentUser, changedata);
+                    currentUser.updateBaseData(newuserdata);
+
+                    Map<String, HashMap<String, Object>> changedata = Userdao.addUser(currentUser);
                     JsonObject Jsonchangedata = new JsonObject();
                     Jsonchangedata.addProperty("UUID", currentUser.getId().toString());
                     Jsonchangedata.addProperty("action", "updateuser");
