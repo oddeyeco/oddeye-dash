@@ -42,7 +42,7 @@ a:hover {
 }
 
 .top_nav .nav>li>a:focus, .top_nav .nav>li>a:hover {
-    background-image: linear-gradient(#0f0f0f 80%, #67922f 110%);
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/bg_line_mini.jpg);
 }
 .top_nav .nav .open>a, .top_nav .nav .open>a:focus, .top_nav .nav .open>a:hover {
     background: #0f0f0f;
@@ -53,6 +53,7 @@ a:hover {
 .nav_title {
     background-image: url(/OddeyeCoconut/assets/images/dark_img/body-bg.jpg);
     border-radius: 0;
+    box-shadow: 0 1px 10px #67922f;
 }
 .nav_menu {
     background-image: url(/OddeyeCoconut/assets/images/dark_img/bg_line.jpg);
@@ -61,8 +62,8 @@ a:hover {
 }
 
 .navbar-nav .open .dropdown-menu {
-    background: #0f0f0f;
-    box-shadow: inset -4px 0 5px rgba(137, 188, 127, 0.8), inset 0 -1px 1px rgb(103, 146, 47);
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/body-bg.jpg);
+    box-shadow: inset -4px 0 5px rgba(0, 173, 238, 0.8), inset 0 -1px 1px #0a7299;
     border: 1px solid #656768;
 }
 .dropdown-menu>li>a.user-profile {
@@ -74,8 +75,8 @@ a:hover {
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
     text-decoration: none;
     color: #fff;
-    text-shadow: #00adee 1px -1px 5px;
-    background: linear-gradient(90deg, #0f0f0f, rgba(103, 146, 47, 0.3));
+    text-shadow: 0 -1px 4px #77ce07;
+    background: linear-gradient(90deg, #0f0f0f, rgba(0, 173, 238, 0.2));
 }
 
 .navbar-right .fa.fas.fa-angle-down{
@@ -114,19 +115,27 @@ a:hover {
     box-shadow: inset -2px 0 5px rgba(3, 167, 227, 0.8), rgb(70, 70, 70) 0 1px 0;
 }
 .nav-md ul.nav.child_menu li:after {
-    border-left: 1px solid @color_OEblue2;
+    //border-left: 2px solid @color_OEblue2;
+    display: none;
 }
 .nav-md ul.nav.child_menu li:before {
-    background: @color_OEblue2;
+    //background: @color_OEblue2;
+    //background: #2e92b0;
+    //height: 10px;
+    //margin-top: 12px;
+    //width: 10px;
+    //border-radius: 25%;
+    display: none;
 }
+
 .nav.child_menu>li>a {
     color: rgb(255, 255, 255);
     font-size: 12px;
     padding: 9px;
 }
 .nav.child_menu li:hover, .nav.child_menu li.active {
-    background: linear-gradient(90deg, #0f0f0f, rgba(8,112,150,0.3));
-    text-shadow: 0 -1px 4px #82d21a;
+    background: linear-gradient(90deg, #0f0f0f, rgba(8,112,150,0.2));
+    text-shadow: 0 -1px 4px #77ce07;
 }
 .nav li li.current-page a {
     color: #fff;
@@ -140,10 +149,10 @@ a:hover {
 // ---- right-col ----
 
 .x_panel {
-    background: linear-gradient(180deg,#141616 10px,#1d1d1d 100px);
+   background: linear-gradient(180deg, #141616 20%, rgba(29, 29, 29, 0.4));
     border: 1px solid #333434;
     border-radius: 4px;
-    box-shadow: -1px -1px 0 0 hsla(0,0%,100%,.1), 1px 1px 0 0 rgba(0,0,0,.3);
+    box-shadow: inset 1px 1px 0 0 rgba(255, 255, 255, 0.2), 1px 1px 0 0 rgba(0, 0, 0, 0.3);
     -webkit-column-break-inside: avoid;
     -moz-column-break-inside: avoid;
     column-break-inside: avoid;
@@ -175,10 +184,12 @@ a:hover {
 .tile_count .tile_stats_count:before {
     border: 0;
 }
-span.count_top, div.count.spincrement, div.count{
+span.count_top, div.count.spincrement, div.count {
     background: url(/OddeyeCoconut/assets/images/dark_img/title_ground.png) repeat 0 0 rgba(0, 0, 0, 0);
 }
-
+h2>span.count_top{
+    background: transparent;
+}
 
 
 a.gotodash {
@@ -212,17 +223,17 @@ a.gotodash:hover {
     background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1));
 }
 .sidebar-footer a {
-    background: #141616;
+    background-image: url(/OddeyeCoconut/assets/images/dark_img/fonDark.jpg);
 }
 div.sidebar-footer.hidden-small>a {
-	color: #8bc53f;
+	color: #00adee;
     text-decoration: none;
 }
 div.sidebar-footer.hidden-small>a:hover {
-	color: #00adee;
+	color: #8bc53f;
 }
 .sidebar-footer a:hover {
-    background: #000000;
+    background: transparent;
 }
 
 
