@@ -97,7 +97,7 @@ var abcformater = function (params) {
     {
         formatter = window[formatter](value);
     } else
-    {        
+    {
         if (params.treePathInfo)
         {
             if (params.treePathInfo[1])
@@ -204,12 +204,20 @@ var encodeHTML = function (source) {
                 var out = "";
                 if (params.constructor === Array)
                 {
-
                     param = params[0];
+
                     if (param.value instanceof Array)
                     {
                         firstparam = format_date(param.value[0], 1);
                         out = "<strong>" + firstparam + " " + params[0].name + "</strong>";
+                    } else
+                    {                        
+                        if (param)
+                            if (param.data)
+                                if (param.data.name)
+                                    out = "<strong>" + param.data.name + "</strong>";
+
+
                     }
                     for (var ind in params)
                     {
