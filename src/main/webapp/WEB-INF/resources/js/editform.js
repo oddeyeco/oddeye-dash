@@ -5,7 +5,7 @@
  */
 
 
-/* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor, cp */
+/* global PicerOptionSet2, getParameterByName, colorPalette, chartForm, jsonmaker, editor, cp, locale */
 
 class EditForm {
 
@@ -811,7 +811,7 @@ class EditForm {
 
     get privaterefreshtimes() {
         return {
-            "locale['editchartform.general']": locale["editform.refreshGeneral"],
+            "General": locale["editform.refreshGeneral"],
             "off": locale["editform.refreshOff"],
             " 5000": locale["editform.refresh5s"],
             " 10000": locale["editform.refresh10s"],

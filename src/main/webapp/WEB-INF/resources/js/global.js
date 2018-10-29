@@ -61,8 +61,7 @@ function globalconnect(head)
 
     globalstompClient.connect(head, function (frame) {
         console.log("stomp connected");
-        globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {
-
+        globalstompClient.subscribe('/user/' + uuid + '/info', function (message) {            
             var event = JSON.parse(message.body);
             switch (event.action) {
                 case 'editdash':
