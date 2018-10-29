@@ -137,6 +137,7 @@
                                     <form:select path="template" cssClass="form-control select2_tz" tabindex="-1">
                                         <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
                                         <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
+                                        <form:option value="dark2" ><spring:message code="profileedit.template.dark2"/></form:option>
                                     </form:select>
                                     <form:errors path="template" />
                                 </div>
