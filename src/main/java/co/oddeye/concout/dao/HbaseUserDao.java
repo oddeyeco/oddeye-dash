@@ -245,6 +245,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                 }
 
             }
+            if (user.getAlertLevels()==null)
+            {
+                user.setAlertLevels(new AlertLevel(true));
+            }
 //            user.inituser(userkvs, this);
             try {
                 TsdbID = BaseTsdb.getTsdb().getUID(UniqueId.UniqueIdType.TAGV, user.getId().toString());
