@@ -33,7 +33,25 @@ body {
 body .container.body .right_col,footer {
     background: #141616;
 }
-
+//---- scrollbar ----
+::-webkit-scrollbar-track {
+  background-color: #000000
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background-color: @color_OEgreen2;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: @color_OEblue2;
+}
+::-webkit-resizer {
+  width: 8px;
+  height: 0px
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+// ---- // ---- //
 a {
     color: @color_OEgreen;
 }
@@ -306,8 +324,8 @@ select.form-control, .form-control {
     border: 1px solid #333434;
 }
 //---- Profile_edit_Security ----
-
 //---- modal-content ----
+
 //---- listtable_wrapper ----
 .modal-content {    
     background-color: #72786a;
@@ -433,3 +451,86 @@ a.btn-primary {
     border-bottom: 1px solid #acb1b3;
 }
 
+//---- Metriq ----
+//---- table ----
+table.metrictable>thead:first-child>tr:first-child>th {
+    color: #fff7f1;
+}
+table.metrictable{
+    border: 1px solid #44493d;   
+}
+table.metrictable>thead>tr>th {
+    border: 1px solid rgba(68, 73, 61, 0.4);
+}
+
+table.metrictable.table-bordered>tbody>tr>td {
+    border-top: 1px solid #44493d;
+     border-right: 1px solid rgba(68, 73, 61, 0.4);
+}
+
+//---- History ----
+//---- calendar ----
+#reportrange {
+    background: #454a3e;
+    border: 1px solid #72786a;
+}
+#reportrange span {
+    color: @color_OEgreen;
+}
+#reportrange b.caret {
+    color: @color_OEblue;
+}
+
+.daterangepicker.dropdown-menu {
+    background: #141616;
+    border: 1px solid #72786a;
+}
+.daterangepicker .calendar-table {
+    background-color: #454a3e;
+    border: 1px solid #72786a;
+    border-radius: 0 0 4px 4px;
+}
+th.prev.available, th.next.available{
+    color: #00adee;
+}
+.daterangepicker td.off {
+    color: #777;
+    background-color: #454a3e;
+}
+.daterangepicker select.monthselect, .daterangepicker select.yearselect {   
+    border: 1px solid #72786a;
+    background-color: #171819;
+    color: #ffe19e;
+}
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+    background: @color_OEgreen2;
+    color: #0f0f0f;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: @color_OEblue2;
+    color: #fff;
+}
+
+//---- Chart ----
+//---- calendar ----
+
+.daterangepicker_input select.hourselect, .daterangepicker_input select.minuteselect{
+    background-color: #171819;
+    border: 1px solid #333434;
+    color: #ffe19e;    
+}
+.daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+    background-color: #3a3c3c;
+    border-color: transparent;
+    color: #999;
+}
+.daterangepicker .ranges li {
+    background: #454a3e;
+    border: 1px solid #72786a;
+    color: #ffe19e;    
+}
+.daterangepicker .ranges li.active, .daterangepicker .ranges li:hover {
+    background: #2e92b0;
+    border: 1px solid #356574;
+    color: #fff;
+}

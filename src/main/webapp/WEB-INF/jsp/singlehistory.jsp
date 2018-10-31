@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_title">
-            <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+            <div id="reportrange" class="pull-right" <!--style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc"-->>
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                 <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}" timeZone="${curentuser.getTimezone()}"/></span> <b class="caret"></b>
             </div>
