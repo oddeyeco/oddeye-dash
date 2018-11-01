@@ -345,7 +345,7 @@ div.modal-content .table-striped>tbody>tr:nth-of-type(odd) {
 table>tbody>tr>td {
     color: #ffe19e;
 }
-.table>thead:first-child>tr:first-child>th{
+div#modall1 .table>thead:first-child>tr:first-child>th{
     color: #141616;
 }
 
@@ -405,6 +405,10 @@ a.btn-primary {
 }
 
 //---- listtable2_wrapper ----
+
+div#modall2 .table>thead:first-child>tr:first-child>th{
+    color: #141616;
+}
 
 #listtable2_wrapper td>a:not(.btn) {
     color: #ffe19e;
@@ -534,3 +538,76 @@ th.prev.available, th.next.available{
     border: 1px solid #356574;
     color: #fff;
 }
+
+//---- Infrastructure ----
+
+div.profile_left h4>i.hidefilter {
+        color: #00adee;
+}
+div#tagsconteger.ui-sortable{
+    background: linear-gradient(90deg,#545b4b, #72786a, #545b4b);
+    border: 2px solid rgba(70, 87, 50, 0.8);
+    border-radius: 6px;
+    box-shadow: 0 0 6px #92ad57;
+}
+.draggable {
+    border: 2px solid rgba(146, 173, 87, 0.59);
+    border-radius: 10px 10px 4px 4px;
+    border-top: 6px inset rgba(139, 159, 96, 0.6);
+    background: #141616;
+}
+.autocomplete-suggestions {
+    background-color: #333434 !important;
+    border: 1px solid #656768 !important;
+}    
+   
+.autocomplete-selected {
+    background-color: #f7bb53 !important;
+    color: #0f0f0f !important;
+}
+div.profile_right-table>div.x_panel {
+    background-image: radial-gradient(#72786a, #545b4b, #141616);
+}
+
+//---- Real Time ----
+
+div#query_form_content i.fa-chevron-down, div#query_form_content i.fa-chevron-up {
+    color: @color_OEblue;
+}
+#query_form_content fieldset {
+    border: 2px solid #0d1f26;
+    border-width: 2px 0 0 0;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    background-color: #171819;
+}
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border: 1px solid #333434;
+}
+.select2-container--default .select2-selection--single, .select2-container--default .select2-selection--multiple {
+    background-color: #171819;
+    border: 1px solid #333434;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: @color_OEblue2;
+    
+}
+#query_form_content fieldset td.value input.filter-value{
+    color: #ffe19e;
+    background-color: #171819;
+    border: 1px solid #333434;
+} 
+#query_form_content div.notifiers-table div.item.value input.notifier-value {
+    color: #ffe19e;
+    background-color: #171819;
+    border: 1px solid #333434;
+} 
+.monitorlist li ul#regularlist {
+    border-top: double 6px @color_OEgreen2;
+}
+#query_form_content fieldset div.add-filter {
+    border: 1px solid #455615;
+    border-width: 0 0 2px 0;
+}
+
+

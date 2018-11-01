@@ -85,7 +85,7 @@
         });
         var elems = document.querySelectorAll('.js-switch-small');
         for (var i = 0; i < elems.length; i++) {
-            var switchery = new Switchery(elems[i], {size: 'small', color: '#26B99A'});
+            var switchery = new Switchery(elems[i], {size: 'small',color: Clr,jackColor: jackClr,secondaryColor: secClr,jackSecondaryColor: jackSecClr});  
         }
 
         $("body").on("click", "#Show", function () {

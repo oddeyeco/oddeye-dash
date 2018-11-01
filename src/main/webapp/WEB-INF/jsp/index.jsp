@@ -56,7 +56,7 @@
             <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css?v=${version}" />-->      
 
 
-            <c:if test="${not curentuser.getTemplate()}" >
+            <c:if test="${empty curentuser.getTemplate()}" >
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
             </c:if>                        
 
@@ -388,6 +388,27 @@
                     </div>
                 </div>                        
             </c:if>
+            
+            <c:if test="${empty curentuser.getTemplate()}" >
+                <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
+            </c:if>                        
+
+            <c:if test="${not empty curentuser.getTemplate()}" >                
+                <c:choose>
+                    <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
+                        <script src="${cp}/resources/js/themes/dark_templatevars.js?v=${version}"></script>
+                    </c:when>
+                    <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
+                        <script src="${cp}/resources/js/themes/dark2_templatevars.js?v=${version}"></script>
+                    </c:when>                        
+                    <c:otherwise>                      
+                        <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
+                    </c:otherwise>                                                    
+                </c:choose>
+            </c:if>             
+            
+            
+            
             <script>
             var headerName = "${_csrf.headerName}";
             var token = "${_csrf.token}";
@@ -404,7 +425,7 @@
             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
 
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
-
+           
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>                    
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
             <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>        
