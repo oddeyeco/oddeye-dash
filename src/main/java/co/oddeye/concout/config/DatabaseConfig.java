@@ -12,6 +12,7 @@ import co.oddeye.concout.dao.HbaseErrorHistoryDao;
 import co.oddeye.concout.dao.HbaseErrorsDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.dao.WhitelabelDao;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,6 +42,8 @@ public class DatabaseConfig {
     private String tsdbUidTable;
     @Value("${dash.userrtable}")
     private String usersTable;
+    @Value("${dash.wltable}")
+    private String wltable;    
     @Value("${dash.dushboardstable}")
     private String dushboardsTable;
     @Value("${dash.optionstable}")
@@ -71,6 +74,11 @@ public class DatabaseConfig {
         return new HbaseUserDao(this);
     }
 
+    @Bean
+    public WhitelabelDao Whitelabeldao() {
+        return new WhitelabelDao(this);
+    }    
+    
     @Bean
     public HbaseDataDao DataDao() {
         return new HbaseDataDao(this);
@@ -218,6 +226,20 @@ public class DatabaseConfig {
      */
     public String getOptionsTable() {
         return optionsTable;
+    }
+
+    /**
+     * @return the wltable
+     */
+    public String getWltable() {
+        return wltable;
+    }
+
+    /**
+     * @param wltable the wltable to set
+     */
+    public void setWltable(String wltable) {
+        this.wltable = wltable;
     }
 
 }

@@ -87,6 +87,8 @@ public class OddeyeUserModel implements Serializable {
     public final static String ROLE_DELETE = "ROLE_DELETE";
     public final static String ROLE_EDIT = "ROLE_EDIT";
     public final static String ROLE_CAN_SWICH = "ROLE_CAN_SWICH";
+    public final static String ROLE_WHITELABEL_OWNER = "ROLE_WHITELABEL_OWNER";
+    public final static String ROLE_WHITELABEL_USER = "ROLE_WHITELABEL_USER";
     @Id
     @HbaseColumn(qualifier = "UUID", family = "personalinfo")
     private UUID id;
@@ -130,6 +132,10 @@ public class OddeyeUserModel implements Serializable {
     private Boolean alowswitch;
     @HbaseColumn(qualifier = "template", family = "technicalinfo")
     private String template = "default";        
+    
+    @HbaseColumn(qualifier = "whitelabelkey", family = "technicalinfo")
+    private byte[] whitelabelkey;    
+        
     @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
     private Collection<GrantedAuthority> authorities;
     @HbaseColumn(qualifier = "*", family = "filtertemplates")
@@ -192,6 +198,8 @@ public class OddeyeUserModel implements Serializable {
         roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_DELETE), "Can delete");
         roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_EDIT), "Can Edit");
         roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_CAN_SWICH), "Can Switch to users");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_WHITELABEL_OWNER), "White Label Owner");
+        roles.put(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_WHITELABEL_USER), "White Label User");
 
         return roles;
     }
@@ -1233,6 +1241,20 @@ public class OddeyeUserModel implements Serializable {
      */
     public void setConsumptionList(ConsumptionList consumptionList) {
         this.consumptionList = consumptionList;
+    }
+
+    /**
+     * @return the whitelabelkey
+     */
+    public byte[] getWhitelabelkey() {
+        return whitelabelkey;
+    }
+
+    /**
+     * @param whitelabelkey the whitelabelkey to set
+     */
+    public void setWhitelabelkey(byte[] whitelabelkey) {
+        this.whitelabelkey = whitelabelkey;
     }
 
 }

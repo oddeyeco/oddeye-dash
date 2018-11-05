@@ -5,8 +5,14 @@
  */
 package co.oddeye.concout.dao;
 
+import co.oddeye.concout.annotation.HbaseColumn;
+import co.oddeye.concout.model.WhitelabelModel;
 import com.google.gson.JsonObject;
 import com.stumbleupon.async.Deferred;
+import java.beans.PropertyDescriptor;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +91,37 @@ abstract public class HbaseBaseDao {
         return null;
     }
 
+    
+    public Map<String, HashMap<String, Object>> addRow(Object object) throws Exception {
+        Map<String, HashMap<String, Object>> changedata = new HashMap<>();
+        for (Field field : object.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(HbaseColumn.class)) {
+                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), WhitelabelModel.class);
+                Method getter = PDescriptor.getReadMethod();
+                Object value = getter.invoke(object);
+                if (value != null) {
+                    for (Annotation an : field.getDeclaredAnnotations()) {
+                        if (an instanceof HbaseColumn) {
+                            String family = ((HbaseColumn) an).family();
+                            if (!changedata.containsKey(family)) {
+                                changedata.put(family, new HashMap<>());
+                            }
+                            changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
+                        }
+
+                    }
+                }
+            }
+        }
+        put(changedata, getKey(object));
+        return changedata;
+    }    
+
+    protected byte[] getKey(Object object)
+    {
+        return null;
+    }
+    
     /**
      * @return the tablename
      */
