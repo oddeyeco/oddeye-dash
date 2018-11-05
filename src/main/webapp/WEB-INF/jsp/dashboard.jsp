@@ -183,7 +183,7 @@
                 </div>
             </div>          
             <div class="refresh-block">
-                <div id="reportrange" class="" data-toggle="tooltip"  title="<spring:message code="dashboard.title.quickRanges"/>" data-placement="bottom" >
+                <div id="reportrange" class="reportrange" data-toggle="tooltip"  title="<spring:message code="dashboard.title.quickRanges"/>" data-placement="bottom" >
                     <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                     <span></span> <b class="caret"></b>
                 </div>                  
