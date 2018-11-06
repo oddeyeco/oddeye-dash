@@ -23,27 +23,20 @@ import javax.servlet.http.Cookie;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
-import java.nio.ByteBuffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.UUID;
 import javax.persistence.Id;
 import org.apache.commons.codec.binary.Hex;
-import org.hbase.async.Bytes;
-import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
@@ -56,7 +49,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  *
  * @author vahan
  */
-public class OddeyeUserModel implements Serializable {
+public class OddeyeUserModel implements Serializable,IHbaseModel {
 
     /**
      * @return the template
@@ -73,7 +66,6 @@ public class OddeyeUserModel implements Serializable {
     }
 
 //    private transient HbaseUserDao Userdao;
-
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class);
     private static final long serialVersionUID = 465895478L;
 
@@ -131,11 +123,11 @@ public class OddeyeUserModel implements Serializable {
     @HbaseColumn(qualifier = "alowswitch", family = "technicalinfo")
     private Boolean alowswitch;
     @HbaseColumn(qualifier = "template", family = "technicalinfo")
-    private String template = "default";        
-    
-    @HbaseColumn(qualifier = "whitelabelkey", family = "technicalinfo")
-    private byte[] whitelabelkey;    
-        
+    private String template = "default";
+
+    @HbaseColumn(qualifier = "whitelabelkey", family = "technicalinfo", identfield = "key")
+    private WhitelabelModel whitelabel;
+
     @HbaseColumn(qualifier = "authorities", family = "technicalinfo", type = "collection")
     private Collection<GrantedAuthority> authorities;
     @HbaseColumn(qualifier = "*", family = "filtertemplates")
@@ -145,11 +137,11 @@ public class OddeyeUserModel implements Serializable {
     private transient OddeyeUserModel referal;
     @HbaseColumn(qualifier = "referal", family = "technicalinfo")
     private transient String sreferal;
-                           
+
     @HbaseColumn(family = "cookesinfo")
     private transient ArrayList<Cookie> cookies = new ArrayList<>();
 
-    @HbaseColumn(qualifier = "UUID", family = "personalinfo",type="timestamp")
+    @HbaseColumn(qualifier = "UUID", family = "personalinfo", type = "timestamp")
     private Date sinedate;
     private ConcoutMetricMetaList MetricsMetas = new ConcoutMetricMetaList();
     private Map<String, String> DushList;
@@ -782,7 +774,7 @@ public class OddeyeUserModel implements Serializable {
         if (!newcurentuser.getTemplate().equals(this.template)) {
             this.template = newcurentuser.getTemplate();
             updatesdata.put("template", newcurentuser.getTemplate());
-        }        
+        }
         return updatesdata;
     }
 
@@ -1106,7 +1098,7 @@ public class OddeyeUserModel implements Serializable {
     public void setSinedate(Date sinedate) {
         this.sinedate = sinedate;
     }
-    
+
     /**
      * @return the referal
      */
@@ -1244,17 +1236,27 @@ public class OddeyeUserModel implements Serializable {
     }
 
     /**
-     * @return the whitelabelkey
+     * @return the whitelabel
      */
-    public byte[] getWhitelabelkey() {
-        return whitelabelkey;
+    public WhitelabelModel getWhitelabel() {
+        return whitelabel;
     }
 
     /**
-     * @param whitelabelkey the whitelabelkey to set
+     * @param whitelabel the whitelabel to set
      */
-    public void setWhitelabelkey(byte[] whitelabelkey) {
-        this.whitelabelkey = whitelabelkey;
+    public void setWhitelabel(WhitelabelModel whitelabel) {
+        this.whitelabel = whitelabel;
     }
 
+    public boolean isRolePresent(String role) {
+        boolean isRolePresent = false;
+        for (GrantedAuthority grantedAuthority : authorities) {
+            isRolePresent = grantedAuthority.getAuthority().equals(role);
+            if (isRolePresent) {
+                break;
+            }
+        }
+        return isRolePresent;
+    }
 }

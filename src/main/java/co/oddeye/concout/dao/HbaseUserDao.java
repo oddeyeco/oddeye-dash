@@ -9,6 +9,7 @@ import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.core.CoconutConsumption;
 import co.oddeye.concout.core.ConsumptionList;
+import co.oddeye.concout.model.IHbaseModel;
 import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
@@ -245,8 +246,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                 }
 
             }
-            if (user.getAlertLevels()==null)
-            {
+            if (user.getAlertLevels() == null) {
                 user.setAlertLevels(new AlertLevel(true));
             }
 //            user.inituser(userkvs, this);
@@ -685,6 +685,13 @@ public class HbaseUserDao extends HbaseBaseDao {
                 if (((HbaseColumn) annotation).type().equals("password")) {
                     changedata.get(family).put("password", user.getPasswordByte());
                     changedata.get(family).put("solt", user.getSolt());
+                }else if (newvalue instanceof IHbaseModel) {
+                    if (((HbaseColumn) annotation).identfield() != null) {
+                        PropertyDescriptor PDescriptor2 = new PropertyDescriptor(((HbaseColumn) annotation).identfield(), newvalue.getClass());
+                        Method getter2 = PDescriptor2.getReadMethod();
+                        newvalue = getter2.invoke(newvalue);
+                        changedata.get(family).put(((HbaseColumn) annotation).qualifier(), newvalue);
+                    }
                 } else {
                     setter.invoke(user, newvalue);
                     changedata.get(family).put(((HbaseColumn) annotation).qualifier(), newvalue);

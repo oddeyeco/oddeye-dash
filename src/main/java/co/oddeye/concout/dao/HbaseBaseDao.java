@@ -6,6 +6,7 @@
 package co.oddeye.concout.dao;
 
 import co.oddeye.concout.annotation.HbaseColumn;
+import co.oddeye.concout.model.IHbaseModel;
 import co.oddeye.concout.model.WhitelabelModel;
 import com.google.gson.JsonObject;
 import com.stumbleupon.async.Deferred;
@@ -30,13 +31,14 @@ import org.springframework.stereotype.Repository;
 abstract public class HbaseBaseDao {
 
     @Autowired
-    protected BaseTsdbConnect BaseTsdb;        
-    protected byte[] table = null;    
+    protected BaseTsdbConnect BaseTsdb;
+    protected byte[] table = null;
     private final String tablename;
+
     /**
      *
      * @param tableName
-     */    
+     */
     @SuppressWarnings("empty-statement")
     public HbaseBaseDao(String tableName) {
 
@@ -47,9 +49,8 @@ abstract public class HbaseBaseDao {
         table = tableName.getBytes();
         tablename = tableName;
     }
-    
-    public Deferred<Object> put (Map<String, HashMap<String, Object>>  changedata,  byte[] key)
-    {
+
+    public Deferred<Object> put(Map<String, HashMap<String, Object>> changedata, byte[] key) {
         if (changedata.size() > 0) {
             for (Map.Entry<String, HashMap<String, Object>> data : changedata.entrySet()) {
                 byte[] family = data.getKey().getBytes();
@@ -74,24 +75,24 @@ abstract public class HbaseBaseDao {
                         }
                         if (Hbasedata.getValue() instanceof JsonObject) {
                             values[index] = ((JsonObject) Hbasedata.getValue()).toString().getBytes();
-                        }                        
+                        }
                         if (Hbasedata.getValue() instanceof Enum) {
                             values[index] = ((Enum) Hbasedata.getValue()).toString().getBytes();
-                        }                                                
+                        }
+
                         if (Hbasedata.getValue() instanceof UUID) {
                             values[index] = ((UUID) Hbasedata.getValue()).toString().getBytes();
-                        }                        
+                        }
                         index++;
                     }
                     final PutRequest request = new PutRequest(table, key, family, qualifiers, values);
                     return BaseTsdb.getClient().put(request);
                 }
             }
-        }  
+        }
         return null;
     }
 
-    
     public Map<String, HashMap<String, Object>> addRow(Object object) throws Exception {
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         for (Field field : object.getClass().getDeclaredFields()) {
@@ -106,7 +107,20 @@ abstract public class HbaseBaseDao {
                             if (!changedata.containsKey(family)) {
                                 changedata.put(family, new HashMap<>());
                             }
-                            changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
+                            if (value instanceof IHbaseModel) {
+                                if (((HbaseColumn) an).identfield() != null) {
+                                    PropertyDescriptor PDescriptor2 = new PropertyDescriptor(((HbaseColumn) an).identfield(), value.getClass());
+                                    Method getter2 = PDescriptor2.getReadMethod();
+                                    value = getter2.invoke(value);
+                                    changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
+                                }                                                                        
+                            }
+                            else
+                            {
+                                changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
+                            }
+                            
+
                         }
 
                     }
@@ -115,13 +129,12 @@ abstract public class HbaseBaseDao {
         }
         put(changedata, getKey(object));
         return changedata;
-    }    
+    }
 
-    protected byte[] getKey(Object object)
-    {
+    protected byte[] getKey(Object object) {
         return null;
     }
-    
+
     /**
      * @return the tablename
      */

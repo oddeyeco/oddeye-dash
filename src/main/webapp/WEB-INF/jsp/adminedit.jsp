@@ -43,7 +43,22 @@
                             <form:errors path="${config.getValue().path}" />
                         </div>
                     </div>  
-                </c:when>                                                
+                </c:when>    
+                <c:when test="${config.getValue().type == 'File'}">
+                    <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="${config.getValue().path}">
+                            <spring:message code="${config.getValue().title}"/>
+                            <c:if test="${config.getValue().required == true}"> 
+                                <span class="required">*</span>
+                            </c:if>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                            <spring:message code="${config.getValue().title}" var="placeholderTitle"/>
+                            <form:input type="file" path="${config.getValue().path}" cssClass="form-control" placeholder="${placeholderTitle}"/><%--${config.getValue().title}--%>                         
+                            <form:errors path="${config.getValue().path}" />
+                        </div>
+                    </div>  
+                </c:when>                                  
                 <c:when test="${config.getValue().type == 'Select'}">
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="${config.getValue().path}">

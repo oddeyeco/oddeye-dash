@@ -6,6 +6,7 @@
 package co.oddeye.concout.config;
 
 import co.oddeye.concout.convertor.StringToDoubleConvertor;
+import co.oddeye.concout.convertor.StringToOddeyeUserModelConverter;
 import co.oddeye.concout.providers.ApplicationContextProvider;
 import com.maxmind.geoip2.DatabaseReader;
 import freemarker.template.TemplateException;
@@ -63,11 +64,15 @@ public class Config implements WebMvcConfigurer {
     @Autowired
     StringToDoubleConvertor stringToDoubleConvertor;
 
+    @Autowired
+    StringToOddeyeUserModelConverter stringToOddeyeUserModelConverter;    
+    
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Config.class);
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(stringToDoubleConvertor);        
+        registry.addConverter(stringToOddeyeUserModelConverter);        
     }    
     
     @Bean
