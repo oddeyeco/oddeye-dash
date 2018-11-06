@@ -9,10 +9,10 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 /**
  *
- * @author vahan
- * JETTY-i aranc sra chi asxatum
- */                                 
+ * @author vahan JETTY-i aranc sra chi asxatum
+ */
 public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
 
     @Override
     protected Class<?>[] getRootConfigClasses() {

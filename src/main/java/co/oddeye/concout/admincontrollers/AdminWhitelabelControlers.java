@@ -11,10 +11,8 @@ import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.model.WhitelabelModel;
 import co.oddeye.core.globalFunctions;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +30,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -56,8 +56,7 @@ public class AdminWhitelabelControlers extends GRUDControler {
 //                put("type", "String");
 //            }
 //        });
-        
-        
+
         AddViewConfig("url", new HashMap<String, Object>() {
             {
                 put("path", "url");
@@ -102,8 +101,7 @@ public class AdminWhitelabelControlers extends GRUDControler {
                 put("title", "adminlist.actions");
                 put("type", "actions");
             }
-        });        
-        
+        });
 
         AddEditConfig("url", new HashMap<String, Object>() {
             {
@@ -115,18 +113,24 @@ public class AdminWhitelabelControlers extends GRUDControler {
             {
                 put("path", "logo");
                 put("title", "whitelabel.logo");
+                put("infopath", "logofilename");
+                put("inftype", "image/*");                
                 put("type", "File");
             }
         }).AddEditConfig("introbkg", new HashMap<String, Object>() {
             {
                 put("path", "introbkg");
                 put("title", "whitelabel.introbkg");
+                put("infopath", "introbkgfilename");
+                put("inftype", "image/*");
                 put("type", "File");
             }
         }).AddEditConfig("css", new HashMap<String, Object>() {
             {
                 put("path", "css");
                 put("title", "whitelabel.css");
+                put("infopath", "cssfilename");
+                put("inftype", ".css");                    
                 put("type", "File");
             }
         }).AddEditConfig("userpayment", new HashMap<String, Object>() {
@@ -184,7 +188,7 @@ public class AdminWhitelabelControlers extends GRUDControler {
         }
 
         Map<String, String> owneritems = new HashMap<>();
-        owneritems.put("","");
+        owneritems.put("", " ");
         for (OddeyeUserModel tuser : Userdao.getAllUsers(true)) {
             if (tuser.isRolePresent(OddeyeUserModel.ROLE_WHITELABEL_OWNER)) {
                 owneritems.put(tuser.getId().toString(), tuser.getEmail());
@@ -198,7 +202,7 @@ public class AdminWhitelabelControlers extends GRUDControler {
         map.put("configMap", getEditConfig());
         map.put("modelname", "whitelable");
         map.put("path", "whitelable");
-        map.put("body", "adminedit");
+        map.put("body", "admineditmultipart");
         map.put("jspart", "adminjs");
         return "index";
     }
@@ -215,18 +219,27 @@ public class AdminWhitelabelControlers extends GRUDControler {
             map.put("isAuthentication", false);
         }
         WhitelabelModel model = Whitelabeldao.getByID(id);
+        Map<String, String> owneritems = new HashMap<>();
+        owneritems.put("", " ");
+        for (OddeyeUserModel tuser : Userdao.getAllUsers(true)) {
+            if (tuser.isRolePresent(OddeyeUserModel.ROLE_WHITELABEL_OWNER)) {
+                owneritems.put(tuser.getId().toString(), tuser.getEmail());
+            }
+        }
+        ((HashMap<String, Object>) getEditConfig().get("owner")).put("items", owneritems);
+
         map.put("model", model);
         //Userdao.getAllUsers() 
         map.put("configMap", getEditConfig());
         map.put("modelname", "whitelable");
         map.put("path", "whitelable");
-        map.put("body", "adminedit");
+        map.put("body", "admineditmultipart");
         map.put("jspart", "adminjs");
         return "index";
     }
 
     @RequestMapping(value = "/whitelable/edit/{id}", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("model") WhitelabelModel newWL, BindingResult result, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    public String edit(@ModelAttribute("model") WhitelabelModel newWL, BindingResult result, @RequestParam("logo") MultipartFile files, ModelMap map, HttpServletRequest request, HttpServletResponse response) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -241,18 +254,47 @@ public class AdminWhitelabelControlers extends GRUDControler {
 //                InetAddress ia = InetAddress.getLocalHost();
 //                String node = ia.getHostName();
 //                Gson gson = new Gson();
+                String uploadsDir = "/WEB-INF/assets/uploads/"+newWL.getOwner().getId().toString()+"/"+newWL.getUrl()+"/";
+                String realPathtoUploads = request.getServletContext().getRealPath(uploadsDir);
+                if (!new File(realPathtoUploads).exists()) {
+                    new File(realPathtoUploads).mkdirs();
+                }
 
+                if (!newWL.getLogo().isEmpty()) {
+                    String orgName = newWL.getLogo().getOriginalFilename();
+                    String filePath = realPathtoUploads + orgName;
+                    File dest = new File(filePath);
+                    newWL.getLogo().transferTo(dest);                                        
+                    newWL.setLogofilename(newWL.getLogo().getOriginalFilename());
+                }
+                if (!newWL.getIntrobkg().isEmpty()) {
+                    String orgName = newWL.getIntrobkg().getOriginalFilename();
+                    String filePath = realPathtoUploads + orgName;
+                    File dest = new File(filePath);
+                    newWL.getIntrobkg().transferTo(dest);                                        
+                    newWL.setIntrobkgfilename(newWL.getIntrobkg().getOriginalFilename());
+                }                
+                
+                if (!newWL.getCss().isEmpty()) {
+                    String orgName = newWL.getCss().getOriginalFilename();
+                    String filePath = realPathtoUploads + orgName;
+                    File dest = new File(filePath);
+                    newWL.getCss().transferTo(dest);                                        
+                    newWL.setCssfilename(newWL.getCss().getOriginalFilename());
+                }                                
+                
                 if (act.equals("Delete")) {
-
+                    Whitelabeldao.delete(newWL);
+                    return "redirect:/whitelable/list";
                 }
 
                 if (act.equals("Save")) {
-                    Whitelabeldao.addRow(newWL);                    
+                    Whitelabeldao.addRow(newWL);
                     Userdao.saveField(newWL.getOwner(), "whitelabel");
                     map.put("configMap", getEditConfig());
                     map.put("path", "whitelable");
                     map.put("modelname", "whitelable");
-                    map.put("body", "adminedit");
+                    map.put("body", "admineditmultipart");
                     map.put("jspart", "adminjs");
                 }
             } catch (Exception ex) {

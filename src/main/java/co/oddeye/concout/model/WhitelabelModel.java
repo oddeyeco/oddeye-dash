@@ -14,6 +14,7 @@ import java.util.UUID;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -28,16 +29,20 @@ public class WhitelabelModel implements Serializable,IHbaseModel {
     @HbaseColumn(qualifier = "url", family = "info")
     private String url;
     @HbaseColumn(qualifier = "logo", family = "info")
-    private String logo;
+    private String logofilename;
+    private MultipartFile logo;
     @HbaseColumn(qualifier = "introbkg", family = "info")
-    private String introbkg;
+    private String introbkgfilename;
+    private MultipartFile introbkg;
     @HbaseColumn(qualifier = "css", family = "info")
-    private String css;
+    private String cssfilename;
+    private MultipartFile css;
     @HbaseColumn(qualifier = "userpayment", family = "info")
     private Boolean userpayment;
     @HbaseColumn(qualifier = "owner", family = "info", identfield="id")
     private OddeyeUserModel owner;
     private List<OddeyeUserModel> clients;
+    private String fullfileName;
 
     public WhitelabelModel() {
         key = UUID.randomUUID().toString().getBytes();
@@ -84,48 +89,6 @@ public class WhitelabelModel implements Serializable,IHbaseModel {
     }
 
     /**
-     * @return the logo
-     */
-    public String getLogo() {
-        return logo;
-    }
-
-    /**
-     * @param logo the logo to set
-     */
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    /**
-     * @return the introbkg
-     */
-    public String getIntrobkg() {
-        return introbkg;
-    }
-
-    /**
-     * @param introbkg the introbkg to set
-     */
-    public void setIntrobkg(String introbkg) {
-        this.introbkg = introbkg;
-    }
-
-    /**
-     * @return the css
-     */
-    public String getCss() {
-        return css;
-    }
-
-    /**
-     * @param css the css to set
-     */
-    public void setCss(String css) {
-        this.css = css;
-    }
-
-    /**
      * @return the userpayment
      */
     public Boolean getUserpayment() {
@@ -165,5 +128,107 @@ public class WhitelabelModel implements Serializable,IHbaseModel {
      */
     public void setClients(List<OddeyeUserModel> clients) {
         this.clients = clients;
+    }
+
+    /**
+     * @return the logofilename
+     */
+    public String getLogofilename() {
+        return logofilename;
+    }
+
+    /**
+     * @param logofilename the logofilename to set
+     */
+    public void setLogofilename(String logofilename) {
+        this.logofilename = logofilename;
+    }
+
+    /**
+     * @return the logo
+     */
+    public MultipartFile getLogo() {
+        return logo;
+    }
+
+    /**
+     * @param logo the logo to set
+     */
+    public void setLogo(MultipartFile logo) {
+        this.logo = logo;
+    }
+
+    /**
+     * @return the introbkgfilename
+     */
+    public String getIntrobkgfilename() {
+        return introbkgfilename;
+    }
+
+    /**
+     * @param introbkgfilename the introbkgfilename to set
+     */
+    public void setIntrobkgfilename(String introbkgfilename) {
+        this.introbkgfilename = introbkgfilename;
+    }
+
+    /**
+     * @return the introbkg
+     */
+    public MultipartFile getIntrobkg() {
+        return introbkg;
+    }
+
+    /**
+     * @param introbkg the introbkg to set
+     */
+    public void setIntrobkg(MultipartFile introbkg) {
+        this.introbkg = introbkg;
+    }
+
+    /**
+     * @return the cssfilename
+     */
+    public String getCssfilename() {
+        return cssfilename;
+    }
+
+    /**
+     * @param cssfilename the cssfilename to set
+     */
+    public void setCssfilename(String cssfilename) {
+        this.cssfilename = cssfilename;
+    }
+
+    /**
+     * @return the css
+     */
+    public MultipartFile getCss() {
+        return css;
+    }
+
+    /**
+     * @param css the css to set
+     */
+    public void setCss(MultipartFile css) {
+        this.css = css;
+    }
+    
+    public String getFullfileName(String name) {
+        return "/WEB-INF/assets/uploads/"+this.getOwner().getId().toString()+"/"+this.getUrl()+"/"+name;
+    }    
+
+    /**
+     * @return the fullfileName
+     */
+    public String getFullfileName() {
+        return "/assets/uploads/"+this.getOwner().getId().toString()+"/"+this.getUrl()+"/";
+    }
+
+    /**
+     * @param fullfileName the fullfileName to set
+     */
+    public void setFullfileName(String fullfileName) {
+        this.fullfileName = fullfileName;
     }
 }

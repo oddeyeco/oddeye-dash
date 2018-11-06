@@ -8,6 +8,7 @@ package co.oddeye.concout.dao;
 import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.model.IHbaseModel;
 import co.oddeye.concout.model.WhitelabelModel;
+import co.oddeye.core.globalFunctions;
 import com.google.gson.JsonObject;
 import com.stumbleupon.async.Deferred;
 import java.beans.PropertyDescriptor;
@@ -19,7 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.hbase.async.Bytes;
+import org.hbase.async.DeleteRequest;
 import org.hbase.async.PutRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,6 +34,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 abstract public class HbaseBaseDao {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(HbaseBaseDao.class);
+    
     @Autowired
     protected BaseTsdbConnect BaseTsdb;
     protected byte[] table = null;
@@ -135,6 +141,15 @@ abstract public class HbaseBaseDao {
         return null;
     }
 
+    public void delete(WhitelabelModel newWL) {
+        try {
+            final DeleteRequest delete = new DeleteRequest(table, getKey(newWL));
+            BaseTsdb.getClient().delete(delete).joinUninterruptibly();
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+    }    
+    
     /**
      * @return the tablename
      */

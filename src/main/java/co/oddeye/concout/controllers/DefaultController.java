@@ -43,6 +43,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -152,6 +154,12 @@ public class DefaultController {
         return "indexPrime";
     }
 
+//    @RequestMapping(value = {"/{slug}"}, method = RequestMethod.POST)
+//    public String postbytemplate(@PathVariable(value = "slug") String slug, @RequestParam("file") MultipartFile file, ModelMap map, HttpServletRequest request) {
+//        return "index";
+//    }    
+    
+    
     @RequestMapping(value = {"/{slug}"}, method = RequestMethod.GET)
     public String bytemplate(@PathVariable(value = "slug") String slug, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

@@ -27,6 +27,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService);
         auth.authenticationProvider(authProvider());
     }
-
+    
     @Bean
     public HbaseAuthenticationProvider authProvider() {
         HbaseAuthenticationProvider authenticationProvider = new HbaseAuthenticationProvider();
