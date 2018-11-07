@@ -6,7 +6,6 @@
 package co.oddeye.concout.model;
 
 import co.oddeye.concout.annotation.HbaseColumn;
-import static co.oddeye.concout.model.DashboardTemplate.LOGGER;
 import co.oddeye.core.globalFunctions;
 import java.io.Serializable;
 import java.util.List;
@@ -222,7 +221,12 @@ public class WhitelabelModel implements Serializable,IHbaseModel {
      * @return the fullfileName
      */
     public String getFullfileName() {
-        return "/assets/uploads/"+this.getOwner().getId().toString()+"/"+this.getUrl()+"/";
+        if (this.getOwner()!=null)
+        {
+            return "/assets/uploads/"+this.getOwner().getId().toString()+"/"+this.getUrl()+"/";
+        }
+        return "/assets/uploads/";
+        
     }
 
     /**

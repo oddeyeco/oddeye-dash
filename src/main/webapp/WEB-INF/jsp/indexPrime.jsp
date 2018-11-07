@@ -3,8 +3,11 @@
 <%@ taglib uri="http://htmlcompressor.googlecode.com/taglib/compressor"  prefix="compress"%>
 <compress:html removeIntertagSpaces="true" removeMultiSpaces="true"  compressCss="true" compressJavaScript="true">
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib prefix="udf" uri="https://app.oddeye.co/OddeyeCoconut/oddeyetaglib" %>
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
     <c:set var="version" value="0.2.16" scope="request"/>
+    <c:set var="whitelabel" value="${whitelabel.getWhitelabelModel()}" scope="request"/>
+    
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -30,13 +33,17 @@
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />                              
             <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css?v=${version}" />
             <link rel="stylesheet" href="<c:url value="/assets/css/main.css?v=${version}"/>" />
+            <c:if test="${not empty whitelabel}" >                
+                <link rel="stylesheet" href="<c:url value="${whitelabel.getFullfileName()}${whitelabel.cssfilename}?v=${version}"/>" />
+            </c:if>             
+            
             <!-- font-awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />            
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />
         </head>
 
-        <body>        
+        <body> 
             <!--            <div>  
                             <main>  -->
             <c:if test="${!empty wraper}">                        

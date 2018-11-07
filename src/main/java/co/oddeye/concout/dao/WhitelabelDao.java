@@ -23,10 +23,13 @@ import java.util.UUID;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 import org.hbase.async.Bytes;
-import org.hbase.async.DeleteRequest;
+import org.hbase.async.ColumnPrefixFilter;
+import org.hbase.async.FilterList;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
+import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
+import org.hbase.async.ValueFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +47,8 @@ public class WhitelabelDao extends HbaseBaseDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(WhitelabelDao.class);
 
     @Autowired
-    HbaseUserDao userDao;    
-    
+    HbaseUserDao userDao;
+
     public WhitelabelDao(DatabaseConfig p_config) {
         super(p_config.getWltable());
     }
@@ -58,13 +61,11 @@ public class WhitelabelDao extends HbaseBaseDao {
             ArrayList<ArrayList<KeyValue>> rows;
             while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
                 for (final ArrayList<KeyValue> row : rows) {
-                   for (KeyValue kv:row)  
-                   {
-                       if (Arrays.equals(kv.qualifier(), "key".getBytes()))
-                       {
-                           result.add(getByID(kv.value()));
-                       }
-                   }
+                    for (KeyValue kv : row) {
+                        if (Arrays.equals(kv.qualifier(), "key".getBytes())) {
+                            result.add(getByID(kv.value()));
+                        }
+                    }
                 }
             }
         } catch (Exception ex) {
@@ -106,7 +107,7 @@ public class WhitelabelDao extends HbaseBaseDao {
                                                 case "co.oddeye.concout.model.OddeyeUserModel":
                                                     newvalue = userDao.getUserByUUID(new String(kv.value()));
                                                     setter.invoke(whitelabel, new Object[]{newvalue});
-                                                    break;                                                
+                                                    break;
                                                 case "java.util.UUID":
                                                     newvalue = UUID.fromString(new String(kv.value()));
                                                     setter.invoke(whitelabel, new Object[]{newvalue});
@@ -183,5 +184,35 @@ public class WhitelabelDao extends HbaseBaseDao {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
         return null;
+    }
+
+    public WhitelabelModel getByDomain(String domain) {
+        WhitelabelModel result = null;
+        try {
+            final Scanner scanner = BaseTsdb.getClient().newScanner(table);
+            scanner.setQualifier("key");
+            final ArrayList<ScanFilter> filters = new ArrayList<>(2);
+            filters.add(
+                    new ValueFilter(org.hbase.async.CompareFilter.CompareOp.EQUAL,
+                            new org.hbase.async.BinaryComparator(domain.getBytes())));
+            filters.add(new ColumnPrefixFilter("url"));
+
+            scanner.setFilter(new FilterList(filters));
+
+            ArrayList<ArrayList<KeyValue>> rows;
+            while ((rows = scanner.nextRows(10000).joinUninterruptibly()) != null) {
+                for (final ArrayList<KeyValue> row : rows) {
+                    if (row.size()>0)
+                    {
+                        KeyValue kv = row.get(0);
+                        result = getByID(kv.key());
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+            return null;
+        }
+        return result;
     }
 }

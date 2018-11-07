@@ -5,9 +5,11 @@
  */
 package co.oddeye.concout.config;
 
+import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.convertor.StringToDoubleConvertor;
 import co.oddeye.concout.convertor.StringToOddeyeUserModelConverter;
 import co.oddeye.concout.providers.ApplicationContextProvider;
+import co.oddeye.concout.util.WhiteLabelInterceptor;
 import com.maxmind.geoip2.DatabaseReader;
 import freemarker.template.TemplateException;
 import java.io.File;
@@ -33,7 +35,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -80,11 +81,17 @@ public class Config implements WebMvcConfigurer {
     }
 
     @Bean
+    @Order(0)
+    public WhiteLabelResolver whiteLabelResolver() {
+        return new WhiteLabelResolver();
+    }
+
+    @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();
         resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
-        resolver.setViewClass(JstlView.class);
+        resolver.setViewClass(JstlView.class);        
         return resolver;
     }
 
@@ -168,9 +175,15 @@ public class Config implements WebMvcConfigurer {
         return lci;
     }
 
+    @Bean    
+    public WhiteLabelInterceptor whiteLabelInterceptor() {
+        return new WhiteLabelInterceptor();
+    }    
+    
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(whiteLabelInterceptor());
     }
 
     @Bean

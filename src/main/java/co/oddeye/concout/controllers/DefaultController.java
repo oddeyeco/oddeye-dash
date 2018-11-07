@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.OddeyeUserDetails;
@@ -63,6 +64,9 @@ public class DefaultController {
     private DatabaseReader geoip;
     @Autowired
     private MessageSource messageSource;
+    
+    @Autowired
+    private WhiteLabelResolver whiteLabelResolver;
     
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
@@ -142,6 +146,7 @@ public class DefaultController {
 
     @RequestMapping(value = {"/login/", "/login"}, method = RequestMethod.GET)
     public String loginDo(ModelMap map) {
+//        whiteLabelResolver.getDomain();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             return redirecttodashboard();
