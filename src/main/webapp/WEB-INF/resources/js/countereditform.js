@@ -5,14 +5,30 @@
  */
 
 
+/* global locale */
+
 class CounterEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
+        console.log(this.tabcontent.tab_general.forms[0]);
         this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
                 {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
             ]};
+        
+        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
+        edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_text"},
+                    {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'title.text', default: ""},
+                ]}];
+
+        this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
+
+//        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form-group form-group-custom", content: [
+//                {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
+//                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
+//            ]};
 
         this.tabcontent.tab_display = {};//suren
 
@@ -194,7 +210,7 @@ class CounterEditForm extends EditForm {
             {
                 var contener = $(e.delegateTarget.hash + ' .form_main_block[key_path="q"]');
                 current.repaintq(contener, current.gettabcontent('tab_metric').forms[0].content);
-            }            
+            }
             if (contener)
             {
                 contener.find("select").select2({minimumResultsForSearch: 15});

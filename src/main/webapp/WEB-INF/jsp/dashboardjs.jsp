@@ -34,6 +34,7 @@
       "dash.title.expand":"<spring:message code="dash.title.expand"/>",
       "dash.modal.confirmDelRow":"<spring:message code="dash.modal.confirmDelRow" javaScriptEscape="true"/>",
       "dash.modal.confirmDelChart":"<spring:message code="dash.modal.confirmDelChart" javaScriptEscape="true"/>",
+      "dash.modal.confirmDelCounter":"<spring:message code="dash.modal.confirmDelCounter" javaScriptEscape="true"/>",
       "dash.modal.confirmDelDashboard":"<spring:message code="dash.modal.confirmDelDashboard"/>",
       "dash.errorSavingData":"<spring:message code="dash.errorSavingData"/>",
       
