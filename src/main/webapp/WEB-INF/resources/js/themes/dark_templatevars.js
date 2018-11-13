@@ -5,7 +5,7 @@
  */
 
 
-var Clr = '#aab598';
-var jackClr = '#00adee';
-var secClr  = '#282b26';
-var jackSecClr = '#5d6c3c';
+var Clr = '#92ad57';
+var jackClr = '#33382a';
+var secClr  = 'rgba(40, 43, 38, 0.5)';
+var jackSecClr = '#33382a';
