@@ -2049,7 +2049,17 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         data: null,
                         success: queryCallback(inputdata),
                         error: function (xhr, error) {
-                            chart.hideLoading();
+                            console.log(widget.type);
+
+
+                            if (widget.type === "counter")
+                            {
+
+                            } else
+                            {
+                                chart.hideLoading();
+                            }
+
                             $(chart).before("<h2 class='error'>Invalid Query");
                         }
                     });
@@ -3116,7 +3126,7 @@ $(document).ready(function () {
     repaint();
 
     var elem = document.getElementById('global-downsampling-switsh');
-    var switchery = new Switchery(elem, {size: 'small', color: '#26B99A'});
+    var switchery = new Switchery(elem, {size: 'small', color: Clr, jackColor: jackClr, secondaryColor: secClr, jackSecondaryColor: jackSecClr});
     elem.onchange = function () {
         if (!$(this).attr('autoedit'))
         {
@@ -3485,24 +3495,40 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
         $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        
         if (gdd.rows[ri].widgets[wi].options)
         {
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [gdd.rows[ri].widgets[wi].title.text]));
+                if (gdd.rows[ri].widgets[wi].title.text)
+                {
+                    $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [gdd.rows[ri].widgets[wi].title.text]));
+                } else
+                {
+                    $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [wi]));
+                }
+
             } else
             {
                 $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [wi]));
             }
         } else
         {
+            
             if (gdd.rows[ri].widgets[wi].title)
             {
-                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [gdd.rows[ri].widgets[wi].title.text]));
+                if (gdd.rows[ri].widgets[wi].title.text)
+                {
+                    $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelCounter"], [gdd.rows[ri].widgets[wi].title.text]));
+                } else
+                {
+                    $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelCounter"], [wi]));
+                }
+
             } else
             {
-                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelChart"], [wi]));
-            }
+                $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelCounter"], [wi]));
+            }            
         }
 
         $("#deleteConfirm").find('.modal-body .text-warning').html("");

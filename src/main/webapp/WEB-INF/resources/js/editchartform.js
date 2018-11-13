@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor, EditForm, colorPalette, EditForm */
+/* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor, EditForm, colorPalette, EditForm, locale */
 
 class ChartEditForm extends EditForm {
 //    tabcontent = {};
@@ -137,7 +137,7 @@ class ChartEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
-        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"], checker: {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "show", id: "title_show", name: "title_show", key_path: 'title.show', default: true}}};
+        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom",
                 content: [
                     {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_text"},

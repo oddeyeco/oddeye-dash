@@ -40,7 +40,7 @@ class EditForm {
         {
             var ob_form = this;
             var elem = document.getElementById(jobject.attr('id'));
-            new Switchery(elem, {size: 'small', color: '#26B99A'});
+            new Switchery(elem, {size: 'small',color: Clr,jackColor: jackClr,secondaryColor: secClr,jackSecondaryColor: jackSecClr});
             elem.onchange = function () {
                 ob_form.change($(this));
             };
@@ -98,7 +98,7 @@ class EditForm {
                                     {
                                         var ob_form = this;
                                         var elem = document.getElementById(jobject.attr('id'));
-                                        new Switchery(elem, {size: 'small', color: '#26B99A'});
+                                        new Switchery(elem, {size: 'small',color: Clr,jackColor: jackClr,secondaryColor: secClr,jackSecondaryColor: jackSecClr});
                                         elem.onchange = function () {
                                             ob_form.change($(this));
                                         };
@@ -352,7 +352,7 @@ class EditForm {
                     if (jobject.hasClass("js-switch-small"))
                     {
                         var elem = document.getElementById(jobject.attr('id'));
-                        new Switchery(elem, {size: 'small', color: '#26B99A'});
+                        new Switchery(elem, {size: 'small',color: Clr,jackColor: jackClr,secondaryColor: secClr,jackSecondaryColor: jackSecClr});
                         elem.onchange = function () {
                             form.change($(this));
                         };

@@ -110,7 +110,7 @@ $(document).ready(function () {
         PicerOptionSet2 = {
             minDate: moment().subtract(1, 'year'),
             maxDate: moment().add(1, 'days'),
-            drops: "up",
+//            drops: "up",
             dateLimit: {
                 days: 60
             },

@@ -144,80 +144,89 @@ public class AjaxControlers {
                 return "ajax";
 
             }
-            ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
-            Long getinterval = System.currentTimeMillis() - starttime;
-            starttime = System.currentTimeMillis();
-            if (data != null) {
-                if (data.isEmpty()) {
-                    LOGGER.info("Empty data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
-                }
-                for (DataPoints[] DataPointslist : data) {
-                    if (DataPointslist.length < 1) {
-                        LOGGER.info("Empty DataPointslist for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
+            try {
+                ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
+                Long getinterval = System.currentTimeMillis() - starttime;
+                starttime = System.currentTimeMillis();
+                if (data != null) {
+                    if (data.isEmpty()) {
+                        LOGGER.info("Empty data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
                     }
-                    for (DataPoints DataPoints : DataPointslist) {
-                        Tagmap = DataPoints.getTags();
-                        Tagmap.remove("UUID");
-                        Tagmap.remove("alert_level");
-                        JsonObject jsonMessage;
-                        String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
-
-                        if (jsonMessages.get(jsonuindex) == null) {
-                            jsonMessage = new JsonObject();
-                        } else {
-                            jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
+                    for (DataPoints[] DataPointslist : data) {
+                        if (DataPointslist.length < 1) {
+                            LOGGER.info("Empty DataPointslist for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
                         }
+                        for (DataPoints DataPoints : DataPointslist) {
+                            Tagmap = DataPoints.getTags();
+                            Tagmap.remove("UUID");
+                            Tagmap.remove("alert_level");
+                            JsonObject jsonMessage;
+                            String jsonuindex = DataPoints.metricName() + Integer.toString(Tagmap.hashCode());
 
-                        if (metric != null) {
-                            jsonMessage.addProperty("hash", metric.hashCode());
-                        }
-                        jsonMessage.addProperty("taghash", Tagmap.hashCode());
-                        jsonMessage.addProperty("metric", DataPoints.metricName());
-
-                        final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
-                        jsonMessage.add("tags", TagsJSON);
-                        Tagmap.clear();
-
-                        final SeekableView Datalist = DataPoints.iterator();
-
-                        JsonArray DatapointsJSON;
-
-                        if (jsonMessage.get("data") == null) {
-                            DatapointsJSON = new JsonArray();
-                        } else {
-                            DatapointsJSON = jsonMessage.get("data").getAsJsonArray();
-                        }
-
-                        while (Datalist.hasNext()) {
-                            final DataPoint Point = Datalist.next();
-                            if (Point.timestamp() < start_time) {
-                                continue;
+                            if (jsonMessages.get(jsonuindex) == null) {
+                                jsonMessage = new JsonObject();
+                            } else {
+                                jsonMessage = jsonMessages.get(jsonuindex).getAsJsonObject();
                             }
-                            if (Point.timestamp() > end_time) {
-                                continue;
+
+                            if (metric != null) {
+                                jsonMessage.addProperty("hash", metric.hashCode());
                             }
-                            JsonArray pointsJSON = new JsonArray();
-                            pointsJSON.add(Point.timestamp());
-                            pointsJSON.add(Point.doubleValue());
-                            DatapointsJSON.add(pointsJSON);
-                        }
-                        //TODO Check 
-                        if (DatapointsJSON.size() > 0) {
-                            jsonMessage.add("data", DatapointsJSON);
-                            jsonMessages.add(jsonuindex, jsonMessage);
+                            jsonMessage.addProperty("taghash", Tagmap.hashCode());
+                            jsonMessage.addProperty("metric", DataPoints.metricName());
+
+                            final JsonElement TagsJSON = gson.toJsonTree(Tagmap);
+                            jsonMessage.add("tags", TagsJSON);
+                            Tagmap.clear();
+
+                            final SeekableView Datalist = DataPoints.iterator();
+
+                            JsonArray DatapointsJSON;
+
+                            if (jsonMessage.get("data") == null) {
+                                DatapointsJSON = new JsonArray();
+                            } else {
+                                DatapointsJSON = jsonMessage.get("data").getAsJsonArray();
+                            }
+
+                            while (Datalist.hasNext()) {
+                                final DataPoint Point = Datalist.next();
+                                if (Point.timestamp() < start_time) {
+                                    continue;
+                                }
+                                if (Point.timestamp() > end_time) {
+                                    continue;
+                                }
+                                JsonArray pointsJSON = new JsonArray();
+                                pointsJSON.add(Point.timestamp());
+                                pointsJSON.add(Point.doubleValue());
+                                DatapointsJSON.add(pointsJSON);
+                            }
+                            //TODO Check 
+                            if (DatapointsJSON.size() > 0) {
+                                jsonMessage.add("data", DatapointsJSON);
+                                jsonMessages.add(jsonuindex, jsonMessage);
+                            }
+
                         }
 
                     }
-
+                } else {
+                    LOGGER.warn("Empty Data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
                 }
-            } else {
-                LOGGER.warn("Empty Data for query: metrics:" + metrics + " aggregator:" + aggregator + " tags:" + tags + " startdate:" + startdate + " enddate:" + enddate + " downsample:" + downsample);
+                Long scaninterval = System.currentTimeMillis() - starttime;
+                jsonResult.addProperty("gettime", getinterval);
+                jsonResult.addProperty("scantime", scaninterval);
+                jsonResult.add("chartsdata", jsonMessages);
+            } catch (Exception e) {
+                LOGGER.error(globalFunctions.stackTrace(e));
+                jsonResult.addProperty("sucsses", Boolean.FALSE);
+                jsonResult.addProperty("message", e.toString());
+//                map.put("jsonmodel", jsonResult);                
             }
-            Long scaninterval = System.currentTimeMillis() - starttime;
-            jsonResult.addProperty("gettime", getinterval);
-            jsonResult.addProperty("scantime", scaninterval);
+
 //            jsonMessages.
-            jsonResult.add("chartsdata", jsonMessages);
+            
         }
         map.put("jsonmodel", jsonResult);
 
@@ -319,17 +328,16 @@ public class AjaxControlers {
                 }
 
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
-                jsonResult.addProperty("sucsses", true);                
+                jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.getTypeMap().size());
                 JsonObject typejson = new JsonObject();
-                for (Map.Entry<OddeeyMetricTypesEnum, Integer> typeentry:Metriclist.getTypeMapSorted().entrySet())
-                {
-                   JsonObject typejsonitem = new JsonObject();    
-                   typejsonitem.addProperty("value", typeentry.getKey().getShort());
-                   typejsonitem.addProperty("count", typeentry.getValue());
-                   typejson.add(typeentry.getKey().toString(), typejsonitem);
+                for (Map.Entry<OddeeyMetricTypesEnum, Integer> typeentry : Metriclist.getTypeMapSorted().entrySet()) {
+                    JsonObject typejsonitem = new JsonObject();
+                    typejsonitem.addProperty("value", typeentry.getKey().getShort());
+                    typejsonitem.addProperty("count", typeentry.getValue());
+                    typejson.add(typeentry.getKey().toString(), typejsonitem);
                 }
-                
+
                 jsonResult.add("data", typejson);
             } catch (Exception ex) {
                 jsonResult.addProperty("sucsses", false);
