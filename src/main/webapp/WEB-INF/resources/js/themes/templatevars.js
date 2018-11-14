@@ -4,7 +4,16 @@
  * and open the template in the editor.
  */
 
-var Clr = '#26B99A';
+// switchery dash.js
+
+var clr = '#26B99A';
 var jackClr = '#fff';
 var secClr  = '#dfdfdf';
 var jackSecClr = null;
+
+//oddeyelight.js 
+
+var timeAxis_splitLine_lineStyle_clr = '#eee';
+var categoryAxis_splitLine_lineStyle_clr = '#eee';
+var valueAxis_splitLine_lineStyle_clr = '#eee';
+var axisLine_lineStyle = '#008acd';

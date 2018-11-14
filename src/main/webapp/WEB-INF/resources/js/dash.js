@@ -3126,7 +3126,7 @@ $(document).ready(function () {
     repaint();
 
     var elem = document.getElementById('global-downsampling-switsh');
-    var switchery = new Switchery(elem, {size: 'small', color: Clr, jackColor: jackClr, secondaryColor: secClr, jackSecondaryColor: jackSecClr});
+    var switchery = new Switchery(elem, {size: 'small', color: clr, jackColor: jackClr, secondaryColor: secClr, jackSecondaryColor: jackSecClr});
     elem.onchange = function () {
         if (!$(this).attr('autoedit'))
         {
