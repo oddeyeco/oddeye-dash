@@ -67,7 +67,7 @@ body {
 }
 .btn-primary:extend(.btn-success) {
     color: @body_bg;
-    &:hover {
+    &:hover, &:focus, &:active, &:active:hover, &:active:focus {
         color: @body_clr;
         background-color: @clr_OEblue2;
         border-color: #204d74;
@@ -156,17 +156,42 @@ a.btn-danger {
 .paging_full_numbers {
     width: 420px;
 }
+// ---- iCheck ----
+.checked {
+    background-color: transparent;
+}
+.metricinfo td .icheckbox_flat {
+    margin-right: 3px;
+    vertical-align: inherit;
+}
+// ---- // ---- //
 .x_title {
-    border-bottom: 2px solid #091f27;   
+    border-bottom: 2px solid @clr_bannerBlue;   
 }
 
-// ---- // ---- //
 a {
     color: @clr_OEgreen;
 }
 a:hover, .query-label a:hover, .data-label a:hover {
     color: @clr_OEblue;
 }
+
+.balace_part{
+    .tile_count {
+        .tile_stats_count:before {
+            border-left: 2px solid #091f27;   
+        }
+        .od{
+            input {
+                color: #ffdea2;
+                background-color: #091f27;
+                border: 1px solid #545b4b;                
+                padding-left: 4px;
+            }
+        } 
+    }
+}  
+// ---- // ---- //
 .nav_title {
     background: @body_bg;
 }
@@ -179,8 +204,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
             li>a {
                 color: @body_clr !important;
                 &:focus,&:hover{
-                    background: linear-gradient(to top,rgba(255,255,255,0) 6px,@body_bg 1px),
-                        linear-gradient(90deg,rgba(120,210,2,0.1) 25%,@clr_OEgreen,rgba(120,210,2,0.1) 75%);
+                    background: linear-gradient(to top, rgba(255,255,255,0) 5px, #0f0f0f 1px),
+                                linear-gradient(90deg, #0f0f0f, #8bc53f, #0f0f0f);
                 }
                 .fa.fas.fa-angle-down{
                     color: @clr_OEblue;
@@ -247,12 +272,12 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     }         
                 }
                 >a {
-                    color: @clr_OEgreen;
+                    color: #aec352;
                     font-weight: 500;
                     &:hover {
                         background: @body_bg;
                         box-shadow: inset rgba(0,173,238,0.8) 0px -4px 8px -4px;
-                        color: @clr_OEgreen !important;
+                        color: @clr_OEgreen2 !important;
                         font-weight: bold;
                     }
                 }
@@ -267,7 +292,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 }
                 li {
                     &:hover {
-                        background: linear-gradient(90deg, @body_bg 25%, rgba(8,112,150,0.3));
+                        background: linear-gradient(90deg, @body_bg 30%, rgba(8,112,150,0.3));
                         text-shadow: 0 0 1px @clr_OEgreen;
                     }
                 }
@@ -281,7 +306,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     }
                 }
                 li.current-page {
-                    background: linear-gradient(90deg, @body_bg, rgba(8, 112, 150, 0.3));
+                    background: linear-gradient(90deg, @body_bg 30%, rgba(8, 112, 150, 0.3));
                 }
             }
         }
@@ -541,9 +566,6 @@ div.modal-content {
                 }
             }
         }
-        .checked {
-            background-color: transparent;
-        }
     }
     .modal-footer {
         padding: 10px;
@@ -590,18 +612,17 @@ div.modal-content {
         }
         .dropdown-menu {
             background-color: @clr_bannerBlue;
-            border: 1px solid #acb1b3;
+            border: 1px solid #c2ae83;
             li>a {
-                color: @body_clr;
+                color: @clr_infoText;
                 &:hover, &:focus{ 
-                    text-shadow: 0 -1px 2px #82d21a;
-                    background: #0a181d;
+                    background: #0b2f3c;
                 }
             }
             .divider {
                 height: 2px;
-                background-color: @clr_OEblue;
-                border-bottom: 1px solid #acb1b3;
+                background-color: #0b2f3c;
+                border-bottom: 1px solid #0b2f3c;
             }
         }
     }
@@ -744,7 +765,7 @@ div.profile_left {
 }
 .x_panel {
     >.profile_left {
-        background-image: radial-gradient(#72786a, #545b4b, #141616);
+        background-image: linear-gradient(#141616,#545b4b 10%,#545b4b 75%,#141616);
         border: 1px solid #0f0f0f;
         border-radius: 4px;
         .profile_left-form {
@@ -754,7 +775,7 @@ div.profile_left {
 }
 
 div#tagsconteger.ui-sortable {
-    background: linear-gradient(90deg,@clr_greyGreen2, @clr_greyGreen1, @clr_greyGreen2);
+    background: @clr_greyGreen2;
     border: 1px solid #3f453a;
     border-radius: 4px;
     padding: 4px;
@@ -818,7 +839,7 @@ div.profile_right-table {
             }
         }
         div.add-filter {
-            border: 1px solid #455615;
+            border: 1px solid @clr_greyGreen2;
             border-width: 0 0 2px 0;
         }
         label.all_filter {
@@ -879,7 +900,7 @@ div.x_panel {
 .monitorlist {
     li {
         ul#regularlist {
-            border-top: double 6px #455615;
+            border-top: double 6px @clr_greyGreen2;
         }
         ul {
             color: @clr_bannerBlue;
@@ -934,6 +955,12 @@ div#accordion1 .table-bordered>tbody>tr>th {
     border: 1px solid rgba(68,73,61,0.4);
 }
 // ---- dash edit ----
+.dropdown_button.fa-chevron-circle-down {
+    color: @clr_OEgreen2;
+}
+.dropdown_button.fa-chevron-circle-up {
+    color: @clr_OEblue2;
+}
 .dash_header {
     margin: 0;
     background-color: rgba(69, 74, 62, 0.3);
@@ -946,7 +973,20 @@ div#accordion1 .table-bordered>tbody>tr>th {
             color: @clr_infoText;
             font-weight: bold;
         }
-    }
+    }    
+    .title_input{
+        input {
+            margin-right: 5px;
+            padding-left: 5px;
+            background-color: #171819;
+            border: 1px solid #333434;
+            border-top-left-radius: 4px;
+            color: #f7dea2;
+        }
+        .savetitle {
+            color: @clr_OEgreen;
+        }
+    } 
     .dropdown-menu {
         border: 1px solid #72786a;
         >li {
@@ -959,7 +999,20 @@ div#accordion1 .table-bordered>tbody>tr>th {
     }
 }
 .widgetraw {
-    .title_text {
+    .title_input{
+        input {
+            margin-right: 5px;
+            padding-left: 5px;
+            background-color: #171819;
+            border: 1px solid #333434;
+            border-top-left-radius: 4px;
+            color: #f7dea2;
+        }
+        .savetitlerow {
+            color: @clr_OEgreen;
+        }
+    }
+    .title_text {        
         span {
             margin: 0 5px;
             color: @clr_infoText;
@@ -1046,7 +1099,7 @@ span.tagspan {
                         background-color: #141616;
                         color: #ec971f;
                         &:hover, &:focus{
-                            background-color: @clr_bannerBlue; 
+                            background-color: @clr_greyGreen2; 
                         }
                         >i{
                             color: #fff; 
@@ -1082,6 +1135,9 @@ div#reportrange_private {
 .filter.fix {
     background: linear-gradient(90deg, @body_bg, #323232);
     border: 1px solid #333434;
+}
+#tab_metric .edit-query .iradio_flat-blue, #tab_data_zoom .edit-datazoom .icheckbox_flat-blue {
+    margin-left: 2px;
 }
 //---- json ----
 div.jsoneditor-menu {

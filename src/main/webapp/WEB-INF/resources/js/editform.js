@@ -789,7 +789,7 @@ class EditForm {
         
         contener.empty();
         this.drawcontent(content, contener, this.dashJSON.rows[this.row]["widgets"][this.index]);
-        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+        this.formwraper.find("input.flat").iCheck({checkboxClass: icheckbox_flat_metrics, radioClass: iradio_flat_metrics});
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
     }
 
@@ -887,7 +887,7 @@ class EditForm {
     jspluginsinit() {
         var form = this;
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
-        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+        this.formwraper.find("input.flat").iCheck({checkboxClass: icheckbox_flat_metrics, radioClass: iradio_flat_metrics});
 
         this.formwraper.find('[data-toggle="tooltip"]').tooltip();
         this.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {

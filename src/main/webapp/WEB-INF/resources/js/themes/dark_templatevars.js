@@ -11,9 +11,18 @@ var jackClr = '#33382a';
 var secClr  = 'rgba(40, 43, 38, 0.5)';
 var jackSecClr = '#33382a';
 
-//oddeyelight.js 
+// oddeyelight.js 
 
 var timeAxis_splitLine_lineStyle_clr = 'rgba(238, 238, 238, 0.1)';
 var categoryAxis_splitLine_lineStyle_clr = 'rgba(238, 238, 238, 0.1)';
 var valueAxis_splitLine_lineStyle_clr = 'none';
-var axisLine_lineStyle = '#92ad57';
+var axisLine_lineStyle = '#8c976e';
+
+// iCheck
+
+var icheckbox_flat_clr = 'icheckbox_flat';
+var iradio_flat_clr = 'iradio_flat';
+var icheckbox_flat_datazoom = "icheckbox_flat-blue";
+var iradio_flat_datazoom = "iradio_flat-blue";
+var icheckbox_flat_metrics = 'icheckbox_flat-blue';
+var iradio_flat_metrics = 'iradio_flat-blue';

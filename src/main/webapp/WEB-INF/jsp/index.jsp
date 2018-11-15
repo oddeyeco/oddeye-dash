@@ -35,7 +35,7 @@
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />
             <!-- iCheck -->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />        
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/_all.css?v=${version}" />        
             <!-- bootstrap-progressbar -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css?v=${version}" />            
             <!-- Bootstrap Colorpicker -->
