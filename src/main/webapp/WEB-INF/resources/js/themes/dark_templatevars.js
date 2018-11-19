@@ -8,7 +8,7 @@
 
 var clr = '#92ad57';
 var jackClr = '#33382a';
-var secClr  = 'rgba(40, 43, 38, 0.5)';
+var secClr  = 'rgba(122, 128, 113, 0.5)';
 var jackSecClr = '#33382a';
 
 // oddeyelight.js 
