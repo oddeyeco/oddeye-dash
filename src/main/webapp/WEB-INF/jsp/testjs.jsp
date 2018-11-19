@@ -13,7 +13,7 @@
 <script src="${cp}/resources/numbersjs/src/numbers.min.js?v=${version}"></script>
 
 <script>
-    var uri = "http://localhost:8080/OddeyeCoconut/getdata?metrics=cpu_user;;&tags=core=all;&aggregator=none&downsample=1m-max&startdate=1h-ago&enddate=now";
+    var uri = "/OddeyeCoconut/getdata?metrics=cpu_user;;&tags=core=all;&aggregator=none&downsample=1m-max&startdate=1h-ago&enddate=now";
     var xjson = {};
     var xdata = {};
     var yjson = {};
