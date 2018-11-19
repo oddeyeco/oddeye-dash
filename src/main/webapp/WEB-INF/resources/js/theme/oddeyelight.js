@@ -200,8 +200,9 @@ var encodeHTML = function (source) {
         },
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
-            formatter: function (params) {
+            formatter: function (params) {                
                 var out = "";
+                
                 if (params.constructor === Array)
                 {
                     param = params[0];
@@ -282,8 +283,8 @@ var encodeHTML = function (source) {
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + tmpname + ' : ' + value;
                     }
                 } else
-                {
-
+                {                    
+                    
                     var value = params.data.value;
                     if (typeof value !== 'undefined')
                     {
@@ -414,6 +415,13 @@ var encodeHTML = function (source) {
                         {
                             out = params.seriesName;
                         }
+                        if (params.componentSubType === "heatmap")
+                        {
+//                            console.log(params);
+                            out = params.seriesName+'<br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.data[2] ;
+                        }                        
+                        
+                        
                     }
                 }
 
