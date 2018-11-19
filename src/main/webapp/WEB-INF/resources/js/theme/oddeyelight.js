@@ -463,26 +463,26 @@ var encodeHTML = function (source) {
 //                    },
             axisLine: {
                 lineStyle: {
-                    color: '#008acd'
+                    color: axisLine_lineStyle
                 }
             },
             splitLine: {
                 lineStyle: {
                     type: 'dashed',
                     width: 2,
-                    color: ['#eee']
+                    color: [timeAxis_splitLine_lineStyle_clr]
                 }
             }
         },
         categoryAxis: {
             axisLine: {
                 lineStyle: {
-                    color: '#008acd'
+                    color: axisLine_lineStyle
                 }
             },
             splitLine: {
                 lineStyle: {
-                    color: ['#eee']
+                    color: [categoryAxis_splitLine_lineStyle_clr]                    
                 }
             }
         },
@@ -491,18 +491,18 @@ var encodeHTML = function (source) {
         valueAxis: {
             axisLine: {
                 lineStyle: {
-                    color: '#008acd'
+                    color: axisLine_lineStyle
                 }
             },
             splitArea: {
                 show: true,
                 areaStyle: {
-                    color: ['rgba(250,250,250,0.2)', 'rgba(150,150,150,0.3)']
+                    color: ['rgba(250,250,250,0.2)', 'rgba(150,150,150,0.3)']                      
                 }
             },
             splitLine: {
                 lineStyle: {
-                    color: ['#eee']
+                    color: [valueAxis_splitLine_lineStyle_clr]
                 }
             }
         },
@@ -552,6 +552,7 @@ var encodeHTML = function (source) {
                 normal: {
                     textStyle: {
                         color: '#d87a80'
+                        
                     }
                 }
             },

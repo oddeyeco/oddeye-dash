@@ -11,7 +11,7 @@
 @clr_OEblue2: #2e92b0;
 @clr_greyGreen1: #72786a;
 @clr_greyGreen2: #545b4b;
-@clr_infoText: #ffce73;
+@clr_infoText: #ffdea2;
 @clr_bannerBlue: #091f27;
 /*@clr_: #f1f6f7;
 @clr_: #666666;
@@ -37,7 +37,6 @@ body {
         background: @clr_black2;
     }
 }
-
 //---- scrollbar ----
 ::-webkit-scrollbar-track {
     background-color: #000000
@@ -56,7 +55,6 @@ body {
 ::-webkit-scrollbar {
     width: 8px;
 }
-
 // ---- button ----
 .btn-success {
     background: @clr_OEgreen2;
@@ -136,7 +134,10 @@ a.btn-danger {
     .open{
         >.dropdown-toggle.btn-warning:focus:extend(.dash_header .btn-group button.btn-warning:active:focus){}
     }
-} 
+}
+.x_title {
+    border-bottom: 2px solid #091f27;   
+}
 // ---- // ---- //
 a {
     color: @clr_OEgreen;
@@ -159,7 +160,6 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     background: linear-gradient(to top,rgba(255,255,255,0) 6px,@body_bg 1px),
                         linear-gradient(90deg,rgba(120,210,2,0.1) 25%,@clr_OEgreen,rgba(120,210,2,0.1) 75%);
                 }
-
                 .fa.fas.fa-angle-down{
                     color: @clr_OEblue;
                 }
@@ -181,8 +181,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
                         &:hover,&:focus {
                             text-decoration: none;
                             color: @body_clr;
-                            text-shadow: 0 -1px 4px #82d21a;
-                            background: linear-gradient(90deg, rgba(15, 15, 15, 0.2) 30%, rgba(0,173,238,0.2));
+                            background: linear-gradient(90deg, @body_bg 25%, rgba(8,112,150,0.3));
+                            text-shadow: 0 0 1px @clr_OEgreen;
                         }
                     }
                     .user-profile {
@@ -194,15 +194,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
         } 
     }
 }
-
 //---- left-col ----
-
 .left_col {
     background: @body_bg;
     div#sidebar-menu.main_menu_side {
         border-top: 1px solid rgb(101, 103, 104);
-        box-shadow: rgb(103, 146, 47) 0px 5px 10px -4px inset;
-        background: linear-gradient(@clr_black2 70%, @body_bg);
+        background: @body_bg;
+        box-shadow: inset 1px 5px 10px -4px #67922f;
     }
     .main_menu {
         i.fa.fas, i.fa.far, i.fa-edit{
@@ -222,7 +220,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     border-right: none;
                     >a {
                         background: @body_bg;
-                        box-shadow: inset rgba(0,173,238,0.8) 0 -4px 12px -4px;
+                        box-shadow: inset rgba(0,173,238,0.8) 0 -4px 8px -4px;
                         font-weight: bold;
                     }         
                 }
@@ -230,9 +228,10 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     color: @clr_OEgreen;
                     font-weight: 500;
                     &:hover {
-                        text-shadow: #85d61a 1px 1px 8px;
                         background: @body_bg;
-                        box-shadow: inset rgba(0,173,238,0.8) 0px -4px 12px -4px;
+                        box-shadow: inset rgba(0,173,238,0.8) 0px -4px 8px -4px;
+                        color: @clr_OEgreen !important;
+                        font-weight: bold;
                     }
                 }
             }
@@ -246,8 +245,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 }
                 li {
                     &:hover {
-                        background: linear-gradient(90deg, @body_bg, rgba(8,112,150,0.3));
-                        text-shadow: 0 -1px 4px #82d21a;
+                        background: linear-gradient(90deg, @body_bg 25%, rgba(8,112,150,0.3));
+                        text-shadow: 0 0 1px @clr_OEgreen;
                     }
                 }
                 li.active {
@@ -280,6 +279,26 @@ a:hover, .query-label a:hover, .data-label a:hover {
 	}
     }
 }
+//---- body class="nav-sm" ----
+.nav-sm {
+    .nav.child_menu {
+        li.active {
+            border-right: 5px solid @clr_OEgreen2;
+        }
+    }
+    .nav.side-menu {
+        li.active-sm {
+            border-right: 5px solid @clr_OEgreen2;
+        }
+    }
+    ul.nav.child_menu {
+        background: @body_bg;
+        border-top: 1px solid @clr_bannerBlue;
+        border-right: 1px solid @clr_bannerBlue;
+        border-bottom: 1px solid @clr_bannerBlue;
+    }
+}
+
 //---- sidebare-footer ----
 div.sidebar-footer.hidden-small {
     background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1));
@@ -305,8 +324,7 @@ div.sidebar-footer.hidden-small {
     -moz-column-break-inside: avoid;
     column-break-inside: avoid;
     .x_title {
-        border-bottom: 2px solid #656768;
-        box-shadow: 0 1px 0 rgb(108, 142, 64);    
+        border-bottom: 2px solid #091f27;   
     }
     ul.gotodash {
         li {
@@ -314,9 +332,8 @@ div.sidebar-footer.hidden-small {
             padding: 4px;
             list-style: none;
             &:hover { 
-                background-color: rgba(31,31,31,0.4);
+                background-color: inherit;
                 border-radius: 4px;
-                box-shadow: inset 0 1px 2px rgba(200,200,200,0.2);
             }
             a.gotodash {
                 margin: 3px;
@@ -326,7 +343,8 @@ div.sidebar-footer.hidden-small {
                 color: rgb(255, 255, 255);
                 &:hover {
                     background: linear-gradient(135deg, #171717, #292929);
-                    text-shadow: @clr_OEblue 1px -1px 5px;
+                    box-shadow: inset 1px -1px 2px rgba(255,255,255,0.2);
+                    text-shadow: 0 0 1px @clr_OEblue;
                 }
             } 
         }  
@@ -718,21 +736,51 @@ div.profile_left {
     h4 {
         >i.hidefilter {
             color: @clr_OEblue;
-        }
+        }        
     }
+     
 }
+.x_panel {
+    >.profile_left {
+        background-image: radial-gradient(#72786a, #545b4b, #141616);
+        border: 1px solid #0f0f0f;
+        border-radius: 4px;
+        .profile_left-form {
+            height: 820px;
+        }
+    }  
+}
+
 div#tagsconteger.ui-sortable {
     background: linear-gradient(90deg,@clr_greyGreen2, @clr_greyGreen1, @clr_greyGreen2);
-    border: 2px solid rgba(70, 87, 50, 0.8);
-    border-radius: 6px;
-    box-shadow: 0 0 6px @clr_OEgreen2;
+    border: 1px solid #3f453a;
+    border-radius: 4px;
+    padding: 4px;
+    &:hover .draggable{
+            box-shadow: inset 4px 3px 4px 0 rgba(0, 0, 0, 0.3);
+        }
     .draggable {
-        border: 2px solid rgba(146, 173, 87, 0.59);
-        border-radius: 10px 10px 4px 4px;
-        border-top: 6px inset rgba(139, 159, 96, 0.6);
-        background: @clr_black2;        
+        border: 1px solid #7a8071;
+        border-radius: 4px;
+        background: inherit;
+        box-shadow: none;
+        cursor: grabbing;
+        cursor: -moz-grabbing;
+        cursor: -webkit-grabbing;
+        &:hover {
+            box-shadow: -5px 5px 2px 0 rgba(0, 0, 0, 0.3);
+        }
+        >label{
+            cursor: grabbing;
+            cursor: -moz-grabbing;
+            cursor: -webkit-grabbing;
+        }
+        
     }
 }
+
+
+
 .autocomplete-suggestions {
     background-color: #333434 !important;
     border: 1px solid #656768 !important;
@@ -744,6 +792,8 @@ div#tagsconteger.ui-sortable {
 div.profile_right-table {
     >div.x_panel {
         background-image: radial-gradient(@clr_greyGreen1, @clr_greyGreen2, @clr_black2);
+        box-shadow: none;
+        border: 1px solid #0f0f0f;
     }
 }
 
@@ -827,7 +877,7 @@ div.x_panel {
 .monitorlist {
     li {
         ul#regularlist {
-            border-top: double 6px @clr_OEgreen2;
+            border-top: double 6px #455615;
         }
         ul {
             color: @clr_bannerBlue;
@@ -859,6 +909,7 @@ select.form-control:extend(.form-control){}
             box-shadow: -1px -1px 0 0 rgba(255,255,255,0.3), 1px 1px 0 0 rgba(120,120,120,0.4);
             &:hover {
                 background: linear-gradient(135deg, #171717, #292929);
+                box-shadow: none;
             }
         }
         margin-bottom: 10px;
@@ -869,6 +920,7 @@ select.form-control:extend(.form-control){}
             box-shadow: 0 1px 10px rgb(3, 131, 179);
             background-color: @clr_black2;
         }
+        
     }
 }
 .progress {
@@ -882,7 +934,7 @@ div#accordion1 .table-bordered>tbody>tr>th {
 // ---- dash edit ----
 .dash_header {
     margin: 0;
-    background-color: rgb(69, 74, 62);
+    background-color: rgba(69, 74, 62, 0.3);
     .title_text {
         color: @clr_infoText;
         font-weight: bold;
@@ -917,8 +969,9 @@ div#accordion1 .table-bordered>tbody>tr>th {
     }
     .raw-controls {
         margin: 0;
-        background-color: rgb(69, 74, 62);
+        background-color: rgba(69, 74, 62, 0.2);
     }
+    border: 1px solid rgba(51, 52, 52, 0.5);
 }
 span.tagspan {
     background: @clr_bannerBlue;
@@ -930,6 +983,11 @@ span.tagspan {
         &:hover {
             background: linear-gradient(90deg,#444444, #111111, #444444);
             box-shadow: 0 1px 5px rgb(55, 146, 148);
+        }
+        .hoverShow {
+            background-color: #ededed;
+            border-radius: 0 4px 4px 4px;
+            color: #000;
         }
         .chartTitle {
             .dropdown-toggle {
@@ -958,12 +1016,18 @@ span.tagspan {
 }
 .rowcontent {
     .chartsection {
+        >div {
+            border: 1px solid rgba(51, 52, 52, 0.5);
+        }
         .chartTitleDiv {
-            background: linear-gradient(90deg,#111111, #444444, #111111);
-            box-shadow: -1px -1px 0 0 rgba(255,255,255,0.3), 1px 1px 0 0 rgba(120,120,120,0.4);
+            background: inherit;
             &:hover {
-                background: linear-gradient(90deg,#444444, #111111, #444444);
-                box-shadow: 0 1px 5px rgb(55, 146, 148);
+                box-shadow: 0 8px 8px -8px @clr_OEblue;
+            }
+            .hoverShow {
+                background-color: #ededed;
+                border-radius: 0 4px 4px 4px;
+                color: #000;
             }
             .chartTitle {
                 .dropdown-toggle {
@@ -988,6 +1052,9 @@ span.tagspan {
                     }
                 }
             }
+        }
+        .tile-stats {
+            background-color: inherit;
         }
     }
 }
