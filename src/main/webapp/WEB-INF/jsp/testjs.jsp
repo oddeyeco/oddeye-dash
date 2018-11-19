@@ -13,7 +13,7 @@
 <script src="${cp}/resources/numbersjs/src/numbers.min.js?v=${version}"></script>
 
 <script>
-    var uri = "/OddeyeCoconut/getdata?metrics=cpu_user;;&tags=core=all;&aggregator=none&downsample=1m-max&startdate=1h-ago&enddate=now";
+    var uri = "/OddeyeCoconut/getdata?metrics=cpu_user;;&tags=core=all;&aggregator=none&downsample=2m-max&startdate=1h-ago&enddate=now";
     var xjson = {};
     var xdata = {};
     var yjson = {};
@@ -41,7 +41,7 @@
             ydata = Object.keys(yjson);
 
             var max = numbers.basic.max(ydata);
-            var step =max/10;
+            var step =max/20;
             var ydataF = [];
             var i = 0;
             while (i < max)
@@ -102,7 +102,6 @@
                         {
                             if ((item[0] === +xdata[j]) && (item[1] <= ydataF[i]))
                             {
-
                                 hasdata = true;
                                 break;
                             }
@@ -123,10 +122,7 @@
                         }                        
                         datamap[i][j] = datamap[i][j] + 1;
                         datamax = Math.max(datamax,datamap[i][j]);
-                        chdata.push([+i, +j, datamap[i][j]]);
-                    } else
-                    {
-                        chdata.push([+i, +j, 0]);
+                        chdata.push([+j, +i, datamap[i][j]]);
                     }
                 });
             }
@@ -134,10 +130,11 @@
 
 
             var data = [[0, 0, 10]];
+            data = chdata;
 //            console.log(chdata);
-            data = chdata.map(function (item) {
-                return [item[1], item[0], item[2] || '-'];
-            });
+//            data = chdata.map(function (item) {
+//                return [item[1], item[0], item[2] || '-'];
+//            });
 //    console.log(data);
             option = {
                 tooltip: {
