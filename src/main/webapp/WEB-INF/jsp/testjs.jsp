@@ -13,7 +13,8 @@
 <script src="${cp}/resources/numbersjs/src/numbers.min.js?v=${version}"></script>
 
 <script>
-    var uri = "/OddeyeCoconut/getdata?metrics=cpu_user;;&tags=core=all;&aggregator=none&downsample=2m-max&startdate=1h-ago&enddate=now";
+    //http://localhost:8080/OddeyeCoconut/getdata?metrics=cpu_user;cpu_idle;&tags=&aggregator=none&downsample=5m-avg&startdate=1h-ago&enddate=now
+    var uri = "/OddeyeCoconut/getdata?metrics=cpu_user;cpu_idle;&tags=core=all;&aggregator=none&downsample=120s-max&startdate=1h-ago&enddate=now";
     var xjson = {};
     var xdata = {};
     var yjson = {};
@@ -24,7 +25,7 @@
         url: uri,
         data: null,
         success: function (data) {
-//            console.log(data.chartsdata);
+            console.log(data.chartsdata);
             for (var index in data.chartsdata)
             {
 //                console.log(data.chartsdata[index]);
@@ -36,22 +37,25 @@
             xdata = Object.keys(xjson);
             xdata.sort();
             xdataF = xdata.map(function (itm) {
-                return [moment(+itm).format("HH:mm")];
+                return [moment(+itm).format("HH:mm")]+"\n"+ [moment(+itm).format("MM/DD")];
             });
             ydata = Object.keys(yjson);
 
             var max = numbers.basic.max(ydata);
-            var step =max/20;
+            var step = max / 10;
             var ydataF = [];
+            var ydataS = [];
             var i = 0;
             while (i < max)
             {
-                ydataF.push(i.toFixed(2));
+                ydataF.push(+i.toFixed(2));
+                ydataS.push(i.toFixed(2));
                 i = i + step;
             }
-            i = i + step;
-            ydataF.push(i.toFixed(2));
-//            ydataF.push(max.toFixed(2));
+//            i = i + step;
+//            ydataF.push(i.toFixed(2));
+            ydataF.push(+max.toFixed(2));
+            ydataS.push(+max.toFixed(2));
 
 //            console.log(max);
 //            console.log(ydata);
@@ -91,6 +95,7 @@
 //            console.log(max);
             var datamap = {};
             var datamax = 0;
+            console.log(ydataF);
             for (var index in data.chartsdata)
             {
                 data.chartsdata[index].data.map(function (item) {
@@ -100,7 +105,7 @@
                     {
                         for (i in ydataF)
                         {
-                            if ((item[0] === +xdata[j]) && (item[1] <= ydataF[i]))
+                            if ((item[0] === +xdata[j]) && (item[1] < ydataF[i]))
                             {
                                 hasdata = true;
                                 break;
@@ -109,32 +114,65 @@
                         if (hasdata)
                             break;
                     }
-
+                    i=i-1;
                     if (hasdata)
                     {
+//                        console.log(data.chartsdata[index]);
+                        if (!chdata[data.chartsdata[index].metric])
+                        {
+                            chdata[data.chartsdata[index].metric] = [];
+                        }
                         if (!datamap[i])
                         {
                             datamap[i] = {};
                         }
                         if (!datamap[i][j])
                         {
-                            datamap[i][j] = 0;
-                        }                        
-                        datamap[i][j] = datamap[i][j] + 1;
-                        datamax = Math.max(datamax,datamap[i][j]);
-                        chdata.push([+j, +i, datamap[i][j]]);
+                            datamap[i][j] = {items:[],name:data.chartsdata[index].metric,time:xdata[j]};
+                        }
+                        datamap[i][j].items.push(item);
+                        datamax = Math.max(datamax, datamap[i][j].items.length);
                     }
                 });
             }
+
+
+
+            for (var i in datamap)
+            {
+                for (var j in datamap[i])
+                {
+//                    console.log(datamap[i][j].items);
+                    chdata[datamap[i][j].name].push([+j, +i,datamap[i][j].items.length,datamap[i][j].time, datamap[i][j].items[0][1].toFixed(2), datamap[i][j].items[datamap[i][j].items.length-1][1].toFixed(2),"unit",  datamap[i][j].items.length]);
+                }
+            }
+
+
 //            console.log(datamax);
 
 
-            var data = [[0, 0, 10]];
-            data = chdata;
+            var data = [];
+//            data = chdata;
 //            console.log(chdata);
-//            data = chdata.map(function (item) {
-//                return [item[1], item[0], item[2] || '-'];
-//            });
+            for (var index in chdata)
+            {
+                data.push({
+                    name: index,
+                    type: 'heatmap',
+                    data: chdata[index],
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                })
+            }
 //    console.log(data);
             option = {
                 tooltip: {
@@ -157,7 +195,7 @@
                 },
                 yAxis: {
                     type: 'category',
-                    data: ydataF,
+                    data: ydataS,
                     splitLine: {
                         show: true,
                         lineStyle: {
@@ -174,22 +212,7 @@
                     left: 'center',
                     top: '0'
                 },
-                series: [{
-                        name: 'Series1 ',
-                        type: 'heatmap',
-                        data: data,
-                        label: {
-                            normal: {
-                                show: true
-                            }
-                        },
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }]
+                series: data
             };
             var echartLine = echarts.init(document.getElementById("echart_line"), 'oddeyelight');
             echartLine.setOption(option);

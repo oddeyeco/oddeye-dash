@@ -200,9 +200,9 @@ var encodeHTML = function (source) {
         },
         tooltip: {
             backgroundColor: 'rgba(50,50,50,0.5)',
-            formatter: function (params) {                
+            formatter: function (params) {
                 var out = "";
-                
+
                 if (params.constructor === Array)
                 {
                     param = params[0];
@@ -212,7 +212,7 @@ var encodeHTML = function (source) {
                         firstparam = format_date(param.value[0], 1);
                         out = "<strong>" + firstparam + " " + params[0].name + "</strong>";
                     } else
-                    {                        
+                    {
                         if (param)
                             if (param.data)
                                 if (param.data.name)
@@ -283,8 +283,8 @@ var encodeHTML = function (source) {
                         out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + tmpname + ' : ' + value;
                     }
                 } else
-                {                    
-                    
+                {
+
                     var value = params.data.value;
                     if (typeof value !== 'undefined')
                     {
@@ -417,11 +417,18 @@ var encodeHTML = function (source) {
                         }
                         if (params.componentSubType === "heatmap")
                         {
-//                            console.log(params);
-                            out = params.seriesName+'<br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.data[2] ;
-                        }                        
-                        
-                        
+//                            console.log(params.data);
+                            var val = '~' + params.data[4] + "-" + params.data[5];
+                            if (params.data[4] == params.data[5])
+                            {
+                                val = '~' + params.data[4];
+                            }
+
+
+                            out = moment(+params.data[3]).format("MM/DD/YYYY HH:mm:ss") + '<br>' + params.seriesName + '<br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span> '+val;
+                        }
+
+
                     }
                 }
 
@@ -490,7 +497,7 @@ var encodeHTML = function (source) {
             },
             splitLine: {
                 lineStyle: {
-                    color: [categoryAxis_splitLine_lineStyle_clr]                    
+                    color: [categoryAxis_splitLine_lineStyle_clr]
                 }
             }
         },
@@ -505,7 +512,7 @@ var encodeHTML = function (source) {
             splitArea: {
                 show: true,
                 areaStyle: {
-                    color: ['rgba(250,250,250,0.2)', 'rgba(150,150,150,0.3)']                      
+                    color: ['rgba(250,250,250,0.2)', 'rgba(150,150,150,0.3)']
                 }
             },
             splitLine: {
@@ -560,7 +567,7 @@ var encodeHTML = function (source) {
                 normal: {
                     textStyle: {
                         color: '#d87a80'
-                        
+
                     }
                 }
             },
