@@ -4,6 +4,7 @@
 
 @body_bg: #0f0f0f;
 @body_clr: #fff;
+@clr_header: rgba(69, 74, 62, 0.2);
 @clr_black2: #141616;
 @clr_OEgreen: #8bc53f;
 @clr_OEgreen2: #92ad57;
@@ -54,6 +55,15 @@ body {
 }
 ::-webkit-scrollbar {
     width: 8px;
+}
+// ---- remove arrows in input ----
+input[type=number] {
+	-moz-appearance: textfield;
+	-webkit-appearance: textfield;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }
 // ---- button ----
 .btn-success {
@@ -160,11 +170,11 @@ a.btn-danger {
 .checked {
     background-color: transparent;
 }
-.metricinfo td .icheckbox_flat {
+.metricinfo td .icheckbox_flat-blue {
     margin-right: 3px;
     vertical-align: inherit;
 }
-//---- Switchery ----
+// ---- Switchery ----
 .switchery-small {
     width: 42px;
     height: 16px;
@@ -175,7 +185,18 @@ a.btn-danger {
     border-radius: 4px;
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);   
 }
-
+// ---- dash ----
+.x_panel.locked {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+.fulldash {
+    padding: 0;
+}
+.x_panel.locked .chartsection>div {
+    border: none;
+}
 // ---- // ---- //
 .x_title {
     border-bottom: 2px solid @clr_bannerBlue;   
@@ -209,9 +230,11 @@ a:hover, .query-label a:hover, .data-label a:hover {
 }
 .top_nav {
     .nav_menu {
-        background: @body_bg;
+      /*background: @body_bg;
         border-bottom: 1px solid #656768;
-        box-shadow: 0 1px 10px #67922f;
+        box-shadow: 0 1px 10px #67922f;*/
+        background: @clr_header;
+        border-bottom: 1px solid @clr_bannerBlue;
         .navbar-nav.navbar-right {
             li>a {
                 color: @body_clr !important;
@@ -257,9 +280,9 @@ a:hover, .query-label a:hover, .data-label a:hover {
 .left_col {
     background: @body_bg;
     div#sidebar-menu.main_menu_side {
-        border-top: 1px solid rgb(101, 103, 104);
+/*        border-top: 1px solid rgb(101, 103, 104);*/
         background: @body_bg;
-        box-shadow: inset 1px 5px 10px -4px #67922f;
+/*        box-shadow: inset 1px 5px 10px -4px #67922f;*/
     }
     .main_menu {
         i.fa.fas, i.fa.far, i.fa-edit{
@@ -351,10 +374,9 @@ a:hover, .query-label a:hover, .data-label a:hover {
         }
     }
     ul.nav.child_menu {
-        background: @body_bg;
-        border-top: 1px solid @clr_bannerBlue;
-        border-right: 1px solid @clr_bannerBlue;
-        border-bottom: 1px solid @clr_bannerBlue;
+        background: #454a3e;
+        border: 1px solid @clr_bannerBlue;
+        border-left: none;
     }
 }
 
@@ -394,12 +416,12 @@ div.sidebar-footer.hidden-small {
             a.gotodash {
                 margin: 3px;
                 border-radius: 4px;
-                background: linear-gradient(135deg,#212121,#323232);
-                box-shadow: -1px -1px 0 0 hsla(0, 0%, 100%, 0.3), 1px 1px 0 0 rgba(120, 120, 120, 0.4);
+                background: linear-gradient(135deg,@clr_black2, rgba(84, 90, 72, 0.4));
+                box-shadow: -1px -1px 0 0 rgba(200, 220, 140, 0.2), inset 1px 1px 4px 0 rgba(250, 210, 160, 0.2);
                 color: rgb(255, 255, 255);
                 &:hover {
-                    background: linear-gradient(135deg, #171717, #292929);
-                    box-shadow: inset 1px -1px 2px rgba(255,255,255,0.2);
+                    background: linear-gradient(135deg, #171717, rgba(84, 90, 72, 0.2));
+                    box-shadow: inset 1px -1px 2px 1px rgba(220,220,220,0.2);
                     text-shadow: 0 0 1px @clr_OEblue;
                 }
             } 
@@ -672,8 +694,11 @@ table.metrictable {
 //---- History ----
 //---- calendar ----
 .reportrange {
+    
+    padding: 4px 10px;
     background: #454a3e;
     border: 1px solid @clr_greyGreen1;
+    border-radius: 4px;
     span {
         color: @clr_OEgreen;
     }
@@ -777,7 +802,7 @@ div.profile_left {
 }
 .x_panel {
     >.profile_left {
-        background-image: linear-gradient(#141616,#545b4b 10%,#545b4b 75%,#141616);
+        background-image: linear-gradient(@clr_black2,darken(@clr_greyGreen2,10%) 10%, darken(@clr_greyGreen2,10%) 75%, @clr_black2);
         border: 1px solid #0f0f0f;
         border-radius: 4px;
         .profile_left-form {
@@ -826,7 +851,8 @@ div#tagsconteger.ui-sortable {
 }
 div.profile_right-table {
     >div.x_panel {
-        background-image: radial-gradient(@clr_greyGreen1, @clr_greyGreen2, @clr_black2);
+/*        background-image: radial-gradient(@clr_greyGreen1, @clr_greyGreen2, @clr_black2);*/
+        background-image: radial-gradient(darken(@clr_greyGreen1, 10%),darken(@clr_greyGreen2, 10%), @clr_black2);
         box-shadow: none;
         border: 1px solid #0f0f0f;
     }
@@ -876,7 +902,7 @@ div.profile_right-table {
             background-color: #171819;
         }
         .select2-selection__choice {
-            background-color: @clr_OEblue2;
+            background-color: @clr_bannerBlue;
             &:hover {
                 span.select2-selection__choice__remove {
                     color: @body_bg;
@@ -1080,6 +1106,10 @@ span.tagspan {
             }
         }
     }
+    .tile-stats {
+        background-color: inherit;
+        border: 1px solid #333434;
+    }
 }
 .rowcontent {
     .chartsection {
@@ -1145,7 +1175,7 @@ div#reportrange_private {
     }
 }
 .filter.fix {
-    background: linear-gradient(90deg, @body_bg, #323232);
+    background: fade(@body_bg, 30%);/*linear-gradient(90deg, @body_bg, @clr_header);*/
     border: 1px solid #333434;
 }
 #tab_metric .edit-query .iradio_flat-blue, #tab_data_zoom .edit-datazoom .icheckbox_flat-blue {
