@@ -17,3 +17,8 @@ var timeAxis_splitLine_lineStyle_clr = '#eee';
 var categoryAxis_splitLine_lineStyle_clr = '#eee';
 var valueAxis_splitLine_lineStyle_clr = '#eee';
 var axisLine_lineStyle = '#008acd';
+
+// iCheck
+
+var icheckbox_flat_clr = 'icheckbox_flat-green';
+var iradio_flat_clr = 'iradio_flat-green';

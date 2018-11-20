@@ -847,7 +847,7 @@ class ChartEditForm extends EditForm {
     repaintdatazoom(contener, content) {
         contener.empty();
         this.drawcontent(content, contener, this.dashJSON.rows[this.row]["widgets"][this.index]);
-        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+        this.formwraper.find("input.flat").iCheck({checkboxClass: icheckbox_flat_clr, radioClass: iradio_flat_clr});
         this.initzoomtype();
     }
 

@@ -16,3 +16,8 @@ var timeAxis_splitLine_lineStyle_clr = 'rgba(238, 238, 238, 0.1)';
 var categoryAxis_splitLine_lineStyle_clr = 'rgba(238, 238, 238, 0.1)';
 var valueAxis_splitLine_lineStyle_clr = 'none';
 var axisLine_lineStyle = '#92ad57';
+
+// iCheck
+
+var icheckbox_flat_clr = 'icheckbox_flat-blue';
+var iradio_flat_clr = 'iradio_flat-blue';

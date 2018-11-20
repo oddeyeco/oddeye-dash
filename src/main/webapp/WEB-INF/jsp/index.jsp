@@ -35,7 +35,7 @@
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />
             <!-- iCheck -->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/green.css?v=${version}" />        
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/_all.css?v=${version}" />        
             <!-- bootstrap-progressbar -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css?v=${version}" />            
             <!-- Bootstrap Colorpicker -->
@@ -64,7 +64,7 @@
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
-                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />                   
                     </c:when>
                     <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
                         <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />
@@ -87,7 +87,7 @@
                                 <div class="navbar nav_title" style="border: 0;">
                                         <a href="<c:url value="/"/>" >
                                     <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
-                                    <span class="site_title" style="width: auto"><spring:message code="index.home"/></span> </a>
+                                    <span class="site_title" style="width: auto"><spring:message code="index.home"/></span> </a>                                    
                             </div>
                             <div class="clearfix"></div>                            
                             <!-- menu profile quick info -->
