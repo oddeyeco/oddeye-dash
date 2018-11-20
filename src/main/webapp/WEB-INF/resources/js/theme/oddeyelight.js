@@ -419,13 +419,18 @@ var encodeHTML = function (source) {
                         {
 //                            console.log(params.data);
                             var val = '~' + params.data[4] + "-" + params.data[5];
-                            if (params.data[4] == params.data[5])
+                            if (params.data[4] === params.data[5])
                             {
                                 val = '~' + params.data[4];
                             }
 
 
-                            out = moment(+params.data[3]).format("MM/DD/YYYY HH:mm:ss") + '<br>' + params.seriesName + '<br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span> '+val;
+                            out = moment(+params.data[3]).format("MM/DD/YYYY HH:mm:ss") + '<br>' + params.seriesName + '(' + params.data[params.data.length - 1] + ') <br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span> '+ val;
+                            if (params.data[7].length < 500)
+                            {
+                                out = out + params.data[7];
+                            }
+
                         }
 
 

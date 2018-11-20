@@ -42,10 +42,11 @@
             ydata = Object.keys(yjson);
 
             var max = numbers.basic.max(ydata);
-            var step = max / 10;
+            var i = 0;
+            var step = (max-i) / 10;
             var ydataF = [];
             var ydataS = [];
-            var i = 0;
+            
             while (i < max)
             {
                 ydataF.push(+i.toFixed(2));
@@ -127,10 +128,11 @@
                             datamap[i] = {};
                         }
                         if (!datamap[i][j])
-                        {
-                            datamap[i][j] = {items:[],name:data.chartsdata[index].metric,time:xdata[j]};
+                        {                                  //TODO ALIAS 1
+                            datamap[i][j] = {items:[],name:data.chartsdata[index].metric,time:xdata[j],alias:""};
                         }
-                        datamap[i][j].items.push(item);
+                        datamap[i][j].items.push(item);                //TODO ALIAS 2 
+                        datamap[i][j].alias=datamap[i][j].alias+"<br>"+data.chartsdata[index].tags.host+'('+item[1].toFixed(2)+')';
                         datamax = Math.max(datamax, datamap[i][j].items.length);
                     }
                 });
@@ -142,8 +144,12 @@
             {
                 for (var j in datamap[i])
                 {
-//                    console.log(datamap[i][j].items);
-                    chdata[datamap[i][j].name].push([+j, +i,datamap[i][j].items.length,datamap[i][j].time, datamap[i][j].items[0][1].toFixed(2), datamap[i][j].items[datamap[i][j].items.length-1][1].toFixed(2),"unit",  datamap[i][j].items.length]);
+//                    console.log(datamap[i][j]);
+                    var vals= datamap[i][j].items.map(function(it){
+                        return it[1];
+                    });
+                    vals.sort();                    
+                    chdata[datamap[i][j].name].push([+j, +i,datamap[i][j].items.length,datamap[i][j].time, vals[0].toFixed(2), vals[vals.length-1].toFixed(2),"unit",datamap[i][j].alias,  datamap[i][j].items.length]);
                 }
             }
 
@@ -162,7 +168,7 @@
                     data: chdata[index],
                     label: {
                         normal: {
-                            show: false
+                            show: true
                         }
                     },
                     itemStyle: {
