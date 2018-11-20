@@ -14,7 +14,7 @@
 
 <script>
     //http://localhost:8080/OddeyeCoconut/getdata?metrics=cpu_user;cpu_idle;&tags=&aggregator=none&downsample=5m-avg&startdate=1h-ago&enddate=now
-    var uri = "/OddeyeCoconut/getdata?metrics=cpu_user;cpu_idle;&tags=core=*;&aggregator=none&downsample=10s-max&startdate=1h-ago&enddate=now";
+    var uri = "/OddeyeCoconut/getdata?metrics=cpu_user;cpu_idle;&tags=core=all;&aggregator=none&downsample=2m-max&startdate=1h-ago&enddate=now";
     var xjson = {};
     var xdata = {};
     var yjson = {};
