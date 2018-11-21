@@ -4,7 +4,7 @@
 
 @body_bg: #0f0f0f;
 @body_clr: #fff;
-@clr_header: rgba(69, 74, 62, 0.2);
+@clr_header: #1e211e;
 @clr_black2: #141616;
 @clr_OEgreen: #8bc53f;
 @clr_OEgreen2: #92ad57;
@@ -277,11 +277,30 @@ a:hover, .query-label a:hover, .data-label a:hover {
     }
 }
 //---- left-col ----
+.nav-md {    
+    .nav.side-menu{
+        &:hover >li{
+            box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);
+        }
+        >li{
+            border: 1px solid lighten(@clr_header, 10%);
+            border-radius: 4px;
+            margin: 6px;
+            background: @clr_header;
+            &:hover {
+                box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);
+            }
+        }
+    }
+}
 .left_col {
     background: @body_bg;
     div#sidebar-menu.main_menu_side {
 /*        border-top: 1px solid rgb(101, 103, 104);*/
-        background: @body_bg;
+       // background: @body_bg;
+          background: @clr_header;
+          border-radius: 4px;
+          background-image: linear-gradient(#0f0f0f, #1e211e 10%, #1e211e 80%, #0f0f0f);
 /*        box-shadow: inset 1px 5px 10px -4px #67922f;*/
     }
     .main_menu {
@@ -297,12 +316,23 @@ a:hover, .query-label a:hover, .data-label a:hover {
             color: @clr_OEblue;
         }
         .nav.side-menu{
+/*            &:hover >li{
+                box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);
+            }*/
             >li{
+/*              border: 1px solid lighten(@clr_header, 10%);
+                border-radius: 4px;
+                margin: 6px;
+                background: @clr_header;
+                &:hover {
+                    box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);
+                }*/
                 &.active {
-                    border-right: none;
+                  //  border-right: none;
                     >a {
-                        background: @body_bg;
-                        box-shadow: inset rgba(0,173,238,0.8) 0 -4px 8px -4px;
+                      //  background: @body_bg;
+                        background: darken(@clr_header, 2%);
+                        box-shadow: none;
                         font-weight: bold;
                     }         
                 }
@@ -310,8 +340,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     color: #aec352;
                     font-weight: 500;
                     &:hover {
-                        background: @body_bg;
-                        box-shadow: inset rgba(0,173,238,0.8) 0px -4px 8px -4px;
+                    //    background: @body_bg;
+                    //    box-shadow: inset rgba(0,173,238,0.8) 0px -4px 8px -4px;
                         color: @clr_OEgreen2 !important;
                         font-weight: bold;
                     }
@@ -320,15 +350,16 @@ a:hover, .query-label a:hover, .data-label a:hover {
             .nav.child_menu {
                 >li {
                     >a {
-                        color: rgb(255, 255, 255);
-                        font-size: 12px;
                         padding: 9px;
+                        color: rgb(255, 255, 255);
+                        font-size: 12px;                        
                     }
                 }
                 li {
                     &:hover {
-                        background: linear-gradient(90deg, @body_bg 30%, rgba(8,112,150,0.3));
-                        text-shadow: 0 0 1px @clr_OEgreen;
+                     //   background: linear-gradient(90deg, @body_bg 30%, rgba(8,112,150,0.3));
+                        background: darken(@clr_header, 2%);
+                     //   text-shadow: 0 0 1px @clr_OEgreen;
                     }
                 }
                 li.active {
@@ -341,11 +372,62 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     }
                 }
                 li.current-page {
-                    background: linear-gradient(90deg, @body_bg 30%, rgba(8, 112, 150, 0.3));
+                  //  background: linear-gradient(90deg, @body_bg 30%, rgba(8, 112, 150, 0.3));
+                  background: darken(@clr_header, 2%);
                 }
             }
         }
 
+    }
+}
+//---- body class="nav-sm" ----
+.nav-sm {
+   div#sidebar-menu.main_menu_side {
+        background: @body_bg;
+    }
+    .nav.child_menu {
+        li {
+            background: @clr_header;
+        }
+        li.active {
+            border-right: 3px solid @clr_OEgreen2 ;
+        }
+    }
+    .nav.side-menu {
+        li.active-sm {
+            border-right: 3px solid @clr_OEgreen2;
+        }
+    }    
+    .left_col {
+        .main_menu {
+            .nav.side-menu {
+                >li {
+                    margin: 0;
+                    border:none;
+                    background: @body_bg;
+                }
+                >li.active {
+                    >a {
+                        background: @clr_header;
+                        border-top: 1px solid @clr_bannerBlue;
+                    }                    
+                }
+            }
+        }
+    }
+    ul.nav.child_menu {
+        width: auto;
+        min-width: 120px;
+        background: @clr_header;
+        border: 1px solid @clr_bannerBlue;
+        border-left: none;
+        li {
+            padding: 0 2px;
+            a {
+                width: 100%;
+                max-width: 190px;
+            }
+        }
     }
 }
 //---- hiding a marker in the menu list----
@@ -361,25 +443,6 @@ a:hover, .query-label a:hover, .data-label a:hover {
 	}
     }
 }
-//---- body class="nav-sm" ----
-.nav-sm {
-    .nav.child_menu {
-        li.active {
-            border-right: 5px solid @clr_OEgreen2;
-        }
-    }
-    .nav.side-menu {
-        li.active-sm {
-            border-right: 5px solid @clr_OEgreen2;
-        }
-    }
-    ul.nav.child_menu {
-        background: #454a3e;
-        border: 1px solid @clr_bannerBlue;
-        border-left: none;
-    }
-}
-
 //---- sidebare-footer ----
 div.sidebar-footer.hidden-small {
     background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1));
@@ -415,13 +478,14 @@ div.sidebar-footer.hidden-small {
             }
             a.gotodash {
                 margin: 3px;
+                background: @clr_header;
+                border: 1px solid lighten(@clr_header, 10%);
                 border-radius: 4px;
-                background: linear-gradient(135deg,@clr_black2, rgba(84, 90, 72, 0.4));
-                box-shadow: -1px -1px 0 0 rgba(200, 220, 140, 0.2), inset 1px 1px 4px 0 rgba(250, 210, 160, 0.2);
                 color: rgb(255, 255, 255);
                 &:hover {
-                    background: linear-gradient(135deg, #171717, rgba(84, 90, 72, 0.2));
-                    box-shadow: inset 1px -1px 2px 1px rgba(220,220,220,0.2);
+                    background: linear-gradient(135deg, #171717, rgba(84,90,72,0.2));
+                    box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.4);
+                    border: 1px solid @clr_header;
                     text-shadow: 0 0 1px @clr_OEblue;
                 }
             } 
@@ -813,14 +877,14 @@ div.profile_left {
 
 div#tagsconteger.ui-sortable {
     background: @clr_greyGreen2;
-    border: 1px solid #3f453a;
+    border: 1px solid lighten(@clr_greyGreen2, 10%);
     border-radius: 4px;
     padding: 4px;
     &:hover .draggable{
-            box-shadow: inset 4px 3px 4px 0 rgba(0, 0, 0, 0.3);
-        }
+        box-shadow: inset 4px 3px 4px 0 rgba(0, 0, 0, 0.3);
+    }
     .draggable {
-        border: 1px solid #7a8071;
+        border: 1px solid lighten(@clr_greyGreen2, 10%);
         border-radius: 4px;
         background: inherit;
         box-shadow: none;
@@ -835,7 +899,7 @@ div#tagsconteger.ui-sortable {
             cursor: -moz-grabbing;
             cursor: -webkit-grabbing;
         }
-        
+
     }
 }
 
@@ -1175,7 +1239,7 @@ div#reportrange_private {
     }
 }
 .filter.fix {
-    background: fade(@body_bg, 30%);/*linear-gradient(90deg, @body_bg, @clr_header);*/
+    background: fade(@body_bg, 30%);
     border: 1px solid #333434;
 }
 #tab_metric .edit-query .iradio_flat-blue, #tab_data_zoom .edit-datazoom .icheckbox_flat-blue {
