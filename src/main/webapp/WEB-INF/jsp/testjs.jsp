@@ -99,6 +99,7 @@
             console.log(ydataF);
             for (var index in data.chartsdata)
             {
+                console.log(data.chartsdata[index]);
                 data.chartsdata[index].data.map(function (item) {
                     var hasdata = false;
                     j = 0;

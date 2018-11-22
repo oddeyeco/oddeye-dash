@@ -47,6 +47,7 @@
             </div>  
             <div class="btn-group  btn-group-xs">
                 <a class="btn btn-default addcounter" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addCounterWidget"/>' ><i class="fa fa-code"></i></a>
+                <a class="btn btn-default addheatmap" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addHeatmapWidget"/>' ><i class="fa fa-map"></i></a>
                 <a class="btn btn-default addchart" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addChartWidget"/>' ><i class="fa fas fa-chart-line"></i></a>
                 <a class="btn btn-default showrowjson" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.viewRowJSON"/>' ><i class="fa fa-edit"></i></a>
                 <a class="btn btn-default colapserow" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.collapse"/>' type="button"><i class="fa fa-chevron-up"></i></a>

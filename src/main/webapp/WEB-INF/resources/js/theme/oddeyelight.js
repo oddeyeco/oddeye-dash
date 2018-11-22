@@ -416,16 +416,32 @@ var encodeHTML = function (source) {
                             out = params.seriesName;
                         }
                         if (params.componentSubType === "heatmap")
-                        {
-//                            console.log(params.data);
-                            var val = '~' + params.data[4] + "-" + params.data[5];
+                        {                            
+                            var value1 =params.data[4];
+                            var value2 =params.data[5];
+                            if (typeof params.data[6] !== "undefined")
+                            {
+                                if (typeof (window[params.data[6]]) === "function")
+                                {                                    
+                                    value1 = window[params.data[6]](params.data[4]);
+                                    value2 = window[params.data[6]](params.data[5]);
+                                } else
+                                {
+                                    value1 = params.data[6].replace("{value}", params.data[4]);
+                                    value2 = params.data[6].replace("{value}", params.data[5]);
+                                }
+
+                            }
+
+
+                            var val = '~' + value1 + "-" + value2;
                             if (params.data[4] === params.data[5])
                             {
                                 val = '~' + params.data[4];
                             }
 
 
-                            out = moment(+params.data[3]).format("MM/DD/YYYY HH:mm:ss") + '<br>' + params.seriesName + '(' + params.data[params.data.length - 1] + ') <br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span> '+ val;
+                            out = moment(+params.data[3]).format("MM/DD/YYYY HH:mm:ss") + '<br>' + params.seriesName + '(' + params.data[params.data.length - 1] + ') <br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span> ' + val;
                             if (params.data[7].length < 500)
                             {
                                 out = out + params.data[7];

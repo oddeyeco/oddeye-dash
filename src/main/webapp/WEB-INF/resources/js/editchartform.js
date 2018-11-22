@@ -6,7 +6,7 @@
 
 /* global getParameterByName, pickerlabel, PicerOptionSet2, jsonmaker, editor, EditForm, colorPalette, EditForm, locale */
 
-class ChartEditForm extends EditForm {
+class BaseChartEditForm extends EditForm {
 //    tabcontent = {};
 
     opencontent() {
@@ -97,7 +97,7 @@ class ChartEditForm extends EditForm {
                 case 'treemap':  // if (x === 'value2')
                     $(this).parents('.edit-display').find('.custominputs >.typemap').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typemap)').fadeOut(duration);
-                    break                    
+                    break
                 case 'funnel':  // if (x === 'value2')
                     $(this).parents('.edit-display').find('.custominputs >.typefunnel').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typefunnel)').fadeOut(duration);
@@ -570,7 +570,7 @@ class ChartEditForm extends EditForm {
                                             "gauge": locale["editchartform.gauge"],
                                             "funnel": locale["editchartform.funnel"],
                                             "treemap": locale["editchartform.treemap"]
-                                            }, actions: {change: function () {
+                                        }, actions: {change: function () {
                                                 current.typemode("slow");
 
                                             }
@@ -614,7 +614,7 @@ class ChartEditForm extends EditForm {
 
                                 ]}
                         ]},
-                    {tag: "div", class: "form_main_block pull-left custominputs",label: {show: true, text: locale["editchartform.options"],class:"typeline typebars"}, content: [
+                    {tag: "div", class: "form_main_block pull-left custominputs", label: {show: true, text: locale["editchartform.options"], class: "typeline typebars"}, content: [
                             {tag: "div", class: "form-group form-group-custom typeline", content: [
                                     {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.points"], lfor: "display_points"},
                                     {tag: "select", class: "form-control title_select", prop_key: "points", id: "display_points", name: "display_points", key_path: 'points', default: "none", options: {
@@ -668,9 +668,9 @@ class ChartEditForm extends EditForm {
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "smooth", id: "display_smooth", name: "display_smooth", key_path: 'smooth', default: true}
                                         ]}
-                                ]}                            
+                                ]}
                         ]},
-                    {tag: "div",id:"valod", class: "form_main_block pull-left custominputs",label: {show: true, text: locale["editchartform.labels"],class:"typeline typebars typemap typepie typefunnel"}, content: [
+                    {tag: "div", id: "axes_select", class: "form_main_block pull-left custominputs", label: {show: true, text: locale["editchartform.labels"], class: "typeline typebars typemap typepie typefunnel"}, content: [
                             {tag: "div", class: "form-group form-group-custom typeline typebars typemap", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelPosition"], lfor: "display_label_pos"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "label.position", id: "display_label_pos", name: "display_label_pos", key_path: 'label.position', default: "inside", options: {
@@ -711,7 +711,7 @@ class ChartEditForm extends EditForm {
                                     {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelFormat"], lfor: "display_label_parts", info: {text: locale["editchartform.labelFormat.text"]}},
                                     {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
                                 ]},
-                            
+
                             {tag: "div", class: "form-group form-group-custom typemap typefunnel typeline typebars", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelFormat"], lfor: "display_label_parts", info: {text: locale["editchartform.labelFormat.text2"]}},
                                     {tag: "input", type: "text", class: "form-control axes_select query_input display_label_parts", prop_key: "parts", id: "display_label_parts", name: "display_label_parts", key_path: 'label.parts', default: ""}
@@ -728,8 +728,7 @@ class ChartEditForm extends EditForm {
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_2", name: "display_label_2", key_path: 'label.show', default: true}
                                         ]}
-                                ]},
-
+                                ]}
                         ]}
                 ]}
         ];
@@ -826,19 +825,11 @@ class ChartEditForm extends EditForm {
                     }
                 ]}];
         this.tabcontent.tab_data_zoom.forms = [edit_data_zoom];//suren
-        var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.axesIndexes"]},
-                {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
-                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
-                {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
-                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
-            ]};
         var inversef = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.inverse"]},
                 {tag: "input", type: "checkbox", class: "js-switch-small enable_inverse", prop_key: "inverse", id: "{index}_enable_inverse", name: "enable_inverse", key_path: 'info.inverse', default: false}
             ]};
         this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, inversef);
-        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, xfieds);
 
         this.tabcontent.tab_metric.active = true;
 
@@ -894,3 +885,131 @@ class ChartEditForm extends EditForm {
     }
 
 }
+
+class ChartEditForm extends BaseChartEditForm {
+    inittabcontent()
+    {
+        super.inittabcontent();
+        var xfieds = {tag: "div", class: "form-group form-group-custom", content: [
+                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.axesIndexes"]},
+                {tag: "label", class: "control-label ", text: "X", lfor: "q_xAxisIndex"},
+                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.xAxis", key_path: "xAxisIndex", style: "display:inline-block", id: "{index}_q_xAxisIndex", name: "q_xAxisIndex"},
+                {tag: "label", class: "control-label", text: "Y", lfor: "q_yAxisIndex"},
+                {tag: "div", type: "choose_array", choose_type: "radio", init_key_path: "options.yAxis", key_path: "yAxisIndex", style: "display:inline-block", id: "{index}_q_yAxisIndex", name: "q_yAxisIndex"}
+            ]};
+        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(this.tabcontent.tab_metric.forms[0].content[0].template[0].content.length - 2, 0, xfieds);
+
+    }
+}
+;
+
+
+class HmEditForm extends BaseChartEditForm {
+    inittabcontent()
+    {
+        super.inittabcontent();
+        this.tabcontent.tab_display = {};//suren
+
+        var edit_display = {tag: "div", class: 'forms', id: "edit_display"};
+        edit_display.content = [];
+
+        this.tabcontent.tab_display.forms = [edit_display];//suren 
+
+        this.tabcontent.tab_axes = {};
+        var edit_axes_y = {tag: "div", class: 'form_main_block pull-left', id: "edit_y", label: {show: true, text: locale["editchartform.Yaxes"]}};
+        var current = this;
+
+        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_yaxes", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_y"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
+                        ]},
+
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.text"], lfor: "axes_name_y"},
+                            {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_y", name: "axes_name_y", key_path: 'name', default: ""}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.position"], lfor: "axes_position_y"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_y", name: "axes_position_y", key_path: 'position', default: "", options: this.ypos}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.splitNumber"], lfor: "axes_splitNumber_y"},
+                            {tag: "input", type: "number", class: "form-control axes_select", prop_key: "splitNumber", id: "{index}_splitNumber_y", name: "splitNumber_y", key_path: 'splitNumber', default: ""}
+                        ]},
+
+                    {tag: "div", class: "form-group  ", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Ycolor"], lfor: "axes_color_y"},
+
+                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
+                                            {tag: "input", type: "text", class: "form-control ", prop_key: "ycolor", id: "{index}_ycolor", name: "ycolor", key_path: 'axisLine.lineStyle.color', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.fontSizeLabel"], lfor: "lable_size_y"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "size_x", id: "{index}_label_size_y", name: "lable_size_y", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: locale["editchartform.text"], lfor: "text_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "text_size_y", id: "{index}_text_size_y", name: "text_size_y", key_path: 'nameTextStyle.fontSize', default: "12"}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.unit"], lfor: "axes_unit_y"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
+                        ]}
+                ]}];
+        edit_axes_y.content = [{tag: "div", class: "form_main_block", content: [{tag: "div", class: "",
+                        id: "addq",
+                        key_path: "options.yAxis",
+                        template: axes_template
+                    }
+                ]}]
+                ;
+
+        var edit_axes_x = {tag: "section", class: 'form_main_block pull-left', id: "edit_x", label: {show: true, text: locale["editchartform.Xaxes"]}};
+        var current = this;
+
+        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_xaxes", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_x"},
+                            {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.text"], lfor: "axes_name_x"},
+                            {tag: "input", type: "text", class: "form-control axes_select", prop_key: "name", id: "{index}_axes_name_x", name: "axes_name_x", key_path: 'name', default: ""}
+                        ]},
+
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.position"], lfor: "axes_position_x"},
+                            {tag: "select", class: "form-control axes_select", prop_key: "position", id: "{index}_axes_position_x", name: "axes_position_x", key_path: 'position', default: "", options: this.xpos}
+                        ]},
+
+                    {tag: "div", class: "form-group ", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Xcolor"], lfor: "axes_color_x"},
+
+                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
+                                            {tag: "input", type: "text", class: "form-control axes_select ", prop_key: "xcolor", id: "{index}_xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.fontSizeLabel"], lfor: "lable_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "size_x", id: "{index}_label_size_x", name: "lable_size_x", key_path: 'axisLabel.fontSize', default: "12"},
+                            {tag: "label", class: "control-label control-label-custom-legend axis_lable-size", text: locale["editchartform.text"], lfor: "text_size_x"},
+                            {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "text_size_x", id: "{index}_text_size_x", name: "text_size_x", key_path: 'nameTextStyle.fontSize', default: "12"}
+                        ]}
+                ]}];
+        edit_axes_x.content = [{tag: "div", class: "form_main_block", content: [{tag: "div", class: "",                        
+                        id: "addq",
+                        key_path: "options.xAxis",
+                        template: axes_template
+                    }
+                ]}];        
+        this.tabcontent.tab_axes.forms = [edit_axes_y, edit_axes_x];
+
+    }
+}
+;

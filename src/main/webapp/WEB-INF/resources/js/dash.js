@@ -317,6 +317,51 @@ var queryCallback = function (inputdata) {
 //                    console.log( data.chartsdata[dindex]);
                     widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
+            } else if (widget.type === "heatmap")
+            {
+                if (!widget.data)
+                {
+                    widget.data = {xjson: {}, yjson: {}, list: {}};
+                }
+                for (index in data.chartsdata)
+                {
+                    if (data.chartsdata[index].data.length > 0)
+                    {
+                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                        if (widget.title)
+                        {
+                            var name2 = widget.title.text;
+                        }
+
+                        if (typeof (widget.q[q_index].info) !== "undefined")
+                        {
+                            if (widget.q[q_index].info.alias)
+                            {
+                                if (widget.q[q_index].info.alias !== "")
+                                {
+                                    name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
+                                }
+                            }
+
+                            if (widget.q[q_index].info.alias2)
+                            {
+                                if (widget.q[q_index].info.alias2 !== "")
+                                {
+                                    name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
+                                }
+                            }
+                        }
+//                        console.log(name2);
+                        widget.data.list[index] = data.chartsdata[index];
+                        widget.data.list[index].name2 = name2;
+                        widget.data.list[index].name1 = name;
+                        widget.data.list[index].inverse = widget.q[q_index].info.inverse;
+                        data.chartsdata[index].data.map(function (item) {
+                            widget.data.xjson[+item[0]] = item;
+                            widget.data.yjson[widget.q[q_index].info.inverse ? item[1] * -1 : +item[1]] = item;
+                        });
+                    }
+                }
             } else
             {
                 var m_sample = widget.options.xAxis[0].m_sample;
@@ -1082,6 +1127,221 @@ var queryCallback = function (inputdata) {
                 }
                 lockq[ri + " " + wi] = false;
 
+            }
+            if (widget.type === "heatmap")
+            {
+                var xdata = Object.keys(widget.data.xjson);
+                xdata.sort();
+                var xdataF = xdata.map(function (itm) {
+                    return [moment(+itm).format("HH:mm")] + "\n" + [moment(+itm).format("MM/DD")];
+                });
+                for (var ind in widget.options.xAxis)
+                {
+                    delete (widget.options.xAxis[ind].max);
+                    widget.options.xAxis[ind].type = 'category';
+                    widget.options.xAxis[ind].data = xdataF;
+                }
+                var ydata = Object.keys(widget.data.yjson);
+                for (var ind in widget.options.yAxis)
+                {
+                    var max = numbers.basic.max(ydata);
+                    var i = numbers.basic.min(ydata);
+
+                    delete (widget.options.yAxis[ind].max);
+                    var step = (max - i) / (widget.options.yAxis[ind].splitNumber - 2);
+                    var ydataF = [];
+                    var ydataS = [];
+                    ydataF.push(+i.toFixed(2));
+                    ydataS.push(i.toFixed(2));
+                    var previ = i;
+                    while (i < max)
+                    {
+                        if ((previ * i) < 0)
+                        {
+                            ydataF.push(0);
+                            ydataS.push("0");
+                        }
+                        ydataF.push(+i.toFixed(2));
+                        ydataS.push(i.toFixed(2));
+                        previ = i;
+                        i = i + step;
+                    }
+                    ydataF.push(+max.toFixed(2));
+                    ydataS.push(max.toFixed(2));
+
+                    widget.options.yAxis[ind].type = 'category';
+                    widget.options.yAxis[ind].data = ydataS;
+//                    widget.options.yAxis[ind].unit
+
+                    var formatter = widget.options.yAxis[ind].unit;
+                    
+                    if (formatter === "none")
+                    {
+                        delete widget.options.yAxis[ind].axisLabel.formatter;
+                    } else
+                    {
+                        if (!widget.options.yAxis[ind].axisLabel)
+                        {
+                            widget.options.yAxis[ind].axisLabel = {};
+                        }
+                        if (typeof (window[formatter]) === "function")
+                        {
+                            widget.options.yAxis[ind].axisLabel.formatter = window[formatter];
+                        } else
+                        {
+                            widget.options.yAxis[yindex].axisLabel.formatter = formatter;
+                        }
+                    }
+
+
+                }
+
+                var datamap = {};
+                var datamax = 0;
+                var chdata = [];
+                for (var index in widget.data.list)
+                {
+//                    console.log(widget.data.list[index]);
+                    widget.data.list[index].data.map(function (item) {
+                        var hasdata = false;
+                        var j = 0;
+
+
+                        var tmpval = widget.data.list[index].inverse ? item[1] * -1 : +item[1];
+
+
+                        for (j in xdata)
+                        {
+                            for (i in ydataF)
+                            {
+//                                console.log(tmpval);
+                                if ((item[0] === +xdata[j]) && (tmpval < ydataF[i]))
+                                {
+                                    hasdata = true;
+                                    break;
+                                }
+                            }
+                            if (hasdata)
+                                break;
+                        }
+                        i = i - 1;
+                        if (hasdata)
+                        {
+//                        console.log(data.chartsdata[name]);
+                            if (!chdata[widget.data.list[index].name1])
+                            {
+                                chdata[widget.data.list[index].name1] = [];
+                            }
+                            if (!datamap[i])
+                            {
+                                datamap[i] = {};
+                            }
+                            if (!datamap[i][j])
+                            {                                  //TODO ALIAS 1
+                                datamap[i][j] = {items: [], name: widget.data.list[index].name1, time: xdata[j], alias: []};
+                            }
+                            datamap[i][j].items.push(item);                //TODO ALIAS 2 
+                            var value2 =item[1];
+                            if (typeof  widget.options.yAxis[0].unit !== "undefined")
+                            {
+                                if (typeof (window[ widget.options.yAxis[0].unit]) === "function")
+                                {                                                                        
+                                    value2 = window[widget.options.yAxis[0].unit](item[1]);
+                                } else
+                                {                                    
+                                    value2 =  widget.options.yAxis[0].unit.replace("{value}",item[1]);
+                                }
+
+                            }                            
+                            
+                            datamap[i][j].alias.push(widget.data.list[index].name2 + ' (' + value2 + ')');
+                            datamax = Math.max(datamax, datamap[i][j].items.length);
+                        }
+                    });
+                }
+
+                for (var i in datamap)
+                {
+                    for (var j in datamap[i])
+                    {
+//                    console.log(datamap[i][j]);
+                        var vals = datamap[i][j].items.map(function (it) {
+                            return it[1];
+                        });                        
+                        vals.sort(function (a, b) {  return a - b;  });                        
+                        datamap[i][j].alias.sort();
+                        chdata[datamap[i][j].name].push([+j, +i, datamap[i][j].items.length, datamap[i][j].time, vals[0], vals[vals.length - 1], widget.options.yAxis[0].unit, '<br>' + datamap[i][j].alias.join("<br>"), datamap[i][j].items.length]);
+                    }
+                }
+//                console.log(chdata);
+                var data = [];
+                for (var index in chdata)
+                {
+                    data.push({
+                        name: index,
+                        type: 'heatmap',
+                        data: chdata[index],
+                        label: {
+                            normal: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    });
+                }
+
+                widget.options.visualMap = {
+                    min: 0,
+                    max: datamax,
+                    color: ['#00FF00', '#0000ff', '#ff0000'],
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    top: '0'
+                };
+
+                widget.options.series = data;
+//                return;
+                try {
+                    if (redraw)
+                    {
+                        var datalist = [];
+                        if (chart.getOption().series.length === widget.options.series.length)
+                        {
+                            for (var key in widget.options.series)
+                            {
+                                var ss = widget.options.series[key];
+                                datalist.push({data: ss.data});
+                            }
+                            chart.setOption({series: datalist, xAxis: widget.options.xAxis});
+                        } else
+                        {
+                            chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
+                        }
+
+                    } else
+                    {
+                        chart.setOption(widget.options, true);
+                    }
+                } catch (e) {
+                    console.log("***********HHHHHHHHHH*****************");
+                    console.log(e);
+                    console.log(widget);
+                    console.log(uri);
+                    console.log(data);
+                    console.log("*******************************");
+                }
+                chart.hideLoading();
+                lockq[ri + " " + wi] = false;
+                if (callback !== null)
+                {
+                    callback();
+                }
             } else
             {
                 widget.options.series.sort(function (a, b) {
@@ -1783,16 +2043,13 @@ var queryCallback = function (inputdata) {
                         chart.setOption(widget.options, true);
                     }
                 } catch (e) {
-                    console.log("***********1760*****************");
+                    console.log("***********VVVVVVVVV*****************");
                     console.log(e);
                     console.log(widget);
                     console.log(uri);
                     console.log(data);
                     console.log("*******************************");
                 }
-
-
-
                 chart.hideLoading();
                 lockq[ri + " " + wi] = false;
                 if (callback !== null)
@@ -1800,6 +2057,7 @@ var queryCallback = function (inputdata) {
                     callback();
                 }
             }
+
             var GlobalRefresh = true;
             if (widget.times)
             {
@@ -1826,6 +2084,7 @@ var queryCallback = function (inputdata) {
                     }, json.times.intervall);
                 }
             }
+            delete(widget.data);
         }
         ;
 
@@ -2574,26 +2833,17 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         }
         $(".right_col .editpanel").append($("#dash_main"));
         $(".right_col .editpanel").append('<div class="clearfix"></div>');
+        console.log(W_type);
         if (W_type === "counter")
         {
             $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
                     '<div class="counter_single" id="counter_single"></div>' +
                     '</div>');
-//            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-//            {
-//                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
-//            } else
-//            {
-////                updatecounter($(".right_col .editpanel"), tmprow.widgets[wi]);
-//            }
             if (!readonly)
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
                 Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
-//                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             }
-
-
         } else if (W_type === "table")
         {
             $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
@@ -2633,7 +2883,14 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             if (!readonly)
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
-                Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
+                if (W_type === "heatmap")
+                {
+                    Edit_Form = new HmEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
+                } else
+                {
+                    Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
+                }
+
             }
 
         }
@@ -3495,7 +3752,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
         $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        
+
         if (gdd.rows[ri].widgets[wi].options)
         {
             if (gdd.rows[ri].widgets[wi].title)
@@ -3514,7 +3771,7 @@ $(document).ready(function () {
             }
         } else
         {
-            
+
             if (gdd.rows[ri].widgets[wi].title)
             {
                 if (gdd.rows[ri].widgets[wi].title.text)
@@ -3528,7 +3785,7 @@ $(document).ready(function () {
             } else
             {
                 $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelCounter"], [wi]));
-            }            
+            }
         }
 
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
@@ -3569,6 +3826,37 @@ $(document).ready(function () {
 
 //        redrawAllJSON(gdd);
     });
+
+
+    $('body').on("click", ".addheatmap", function () {
+
+        for (var ri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[ri].widgets)
+            {
+                if (gdd.rows[ri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+                }
+            }
+        }
+        var ri = $(this).parents(".widgetraw").index();
+        if (!gdd.rows[ri].widgets)
+        {
+            gdd.rows[ri].widgets = [];
+        }
+        var wi = gdd.rows[ri].widgets.length;
+        gdd.rows[ri].widgets.push({type: "heatmap", size: 12, options: clone_obg(defoption)});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
+        gdd.rows[ri].widgets[wi].options.series[0].symbol = "none";
+        gdd.rows[ri].widgets[wi].options.series[0].type = "heatmap";
+//        gdd.rows[ri].widgets[wi].options.series[0].data = datafunc();
+        domodifier();
+        AutoRefreshSingle(ri, wi);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+
+
     $('body').on("click", ".addchart", function () {
 
         for (var ri in gdd.rows)
