@@ -196,6 +196,7 @@
       "editchartform.inner":"<spring:message code="editchartform.inner"/>",
       "editchartform.options":"<spring:message code="editchartform.options"/>",
       "editchartform.labels":"<spring:message code="editchartform.labels"/>",
+      "editchartform.backgroundColors":"<spring:message code="editchartform.backgroundColors"/>",
       
       "countereditform.columnSpan":"<spring:message code="countereditform.columnSpan"/>",
       "countereditform.backgroundColors":"<spring:message code="countereditform.backgroundColors"/>",

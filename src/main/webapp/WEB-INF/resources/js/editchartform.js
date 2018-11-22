@@ -911,9 +911,63 @@ class HmEditForm extends BaseChartEditForm {
         this.tabcontent.tab_display = {};//suren
 
         var edit_display = {tag: "div", class: 'forms', id: "edit_display"};
-        edit_display.content = [];
+        edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left",
+                content: [
+                    {tag: "div", class: "form_main_block pull-left", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.animation"], lfor: "display_animation"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "animation", id: "display_animation", name: "display_animation", key_path: 'options.animation', default: true}
+                                        ]},
+                                    {tag: "label", class: "control-label control-label-custom155", text: locale["editchartform.containsLabel"], lfor: "display_containLabel"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "containLabel", id: "display_containLabel", name: "display_containLabel", key_path: 'options.grid.containLabel', default: true}
+                                        ]}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.left"], lfor: "padding_left"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_left", name: "padding_left", prop_key: "x", key_path: 'options.grid.x'},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.top"], lfor: "padding_top"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_top", name: "padding_top", prop_key: "y", key_path: 'options.grid.y'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.right"], lfor: "padding_right"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_right", name: "padding_right", prop_key: "x2", key_path: 'options.grid.x2'},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.bottom"], lfor: "padding_bottom"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_bottom", name: "padding_bottom", prop_key: "y2", key_path: 'options.grid.y2'}
+                                ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.width"], lfor: "padding_width"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_width", name: "padding_width", prop_key: "width", key_path: 'options.grid.width'},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editform.height"], lfor: "padding_height"},
+                                    {tag: "input", placeholder: "auto", type: "text", class: "form-control title_input_small", id: "padding_height", name: "padding_height", prop_key: "height", key_path: 'options.grid.height'}
 
-        this.tabcontent.tab_display.forms = [edit_display];//suren 
+                                ]}
+                        ]},
+
+                    {tag: "div", id: "desplay_info", class: "form_main_block pull-left custominputs", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.backgroundColors"], lfor: "backgroundColor"},
+                                    {tag: "div", class: "color-button", content: [
+                                            {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
+                                                    {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "backgroundColor", name: "backgroundColor", key_path: 'options.backgroundColor', default: ""},
+                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                ]}
+                                        ]}
+
+                                ]},
+
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labels"], lfor: "display_label"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label", name: "display_label", key_path: 'label.show', default: false}
+                                        ]}
+                                ]}
+                        ]}
+                ]}
+        ];
+
+        this.tabcontent.tab_display.forms = [edit_display];
 
         this.tabcontent.tab_axes = {};
         var edit_axes_y = {tag: "div", class: 'form_main_block pull-left', id: "edit_y", label: {show: true, text: locale["editchartform.Yaxes"]}};
@@ -1002,12 +1056,12 @@ class HmEditForm extends BaseChartEditForm {
                             {tag: "input", type: "number", class: "form-control axes_select axis_input-size", prop_key: "text_size_x", id: "{index}_text_size_x", name: "text_size_x", key_path: 'nameTextStyle.fontSize', default: "12"}
                         ]}
                 ]}];
-        edit_axes_x.content = [{tag: "div", class: "form_main_block", content: [{tag: "div", class: "",                        
+        edit_axes_x.content = [{tag: "div", class: "form_main_block", content: [{tag: "div", class: "",
                         id: "addq",
                         key_path: "options.xAxis",
                         template: axes_template
                     }
-                ]}];        
+                ]}];
         this.tabcontent.tab_axes.forms = [edit_axes_y, edit_axes_x];
 
     }

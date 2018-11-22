@@ -427,8 +427,8 @@ var encodeHTML = function (source) {
                                     value2 = window[params.data[6]](params.data[5]);
                                 } else
                                 {
-                                    value1 = params.data[6].replace("{value}", params.data[4]);
-                                    value2 = params.data[6].replace("{value}", params.data[5]);
+                                    value1 = params.data[6].replace("{value}", params.data[4].toFixed(2));
+                                    value2 = params.data[6].replace("{value}", params.data[5].toFixed(2));
                                 }
 
                             }
@@ -437,7 +437,7 @@ var encodeHTML = function (source) {
                             var val = '~' + value1 + "-" + value2;
                             if (params.data[4] === params.data[5])
                             {
-                                val = '~' + params.data[4];
+                                val = '~' + value1;
                             }
 
 

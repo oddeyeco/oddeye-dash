@@ -1142,20 +1142,32 @@ var queryCallback = function (inputdata) {
                     widget.options.xAxis[ind].data = xdataF;
                 }
                 var ydata = Object.keys(widget.data.yjson);
+                ydata = ydata.map(function (it) {
+                    return +it;
+                });
+                var max = 0;
                 for (var ind in widget.options.yAxis)
                 {
-                    var max = numbers.basic.max(ydata);
+                    max = numbers.basic.max(ydata);
                     var i = numbers.basic.min(ydata);
 
                     delete (widget.options.yAxis[ind].max);
                     var step = (max - i) / (widget.options.yAxis[ind].splitNumber - 2);
+                    if (i > 0)
+                    {
+                        i = Math.max(0, i - step);
+                    } else
+                    {
+                        i = i - step;
+                    }
                     var ydataF = [];
                     var ydataS = [];
-                    ydataF.push(+i.toFixed(2));
-                    ydataS.push(i.toFixed(2));
+//                    ydataF.push(+i.toFixed(2));
+//                    ydataS.push(i.toFixed(2));
                     var previ = i;
                     while (i < max)
                     {
+//                        console.log(previ * i);
                         if ((previ * i) < 0)
                         {
                             ydataF.push(0);
@@ -1165,16 +1177,20 @@ var queryCallback = function (inputdata) {
                         ydataS.push(i.toFixed(2));
                         previ = i;
                         i = i + step;
+
                     }
-                    ydataF.push(+max.toFixed(2));
-                    ydataS.push(max.toFixed(2));
+                    if (max > ydataF[ydataF.length - 1])
+                    {
+                        ydataF[ydataF.length - 1] = max;
+                        ydataS[ydataS.length - 1] = max.toFixed(2);
+                    }
 
                     widget.options.yAxis[ind].type = 'category';
                     widget.options.yAxis[ind].data = ydataS;
 //                    widget.options.yAxis[ind].unit
 
                     var formatter = widget.options.yAxis[ind].unit;
-                    
+
                     if (formatter === "none")
                     {
                         delete widget.options.yAxis[ind].axisLabel.formatter;
@@ -1189,7 +1205,7 @@ var queryCallback = function (inputdata) {
                             widget.options.yAxis[ind].axisLabel.formatter = window[formatter];
                         } else
                         {
-                            widget.options.yAxis[yindex].axisLabel.formatter = formatter;
+                            widget.options.yAxis[ind].axisLabel.formatter = formatter;
                         }
                     }
 
@@ -1214,8 +1230,7 @@ var queryCallback = function (inputdata) {
                         {
                             for (i in ydataF)
                             {
-//                                console.log(tmpval);
-                                if ((item[0] === +xdata[j]) && (tmpval < ydataF[i]))
+                                if ((item[0] === +xdata[j]) && (tmpval <= ydataF[i]))
                                 {
                                     hasdata = true;
                                     break;
@@ -1228,56 +1243,65 @@ var queryCallback = function (inputdata) {
                         if (hasdata)
                         {
 //                        console.log(data.chartsdata[name]);
-                            if (!chdata[widget.data.list[index].name1])
+                            if (!datamap[widget.data.list[index].name1])
                             {
-                                chdata[widget.data.list[index].name1] = [];
+                                datamap[widget.data.list[index].name1] = {};
                             }
-                            if (!datamap[i])
+                            if (!datamap[widget.data.list[index].name1][i])
                             {
-                                datamap[i] = {};
+                                datamap[widget.data.list[index].name1][i] = {};
                             }
-                            if (!datamap[i][j])
+                            if (!datamap[widget.data.list[index].name1][i][j])
                             {                                  //TODO ALIAS 1
-                                datamap[i][j] = {items: [], name: widget.data.list[index].name1, time: xdata[j], alias: []};
+                                datamap[widget.data.list[index].name1][i][j] = {items: [], name: widget.data.list[index].name1, time: xdata[j], alias: []};
                             }
-                            datamap[i][j].items.push(item);                //TODO ALIAS 2 
-                            var value2 =item[1];
-                            if (typeof  widget.options.yAxis[0].unit !== "undefined")
+                            datamap[widget.data.list[index].name1][i][j].items.push(item);                //TODO ALIAS 2 
+                            var value2 = item[1];
+                            if (typeof widget.options.yAxis[0].unit !== "undefined")
                             {
                                 if (typeof (window[ widget.options.yAxis[0].unit]) === "function")
-                                {                                                                        
+                                {
                                     value2 = window[widget.options.yAxis[0].unit](item[1]);
                                 } else
-                                {                                    
-                                    value2 =  widget.options.yAxis[0].unit.replace("{value}",item[1]);
+                                {
+                                    value2 = widget.options.yAxis[0].unit.replace("{value}", item[1].toFixed(2));
                                 }
-
-                            }                            
-                            
-                            datamap[i][j].alias.push(widget.data.list[index].name2 + ' (' + value2 + ')');
-                            datamax = Math.max(datamax, datamap[i][j].items.length);
+                            }
+                            datamap[widget.data.list[index].name1][i][j].alias.push(widget.data.list[index].name2 + ' (' + value2 + ')');
+                            datamax = Math.max(datamax, datamap[widget.data.list[index].name1][i][j].items.length);
                         }
                     });
                 }
-
-                for (var i in datamap)
-                {
-                    for (var j in datamap[i])
+                for (var ind in datamap)
+                    for (var i in datamap[ind])
                     {
+                        for (var j in datamap[ind][i])
+                        {
 //                    console.log(datamap[i][j]);
-                        var vals = datamap[i][j].items.map(function (it) {
-                            return it[1];
-                        });                        
-                        vals.sort(function (a, b) {  return a - b;  });                        
-                        datamap[i][j].alias.sort();
-                        chdata[datamap[i][j].name].push([+j, +i, datamap[i][j].items.length, datamap[i][j].time, vals[0], vals[vals.length - 1], widget.options.yAxis[0].unit, '<br>' + datamap[i][j].alias.join("<br>"), datamap[i][j].items.length]);
+                            var vals = datamap[ind][i][j].items.map(function (it) {
+                                return it[1];
+                            });
+                            vals.sort(function (a, b) {
+                                return a - b;
+                            });
+                            datamap[ind][i][j].alias.sort();
+                            if (!chdata[datamap[ind][i][j].name])
+                            {
+                                chdata[datamap[ind][i][j].name] = [];
+                            }
+
+                            chdata[datamap[ind][i][j].name].push([+j, +i, datamap[ind][i][j].items.length, datamap[ind][i][j].time, vals[0], vals[vals.length - 1], widget.options.yAxis[0].unit, '<br>' + datamap[ind][i][j].alias.join("<br>"), datamap[ind][i][j].items.length]);
+                        }
                     }
-                }
-//                console.log(chdata);
+//                
                 var data = [];
+                widget.options.legend.data = [];
+//                console.log(chdata);
                 for (var index in chdata)
                 {
-                    data.push({
+//                    console.log(log);
+                    widget.options.legend.data.push(index);
+                    var ser = {
                         name: index,
                         type: 'heatmap',
                         data: chdata[index],
@@ -1292,8 +1316,28 @@ var queryCallback = function (inputdata) {
                                 shadowColor: 'rgba(0, 0, 0, 0.5)'
                             }
                         }
-                    });
+                    };
+                    if (widget.label)
+                    {
+                        if (typeof widget.label.show !== "undefined")
+                        {
+                            ser.label.normal.show = widget.label.show;
+                        } else
+                        {
+                            delete ser.label.normal.show;
+                        }
+                    } else
+                    {
+                        delete ser.label.normal.show;
+                    }
+
+                    data.push(ser);
+
+
+
                 }
+
+
 
                 widget.options.visualMap = {
                     min: 0,
