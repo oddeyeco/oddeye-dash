@@ -199,7 +199,7 @@ var encodeHTML = function (source) {
             }
         },
         tooltip: {
-            backgroundColor: 'rgba(50,50,50,0.5)',
+            backgroundColor: theme_tooltip_bg,
             formatter: function (params) {
                 var out = "";
 

@@ -17,6 +17,7 @@ var timeAxis_splitLine_lineStyle_clr = '#eee';
 var categoryAxis_splitLine_lineStyle_clr = '#eee';
 var valueAxis_splitLine_lineStyle_clr = '#eee';
 var axisLine_lineStyle = '#008acd';
+var theme_tooltip_bg = 'rgba(50,50,50,0.5)';
 
 // iCheck
 
