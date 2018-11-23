@@ -153,18 +153,38 @@ a.btn-danger {
 .dash_header {
     .btn-group {
         button.btn-warning {
-           &, &:hover {
-           border-color: #333434;          
-           }
            &:active:focus {
             color: #ec971f;
             background-color: #141616;
             border-color: #333434;  
            }
         }
+        a.btn-default {
+            &:hover, &:focus, &:active, &:active:hover, &:active:focus {
+                .btn_OE(@bg:@clr_greyGreen1);
+            }
+        }
     }
     .open{
         >.dropdown-toggle.btn-warning:focus:extend(.dash_header .btn-group button.btn-warning:active:focus){}
+    }    
+}
+.widgetraw{
+    .raw-controls {
+        .btn-group-xs {
+            >a.btn-default {
+                &:hover, &:focus, &:active, &:active:hover, &:active:focus {
+                    .btn_OE(@bg: @clr_greyGreen1);
+                }
+            }
+        }
+    } 
+}
+#savelock.btn-success{
+    &:focus{
+       background: @clr_OEgreen2;
+       color: @clr_body_bg;
+       border: 1px solid lighten(@clr_OEgreen2,20%);
     }
 }
 // ---- paginate ----
