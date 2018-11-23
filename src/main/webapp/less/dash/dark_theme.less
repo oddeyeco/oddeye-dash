@@ -149,8 +149,13 @@ a.btn-danger {
 }*/
 .btn-warning {
     .btn_OE(@bg: @clr_darkOrange);
-    }
-
+}
+.btn-ok {
+    .btn_OE(@bg: @clr_OEgreen2);
+        &:hover {
+            .btn_OE(@bg: saturate(@clr_OEgreen,15%));
+        }           
+}
 .dash_header {
     .btn-group {
         button.btn-warning {
@@ -170,6 +175,7 @@ a.btn-danger {
         >.dropdown-toggle.btn-warning:focus:extend(.dash_header .btn-group button.btn-warning:active:focus){}
     }    
 }
+
 .widgetraw{
     .raw-controls {
         .btn-group-xs {
@@ -181,6 +187,13 @@ a.btn-danger {
         }
     } 
 }
+.range_inputs {
+    button.btn-default {
+        &:hover, &:focus, &:active, &:active:hover, &:active:focus {
+            .btn_OE(@bg: @clr_greyGreen1);
+        }
+    }
+}    
 #savelock.btn-success{
     &:focus{
        background: @clr_OEgreen2;
@@ -765,6 +778,7 @@ div.modal-content {
         th.sorting_disabled {
             button.btn-success {
                 background: @clr_OEgreen;
+                color: #e1e5e7;
                 border: 1px solid #ace960;
                 &:hover, &:active, &:focus{
                     background: @clr_OEblue;
