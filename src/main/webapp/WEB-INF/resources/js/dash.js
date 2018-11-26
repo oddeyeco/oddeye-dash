@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale, ColorScheme */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale, ColorScheme, DtPicerlocale, clr, jackClr, jackSecClr, secClr, html2canvas */
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
@@ -503,7 +503,7 @@ var queryCallback = function (inputdata) {
                                             }
                                             case 'line':
                                             {
-                                                var tmptitle = false
+                                                var tmptitle = false;
                                                 if (widget.title)
                                                 {
                                                     tmptitle = widget.title.text;
@@ -872,7 +872,7 @@ var queryCallback = function (inputdata) {
                                     if (widget.options.series[s_index].name === series.name)
                                     {
                                         dublicatename = true;
-                                        if (widget.options.series[s_index].data = widget.options.series[s_index].data)
+                                        if (widget.options.series[s_index].data === widget.options.series[s_index].data)
                                         {
                                             widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data);
                                             widget.options.series[s_index].data.sort(function (a, b) {
@@ -4218,7 +4218,7 @@ $(document).ready(function () {
             single_ri = getParameterByName("row");
         }
         var imageobg = document.getElementById($(this).parents(".chartsection").attr("id"));
-        if (document.getElementById('singlewidget') != null)
+        if (document.getElementById('singlewidget') !== null)
         {
             var imageobg = document.getElementById('singlewidget');
         }
