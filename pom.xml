@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>oddeye.concout</groupId>
     <artifactId>OddeyeCoconut</artifactId>
-    <version>0.9.1</version>
+    <version>0.9.2</version>
     <packaging>war</packaging>
     <name>OddeyeCoconut</name>
     <properties>
