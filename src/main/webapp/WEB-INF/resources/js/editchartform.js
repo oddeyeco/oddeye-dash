@@ -1255,9 +1255,9 @@ class HmEditForm extends BaseChartEditForm {
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.visualMaporient"], lfor: "visualMap_orient"},
                                     {tag: "select", class: "form-control title_select", prop_key: "visualMap_orient", id: "visualMap_orient", name: "visualMap_orient", key_path: 'options.visualMap.orient', default: "horizontal", options: this.visualMaporientoptions},
-                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.visualMapinverse"], lfor: "visualMap_inverse"},
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.visualMapshow"], lfor: "visualMap_show"},
                                     {tag: "div", class: "checkbox", style: "display: inline-block", content: [
-                                            {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "visualMap_inverse", id: "visualMap_inverse", name: "visualMap_inverse", key_path: 'options.visualMap.inverse', default: false}
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", prop_key: "visualMap_show", id: "visualMap_show", name: "visualMap_show", key_path: 'options.visualMap.show', default: true}
                                         ]}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
