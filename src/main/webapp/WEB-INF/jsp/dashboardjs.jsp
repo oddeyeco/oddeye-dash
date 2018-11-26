@@ -197,7 +197,7 @@
         "editchartform.backgroundColors": "<spring:message code="editchartform.backgroundColors"/>",
 
         "editchartform.visualMaporient": "<spring:message code="editchartform.visualMaporient"/>",
-        "editchartform.visualMapinverse": "<spring:message code="editchartform.visualMapinverse"/>",
+        "editchartform.visualMapshow": "<spring:message code="editchartform.visualMapshow"/>",
         "editchartform.visualMapColorScheme": "<spring:message code="editchartform.visualMapColorScheme"/>",
         "editchartform.visualMapmin": "<spring:message code="editchartform.visualMapmin"/>",
         "editchartform.visualMapmax": "<spring:message code="editchartform.visualMapmax"/>",
