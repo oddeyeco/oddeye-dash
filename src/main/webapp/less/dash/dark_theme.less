@@ -17,6 +17,7 @@
 @clr_infoText: #ffdea2;
 @clr_bannerBlue: #091f27;
 
+
 .gray_border-top(@width: 1px, @type: solid, @color: #333434){
     border-top:@arguments;
 }
@@ -28,6 +29,8 @@
     color: @color;
     background-color: @bg;
     .btn_border();    
+}
+.btn_OEhover(@color: @clr_body_bg, @bg: @clr_body){      
     &:hover, &:focus, &:active, &:active:hover, &:active:focus {
         color: darken(@bg,8%);
         background-color: rgba(0, 0, 0, 0);
@@ -72,72 +75,80 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 // ---- button ----
-
+/*
 .btn-success {
-/*  background: @clr_OEgreen2;
+  background: @clr_OEgreen2;
     border: 1px solid #455615;
     &:hover {
         background: @clr_OEblue;
         border-color: #85e3ff;
         box-shadow: 0 0 4px rgb(227, 248, 255);
-    }*/
+    }
     .btn_OE(@bg:@clr_OEgreen2);
 }
-/*.btn-primary:extend(.btn-success) {
+.btn-primary:extend(.btn-success) {
     color: @clr_body_bg;
     &:hover, &:focus, &:active, &:active:hover, &:active:focus {
         color: @clr_body;
         background-color: @clr_OEblue2;
         border-color: #204d74;
-    }*/
+    }
 .btn-primary {
     .btn_OE(@bg:@clr_OEblue2);        
-        &:hover, &:focus, &:active, &:active:hover, &:active:focus {
-            .btn_OE(@bg: lighten(saturate(@clr_OEblue2,15%),10%));
-        }           
-    }
-a.btn-primary {
-    color: @clr_body_bg;
+    &:hover, &:focus, &:active, &:active:hover, &:active:focus {
+        .btn_OE(@bg: lighten(saturate(@clr_OEblue2,15%),10%));
+    }           
 }
+
 .btn-default {
-/*    color: @clr_black2;
+    color: @clr_black2;
     background-color: @clr_greyGreen1;
     border-color: #333434;
     &:hover {
         color: @clr_body;
         background-color: @clr_greyGreen2;
         border-color: @clr_greyGreen1;
-    }*/
+    }
     .btn_OE(@bg: @clr_greyGreen2);    
     &:hover, &:focus, &:active, &:active:hover, &:active:focus {
         .btn_OE(@bg: darken(@clr_greyGreen2,10%));
     }
 }
+
+#deletewidgetconfirm.btn-danger:extend(.btn-danger) {}
+.btn-ok {
+    .btn_OE(@bg: @clr_OEgreen2);
+    &:hover {
+        .btn_OE(@bg: saturate(@clr_OEgreen,15%));
+    }           
+}
+
 .btn-danger {
-/*    color: #facd82;
+    color: #facd82;
     background-color: #a52f2c;
     border-color: #d43f3a;
     &:hover {
         color: @clr_body;
         background-color: #8a1e1b;
         border-color: @clr_bannerBlue;
-    }*/
+    }
     .btn_OE(@bg: @clr_darkRed);
 }
+
 a.btn-danger {
    color: @clr_body_bg;
 }
 .btn-info {
- /*color: @clr_body;
+ color: @clr_body;
     background-color: @clr_OEblue2;
     border-color: #204d74;
     &:hover {
         background-color: @clr_OEgreen2;
         border-color: #455615;
-    }*/
+    }
     .btn_OE(@bg: @clr_OEblue);
 }
-/*.btn-warning:extend(.dash_header .btn-group button.btn-warning) {
+.btn-warning:extend(.dash_header .btn-group button.btn-warning) {
     color: #0f0f0f;
     background-color: #ec971f;
     border-color: #ffcb81;
@@ -146,16 +157,17 @@ a.btn-danger {
         background-color: #e78803;
         border-color: #b74800;
     }
-}*/
+}
 .btn-warning {
     .btn_OE(@bg: @clr_darkOrange);
 }
-.btn-ok {
-    .btn_OE(@bg: @clr_OEgreen2);
-        &:hover {
-            .btn_OE(@bg: saturate(@clr_OEgreen,15%));
-        }           
-}
+
+        a.btn-default-dash {
+            &:hover, &:focus, &:active, &:active:hover, &:active:focus {
+                .btn_OE(@bg:@clr_greyGreen1);
+            }
+        }
+
 .dash_header {
     .btn-group {
         button.btn-warning {
@@ -200,7 +212,51 @@ a.btn-danger {
        color: @clr_body_bg;
        border: 1px solid lighten(@clr_OEgreen2,20%);
     }
+}*/
+.btn-ok {
+    .btn_OE(@bg: @clr_OEgreen);
+    .btn_OEhover(@bg: @clr_OEgreen);
 }
+.btn-default {
+  .btn_OE(@bg:@clr_greyGreen2);
+  .btn_OEhover(@bg:@clr_greyGreen3);
+}
+.btn-default-dash {
+  .btn_OE(@bg:@clr_greyGreen2);
+  .btn_OEhover(@bg:@clr_greyGreen1);
+}
+.btn-primary {
+  .btn_OE(@bg:@clr_OEblue2);
+  .btn_OEhover(@bg: lighten(saturate(@clr_OEblue2,15%), 10%));
+}
+// Success appears as green
+.btn-success {
+  .btn_OE(@bg:@clr_OEgreen2);
+  .btn_OEhover(@bg:@clr_OEgreen);
+}
+// Info appears as blue-green
+.btn-info {
+  .btn_OE(@bg:@clr_OEblue);
+  .btn_OEhover(@bg:@clr_OEblue);
+}
+// Warning appears as orange
+.btn-warning {
+  .btn_OE(@bg:@clr_darkOrange);
+  .btn_OEhover(@bg:@clr_darkOrange);
+}
+// Danger and error appear as red
+.btn-danger {
+  .btn_OE(@bg:@clr_darkRed);
+  .btn_OEhover(@bg:@clr_darkRed);
+}
+
+a.btn-success,
+a.btn-primary,
+a.btn-warning,
+a.btn-danger {
+    color: @clr_body_bg;
+}
+
 // ---- paginate ----
 .pagination {
         >li {
@@ -534,13 +590,13 @@ div.sidebar-footer.hidden-small {
             padding: 4px;
             list-style: none;
             background: darken(@clr_header, 2%);
-            background-image: linear-gradient(270deg,#141616, #1e211e 6%, #1e211e 94%, #141616);
+            background-image: linear-gradient(270deg, #141616, #181b1a 10%, #181b1a 90%, #141616);
             &:hover { 
               //  background-color: inherit;
                 border-radius: 0px;                
             }
             a.gotodash {
-                margin: 3px;
+                margin: 2px;
                 background: @clr_header;
                 border: 1px solid lighten(@clr_header, 10%);
                 border-radius: 4px;
@@ -548,7 +604,7 @@ div.sidebar-footer.hidden-small {
                 &:hover {
                     background: lighten(@clr_header, 2%);
                     border: 1px solid lighten(@clr_header, 10%);
-                    box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.6);                    
+                    box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.6);                    
                     text-shadow: 0 0 1px @clr_OEblue;
                 }
             } 
@@ -971,7 +1027,7 @@ div#tagsconteger.ui-sortable {
         cursor: -moz-grabbing;
         cursor: -webkit-grabbing;
         &:hover {
-            box-shadow: -5px 5px 2px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.4);
         }
         >label{
             cursor: grabbing;

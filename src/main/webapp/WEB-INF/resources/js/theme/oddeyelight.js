@@ -1,4 +1,4 @@
-/* global define, format_date, format_data, format_metric */
+/* global define, format_date, format_data, format_metric, legend_inactiveColor, legend_activeColor */
 
 //var colorPalette = ["#DDCCAA","#ADB9D8","#799AF2","#8899AA","#1ABAE9","#776655","#886611","#0082A8","#3F517F","#116688","#883311","#3D494C","#224499","#005566","#004E66","#2B2B2B","#002733","#101011","#000022"];
 //
@@ -170,7 +170,11 @@ var encodeHTML = function (source) {
             color: ['#5ab1ef', '#e0ffff']
         },
         legend: {
-            show: true
+            show: true,
+            inactiveColor: legend_inactiveColor,
+            textStyle: {
+                color: (typeof legend_activeColor ==="undefined") ?"#494949":legend_activeColor
+            }
         },
         toolbox: {
             show: false,
