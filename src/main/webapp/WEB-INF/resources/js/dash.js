@@ -1,4 +1,4 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale, ColorScheme */
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
@@ -1140,26 +1140,43 @@ var queryCallback = function (inputdata) {
                     delete (widget.options.xAxis[ind].max);
                     widget.options.xAxis[ind].type = 'category';
                     widget.options.xAxis[ind].data = xdataF;
+                    widget.options.xAxis[ind].splitLine= {show: true};                    
+//                    if (widget.options.xAxis[ind].axisLine)
+//                    {
+//                        widget.options.xAxis[ind].splitLine.lineStyle= {
+//                            color: widget.options.xAxis[ind].axisLine.lineStyle.color
+//                        };
+//                    }
                 }
                 var ydata = Object.keys(widget.data.yjson);
-                ydata = ydata.map(function (it) {
-                    return +it;
-                });
+//                ydata = ydata.map(function (it) {
+//                    return +it;
+//                });
                 var max = 0;
                 for (var ind in widget.options.yAxis)
                 {
                     max = numbers.basic.max(ydata);
                     var i = numbers.basic.min(ydata);
 
+
                     delete (widget.options.yAxis[ind].max);
-                    var step = (max - i) / (widget.options.yAxis[ind].splitNumber - 2);
-                    if (i > 0)
+
+                    var step = (max - i) / 10;
+                    if (widget.options.yAxis[ind].splitNumber)
+                    {
+                        step = (max - i) / (widget.options.yAxis[ind].splitNumber - 2);
+                    }
+
+                    if (i >= 0)
                     {
                         i = Math.max(0, i - step);
                     } else
                     {
                         i = i - step;
                     }
+//                    console.log(i);
+//                    console.log(i);
+//                    console.log(step);
                     var ydataF = [];
                     var ydataS = [];
 //                    ydataF.push(+i.toFixed(2));
@@ -1167,6 +1184,7 @@ var queryCallback = function (inputdata) {
                     var previ = i;
                     while (i < max)
                     {
+
 //                        console.log(previ * i);
                         if ((previ * i) < 0)
                         {
@@ -1187,7 +1205,7 @@ var queryCallback = function (inputdata) {
 
                     widget.options.yAxis[ind].type = 'category';
                     widget.options.yAxis[ind].data = ydataS;
-//                    widget.options.yAxis[ind].unit
+
 
                     var formatter = widget.options.yAxis[ind].unit;
 
@@ -1208,6 +1226,21 @@ var queryCallback = function (inputdata) {
                             widget.options.yAxis[ind].axisLabel.formatter = formatter;
                         }
                     }
+
+                    widget.options.yAxis[ind].splitLine= {show: true};                    
+//                    if (widget.options.yAxis[ind].axisLine)
+//                    {
+//                        widget.options.yAxis[ind].splitLine.lineStyle= {
+//                            color: widget.options.yAxis[ind].axisLine.lineStyle.color
+//                        };
+//                    }
+
+//                    widget.options.yAxis[ind].splitLine= {
+//                        show: true,
+//                        lineStyle: {                            
+//                            color: widget.options.yAxis[ind].axisLine.lineStyle.color
+//                        }
+//                    };
 
 
                 }
@@ -1239,10 +1272,10 @@ var queryCallback = function (inputdata) {
                             if (hasdata)
                                 break;
                         }
-                        i = i - 1;
+//                        i = i - 1;
+
                         if (hasdata)
                         {
-//                        console.log(data.chartsdata[name]);
                             if (!datamap[widget.data.list[index].name1])
                             {
                                 datamap[widget.data.list[index].name1] = {};
@@ -1267,11 +1300,15 @@ var queryCallback = function (inputdata) {
                                     value2 = widget.options.yAxis[0].unit.replace("{value}", item[1].toFixed(2));
                                 }
                             }
+//                            console.log(widget.data.list[index].name2);
                             datamap[widget.data.list[index].name1][i][j].alias.push(widget.data.list[index].name2 + ' (' + value2 + ')');
+//                            console.log(widget.data.list[index].name2);
+//                            console.log(datamap);
                             datamax = Math.max(datamax, datamap[widget.data.list[index].name1][i][j].items.length);
                         }
                     });
                 }
+
                 for (var ind in datamap)
                     for (var i in datamap[ind])
                     {
@@ -1337,17 +1374,69 @@ var queryCallback = function (inputdata) {
 
                 }
 
-
-
-                widget.options.visualMap = {
-                    min: 0,
-                    max: datamax,
-                    color: ['#00FF00', '#0000ff', '#ff0000'],
-                    calculable: true,
-                    orient: 'horizontal',
-                    left: 'center',
-                    top: '0'
+                widget.options.tooltip = {
+                    "trigger": "item"
                 };
+
+
+                if (!widget.options.visualMap)
+                {
+                    widget.options.visualMap = {
+                        min: 0,
+                        max: datamax,
+                        calculable: true,
+                        inRange:{}
+                    };
+                }
+
+                if (!widget.options.visualMap.orient)
+                {
+                    widget.options.visualMap.orient = "horizontal";
+                }
+//                    widget.options.visualMap.color = ['#08306B', 'rgb(246, 250, 255)'];
+                if (widget.options.visualMap.other)
+                {
+
+                    if (!widget.options.visualMap.other.max)
+                    {
+                        widget.options.visualMap.max = datamax;
+                    } else
+                    {
+                        widget.options.visualMap.max = widget.options.visualMap.other.max;
+                    }
+                    if (!widget.options.visualMap.other.min)
+                    {
+                        widget.options.visualMap.min = 0;
+                    } else
+                    {
+                        widget.options.visualMap.min = widget.options.visualMap.other.min;
+                    }
+
+                    if (widget.options.visualMap.other.color)
+                    {
+//                        console.log(ColorScheme[widget.options.visualMap.other.color]);
+                        widget.options.visualMap.inRange = {
+                            color: ColorScheme[widget.options.visualMap.other.color]
+                        };
+                    } else
+                    {
+                        delete(widget.options.visualMap.inRange.color);
+                    }
+                } else
+                {
+                    widget.options.visualMap.max = datamax;
+                    widget.options.visualMap.min = 0;
+                    delete(widget.options.visualMap.inRange.color);
+                }
+
+
+                widget.options.visualMap.calculable = true;
+//                    widget.options.visualMap.inverse = true;
+//                    widget.options.visualMap.text = ['High', 'Low'];
+
+
+
+
 
                 widget.options.series = data;
 //                return;

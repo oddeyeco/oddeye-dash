@@ -166,8 +166,10 @@ var encodeHTML = function (source) {
             }
         },
         visualMap: {
-            itemWidth: 15,
-            color: ['#5ab1ef', '#e0ffff']
+            itemWidth: 15,            
+            inRange:{
+               color: ['#5ab1ef', '#e0ffff']    
+            }
         },
         legend: {
             show: true
@@ -416,7 +418,7 @@ var encodeHTML = function (source) {
                             out = params.seriesName;
                         }
                         if (params.componentSubType === "heatmap")
-                        {                            
+                        {                                                        
                             var value1 =params.data[4];
                             var value2 =params.data[5];
                             if (typeof params.data[6] !== "undefined")
