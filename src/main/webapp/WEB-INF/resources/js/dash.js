@@ -1096,8 +1096,7 @@ var queryCallback = function (inputdata) {
                 }
                 lockq[ri + " " + wi] = false;
 
-            }
-            if (widget.type === "heatmap")
+            } else if (widget.type === "heatmap")
             {
                 var xdata = Object.keys(widget.data.xjson);
                 xdata.sort();
