@@ -292,6 +292,7 @@ var encodeHTML = function (source) {
                 {
 
                     var value = params.data.value;
+//                    console.log(params);
                     if (typeof value !== 'undefined')
                     {
                         if (value.constructor === Array)

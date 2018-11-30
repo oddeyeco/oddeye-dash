@@ -764,6 +764,8 @@ var queryCallback = function (inputdata) {
                                 }
                                 series.name = key;
                                 series.data = tmp_series_1[key];
+//                                console.log(JSON.stringify(series.data) );
+//                                console.log(series.data);
                                 if (series.type === "gauge")
                                 {
                                     for (i = 0; i < series.data.length; i++)
@@ -866,7 +868,6 @@ var queryCallback = function (inputdata) {
 
                                 index++;
                                 var dublicatename = false;
-
                                 for (var s_index in widget.options.series)
                                 {
                                     if (widget.options.series[s_index].name === series.name)
@@ -882,7 +883,6 @@ var queryCallback = function (inputdata) {
                                         break;
                                     }
                                 }
-
                                 if (!dublicatename)
                                 {
                                     widget.options.series.push(series);
@@ -959,11 +959,12 @@ var queryCallback = function (inputdata) {
                         }
                     }
                     if (isnull)
-                    {
-                        rr.name = nullindex;
-                        rr.value = null;
-                        widget.options.series[Sind].data.push(rr);
-                    }
+                        if (widget.type !== "funnel")
+                        {
+                            rr.name = nullindex;
+                            rr.value = null;
+                            widget.options.series[Sind].data.push(rr);
+                        }
                 }
             }
 
@@ -1834,6 +1835,7 @@ var queryCallback = function (inputdata) {
 
                         ser.center = [col * a - a / 2 + left, row * b - b / 2 + top];
                     }
+
                     if ((ser.type === "funnel") || (ser.type === "treemap"))
                     {
                         delete ser.axisLine;
@@ -2076,6 +2078,7 @@ var queryCallback = function (inputdata) {
                     {
                         chart.setOption(widget.options, true);
                     }
+//                    console.log(widget.options);
                 } catch (e) {
                     console.log("***********VVVVVVVVV*****************");
                     console.log(e);

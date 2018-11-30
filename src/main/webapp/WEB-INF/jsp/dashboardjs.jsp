@@ -1,7 +1,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
+<!--<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>-->
+<script src="${cp}/assets/js/echarts.min.js?v=${version}"></script>
 <!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/dash.js?v=${version}"></script>
