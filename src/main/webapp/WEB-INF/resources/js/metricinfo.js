@@ -416,7 +416,9 @@ $(document).ready(function () {
         if (tablelist)
         {
             tablelist.draw(false);
+            $(this).parents("table").find("th .checkall").iCheck('uncheck');                   
         }
+
     });
     $('body').on('click', '.deletemetricgroup', function (e) {
 
@@ -431,6 +433,7 @@ $(document).ready(function () {
         if (tablemeta)
         {
             tablemeta.draw(false);
+            $(this).parents("table").find("th .checkall").iCheck('uncheck');                
         }
     });
 
@@ -441,8 +444,8 @@ $(document).ready(function () {
             tablelist.row($(this).parents("tr")).remove();
             tablelist.draw(false);
         }
-
         $.getJSON(cp + "/deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {});
+        
     });
     $('body').on("click", ".deletemetric", function () {
         if (tablemeta)
