@@ -236,6 +236,7 @@
                                 <jsSourceFile>stomp.js</jsSourceFile>                                                                
                                 <jsSourceFile>metricinfo.js</jsSourceFile>  
                                 <jsSourceFile>calc.js</jsSourceFile>  
+                                <jsSourceFile>echarts.js</jsSourceFile>  
                             </jsSourceFiles>
                         </configuration>                        
                         <goals>
