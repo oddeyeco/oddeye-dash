@@ -3670,8 +3670,15 @@ $(document).ready(function () {
         domodifier();
     });
     $('body').on("click", ".minus", function () {
+        
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
+        console.log(gdd.rows[ri].widgets[wi].size);
+        if (gdd.rows[ri].widgets[wi].size > 12)
+        {
+            gdd.rows[ri].widgets[wi].size=12;
+        }
+            
         if (gdd.rows[ri].widgets[wi].size > 1)
         {
             var olssize = gdd.rows[ri].widgets[wi].size;
