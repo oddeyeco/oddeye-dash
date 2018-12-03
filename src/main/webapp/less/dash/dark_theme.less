@@ -47,7 +47,8 @@ body {
     color: @clr_body;
     background: @clr_body_bg;
     .container.body .right_col, footer{
-        background: @clr_base_bg;
+/*        background: @clr_base_bg;*/
+        background: @clr_body_bg;
     }
 }
 //---- scrollbar ----
@@ -249,17 +250,18 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     }
                 }
                 .dropdown-menu {
-                    background: @clr_body_bg;
-                    box-shadow: inset -1px -2px 4px rgba(167, 167, 167, 0.8);
-                    .base_border();
+                    .base_border(@color:lighten(@clr_header, 10%));
+                    border-top: none;
+                    border-radius: 0 4px;
+                    margin-top: 1px;
                     border-radius: 4px;
+                    background: @clr_header;
                     li>a {
+                        background: @clr_header;
                         color: @clr_body;        
                         &:hover,&:focus {
-                            text-decoration: none;
-                            color: @clr_body;
-                            background: linear-gradient(90deg, @clr_body_bg 25%, rgba(8,112,150,0.3));
-                            text-shadow: 0 0 1px @clr_OEgreen;
+                            background: darken(@clr_header, 2%);
+                            color: @clr_OEgreen2 !important;
                         }
                     }
                     .user-profile {
@@ -427,7 +429,8 @@ div.sidebar-footer.hidden-small {
 
 //---- Summary ----
 .x_panel {
-    background: linear-gradient(180deg, @clr_body_bg 10%, fade(@clr_border, 20%) 50%);
+/*    background: linear-gradient(180deg, @clr_body_bg 10%, fade(@clr_border, 20%) 50%);*/
+    background-color: @clr_base_bg;
     .base_border();
     border-radius: 4px;
     box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), 1px 1px 0 0 rgba(0,0,0,0.3);
@@ -477,19 +480,14 @@ div.sidebar-footer.hidden-small {
                 &:hover a.showtags {
                     box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.6);
                     background-color: @clr_greyGreen3;
+                    .base_border(@color: lighten(@clr_greyGreen3, 10%));
+                    border-radius: 4px;
+                    padding: 2px;
                 }
                 .count {
                     color: @clr_infoText;
-                }
-                .count_bottom {
-                    a.showtags {                        
-                        .base_border();
-                        border-radius: 4px;
-                        padding: 2px;
-                    }
-                }
+                }                
             }
-
         }
     }
 }
@@ -674,7 +672,7 @@ div.modal-content {
             button.btn-success {
                   .btn_OE(@bg:@clr_OEgreen2);
                   .btn_OEhover(@bg:@clr_OEgreen);
-/*                background: @clr_OEgreen;
+                /*background: @clr_OEgreen;
                 color: #e1e5e7;
                 border: 1px solid #ace960;
                 &:hover, &:active, &:focus{
@@ -685,18 +683,23 @@ div.modal-content {
             }
         }
         .dropdown-menu {
-            background-color: @clr_bannerBlue;
-            border: 1px solid #c2ae83;
+            /*background-color: @clr_bannerBlue;
+            border: 1px solid #c2ae83;*/
+            background: @clr_header;
+            .base_border();
             li>a {
-                color: @clr_infoText;
+                color: @clr_body;
                 &:hover, &:focus{ 
-                    background: #0b2f3c;
+                /*background: #0b2f3c;*/
+                    background: lighten(@clr_header, 2%);
+                    color: @clr_OEgreen2;
                 }
             }
             .divider {
-                height: 2px;
-                background-color: #0b2f3c;
-                border-bottom: 1px solid #0b2f3c;
+                height: 3px;
+                background-color: darken(@clr_OEgreen2, 10%);
+                .base_border(border-bottom);
+                .base_border(border-top);
             }
         }
     }
