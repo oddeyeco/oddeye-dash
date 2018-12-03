@@ -5,7 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>
+<script src="${cp}/assets/js/echarts.min.js?v=${version}"></script>
+<!--<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>-->
 <!--<script src="${cp}/resources/echarts/dist/extension/dataTool.min.js?v=${version}"></script>-->
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>
 <!--<script src="${cp}/resources/js/chartsfuncs.js?v=${version}"></script>-->
@@ -99,6 +100,7 @@
             console.log(ydataF);
             for (var index in data.chartsdata)
             {
+                console.log(data.chartsdata[index]);
                 data.chartsdata[index].data.map(function (item) {
                     var hasdata = false;
                     j = 0;

@@ -45,7 +45,7 @@
         "dataTable.infoPostFix": "<spring:message code="dataTable.infoPostFix" javaScriptEscape="true"/>",
         "dataTable.loadingRecords": "<spring:message code="dataTable.loadingRecords" javaScriptEscape="true"/>",
         "dataTable.zeroRecords": "<spring:message code="dataTable.zeroRecords" javaScriptEscape="true"/>",
-        "dataTable.emptyTable": "<spring:message code="dataTable.empՖtyTable" javaScriptEscape="true"/>",
+        "dataTable.emptyTable": "<spring:message code="dataTable.emptyTable" javaScriptEscape="true"/>",
         "dataTable.paginate.first": "<spring:message code="dataTable.paginate.first" javaScriptEscape="true"/>",
         "dataTable.paginate.previous": "<spring:message code="dataTable.paginate.previous" javaScriptEscape="true"/>",
         "dataTable.paginate.next": "<spring:message code="dataTable.paginate.next" javaScriptEscape="true"/>",

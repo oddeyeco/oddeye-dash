@@ -17,7 +17,11 @@ var timeAxis_splitLine_lineStyle_clr = '#eee';
 var categoryAxis_splitLine_lineStyle_clr = '#eee';
 var valueAxis_splitLine_lineStyle_clr = '#eee';
 var axisLine_lineStyle = '#008acd';
+var theme_tooltip_bg = 'rgba(50,50,50,0.5)';
+var legend_inactiveColor= "#ccc";
+var legend_activeColor = '#494949';
 
+var gauge_detail_color = '#494949';
 // iCheck
 
 var icheckbox_flat_clr = 'icheckbox_flat-green';

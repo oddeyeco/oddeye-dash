@@ -307,8 +307,8 @@ var dataGiB = function (params) {
 };
 
 var format_data = function (params) {
-    var divatior = 1024;
-    var val = paramtoval(params);
+    var divatior = 1024;    
+    var val = +paramtoval(params);
     if (val === 0)
     {
         return val;

@@ -1,10 +1,9 @@
-/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale */
+/* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale, ColorScheme, DtPicerlocale, clr, jackClr, jackSecClr, secClr, html2canvas */
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
 var basecounter = '<div class="animated flipInY col-xs-6 chartsection" >' +
         '<div class="tile-stats">' +
-//        '<div class="icon"><i class="fa fa-database"></i></div>' +
         '<h3>Title</h3>' +
         '<p></p>' +
         '<div class="count"><span class="number">0</span><span class="param"></span></div>' +
@@ -314,8 +313,51 @@ var queryCallback = function (inputdata) {
                             }
                         }
                     }
-//                    console.log( data.chartsdata[dindex]);
                     widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
+                }
+            } else if (widget.type === "heatmap")
+            {
+                if (!widget.data)
+                {
+                    widget.data = {xjson: {}, yjson: {}, list: {}};
+                }
+                for (index in data.chartsdata)
+                {
+                    if (data.chartsdata[index].data.length > 0)
+                    {
+                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                        if (widget.title)
+                        {
+                            var name2 = widget.title.text;
+                        }
+
+                        if (typeof (widget.q[q_index].info) !== "undefined")
+                        {
+                            if (widget.q[q_index].info.alias)
+                            {
+                                if (widget.q[q_index].info.alias !== "")
+                                {
+                                    name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
+                                }
+                            }
+
+                            if (widget.q[q_index].info.alias2)
+                            {
+                                if (widget.q[q_index].info.alias2 !== "")
+                                {
+                                    name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
+                                }
+                            }
+                        }
+                        widget.data.list[index] = data.chartsdata[index];
+                        widget.data.list[index].name2 = name2;
+                        widget.data.list[index].name1 = name;
+                        widget.data.list[index].inverse = widget.q[q_index].info.inverse;
+                        data.chartsdata[index].data.map(function (item) {
+                            widget.data.xjson[+item[0]] = item;
+                            widget.data.yjson[widget.q[q_index].info.inverse ? item[1] * -1 : +item[1]] = item;
+                        });
+                    }
                 }
             } else
             {
@@ -461,7 +503,7 @@ var queryCallback = function (inputdata) {
                                             }
                                             case 'line':
                                             {
-                                                var tmptitle = false
+                                                var tmptitle = false;
                                                 if (widget.title)
                                                 {
                                                     tmptitle = widget.title.text;
@@ -477,13 +519,6 @@ var queryCallback = function (inputdata) {
 
                                     }
                                 }
-
-//                                if ((Object.keys(data.chartsdata).length === 1) &&(count.base === 1))
-//                                {
-//                                    series.itemStyle = {normal: {color: function (params) {
-//                                                return colorPalette[params.dataIndex % colorPalette.length];
-//                                            }}};
-//                                }
                                 var yAxis = 0;
                                 if (series.yAxisIndex)
                                 {
@@ -667,13 +702,8 @@ var queryCallback = function (inputdata) {
                             series.data = data;
                             series.upperLabel = {"normal": {"show": true, "height": 20}};
                             widget.options.series.push(series);
-//                            console.log(series);
                         } else
                         {
-//                            tmp_series_1.sort(function (a, b) {
-//                                return (a.length < b.length) ? -1 : (a.length > b) ? 1 : 0;;
-//                            });
-
                             for (var key in tmp_series_1)
                             {
                                 var series = clone_obg(defserie);
@@ -733,10 +763,9 @@ var queryCallback = function (inputdata) {
                                     delete series.xAxisIndex;
                                 }
                                 series.name = key;
-
-//                        console.log(key);
-
                                 series.data = tmp_series_1[key];
+//                                console.log(JSON.stringify(series.data) );
+//                                console.log(series.data);
                                 if (series.type === "gauge")
                                 {
                                     for (i = 0; i < series.data.length; i++)
@@ -766,8 +795,6 @@ var queryCallback = function (inputdata) {
                                     {
                                         series.axisLabel = {};
                                     }
-//                                if (!widget.manual)
-//                                {
                                     var yAxis = 0;
                                     if (series.yAxisIndex)
                                     {
@@ -778,9 +805,6 @@ var queryCallback = function (inputdata) {
                                     {
                                         xAxis = series.xAxisIndex[0];
                                     }
-
-//                                console.log(yAxis);
-
                                     if (typeof widget.options.yAxis[yAxis].min !== "undefined")
                                     {
                                         series.min = widget.options.yAxis[yAxis].min;
@@ -840,19 +864,16 @@ var queryCallback = function (inputdata) {
                                     {
                                         delete(series.splitNumber);
                                     }
-//                                }
-
                                 }
 
                                 index++;
                                 var dublicatename = false;
-
                                 for (var s_index in widget.options.series)
                                 {
                                     if (widget.options.series[s_index].name === series.name)
                                     {
                                         dublicatename = true;
-                                        if (widget.options.series[s_index].data = widget.options.series[s_index].data)
+                                        if (widget.options.series[s_index].data === widget.options.series[s_index].data)
                                         {
                                             widget.options.series[s_index].data = widget.options.series[s_index].data.concat(series.data);
                                             widget.options.series[s_index].data.sort(function (a, b) {
@@ -862,7 +883,6 @@ var queryCallback = function (inputdata) {
                                         break;
                                     }
                                 }
-
                                 if (!dublicatename)
                                 {
                                     widget.options.series.push(series);
@@ -900,12 +920,11 @@ var queryCallback = function (inputdata) {
                     {
                         if (moment(start).isValid())
                         {
-                            widget.options.xAxis[xAxis_Index].min = start
+                            widget.options.xAxis[xAxis_Index].min = start;
                         } else
                         {
                             delete(widget.options.xAxis[xAxis_Index].min);
                         }
-//                    console.log(widget.options.xAxis[xAxis_Index].min); 
                     }
 
                 }
@@ -940,11 +959,12 @@ var queryCallback = function (inputdata) {
                         }
                     }
                     if (isnull)
-                    {
-                        rr.name = nullindex;
-                        rr.value = null;
-                        widget.options.series[Sind].data.push(rr);
-                    }
+                        if (widget.type !== "funnel")
+                        {
+                            rr.name = nullindex;
+                            rr.value = null;
+                            widget.options.series[Sind].data.push(rr);
+                        }
                 }
             }
 
@@ -963,8 +983,6 @@ var queryCallback = function (inputdata) {
                 chart.find(".chartsection").addClass("tmpfix");
                 for (var val in widget.data)
                 {
-
-//                    console.log(redraw);
                     var JQcounter;
                     var dataarray = widget.data[val].data;
 
@@ -1042,9 +1060,6 @@ var queryCallback = function (inputdata) {
                         JQcounter.removeClass("tmpfix");
                         JQcounter = chart.find("#" + widget.data[val].id + val);
                     }
-//                    console.log(avalue[0]);
-//                    console.log(typeof (avalue[0]));
-
                     if ((!isNaN(avalue[numberindex])) && (avalue[numberindex].indexOf("0x") === -1))
                     {
                         var endvalue = parseFloat(avalue[numberindex]);
@@ -1082,6 +1097,328 @@ var queryCallback = function (inputdata) {
                 }
                 lockq[ri + " " + wi] = false;
 
+            } else if (widget.type === "heatmap")
+            {
+                var xdata = Object.keys(widget.data.xjson);
+                xdata.sort();
+                var xdataF = xdata.map(function (itm) {
+                    return [moment(+itm).format("HH:mm")] + "\n" + [moment(+itm).format("MM/DD")];
+                });
+                for (var ind in widget.options.xAxis)
+                {
+                    delete (widget.options.xAxis[ind].max);
+                    widget.options.xAxis[ind].type = 'category';
+                    widget.options.xAxis[ind].data = xdataF;
+                    widget.options.xAxis[ind].splitLine = {show: true};
+
+                }
+                var ydata = Object.keys(widget.data.yjson);
+                var max = 0;
+                for (var ind in widget.options.yAxis)
+                {
+                    max = numbers.basic.max(ydata);
+                    var i = numbers.basic.min(ydata);
+
+
+                    delete (widget.options.yAxis[ind].max);
+
+                    var step = (max - i) / 10;
+                    if (widget.options.yAxis[ind].splitNumber)
+                    {
+                        step = (max - i) / (widget.options.yAxis[ind].splitNumber - 2);
+                    }
+
+                    if (i >= 0)
+                    {
+                        i = Math.max(0, i - step);
+                    } else
+                    {
+                        i = i - step;
+                    }
+                    var ydataF = [];
+                    var ydataS = [];
+                    var previ = i;
+                    while (i < max)
+                    {
+                        if ((previ * i) < 0)
+                        {
+                            ydataF.push(0);
+                            ydataS.push("0");
+                        }
+                        ydataF.push(+i.toFixed(2));
+                        ydataS.push(i.toFixed(2));
+                        previ = i;
+                        i = i + step;
+
+                    }
+                    if (max > ydataF[ydataF.length - 1])
+                    {
+                        ydataF[ydataF.length - 1] = max;
+                        ydataS[ydataS.length - 1] = max.toFixed(2);
+                    }
+
+                    widget.options.yAxis[ind].type = 'category';
+                    widget.options.yAxis[ind].data = ydataS;
+
+
+                    var formatter = widget.options.yAxis[ind].unit;
+
+                    if (formatter === "none")
+                    {
+                        delete widget.options.yAxis[ind].axisLabel.formatter;
+                    } else
+                    {
+                        if (!widget.options.yAxis[ind].axisLabel)
+                        {
+                            widget.options.yAxis[ind].axisLabel = {};
+                        }
+                        if (typeof (window[formatter]) === "function")
+                        {
+                            widget.options.yAxis[ind].axisLabel.formatter = window[formatter];
+                        } else
+                        {
+                            widget.options.yAxis[ind].axisLabel.formatter = formatter;
+                        }
+                    }
+
+                    widget.options.yAxis[ind].splitLine = {show: true};
+                }
+
+                var datamap = {};
+                var datamax = 0;
+                var chdata = [];
+                for (var index in widget.data.list)
+                {
+                    widget.data.list[index].data.map(function (item) {
+                        var hasdata = false;
+                        var j = 0;
+
+
+                        var tmpval = widget.data.list[index].inverse ? item[1] * -1 : +item[1];
+
+
+                        for (j in xdata)
+                        {
+                            for (i in ydataF)
+                            {
+                                if ((item[0] === +xdata[j]) && (tmpval <= ydataF[i]))
+                                {
+                                    hasdata = true;
+                                    break;
+                                }
+                            }
+                            if (hasdata)
+                                break;
+                        }
+
+                        if (hasdata)
+                        {
+                            if (!datamap[widget.data.list[index].name1])
+                            {
+                                datamap[widget.data.list[index].name1] = {};
+                            }
+                            if (!datamap[widget.data.list[index].name1][i])
+                            {
+                                datamap[widget.data.list[index].name1][i] = {};
+                            }
+                            if (!datamap[widget.data.list[index].name1][i][j])
+                            {                                  //TODO ALIAS 1
+                                datamap[widget.data.list[index].name1][i][j] = {items: [], name: widget.data.list[index].name1, time: xdata[j], alias: []};
+                            }
+                            datamap[widget.data.list[index].name1][i][j].items.push(item);                //TODO ALIAS 2 
+                            var value2 = item[1];
+                            if (typeof widget.options.yAxis[0].unit !== "undefined")
+                            {
+                                if (typeof (window[ widget.options.yAxis[0].unit]) === "function")
+                                {
+                                    value2 = window[widget.options.yAxis[0].unit](item[1]);
+                                } else
+                                {
+                                    value2 = widget.options.yAxis[0].unit.replace("{value}", item[1].toFixed(2));
+                                }
+                            }
+                            datamap[widget.data.list[index].name1][i][j].alias.push(widget.data.list[index].name2 + ' (' + value2 + ')');
+                            datamax = Math.max(datamax, datamap[widget.data.list[index].name1][i][j].items.length);
+                        }
+                    });
+                }
+
+                for (var ind in datamap)
+                    for (var i in datamap[ind])
+                    {
+                        for (var j in datamap[ind][i])
+                        {
+                            var vals = datamap[ind][i][j].items.map(function (it) {
+                                return it[1];
+                            });
+                            vals.sort(function (a, b) {
+                                return a - b;
+                            });
+                            datamap[ind][i][j].alias.sort();
+                            if (!chdata[datamap[ind][i][j].name])
+                            {
+                                chdata[datamap[ind][i][j].name] = [];
+                            }
+
+                            chdata[datamap[ind][i][j].name].push([+j, +i, datamap[ind][i][j].items.length, datamap[ind][i][j].time, vals[0], vals[vals.length - 1], widget.options.yAxis[0].unit, '<br>' + datamap[ind][i][j].alias.join("<br>"), datamap[ind][i][j].items.length]);
+                        }
+                    }
+                var data = [];
+                widget.options.legend.data = [];
+                for (var index in chdata)
+                {
+                    widget.options.legend.data.push(index);
+                    var ser = {
+                        name: index,
+                        type: 'heatmap',
+                        data: chdata[index],
+                        label: {
+                            normal: {
+                                show: true
+                            }
+                        },
+                        itemStyle: {
+                            emphasis: {
+                                shadowBlur: 10,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    };
+                    if (widget.label)
+                    {
+                        if (typeof widget.label.show !== "undefined")
+                        {
+                            ser.label.normal.show = widget.label.show;
+                        } else
+                        {
+                            delete ser.label.normal.show;
+                        }
+                    } else
+                    {
+                        delete ser.label.normal.show;
+                    }
+
+                    data.push(ser);
+
+
+
+                }
+
+                widget.options.tooltip = {
+                    "trigger": "item"
+                };
+
+
+                if (!widget.options.visualMap)
+                {
+                    widget.options.visualMap = {
+                        min: 0,
+                        max: datamax,
+                        calculable: true,
+                        itemHeight: "250",
+                        top: "0",
+                        right: "0",
+                        inRange: {}
+                    };
+                }
+                if (!widget.options.grid)
+                {
+                    widget.options.grid = {"x2": "60px"};
+                } else
+                {
+                    if (!widget.options.grid.x2)
+                    {
+                        widget.options.grid.x2 = "60px";
+                    }
+                }
+                if (widget.options.visualMap.other)
+                {
+
+                    if (!widget.options.visualMap.other.max)
+                    {
+                        widget.options.visualMap.max = datamax;
+                    } else
+                    {
+                        widget.options.visualMap.max = widget.options.visualMap.other.max;
+                    }
+
+
+                    if (!widget.options.visualMap.itemHeight)
+                    {
+                        widget.options.visualMap.itemHeight = "250";
+                    }
+
+                    if (!widget.options.visualMap.top)
+                    {
+                        widget.options.visualMap.top = "0";
+                    }
+                    if (!widget.options.visualMap.right)
+                    {
+                        widget.options.visualMap.right = "0";
+                    }
+
+                    if (!widget.options.visualMap.other.min)
+                    {
+                        widget.options.visualMap.min = 0;
+                    } else
+                    {
+                        widget.options.visualMap.min = widget.options.visualMap.other.min;
+                    }
+
+                    if (widget.options.visualMap.other.color)
+                    {
+                        widget.options.visualMap.inRange = {
+                            color: ColorScheme[widget.options.visualMap.other.color]
+                        };
+                    } else
+                    {
+                        delete(widget.options.visualMap.inRange.color);
+                    }
+                } else
+                {
+                    widget.options.visualMap.max = datamax;
+                    widget.options.visualMap.min = 0;
+                    delete(widget.options.visualMap.inRange.color);
+                }
+
+
+                widget.options.visualMap.calculable = true;
+                widget.options.series = data;
+                try {
+                    if (redraw)
+                    {
+                        var datalist = [];
+                        if (chart.getOption().series.length === widget.options.series.length)
+                        {
+                            for (var key in widget.options.series)
+                            {
+                                var ss = widget.options.series[key];
+                                datalist.push({data: ss.data});
+                            }
+                            chart.setOption({series: datalist, xAxis: widget.options.xAxis});
+                        } else
+                        {
+                            chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
+                        }
+
+                    } else
+                    {
+                        chart.setOption(widget.options, true);
+                    }
+                } catch (e) {
+                    console.log("***********HHHHHHHHHH*****************");
+                    console.log(e);
+                    console.log(widget);
+                    console.log(uri);
+                    console.log(data);
+                    console.log("*******************************");
+                }
+                chart.hideLoading();
+                lockq[ri + " " + wi] = false;
+                if (callback !== null)
+                {
+                    callback();
+                }
             } else
             {
                 widget.options.series.sort(function (a, b) {
@@ -1323,9 +1660,6 @@ var queryCallback = function (inputdata) {
 
                         }
                     ;
-
-//                if (!widget.manual)
-//                {
                     if (widget.label)
                     {
                         if (!ser.label)
@@ -1363,6 +1697,10 @@ var queryCallback = function (inputdata) {
                         if (!ser.detail)
                         {
                             ser.detail = {};
+                            if (widget.detail)
+                            {
+                                ser.detail = widget.detail;
+                            }
                         }
                         ser.detail.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                     }
@@ -1371,54 +1709,39 @@ var queryCallback = function (inputdata) {
                     {
                         if (ser.label.normal)
                         {
+
                             if (ser.label.normal.show || typeof (ser.label.normal.show) === "undefined")
                             {
                                 switch (ser.type) {
                                     case 'pie':
                                     {
-//                                    delete ser.label.normal.formatter;
                                         ser.label.normal.formatter = pieformater;
                                         break;
                                     }
-//                                case 'funnel':
-//                                {
-//                                    ser.label.normal.formatter = abcformater;
-//                                    break;
-//                                }
-//                                case 'line':
-//                                {
-//                                    ser.label.normal.formatter = abcformater;
-//                                    break;
-//                                }
                                     default:
                                     {
                                         ser.label.normal.formatter = abcformater;
-//                                    if (widget.options.yAxis[yAxis].axisLabel.formatter)
-//                                    {
-//                                        if (typeof (widget.options.yAxis[yAxis].axisLabel.formatter) === "function")
-//                                        {
-//                                            console.log(widget.options.yAxis[yAxis].axisLabel);
-//                                            ser.label.normal.formatter = abcformater;
-//                                        } else
-//                                        {
-//                                            ser.label.normal.formatter = widget.options.yAxis[yAxis].axisLabel.formatter.replace("{value}", "{c}");
-//                                        }
-//                                    } else
-//                                    {
-//                                        delete ser.label.normal.formatter;
-//                                    }
                                         break
                                     }
                                 }
+                            }
 
+                            switch (ser.type) {
+                                case 'gauge':
+                                {
+                                    ser.detail.show = ser.label.normal.show;
+                                    break;
+                                }
+                                default:
+                                {
+                                    break
+                                }
 
                             }
+
                         }
 
-                    }
-//                }
-
-                    //Set series positions                
+                    }                    
                     if (col > cols)
                     {
                         col = 1;
@@ -1426,8 +1749,6 @@ var queryCallback = function (inputdata) {
                     }
                     if ((ser.type === "pie") || (ser.type === "gauge"))
                     {
-//                    if (!widget.manual)
-//                    {
                         delete ser.center;
                         delete ser.radius;
                         if (widget.options.grid)
@@ -1528,12 +1849,10 @@ var queryCallback = function (inputdata) {
 
 
                         ser.center = [col * a - a / 2 + left, row * b - b / 2 + top];
-//                    }
                     }
+
                     if ((ser.type === "funnel") || (ser.type === "treemap"))
                     {
-//                    if (!widget.manual)
-//                    {
                         delete ser.axisLine;
                         delete ser.max;
                         delete ser.min;
@@ -1643,13 +1962,6 @@ var queryCallback = function (inputdata) {
                                     {
                                         continue;
                                     }
-//                                    {
-//                                        console.log(widget.options.series[sind][key]);
-//                                    }
-//                                    widget.options.series[sind][key] = Object.assign({}, widget.options.series[sind][key], oldseries[oldkey][key])
-//                                    
-
-
                                     if ((key === "axisLabel" || key === "detail") & (typeof widget.options.series[sind][key] !== "undefined"))
                                     {
                                         for (var key2 in oldseries[oldkey][key])
@@ -1738,8 +2050,11 @@ var queryCallback = function (inputdata) {
 
                         }
 
+                        if (widget.options.series[ind].type === "gauge")
+                        {
+                            widget.options.legend.itemWidth = 0;
+                        }
                     }
-//                console.log(widget.options.legend.data);
                 }
                 if (widget.options.series[ind])
                 {
@@ -1782,17 +2097,15 @@ var queryCallback = function (inputdata) {
                     {
                         chart.setOption(widget.options, true);
                     }
+//                    console.log(widget.options);
                 } catch (e) {
-                    console.log("***********1760*****************");
+                    console.log("***********VVVVVVVVV*****************");
                     console.log(e);
                     console.log(widget);
                     console.log(uri);
                     console.log(data);
                     console.log("*******************************");
                 }
-
-
-
                 chart.hideLoading();
                 lockq[ri + " " + wi] = false;
                 if (callback !== null)
@@ -1800,6 +2113,7 @@ var queryCallback = function (inputdata) {
                     callback();
                 }
             }
+
             var GlobalRefresh = true;
             if (widget.times)
             {
@@ -1826,6 +2140,7 @@ var queryCallback = function (inputdata) {
                     }, json.times.intervall);
                 }
             }
+            delete(widget.data);
         }
         ;
 
@@ -1936,8 +2251,6 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             count.base--;
         }
     }
-
-//    lockq[ri + " " + wi] = true;
     count.value = count.base;
     var oldseries = {};
     if (widget.type === "counter")
@@ -2031,7 +2344,6 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
         if (widget.type === "counter")
         {
-//            updatecounter(chart, widget);
             widget.data = [];
             if (getParameterByName('metrics', uri))
             {
@@ -2185,9 +2497,6 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
                 scrollTop: 0
             }, 500);
         }
-
-//        var jsonstr = JSON.stringify(opt, jsonmaker);
-//        editor.set(JSON.parse(jsonstr));
     });
 }
 function redrawAllJSON(dashJSON, redraw = false) {
@@ -2218,7 +2527,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
         }
         if (!redraw)
         {
-//            $("#rowtemplate .widgetraw").attr("index", ri);
             $("#rowtemplate .widgetraw").attr("id", "row" + ri);
             var html = $("#rowtemplate").html();
             $("#dashcontent").append(html);
@@ -2311,11 +2619,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     } else {
                         chartobj.find(".chartSubIcon").css({display: 'none'});
                     }
-                    ;
                 }
-                ;
-
-//                $("#charttemplate .chartsection").attr("index", wi);
                 chartobj.attr("id", "widget" + ri + "_" + wi);
                 chartobj.attr("type", tmprow.widgets[wi].type);
                 chartobj.attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + tmprow.widgets[wi].size);
@@ -2385,7 +2689,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     if (tmprow.widgets[wi].type === "counter")
                     {
                         $("#echart_line" + ri + "_" + wi).removeAttr("style");
-//                        $("#echart_line" + ri + "_" + wi).append(basecounter);
                         tmprow.widgets[wi].echartLine = $("#echart_line" + ri + "_" + wi);
                     } else
                     {
@@ -2399,8 +2702,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 if (tmprow.widgets[wi].type === "counter")
                 {
                     $("#echart_line" + ri + "_" + wi).removeAttr("style");
-//                    $("#echart_line" + ri + "_" + wi).append(basecounter);
-//                    updatecounter($("#echart_line" + ri + "_" + wi), tmprow.widgets[wi]);
                 } else
                 {
                     if (tmprow.widgets[wi].options.series.length === 1)
@@ -2579,21 +2880,11 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
                     '<div class="counter_single" id="counter_single"></div>' +
                     '</div>');
-//            if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-//            {
-//                setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
-//            } else
-//            {
-////                updatecounter($(".right_col .editpanel"), tmprow.widgets[wi]);
-//            }
             if (!readonly)
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
                 Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
-//                $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             }
-
-
         } else if (W_type === "table")
         {
             $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
@@ -2633,7 +2924,14 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             if (!readonly)
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
-                Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
+                if (W_type === "heatmap")
+                {
+                    Edit_Form = new HmEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
+                } else
+                {
+                    Edit_Form = new ChartEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);
+                }
+
             }
 
         }
@@ -2642,8 +2940,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         var wraper = $(".right_col .editpanel #singlewidget");
     }
 
-//    else
-//    {
     if (W_type === "counter")
     {
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
@@ -2661,9 +2957,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
 
         //TODO Drow single widget title
-
-
-//        console.log(dashJSON.rows[row].widgets[index]);
         var singleWi = dashJSON.rows[row].widgets[index];
 
         if (rebuildform) {
@@ -2724,7 +3017,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 wraperTitle.find(".echart_time_icon").css({display: 'block'});
                 if (singleWi.times.pickervalue !== "custom")
                 {
-                    //?????
                     wraperTitle.find(".echart_time .last").html(singleWi.times.pickerlabel + " ");
                 } else
                 {
@@ -2777,9 +3069,6 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 
         }
     }
-//    }
-
-
     return;
 }
 
@@ -2806,8 +3095,6 @@ function repaint(redraw = false, rebuildform = true) {
 
     if ((request_W_index === null) && (request_R_index === null))
     {
-//        console.log(window.location.search.substring(1));        
-//        window.history.pushState({}, "", window.location.pathname);
         AutoRefresh(redraw);
     } else
     {
@@ -2899,7 +3186,6 @@ $(document).ready(function () {
         gdd.times.generalds = getParameterByName("ds").split(",");
         gdd.times.generalds[2] = (gdd.times.generalds[2] == 'true');
     }
-    //&ds="+gdd.times.generalds
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
         for (var lri in gdd.rows)
@@ -3087,8 +3373,6 @@ $(document).ready(function () {
 
         }
     }
-
-//    console.log(gdd);
     if (gdd.times) {
         if (gdd.times.intervall)
         {
@@ -3206,31 +3490,8 @@ $(document).ready(function () {
         PicerOptionSet1.minDate = getmindate();
     }
 
-//    PicerOptionSet1.locale=DtPicerlocale;
-    $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
-//    var mousemovetimer;
-//    $('body').on("mousemove", "canvas", function (e) {
-//        var item = e.toElement;
-//        if ($(item).parents('.locked').length > 0)
-//        {
-//            e.stopPropagation();
-//            clearTimeout(mousemovetimer);
-//
-//            mousemovetimer = setTimeout(function () {
-//                if (item.tagName.toUpperCase() === 'CANVAS')
-//                {
-//                    $(item).parents('.chartsection').append("<div class='lockedbuttons' style=''> <div class='btn-group btn-group-xs' style=''> <a class='btn btn-default viewchart' type='button' data-toggle='tooltip' data-placement='top' data-original-title='View' style=''>View</a><a class='btn btn-default csv' type='button' data-toggle='tooltip' data-placement='top' title='' data-original-title='Save as csv'>asCsv</a>");
-//                    $(item).parents('.chartsection').find('.lockedbuttons').fadeIn(500);
-//                    setTimeout(function () {
-//                        $(item).parents('.chartsection').find('.lockedbuttons').fadeOut(500, function () {
-//                            $(item).parents('.chartsection').find('.lockedbuttons').remove();
-//                        });
-//                    }, 5000);
-//                }
-//            }, 1000);
-//        }
-//    });
 
+    $('#reportrange').daterangepicker(PicerOptionSet1, cbJson(gdd, $('#reportrange')));
     if ($('.text-nowrap').hasClass('current-page')) {
         $('.current-page').find('i').toggleClass('current-i');
     }
@@ -3286,8 +3547,6 @@ $(document).ready(function () {
         }
 
         var ri = $(this).attr("index");
-//        console.log($(this).attr("index"));
-//        console.log(gdd.rows);
         gdd.rows.splice(ri, 1);
         domodifier();
         redrawAllJSON(gdd);
@@ -3430,8 +3689,15 @@ $(document).ready(function () {
         domodifier();
     });
     $('body').on("click", ".minus", function () {
+
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
+        console.log(gdd.rows[ri].widgets[wi].size);
+        if (gdd.rows[ri].widgets[wi].size > 12)
+        {
+            gdd.rows[ri].widgets[wi].size = 12;
+        }
+
         if (gdd.rows[ri].widgets[wi].size > 1)
         {
             var olssize = gdd.rows[ri].widgets[wi].size;
@@ -3457,7 +3723,6 @@ $(document).ready(function () {
             gdd.rows[ri].widgets[wi].echartLine.resize();
             domodifier();
         }
-//    redrawAllJSON(gdd);
     });
     $('body').on("click", "#deletewidgetconfirm", function () {
 
@@ -3495,7 +3760,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
         $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
-        
+
         if (gdd.rows[ri].widgets[wi].options)
         {
             if (gdd.rows[ri].widgets[wi].title)
@@ -3514,7 +3779,7 @@ $(document).ready(function () {
             }
         } else
         {
-            
+
             if (gdd.rows[ri].widgets[wi].title)
             {
                 if (gdd.rows[ri].widgets[wi].title.text)
@@ -3528,7 +3793,7 @@ $(document).ready(function () {
             } else
             {
                 $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelCounter"], [wi]));
-            }            
+            }
         }
 
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
@@ -3566,9 +3831,37 @@ $(document).ready(function () {
         domodifier();
         AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
-
-//        redrawAllJSON(gdd);
     });
+
+
+    $('body').on("click", ".addheatmap", function () {
+
+        for (var ri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[ri].widgets)
+            {
+                if (gdd.rows[ri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+                }
+            }
+        }
+        var ri = $(this).parents(".widgetraw").index();
+        if (!gdd.rows[ri].widgets)
+        {
+            gdd.rows[ri].widgets = [];
+        }
+        var wi = gdd.rows[ri].widgets.length;
+        gdd.rows[ri].widgets.push({type: "heatmap", size: 12, options: clone_obg(defoption)});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
+        gdd.rows[ri].widgets[wi].options.series[0].symbol = "none";
+        gdd.rows[ri].widgets[wi].options.series[0].type = "heatmap";
+        domodifier();
+        AutoRefreshSingle(ri, wi);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+
+
     $('body').on("click", ".addchart", function () {
 
         for (var ri in gdd.rows)
@@ -3953,7 +4246,7 @@ $(document).ready(function () {
             single_ri = getParameterByName("row");
         }
         var imageobg = document.getElementById($(this).parents(".chartsection").attr("id"));
-        if (document.getElementById('singlewidget') != null)
+        if (document.getElementById('singlewidget') !== null)
         {
             var imageobg = document.getElementById('singlewidget');
         }
