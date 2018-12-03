@@ -119,6 +119,8 @@ a:hover, a:focus {
     /*overflow: hidden;*/
     .raw-controls {
         margin: -1px -1px 0;        
+        overflow: hidden;            
+        border-radius: 5px 5px 0px 0px;
         background-color:rgba(200, 200, 200, 0.6);
         &:hover
             {
@@ -1254,14 +1256,14 @@ h2.error
 .locked {
     border: none;
     background: none;
-    .dash_header,.raw-controls,
+    .dash_header,.raw-controls i,.raw-controls .btn-group
     {
         display: none;
     }
-    .widgetraw{
-        border: none;
-        margin: 0px;
-    }  
+    /*    .widgetraw{
+            border: none;
+            margin: 0px;
+        }  */
     .chartsection>div
     {
         border: none;
