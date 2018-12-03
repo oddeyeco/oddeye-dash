@@ -189,7 +189,7 @@ function savedash() {
 
 function btnlock() {
     if ($('#btnlock').hasClass('btnunlock'))
-    {        
+    {
         if ($('#btnlock').parents('.fulldash').hasClass('locked'))
         {
             $('#btnlock').parents('.fulldash').toggleClass('locked');
@@ -3690,7 +3690,6 @@ $(document).ready(function () {
 
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
-        console.log(gdd.rows[ri].widgets[wi].size);
         if (gdd.rows[ri].widgets[wi].size > 12)
         {
             gdd.rows[ri].widgets[wi].size = 12;
@@ -3704,7 +3703,16 @@ $(document).ready(function () {
             $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
             gdd.rows[ri].widgets[wi].echartLine.resize();
             domodifier();
+            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
+                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
+                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
+
+            {
+                setdatabyQ(gdd, ri, wi, "getdata", false);
+            }
         }
+
+
 
     });
     $('body').on("click", ".plus", function () {
@@ -3720,6 +3728,13 @@ $(document).ready(function () {
             $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
             gdd.rows[ri].widgets[wi].echartLine.resize();
             domodifier();
+            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
+                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
+                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
+
+            {
+                setdatabyQ(gdd, ri, wi, "getdata", false);
+            }
         }
     });
     $('body').on("click", "#deletewidgetconfirm", function () {
