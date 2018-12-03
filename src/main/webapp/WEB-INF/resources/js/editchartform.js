@@ -425,22 +425,29 @@ class BaseChartEditForm extends EditForm {
                     break
 
                 case 'bar':  // if (x === 'value2')
-                    $(this).parents('.edit-display').find('.custominputs >.typebars').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typebars)').fadeOut(duration);
+                    $(this).parents('.edit-display').find('.custominputs >.typebars').fadeIn(duration);
+
                     break
                 case 'pie':  // if (x === 'value2')
-                    $(this).parents('.edit-display').find('.custominputs >.typepie').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typepie)').fadeOut(duration);
+                    $(this).parents('.edit-display').find('.custominputs >.typepie').fadeIn(duration);
+
                     break
                 case 'treemap':  // if (x === 'value2')
-                    $(this).parents('.edit-display').find('.custominputs >.typemap').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typemap)').fadeOut(duration);
+                    $(this).parents('.edit-display').find('.custominputs >.typemap').fadeIn(duration);
+
                     break
                 case 'funnel':  // if (x === 'value2')
-                    $(this).parents('.edit-display').find('.custominputs >.typefunnel').fadeIn(duration);
                     $(this).parents('.edit-display').find('.custominputs >:not(.typefunnel)').fadeOut(duration);
+                    $(this).parents('.edit-display').find('.custominputs >.typefunnel').fadeIn(duration);
+
                     break
-//typefunnel
+                case 'gauge':  // if (x === 'value2')
+                    $(this).parents('.edit-display').find('.custominputs >:not(.typegauge)').fadeOut(duration);
+                    $(this).parents('.edit-display').find('.custominputs >.typegauge').fadeIn(duration);
+                    break
                 default:
                     $(this).parents('.edit-display').find('.custominputs > .form-group').fadeOut(duration);
                     break
@@ -1067,7 +1074,25 @@ class BaseChartEditForm extends EditForm {
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_2", name: "display_label_2", key_path: 'label.show', default: true}
                                         ]}
                                 ]}
+                        ]},
+                    {tag: "div", id: "axes_select", class: "form_main_block pull-left custominputs", label: {show: true, text: locale["editchartform.detail"], class: "typegauge"}, content: [
+
+                            {tag: "label", class: "control-label control-label-custom120 typegauge", text: locale["editchartform.color"], lfor: "detailColor"},
+                            {tag: "div", class: "color-button typegauge", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element typegauge", content: [
+                                            {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "detailColor", name: "detailColor", key_path: 'detail.color', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                        ]}
+                                ]},
+
+                            {tag: "div", class: "form-group form-group-custom typegauge", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.labelShow"], lfor: "display_label_gauge"},
+                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_gauge", name: "display_label_gauge", key_path: 'label.show', default: true}
+                                        ]}
+                                ]}
                         ]}
+
                 ]}
         ];
 

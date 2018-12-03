@@ -21,6 +21,8 @@ var theme_tooltip_bg = 'rgba(50,50,50,0.9)';
 var legend_inactiveColor= "#494949";
 var legend_activeColor = '#fff';
 
+var gauge_detail_color = '#fff';
+
 // iCheck
 
 var icheckbox_flat_clr = 'icheckbox_flat-blue';

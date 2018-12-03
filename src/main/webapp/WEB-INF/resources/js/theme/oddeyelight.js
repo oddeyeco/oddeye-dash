@@ -1,4 +1,4 @@
-/* global define, format_date, format_data, format_metric, legend_inactiveColor, legend_activeColor */
+/* global define, format_date, format_data, format_metric, legend_inactiveColor, legend_activeColor, gauge_detail_color */
 
 //var colorPalette = ["#DDCCAA","#ADB9D8","#799AF2","#8899AA","#1ABAE9","#776655","#886611","#0082A8","#3F517F","#116688","#883311","#3D494C","#224499","#005566","#004E66","#2B2B2B","#002733","#101011","#000022"];
 //
@@ -60,7 +60,7 @@ var pieformater = function (params) {
     }
     return formatter;
 };
-var abcformater = function (params) {
+var abcformater = function (params) {    
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -166,16 +166,16 @@ var encodeHTML = function (source) {
             }
         },
         visualMap: {
-            itemWidth: 15,            
-            inRange:{
-               color: ['#5ab1ef', '#e0ffff']    
+            itemWidth: 15,
+            inRange: {
+                color: ['#5ab1ef', '#e0ffff']
             }
         },
         legend: {
             show: true,
             inactiveColor: legend_inactiveColor,
             textStyle: {
-                color: (typeof legend_activeColor ==="undefined") ?"#494949":legend_activeColor
+                color: (typeof legend_activeColor === "undefined") ? "#494949" : legend_activeColor
             }
         },
         toolbox: {
@@ -423,13 +423,13 @@ var encodeHTML = function (source) {
                             out = params.seriesName;
                         }
                         if (params.componentSubType === "heatmap")
-                        {                                                        
-                            var value1 =params.data[4];
-                            var value2 =params.data[5];
+                        {
+                            var value1 = params.data[4];
+                            var value2 = params.data[5];
                             if (typeof params.data[6] !== "undefined")
                             {
                                 if (typeof (window[params.data[6]]) === "function")
-                                {                                    
+                                {
                                     value1 = window[params.data[6]](params.data[4]);
                                     value2 = window[params.data[6]](params.data[5]);
                                 } else
@@ -676,6 +676,9 @@ var encodeHTML = function (source) {
             },
             pointer: {
                 width: 5
+            },
+            detail: {
+                color: gauge_detail_color
             }
         }
     };

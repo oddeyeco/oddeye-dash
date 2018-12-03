@@ -1697,6 +1697,10 @@ var queryCallback = function (inputdata) {
                         if (!ser.detail)
                         {
                             ser.detail = {};
+                            if (widget.detail)
+                            {
+                                ser.detail = widget.detail;
+                            }
                         }
                         ser.detail.formatter = widget.options.yAxis[yAxis].axisLabel.formatter;
                     }
@@ -1705,6 +1709,7 @@ var queryCallback = function (inputdata) {
                     {
                         if (ser.label.normal)
                         {
+
                             if (ser.label.normal.show || typeof (ser.label.normal.show) === "undefined")
                             {
                                 switch (ser.type) {
@@ -1713,20 +1718,30 @@ var queryCallback = function (inputdata) {
                                         ser.label.normal.formatter = pieformater;
                                         break;
                                     }
-
                                     default:
                                     {
                                         ser.label.normal.formatter = abcformater;
                                         break
                                     }
                                 }
+                            }
 
+                            switch (ser.type) {
+                                case 'gauge':
+                                {
+                                    ser.detail.show = ser.label.normal.show;
+                                    break;
+                                }
+                                default:
+                                {
+                                    break
+                                }
 
                             }
+
                         }
 
-                    }
-
+                    }                    
                     if (col > cols)
                     {
                         col = 1;
@@ -2035,6 +2050,10 @@ var queryCallback = function (inputdata) {
 
                         }
 
+                        if (widget.options.series[ind].type === "gauge")
+                        {
+                            widget.options.legend.itemWidth = 0;
+                        }
                     }
                 }
                 if (widget.options.series[ind])
@@ -3670,15 +3689,15 @@ $(document).ready(function () {
         domodifier();
     });
     $('body').on("click", ".minus", function () {
-        
+
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
         console.log(gdd.rows[ri].widgets[wi].size);
         if (gdd.rows[ri].widgets[wi].size > 12)
         {
-            gdd.rows[ri].widgets[wi].size=12;
+            gdd.rows[ri].widgets[wi].size = 12;
         }
-            
+
         if (gdd.rows[ri].widgets[wi].size > 1)
         {
             var olssize = gdd.rows[ri].widgets[wi].size;
