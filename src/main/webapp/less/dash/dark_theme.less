@@ -67,8 +67,7 @@ body {
     color: @clr_body;
     background: @clr_body_bg;
     .container.body .right_col, footer{
-/*        background: @clr_base_bg;*/
-        background: @clr_body_bg;
+        background: lighten(@clr_body_bg, 2%);
     }
 }
 //---- scrollbar ----
@@ -455,7 +454,6 @@ div.sidebar-footer.hidden-small {
 
 //---- Summary ----
 .x_panel {
-/*    background: linear-gradient(180deg, @clr_body_bg 10%, fade(@clr_border, 20%) 50%);*/
     background-color: @clr_base_bg;
     .base_border();
     border-radius: 4px;
@@ -533,16 +531,11 @@ div.sidebar-footer.hidden-small {
 ul.bar_tabs {
     background: @clr_base_bg;
     .base_border(border-bottom);
-/*    box-shadow: inset 0 -5px 10px -6px @clr_greyGreen2;*/
     >li {
         .base_border();
         background: @clr_body_bg;
         a {
-/*            background: @clr_base_bg;*/
             background: @clr_body_bg;
-            &:hover {
-                font-weight: bold;
-            }
         }
     }
     >li.active {
