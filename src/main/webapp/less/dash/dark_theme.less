@@ -25,7 +25,7 @@
 .btn_border(@width:1px, @type:solid, @color:lighten(@bg,20%)){
     border:@arguments;
 }  
-.btn_OE(@color: @clr_body_bg, @bg: @clr_body){    
+/*.btn_OE(@color: @clr_body_bg, @bg: @clr_body){    
     color: @color;
     background-color: @bg;
     .btn_border();
@@ -40,6 +40,26 @@
         color: darken(@bg,8%);
         background-color: rgba(0, 0, 0, 0);
         .btn_border(@color:darken(@bg,5%));
+    }
+}*/
+.btn_OE(@color: @clr_body_bg, @bg: @clr_body, @fw: bold){    
+    color: @bg;
+    background-color: rgba(0, 0, 0, 0);
+    .btn_border(@color: @bg);
+    font-weight: @fw;
+    &:focus {
+        color: @bg;
+        background-color: rgba(0, 0, 0, 0);
+        .btn_border(@color: @bg);
+        font-weight: @fw;
+    }
+}   
+.btn_OEhover(@color: @clr_body_bg, @bg: @clr_body, @fw: bold){      
+    &:hover, &:active, &:active:hover, &:active:focus {
+        color: @color;
+        background-color: @bg;
+        .btn_border();
+        font-weight: @fw;
     }
 }
 // ---- // ----//
@@ -81,10 +101,10 @@ input::-webkit-inner-spin-button {
 // ---- button ----
 .btn-ok {
     .btn_OE(@bg: @clr_OEgreen);
-    .btn_OEhover(@bg: @clr_OEgreen);
+    .btn_OEhover(@bg: @clr_OEgreen2);
 }
 .btn-default {
-  .btn_OE(@bg:@clr_greyGreen2);
+  .btn_OE(@bg:darken(@clr_greyGreen2,10%));
   .btn_OEhover(@bg:@clr_greyGreen3);
 }
 .btn-default-dash {
@@ -92,8 +112,8 @@ input::-webkit-inner-spin-button {
   .btn_OEhover(@bg:@clr_greyGreen1);
 }
 .btn-primary {
-  .btn_OE(@bg:@clr_OEblue2);
-  .btn_OEhover(@bg: lighten(saturate(@clr_OEblue2,15%), 10%));
+  .btn_OE(@bg: lighten(saturate(@clr_OEblue,20%),12%));
+  .btn_OEhover(@bg: @clr_OEblue);
 }
 // Success appears as green
 .btn-success {
@@ -102,8 +122,8 @@ input::-webkit-inner-spin-button {
 }
 // Info appears as blue
 .btn-info {
-  .btn_OE(@bg:@clr_OEblue);
-  .btn_OEhover(@bg:@clr_OEblue);
+  .btn_OE(@bg:@clr_OEblue2);
+  .btn_OEhover(@bg:@clr_OEblue2);
 }
 // Warning appears as orange
 .btn-warning {
@@ -112,15 +132,21 @@ input::-webkit-inner-spin-button {
 }
 // Danger and error appear as red
 .btn-danger {
-  .btn_OE(@bg:@clr_darkRed);
+  .btn_OE(@bg:darken(@clr_darkRed,10%));
   .btn_OEhover(@bg:@clr_darkRed);
 }
-a.btn-success,
+a.btn-success:extend(.btn-success){}
+a.btn-primary:extend(.btn-primary){}
+a.btn-warning:extend(btn-warning){}
+a.btn-danger:extend(.btn-danger){}
+
+/*a.btn-success,
 a.btn-primary,
 a.btn-warning,
 a.btn-danger {
     color: @clr_body_bg;
-}
+}*/
+
 // ---- form ----
 .form-control {
     color: @clr_infoText !important;
@@ -448,7 +474,7 @@ div.sidebar-footer.hidden-small {
             padding: 4px;
             list-style: none;
             background: darken(@clr_header, 2%);
-            background-image: linear-gradient(270deg, @clr_base_bg, lighten(@clr_base_bg, 5%) 10%, lighten(@clr_base_bg, 5%) 90%, @clr_base_bg);
+            background-image: linear-gradient(270deg, @clr_base_bg, darken(@clr_header, 2%) 10%, darken(@clr_header, 2%) 90%, @clr_base_bg);
             &:hover { 
                 border-radius: 0px;                
             }
@@ -507,36 +533,39 @@ div.sidebar-footer.hidden-small {
 ul.bar_tabs {
     background: @clr_base_bg;
     .base_border(border-bottom);
-    box-shadow: inset 0 -5px 10px -6px @clr_greyGreen2;
+/*    box-shadow: inset 0 -5px 10px -6px @clr_greyGreen2;*/
     >li {
         .base_border();
         background: @clr_body_bg;
         a {
-            background: @clr_base_bg;
+/*            background: @clr_base_bg;*/
+            background: @clr_body_bg;
             &:hover {
                 font-weight: bold;
             }
         }
     }
     >li.active {
-        .base_border(border-right,@width:2px,@color:@clr_header);
+        .base_border(border-right,@width:2px,@color:darken(@clr_OEblue2, 6%));
         border-bottom: none;
         >a {
             color: @clr_OEblue;
-            background-color: transparent;
+/*            background-color: transparent;*/
+            background-color: @clr_base_bg;
             .base_border();
             border-bottom-color: transparent;
             cursor: default;
             &:hover {
                 color: @clr_OEblue;
-                background-color: transparent;
+                /*background-color: transparent;*/
+                background-color: @clr_base_bg;
                 .base_border();
                 border-bottom-color: transparent;
                 cursor: default;
             }
             &:focus {
                 color: @clr_OEblue;
-                background-color: transparent;
+                background-color: @clr_base_bg;
                 .base_border();
                 border-bottom-color: transparent;
                 cursor: default;
@@ -550,6 +579,11 @@ ul.bar_tabs {
     .select2-selection--single:extend(.form-control){               
         .select2-selection__rendered {
             color: @clr_infoText !important;
+        }
+        .select2-selection__arrow{
+            b {
+                border-color: @clr_body transparent transparent transparent;
+            }
         }
     }
     .select2-search--dropdown {
@@ -739,10 +773,13 @@ table.table-bordered {
 .reportrange:extend(.form-control) {    
     padding: 4px 10px;
     b.caret {
-        color: #888;
+        color: @clr_body;
     }
     i {
         color: @clr_body;
+    }
+    span {
+    color: @clr_infoText;
     }
 }
 .daterangepicker.dropdown-menu {
@@ -1143,7 +1180,7 @@ span.tagspan {
 }
 .input-group-addon {
     background: linear-gradient(270deg, @clr_base_bg, @clr_border);
-    .base_border();
+    .base_border() !important;
 }
 div#reportrange_private:extend(.reportrange) {
     i:extend(.reportrange i){}
