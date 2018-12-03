@@ -189,19 +189,18 @@ function savedash() {
 
 function btnlock() {
     if ($('#btnlock').hasClass('btnunlock'))
-
     {
         if ($('#btnlock').parents('.fulldash').hasClass('locked'))
         {
             $('#btnlock').parents('.fulldash').toggleClass('locked');
-            $('.dash_header,.text-right').hide();
+            $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide();
         }
         if ($('#btnlock').parents('.singleview').hasClass('locked'))
         {
             $('#btnlock').parents('.singleview').toggleClass('locked');
         }
 
-        $('.dash_header,.text-right').show(500);
+        $('.dash_header,.raw-controls i,.raw-controls .btn-group').show(500);
         $('#btnlock').toggleClass('btnunlock');
         domodifier();
         $('#btnlock').find('i').toggleClass('fa-unlock');
@@ -218,7 +217,7 @@ function btnlock() {
             btn = $('#btnlock');
 
         } else {
-            $('.dash_header,.text-right').hide(500, function () {
+            $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide(500, function () {
 
                 if (!$('#btnlock').parents('.fulldash').hasClass('locked')) {
                     $('#btnlock').parents('.fulldash').toggleClass('locked');
@@ -236,7 +235,6 @@ function btnlock() {
             gdd.locked = true;
             setTimeout(function () {
                 savedash();
-
             }, 1000);
         }
     }
@@ -1741,7 +1739,7 @@ var queryCallback = function (inputdata) {
 
                         }
 
-                    }                    
+                    }
                     if (col > cols)
                     {
                         col = 1;
@@ -2509,7 +2507,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         $(".fulldash").addClass('locked');
         $('#btnlock').addClass('btnunlock');
         $('#btnlock i').addClass('fa-unlock');
-        $('.text-right').hide();
+        $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide();
     }
     locktooltip();
     if (!redraw)
@@ -3692,7 +3690,6 @@ $(document).ready(function () {
 
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
-        console.log(gdd.rows[ri].widgets[wi].size);
         if (gdd.rows[ri].widgets[wi].size > 12)
         {
             gdd.rows[ri].widgets[wi].size = 12;
@@ -3706,7 +3703,16 @@ $(document).ready(function () {
             $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
             gdd.rows[ri].widgets[wi].echartLine.resize();
             domodifier();
+            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
+                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
+                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
+
+            {
+                setdatabyQ(gdd, ri, wi, "getdata", false);
+            }
         }
+
+
 
     });
     $('body').on("click", ".plus", function () {
@@ -3722,6 +3728,13 @@ $(document).ready(function () {
             $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
             gdd.rows[ri].widgets[wi].echartLine.resize();
             domodifier();
+            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
+                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
+                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
+
+            {
+                setdatabyQ(gdd, ri, wi, "getdata", false);
+            }
         }
     });
     $('body').on("click", "#deletewidgetconfirm", function () {
@@ -4291,7 +4304,7 @@ $(document).ready(function () {
         }
 
         $('#lockConfirm').modal('hide');
-        $('.dash_header,.text-right').hide(500, function () {
+        $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide(500, function () {
             if (!btn.parents('.fulldash').hasClass('locked'))
                 btn.parents('.fulldash').toggleClass('locked');
             if (!btn.parents('.singleview').hasClass('locked'))
