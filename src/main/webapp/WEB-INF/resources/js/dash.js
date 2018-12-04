@@ -3118,6 +3118,10 @@ function repaint(redraw = false, rebuildform = true) {
         {
             clearTimeout(gdd.rows[request_R_index].widgets[request_W_index].timer);
             var action = getParameterByName("action");
+            if (gdd.locked&&(action==="edit"))
+            {
+                window.location.href = cp+"/dashboard/Dashboard1?widget=0&row=0&action=view";
+            }
             AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", rebuildform, redraw);
             $(".editchartpanel select").select2({minimumResultsForSearch: 15});
             $(".select2_group").select2({dropdownCssClass: "menu-select"});
