@@ -1006,12 +1006,23 @@ div.btn-group-vertical {
         }
     }
 }
-.monitorlist li ul li.selected{
-    box-shadow: inset 0px 0px 20px #141616;
-    border: 2px solid #333434;
-    border-radius: 20px;
-    color: #000;
+.monitorlist {
+    li {
+        ul {
+            li.selected {
+                box-shadow: inset 0px 0px 20px @clr_body_bg;
+                .base_border();
+                border-radius: 18px;
+                color: @clr_body_bg;
+            }
+            li {
+                .base_border();
+                box-shadow: none;
+            }
+        }
+    }
 }
+
 
 //---- Detailing Analytics ----
 .accordion {
