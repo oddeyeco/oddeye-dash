@@ -457,10 +457,10 @@ div.sidebar-footer.hidden-small {
     background-color: @clr_base_bg;
     .base_border();
     border-radius: 4px;
-    box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), 1px 1px 0 0 rgba(0,0,0,0.3);
+/*    box-shadow: inset 1px 1px 0 0 rgba(255,255,255,0.2), 1px 1px 0 0 rgba(0,0,0,0.3);
     -webkit-column-break-inside: avoid;
     -moz-column-break-inside: avoid;
-    column-break-inside: avoid;
+    column-break-inside: avoid;*/
     ul.gotodash {
         &:hover a.gotodash {
             box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.4);
@@ -862,7 +862,7 @@ table.table-bordered {
 .x_panel {
     >.profile_left {
         background-image: linear-gradient(@clr_base_bg,darken(@clr_greyGreen2,10%) 10%, darken(@clr_greyGreen2,10%) 75%, @clr_base_bg);
-        .base_border(@color:@clr_body_bg);
+        .base_border(@color:fade(@clr_body_bg,20%));
         border-radius: 4px;
         .profile_left-form {
             height: 820px;
@@ -912,7 +912,7 @@ div.profile_right-table {
     >div.x_panel {
         background-image: radial-gradient(darken(@clr_greyGreen1, 10%),darken(@clr_greyGreen2, 10%), @clr_base_bg);
         box-shadow: none;
-        .base_border(@color:@clr_body_bg);
+        .base_border(@color:fade(@clr_body_bg,20%));
     }
 }
 //---- Real Time ----
@@ -1006,12 +1006,12 @@ div.btn-group-vertical {
         }
     }
 }
-/*.monitorlist li ul li.selected{
+.monitorlist li ul li.selected{
     box-shadow: inset 0px 0px 20px #141616;
     border: 2px solid #333434;
     border-radius: 20px;
     color: #000;
-}*/
+}
 
 //---- Detailing Analytics ----
 .accordion {
