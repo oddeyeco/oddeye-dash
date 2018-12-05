@@ -203,10 +203,10 @@ span.fa.fas.fa-chevron-down {
     color: @clr_OEgreen2;
 }
 .fa-chevron-down, .fa-angle-down,  i.fa-chevron-down  {
-    color: @clr_OEgreen;
+    color: @clr_OEgreen2;
 }
 i.fa-chevron-up {
-    color: @clr_OEblue;
+    color: @clr_OEblue2;
 }
 .dropdown_button.fa-chevron-circle-down {
     color: @clr_OEgreen2;
@@ -990,6 +990,31 @@ div.x_panel {
         }
         ul {
             color: @clr_bannerBlue;
+            li.selected {
+                box-shadow: inset 0px 0px 20px @clr_body_bg;
+                .base_border();
+                border-radius: 18px;
+                color: @clr_body_bg;
+                .metricname {
+                    a {
+                        color: @clr_OEblue;
+                    }
+                }
+            }
+            li {
+                .base_border();
+                box-shadow: none;
+                .valueinfo {
+                    .base_border(border-bottom,@color:@clr_greyGreen3);
+                }
+                .metricname {
+                    .base_border();
+                    background-color: @clr_greyGreen3;
+                    a {
+                        color: @clr_OEgreen;
+                    }
+                }
+            }
         }
     }
     .level_0 {
@@ -998,7 +1023,7 @@ div.x_panel {
 }
 div.btn-group-vertical {
     >button.btn {
-        color: #8fc746;
+        color: @clr_OEgreen;
         background-color: @clr_bannerBlue;
         &:hover {
             color: @clr_OEblue;
@@ -1006,7 +1031,7 @@ div.btn-group-vertical {
         }
     }
 }
-.monitorlist {
+/*.monitorlist {
     li {
         ul {
             li.selected {
@@ -1021,7 +1046,7 @@ div.btn-group-vertical {
             }
         }
     }
-}
+}*/
 
 
 //---- Detailing Analytics ----
