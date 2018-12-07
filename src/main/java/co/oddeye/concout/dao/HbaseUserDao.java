@@ -168,7 +168,18 @@ public class HbaseUserDao extends HbaseBaseDao {
 
                                         }
                                     } else {
-                                        if ((Arrays.equals(kv.qualifier(), anotation.qualifier().getBytes()))) {
+                                        if (anotation.qualifier().equals("*")) {
+                                            Object newvalue = null;
+                                            Method getter = PDescriptor.getReadMethod();
+                                            switch (field.getType().getCanonicalName()) {
+                                                case "java.util.Map":
+                                                    newvalue = new String(kv.value());
+                                                    Map list = (java.util.Map) getter.invoke(user);
+                                                    list.put(new String(kv.qualifier()), newvalue);
+                                                    break;
+                                            }
+
+                                        } else if ((Arrays.equals(kv.qualifier(), anotation.qualifier().getBytes()))) {
                                             Method setter = PDescriptor.getWriteMethod();
                                             Object newvalue = null;
                                             //&& (field.getType().getCanonicalName().equals("java.util.Date"))

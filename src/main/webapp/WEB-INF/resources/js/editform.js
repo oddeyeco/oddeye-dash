@@ -40,7 +40,7 @@ class EditForm {
         {
             var ob_form = this;
             var elem = document.getElementById(jobject.attr('id'));
-            new Switchery(elem, {size: 'small',color: Clr,jackColor: jackClr,secondaryColor: secClr,jackSecondaryColor: jackSecClr});
+            new Switchery(elem, {size: 'small', color: clr, jackColor: jackClr, secondaryColor: secClr, jackSecondaryColor: jackSecClr});
             elem.onchange = function () {
                 ob_form.change($(this));
             };
@@ -98,7 +98,7 @@ class EditForm {
                                     {
                                         var ob_form = this;
                                         var elem = document.getElementById(jobject.attr('id'));
-                                        new Switchery(elem, {size: 'small',color: Clr,jackColor: jackClr,secondaryColor: secClr,jackSecondaryColor: jackSecClr});
+                                        new Switchery(elem, {size: 'small', color: clr, jackColor: jackClr, secondaryColor: secClr, jackSecondaryColor: jackSecClr});
                                         elem.onchange = function () {
                                             ob_form.change($(this));
                                         };
@@ -119,7 +119,7 @@ class EditForm {
 
     }
     drawcontent(formcontent, contener, initval, template_index)
-    {        
+    {
         if (formcontent)
         {
             for (var c_index in formcontent)
@@ -214,10 +214,10 @@ class EditForm {
                         jobject.attr('style', item.style);
                     }
 //***************************
-                        if (item.label)
-                        {
-                                jobject.append('<h4 class="form-group '+item.label.class+'"><label class="control-label" >' + item.label.text + '</label></h4>');
-                        }
+                    if (item.label)
+                    {
+                        jobject.append('<h4 class="form-group ' + item.label.class + '"><label class="control-label" >' + item.label.text + '</label></h4>');
+                    }
 
 //***************************
 
@@ -352,12 +352,12 @@ class EditForm {
                     if (jobject.hasClass("js-switch-small"))
                     {
                         var elem = document.getElementById(jobject.attr('id'));
-                        new Switchery(elem, {size: 'small',color: Clr,jackColor: jackClr,secondaryColor: secClr,jackSecondaryColor: jackSecClr});
+                        new Switchery(elem, {size: 'small', color: clr, jackColor: jackClr, secondaryColor: secClr, jackSecondaryColor: jackSecClr});
                         elem.onchange = function () {
                             form.change($(this));
                         };
                     }
- 
+
                     if (item.content)
                     {
                         this.drawcontent(item.content, jobject, initval, template_index);
@@ -377,7 +377,353 @@ class EditForm {
     }
     get targetoptions()
     {
-        return {"": "&nbsp;", "self": locale["editform.self"], "blank": locale["editform.blank"] };
+        return {"": "&nbsp;", "self": locale["editform.self"], "blank": locale["editform.blank"]};
+    }
+
+    get visualMaporientoptions()
+    {        
+        return {"horizontal": locale["editchartform.horizontal"], "vertical": locale["editchartform.vertical"]};
+    }
+
+    get visualMapColoroptions()
+    {
+        return {
+            "": "Default",
+            "Grade Grey": "Grade Grey",
+            "Piggy Pink": "Piggy Pink",
+            "Cool Blues": "Cool Blues",
+            "MegaTron": "MegaTron",
+            "Moonlit Asteroid": "Moonlit Asteroid",
+            "JShine": "JShine",
+            "Evening Sunshine": "Evening Sunshine",
+            "Dark Ocean": "Dark Ocean",
+            "Cool Sky": "Cool Sky",
+            "Yoda": "Yoda",
+            "Memariani": "Memariani",
+            "Amin": "Amin",
+            "Harvey": "Harvey",
+            "Neuromancer": "Neuromancer",
+            "Azur Lane": "Azur Lane",
+            "Witching Hour": "Witching Hour",
+            "Flare": "Flare",
+            "Metapolis": "Metapolis",
+            "Kyoo Pal": "Kyoo Pal",
+            "Kye Meh": "Kye Meh",
+            "Kyoo Tah": "Kyoo Tah",
+            "By Design": "By Design",
+            "Ultra Voilet": "Ultra Voilet",
+            "Burning Orange": "Burning Orange",
+            "Wiretap": "Wiretap",
+            "Summer Dog": "Summer Dog",
+            "Rastafari": "Rastafari",
+            "Sin City Red": "Sin City Red",
+            "Citrus Peel": "Citrus Peel",
+            "Blue Raspberry": "Blue Raspberry",
+            "Margo": "Margo",
+            "Magic": "Magic",
+            "Evening Night": "Evening Night",
+            "Vanusa": "Vanusa",
+            "Shifty": "Shifty",
+            "eXpresso": "eXpresso",
+            "Slight Ocean View": "Slight Ocean View",
+            "Pure Lust": "Pure Lust",
+            "Moon Purple": "Moon Purple",
+            "Red Sunset": "Red Sunset",
+            "Shifter": "Shifter",
+            "Wedding Day Blues": "Wedding Day Blues",
+            "Sand to Blue": "Sand to Blue",
+            "Quepal": "Quepal",
+            "Pun Yeta": "Pun Yeta",
+            "Sublime Light": "Sublime Light",
+            "Sublime Vivid": "Sublime Vivid",
+            "Bighead": "Bighead",
+            "Taran Tado": "Taran Tado",
+            "Relaxing red": "Relaxing red",
+            "Lawrencium": "Lawrencium",
+            "Ohhappiness": "Ohhappiness",
+            "Delicate": "Delicate",
+            "Selenium": "Selenium",
+            "Sulphur": "Sulphur",
+            "Pink Flavour": "Pink Flavour",
+            "Rainbow Blue": "Rainbow Blue",
+            "Orange Fun": "Orange Fun",
+            "Digital Water": "Digital Water",
+            "Lithium": "Lithium",
+            "Argon": "Argon",
+            "Hydrogen": "Hydrogen",
+            "Zinc": "Zinc",
+            "Velvet Sun": "Velvet Sun",
+            "King Yna": "King Yna",
+            "Summer": "Summer",
+            "Orange Coral": "Orange Coral",
+            "Purpink": "Purpink",
+            "Dull": "Dull",
+            "Kimoby Is The New Blue": "Kimoby Is The New Blue",
+            "Broken Hearts": "Broken Hearts",
+            "Subu": "Subu",
+            "Socialive": "Socialive",
+            "Crimson Tide": "Crimson Tide",
+            "Telegram": "Telegram",
+            "Terminal": "Terminal",
+            "Scooter": "Scooter",
+            "Alive": "Alive",
+            "Relay": "Relay",
+            "Meridian": "Meridian",
+            "Compare Now": "Compare Now",
+            "Mello": "Mello",
+            "Crystal Clear": "Crystal Clear",
+            "Visions of Grandeur": "Visions of Grandeur",
+            "Chitty Chitty Bang Bang": "Chitty Chitty Bang Bang",
+            "Blue Skies": "Blue Skies",
+            "Sunkist": "Sunkist",
+            "Coal": "Coal",
+            "Html": "Html",
+            "Cinnamint": "Cinnamint",
+            "Maldives": "Maldives",
+            "Mini": "Mini",
+            "Sha la la": "Sha la la",
+            "Purplepine": "Purplepine",
+            "Celestial": "Celestial",
+            "Learning and Leading": "Learning and Leading",
+            "Pacific Dream": "Pacific Dream",
+            "Venice": "Venice",
+            "Orca": "Orca",
+            "Love and Liberty": "Love and Liberty",
+            "Very Blue": "Very Blue",
+            "Can You Feel The Love Tonight": "Can You Feel The Love Tonight",
+            "The Blue Lagoon": "The Blue Lagoon",
+            "Under the Lake": "Under the Lake",
+            "Honey Dew": "Honey Dew",
+            "Roseanna": "Roseanna",
+            "What lies Beyond": "What lies Beyond",
+            "Rose Colored Lenses": "Rose Colored Lenses",
+            "EasyMed": "EasyMed",
+            "Cocoaa Ice": "Cocoaa Ice",
+            "Jodhpur": "Jodhpur",
+            "Jaipur": "Jaipur",
+            "Vice City": "Vice City",
+            "Mild": "Mild",
+            "Dawn": "Dawn",
+            "Ibiza Sunset": "Ibiza Sunset",
+            "Radar": "Radar",
+            "80's Purple": "80's Purple",
+            "Black Rosé": "Black Rosé",
+            "Brady Brady Fun Fun": "Brady Brady Fun Fun",
+            "Ed's Sunset Gradient": "Ed's Sunset Gradient",
+            "Snapchat": "Snapchat",
+            "Cosmic Fusion": "Cosmic Fusion",
+            "Nepal": "Nepal",
+            "Azure Pop": "Azure Pop",
+            "Love Couple": "Love Couple",
+            "Disco": "Disco",
+            "Limeade": "Limeade",
+            "Dania": "Dania",
+            "50 Shades of Grey": "50 Shades of Grey",
+            "Jupiter": "Jupiter",
+            "IIIT Delhi": "IIIT Delhi",
+            "Sun on the Horizon": "Sun on the Horizon",
+            "Blood Red": "Blood Red",
+            "Sherbert": "Sherbert",
+            "Firewatch": "Firewatch",
+            "Lush": "Lush",
+            "Frost": "Frost",
+            "Mauve": "Mauve",
+            "Royal": "Royal",
+            "Minimal Red": "Minimal Red",
+            "Dusk": "Dusk",
+            "Deep Sea Space": "Deep Sea Space",
+            "Grapefruit Sunset": "Grapefruit Sunset",
+            "Sunset": "Sunset",
+            "Solid Vault": "Solid Vault",
+            "Bright Vault": "Bright Vault",
+            "Politics": "Politics",
+            "Sweet Morning": "Sweet Morning",
+            "Sylvia": "Sylvia",
+            "Transfile": "Transfile",
+            "Tranquil": "Tranquil",
+            "Red Ocean": "Red Ocean",
+            "Shahabi": "Shahabi",
+            "Alihossein": "Alihossein",
+            "Ali": "Ali",
+            "Purple White": "Purple White",
+            "Colors Of Sky": "Colors Of Sky",
+            "Decent": "Decent",
+            "Deep Space": "Deep Space",
+            "Dark Skies": "Dark Skies",
+            "Suzy": "Suzy",
+            "Superman": "Superman",
+            "Nighthawk": "Nighthawk",
+            "Forest": "Forest",
+            "Miami Dolphins": "Miami Dolphins",
+            "Minnesota Vikings": "Minnesota Vikings",
+            "Christmas": "Christmas",
+            "Joomla": "Joomla",
+            "Pizelex": "Pizelex",
+            "Haikus": "Haikus",
+            "Pale Wood": "Pale Wood",
+            "Purplin": "Purplin",
+            "Inbox": "Inbox",
+            "Blush": "Blush",
+            "Back to the Future": "Back to the Future",
+            "Poncho": "Poncho",
+            "Green and Blue": "Green and Blue",
+            "Light Orange": "Light Orange",
+            "Netflix": "Netflix",
+            "Little Leaf": "Little Leaf",
+            "Deep Purple": "Deep Purple",
+            "Back To Earth": "Back To Earth",
+            "Master Card": "Master Card",
+            "Clear Sky": "Clear Sky",
+            "Passion": "Passion",
+            "Timber": "Timber",
+            "Between Night and Day": "Between Night and Day",
+            "Sage Persuasion": "Sage Persuasion",
+            "Lizard": "Lizard",
+            "Piglet": "Piglet",
+            "Dark Knight": "Dark Knight",
+            "Curiosity blue": "Curiosity blue",
+            "Ukraine": "Ukraine",
+            "Green to dark": "Green to dark",
+            "Fresh Turboscent": "Fresh Turboscent",
+            "Koko Caramel": "Koko Caramel",
+            "Virgin America": "Virgin America",
+            "Portrait": "Portrait",
+            "Turquoise flow": "Turquoise flow",
+            "Vine": "Vine",
+            "Flickr": "Flickr",
+            "Instagram": "Instagram",
+            "Atlas": "Atlas",
+            "Twitch": "Twitch",
+            "Pastel Orange at the Sun": "Pastel Orange at the Sun",
+            "Endless River": "Endless River",
+            "Predawn": "Predawn",
+            "Purple Bliss": "Purple Bliss",
+            "Talking To Mice Elf": "Talking To Mice Elf",
+            "Hersheys": "Hersheys",
+            "Crazy Orange I": "Crazy Orange I",
+            "Between The Clouds": "Between The Clouds",
+            "Metallic Toad": "Metallic Toad",
+            "Martini": "Martini",
+            "Friday": "Friday",
+            "ServQuick": "ServQuick",
+            "Behongo": "Behongo",
+            "SoundCloud": "SoundCloud",
+            "Facebook Messenger": "Facebook Messenger",
+            "Shore": "Shore",
+            "Cheer Up Emo Kid": "Cheer Up Emo Kid",
+            "Amethyst": "Amethyst",
+            "Man of Steel": "Man of Steel",
+            "Neon Life": "Neon Life",
+            "Teal Love": "Teal Love",
+            "Red Mist": "Red Mist",
+            "Starfall": "Starfall",
+            "Dance To Forget": "Dance To Forget",
+            "Parklife": "Parklife",
+            "Cherryblossoms": "Cherryblossoms",
+            "Ash": "Ash",
+            "Virgin": "Virgin",
+            "Earthly": "Earthly",
+            "Dirty Fog": "Dirty Fog",
+            "The Strain": "The Strain",
+            "Reef": "Reef",
+            "Candy": "Candy",
+            "Autumn": "Autumn",
+            "Nelson": "Nelson",
+            "Winter": "Winter",
+            "Forever Lost": "Forever Lost",
+            "Almost": "Almost",
+            "Moor": "Moor",
+            "Aqualicious": "Aqualicious",
+            "Misty Meadow": "Misty Meadow",
+            "Kyoto": "Kyoto",
+            "Sirius Tamed": "Sirius Tamed",
+            "Jonquil": "Jonquil",
+            "Petrichor": "Petrichor",
+            "A Lost Memory": "A Lost Memory",
+            "Vasily": "Vasily",
+            "Blurry Beach": "Blurry Beach",
+            "Namn": "Namn",
+            "Day Tripper": "Day Tripper",
+            "Pinot Noir": "Pinot Noir",
+            "Miaka": "Miaka",
+            "Army": "Army",
+            "Shrimpy": "Shrimpy",
+            "Influenza": "Influenza",
+            "Calm Darya": "Calm Darya",
+            "Bourbon": "Bourbon",
+            "Stellar": "Stellar",
+            "Clouds": "Clouds",
+            "Moonrise": "Moonrise",
+            "Peach": "Peach",
+            "Dracula": "Dracula",
+            "Mantle": "Mantle",
+            "Titanium": "Titanium",
+            "Opa": "Opa",
+            "Sea Blizz": "Sea Blizz",
+            "Midnight City": "Midnight City",
+            "Mystic": "Mystic",
+            "Shroom Haze": "Shroom Haze",
+            "Moss": "Moss",
+            "Bora Bora": "Bora Bora",
+            "Venice Blue": "Venice Blue",
+            "Electric Violet": "Electric Violet",
+            "Kashmir": "Kashmir",
+            "Steel Gray": "Steel Gray",
+            "Mirage": "Mirage",
+            "Juicy Orange": "Juicy Orange",
+            "Mojito": "Mojito",
+            "Cherry": "Cherry",
+            "Pinky": "Pinky",
+            "Sea Weed": "Sea Weed",
+            "Stripe": "Stripe",
+            "Purple Paradise": "Purple Paradise",
+            "Sunrise": "Sunrise",
+            "Aqua Marine": "Aqua Marine",
+            "Aubergine": "Aubergine",
+            "Bloody Mary": "Bloody Mary",
+            "Mango Pulp": "Mango Pulp",
+            "Frozen": "Frozen",
+            "Rose Water": "Rose Water",
+            "Horizon": "Horizon",
+            "Monte Carlo": "Monte Carlo",
+            "Lemon Twist": "Lemon Twist",
+            "Emerald Water": "Emerald Water",
+            "Intuitive Purple": "Intuitive Purple",
+            "Green Beach": "Green Beach",
+            "Sunny Days": "Sunny Days",
+            "Playing with Reds": "Playing with Reds",
+            "Harmonic Energy": "Harmonic Energy",
+            "Cool Brown": "Cool Brown",
+            "YouTube": "YouTube",
+            "Noon to Dusk": "Noon to Dusk",
+            "Hazel": "Hazel",
+            "Nimvelo": "Nimvelo",
+            "Sea Blue": "Sea Blue",
+            "Blooker20": "Blooker20",
+            "Sexy Blue": "Sexy Blue",
+            "Purple Love": "Purple Love",
+            "DIMIGO": "DIMIGO",
+            "Skyline": "Skyline",
+            "Sel": "Sel",
+            "Sky": "Sky",
+            "Petrol": "Petrol",
+            "Anamnisar": "Anamnisar",
+            "Copper": "Copper",
+            "Royal Blue + Petrol": "Royal Blue + Petrol",
+            "Royal Blue": "Royal Blue",
+            "Windy": "Windy",
+            "Rea": "Rea",
+            "Bupe": "Bupe",
+            "Mango": "Mango",
+            "Reaqua": "Reaqua",
+            "Lunada": "Lunada",
+            "Bluelagoo": "Bluelagoo",
+            "Anwar": "Anwar",
+            "Combi": "Combi",
+            "Ver Black": "Ver Black",
+            "Ver": "Ver",
+            "Blu": "Blu"
+        };
     }
 
     get xpositionoptions()
@@ -786,10 +1132,10 @@ class EditForm {
 
     repaintq(contener, content)
     {
-        
+
         contener.empty();
         this.drawcontent(content, contener, this.dashJSON.rows[this.row]["widgets"][this.index]);
-        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+        this.formwraper.find("input.flat").iCheck({checkboxClass: icheckbox_flat_clr, radioClass: iradio_flat_clr});
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
     }
 
@@ -866,7 +1212,7 @@ class EditForm {
         contener.find(".edit-query[count!=1]").each(function () {
             if (!$(this).find('.fa').hasClass('q_warning'))
             {
-                var worn = $('<i class="fa fas fa-info-circle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title= "'+ locale["editform.title.mergeSimilarQueries"] +'" ></i>');
+                var worn = $('<i class="fa fas fa-info-circle q_warning"  aria-hidden="true"  data-toggle="tooltip" data-placement="left" title= "' + locale["editform.title.mergeSimilarQueries"] + '" ></i>');
                 worn.appendTo($(this));
 //                worn.tooltip();
             }
@@ -887,7 +1233,7 @@ class EditForm {
     jspluginsinit() {
         var form = this;
         this.formwraper.find("select").select2({minimumResultsForSearch: 15});
-        this.formwraper.find("input.flat").iCheck({checkboxClass: "icheckbox_flat-green", radioClass: "iradio_flat-green"});
+        this.formwraper.find("input.flat").iCheck({checkboxClass: icheckbox_flat_clr, radioClass: iradio_flat_clr});
 
         this.formwraper.find('[data-toggle="tooltip"]').tooltip();
         this.formwraper.find('.cl_picer_input').colorpicker({format: 'rgba'}).on('hidePicker', function () {
@@ -939,7 +1285,7 @@ class EditForm {
             if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel)
             {
                 if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel !== DtPicerlocale["customRangeLabel"])
-                {                                        
+                {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
                     $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
@@ -951,7 +1297,7 @@ class EditForm {
                 }
             }
         }
-        PicerOptionSet2.minDate = getmindate();        
+        PicerOptionSet2.minDate = getmindate();
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');

@@ -67,8 +67,8 @@ function getmetatypes(tablename) {
                 }
 //                $('#listtable').DataTable({});
                 $('#listtable').find('td input.rawflat').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
+                    checkboxClass: icheckbox_flat_clr,
+                    radioClass: iradio_flat_clr
                 });
                 tablelist = $('#listtable').DataTable({
                     "language": lang,
@@ -79,13 +79,13 @@ function getmetatypes(tablename) {
                         }]});
 
                 $('#listtable').find('td input.rawflat').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
+                    checkboxClass: icheckbox_flat_clr,
+                    radioClass: iradio_flat_clr
                 });
                 tablelist.on('draw', function () {
                     $('#listtable').find('td input.rawflat').iCheck({
-                        checkboxClass: 'icheckbox_flat-green',
-                        radioClass: 'iradio_flat-green'
+                        checkboxClass: icheckbox_flat_clr,
+                        radioClass: iradio_flat_clr
                     });
                 });
                 $("#modall1").modal('show');
@@ -124,8 +124,8 @@ function getmetanames(tablename) {
                 }
 //                $('#listtable').DataTable({});
                 $('#listtable').find('td input.rawflat').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
+                    checkboxClass: icheckbox_flat_clr,
+                    radioClass: iradio_flat_clr
                 });
                 tablelist = $('#listtable').DataTable({
                     "language": lang,
@@ -135,13 +135,13 @@ function getmetanames(tablename) {
                             'targets': [0, 3] /* 1st one, start by the right */
                         }]});
                 $('#listtable').find('td input.rawflat').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
+                    checkboxClass: icheckbox_flat_clr,
+                    radioClass: iradio_flat_clr
                 });
                 tablelist.on('draw', function () {
                     $('#listtable').find('td input.rawflat').iCheck({
-                        checkboxClass: 'icheckbox_flat-green',
-                        radioClass: 'iradio_flat-green'
+                        checkboxClass: icheckbox_flat_clr,
+                        radioClass: iradio_flat_clr
                     });
                 });
                 $("#modall1").modal('show');
@@ -185,13 +185,13 @@ function getmetatags(key) {
                             'targets': [0, 3] /* 1st one, start by the right */
                         }]});
                 $('#listtable').find('td input.rawflat').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
+                    checkboxClass: icheckbox_flat_clr,
+                    radioClass: iradio_flat_clr
                 });
                 tablelist.on('draw', function () {
                     $('#listtable').find('td input.rawflat').iCheck({
-                        checkboxClass: 'icheckbox_flat-green',
-                        radioClass: 'iradio_flat-green'
+                        checkboxClass: icheckbox_flat_clr,
+                        radioClass: iradio_flat_clr
                     });
                 });
                 $("#modall1").modal('show');
@@ -266,13 +266,13 @@ function getmetrics(key, idvalue, id, draw) {
                     }]});
 
             $("#" + id).find('td input.rawflat').iCheck({
-                checkboxClass: 'icheckbox_flat-green',
-                radioClass: 'iradio_flat-green'
+                checkboxClass: icheckbox_flat_clr,
+                radioClass: iradio_flat_clr
             });
             tablemeta.on('draw', function () {
                 $("#" + id).find('td input.rawflat').iCheck({
-                    checkboxClass: 'icheckbox_flat-green',
-                    radioClass: 'iradio_flat-green'
+                    checkboxClass: icheckbox_flat_clr,
+                    radioClass: iradio_flat_clr
                 });
             });
             tmphide = false;
@@ -331,8 +331,8 @@ $(document).ready(function () {
         $("#modall1").find(".modal-body").append('<div id="listtablediv" class="table-responsive"><table id="listtable" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%"><thead><tr><th><input type="checkbox" class="rawflat checkall" name="table_records"> </th><th>' + locale["name2"] + '</th><th>' + locale["count"] + '</th><th><a href="#" class="deletemetriclistgroup btn btn-danger btn-xs pull-right"><i class="fa far fa-trash-alt-o"></i> ' + locale["deleteSelected"] + '</a></th></tr> </thead><tbody></tbody> </table></div>');
 
         $('#listtable th input.checkall').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
+            checkboxClass: icheckbox_flat_clr,
+            radioClass: iradio_flat_clr
         });
 
         $('#listtable th input.checkall').on('ifChecked', function () {
@@ -377,8 +377,8 @@ $(document).ready(function () {
         $("#modall2").find(".modal-body").append('<div id="listtablediv" class="table-responsive"><table id="listtable2" class="table table-striped dt-responsive nowrap" cellspacing="0" width="100%"><thead><tr><th><input type="checkbox" class="rawflat checkall" name="table_records"> <div class="btn-group"><button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button><ul class="dropdown-menu" role="menu"><li><a href="#" class="Show_chart">' + locale["metricinfo.showChart"] + '</a></li><li class="divider"></li><li><a href="#" class="Clear_reg">' + locale["metricinfo.clearRegression"] + '</a></li></ul></div></th><th>' + locale["name2"] + '</th><th>' + locale["tags"] + '</th><th>' + locale["adminlist.type"] + '</th><th>' + locale["firstTime"] + '</th> <th>' + locale["lastTime"] + '</th><th>' + locale["aliveDays"] + '</th><th>' + locale["silenceDays"] + '</th><th><a href="#" class="deletemetricgroup btn btn-danger btn-xs pull-right"><i class="fa far fa-trash-alt-o"></i> ' + locale["deleteSelected"] + '</a></th></tr> </thead><tbody></tbody> </table></div>');
         getmetrics(key, val, "listtable2", true);
         $("#listtable2 th input.checkall").iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat-green'
+            checkboxClass: icheckbox_flat_clr,
+            radioClass: iradio_flat_clr
         });
 
         $('#listtable2 th input.checkall').on('ifChecked', function () {
@@ -416,7 +416,9 @@ $(document).ready(function () {
         if (tablelist)
         {
             tablelist.draw(false);
+            $(this).parents("table").find("th .checkall").iCheck('uncheck');                   
         }
+
     });
     $('body').on('click', '.deletemetricgroup', function (e) {
 
@@ -431,6 +433,7 @@ $(document).ready(function () {
         if (tablemeta)
         {
             tablemeta.draw(false);
+            $(this).parents("table").find("th .checkall").iCheck('uncheck');                
         }
     });
 
@@ -441,8 +444,8 @@ $(document).ready(function () {
             tablelist.row($(this).parents("tr")).remove();
             tablelist.draw(false);
         }
-
         $.getJSON(cp + "/deletemetrics?key=" + $(this).attr("key") + "&value=" + $(this).attr("value"), function (data) {});
+        
     });
     $('body').on("click", ".deletemetric", function () {
         if (tablemeta)

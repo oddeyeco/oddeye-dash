@@ -1,4 +1,4 @@
-/* global define, format_date, format_data, format_metric */
+/* global define, format_date, format_data, format_metric, legend_inactiveColor, legend_activeColor, gauge_detail_color */
 
 //var colorPalette = ["#DDCCAA","#ADB9D8","#799AF2","#8899AA","#1ABAE9","#776655","#886611","#0082A8","#3F517F","#116688","#883311","#3D494C","#224499","#005566","#004E66","#2B2B2B","#002733","#101011","#000022"];
 //
@@ -60,7 +60,7 @@ var pieformater = function (params) {
     }
     return formatter;
 };
-var abcformater = function (params) {
+var abcformater = function (params) {    
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -167,10 +167,16 @@ var encodeHTML = function (source) {
         },
         visualMap: {
             itemWidth: 15,
-            color: ['#5ab1ef', '#e0ffff']
+            inRange: {
+                color: ['#5ab1ef', '#e0ffff']
+            }
         },
         legend: {
-            show: true
+            show: true,
+            inactiveColor: legend_inactiveColor,
+            textStyle: {
+                color: (typeof legend_activeColor === "undefined") ? "#494949" : legend_activeColor
+            }
         },
         toolbox: {
             show: false,
@@ -199,9 +205,10 @@ var encodeHTML = function (source) {
             }
         },
         tooltip: {
-            backgroundColor: 'rgba(50,50,50,0.5)',
+            backgroundColor: theme_tooltip_bg,
             formatter: function (params) {
                 var out = "";
+
                 if (params.constructor === Array)
                 {
                     param = params[0];
@@ -211,7 +218,7 @@ var encodeHTML = function (source) {
                         firstparam = format_date(param.value[0], 1);
                         out = "<strong>" + firstparam + " " + params[0].name + "</strong>";
                     } else
-                    {                        
+                    {
                         if (param)
                             if (param.data)
                                 if (param.data.name)
@@ -285,6 +292,7 @@ var encodeHTML = function (source) {
                 {
 
                     var value = params.data.value;
+//                    console.log(params);
                     if (typeof value !== 'undefined')
                     {
                         if (value.constructor === Array)
@@ -414,6 +422,41 @@ var encodeHTML = function (source) {
                         {
                             out = params.seriesName;
                         }
+                        if (params.componentSubType === "heatmap")
+                        {
+                            var value1 = params.data[4];
+                            var value2 = params.data[5];
+                            if (typeof params.data[6] !== "undefined")
+                            {
+                                if (typeof (window[params.data[6]]) === "function")
+                                {
+                                    value1 = window[params.data[6]](params.data[4]);
+                                    value2 = window[params.data[6]](params.data[5]);
+                                } else
+                                {
+                                    value1 = params.data[6].replace("{value}", params.data[4].toFixed(2));
+                                    value2 = params.data[6].replace("{value}", params.data[5].toFixed(2));
+                                }
+
+                            }
+
+
+                            var val = '~' + value1 + "-" + value2;
+                            if (params.data[4] === params.data[5])
+                            {
+                                val = '~' + value1;
+                            }
+
+
+                            out = moment(+params.data[3]).format("MM/DD/YYYY HH:mm:ss") + '<br>' + params.seriesName + '(' + params.data[params.data.length - 1] + ') <br> <span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span> ' + val;
+                            if (params.data[7].length < 500)
+                            {
+                                out = out + params.data[7];
+                            }
+
+                        }
+
+
                     }
                 }
 
@@ -463,26 +506,26 @@ var encodeHTML = function (source) {
 //                    },
             axisLine: {
                 lineStyle: {
-                    color: '#008acd'
+                    color: axisLine_lineStyle
                 }
             },
             splitLine: {
                 lineStyle: {
                     type: 'dashed',
                     width: 2,
-                    color: ['#eee']
+                    color: [timeAxis_splitLine_lineStyle_clr]
                 }
             }
         },
         categoryAxis: {
             axisLine: {
                 lineStyle: {
-                    color: '#008acd'
+                    color: axisLine_lineStyle
                 }
             },
             splitLine: {
                 lineStyle: {
-                    color: ['#eee']
+                    color: [categoryAxis_splitLine_lineStyle_clr]
                 }
             }
         },
@@ -491,7 +534,7 @@ var encodeHTML = function (source) {
         valueAxis: {
             axisLine: {
                 lineStyle: {
-                    color: '#008acd'
+                    color: axisLine_lineStyle
                 }
             },
             splitArea: {
@@ -502,7 +545,7 @@ var encodeHTML = function (source) {
             },
             splitLine: {
                 lineStyle: {
-                    color: ['#eee']
+                    color: [valueAxis_splitLine_lineStyle_clr]
                 }
             }
         },
@@ -552,6 +595,7 @@ var encodeHTML = function (source) {
                 normal: {
                     textStyle: {
                         color: '#d87a80'
+
                     }
                 }
             },
@@ -632,6 +676,9 @@ var encodeHTML = function (source) {
             },
             pointer: {
                 width: 5
+            },
+            detail: {
+                color: gauge_detail_color
             }
         }
     };
