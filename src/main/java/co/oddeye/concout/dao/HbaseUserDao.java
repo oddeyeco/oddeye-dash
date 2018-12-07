@@ -13,6 +13,7 @@ import co.oddeye.concout.model.IHbaseModel;
 import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.model.WhitelabelModel;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.core.globalFunctions;
 import java.beans.IntrospectionException;
@@ -74,6 +75,9 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     @Autowired
     HbasePaymentDao PaymentDao;
+    
+    @Autowired
+    WhitelabelDao whitelabelDao;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseUserDao.class);
 
@@ -149,6 +153,10 @@ public class HbaseUserDao extends HbaseBaseDao {
                     PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
                     for (KeyValue kv : userkvs) {
                         String q = new String(kv.qualifier());
+                        if (q.equals("whitelabelkey"))
+                        {
+                            System.out.println("valod");
+                        }
                         for (Annotation an : field.getDeclaredAnnotations()) {
                             if (an.annotationType().equals(HbaseColumn.class)) {
                                 HbaseColumn anotation = (HbaseColumn) an;
@@ -196,6 +204,25 @@ public class HbaseUserDao extends HbaseBaseDao {
                                                         newvalue = new String(kv.value());
                                                         setter.invoke(user, new Object[]{newvalue});
                                                         break;
+                                                    case "co.oddeye.concout.model.WhitelabelModel":
+                                                        
+                                                        WhitelabelModel val =  whitelabelDao.getByID(kv.value());
+                                                        
+                                                        setter.invoke(user, new Object[]{val});
+                                                        
+//                                                        if (field.getName().equals("authorities")) {
+//                                                            String token;
+//                                                            StringTokenizer tokens = new StringTokenizer(new String(kv.value()).replaceAll("\\[|\\]", ""), ",");
+//                                                            newvalue = new ArrayList<>();
+//                                                            while (tokens.hasMoreTokens()) {
+//                                                                token = tokens.nextToken();
+//                                                                token = token.trim();
+//                                                                ((ArrayList<GrantedAuthority>) newvalue).add(new SimpleGrantedAuthority(token));
+//                                                            }                                                            
+//                                                        }
+
+                                                        break;                                                        
+                                                        
                                                     case "java.util.Collection":
                                                         if (field.getName().equals("authorities")) {
                                                             String token;
@@ -328,6 +355,13 @@ public class HbaseUserDao extends HbaseBaseDao {
                                 if ((user.getPasswordByte() != null) && (user.getSolt() != null)) {
                                     changedata.get(family).put("password", user.getPasswordByte());
                                     changedata.get(family).put("solt", user.getSolt());
+                                }
+                            } else if (value instanceof IHbaseModel) {
+                                if (((HbaseColumn) an).identfield() != null) {
+                                    PropertyDescriptor PDescriptor2 = new PropertyDescriptor(((HbaseColumn) an).identfield(), value.getClass());
+                                    Method getter2 = PDescriptor2.getReadMethod();
+                                    value = getter2.invoke(value);
+                                    changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
                                 }
                             } else {
                                 changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
@@ -696,7 +730,7 @@ public class HbaseUserDao extends HbaseBaseDao {
                 if (((HbaseColumn) annotation).type().equals("password")) {
                     changedata.get(family).put("password", user.getPasswordByte());
                     changedata.get(family).put("solt", user.getSolt());
-                }else if (newvalue instanceof IHbaseModel) {
+                } else if (newvalue instanceof IHbaseModel) {
                     if (((HbaseColumn) annotation).identfield() != null) {
                         PropertyDescriptor PDescriptor2 = new PropertyDescriptor(((HbaseColumn) annotation).identfield(), newvalue.getClass());
                         Method getter2 = PDescriptor2.getReadMethod();

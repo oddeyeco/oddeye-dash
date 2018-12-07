@@ -10,6 +10,7 @@ import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.model.WhitelabelModel;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import co.oddeye.core.globalFunctions;
@@ -281,6 +282,7 @@ public class DefaultController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String createuser(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
 
+        WhitelabelModel wl = whiteLabelResolver.getWhitelabelModel();
         userValidator.validate(newUser, result);
         if (request.getParameter("g-recaptcha-response") != null) {
             if (!request.getParameter("g-recaptcha-response").isEmpty()) {
@@ -315,8 +317,13 @@ public class DefaultController {
             map.put("body", "signup");
             map.put("jspart", "signupjs");
         } else {
-
             try {
+                if (wl !=null)
+                {
+                    newUser.setWhitelabel(wl);
+                    newUser.addAuthoritie(OddeyeUserModel.ROLE_WHITELABEL_USER);
+                }
+                
                 String baseUrl = mailSender.getBaseurl(request);
                 newUser.SendConfirmMail(mailSender, baseUrl);
                 newUser.SendAdminMail("User Sined", mailSender);
