@@ -153,10 +153,6 @@ public class HbaseUserDao extends HbaseBaseDao {
                     PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), OddeyeUserModel.class);
                     for (KeyValue kv : userkvs) {
                         String q = new String(kv.qualifier());
-                        if (q.equals("whitelabelkey"))
-                        {
-                            System.out.println("valod");
-                        }
                         for (Annotation an : field.getDeclaredAnnotations()) {
                             if (an.annotationType().equals(HbaseColumn.class)) {
                                 HbaseColumn anotation = (HbaseColumn) an;
@@ -204,23 +200,9 @@ public class HbaseUserDao extends HbaseBaseDao {
                                                         newvalue = new String(kv.value());
                                                         setter.invoke(user, new Object[]{newvalue});
                                                         break;
-                                                    case "co.oddeye.concout.model.WhitelabelModel":
-                                                        
-                                                        WhitelabelModel val =  whitelabelDao.getByID(kv.value());
-                                                        
+                                                    case "co.oddeye.concout.model.WhitelabelModel":                                                        
+                                                        WhitelabelModel val =  whitelabelDao.getByID(kv.value());                                                        
                                                         setter.invoke(user, new Object[]{val});
-                                                        
-//                                                        if (field.getName().equals("authorities")) {
-//                                                            String token;
-//                                                            StringTokenizer tokens = new StringTokenizer(new String(kv.value()).replaceAll("\\[|\\]", ""), ",");
-//                                                            newvalue = new ArrayList<>();
-//                                                            while (tokens.hasMoreTokens()) {
-//                                                                token = tokens.nextToken();
-//                                                                token = token.trim();
-//                                                                ((ArrayList<GrantedAuthority>) newvalue).add(new SimpleGrantedAuthority(token));
-//                                                            }                                                            
-//                                                        }
-
                                                         break;                                                        
                                                         
                                                     case "java.util.Collection":
