@@ -612,7 +612,7 @@ var encodeHTML = function (source) {
         graph: {
             color: colorPalette
         },
-        pie: {
+        pie: {            
             label: {
                 normal: {
                     formatter: pieformater
