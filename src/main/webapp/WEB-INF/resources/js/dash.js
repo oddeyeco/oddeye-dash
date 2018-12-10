@@ -1801,6 +1801,7 @@ var queryCallback = function (inputdata) {
                             if (!ser.radius)
                             {
                                 ser.radius = Math.min(a / 2, b / 2) - 5;
+//                                ser.radius = Math.min(a / 3, b / 3);
                             }
                             delete ser.axisLine;
                             delete ser.axisTick;
@@ -2051,6 +2052,10 @@ var queryCallback = function (inputdata) {
                         if (widget.options.series[ind].type === "gauge")
                         {
                             widget.options.legend.itemWidth = 0;
+                        }
+                        else
+                        {
+                            delete widget.options.legend.itemWidth;
                         }
                     }
                 }
