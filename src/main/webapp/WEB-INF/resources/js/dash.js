@@ -2053,6 +2053,10 @@ var queryCallback = function (inputdata) {
                         {
                             widget.options.legend.itemWidth = 0;
                         }
+                        else
+                        {
+                            delete widget.options.legend.itemWidth;
+                        }
                     }
                 }
                 if (widget.options.series[ind])
