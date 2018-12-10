@@ -1078,8 +1078,10 @@ class BaseChartEditForm extends EditForm {
                     {tag: "div", id: "axes_select", class: "form_main_block pull-left custominputs", label: {show: true, text: locale["editchartform.detail"], class: "typegauge"}, content: [
 
                             {tag: "label", class: "control-label control-label-custom120 typegauge", text: locale["editchartform.color"], lfor: "detailColor"},
-                            {tag: "div", class: "color-button typegauge", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element typegauge", content: [
+
+                            {tag: "div", class: "titile_input_midle typegauge", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
+
                                             {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "detailColor", name: "detailColor", key_path: 'detail.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}

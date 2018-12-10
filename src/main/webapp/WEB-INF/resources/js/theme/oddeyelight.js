@@ -60,7 +60,7 @@ var pieformater = function (params) {
     }
     return formatter;
 };
-var abcformater = function (params) {    
+var abcformater = function (params) {
     var formatter = params.data.unit;
     if (params.data.formatter)
     {
@@ -653,9 +653,28 @@ var encodeHTML = function (source) {
                     return '<span style="font-size:16px;color:#fff">' + key + "<br>" + '<span style="display:inline-block;margin-left:5px;color:#fff">' + params.data.subname + " : " + value + '</span></span>';
                 }
             },
+            startAngle: 225,
+            endAngle: -45,
+            splitNumber:6,
+            detail: {
+                show: true,
+                offsetCenter: [0, '70%'],
+                textStyle: {
+                    fontSize: 20,
+                    color: '#fff'
+                },
+                rich: {
+                    name: {
+                        fontSize: 14,
+                        lineHeight: 30,
+                        color: '#ddd'
+                    }
+                }
+            },
+
             axisLine: {
                 lineStyle: {
-                    width: 10,
+                    width: 2,
                     color: [[0.2, '#2ec7c9'], [0.8, '#5ab1ef'], [1, '#d87a80']],
                     shadowColor: colorPalette[1],
                     shadowBlur: 10
@@ -663,7 +682,7 @@ var encodeHTML = function (source) {
             },
             axisTick: {
                 splitNumber: 10,
-                length: 15,
+                length: 10,
                 lineStyle: {
                     color: 'auto'
                 }
@@ -677,9 +696,9 @@ var encodeHTML = function (source) {
             pointer: {
                 width: 5
             },
-            detail: {
-                color: gauge_detail_color
-            }
+        title: { 
+            offsetCenter: [0, '90%']
+        }                      
         }
     };
     echarts.registerTheme('oddeyelight', theme);
