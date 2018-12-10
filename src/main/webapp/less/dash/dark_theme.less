@@ -115,8 +115,10 @@ input::-webkit-inner-spin-button {
     .btn_OEhover(@bg: @clr_OEgreen2);
 }
 .btn-default {
-  .btn_OE(@bg:darken(@clr_greyGreen3,10%));
-  .btn_OEhover(@bg:@clr_greyGreen3);
+/*  .btn_OE(@bg:darken(@clr_greyGreen3,10%));
+  .btn_OEhover(@bg:@clr_greyGreen3);*/
+  .btn_OE(@bg:lighten(@clr_base_bg, 20%));
+  .btn_OEhover(@bg:lighten(@clr_base_bg, 20%));
 }
 .btn-default-dash {
   .btn_OE(@bg:@clr_greyGreen2);
@@ -143,7 +145,8 @@ input::-webkit-inner-spin-button {
 }
 // Danger and error appear as red
 .btn-danger {
-  .btn_OE(@bg:darken(@clr_darkRed,10%));
+/*  .btn_OE(@bg:darken(@clr_darkRed,10%));*/
+  .btn_OE(@bg:@clr_darkRed);
   .btn_OEhover(@bg:@clr_darkRed);
 }
 a.btn-success:extend(.btn-success){}
@@ -174,7 +177,8 @@ a.btn-danger {
         >li {
             >a {
                 color: @clr_OEgreen2;
-                background: @clr_greyGreen2 !important;
+/*                background: @clr_greyGreen2 !important;*/
+                background: lighten(@clr_base_bg, 20%) !important;
                 border-color: @clr_border !important;
                 &:hover {
                     color: @clr_OEblue2;
@@ -251,13 +255,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
 .balace_part{
     .tile_count {
         .tile_stats_count:before {
-            border-color: @clr_greyGreen3;
+            border-color: lighten(@clr_base_bg, 10%);
         }
         .od{
             input {
                 color: @clr_infoText;
                 background-color: @clr_bannerBlue;
-                .base_border(@color:@clr_greyGreen2);
+                .base_border(@color:lighten(@clr_base_bg, 10%));
                 padding-left: 4px;
             }
         } 
@@ -288,14 +292,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     }
                 }
                 .dropdown-menu {
-                    .base_border(@color:lighten(@clr_header, 10%));
+                    .base_border(@color:lighten(@clr_base_bg, 10%));
                     border-top: none;
                     border-radius: 0 4px;
                     margin-top: 1px;
-                    border-radius: 4px;
-                    background: @clr_header;
+/*                    background: @clr_header;*/
                     li>a {
-                        background: @clr_base_bg;
+                        background: lighten(@clr_base_bg, 5%);
                         color: @clr_body;        
                         &:hover,&:focus {
                             background: darken(@clr_header, 2%);
@@ -516,6 +519,7 @@ div.sidebar-footer.hidden-small {
                     .base_border(@color: lighten(@clr_base_bg, 15%));
                     box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.6);                    
                     font-weight: bold;
+                    transition: 0.4s;
                 }
             } 
         }  
@@ -537,6 +541,7 @@ div.sidebar-footer.hidden-small {
                     .base_border(@color: lighten(@clr_base_bg, 15%));
                     border-radius: 4px;
                     padding: 2px;
+                    transition: 0.4s;
                 }
                 .count {
                     color: @clr_infoText;
@@ -638,7 +643,7 @@ table>tbody>tr>td {
         >tr {
             >th {
                 .base_border(border-top);
-                .base_border(border-bottom,@width: 2px,@color: @clr_greyGreen3);
+                .base_border(border-bottom,@width: 2px,@color: lighten(@clr_base_bg, 10%));
             }
             >td {
                 .base_border(border-top);
@@ -674,11 +679,14 @@ div.modal-content .text-warning {
 //---- listtable_wrapper ----
 div.modal-content {
 /*    background-color: @clr_greyGreen1;*/
-    background-color: @clr_greyGreen2;
-    .base_border(@width: 2px,@color: fade(@clr_greyGreen2,80%));
-    color: @clr_base_bg;
+/*    background-color: @clr_greyGreen2;*/
+    background-color: lighten(@clr_base_bg, 10%);
+/*    .base_border(@width: 2px,@color: fade(@clr_greyGreen2,80%));*/
+    .base_border(@width: 2px,@color: lighten(@clr_base_bg, 20%));
+    color: @clr_body_bg;
     .modal-header {
-        .base_border(border-bottom,@color:@clr_greyGreen2);
+/*        .base_border(border-bottom,@color:@clr_greyGreen2);*/
+        .base_border(border-bottom,@color:lighten(@clr_base_bg, 20%));
     }
         /*.form-control {
         color: @clr_infoText;
@@ -690,14 +698,16 @@ div.modal-content {
             >tr {
                 &:nth-of-type(odd) {
 /*                    background: linear-gradient(270deg,@clr_greyGreen1,@clr_greyGreen2,@clr_greyGreen1);*/
-                    background: linear-gradient(270deg,@clr_greyGreen2,@clr_greyGreen1,@clr_greyGreen2);
+/*                    background: linear-gradient(270deg,@clr_greyGreen2,@clr_greyGreen1,@clr_greyGreen2);*/
+                    background: linear-gradient(270deg,lighten(@clr_base_bg, 10%),lighten(@clr_base_bg, 20%),lighten(@clr_base_bg, 10%));
                 }
             }
         }
     }
     .modal-footer {
         padding: 10px;
-        .base_border(border-top,@color:@clr_greyGreen2);
+/*        .base_border(border-top,@color:@clr_greyGreen2);*/
+        .base_border(border-top,@color:lighten(@clr_base_bg, 20%));
     }
 }
 //---- listtable2_wrapper ----
@@ -811,13 +821,14 @@ table.table-bordered {
     background: @clr_base_bg;
     .base_border();
     .calendar-table {
-        background-color: @clr_greyGreen3;
+/*        background-color: @clr_greyGreen3;*/
+        background-color: lighten(@clr_base_bg,10%);
         .base_border(@color:@clr_greyGreen1);
         border-radius: 0 0 4px 4px;
     }
     td.off {
         color: #777;
-        background-color: @clr_greyGreen3;
+        background-color: lighten(@clr_base_bg,15%);
     }
     select.monthselect {
         .base_border(@color:@clr_greyGreen1);
@@ -874,8 +885,10 @@ table.table-bordered {
     }
     .ranges {
         li {
-            background: @clr_greyGreen2;
-            .base_border(@color:@clr_greyGreen1);
+/*            background: @clr_greyGreen2;
+            .base_border(@color:@clr_greyGreen1);*/
+            background: lighten(@clr_base_bg,10%);
+            .base_border(@color:lighten(@clr_base_bg,10%));
             color: @clr_infoText;
             &:hover {
                 background: @clr_OEblue2;
@@ -952,7 +965,7 @@ div.profile_right-table {
 //---- Real Time ----
 #query_form_content {
     fieldset {
-        .base_border(@width: 2px,@color: @clr_greyGreen3);
+        .base_border(@width: 2px,@color: lighten(@clr_base_bg, 15%));
         border-width: 2px 0 0 0;
         td.value {
             input.filter-value {
@@ -962,11 +975,11 @@ div.profile_right-table {
             }
         }
         div.add-filter {
-            .base_border(@width:0 0 1px 0, @color:@clr_greyGreen2);
+            .base_border(@width:0 0 1px 0, @color:lighten(@clr_base_bg, 10%));
         }
-        label.all_filter {
+        /*label.all_filter {
             color: @clr_border;
-        }
+        }*/
     }
     div.notifiers-table {
         div.item.value {
@@ -1019,7 +1032,7 @@ div.x_panel {
 .monitorlist {
     li {
         ul#regularlist {
-            border-top: double 6px @clr_greyGreen2;
+            border-top: double 6px lighten(@clr_base_bg, 15%);
         }
         ul {
             color: @clr_bannerBlue;
@@ -1091,19 +1104,25 @@ div.btn-group-vertical {
         .panel-heading {
             border-radius: 4px;
             background: @clr_header;
-            box-shadow: -1px 1px 0 0 @clr_greyGreen2, 1px -1px 0 0 @clr_greyGreen3;
+            .base_border();
+/*            box-shadow: -1px 1px 0 0 @clr_greyGreen2, 1px -1px 0 0 @clr_greyGreen3;*/
             &:hover {
                 background: @clr_base_bg;
-                box-shadow: none;
+/*                box-shadow: none;*/
+                border: none;
             }
         }
+        background-color: @clr_base_bg;
         margin-bottom: 10px;
         border-style: none;
-        background-color: @clr_base_bg;
+        
         &:hover {
-            border-radius: 4px;
-            box-shadow: 0 1px 10px @clr_OEblue;
             background-color: @clr_base_bg;
+            border-radius: 4px;
+/*            box-shadow: 0 0 4px @clr_OEblue;*/
+/*            box-shadow: 0 0 4px @clr_body;*/
+           box-shadow: inset 0 1px 1px rgba(0,0,0,0.1),0 0 8px rgba(102,175,233,0.6);
+            
         }        
     }
 }
@@ -1193,7 +1212,7 @@ div#accordion1 .table-bordered>tbody>tr>th {
             background: inherit;
             &:hover {
                 box-shadow: none;
-                border-bottom: 1px solid #72786a;
+                border-bottom: 1px solid lighten(@clr_base_bg, 15%);
                 border-radius: 0;
             }
             .hoverShow {
@@ -1202,14 +1221,18 @@ div#accordion1 .table-bordered>tbody>tr>th {
                 color: #000;
             }
             .dropdown-menu {
-                background-color: @clr_greyGreen1;
-                .base_border(@color:lighten(@clr_greyGreen1, 10%));
+/*                background-color: @clr_greyGreen1;
+                .base_border(@color:lighten(@clr_greyGreen1, 10%));*/
+                background-color: @clr_base_bg;
+                .base_border();
                 >li{
                     >a{
-                        background-color: @clr_base_bg;
+/*                        background-color: @clr_base_bg;*/                       
+                        background-color: lighten(@clr_base_bg, 10%);                      
                         color: @clr_darkOrange;
                         &:hover, &:focus{
-                            background-color: @clr_greyGreen2; 
+/*                            background-color: @clr_greyGreen2;*/
+                            background-color: @clr_base_bg;
                         }
                         >i{
                             color: @clr_body; 
