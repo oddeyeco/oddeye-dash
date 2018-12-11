@@ -754,13 +754,15 @@ div.modal-content {
         .dropdown-menu {
             /*background-color: @clr_bannerBlue;
             border: 1px solid #c2ae83;*/
-            background: @clr_header;
+/*            background: @clr_header;*/
+            background: lighten(@clr_base_bg, 5%);
             .base_border();
             li>a {
                 color: @clr_body;
                 &:hover, &:focus{ 
                 /*background: #0b2f3c;*/
-                    background: lighten(@clr_header, 2%);
+/*                    background: lighten(@clr_header, 2%);*/
+                    background: @clr_header;
                     color: @clr_OEgreen2;
                 }
             }
