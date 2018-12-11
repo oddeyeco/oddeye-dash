@@ -5,8 +5,11 @@
  */
 package co.oddeye.concout.config;
 
+import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.convertor.StringToDoubleConvertor;
+import co.oddeye.concout.convertor.StringToOddeyeUserModelConverter;
 import co.oddeye.concout.providers.ApplicationContextProvider;
+import co.oddeye.concout.util.WhiteLabelInterceptor;
 import com.maxmind.geoip2.DatabaseReader;
 import freemarker.template.TemplateException;
 import java.io.File;
@@ -28,7 +31,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.annotation.Order;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -59,24 +65,49 @@ public class Config implements WebMvcConfigurer {
 
     @Value("${geoipfile}")
     private String geoipfile;
-    
+
     @Autowired
     StringToDoubleConvertor stringToDoubleConvertor;
+
+    @Autowired
+    StringToOddeyeUserModelConverter stringToOddeyeUserModelConverter;
 
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(Config.class);
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addConverter(stringToDoubleConvertor);        
-    }    
-    
+        registry.addConverter(stringToDoubleConvertor);
+        registry.addConverter(stringToOddeyeUserModelConverter);
+    }
+
+    @Bean
+    @Order(0)
+    public WhiteLabelResolver whiteLabelResolver() {
+        return new WhiteLabelResolver();
+    }
+
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();
         resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
-        resolver.setViewClass(JstlView.class);
+        resolver.setViewClass(JstlView.class);        
         return resolver;
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipart = new CommonsMultipartResolver();
+        multipart.setMaxUploadSize(3 * 1024 * 1024);
+        return multipart;
+    }
+
+    @Bean
+    @Order(0)
+    public MultipartFilter multipartFilter() {
+        MultipartFilter multipartFilter = new MultipartFilter();
+        multipartFilter.setMultipartResolverBeanName("multipartResolver");
+        return multipartFilter;
     }
 
     @Bean
@@ -144,9 +175,15 @@ public class Config implements WebMvcConfigurer {
         return lci;
     }
 
+    @Bean    
+    public WhiteLabelInterceptor whiteLabelInterceptor() {
+        return new WhiteLabelInterceptor();
+    }    
+    
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+        registry.addInterceptor(whiteLabelInterceptor());
     }
 
     @Bean

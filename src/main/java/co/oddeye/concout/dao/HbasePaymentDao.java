@@ -5,51 +5,23 @@
  */
 package co.oddeye.concout.dao;
 
-import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.config.DatabaseConfig;
-import co.oddeye.concout.core.CoconutConsumption;
-import co.oddeye.concout.core.ConsumptionList;
 import co.oddeye.concout.model.OddeyePayModel;
-import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.TreeMap;
-
-import java.util.UUID;
-import net.opentsdb.uid.NoSuchUniqueName;
-import net.opentsdb.uid.UniqueId;
 import org.apache.commons.lang.ArrayUtils;
-import org.hbase.async.Bytes;
-import org.hbase.async.ColumnPrefixFilter;
-import org.hbase.async.DeleteRequest;
-import org.hbase.async.FilterList;
 import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.hbase.async.PutRequest;
-import org.hbase.async.ScanFilter;
 import org.hbase.async.Scanner;
-import org.hbase.async.ValueFilter;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 /**

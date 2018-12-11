@@ -10,7 +10,7 @@
     Author     : vahan
 --%>
 <div class="x_panel">    
-    <form:form method="post" action="${cp}/${path}/edit/${model.id}" modelAttribute="model" novalidate="true" cssClass="form-horizontal form-label-left">                            
+    <form:form method="post" action="${cp}/${path}/edit/${model.id}/?${_csrf.parameterName}=${_csrf.token}" modelAttribute="model" novalidate="true" cssClass="form-horizontal form-label-left" enctype="multipart/form-data">                            
     <form:hidden path="id" />                            
     <c:forEach items="${configMap}" var="config">
 
@@ -38,11 +38,28 @@
                     </label>
                     <div class="col-md-6 col-sm-6 col-xs-12">
                         <spring:message code="${config.getValue().title}" var="placeholderTitle"/>
-                        <form:input path="${config.getValue().path}" cssClass="form-control" placeholder="${placeholderTitle}"/><%--${config.getValue().title}--%>                         
+                        <form:input path="${config.getValue().path}" cssClass="form-control" placeholder="${placeholderTitle}"/>                                                 
                         <form:errors path="${config.getValue().path}" />
                     </div>
                 </div>  
-            </c:when>                
+            </c:when>    
+            <c:when test="${config.getValue().type == 'File'}">
+                <div class="form-group">
+                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="${config.getValue().path}">
+                        <spring:message code="${config.getValue().title}"/>
+                        <c:if test="${config.getValue().required == true}"> 
+                            <span class="required">*</span>
+                        </c:if>
+                    </label>
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <spring:message code="${config.getValue().title}" var="placeholderTitle"/>
+                        <form:hidden path="${config.getValue().infopath}" cssClass="form-info" infotype="${config.getValue().inftype}" placeholder="${placeholderTitle}"/>
+                        <form:hidden path="fullfileName" cssClass="fullfileName"/>                         
+                        <form:input accept="${config.getValue().inftype}" type="file" path="${config.getValue().path}" cssClass="form-control" placeholder="${placeholderTitle}"/><%--${config.getValue().title}--%>                         
+                        <form:errors path="${config.getValue().path}" />
+                    </div>
+                </div>  
+            </c:when>                                  
             <c:when test="${config.getValue().type == 'Select'}">
                 <div class="form-group">
                     <label class="control-label col-md-3 col-sm-3 col-xs-12" for="${config.getValue().path}">

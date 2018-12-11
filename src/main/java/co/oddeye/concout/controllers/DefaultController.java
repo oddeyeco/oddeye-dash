@@ -5,10 +5,12 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.model.WhitelabelModel;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import co.oddeye.core.globalFunctions;
@@ -43,6 +45,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -61,7 +65,10 @@ public class DefaultController {
     private DatabaseReader geoip;
     @Autowired
     private MessageSource messageSource;
-    
+
+    @Autowired
+    private WhiteLabelResolver whiteLabelResolver;
+
     protected static final Logger LOGGER = LoggerFactory.getLogger(DefaultController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -99,14 +106,14 @@ public class DefaultController {
             return "redirect:/profile/edit#Security";
         }
         map.put("isAuthentication", false);
-        map.put("title", messageSource.getMessage("title.login",new String[]{""},LocaleContextHolder.getLocale()));
+        map.put("title", messageSource.getMessage("title.login", new String[]{""}, LocaleContextHolder.getLocale()));
 //      map.put("title", "");
         map.put("slug", "login");
         map.put("body", "login");
         map.put("jspart", "loginjs");
         return "indexPrime";
-    }    
-    
+    }
+
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -140,18 +147,23 @@ public class DefaultController {
 
     @RequestMapping(value = {"/login/", "/login"}, method = RequestMethod.GET)
     public String loginDo(ModelMap map) {
+//        whiteLabelResolver.getDomain();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             return redirecttodashboard();
         }
         map.put("isAuthentication", false);
-        map.put("title", messageSource.getMessage("title.login",new String[]{""},LocaleContextHolder.getLocale()));
+        map.put("title", messageSource.getMessage("title.login", new String[]{""}, LocaleContextHolder.getLocale()));
         map.put("slug", "login");
         map.put("body", "login");
         map.put("jspart", "loginjs");
         return "indexPrime";
     }
 
+//    @RequestMapping(value = {"/{slug}"}, method = RequestMethod.POST)
+//    public String postbytemplate(@PathVariable(value = "slug") String slug, @RequestParam("file") MultipartFile file, ModelMap map, HttpServletRequest request) {
+//        return "index";
+//    }    
     @RequestMapping(value = {"/{slug}"}, method = RequestMethod.GET)
     public String bytemplate(@PathVariable(value = "slug") String slug, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -175,7 +187,7 @@ public class DefaultController {
         }
         switch (slug) {
             case "calculator": {
-                map.put("title", messageSource.getMessage("title.monitoringPriceCalculator",new String[]{""},LocaleContextHolder.getLocale()));
+                map.put("title", messageSource.getMessage("title.monitoringPriceCalculator", new String[]{""}, LocaleContextHolder.getLocale()));
 //              map.put("title", "Monitoring Price Calculator");
                 map.put("ogimage", "oddeyecalcog.png");
 
@@ -268,6 +280,7 @@ public class DefaultController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String createuser(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
 
+        WhitelabelModel wl = whiteLabelResolver.getWhitelabelModel();
         userValidator.validate(newUser, result);
         if (request.getParameter("g-recaptcha-response") != null) {
             if (!request.getParameter("g-recaptcha-response").isEmpty()) {
@@ -302,16 +315,24 @@ public class DefaultController {
             map.put("body", "signup");
             map.put("jspart", "signupjs");
         } else {
-
             try {
                 String baseUrl = mailSender.getBaseurl(request);
-                newUser.SendConfirmMail(mailSender, baseUrl);
+                if (wl != null) {
+                    newUser.setWhitelabel(wl);
+                    newUser.addAuthoritie(OddeyeUserModel.ROLE_WHITELABEL_USER);
+                    newUser.SendWlAdminMail("User Sined in wl", mailSender, wl.getOwner().getEmail());
+                    newUser.SendWLConfirmMail(mailSender, baseUrl, wl.getOwner().getEmail());
+                }
+                if (wl == null) {                    
+                    newUser.SendConfirmMail(mailSender, baseUrl);
+                }
+
                 newUser.SendAdminMail("User Sined", mailSender);
                 newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);
-                Userdao.saveSineUpCookes(newUser,request.getCookies());
-                
+                Userdao.saveSineUpCookes(newUser, request.getCookies());
+
 //                return redirecttodashboard();
                 map.put("body", "signupconfirm");
                 map.put("jspart", "signupconfirmjs");
@@ -325,7 +346,7 @@ public class DefaultController {
                 map.put("message", ex.toString());
             }
         }
-        map.put("title", messageSource.getMessage("title.signUp",new String[]{""},LocaleContextHolder.getLocale()));
+        map.put("title", messageSource.getMessage("title.signUp", new String[]{""}, LocaleContextHolder.getLocale()));
 //      map.put("title", "Sign Up");
         return "indexPrime";
         //else
@@ -347,14 +368,14 @@ public class DefaultController {
         }
 
         String[] ids = TimeZone.getAvailableIDs();
-        for (String tzone : ids) {          
+        for (String tzone : ids) {
             TimeZone timeZone = TimeZone.getTimeZone(tzone);
             int offset = timeZone.getOffset(System.currentTimeMillis()) / 1000 / 60 / 60;
             String prefix = "UTC+";
             if (offset < 0) {
                 prefix = "UTC";
             }
-            timezones.put(timeZone.getID(), timeZone.getID() + "(" + prefix + offset + ")");            
+            timezones.put(timeZone.getID(), timeZone.getID() + "(" + prefix + offset + ")");
         }
 
         map.put("countryList", country);

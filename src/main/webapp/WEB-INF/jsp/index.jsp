@@ -10,6 +10,7 @@
     <%@ taglib prefix="udf" uri="https://app.oddeye.co/OddeyeCoconut/oddeyetaglib" %>
     <c:set var="version" value="0.2.16" scope="request"/>
     <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request" />
+    <c:set var="whitelabel" value="${whitelabel.getWhitelabelModel()}" scope="request"/>
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -74,7 +75,9 @@
                 </c:choose>
             </c:if>            
 
-
+            <c:if test="${not empty whitelabel}" >                
+                <link rel="stylesheet" href="<c:url value="${whitelabel.getFullfileName()}${whitelabel.cssfilename}?v=${version}"/>" />
+            </c:if>     
 
 
         </head>
@@ -86,7 +89,14 @@
                             <div class="left_col scroll-view">
                                 <div class="navbar nav_title" style="border: 0;">
                                         <a href="<c:url value="/"/>" >
-                                    <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
+                                    
+            <c:if test="${empty whitelabel}" >
+                <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
+                </c:if>                        
+            <c:if test="${not empty whitelabel}" >
+                <img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="65px" style="float: left">                
+            </c:if>                                       
+                                    
                                     <span class="site_title" style="width: auto"><spring:message code="index.home"/></span> </a>                                    
                             </div>
                             <div class="clearfix"></div>                            
@@ -156,6 +166,7 @@
                                                         <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
                                                         <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
                                                         <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
+                                                        <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
                                                         </sec:authorize>
                                                         <sec:authorize access="hasRole('CONTENTMANAGER')">
                                                         <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
@@ -388,7 +399,7 @@
                     </div>
                 </div>                        
             </c:if>
-            
+
             <c:if test="${empty curentuser.getTemplate()}" >
                 <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
             </c:if>                        
@@ -406,17 +417,17 @@
                     </c:otherwise>                                                    
                 </c:choose>
             </c:if>             
-            
-            
-            
+
+
+
             <script>
-            var headerName = "${_csrf.headerName}";
-            var token = "${_csrf.token}";
-            var cp = "${cp}";
-            var uuid = "${curentuser.getId()}";
-            var Firstlogin = false;
+                var headerName = "${_csrf.headerName}";
+                var token = "${_csrf.token}";
+                var cp = "${cp}";
+                var uuid = "${curentuser.getId()}";
+                var Firstlogin = false;
                 <c:if test="${not empty curentuser}">
-            Firstlogin = ${curentuser.getFirstlogin()};
+                Firstlogin = ${curentuser.getFirstlogin()};
                 </c:if>
 
             </script>                                         
@@ -425,7 +436,7 @@
             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
 
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
-           
+
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>                    
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
             <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>        
@@ -536,7 +547,7 @@
             <!-- End Facebook Pixel Code -->
             <c:if test="${not empty pageContext.response.locale}" >
                 <script>
-                moment.locale('${pageContext.response.locale}');
+                    moment.locale('${pageContext.response.locale}');
                 </script>
             </c:if>              
 

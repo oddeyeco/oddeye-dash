@@ -9,9 +9,11 @@ import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.core.CoconutConsumption;
 import co.oddeye.concout.core.ConsumptionList;
+import co.oddeye.concout.model.IHbaseModel;
 import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.model.WhitelabelModel;
 import co.oddeye.core.AlertLevel;
 import co.oddeye.core.globalFunctions;
 import java.beans.IntrospectionException;
@@ -73,6 +75,9 @@ public class HbaseUserDao extends HbaseBaseDao {
 
     @Autowired
     HbasePaymentDao PaymentDao;
+    
+    @Autowired
+    WhitelabelDao whitelabelDao;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseUserDao.class);
 
@@ -195,6 +200,11 @@ public class HbaseUserDao extends HbaseBaseDao {
                                                         newvalue = new String(kv.value());
                                                         setter.invoke(user, new Object[]{newvalue});
                                                         break;
+                                                    case "co.oddeye.concout.model.WhitelabelModel":                                                        
+                                                        WhitelabelModel val =  whitelabelDao.getByID(kv.value());                                                        
+                                                        setter.invoke(user, new Object[]{val});
+                                                        break;                                                        
+                                                        
                                                     case "java.util.Collection":
                                                         if (field.getName().equals("authorities")) {
                                                             String token;
@@ -327,6 +337,13 @@ public class HbaseUserDao extends HbaseBaseDao {
                                 if ((user.getPasswordByte() != null) && (user.getSolt() != null)) {
                                     changedata.get(family).put("password", user.getPasswordByte());
                                     changedata.get(family).put("solt", user.getSolt());
+                                }
+                            } else if (value instanceof IHbaseModel) {
+                                if (((HbaseColumn) an).identfield() != null) {
+                                    PropertyDescriptor PDescriptor2 = new PropertyDescriptor(((HbaseColumn) an).identfield(), value.getClass());
+                                    Method getter2 = PDescriptor2.getReadMethod();
+                                    value = getter2.invoke(value);
+                                    changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
                                 }
                             } else {
                                 changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
@@ -695,6 +712,13 @@ public class HbaseUserDao extends HbaseBaseDao {
                 if (((HbaseColumn) annotation).type().equals("password")) {
                     changedata.get(family).put("password", user.getPasswordByte());
                     changedata.get(family).put("solt", user.getSolt());
+                } else if (newvalue instanceof IHbaseModel) {
+                    if (((HbaseColumn) annotation).identfield() != null) {
+                        PropertyDescriptor PDescriptor2 = new PropertyDescriptor(((HbaseColumn) annotation).identfield(), newvalue.getClass());
+                        Method getter2 = PDescriptor2.getReadMethod();
+                        newvalue = getter2.invoke(newvalue);
+                        changedata.get(family).put(((HbaseColumn) annotation).qualifier(), newvalue);
+                    }
                 } else {
                     setter.invoke(user, newvalue);
                     changedata.get(family).put(((HbaseColumn) annotation).qualifier(), newvalue);
