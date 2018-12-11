@@ -655,7 +655,7 @@ var encodeHTML = function (source) {
             },
             startAngle: 225,
             endAngle: -45,
-            splitNumber:6,
+            splitNumber:5,
             detail: {
                 show: true,
                 offsetCenter: [0, '70%'],
