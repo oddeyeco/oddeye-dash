@@ -1,9 +1,16 @@
 /* -- changes for dark_theme -- */
 // ---- colors ----
-@clr_body_bg: #0f0f0f;
-@clr_body: #fff;
-@clr_header: #1e211e;
-@clr_base_bg: #141616;
+@clr_body_bg: #0d0e0e;
+@clr_body: #ffffee;
+/*@clr_header: #1e211e;*/
+/*@clr_header: #101212;*/
+@clr_header: #141717;
+/*@clr_rightCol_bg: #101212;*/
+@clr_rightCol_bg: #1a1d1d;
+/*@clr_base_bg: lighten(spin(@clr_header, 60), 2%) ;*/
+/*@clr_base_bg: #171917;*/
+@clr_base_bg: #212424;
+
 @clr_OEgreen: #8bc53f;
 @clr_OEgreen2: #92ad57;
 @clr_OEblue: #00adee;
@@ -11,11 +18,13 @@
 @clr_greyGreen1: #72786a;
 @clr_greyGreen2: #545b4b;
 @clr_greyGreen3: #454a3e;
+@clr_border: #333434;
+
 @clr_darkRed: #a52f2c;
 @clr_darkOrange: #e78803;
 @clr_infoText: #ffdea2;
 @clr_bannerBlue: #091f27;
-@clr_border: #333434;
+
 
 .base_border(@border: border, @width: 1px, @type: solid, @color: @clr_border){
     @{border}-width: @width;
@@ -67,7 +76,10 @@ body {
     color: @clr_body;
     background: @clr_body_bg;
     .container.body .right_col, footer{
-        background: lighten(@clr_body_bg, 2%);
+/*       background: lighten(@clr_body_bg, 2%);*/
+/*         background: darken(@clr_base_bg, 3%);*/
+        background: @clr_rightCol_bg;
+
     }
 }
 //---- scrollbar ----
@@ -103,8 +115,10 @@ input::-webkit-inner-spin-button {
     .btn_OEhover(@bg: @clr_OEgreen2);
 }
 .btn-default {
-  .btn_OE(@bg:darken(@clr_greyGreen2,10%));
-  .btn_OEhover(@bg:@clr_greyGreen3);
+/*  .btn_OE(@bg:darken(@clr_greyGreen3,10%));
+  .btn_OEhover(@bg:@clr_greyGreen3);*/
+  .btn_OE(@bg:lighten(@clr_base_bg, 20%));
+  .btn_OEhover(@bg:lighten(@clr_base_bg, 20%));
 }
 .btn-default-dash {
   .btn_OE(@bg:@clr_greyGreen2);
@@ -131,7 +145,8 @@ input::-webkit-inner-spin-button {
 }
 // Danger and error appear as red
 .btn-danger {
-  .btn_OE(@bg:darken(@clr_darkRed,10%));
+/*  .btn_OE(@bg:darken(@clr_darkRed,10%));*/
+  .btn_OE(@bg:@clr_darkRed);
   .btn_OEhover(@bg:@clr_darkRed);
 }
 a.btn-success:extend(.btn-success){}
@@ -162,7 +177,8 @@ a.btn-danger {
         >li {
             >a {
                 color: @clr_OEgreen2;
-                background: @clr_greyGreen2 !important;
+/*                background: @clr_greyGreen2 !important;*/
+                background: lighten(@clr_base_bg, 20%) !important;
                 border-color: @clr_border !important;
                 &:hover {
                     color: @clr_OEblue2;
@@ -228,7 +244,7 @@ i.fa-chevron-up {
 }
 // ---- // ---- //
 .x_title {
-        .base_border(border-bottom,@width: 2px,@color: @clr_bannerBlue);
+        .base_border(border-bottom,@width: 2px,@color: lighten(@clr_base_bg, 10%));
 }
 a {
     color: @clr_OEgreen;
@@ -239,13 +255,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
 .balace_part{
     .tile_count {
         .tile_stats_count:before {
-            .base_border(border-left, @width :2px, @color:@clr_bannerBlue)
+            border-color: lighten(@clr_base_bg, 10%);
         }
         .od{
             input {
                 color: @clr_infoText;
                 background-color: @clr_bannerBlue;
-                .base_border(@color:@clr_greyGreen2);
+                .base_border(@color:lighten(@clr_base_bg, 10%));
                 padding-left: 4px;
             }
         } 
@@ -258,7 +274,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
 .top_nav {
     .nav_menu {
         background: @clr_header;
-        border-bottom: 1px solid @clr_bannerBlue;
+/*        border-bottom: 1px solid lighten(@clr_base_bg, 10%);*/
+        .base_border(border-bottom,@color: lighten(@clr_base_bg, 10%));
         .navbar-nav.navbar-right {
             li>a {
                 color: @clr_body !important;
@@ -275,14 +292,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     }
                 }
                 .dropdown-menu {
-                    .base_border(@color:lighten(@clr_header, 10%));
+                    .base_border(@color:lighten(@clr_base_bg, 10%));
                     border-top: none;
                     border-radius: 0 4px;
                     margin-top: 1px;
-                    border-radius: 4px;
-                    background: @clr_header;
+/*                    background: @clr_header;*/
                     li>a {
-                        background: @clr_header;
+                        background: lighten(@clr_base_bg, 5%);
                         color: @clr_body;        
                         &:hover,&:focus {
                             background: darken(@clr_header, 2%);
@@ -305,10 +321,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
             box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);
         }
         >li{
-            .base_border(@color:lighten(@clr_header, 10%));
+/*            background: @clr_header;*/
+            background: @clr_rightCol_bg;
+/*            .base_border(@color:lighten(@clr_header, 10%));*/
+            .base_border(@color:lighten(@clr_rightCol_bg, 10%));
             border-radius: 4px;
             margin: 6px;
-            background: @clr_header;
+
             &:hover {
                 box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);
             }
@@ -319,9 +338,17 @@ a:hover, .query-label a:hover, .data-label a:hover {
 .left_col {
     background: @clr_body_bg;
     div#sidebar-menu.main_menu_side {
-          background: @clr_header;
-          border-radius: 4px;
-          background-image: linear-gradient(@clr_body_bg, @clr_header 10%, @clr_header 80%, @clr_body_bg);
+        background: lighten(@clr_base_bg, 10%);
+        /*          background: @clr_header;*/
+        /*          border-radius: 4px;*/
+        /*          background-image: linear-gradient(@clr_body_bg, @clr_header 10%, @clr_header 80%, @clr_body_bg);*/
+        /*          background-image: linear-gradient(@clr_body_bg, lighten(@clr_base_bg, 10%) 10%, lighten(@clr_base_bg, 10%) 80%, @clr_body_bg);*/
+        .menu_section {
+            margin-bottom: 0;
+            >ul {
+                margin-top: 0;
+            }
+        }
     }
     .main_menu {
         i.fa.fas, i.fa.far, i.fa-edit{
@@ -331,10 +358,11 @@ a:hover, .query-label a:hover, .data-label a:hover {
             >li{
                 &.active {
                     >a {
-                        background: darken(@clr_header, 2%);
+                        background: @clr_header;
                         color: @clr_OEgreen2;
                         box-shadow: none;
                         font-weight: bold;
+                        border-radius: 4px;
                     }         
                 }
                 >a {
@@ -357,14 +385,14 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 }
                 li {
                     &:hover {
-                        background: darken(@clr_header, 2%);
+                        background: @clr_header;
                      a{
                          color: @clr_OEgreen2;
                      }
                     }
                 }        
                 li.current-page {
-                  background: darken(@clr_header, 2%);
+                  background: @clr_header;
                   a {
                         color: @clr_OEgreen;
                     }
@@ -381,7 +409,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
     }
     .nav.child_menu {
         li {
-            background: @clr_header;
+/*            background: @clr_header;*/
         }
         li.active {
             border-right: 3px solid @clr_OEgreen2 ;
@@ -402,8 +430,10 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 }
                 >li.active {
                     >a {
-                        background: @clr_header;
-                        border-top: 1px solid @clr_bannerBlue;
+/*                        background: @clr_header;*/
+                        background: lighten(@clr_base_bg, 5%);
+                        border-top: 1px solid lighten(@clr_base_bg, 10%);
+                        border-radius: 0;
                     }                    
                 }
             }
@@ -412,8 +442,9 @@ a:hover, .query-label a:hover, .data-label a:hover {
     ul.nav.child_menu {
         width: auto;
         min-width: 120px;
-        background: @clr_header;
-        .base_border(@color:@clr_bannerBlue);
+/*        background: @clr_header;*/
+        background: lighten(@clr_base_bg, 5%);
+        .base_border(@color:lighten(@clr_base_bg, 10%));
         border-left: none;
         li {
             padding: 0 2px;
@@ -441,7 +472,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
 div.sidebar-footer.hidden-small {
     background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1));
     >a {
-        background: @clr_base_bg;
+        background: @clr_header;
         color: @clr_OEgreen;
         text-decoration: none;
         &:hover {
@@ -464,29 +495,31 @@ div.sidebar-footer.hidden-small {
     ul.gotodash {
         &:hover a.gotodash {
             box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.4);
-            background: linear-gradient(135deg, @clr_base_bg, fade(@clr_greyGreen3, 20%));
+            background: linear-gradient(135deg,@clr_rightCol_bg ,@clr_base_bg);
             .base_border(@color:@clr_header);
         }
         li {
             position: relative;
             padding: 4px;
             list-style: none;
-            background: darken(@clr_header, 2%);
-            background-image: linear-gradient(270deg, @clr_base_bg, darken(@clr_header, 2%) 10%, darken(@clr_header, 2%) 90%, @clr_base_bg);
+            background: @clr_base_bg;
+/*            background-image: linear-gradient(270deg, @clr_base_bg, darken( @clr_base_bg, 1%) 10%, darken( @clr_base_bg, 1%) 90%, @clr_base_bg);*/
             &:hover { 
                 border-radius: 0px;                
             }
             a.gotodash {
                 margin: 2px;
-                background: @clr_header;
-                .base_border(@color: lighten(@clr_header, 10%));
+                background: @clr_rightCol_bg;
+                .base_border(@color: lighten(@clr_rightCol_bg, 10%));
                 border-radius: 4px;
                 color: rgb(255, 255, 255);
                 &:hover {
-                    background: lighten(@clr_header, 2%);
-                    .base_border(@color: lighten(@clr_header, 10%));
+/*                    background: lighten(@clr_rightCol_bg, 2%);*/
+                    background: lighten(@clr_base_bg, 10%);
+                    .base_border(@color: lighten(@clr_base_bg, 15%));
                     box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.6);                    
-                    text-shadow: 0 0 1px @clr_OEblue;
+                    font-weight: bold;
+                    transition: 0.4s;
                 }
             } 
         }  
@@ -494,8 +527,9 @@ div.sidebar-footer.hidden-small {
     .x_content{
         .tile_count {
             .tile_stats_count {
-                background-color: rgba(30, 33, 30, 0.4);
-                .base_border();
+/*                background-color: rgba(30, 33, 30, 0.4);*/
+                background-color: @clr_rightCol_bg;
+                .base_border(@color: lighten(@clr_rightCol_bg, 10%));
                 border-radius: 4px;
                 margin-left: 10px;
                 &:before {
@@ -503,10 +537,11 @@ div.sidebar-footer.hidden-small {
                 }
                 &:hover a.showtags {
                     box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.6);
-                    background-color: @clr_greyGreen3;
-                    .base_border(@color: lighten(@clr_greyGreen3, 10%));
+                    background-color: lighten(@clr_base_bg, 10%);
+                    .base_border(@color: lighten(@clr_base_bg, 15%));
                     border-radius: 4px;
                     padding: 2px;
+                    transition: 0.4s;
                 }
                 .count {
                     color: @clr_infoText;
@@ -608,7 +643,7 @@ table>tbody>tr>td {
         >tr {
             >th {
                 .base_border(border-top);
-                .base_border(border-bottom,@width: 2px,@color: @clr_bannerBlue);
+                .base_border(border-bottom,@width: 2px,@color: lighten(@clr_base_bg, 10%));
             }
             >td {
                 .base_border(border-top);
@@ -643,11 +678,15 @@ div.modal-content .text-warning {
 }
 //---- listtable_wrapper ----
 div.modal-content {
-    background-color: @clr_greyGreen1;
-    .base_border(@width: 2px,@color: fade(@clr_greyGreen2,80%));
-    color: @clr_base_bg;
+/*    background-color: @clr_greyGreen1;*/
+/*    background-color: @clr_greyGreen2;*/
+    background-color: lighten(@clr_base_bg, 10%);
+/*    .base_border(@width: 2px,@color: fade(@clr_greyGreen2,80%));*/
+    .base_border(@width: 2px,@color: lighten(@clr_base_bg, 20%));
+    color: @clr_body_bg;
     .modal-header {
-        .base_border(border-bottom,@color:@clr_greyGreen2);
+/*        .base_border(border-bottom,@color:@clr_greyGreen2);*/
+        .base_border(border-bottom,@color:lighten(@clr_base_bg, 20%));
     }
         /*.form-control {
         color: @clr_infoText;
@@ -658,14 +697,17 @@ div.modal-content {
         >tbody {
             >tr {
                 &:nth-of-type(odd) {
-                    background: linear-gradient(270deg,@clr_greyGreen1,@clr_greyGreen2,@clr_greyGreen1);
+/*                    background: linear-gradient(270deg,@clr_greyGreen1,@clr_greyGreen2,@clr_greyGreen1);*/
+/*                    background: linear-gradient(270deg,@clr_greyGreen2,@clr_greyGreen1,@clr_greyGreen2);*/
+                    background: linear-gradient(270deg,lighten(@clr_base_bg, 10%),lighten(@clr_base_bg, 20%),lighten(@clr_base_bg, 10%));
                 }
             }
         }
     }
     .modal-footer {
         padding: 10px;
-        .base_border(border-top,@color:@clr_greyGreen2);
+/*        .base_border(border-top,@color:@clr_greyGreen2);*/
+        .base_border(border-top,@color:lighten(@clr_base_bg, 20%));
     }
 }
 //---- listtable2_wrapper ----
@@ -712,13 +754,15 @@ div.modal-content {
         .dropdown-menu {
             /*background-color: @clr_bannerBlue;
             border: 1px solid #c2ae83;*/
-            background: @clr_header;
+/*            background: @clr_header;*/
+            background: lighten(@clr_base_bg, 5%);
             .base_border();
             li>a {
                 color: @clr_body;
                 &:hover, &:focus{ 
                 /*background: #0b2f3c;*/
-                    background: lighten(@clr_header, 2%);
+/*                    background: lighten(@clr_header, 2%);*/
+                    background: @clr_header;
                     color: @clr_OEgreen2;
                 }
             }
@@ -779,13 +823,14 @@ table.table-bordered {
     background: @clr_base_bg;
     .base_border();
     .calendar-table {
-        background-color: @clr_greyGreen3;
+/*        background-color: @clr_greyGreen3;*/
+        background-color: lighten(@clr_base_bg,10%);
         .base_border(@color:@clr_greyGreen1);
         border-radius: 0 0 4px 4px;
     }
     td.off {
         color: #777;
-        background-color: @clr_greyGreen3;
+        background-color: lighten(@clr_base_bg,15%);
     }
     select.monthselect {
         .base_border(@color:@clr_greyGreen1);
@@ -842,8 +887,10 @@ table.table-bordered {
     }
     .ranges {
         li {
-            background: @clr_greyGreen2;
-            .base_border(@color:@clr_greyGreen1);
+/*            background: @clr_greyGreen2;
+            .base_border(@color:@clr_greyGreen1);*/
+            background: lighten(@clr_base_bg,10%);
+            .base_border(@color:lighten(@clr_base_bg,10%));
             color: @clr_infoText;
             &:hover {
                 background: @clr_OEblue2;
@@ -861,8 +908,9 @@ table.table-bordered {
 //---- Infrastructure ----
 .x_panel {
     >.profile_left {
-        background-image: linear-gradient(@clr_base_bg,darken(@clr_greyGreen2,10%) 10%, darken(@clr_greyGreen2,10%) 75%, @clr_base_bg);
-        .base_border(@color:fade(@clr_body_bg,20%));
+/*        background-image: linear-gradient(@clr_base_bg,darken(@clr_greyGreen2,10%) 10%, darken(@clr_greyGreen2,10%) 75%, @clr_base_bg);*/
+        background: @clr_header;
+        .base_border(@color: @clr_base_bg);
         border-radius: 4px;
         .profile_left-form {
             height: 820px;
@@ -870,17 +918,17 @@ table.table-bordered {
     }  
 }
 div#tagsconteger.ui-sortable {
-    background: @clr_greyGreen2;
-    .base_border(@color: lighten(@clr_greyGreen2, 10%));
+    background: lighten(@clr_base_bg, 10%);
+    .base_border();
     border-radius: 4px;
     padding: 4px;
     &:hover .draggable{
         box-shadow: inset 4px 3px 4px 0 rgba(0, 0, 0, 0.3);
     }
     .draggable {
-        .base_border(@color: lighten(@clr_greyGreen2, 10%));
-        border-radius: 4px;
-        background: inherit;
+        background: @clr_rightCol_bg;
+        .base_border(@color: lighten(@clr_rightCol_bg, 10%));
+        border-radius: 4px;        
         box-shadow: none;
         cursor: grabbing;
         cursor: -moz-grabbing;
@@ -910,15 +958,16 @@ div#tagsconteger.ui-sortable {
 }
 div.profile_right-table {
     >div.x_panel {
-        background-image: radial-gradient(darken(@clr_greyGreen1, 10%),darken(@clr_greyGreen2, 10%), @clr_base_bg);
+/*        background-image: radial-gradient(darken(@clr_greyGreen1, 10%),darken(@clr_greyGreen2, 10%), @clr_base_bg);*/
+        background-image: radial-gradient(@clr_base_bg, @clr_rightCol_bg, @clr_header);
         box-shadow: none;
-        .base_border(@color:fade(@clr_body_bg,20%));
+        .base_border(@color: @clr_base_bg);
     }
 }
 //---- Real Time ----
 #query_form_content {
     fieldset {
-        .base_border(@width: 2px,@color: @clr_bannerBlue);
+        .base_border(@width: 2px,@color: lighten(@clr_base_bg, 15%));
         border-width: 2px 0 0 0;
         td.value {
             input.filter-value {
@@ -928,12 +977,11 @@ div.profile_right-table {
             }
         }
         div.add-filter {
-            .base_border(@color:@clr_greyGreen2);
-            border-width: 0 0 2px 0;
+            .base_border(@width:0 0 1px 0, @color:lighten(@clr_base_bg, 10%));
         }
-        label.all_filter {
+        /*label.all_filter {
             color: @clr_border;
-        }
+        }*/
     }
     div.notifiers-table {
         div.item.value {
@@ -986,7 +1034,7 @@ div.x_panel {
 .monitorlist {
     li {
         ul#regularlist {
-            border-top: double 6px @clr_greyGreen2;
+            border-top: double 6px lighten(@clr_base_bg, 15%);
         }
         ul {
             color: @clr_bannerBlue;
@@ -995,6 +1043,9 @@ div.x_panel {
                 .base_border();
                 border-radius: 18px;
                 color: @clr_body_bg;
+                .icons{
+                    padding-right: 4px;
+                }
                 .metricname {
                     a {
                         color: @clr_OEblue;
@@ -1055,19 +1106,25 @@ div.btn-group-vertical {
         .panel-heading {
             border-radius: 4px;
             background: @clr_header;
-            box-shadow: -1px 1px 0 0 @clr_greyGreen2, 1px -1px 0 0 @clr_greyGreen3;
+            .base_border();
+/*            box-shadow: -1px 1px 0 0 @clr_greyGreen2, 1px -1px 0 0 @clr_greyGreen3;*/
             &:hover {
                 background: @clr_base_bg;
-                box-shadow: none;
+/*                box-shadow: none;*/
+                border: none;
             }
         }
+        background-color: @clr_base_bg;
         margin-bottom: 10px;
         border-style: none;
-        background-color: @clr_base_bg;
+        
         &:hover {
-            border-radius: 4px;
-            box-shadow: 0 1px 10px @clr_OEblue;
             background-color: @clr_base_bg;
+            border-radius: 4px;
+/*            box-shadow: 0 0 4px @clr_OEblue;*/
+/*            box-shadow: 0 0 4px @clr_body;*/
+           box-shadow: inset 0 1px 1px rgba(0,0,0,0.1),0 0 8px rgba(102,175,233,0.6);
+            
         }        
     }
 }
@@ -1156,7 +1213,9 @@ div#accordion1 .table-bordered>tbody>tr>th {
         .chartTitleDiv {
             background: inherit;
             &:hover {
-                box-shadow: 0 8px 8px -8px @clr_OEgreen;
+                box-shadow: none;
+                border-bottom: 1px solid lighten(@clr_base_bg, 15%);
+                border-radius: 0;
             }
             .hoverShow {
                 background-color: #ededed;
@@ -1164,14 +1223,18 @@ div#accordion1 .table-bordered>tbody>tr>th {
                 color: #000;
             }
             .dropdown-menu {
-                background-color: @clr_greyGreen3;
-                .base_border(@color:@clr_greyGreen1);
+/*                background-color: @clr_greyGreen1;
+                .base_border(@color:lighten(@clr_greyGreen1, 10%));*/
+                background-color: @clr_base_bg;
+                .base_border();
                 >li{
                     >a{
-                        background-color: @clr_base_bg;
+/*                        background-color: @clr_base_bg;*/                       
+                        background-color: lighten(@clr_base_bg, 10%);                      
                         color: @clr_darkOrange;
                         &:hover, &:focus{
-                            background-color: @clr_greyGreen2; 
+/*                            background-color: @clr_greyGreen2;*/
+                            background-color: @clr_base_bg;
                         }
                         >i{
                             color: @clr_body; 

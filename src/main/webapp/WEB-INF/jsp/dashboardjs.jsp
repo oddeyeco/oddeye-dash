@@ -114,6 +114,8 @@
         "editchartform.positions": "<spring:message code="editchartform.positions"/>",
         "editchartform.colors": "<spring:message code="editchartform.colors"/>",
         "editchartform.color": "<spring:message code="editchartform.color"/>",
+        "editchartform.detail": "<spring:message code="editchartform.detail"/>",
+        
         "editchartform.border": "<spring:message code="editchartform.border"/>",
         "editchartform.OR": "<spring:message code="editchartform.OR"/>",
         "editchartform.background": "<spring:message code="editchartform.background"/>",
