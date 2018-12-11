@@ -2,29 +2,20 @@
 // ---- colors ----
 @clr_body_bg: #0d0e0e;
 @clr_body: #ffffee;
-/*@clr_header: #1e211e;*/
-/*@clr_header: #101212;*/
 @clr_header: #141717;
-/*@clr_rightCol_bg: #101212;*/
 @clr_rightCol_bg: #1a1d1d;
-/*@clr_base_bg: lighten(spin(@clr_header, 60), 2%) ;*/
-/*@clr_base_bg: #171917;*/
 @clr_base_bg: #212424;
+@clr_border: #333434;
 
 @clr_OEgreen: #8bc53f;
 @clr_OEgreen2: #92ad57;
 @clr_OEblue: #00adee;
 @clr_OEblue2: #2e92b0;
-@clr_greyGreen1: #72786a;
-@clr_greyGreen2: #545b4b;
-@clr_greyGreen3: #454a3e;
-@clr_border: #333434;
 
 @clr_darkRed: #a52f2c;
 @clr_darkOrange: #e78803;
 @clr_infoText: #ffdea2;
 @clr_bannerBlue: #091f27;
-
 
 .base_border(@border: border, @width: 1px, @type: solid, @color: @clr_border){
     @{border}-width: @width;
@@ -115,14 +106,12 @@ input::-webkit-inner-spin-button {
     .btn_OEhover(@bg: @clr_OEgreen2);
 }
 .btn-default {
-/*  .btn_OE(@bg:darken(@clr_greyGreen3,10%));
-  .btn_OEhover(@bg:@clr_greyGreen3);*/
   .btn_OE(@bg:lighten(@clr_base_bg, 20%));
   .btn_OEhover(@bg:lighten(@clr_base_bg, 20%));
 }
 .btn-default-dash {
-  .btn_OE(@bg:@clr_greyGreen2);
-  .btn_OEhover(@bg:@clr_greyGreen1);
+  .btn_OE(@bg:lighten(@clr_base_bg, 20%));
+  .btn_OEhover(@bg:lighten(@clr_base_bg, 20%));
 }
 .btn-primary {
   .btn_OE(@bg: lighten(saturate(@clr_OEblue,20%),12%));
@@ -177,7 +166,6 @@ a.btn-danger {
         >li {
             >a {
                 color: @clr_OEgreen2;
-/*                background: @clr_greyGreen2 !important;*/
                 background: lighten(@clr_base_bg, 20%) !important;
                 border-color: @clr_border !important;
                 &:hover {
@@ -678,27 +666,16 @@ div.modal-content .text-warning {
 }
 //---- listtable_wrapper ----
 div.modal-content {
-/*    background-color: @clr_greyGreen1;*/
-/*    background-color: @clr_greyGreen2;*/
     background-color: lighten(@clr_base_bg, 10%);
-/*    .base_border(@width: 2px,@color: fade(@clr_greyGreen2,80%));*/
     .base_border(@width: 2px,@color: lighten(@clr_base_bg, 20%));
     color: @clr_body_bg;
     .modal-header {
-/*        .base_border(border-bottom,@color:@clr_greyGreen2);*/
         .base_border(border-bottom,@color:lighten(@clr_base_bg, 20%));
     }
-        /*.form-control {
-        color: @clr_infoText;
-        background-color: @clr_bannerBlue;
-        border: 1px solid @clr_greyGreen2;
-    }*/
     .table-striped {
         >tbody {
             >tr {
                 &:nth-of-type(odd) {
-/*                    background: linear-gradient(270deg,@clr_greyGreen1,@clr_greyGreen2,@clr_greyGreen1);*/
-/*                    background: linear-gradient(270deg,@clr_greyGreen2,@clr_greyGreen1,@clr_greyGreen2);*/
                     background: linear-gradient(270deg,lighten(@clr_base_bg, 10%),lighten(@clr_base_bg, 20%),lighten(@clr_base_bg, 10%));
                 }
             }
@@ -706,7 +683,6 @@ div.modal-content {
     }
     .modal-footer {
         padding: 10px;
-/*        .base_border(border-top,@color:@clr_greyGreen2);*/
         .base_border(border-top,@color:lighten(@clr_base_bg, 20%));
     }
 }
@@ -820,12 +796,11 @@ table.table-bordered {
     }
 }
 .daterangepicker.dropdown-menu {
-    background: @clr_base_bg;
+    background: @clr_rightCol_bg;
     .base_border();
     .calendar-table {
-/*        background-color: @clr_greyGreen3;*/
         background-color: lighten(@clr_base_bg,10%);
-        .base_border(@color:@clr_greyGreen1);
+        .base_border();
         border-radius: 0 0 4px 4px;
     }
     td.off {
@@ -833,12 +808,12 @@ table.table-bordered {
         background-color: lighten(@clr_base_bg,15%);
     }
     select.monthselect {
-        .base_border(@color:@clr_greyGreen1);
+        .base_border(@color:lighten(@clr_base_bg,20%));
         background-color: @clr_base_bg;
         color: @clr_infoText;
     }
     select.yearselect {
-        .base_border(@color:@clr_greyGreen1);
+        .base_border(@color:lighten(@clr_base_bg,20%));
         background-color: @clr_base_bg;
         color: @clr_infoText;
     }
@@ -887,8 +862,6 @@ table.table-bordered {
     }
     .ranges {
         li {
-/*            background: @clr_greyGreen2;
-            .base_border(@color:@clr_greyGreen1);*/
             background: lighten(@clr_base_bg,10%);
             .base_border(@color:lighten(@clr_base_bg,10%));
             color: @clr_infoText;
@@ -908,7 +881,6 @@ table.table-bordered {
 //---- Infrastructure ----
 .x_panel {
     >.profile_left {
-/*        background-image: linear-gradient(@clr_base_bg,darken(@clr_greyGreen2,10%) 10%, darken(@clr_greyGreen2,10%) 75%, @clr_base_bg);*/
         background: @clr_header;
         .base_border(@color: @clr_base_bg);
         border-radius: 4px;
@@ -958,7 +930,6 @@ div#tagsconteger.ui-sortable {
 }
 div.profile_right-table {
     >div.x_panel {
-/*        background-image: radial-gradient(darken(@clr_greyGreen1, 10%),darken(@clr_greyGreen2, 10%), @clr_base_bg);*/
         background-image: radial-gradient(@clr_base_bg, @clr_rightCol_bg, @clr_header);
         box-shadow: none;
         .base_border(@color: @clr_base_bg);
@@ -1039,13 +1010,11 @@ div.x_panel {
         ul {
             color: @clr_bannerBlue;
             li.selected {
+                padding: 8px;
                 box-shadow: inset 0px 0px 20px @clr_body_bg;
                 .base_border();
                 border-radius: 18px;
                 color: @clr_body_bg;
-                .icons{
-                    padding-right: 4px;
-                }
                 .metricname {
                     a {
                         color: @clr_OEblue;
@@ -1056,11 +1025,11 @@ div.x_panel {
                 .base_border();
                 box-shadow: none;
                 .valueinfo {
-                    .base_border(border-bottom,@color:@clr_greyGreen3);
+                    .base_border(border-bottom,@color:lighten(@clr_base_bg,10%));
                 }
                 .metricname {
                     .base_border();
-                    background-color: @clr_greyGreen3;
+                    background-color: lighten(@clr_base_bg,10%);
                     a {
                         color: @clr_OEgreen;
                     }
@@ -1069,7 +1038,7 @@ div.x_panel {
         }
     }
     .level_0 {
-        background-color: @clr_greyGreen1;
+        background-color: lighten(@clr_base_bg,20%);
     }
 }
 div.btn-group-vertical {
@@ -1107,7 +1076,6 @@ div.btn-group-vertical {
             border-radius: 4px;
             background: @clr_header;
             .base_border();
-/*            box-shadow: -1px 1px 0 0 @clr_greyGreen2, 1px -1px 0 0 @clr_greyGreen3;*/
             &:hover {
                 background: @clr_base_bg;
 /*                box-shadow: none;*/
@@ -1134,7 +1102,7 @@ div.btn-group-vertical {
     box-shadow: inset -1px 1px 4px rgba(38, 185, 154, 0.4);
 }
 div#accordion1 .table-bordered>tbody>tr>th {
-    .base_border(@color: fade(@clr_greyGreen2,40%));
+    .base_border();
 }
 // ---- Dashboards ----
 .dash_header {
@@ -1164,11 +1132,11 @@ div#accordion1 .table-bordered>tbody>tr>th {
         }
     } 
     .dropdown-menu {
-        .base_border(@color:@clr_greyGreen1);
+        .base_border(@color:lighten(@clr_base_bg,20%));
         >li {
             >a.savedashasTemplate {
                 background-color: @clr_base_bg;
-                .base_border(@width: 2px,@color: @clr_greyGreen3);
+                .base_border(@color: lighten(@clr_base_bg,15%));
                 color: #ec971f;
             }
         }
@@ -1223,17 +1191,13 @@ div#accordion1 .table-bordered>tbody>tr>th {
                 color: #000;
             }
             .dropdown-menu {
-/*                background-color: @clr_greyGreen1;
-                .base_border(@color:lighten(@clr_greyGreen1, 10%));*/
                 background-color: @clr_base_bg;
                 .base_border();
                 >li{
-                    >a{
-/*                        background-color: @clr_base_bg;*/                       
+                    >a{                   
                         background-color: lighten(@clr_base_bg, 10%);                      
                         color: @clr_darkOrange;
                         &:hover, &:focus{
-/*                            background-color: @clr_greyGreen2;*/
                             background-color: @clr_base_bg;
                         }
                         >i{
