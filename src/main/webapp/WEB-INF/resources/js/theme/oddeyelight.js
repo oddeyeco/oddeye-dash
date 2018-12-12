@@ -174,6 +174,9 @@ var encodeHTML = function (source) {
         legend: {
             show: true,
             inactiveColor: legend_inactiveColor,
+            formatter: function (name) {
+                return(name.replace(/(?:\\[rn])+/g, ""));
+            },
             textStyle: {
                 color: (typeof legend_activeColor === "undefined") ? "#494949" : legend_activeColor
             }
@@ -612,7 +615,7 @@ var encodeHTML = function (source) {
         graph: {
             color: colorPalette
         },
-        pie: {            
+        pie: {
             label: {
                 normal: {
                     formatter: pieformater
@@ -655,7 +658,7 @@ var encodeHTML = function (source) {
             },
             startAngle: 225,
             endAngle: -45,
-            splitNumber:6,
+            splitNumber: 5,
             detail: {
                 show: true,
                 offsetCenter: [0, '70%'],
@@ -696,9 +699,9 @@ var encodeHTML = function (source) {
             pointer: {
                 width: 5
             },
-        title: { 
-            offsetCenter: [0, '90%']
-        }                      
+            title: {
+                offsetCenter: [0, '90%']
+            }
         }
     };
     echarts.registerTheme('oddeyelight', theme);

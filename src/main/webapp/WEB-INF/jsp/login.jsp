@@ -51,8 +51,16 @@
                         <spring:message code="loading"/>
                     </div>
                 </div>            
-            </div>            
-            <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
+            </div>  
+            <c:if test="${empty whitelabel}" >
+                <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
+                </c:if>                        
+            <c:if test="${not empty whitelabel}" >
+                <a href="https://${whitelabel.url}/" ><img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="250px"></a>                                
+            </c:if>                     
+
+
+
         </div>    
         <div class=" contactform col-sm-6 col-xs-12 login"> 
             <form action="<c:url value="/login/"/>" method="post" class="form-horizontal" id="loginform">                

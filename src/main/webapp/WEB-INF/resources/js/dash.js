@@ -2000,8 +2000,8 @@ var queryCallback = function (inputdata) {
                     }
 
                     if (tmpLegendSer.indexOf(widget.options.series[ind].name) === -1)
-                    {
-                        tmpLegendSer.push(widget.options.series[ind].name);
+                    {           
+                        tmpLegendSer.push(widget.options.series[ind].name.replace("\n",""));
                     }
                     if (widget.options.xAxis[xAxisIndex].type === "category")
                     {
