@@ -4,7 +4,7 @@
 @clr_body: #ffffee;
 @bg_rightCol: #141717;
 @bg_base: #212424;
-@clr_border: lighten(@bg_base,10%);
+@bg_baseLight: #393f3f;
 
 @clr_OEgreen: #92ad57;
 @clr_OEblue: #2e92b0;
@@ -13,7 +13,7 @@
 @clr_infoText: #ffdea2;
 @clr_bannerBlue: #091f27;
 
-.base_border(@border: border, @width: 1px, @type: solid, @color: @clr_border){
+.base_border(@border: border, @width: 1px, @type: solid, @color: @bg_baseLight){
     @{border}-width: @width;
     @{border}-style: @type;
     @{border}-color: @color;
@@ -137,7 +137,7 @@ a.btn-danger:extend(.btn-danger){}
             >a {
                 color: @clr_OEgreen;
                 background: lighten(@bg_base, 20%) !important;
-                border-color: @clr_border !important;
+                border-color: @bg_baseLight !important;
                 &:hover {
                     color: @clr_OEblue;
                 }
@@ -229,12 +229,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
     }
 }
 // ---- // ---- //
-.nav_title {
+/*.nav_title {
     background: @bg_body;
-}
+}*/
 .top_nav {
     .nav_menu {
-        background: lighten(@bg_body, 4%);
+/*        background: lighten(@bg_body, 4%);*/
+        background: @bg_rightCol;
         .base_border(border-bottom,@color: lighten(@bg_base, 10%));
         .navbar-nav.navbar-right {
             li>a {
@@ -252,12 +253,13 @@ a:hover, .query-label a:hover, .data-label a:hover {
                     }
                 }
                 .dropdown-menu {
-                    .base_border(@color:lighten(@bg_base, 10%));
+                    .base_border(@color:lighten(@bg_base, 15%));
                     border-top: none;
                     border-radius: 0 4px;
                     margin-top: 1px;
                     li>a {
-                        background: lighten(@bg_base, 5%);
+/*                        background: lighten(@bg_base,10%);*/
+                        background: @bg_baseLight;
                         color: @clr_body;        
                         &:hover,&:focus {
                             background: darken(@bg_rightCol, 2%);
@@ -274,16 +276,20 @@ a:hover, .query-label a:hover, .data-label a:hover {
     }
 }
 //---- left-col ----
-.nav-md {    
+.nav-md {
+    .nav_title {
+        background: @bg_baseLight;
+    }
     .nav.side-menu{
         &:hover >li{
-/*            box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);*/
-            box-shadow: inset 3px -2px 4px 0 rgba(57, 63, 63, 0.8);
+            box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);
+         /*   box-shadow: inset 3px -2px 4px 0 rgba(57, 63, 63, 0.8);*/
         }
         >li{
-            background: @bg_rightCol;
+            background: @bg_baseLight ;
+/*            background: lighten(@bg_base, 15%) ;*/
         /*    background: @bg_rightCol;*/
-           .base_border(@color:lighten(@bg_rightCol, 10%));
+           .base_border(@color:lighten(@bg_base, 20%));
         /*    .base_border(@color:lighten(@bg_rightCol, 10%));*/
             border-radius: 4px;
             margin: 6px;
@@ -301,8 +307,9 @@ a:hover, .query-label a:hover, .data-label a:hover {
 .left_col {
     background: @bg_body;
     div#sidebar-menu.main_menu_side {
-        background: lighten(@bg_base, 10%);
-        .base_border(@color:lighten(@bg_base, 15%));
+/*        background: lighten(@bg_base, 10%);*/
+        background: lighten(@bg_base, 5%);
+        .base_border(@color:@bg_baseLight);
         border-radius: 0 0 4px 4px;
         .menu_section {
             margin-bottom: 0;
@@ -319,7 +326,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
             >li{
                 &.active {
                     >a {
-                        background: lighten(@bg_base, 15%);
+/*                        background: lighten(@bg_base, 15%);*/
+                        background: @bg_rightCol;
                         color: @clr_OEgreen;
                         box-shadow: none;
                         font-weight: bold;
@@ -365,6 +373,9 @@ a:hover, .query-label a:hover, .data-label a:hover {
 }
 //---- body class="nav-sm" ----
 .nav-sm {
+    .nav_title {
+        background: @bg_body;
+    }
    div#sidebar-menu.main_menu_side {
         background: @bg_body;
         border:none;
@@ -432,7 +443,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
 div.sidebar-footer.hidden-small {
     background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1));
     >a {
-        background: @bg_rightCol;
+/*        background: @bg_rightCol;*/
+        background: @bg_baseLight;
         color: @clr_OEgreen;
         text-decoration: none;
         &:hover {
@@ -575,7 +587,7 @@ ul.bar_tabs {
         color: @bg_body !important;
     }
     .select2-results__option[aria-selected=true] {
-        background-color: @clr_border !important;
+        background-color: @bg_baseLight !important;
     }
 }
 .select2-dropdown {
@@ -749,7 +761,7 @@ table.table-bordered {
     background: @bg_rightCol;
     .base_border();
     .calendar-table {
-        background-color: lighten(@bg_base,10%);
+        background-color: @bg_baseLight;
         .base_border();
         border-radius: 0 0 4px 4px;
     }
@@ -812,8 +824,8 @@ table.table-bordered {
     }
     .ranges {
         li {
-            background: lighten(@bg_base,10%);
-            .base_border(@color:lighten(@bg_base,10%));
+            background: @bg_baseLight;
+            .base_border(@color:@bg_baseLight);
             color: @clr_infoText;
             &:hover {
                 background: @clr_OEblue;
@@ -840,16 +852,19 @@ table.table-bordered {
     }  
 }
 div#tagsconteger.ui-sortable {
-    background: lighten(@bg_base, 10%);
-    .base_border(@color:lighten(@bg_base, 15%));
+/*    background: lighten(@bg_base, 10%);*/
+    background: lighten(@bg_base, 5%);
+    .base_border(@color:@bg_baseLight);
     border-radius: 4px;
     padding: 4px;
     &:hover .draggable{
-        box-shadow: inset 3px 2px 4px 0 lighten(@bg_body,10%);
+/*        box-shadow: inset 3px 2px 4px 0 lighten(@bg_body,10%);*/
+        box-shadow: inset 3px 2px 4px 0 rgba(0,0,0,0.6);
 
     }
     .draggable {
-        background: lighten(@bg_base,15%);
+/*        background: lighten(@bg_base,15%);*/
+        background: @bg_baseLight;
         .base_border(@color: lighten(@bg_base,20%));
         border-radius: 4px;        
         box-shadow: none;
@@ -857,7 +872,8 @@ div#tagsconteger.ui-sortable {
         cursor: -moz-grabbing;
         cursor: -webkit-grabbing;
         &:hover {
-            box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.4);
+/*            box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.4);*/
+            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);
         }
         >label{
             cursor: grabbing;
@@ -967,11 +983,11 @@ div.x_panel {
                 .base_border();
                 box-shadow: none;
                 .valueinfo {
-                    .base_border(border-bottom,@color:lighten(@bg_base,10%));
+                    .base_border(border-bottom,@color:@bg_baseLight);
                 }
                 .metricname {
                     .base_border();
-                    background-color: lighten(@bg_base,10%);
+                    background-color: @bg_baseLight;
                     a {
                         color: @clr_OEgreen;
                     }
@@ -1020,7 +1036,7 @@ div.btn-group-vertical {
 }
 .progress {
     margin-top: 2px;
-    background-color: @clr_border;
+    background-color: @bg_baseLight;
     box-shadow: inset -1px 1px 4px rgba(38, 185, 154, 0.4);
 }
 div#accordion1 .table-bordered>tbody>tr>th {
@@ -1083,7 +1099,7 @@ div#accordion1 .table-bordered>tbody>tr>th {
         margin: 0;
         background-color: fade(@bg_rightCol,80%);
     }
-    .base_border(@color: fade(@clr_border, 40%));
+    .base_border(@color: fade(@bg_baseLight, 40%));
 }
 .reflock:extend(.form-control){
     i{
@@ -1098,7 +1114,7 @@ div#accordion1 .table-bordered>tbody>tr>th {
 .rowcontent {
     .chartsection {
         >div {
-            .base_border(@color: fade(@clr_border, 40%));
+            .base_border(@color: fade(@bg_baseLight, 40%));
         }
         .chartTitleDiv {
             background: inherit;
@@ -1157,7 +1173,7 @@ span.tagspan {
     background: @clr_bannerBlue;
 }
 .input-group-addon {
-    background: linear-gradient(270deg, @bg_base, @clr_border);
+    background: linear-gradient(270deg, @bg_base, @bg_baseLight);
     .base_border() !important;
 }
 div#reportrange_private:extend(.reportrange) {
@@ -1168,7 +1184,6 @@ div#reportrange_private:extend(.reportrange) {
     margin-left: 2px;
 }
 //---- json ----
-
 div.jsoneditor {
     .base_border();
 }
