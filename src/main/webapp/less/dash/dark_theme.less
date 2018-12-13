@@ -293,7 +293,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
         /*    .base_border(@color:lighten(@bg_rightCol, 10%));*/
             border-radius: 4px;
             margin: 6px;
-
+            transition: box-shadow 1s;
             &:hover {
                 box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);
             }
@@ -480,12 +480,12 @@ div.sidebar-footer.hidden-small {
                 .base_border(@color: lighten(@bg_rightCol, 10%));
                 border-radius: 4px;
                 color: rgb(255, 255, 255);
+                transition: all 0.4s;
                 &:hover {
                     background: lighten(@bg_base, 10%);
                     .base_border(@color: lighten(@bg_base, 15%));
                     box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.6);                    
                     font-weight: bold;
-                    transition: 0.4s;
                 }
             } 
         }  
@@ -506,11 +506,14 @@ div.sidebar-footer.hidden-small {
                     .base_border(@color: lighten(@bg_base, 15%));
                     border-radius: 4px;
                     padding: 2px;
-                    transition: 0.4s;
+                    
                 }
                 .count {
                     color: @clr_infoText;
-                }                
+                }
+                a.showtags {
+                    transition: all 0.2s;
+                }
             }
         }
     }
@@ -856,11 +859,10 @@ div#tagsconteger.ui-sortable {
     background: lighten(@bg_base, 5%);
     .base_border(@color:@bg_baseLight);
     border-radius: 4px;
-    padding: 4px;
+    padding: 4px;    
     &:hover .draggable{
 /*        box-shadow: inset 3px 2px 4px 0 lighten(@bg_body,10%);*/
         box-shadow: inset 3px 2px 4px 0 rgba(0,0,0,0.6);
-
     }
     .draggable {
 /*        background: lighten(@bg_base,15%);*/
@@ -868,6 +870,7 @@ div#tagsconteger.ui-sortable {
         .base_border(@color: lighten(@bg_base,20%));
         border-radius: 4px;        
         box-shadow: none;
+        transition: box-shadow 1s;
         cursor: grabbing;
         cursor: -moz-grabbing;
         cursor: -webkit-grabbing;
@@ -888,7 +891,7 @@ div#tagsconteger.ui-sortable {
     .base_border() !important;
 }
 .autocomplete-selected {
-        background-color: @clr_infoText !important;
+        background-color: @clr_darkOrange !important;
         color: @bg_body !important;
 }
 div.profile_right-table {
