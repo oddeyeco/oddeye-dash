@@ -977,7 +977,7 @@ div.x_panel {
                     a {
                         color: @clr_OEblue;
                     }
-                }
+                }                
             }
             li {
                 .base_border();
@@ -994,9 +994,24 @@ div.x_panel {
                 }
             }
         }
+        ul#speciallist{
+            li.selected {
+                .metricname {
+                        color: @clr_OEblue;
+                }                
+            }
+            .info.name {
+                border-color: @bg_rightCol;
+                background-color: @clr_darkRed;
+                color: @clr_OEgreen;
+            }
+        } 
     }
     .level_0 {
         background-color: lighten(@bg_base,20%);
+    }
+    .level_5 {
+        background-color: #bb6262;
     }
 }
 div.btn-group-vertical {
@@ -1012,26 +1027,35 @@ div.btn-group-vertical {
 //---- Detailing Analytics ----
 .accordion {
     .panel {
-        .panel-heading {
+        .panel-heading.collapsed {
             border-radius: 4px;
             background: @bg_rightCol;
             .base_border();
             &:hover {
-                background: @bg_base;
+                background: lighten(@bg_base,5%);
                 border: none;
+            }
+        }
+        .panel-heading {
+            background: @bg_rightCol;
+            .base_border();
+           &:hover {
+                background: lighten(@bg_base,5%);
             }
         }
         background-color: @bg_base;
         margin-bottom: 10px;
-        border-style: none;
-        
+        border-style: none;        
         &:hover {
             background-color: @bg_base;
             border-radius: 4px;
-/*            box-shadow: 0 0 4px @clr_OEblue;*/
-           box-shadow: inset 0 1px 1px rgba(0,0,0,0.1),0 0 8px rgba(102,175,233,0.6);
-            
-        }        
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.1),0 0 8px rgba(102,175,233,0.6);            
+        }
+        .collapse.in {
+            background: lighten(@bg_base,5%);
+            .base_border(@width:0 1px 1px);
+            border-radius: 0 0 4px 4px;
+        }
     }
 }
 .progress {
@@ -1040,7 +1064,7 @@ div.btn-group-vertical {
     box-shadow: inset -1px 1px 4px rgba(38, 185, 154, 0.4);
 }
 div#accordion1 .table-bordered>tbody>tr>th {
-    .base_border();
+    border-color: @bg_baseLight;
 }
 // ---- Dashboards ----
 .dash_header {
