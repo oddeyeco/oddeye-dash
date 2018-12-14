@@ -2550,12 +2550,13 @@ function redrawAllJSON(dashJSON, redraw = false) {
         if (tmprow.colapsed)
         {
             var colapserow = $("#row" + ri).find('.colapserow');
+            var crow = $("#row" + ri);
             colapserow.removeClass('colapserow');
             colapserow.addClass('expandrow');
-            colapserow.find('i').removeClass('fa-chevron-up');
-            colapserow.find('i').addClass('fa-chevron-down');
-            colapserow.attr('data-original-title', locale["dash.title.expand"]);
-
+            colapserow.find('i').removeClass('fa-minus');
+            colapserow.find('i').addClass('fa-plus');
+            colapserow.attr('data-original-title', locale["dash.title.expand"]+' ('+tmprow.widgets.length+')');
+            crow.find(".title_text span").prepend('('+tmprow.widgets.length+') ')             
             continue;
         }
 
@@ -2845,6 +2846,11 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         var title = locale[acprefix + ".counter"];
     }
+    if (W_type === "heatmap")
+    {
+        var title = locale[acprefix + ".heatmap"];
+    }    
+        
     if (rebuildform)
     {
         $(".right_col").append('<div class="x_panel editpanel"></div>');
@@ -3593,6 +3599,7 @@ $(document).ready(function () {
         domodifier();
     });
     $('body').on("click", ".expandrow", function () {
+                console.log("dsfsdf");
         $(this).parents('.widgetraw').find('.rowcontent').fadeIn();
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = false;

@@ -33,8 +33,10 @@
 
 <div class="hidden" id="rowtemplate">
     <div class="raw widgetraw">
-
-        <div class="raw-controls text-right">
+        <div class="raw-controls text-right">   
+            <div class="btn-group  btn-group-xs pull-left">
+                <a class="btn btn-default colapserow btn-default-dash" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.collapse"/>' type="button"><i class="fa fa-minus"></i></a>
+            </div>              
             <div class="pull-left item_title " >
                 <div class="title_text">
                     <span></span> 
@@ -49,10 +51,13 @@
                 <a class="btn btn-default addcounter btn-default-dash" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addCounterWidget"/>' ><i class="fa fa-code"></i></a>
                 <a class="btn btn-default addheatmap btn-default-dash" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addHeatmapWidget"/>' ><i class="fa fa-map"></i></a>
                 <a class="btn btn-default addchart btn-default-dash" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addChartWidget"/>' ><i class="fa fas fa-chart-line"></i></a>
+            </div>
+            <div class="btn-group  btn-group-xs">
                 <a class="btn btn-default showrowjson btn-default-dash" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.viewRowJSON"/>' ><i class="fa fa-edit"></i></a>
-                <a class="btn btn-default colapserow btn-default-dash" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.collapse"/>' type="button"><i class="fa fa-chevron-up"></i></a>
+                <!--<a class="btn btn-default colapserow btn-default-dash" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.collapse"/>' type="button"><i class="fa fa-chevron-up"></i></a>-->
                 <a class="btn btn-default deleterow btn-default-dash" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.deleteRow"/>' ><i class="fa fa-trash"></i></a>
             </div>  
+            <div class="clearfix"></div>
         </div>
         <div class="rowcontent raw">
         </div>  
@@ -62,18 +67,6 @@
 <div class="hidden" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
         <div class="inner col-xs-12">
-            <!--                        <div class="controls text-right">
-                                        <div class="echart_time pull-left"></div>
-                                        <div class="btn-group  btn-group-xs">
-                                            <a class="btn btn-default viewchart" type="button" data-toggle="tooltip" data-placement="top" title="View">View</a>
-                                            <a class="btn btn-default editchart" type="button" data-toggle="tooltip" data-placement="top" title="Edit">Edit</a>
-                                            <a class="btn btn-default dublicate" type="button" data-toggle="tooltip" data-placement="top" title="Dublicate">Duplicate</a>               
-                                            <a class="btn btn-default csv" type="button" data-toggle="tooltip" data-placement="top" title="Save as csv">asCsv</a>
-                                            <a class="btn btn-default plus" type="button" data-toggle="tooltip" data-placement="top" title="Span +"><i class="fa fa-search-plus"></i></a>
-                                            <a class="btn btn-default minus" type="button" data-toggle="tooltip" data-placement="top" title="Span -"><i class="fa fa-search-minus"></i></a>
-                                            <a class="btn btn-default deletewidget" type="button" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i></a>
-                                        </div> 
-                                    </div>             -->
             <div class="chartTitleDiv">
                 <div class="chartDesc wrap">
                     <div class="borderRadius"><span class="chartSubIcon" style="display: none"><i class="fa fas fa-info "></i></span></div>
@@ -136,7 +129,7 @@
                     <a class="btn btn-default btn-default-dash" type="button" id="showasjson" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.viewDashJSON"/>"><i class="fa fa-edit"></i></a>
                 </div>
                 <div class="btn-group btn-group-xs">
-                    <a class="btn btn-default btn-default-dash" type="button" id="addrow" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.addRow"/>"><i class="fa fa-plus"></i></a>
+                    <a class="btn btn-default btn-default-dash" type="button" id="addrow" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.addRow"/>"><i class="fa fa-layer-group"></i></a>
                 </div>         
                 <div class="btn-group btn-group-xs">
                     <a class="btn btn-default deletedash btn-default-dash" type="button" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.deleteDashboard"/>"><i class="fa fa-trash"></i></a>

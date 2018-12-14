@@ -25,6 +25,8 @@
         "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
         "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
         "dash.edit.table": "<spring:message code="dash.edit.table"/>",
+        "dash.edit.heatmap": "<spring:message code="dash.edit.heatmap"/>",
+        
         "dash.show.chart": "<spring:message code="dash.show.chart"/>",
         "dash.show.counter": "<spring:message code="dash.show.counter"/>",
         "dash.show.table": "<spring:message code="dash.show.table"/>",
