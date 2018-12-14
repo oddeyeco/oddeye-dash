@@ -21,11 +21,12 @@
 .btn_border(@width:1px, @type:solid, @color:lighten(@bg,20%)){
     border:@arguments;
 }  
-.btn_OE(@color: @bg_body, @bg: @clr_body, @fw: bold){    
+.btn_OE(@color: @bg_body, @bg: @clr_body, @fw: bold, @trans: all 0.8s){    
     color: @bg;
     background-color: rgba(0, 0, 0, 0);
     .btn_border(@color: @bg);
     font-weight: @fw;
+    transition: @trans;
     &:focus {
         color: @bg;
         background-color: rgba(0, 0, 0, 0);
@@ -38,7 +39,7 @@
         color: @color;
         background-color: @bg;
         .btn_border();
-        font-weight: @fw;
+        font-weight: @fw;        
     }
 }
 
@@ -283,23 +284,19 @@ a:hover, .query-label a:hover, .data-label a:hover {
     .nav.side-menu{
         &:hover >li{
             box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);
-         /*   box-shadow: inset 3px -2px 4px 0 rgba(57, 63, 63, 0.8);*/
         }
         >li{
             background: @bg_baseLight ;
-/*            background: lighten(@bg_base, 15%) ;*/
-        /*    background: @bg_rightCol;*/
-           .base_border(@color:lighten(@bg_base, 20%));
-        /*    .base_border(@color:lighten(@bg_rightCol, 10%));*/
+            .base_border(@color:lighten(@bg_base, 20%));
             border-radius: 4px;
             margin: 6px;
-            transition: box-shadow 1s;
+            transition: box-shadow 0.4s ease-out;
             &:hover {
-                box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);
+                box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);                    
             }
         }
         ul.nav.child_menu {
-/*            background-color: @bg_base;*/
+            /*      background-color: @bg_base;*/
         }
     }
 }
@@ -480,12 +477,12 @@ div.sidebar-footer.hidden-small {
                 .base_border(@color: lighten(@bg_rightCol, 10%));
                 border-radius: 4px;
                 color: rgb(255, 255, 255);
-                transition: all 0.4s;
+                transition: all 0.6s;
                 &:hover {
                     background: lighten(@bg_base, 10%);
                     .base_border(@color: lighten(@bg_base, 15%));
                     box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.6);                    
-                    font-weight: bold;
+/*                    font-weight: bold;*/
                 }
             } 
         }  
@@ -512,7 +509,7 @@ div.sidebar-footer.hidden-small {
                     color: @clr_infoText;
                 }
                 a.showtags {
-                    transition: all 0.2s;
+                    transition: all 0.4s;
                 }
             }
         }
@@ -860,23 +857,21 @@ div#tagsconteger.ui-sortable {
     .base_border(@color:@bg_baseLight);
     border-radius: 4px;
     padding: 4px;    
-    &:hover .draggable{
-/*        box-shadow: inset 3px 2px 4px 0 lighten(@bg_body,10%);*/
+    &:hover .draggable {
         box-shadow: inset 3px 2px 4px 0 rgba(0,0,0,0.6);
     }
     .draggable {
-/*        background: lighten(@bg_base,15%);*/
         background: @bg_baseLight;
         .base_border(@color: lighten(@bg_base,20%));
         border-radius: 4px;        
         box-shadow: none;
-        transition: box-shadow 1s;
+        transition-delay: 1s;
+        transition: box-shadow 0.6s ease-out;        
         cursor: grabbing;
         cursor: -moz-grabbing;
         cursor: -webkit-grabbing;
         &:hover {
-/*            box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.4);*/
-            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);
+            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);            
         }
         >label{
             cursor: grabbing;
@@ -1014,7 +1009,7 @@ div.x_panel {
         background-color: lighten(@bg_base,20%);
     }
     .level_5 {
-        background-color: #bb6262;
+        background-color: #f0666c;
     }
 }
 div.btn-group-vertical {
