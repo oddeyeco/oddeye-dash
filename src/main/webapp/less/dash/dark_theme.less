@@ -857,7 +857,6 @@ table.table-bordered {
     }  
 }
 div#tagsconteger.ui-sortable {
-    /*    background: lighten(@bg_base, 10%);*/
     background: lighten(@bg_base, 5%);
     .base_border(@color:@bg_baseLight);
     border-radius: 4px;
@@ -1037,7 +1036,7 @@ div.btn-group-vertical {
             transition: 0.6s ease-in-out;
             &:hover {
                 background: lighten(@bg_base,5%);
-                border: none;
+/*                border: none;*/
             }
         }
         .panel-heading {
@@ -1147,8 +1146,9 @@ div#accordion1 .table-bordered>tbody>tr>th {
         .chartTitleDiv {
             background: inherit;
             &:hover {
-                box-shadow: none;
-                border-bottom: 1px solid lighten(@bg_base, 15%);
+/*                box-shadow: none;
+                border-bottom: 1px solid lighten(@bg_base, 15%);*/
+                box-shadow: 0 2px 1px @bg_baseLight;
                 border-radius: 0;
             }
             .hoverShow {
