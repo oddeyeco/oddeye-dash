@@ -282,18 +282,31 @@ a:hover, .query-label a:hover, .data-label a:hover {
         background: @bg_baseLight;
     }
     .nav.side-menu{
-        &:hover >li{
-            box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);
+        &:hover >li>a:not(:hover){
+            box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);            
         }
         >li{
             background: @bg_baseLight ;
             .base_border(@color:lighten(@bg_base, 20%));
             border-radius: 4px;
             margin: 6px;
-            transition: box-shadow 0.4s ease-out;
+            transition: box-shadow 0.4s ease-out;            
             &:hover {
                 box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);                    
             }
+            >a{ 
+                font-weight: 700;
+                margin: 0;
+                border-radius: 4px;
+                color: @clr_body;  
+                transition: 0.6s ease-out 0.2s;
+                &:hover{
+                    color: @clr_OEgreen !important;
+                    transition: 0.6s ease-out 0.2s;
+                }
+            }
+
+
         }
         ul.nav.child_menu {
             /*      background-color: @bg_base;*/
@@ -331,15 +344,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
                         border-radius: 4px 4px 0 0;
                     }         
                 }
-                >a {
-                    color: @clr_body;
-                    font-weight: 500;
-                    &:hover {
-                        color: @clr_OEgreen !important;
-                        font-weight: bold;
-                    }
-                    
-                }
+               
             }
             .nav.child_menu {
                 >li {
@@ -843,35 +848,35 @@ table.table-bordered {
 //---- Infrastructure ----
 .x_panel {
     >.profile_left {
-/*        background: @bg_rightCol;
-        .base_border(@color: @bg_base);
-        border-radius: 4px;*/
+        /*        background: @bg_rightCol;
+                .base_border(@color: @bg_base);
+                border-radius: 4px;*/
         .profile_left-form {
             height: 820px;
         }
     }  
 }
 div#tagsconteger.ui-sortable {
-/*    background: lighten(@bg_base, 10%);*/
+    /*    background: lighten(@bg_base, 10%);*/
     background: lighten(@bg_base, 5%);
     .base_border(@color:@bg_baseLight);
     border-radius: 4px;
     padding: 4px;    
-    &:hover .draggable {
-        box-shadow: inset 3px 2px 4px 0 rgba(0,0,0,0.6);
-    }
+        &:hover .draggable:not(:hover) {
+                box-shadow: inset 3px 2px 4px 0 rgba(0,0,0,0.6);
+            }
     .draggable {
         background: @bg_baseLight;
         .base_border(@color: lighten(@bg_base,20%));
         border-radius: 4px;        
-        box-shadow: none;
-        transition-delay: 1s;
-        transition: box-shadow 0.6s ease-out;        
+        box-shadow: none;        
         cursor: grabbing;
         cursor: -moz-grabbing;
         cursor: -webkit-grabbing;
+        transition: 0.6s ease-out 0.2s; 
         &:hover {
-            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);            
+            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);
+            transition: 0.6s ease-out 0.2s;             
         }
         >label{
             cursor: grabbing;
@@ -1029,6 +1034,7 @@ div.btn-group-vertical {
             border-radius: 4px;
             background: @bg_rightCol;
             .base_border();
+            transition: 0.6s ease-in-out;
             &:hover {
                 background: lighten(@bg_base,5%);
                 border: none;
