@@ -286,7 +286,8 @@ function getmetrics(key, idvalue, id, draw) {
 tmphide = true;
 $(document).ready(function () {
 
-    lang = {"processing": locale["dataTable.processing"],
+    lang = {
+        "processing": locale["dataTable.processing"],
         "search": locale["dataTable.search"],
         "lengthMenu": locale["dataTable.lengthMenu"],
         "info": locale["dataTable.info"],

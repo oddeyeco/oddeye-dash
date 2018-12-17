@@ -19,21 +19,21 @@
     var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};
     var hashcode = ${metric.hashCode()};    
     var locale = {
-        "requestFailed": "<spring:message code="requestFailed"/>",
-        
-        "save": "<spring:message code="save"/>",
-        "dash.backToDash": "<spring:message code="dash.backToDash"/>",
-        "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
-        "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
-        "dash.edit.table": "<spring:message code="dash.edit.table"/>",
-        "dash.show.chart": "<spring:message code="dash.show.chart"/>",
-        "dash.show.counter": "<spring:message code="dash.show.counter"/>",
-        "dash.show.table": "<spring:message code="dash.show.table"/>",
+//        "requestFailed": "<spring:message code="requestFailed"/>",
+//        
+//        "save": "<spring:message code="save"/>",
+//        "dash.backToDash": "<spring:message code="dash.backToDash"/>",
+//        "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
+//        "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
+//        "dash.edit.table": "<spring:message code="dash.edit.table"/>",
+//        "dash.show.chart": "<spring:message code="dash.show.chart"/>",
+//        "dash.show.counter": "<spring:message code="dash.show.counter"/>",
+//        "dash.show.table": "<spring:message code="dash.show.table"/>",
 
-        "dash.title.lockDashboard": "<spring:message code="dash.title.lockDashboard"/>",
-        "dash.title.unlockDashboard": "<spring:message code="dash.title.unlockDashboard"/>",
-        "dash.row": "<spring:message code="dash.row"/>",
-        "dash.title.expand": "<spring:message code="dash.title.expand"/>",
+//        "dash.title.lockDashboard": "<spring:message code="dash.title.lockDashboard"/>",
+//        "dash.title.unlockDashboard": "<spring:message code="dash.title.unlockDashboard"/>",
+//        "dash.row": "<spring:message code="dash.row"/>",
+//        "dash.title.expand": "<spring:message code="dash.title.expand"/>",
 
         "datetime.lastminute": "<spring:message code="datetime.lastminute"/>",
         "datetime.lasthoures": "<spring:message code="datetime.lasthoures"/>",
@@ -70,8 +70,18 @@
         toLabel: '<spring:message code="datetime.to"/>',
         customRangeLabel: '<spring:message code="datetime.custom"/>',
         weekLabel: '<spring:message code="datetime.weekLabel"/>',
-        daysOfWeek: ['<spring:message code="su"/>', '<spring:message code="mo"/>', '<spring:message code="tu"/>', '<spring:message code="we"/>', '<spring:message code="th"/>', '<spring:message code="fr"/>', '<spring:message code="sa"/>'],
-        monthNames: ['<spring:message code="january"/>', '<spring:message code="february"/>', '<spring:message code="march"/>', '<spring:message code="april"/>', '<spring:message code="may"/>', '<spring:message code="june"/>', '<spring:message code="july"/>', '<spring:message code="august"/>', '<spring:message code="september"/>', '<spring:message code="october"/>', '<spring:message code="november"/>', '<spring:message code="december"/>'],
+        
+        daysOfWeek: ['<spring:message code="su"/>','<spring:message code="mo"/>',
+                     '<spring:message code="tu"/>','<spring:message code="we"/>',
+                     '<spring:message code="th"/>','<spring:message code="fr"/>',
+                     '<spring:message code="sa"/>'],
+         
+        monthNames: ['<spring:message code="january"/>','<spring:message code="february"/>',
+                     '<spring:message code="march"/>','<spring:message code="april"/>',
+                     '<spring:message code="may"/>','<spring:message code="june"/>',
+                     '<spring:message code="july"/>','<spring:message code="august"/>',
+                     '<spring:message code="september"/>','<spring:message code="october"/>',
+                     '<spring:message code="november"/>','<spring:message code="december"/>'],
         firstDay: 1
     };
     $(document).ready(function () {

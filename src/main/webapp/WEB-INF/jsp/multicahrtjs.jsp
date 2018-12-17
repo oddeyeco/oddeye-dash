@@ -13,20 +13,20 @@
     balanse = ${curentuser.getBalance()};
     </c:if>
     var locale = {
-        "save": "<spring:message code="save"/>",
-        "dash.backToDash": "<spring:message code="dash.backToDash"/>",
+//        "save": "<spring:message code="save"/>",
+//        "dash.backToDash": "<spring:message code="dash.backToDash"/>",
 
-        "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
-        "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
-        "dash.edit.table": "<spring:message code="dash.edit.table"/>",
-        "dash.show.chart": "<spring:message code="dash.show.chart"/>",
-        "dash.show.counter": "<spring:message code="dash.show.counter"/>",
-        "dash.show.table": "<spring:message code="dash.show.table"/>",
-
-        "dash.title.lockDashboard": "<spring:message code="dash.title.lockDashboard"/>",
-        "dash.title.unlockDashboard": "<spring:message code="dash.title.unlockDashboard"/>",
-        "dash.row": "<spring:message code="dash.row"/>",
-        "dash.title.expand": "<spring:message code="dash.title.expand"/>",
+//        "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
+//        "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
+//        "dash.edit.table": "<spring:message code="dash.edit.table"/>",
+//        "dash.show.chart": "<spring:message code="dash.show.chart"/>",
+//        "dash.show.counter": "<spring:message code="dash.show.counter"/>",
+//        "dash.show.table": "<spring:message code="dash.show.table"/>",
+//
+//        "dash.title.lockDashboard": "<spring:message code="dash.title.lockDashboard"/>",
+//        "dash.title.unlockDashboard": "<spring:message code="dash.title.unlockDashboard"/>",
+//        "dash.row": "<spring:message code="dash.row"/>",
+//        "dash.title.expand": "<spring:message code="dash.title.expand"/>",
 
         "datetime.lastminute": "<spring:message code="datetime.lastminute"/>",
         "datetime.lasthoures": "<spring:message code="datetime.lasthoures"/>",

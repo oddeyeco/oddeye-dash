@@ -8,7 +8,7 @@
     var header = $("meta[name='_csrf_header']").attr("content");
     var token = $("meta[name='_csrf']").attr("content");
     var locale = {
-    "metricinfo.showList":"<spring:message code="metricinfo.showList"/>",
+            "metricinfo.showList":"<spring:message code="metricinfo.showList"/>",
             "metricinfo.tagtitle":"<spring:message code="metricinfo.tagtitle" javaScriptEscape="true"/>",
             "metricsList":"<spring:message code="metricsList"/>",
             "typesList":"<spring:message code="typesList"/>",
