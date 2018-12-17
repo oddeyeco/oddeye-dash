@@ -180,8 +180,6 @@
                             </c:forEach>                            
                         </div>
                         <!-- end of accordion -->
-
-
                     </div>
                 </div>                        
 
