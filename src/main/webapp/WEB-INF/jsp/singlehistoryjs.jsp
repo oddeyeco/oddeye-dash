@@ -17,7 +17,7 @@
 <script>
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};
-    var hashcode = ${metric.sha256Code()};    
+    var hashcode = "${metric.sha256Code()}";    
     var locale = {
         "requestFailed": "<spring:message code="requestFailed"/>",
         
