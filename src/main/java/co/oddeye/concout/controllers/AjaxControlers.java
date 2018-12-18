@@ -87,7 +87,7 @@ public class AjaxControlers {
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlechart(@RequestParam(value = "tags", required = false) String tags,
-            @RequestParam(value = "hash", required = false) Integer hash,
+            @RequestParam(value = "hash", required = false) String hash,
             @RequestParam(value = "metrics", required = false) String metrics,
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
@@ -170,7 +170,7 @@ public class AjaxControlers {
                             }
 
                             if (metric != null) {
-                                jsonMessage.addProperty("hash", metric.hashCode());
+                                jsonMessage.addProperty("hash", metric.sha256Code());
                             }
                             jsonMessage.addProperty("taghash", Tagmap.hashCode());
                             jsonMessage.addProperty("metric", DataPoints.metricName());
@@ -434,12 +434,12 @@ public class AjaxControlers {
                 jsonResult.addProperty("sucsses", true);
                 jsonResult.addProperty("count", Metriclist.size());
 
-                for (Map.Entry<Integer, OddeeyMetricMeta> metricentry : Metriclist.entrySet()) {
+                for (Map.Entry<String, OddeeyMetricMeta> metricentry : Metriclist.entrySet()) {
                     final OddeeyMetricMeta metric = metricentry.getValue();
                     final JsonObject metricjson = new JsonObject();
                     final JsonObject tagsjson = new JsonObject();
                     metricjson.addProperty("name", metric.getName());
-                    metricjson.addProperty("hash", metric.hashCode());
+                    metricjson.addProperty("hash", metric.sha256Code());
                     metricjson.addProperty("lasttime", metric.getLasttime());
 
                     for (final Map.Entry<String, OddeyeTag> tag : metric.getTags().entrySet()) {
@@ -499,7 +499,7 @@ public class AjaxControlers {
                     final JsonObject metricjson = new JsonObject();
                     final JsonObject tagsjson = new JsonObject();
                     metricjson.addProperty("name", metric.getName());
-                    metricjson.addProperty("hash", metric.hashCode());
+                    metricjson.addProperty("hash", metric.sha256Code());
                     metricjson.addProperty("type", metric.getType().ordinal());
                     metricjson.addProperty("typename", metric.getTypeName());
                     metricjson.addProperty("lasttime", metric.getLasttime());
@@ -532,7 +532,7 @@ public class AjaxControlers {
     public String DeleteMetrics(
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "value", required = false) String value,
-            @RequestParam(value = "hash", required = false) Integer hash,
+            @RequestParam(value = "hash", required = false) String hash,
             @RequestParam(value = "name", required = false) String name,
             ModelMap map
     ) {
@@ -541,7 +541,7 @@ public class AjaxControlers {
             JsonObject Jsonchangedata = new JsonObject();
             Jsonchangedata.addProperty("UUID", user.getId().toString());
             Jsonchangedata.addProperty("action", action);
-            Jsonchangedata.addProperty("hash", (Integer) hash1);
+            Jsonchangedata.addProperty("hash", (String) hash1);
             ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
             messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                 @Override
@@ -751,7 +751,7 @@ public class AjaxControlers {
 
     @RequestMapping(value = {"/resetregression"})
     public String regrresinreset(
-            @RequestParam(value = "hash") int hash,
+            @RequestParam(value = "hash") String hash,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

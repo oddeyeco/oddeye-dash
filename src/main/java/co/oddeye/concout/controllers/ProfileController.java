@@ -121,7 +121,7 @@ public class ProfileController {
     }
 
     @RequestMapping(value = {"/metriq/{hash}/{timestamp}", "/metriq/{hash}"}, method = RequestMethod.GET)
-    public String metricinfo(@PathVariable(value = "hash") Integer hash, @PathVariable(value = "timestamp", required = false) Long timestamp, HttpServletRequest request, ModelMap map) throws Exception {
+    public String metricinfo(@PathVariable(value = "hash") String hash, @PathVariable(value = "timestamp", required = false) Long timestamp, HttpServletRequest request, ModelMap map) throws Exception {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -156,7 +156,7 @@ public class ProfileController {
                 
                 if (meta.isSpecial())
                 {
-                    return "redirect:/history/"+meta.hashCode();
+                    return "redirect:/history/"+meta.sha256Code();
                 }
                 
                 GetRequest getMetric = new GetRequest(MetaDao.getTablename().getBytes(), meta.getKey(), "d".getBytes());

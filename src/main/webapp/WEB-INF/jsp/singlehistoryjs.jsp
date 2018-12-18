@@ -17,7 +17,7 @@
 <script>
     var echartLine = echarts.init(document.getElementById('echart_line'), 'oddeyelight');
     var levels = {"-1": "OK", 0: "All", 1: "Low", 2: "Guarded", 3: "Elevated", 4: "High", 5: "Severe"};
-    var hashcode = ${metric.hashCode()};    
+    var hashcode = "${metric.sha256Code()}";    
     var locale = {
         "datetime.lastminute": "<spring:message code="datetime.lastminute"/>",
         "datetime.lasthoures": "<spring:message code="datetime.lasthoures"/>",
@@ -186,7 +186,7 @@
             locale: DtPicerlocale
         },
                 function (start, end, label) {
-                    window.open(cp + "/history/${metric.hashCode()}/" + start.utc().valueOf(), "_self");
+                    window.open(cp + "/history/${metric.sha256Code()}/" + start.utc().valueOf(), "_self");
                 });
 
         $('.timeinterval').each(function () {

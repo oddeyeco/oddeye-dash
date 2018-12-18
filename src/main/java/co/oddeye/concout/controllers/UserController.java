@@ -304,7 +304,7 @@ public class UserController {
                         JsonElement metajson = new JsonObject();
                         metajson.getAsJsonObject().add("tags", gson.toJsonTree(metric.getTags()));
                         metajson.getAsJsonObject().addProperty("name", metric.getName());
-                        item.getAsJsonObject().addProperty("hash", metric.hashCode());
+                        item.getAsJsonObject().addProperty("hash", metric.sha256Code());
                         item.getAsJsonObject().addProperty("isspec", metric.isSpecial() ? 1 : 0);
 
                         if (metric.isSpecial()) {
@@ -315,7 +315,7 @@ public class UserController {
                         }
 
                         item.getAsJsonObject().add("info", metajson);
-                        savedErrors.add(Integer.toString(metric.hashCode()), item);
+                        savedErrors.add(metric.sha256Code(), item);
                     }
 
                     //TODO SEND TO USER in new task

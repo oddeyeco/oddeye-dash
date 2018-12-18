@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="x_title">
-                <h1><spring:message code="singlechart.chartFor.h1" arguments="${cp},${metric.hashCode()},${metric.getDisplayName()},${metric.getTypeName()}"/></h1>
+                <h1><spring:message code="singlechart.chartFor.h1" arguments="${cp},${metric.sha256Code()},${metric.getDisplayName()},${metric.getTypeName()}"/></h1>
             </div>
             <div class="x_panel">
                 <div class="col-md-3 col-sm-6 col-xs-12">
