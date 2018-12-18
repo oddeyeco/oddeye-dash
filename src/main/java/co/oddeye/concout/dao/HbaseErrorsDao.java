@@ -254,8 +254,8 @@ public class HbaseErrorsDao extends HbaseBaseDao {
 
                         MetricErrorMeta e = new MetricErrorMeta(kv.qualifier(), BaseTsdb.getTsdb());
 
-                        if (MetricMetaListTmp.get(e.hashCode()) != null) {
-                            e = (MetricErrorMeta) MetricMetaListTmp.get(e.hashCode());
+                        if (MetricMetaListTmp.get(e.sha256Code()) != null) {
+                            e = (MetricErrorMeta) MetricMetaListTmp.get(e.sha256Code());
                         }
 
                         long time = getTime(kv.key());
