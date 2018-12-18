@@ -94,7 +94,7 @@
         localser.data = dataKalman;
         series.push(localser);
 
-        console.log(series);
+//        console.log(series);
 
         var serieLinereg = clone_obg(defserie);
         serieLinereg.name = "Predicted by regression";
@@ -186,7 +186,7 @@
 
     $('body').on("click", "#Clear_reg", function () {
         var sendData = {};
-        sendData.hash = ${metric.hashCode()};
+        sendData.hash ="${metric.sha256Code()}";        
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         url = cp + "/resetregression";

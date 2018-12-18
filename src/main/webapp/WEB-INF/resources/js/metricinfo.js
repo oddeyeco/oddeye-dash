@@ -479,7 +479,7 @@ $(document).ready(function () {
         }).done(function (msg) {
             if (msg.sucsses)
             {
-                location.reload();
+//                location.reload();
             } else
             {
                 console.log("Request failed");
