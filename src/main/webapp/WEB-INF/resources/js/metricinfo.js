@@ -229,7 +229,10 @@ function getmetrics(key, idvalue, id, draw) {
                 var input = html.replace("{metricname}", metric.name);
                 if (metric.type !== 0)
                 {
-                    var icons = chartLinck.replace("{hash}", JSON.stringify(metric.hash));
+//                    console.log(chartLinck);
+//                    console.log(metric.hash);
+//                    console.log(chartLinck.replace("{hash}", metric.hash));
+                    var icons = chartLinck.replace("{hash}", metric.hash);
                     input = input.replace("{icons}", icons);
                 } else
                 {
@@ -245,7 +248,7 @@ function getmetrics(key, idvalue, id, draw) {
 //                console.log(Object.keys(metric.tags).length);
 //                input = input.replace("{tagscount}", Object.keys(metric.tags).length);
                 input = input.replace("{tags}", sttags);
-                input = input.replace(new RegExp("{hash}", 'g'), JSON.stringify(metric.hash));
+                input = input.replace(new RegExp("{hash}", 'g'), metric.hash);
                 input = input.replace("{type}", JSON.stringify(metric.typename));
                 input = input.replace("{lasttime}", moment(metric.lasttime).format("YYYY-MM-DD HH:mm:ss"));
                 input = input.replace("{firsttime}", moment(metric.inittime).format("YYYY-MM-DD HH:mm:ss"));

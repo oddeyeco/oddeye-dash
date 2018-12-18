@@ -40,7 +40,7 @@
     <c:if test="${curentuser.getBalance()!=null}">
     balanse = ${curentuser.getBalance()};
     </c:if>
-    var hashcode = ${hashcode};
+    var hashcode = "${hashcode}";
     var merictype = ${type};
     var formatter = format_metric;
     var abc_formatter = format_metric;
@@ -207,6 +207,18 @@
                 containLabel: true
             };
 
+            switch (merictype) {
+                case 4:
+                    calcmin = 0;
+                    clacmax = 100;
+                    break;
+
+                default:
+                    calcmin = Math.min.apply(null, chdataMath);
+                    clacmax = Math.max.apply(null, chdataMath);
+                    break;
+            }
+
             var series = [{
                     name: chartline ? chartline.metric : "b",
                     type: 'line',
@@ -220,19 +232,21 @@
                 {
                     name: 'Last',
                     type: 'gauge',
-                    axisLabel: {show: false},
-                    center: ['90%', 220],
+                    axisLabel: {show: true,
+                        formatter: abc_formatter
+                    },
+                    center: ['91%', 220],
                     radius: 140,
                     startAngle: 90,
                     endAngle: -90,
                     min: calcmin,
                     max: clacmax,
                     splitNumber: 3,
-                    axisLine: {
-                        lineStyle: {
-                            width: 10
-                        }
-                    },
+//                    axisLine: {
+//                        lineStyle: {
+//                            width: 10
+//                        }
+//                    },
                     title: {
                         show: true,
                         offsetCenter: ["30%", -160],
@@ -269,15 +283,7 @@
                         }];
 
                     break;
-
-                case 4:
-                    calcmin = 0;
-                    clacmax = 100;
-                    break;
-
                 default:
-                    calcmin = Math.min.apply(null, chdataMath);
-                    clacmax = Math.max.apply(null, chdataMath);
                     break;
             }
 
@@ -335,6 +341,11 @@
             if (options.series[1])
             {
                 options.series[1].data[0].value = chdataMath[chdataMath.length - 1];
+
+                options.series[1].detail = {
+                    offsetCenter: ["50%", "140%"],
+                    formatter: formatter
+                };
                 switch (merictype) {
                     case 4:
                         options.series[1].min = 0;
@@ -347,8 +358,6 @@
                         break;
                 }
             }
-
-
             options.series[0].data = chdata;
             chart.setOption({series: options.series});
 

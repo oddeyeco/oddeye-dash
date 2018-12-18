@@ -127,8 +127,8 @@ public class KafkaLisener {
                     }
 
                     case "deletemetricbyhash": {
-                        user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
-                        MetaDao.getFullmetalist().remove(jsonResult.getAsJsonObject().get("hash").getAsInt());
+                        user.getMetricsMeta().remove(jsonResult.getAsJsonObject().get("hash").getAsString());
+                        MetaDao.getFullmetalist().remove(jsonResult.getAsJsonObject().get("hash").getAsString());
                         break;
                     }
                     case "exitfrompage": {

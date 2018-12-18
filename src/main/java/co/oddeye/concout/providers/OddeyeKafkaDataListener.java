@@ -67,7 +67,7 @@ public class OddeyeKafkaDataListener implements MessageListener<Object, Object>,
             JsonElement jsonResult = PARSER.parse(msg);
 
             int level = jsonResult.getAsJsonObject().get("level").getAsInt();
-            int hash = jsonResult.getAsJsonObject().get("hash").getAsInt();
+            String hash = jsonResult.getAsJsonObject().get("hash").getAsString();
 
             jsonResult.getAsJsonObject().addProperty("levelname", AlertLevel.getName(level));
             OddeeyMetricMeta metricMeta = user.getMetricsMeta().get(hash);

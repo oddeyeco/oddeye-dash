@@ -15,7 +15,6 @@ import co.oddeye.core.MetriccheckRule;
 import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.globalFunctions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import com.stumbleupon.async.Callback;
 import com.stumbleupon.async.Deferred;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -73,8 +72,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
         ArrayList<KeyValue> row = BaseTsdb.getClientSecondary().get(request).joinUninterruptibly();
         if (row.size() > 0) {
             final OddeeyMetricMeta meta = new OddeeyMetricMeta(row, BaseTsdb.getTsdb(), false);
-            fullmetalist.put(meta.hashCode(), meta);
-            return fullmetalist.get(meta.hashCode());
+            fullmetalist.put(meta.sha256Code(), meta);
+            return fullmetalist.get(meta.sha256Code());
         } else {
             LOGGER.warn("Key " + Hex.encodeHexString(key) + " Not Found in database");
         }
@@ -224,9 +223,9 @@ public class HbaseMetaDao extends HbaseBaseDao {
         return result;
     }
 
-    public OddeeyMetricMeta deleteMeta(Integer hash, OddeyeUserModel user) {
-        if (user.getMetricsMeta().get(hash) != null) {
-            return deleteMeta(user.getMetricsMeta().get(hash), user);
+    public OddeeyMetricMeta deleteMeta(String sha256Code, OddeyeUserModel user) {
+        if (user.getMetricsMeta().get(sha256Code) != null) {
+            return deleteMeta(user.getMetricsMeta().get(sha256Code), user);
         }
         return null;
     }
@@ -244,8 +243,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
             LOGGER.error(globalFunctions.stackTrace(ex));
             return meta;
         }
-        getFullmetalist().remove(meta.hashCode());
-        return user.getMetricsMeta().remove(meta.hashCode());
+        getFullmetalist().remove(meta.sha256Code());
+        return user.getMetricsMeta().remove(meta.sha256Code());
     }
 
     public boolean deleteMetaByTag(String tagK, String tagV, OddeyeUserModel user) {
@@ -261,7 +260,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
 
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
-        for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
+        for (Map.Entry<String, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
             OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
@@ -274,8 +273,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 LOGGER.error(globalFunctions.stackTrace(ex));
                 return false;
             }
-            getFullmetalist().remove(meta.hashCode());
-            user.getMetricsMeta().remove(meta.hashCode());
+            getFullmetalist().remove(meta.sha256Code());
+            user.getMetricsMeta().remove(meta.sha256Code());
         }
         try {
             Deferred.groupInOrder(result).joinUninterruptibly();
@@ -305,7 +304,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
         }
 
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
-        for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
+        for (Map.Entry<String, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
             OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
@@ -318,8 +317,8 @@ public class HbaseMetaDao extends HbaseBaseDao {
                 Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
                 return false;
             }
-            getFullmetalist().remove(meta.hashCode());
-            user.getMetricsMeta().remove(meta.hashCode());
+            getFullmetalist().remove(meta.sha256Code());
+            user.getMetricsMeta().remove(meta.sha256Code());
         }
         try {
             Deferred.groupInOrder(result).joinUninterruptibly();
@@ -333,7 +332,7 @@ public class HbaseMetaDao extends HbaseBaseDao {
     public ArrayList<Deferred<Object>> deleteMetaByList(ConcoutMetricMetaList MtrList, OddeyeUserModel user, SendToKafka sk) {
         final HBaseClient client = BaseTsdb.getTsdb().getClient();
         final ArrayList<Deferred<Object>> result = new ArrayList<>(MtrList.size());
-        for (Map.Entry<Integer, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
+        for (Map.Entry<String, OddeeyMetricMeta> metaentry : MtrList.entrySet()) {
             OddeeyMetricMeta meta = metaentry.getValue();
             if (!meta.getTags().get("UUID").getValue().equals(user.getId().toString())) {
                 continue;
@@ -349,13 +348,13 @@ public class HbaseMetaDao extends HbaseBaseDao {
 //                    }
 //                };
                 result.add(client.delete(req));
-                sk.run(user, "deletemetricbyhash", meta.hashCode());
+                sk.run(user, "deletemetricbyhash", meta.sha256Code());
             } catch (Exception ex) {
                 Logger.getLogger(HbaseMetaDao.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
             }
-            getFullmetalist().remove(meta.hashCode());
-            user.getMetricsMeta().remove(meta.hashCode());
+            getFullmetalist().remove(meta.sha256Code());
+            user.getMetricsMeta().remove(meta.sha256Code());
         }
         return result;
 //        try {
