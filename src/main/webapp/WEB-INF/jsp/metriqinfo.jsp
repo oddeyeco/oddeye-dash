@@ -6,7 +6,7 @@
     <div class="row">
 
         <div class="x_title">            
-            <h1><spring:message code="metriginfo.metric.h1" arguments="${cp},${metric.hashCode()},${metric.getName()}"/> <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h1>
+            <h1><spring:message code="metriginfo.metric.h1" arguments="${cp},${metric.sha256Code()},${metric.getName()}"/> <fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</h1>
         </div>
         <div class="col-lg-6 col-md-12 col-sm-12">
             <div class="x_panel">
@@ -101,7 +101,7 @@
                         <c:forEach var="i" begin="0" end="8" step="1" >
                             <jsp:useBean id="dateValue" class="java.util.Date"/>
                             <jsp:setProperty name="dateValue" property="time" value="${(Date.getTime()+(3600000*(i-4) ))}"/>
-                            <a href="${cp}/metriq/${metric.hashCode()}/<fmt:formatNumber type="number" groupingUsed="FALSE" maxFractionDigits="0" value="${dateValue.getTime()/1000}" />"><li class="li complete">
+                            <a href="${cp}/metriq/${metric.sha256Code()}/<fmt:formatNumber type="number" groupingUsed="FALSE" maxFractionDigits="0" value="${dateValue.getTime()/1000}" />"><li class="li complete">
                                     <div class="timestamp">                                    
                                         <span class="date">${i-4}</span>
                                     </div>

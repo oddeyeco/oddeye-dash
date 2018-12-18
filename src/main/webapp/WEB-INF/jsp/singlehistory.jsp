@@ -15,7 +15,7 @@
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
                 <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}" timeZone="${curentuser.getTimezone()}"/></span> <b class="caret"></b>
             </div>
-            <h1><a href="${cp}/metriq/${metric.hashCode()}"> ${metric.getDisplayName()} </a>: ${metric.getTypeName()}</h1>
+            <h1><a href="${cp}/metriq/${metric.sha256Code()}"> ${metric.getDisplayName()} </a>: ${metric.getTypeName()}</h1>
 
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 ">

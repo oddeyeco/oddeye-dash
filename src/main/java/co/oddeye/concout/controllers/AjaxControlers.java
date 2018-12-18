@@ -541,7 +541,7 @@ public class AjaxControlers {
             JsonObject Jsonchangedata = new JsonObject();
             Jsonchangedata.addProperty("UUID", user.getId().toString());
             Jsonchangedata.addProperty("action", action);
-            Jsonchangedata.addProperty("hash", (Integer) hash1);
+            Jsonchangedata.addProperty("hash", (String) hash1);
             ListenableFuture<SendResult<Integer, String>> messge = conKafkaTemplate.send(semaphoretopic, Jsonchangedata.toString());
             messge.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
                 @Override
@@ -751,7 +751,7 @@ public class AjaxControlers {
 
     @RequestMapping(value = {"/resetregression"})
     public String regrresinreset(
-            @RequestParam(value = "hash") int hash,
+            @RequestParam(value = "hash") String hash,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

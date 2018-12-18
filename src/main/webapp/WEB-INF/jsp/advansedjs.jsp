@@ -146,6 +146,8 @@
     $('body').on("click", "#Clear_reg", function () {
         var sendData = {};
         sendData.hash = ${Error.hashCode()};
+        
+        
         var header = $("meta[name='_csrf_header']").attr("content");
         var token = $("meta[name='_csrf']").attr("content");
         url = cp + "/resetregression";
