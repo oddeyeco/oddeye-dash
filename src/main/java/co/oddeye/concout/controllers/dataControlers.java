@@ -83,7 +83,7 @@ public class dataControlers {
     }
 
     @RequestMapping(value = "/chart/{metricshash}", method = RequestMethod.GET)
-    public String singlechart(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
+    public String singlechart(@PathVariable(value = "metricshash") String metricshash, ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             try {
@@ -110,7 +110,7 @@ public class dataControlers {
                 OddeeyMetricMeta meta = userDetails.getMetricsMeta().get(metricshash);
                 if (meta != null) {
                     if (meta.isSpecial()) {
-                        return "redirect:/history/" + meta.hashCode();
+                        return "redirect:/history/" + meta.sha256Code();
                     }
 
                     map.put("body", "singlechart");
@@ -121,7 +121,7 @@ public class dataControlers {
 
                     map.put("metric", meta);
                     map.put("title", meta.getDisplayName() + "|" + meta.getDisplayTags("|"));
-                    map.put("hashcode", meta.hashCode());
+                    map.put("hashcode", meta.sha256Code());
                     map.put("type", meta.getType().ordinal());
                 }
                 else
@@ -141,12 +141,12 @@ public class dataControlers {
     }
 
     @RequestMapping(value = "/history/{metricshash}", method = RequestMethod.GET)
-    public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash, ModelMap map) {
+    public String singlehistory(@PathVariable(value = "metricshash") String metricshash, ModelMap map) {
         return singlehistory(metricshash, System.currentTimeMillis(), map);
     }
 
     @RequestMapping(value = "/history/{metricshash}/{date}", method = RequestMethod.GET)
-    public String singlehistory(@PathVariable(value = "metricshash") Integer metricshash, @PathVariable(value = "date") Long date, ModelMap map) {
+    public String singlehistory(@PathVariable(value = "metricshash") String metricshash, @PathVariable(value = "date") Long date, ModelMap map) {
         map.put("h1title", "Messages hostory");
         map.put("body", "singlehistory");
         map.put("jspart", "singlehistoryjs");
@@ -272,7 +272,7 @@ public class dataControlers {
 //                    }
 //                }
                 String hashes = request.getParameter("hashes");
-                String hashesarr = "[" + hashes.replaceAll(";", ",") + "]";
+                String hashesarr = "[\"" + hashes.replaceAll(";", "\",\"") + "\"]";
                 map.put("hashes", hashesarr);
                 map.put("title", messageSource.getMessage("title.multiChart", new String[]{""}, LocaleContextHolder.getLocale()));
 //              map.put("title", "");

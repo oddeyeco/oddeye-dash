@@ -56,16 +56,16 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
     @Override
     public OddeeyMetricMeta add(OddeeyMetricMeta e) {
-        if (!this.containsKey(e.hashCode())) {
+        if (!this.containsKey(e.sha256Code())) {
             OddeeyMetricMeta result = super.add(e);
             updateIndex(e);
             return result;
         } else {
-            return this.replace(e.hashCode(), e);
+            return this.replace(e.sha256Code(), e);
         }
     }
 
-    public OddeeyMetricMeta remove(Integer key) {
+    public OddeeyMetricMeta remove(String key) {
         if (!this.containsKey(key)) {
             return null;
         }
@@ -138,7 +138,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
 
     public ConcoutMetricMetaList getbyTag(String tagK, String tagV) throws Exception {
         ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
-        for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
+        for (Map.Entry<String, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             if (MetricMeta.getValue().getTags().containsKey(tagK)) {
                 if (MetricMeta.getValue().getTags().get(tagK).getValue().equals(tagV)) {
                     SortbyName.add(MetricMeta.getValue());
@@ -169,7 +169,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public ConcoutMetricMetaList getbyTags(Map<String, String> tagsMap, String filter) {
         ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
         Pattern rm = Pattern.compile(filter);
-        for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
+        for (Map.Entry<String, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             try {
                 boolean sucsses = true;
                 for (Map.Entry<String, String> tag : tagsMap.entrySet()) {
@@ -200,7 +200,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
     public ConcoutMetricMetaList getbyType(String type) {
         Integer tp = Integer.parseInt(type);
         ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
-        for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
+        for (Map.Entry<String, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             if (OddeeyMetricTypesEnum.values()[tp].getShort() == MetricMeta.getValue().getType().getShort() ) {
                 SortbyName.add(MetricMeta.getValue());
             }
@@ -211,7 +211,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
             
     public ConcoutMetricMetaList getbyName(String name) {
         ConcoutMetricMetaList SortbyName = new ConcoutMetricMetaList();
-        for (Map.Entry<Integer, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
+        for (Map.Entry<String, OddeeyMetricMeta> MetricMeta : this.entrySet()) {
             if (MetricMeta.getValue().getName().equals(name)) {
                 SortbyName.add(MetricMeta.getValue());
             }
@@ -297,7 +297,7 @@ public class ConcoutMetricMetaList extends OddeeyMetricMetaList {
                 }
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
-                LOGGER.warn("Add metric " + e.hashCode() + " Error for tag \"" + tag.getKey() + "\" vs tags " + e.getTags());
+                LOGGER.warn("Add metric " + e.sha256Code()+ " Error for tag \"" + tag.getKey() + "\" vs tags " + e.getTags());
             }
 
         }

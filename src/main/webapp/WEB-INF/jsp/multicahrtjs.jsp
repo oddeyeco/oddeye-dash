@@ -81,113 +81,119 @@
         var requestcount = 0;
         var series = [];
         var legend = [];
+
+
         hashes.forEach(function (item, i, arr) {
             var url;
-            if (pickerlabel === "Custom")
+            if (item)
             {
-                url = "${cp}/getdata?hash=" + item + "&startdate=" + pickerstart + "&enddate=" + pickerend;
-            } else
-            {
-                if (typeof (rangeslabels[pickerlabel]) === "undefined")
+                if (pickerlabel === "Custom")
                 {
-                    url = "${cp}/getdata?hash=" + item + "&startdate=1d-ago";
+                    url = "${cp}/getdata?hash=" + item + "&startdate=" + pickerstart + "&enddate=" + pickerend;
                 } else
                 {
-                    url = "${cp}/getdata?hash=" + item + "&startdate=" + rangeslabels[pickerlabel];
-                }
-
-            }
-            requestcount++;
-            echartLine.showLoading("default", {
-                text: '',
-                color: colorPalette[0],
-                textColor: '#000',
-                maskColor: 'rgba(255, 255, 255, 0)',
-                zlevel: 0
-            });
-
-            $.getJSON(url, null, function (data) {
-                var chdata = [];
-                requestcount--;                
-                if (Object.keys(data.chartsdata).length > 0)
-                {
-                    for (key in data.chartsdata)
+                    if (typeof (rangeslabels[pickerlabel]) === "undefined")
                     {
-                        var chartline = data.chartsdata[key];
-
-                        chdata = chartline.data;
-                        var serie = clone_obg(defserie);
-
-//                    serie.data = chdata;
-                        serie.data = [];
-                        for (var ind in chdata)
-                        {
-                            serie.data.push({value: chdata[ind], 'unit': "format_metric"});
-                            if (reload)
-                            {
-                                delete(serie.type);
-                                delete(serie.stack);
-
-                            }
-                        }
-                        var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags);
-                        serie.name = name;
-                        series.push(serie);
-                        legend.push(name);
-                    }
-                }
-                if (requestcount === 0)
-                {
-                    echartLine.hideLoading();
-                    series.sort(function (a, b) {
-                        return compareStrings(a.name, b.name);
-                    });
-                    if (!reload)
-                    {
-                        echartLine.setOption({
-                            title: {
-                                text: ""
-                            },
-                            tooltip: {
-                                trigger: 'axis'
-                            },
-                            toolbox: {},
-                            xAxis: [{
-                                    type: 'time'
-                                }],
-                            yAxis: [{
-                                    type: 'value',
-                                    axisLabel:
-                                            {
-                                                formatter: format_metric
-                                            }
-                                }],
-                            dataZoom: [{
-                                    type: 'inside',
-                                    xAxisIndex: 0,
-                                    show: true,
-                                    start: 0,
-                                    end: 100
-                                }],
-                            series: series
-                        });
+                        url = "${cp}/getdata?hash=" + item + "&startdate=1d-ago";
                     } else
                     {
-                        echartLine.setOption({series: series});
-                        echartLine.resize();
+                        url = "${cp}/getdata?hash=" + item + "&startdate=" + rangeslabels[pickerlabel];
                     }
-                    timer = setTimeout(function () {
-                        drawEchart(hashes, echartLine, true);
-                    }, interval);
+
                 }
 
-            })
-                    .done(function () {
-                    })
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        console.log('getJSON request failed! ' + textStatus);
-                    })
-                    ;
+
+                requestcount++;
+                echartLine.showLoading("default", {
+                    text: '',
+                    color: colorPalette[0],
+                    textColor: '#000',
+                    maskColor: 'rgba(255, 255, 255, 0)',
+                    zlevel: 0
+                });
+
+                $.getJSON(url, null, function (data) {
+                    var chdata = [];
+                    requestcount--;
+                    if (Object.keys(data.chartsdata).length > 0)
+                    {
+                        for (key in data.chartsdata)
+                        {
+                            var chartline = data.chartsdata[key];
+
+                            chdata = chartline.data;
+                            var serie = clone_obg(defserie);
+
+//                    serie.data = chdata;
+                            serie.data = [];
+                            for (var ind in chdata)
+                            {
+                                serie.data.push({value: chdata[ind], 'unit': "format_metric"});
+                                if (reload)
+                                {
+                                    delete(serie.type);
+                                    delete(serie.stack);
+
+                                }
+                            }
+                            var name = data.chartsdata[key].metric + JSON.stringify(data.chartsdata[key].tags);
+                            serie.name = name;
+                            series.push(serie);
+                            legend.push(name);
+                        }
+                    }
+                    if (requestcount === 0)
+                    {
+                        echartLine.hideLoading();
+                        series.sort(function (a, b) {
+                            return compareStrings(a.name, b.name);
+                        });
+                        if (!reload)
+                        {
+                            echartLine.setOption({
+                                title: {
+                                    text: ""
+                                },
+                                tooltip: {
+                                    trigger: 'axis'
+                                },
+                                toolbox: {},
+                                xAxis: [{
+                                        type: 'time'
+                                    }],
+                                yAxis: [{
+                                        type: 'value',
+                                        axisLabel:
+                                                {
+                                                    formatter: format_metric
+                                                }
+                                    }],
+                                dataZoom: [{
+                                        type: 'inside',
+                                        xAxisIndex: 0,
+                                        show: true,
+                                        start: 0,
+                                        end: 100
+                                    }],
+                                series: series
+                            });
+                        } else
+                        {
+                            echartLine.setOption({series: series});
+                            echartLine.resize();
+                        }
+                        timer = setTimeout(function () {
+                            drawEchart(hashes, echartLine, true);
+                        }, interval);
+                    }
+
+                })
+                        .done(function () {
+                        })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log('getJSON request failed! ' + textStatus);
+                        })
+            }
         });
     }
 </script>    

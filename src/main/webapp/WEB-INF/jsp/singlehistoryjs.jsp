@@ -192,7 +192,7 @@
             locale: DtPicerlocale
         },
                 function (start, end, label) {
-                    window.open(cp + "/history/${metric.hashCode()}/" + start.utc().valueOf(), "_self");
+                    window.open(cp + "/history/${metric.sha256Code()}/" + start.utc().valueOf(), "_self");
                 });
 
         $('.timeinterval').each(function () {
