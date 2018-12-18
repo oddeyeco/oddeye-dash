@@ -21,7 +21,7 @@
 .btn_border(@width:1px, @type:solid, @color:lighten(@bg,20%)){
     border:@arguments;
 }  
-.btn_OE(@color: @bg_body, @bg: @clr_body, @fw: bold, @trans: all 0.8s){    
+.btn_OE(@color: @bg_body, @bg: @clr_body, @fw: bold, @trans: all 0.6s){    
     color: @bg;
     background-color: rgba(0, 0, 0, 0);
     .btn_border(@color: @bg);
@@ -299,10 +299,10 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 margin: 0;
                 border-radius: 4px;
                 color: @clr_body;  
-                transition: 0.6s ease-out 0.2s;
+                transition: 0.4s ease-out 0.2s;
                 &:hover{
                     color: @clr_OEgreen !important;
-                    transition: 0.6s ease-out 0.2s;
+                    transition: 0.4s ease-out 0.2s;
                 }
             }
 
@@ -482,7 +482,7 @@ div.sidebar-footer.hidden-small {
                 .base_border(@color: lighten(@bg_rightCol, 10%));
                 border-radius: 4px;
                 color: rgb(255, 255, 255);
-                transition: all 0.6s;
+                transition: all 0.4s;
                 &:hover {
                     background: lighten(@bg_base, 10%);
                     .base_border(@color: lighten(@bg_base, 15%));
@@ -863,6 +863,7 @@ div#tagsconteger.ui-sortable {
     padding: 4px;    
         &:hover .draggable:not(:hover) {
                 box-shadow: inset 3px 2px 4px 0 rgba(0,0,0,0.6);
+                transition: 0.4s ease-out;
             }
     .draggable {
         background: @bg_baseLight;
@@ -872,10 +873,9 @@ div#tagsconteger.ui-sortable {
         cursor: grabbing;
         cursor: -moz-grabbing;
         cursor: -webkit-grabbing;
-        transition: 0.6s ease-out 0.2s; 
+        transition: 0.4s ease-out; 
         &:hover {
-            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);
-            transition: 0.6s ease-out 0.2s;             
+            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);             
         }
         >label{
             cursor: grabbing;
@@ -970,7 +970,6 @@ div.x_panel {
         ul {
             color: @clr_bannerBlue;
             li.selected {
-                padding: 8px;
                 box-shadow: inset 0px 0px 20px @bg_body;
                 .base_border();
                 border-radius: 18px;
@@ -982,6 +981,7 @@ div.x_panel {
                 }                
             }
             li {
+                padding: 8px;
                 .base_border();
                 box-shadow: none;
                 .valueinfo {
@@ -1033,7 +1033,7 @@ div.btn-group-vertical {
             border-radius: 4px;
             background: @bg_rightCol;
             .base_border();
-            transition: 0.6s ease-in-out;
+            transition: 0.4s ease-in-out;
             &:hover {
                 background: lighten(@bg_base,5%);
 /*                border: none;*/
@@ -1146,8 +1146,6 @@ div#accordion1 .table-bordered>tbody>tr>th {
         .chartTitleDiv {
             background: inherit;
             &:hover {
-/*                box-shadow: none;
-                border-bottom: 1px solid lighten(@bg_base, 15%);*/
                 box-shadow: 0 2px 1px @bg_baseLight;
                 border-radius: 0;
             }
@@ -1181,18 +1179,8 @@ div#accordion1 .table-bordered>tbody>tr>th {
 }
 // ---- dash edit ----
 #singlewidget {
-    .chartTitleDiv:extend(.rowcontent .chartsection .chartTitleDiv) {
-        &:hover:extend(.rowcontent .chartsection .chartTitleDiv:hover) {}
-        .hoverShow:extend(.rowcontent .chartsection .chartTitleDiv .hoverShow) {}
-        .dropdown-menu :extend(.rowcontent .chartsection .chartTitleDiv .dropdown-menu){            
-            >li{
-                >a:extend(.rowcontent .chartsection .chartTitleDiv .dropdown-menu>li>a){
-                    &:hover:extend(.rowcontent .chartsection .chartTitleDiv .dropdown-menu>li>a:hover),
-                    &:focus:extend(.rowcontent .chartsection .chartTitleDiv .dropdown-menu>li>a:focus){}
-                    >i:extend(.rowcontent .chartsection .chartTitleDiv .dropdown-menu>li>a>i){}
-                }
-            }
-        }
+    .chartTitleDiv {
+        .rowcontent .chartsection .chartTitleDiv();
     }
     .tile-stats:extend(.rowcontent .chartsection .tile-stats) {
         .base_border();
