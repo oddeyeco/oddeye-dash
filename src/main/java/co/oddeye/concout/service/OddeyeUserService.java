@@ -6,9 +6,12 @@
 package co.oddeye.concout.service;
 
 import co.oddeye.concout.dao.HbaseUserDao;
+import co.oddeye.concout.model.OddeyePayModel;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.core.globalFunctions;
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -29,12 +32,11 @@ public class OddeyeUserService {
     
     @Autowired
     private HbaseUserDao dao;
-
     
     public OddeyeUserModel findById(UUID id) {
         return dao.getUserByUUID(id);
     }
-
+    
     public void updateConsumptionYear(OddeyeUserModel env) {
         try {
             TimeZone timeZone = TimeZone.getTimeZone("UTC");
@@ -51,7 +53,7 @@ public class OddeyeUserService {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
     }
-
+    
     public void updateConsumption2m(OddeyeUserModel env) {
         try {
             TimeZone timeZone = TimeZone.getTimeZone("UTC");
@@ -68,11 +70,25 @@ public class OddeyeUserService {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
     }
-
+    
     public void updateConsumption(OddeyeUserModel env) {
         env.setConsumptionList(dao.getConsumption(env));        
     }
     
+    public void updatePayments(OddeyeUserModel env, int count) {
+        List<OddeyePayModel> list = dao.getPaymets(env, count);
+        list.sort(new Comparator<OddeyePayModel>() {
+            @Override
+            public int compare(OddeyePayModel m1, OddeyePayModel m2) {
+                if (m1.getPayment_date().equals(m2.getPayment_date()) ) {
+                    return 0;
+                }
+                return m1.getPayment_date().after(m2.getPayment_date()) ? -1 : 1;
+            }
+        });
+        env.setPaymentList(list);        
+    }
+
 //    public void save(OddeyeUserModel env) {
 //        dao.save(env);
 //    }

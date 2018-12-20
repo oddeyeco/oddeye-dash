@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -50,21 +51,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  * @author vahan
  */
 public class OddeyeUserModel implements Serializable, IHbaseModel {
-
-    /**
-     * @return the template
-     */
-    public String getTemplate() {
-        return template;
-    }
-
-    /**
-     * @param template the template to set
-     */
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
 //    private transient HbaseUserDao Userdao;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class);
     private static final long serialVersionUID = 465895478L;
@@ -148,7 +134,9 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     private Map<String, String> OptionsList;
 
     private ConsumptionList consumptionList;
-
+    private List<OddeyePayModel> paymentList;
+    
+    
     private Double consumption = 0d;
     private OddeyeUserModel SwitchUser;
 
@@ -1276,4 +1264,37 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
         }
         return isRolePresent;
     }
+    
+    public List<OddeyePayModel> getPayments() {
+        return getPaymentList();
+    }        
+
+    /**
+     * @return the paymentList
+     */
+    public List<OddeyePayModel> getPaymentList() {
+        return paymentList;
+    }
+
+    /**
+     * @param paymentList the paymentList to set
+     */
+    public void setPaymentList(List<OddeyePayModel> paymentList) {
+        this.paymentList = paymentList;
+    }
+
+    /**
+     * @return the template
+     */
+    public String getTemplate() {
+        return template;
+    }
+
+    /**
+     * @param template the template to set
+     */
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
 }

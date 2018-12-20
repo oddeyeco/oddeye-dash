@@ -119,8 +119,30 @@ public class HbasePaymentDao extends HbaseBaseDao {
         return null;
     }
 
+    @Override
     protected byte[] getKey(Object object) {
       return ArrayUtils.addAll(((OddeyePayModel) object).getUser().getId().toString().getBytes(), ((OddeyePayModel) object).getIpn_track_id().getBytes());
+    }
+
+    List<OddeyePayModel> getPayments(OddeyeUserModel env, int count) {
+        List<OddeyePayModel> result = new ArrayList<>();
+        try {
+            final Scanner scanner = BaseTsdb.getClient().newScanner(table);
+//            byte[] keyprefix = env.getId().toString().getBytes();
+            scanner.setKeyRegexp(env.getId().toString()+"?");
+            ArrayList<ArrayList<KeyValue>> rows;
+            //TODO Do pagination
+            while ((rows = scanner.nextRows(count).joinUninterruptibly()) != null) {
+                for (final ArrayList<KeyValue> row : rows) {
+                    result.add(new OddeyePayModel(row, Userdao));
+                }
+            }
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+            return null;
+        }
+
+        return result;
     }
 
 }
