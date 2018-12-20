@@ -49,7 +49,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  *
  * @author vahan
  */
-public class OddeyeUserModel implements Serializable,IHbaseModel {
+public class OddeyeUserModel implements Serializable, IHbaseModel {
 
     /**
      * @return the template
@@ -196,7 +196,7 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
         return roles;
     }
 
-    public void SendWLConfirmMail(OddeyeMailSender Sender, String uri,String email) throws UnsupportedEncodingException {
+    public void SendWLConfirmMail(OddeyeMailSender Sender, String uri, String email) throws UnsupportedEncodingException {
         //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
         HashMap<String, String> model = new HashMap<>();
         model.put("userName", this.getName());
@@ -207,8 +207,7 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
         Sender.send("Please confirm your email address", email, "confirmhtml.ftl", "confirmtxt.ftl", model);
 
     }
-    
-    
+
     public void SendConfirmMail(OddeyeMailSender Sender, String uri) throws UnsupportedEncodingException {
         //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
         HashMap<String, String> model = new HashMap<>();
@@ -943,8 +942,8 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
 
     public void SendWlAdminMail(String action, OddeyeMailSender Sender, String mail) throws UnsupportedEncodingException {
         Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail() + "</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), mail);
-    }    
-    
+    }
+
     public void SendAdminMail(String action, OddeyeMailSender Sender) throws UnsupportedEncodingException {
         Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail() + "</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), "ara@oddeye.co");
     }
@@ -1126,8 +1125,10 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
      * @param referal the referal to set
      */
     public void setReferal(OddeyeUserModel referal) {
+
+        this.referal = referal;
+        this.sreferal = null;
         if (referal != null) {
-            this.referal = referal;
             this.sreferal = referal.getId().toString();
         }
 
