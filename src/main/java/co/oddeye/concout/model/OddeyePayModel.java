@@ -5,11 +5,13 @@
  */
 package co.oddeye.concout.model;
 
+import co.oddeye.concout.annotation.HbaseColumn;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 
@@ -25,44 +28,60 @@ import org.slf4j.LoggerFactory;
  *
  * @author vahan
  */
-public class OddeyePayModel {
+public class OddeyePayModel implements Serializable, IHbaseModel {
 
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyePayModel.class);
 
+    private String id;
+    
     private String transaction_subject;
     private Date payment_date;
     private String txn_type;
     private String last_name;
     private String residence_country;
     private String item_name;
-    private double payment_gross;
-    private String mc_currency;
+    @HbaseColumn(qualifier = "Payment_gross", family = "c")
+    private double payment_gross; 
+    @HbaseColumn(qualifier = "Mc_currency", family = "c")
+    private String mc_currency; 
     private String business;
     private String payment_type;
     private String protection_eligibility;
     private String verify_sign;
     private String payer_status;
     private String test_ipn;
-    private String payer_email;
+    @HbaseColumn(qualifier = "Payer_email", family = "c")
+    private String payer_email; 
     private String txn_id;
     private double quantity;
-    private double points;
+    @HbaseColumn(qualifier = "Points", family = "c")
+    private double points; 
     private String receiver_email;
-    private String first_name;
+    @HbaseColumn(qualifier = "First_name", family = "c")
+    private String first_name; //First_name
     private String payer_id;
     private String receiver_id;
     private String item_number;
     private String payment_status;
-    private double payment_fee;
-    private double mc_fee;
-    private double mc_gross;
+    @HbaseColumn(qualifier = "Payment_fee", family = "c")
+    private double payment_fee; 
+    @HbaseColumn(qualifier = "Mc_fee", family = "c")
+    private double mc_fee; 
+    @HbaseColumn(qualifier = "Mc_gross", family = "c")
+    private double mc_gross; 
     private String custom;
     private String charset;
     private String notify_version;
+    @HbaseColumn(qualifier = "Ipn_track_id", family = "c")
     private String ipn_track_id;
     private OddeyeUserModel user;
-    private JsonElement json;
+    @HbaseColumn(qualifier = "fulljson", family = "c")
+    private JsonElement json; 
 
+    public OddeyePayModel() {
+        id = UUID.randomUUID().toString();
+    }
+    
     public OddeyePayModel(Map<String, String[]> postdata, OddeyeUserModel _user, String paypal_percent, String paypal_fix) {
         try {
             Gson gson = globalFunctions.getGson();
@@ -394,5 +413,243 @@ public class OddeyePayModel {
      */
     public OddeyeUserModel getUser() {
         return user;
+    }
+
+    /**
+     * @param ipn_track_id the ipn_track_id to set
+     */
+    public void setIpn_track_id(String ipn_track_id) {
+        this.ipn_track_id = ipn_track_id;
+    }
+    
+    /**
+     * @param payment_fee the payment_fee to set
+     */
+    public void setPayment_fee(double payment_fee) {
+        this.payment_fee = payment_fee;
+    }
+
+    /**
+     * @param payment_gross the payment_gross to set
+     */
+    public void setPayment_gross(double payment_gross) {
+        this.payment_gross = payment_gross;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(OddeyeUserModel user) {
+        this.user = user;
+    }
+
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }    
+
+    /**
+     * @param transaction_subject the transaction_subject to set
+     */
+    public void setTransaction_subject(String transaction_subject) {
+        this.transaction_subject = transaction_subject;
+    }
+
+    /**
+     * @param payment_date the payment_date to set
+     */
+    public void setPayment_date(Date payment_date) {
+        this.payment_date = payment_date;
+    }
+
+    /**
+     * @param txn_type the txn_type to set
+     */
+    public void setTxn_type(String txn_type) {
+        this.txn_type = txn_type;
+    }
+
+    /**
+     * @param last_name the last_name to set
+     */
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    /**
+     * @param residence_country the residence_country to set
+     */
+    public void setResidence_country(String residence_country) {
+        this.residence_country = residence_country;
+    }
+
+    /**
+     * @param item_name the item_name to set
+     */
+    public void setItem_name(String item_name) {
+        this.item_name = item_name;
+    }
+
+    /**
+     * @param mc_currency the mc_currency to set
+     */
+    public void setMc_currency(String mc_currency) {
+        this.mc_currency = mc_currency;
+    }
+
+    /**
+     * @param business the business to set
+     */
+    public void setBusiness(String business) {
+        this.business = business;
+    }
+
+    /**
+     * @param payment_type the payment_type to set
+     */
+    public void setPayment_type(String payment_type) {
+        this.payment_type = payment_type;
+    }
+
+    /**
+     * @param protection_eligibility the protection_eligibility to set
+     */
+    public void setProtection_eligibility(String protection_eligibility) {
+        this.protection_eligibility = protection_eligibility;
+    }
+
+    /**
+     * @param verify_sign the verify_sign to set
+     */
+    public void setVerify_sign(String verify_sign) {
+        this.verify_sign = verify_sign;
+    }
+
+    /**
+     * @param test_ipn the test_ipn to set
+     */
+    public void setTest_ipn(String test_ipn) {
+        this.test_ipn = test_ipn;
+    }
+
+    /**
+     * @param payer_email the payer_email to set
+     */
+    public void setPayer_email(String payer_email) {
+        this.payer_email = payer_email;
+    }
+
+    /**
+     * @param txn_id the txn_id to set
+     */
+    public void setTxn_id(String txn_id) {
+        this.txn_id = txn_id;
+    }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    /**
+     * @param points the points to set
+     */
+    public void setPoints(double points) {
+        this.points = points;
+    }
+
+    /**
+     * @param receiver_email the receiver_email to set
+     */
+    public void setReceiver_email(String receiver_email) {
+        this.receiver_email = receiver_email;
+    }
+
+    /**
+     * @param first_name the first_name to set
+     */
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    /**
+     * @param payer_id the payer_id to set
+     */
+    public void setPayer_id(String payer_id) {
+        this.payer_id = payer_id;
+    }
+
+    /**
+     * @param receiver_id the receiver_id to set
+     */
+    public void setReceiver_id(String receiver_id) {
+        this.receiver_id = receiver_id;
+    }
+
+    /**
+     * @param item_number the item_number to set
+     */
+    public void setItem_number(String item_number) {
+        this.item_number = item_number;
+    }
+
+    /**
+     * @param payment_status the payment_status to set
+     */
+    public void setPayment_status(String payment_status) {
+        this.payment_status = payment_status;
+    }
+
+    /**
+     * @param mc_fee the mc_fee to set
+     */
+    public void setMc_fee(double mc_fee) {
+        this.mc_fee = mc_fee;
+    }
+
+    /**
+     * @param mc_gross the mc_gross to set
+     */
+    public void setMc_gross(double mc_gross) {
+        this.mc_gross = mc_gross;
+    }
+
+    /**
+     * @param custom the custom to set
+     */
+    public void setCustom(String custom) {
+        this.custom = custom;
+    }
+
+    /**
+     * @param charset the charset to set
+     */
+    public void setCharset(String charset) {
+        this.charset = charset;
+    }
+
+    /**
+     * @param notify_version the notify_version to set
+     */
+    public void setNotify_version(String notify_version) {
+        this.notify_version = notify_version;
+    }
+
+    /**
+     * @param json the json to set
+     */
+    public void setJson(JsonElement json) {
+        this.json = json;
     }
 }

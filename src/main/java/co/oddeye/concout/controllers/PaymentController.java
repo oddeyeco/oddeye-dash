@@ -75,9 +75,7 @@ public class PaymentController {
                     user.setBalance(user.getBalance() + pay.getPoints());
                     Userdao.saveField(user, "balance");
 
-                }
-
-                //TODO Write paymants to DB
+                }                
                 jsonResult.add("data", pay.getJson());
             }
         } catch (Exception ex) {

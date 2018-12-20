@@ -33,13 +33,14 @@ public class HbasePaymentDao extends HbaseBaseDao {
 
     @Autowired
     private HbaseUserDao Userdao;
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(HbasePaymentDao.class);
 
     public HbasePaymentDao(DatabaseConfig p_config) {
         super(p_config.getPaymentstable());
     }
 
+    @Deprecated
     public void addPayment(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
         byte[] family = "c".getBytes();
         byte[][] qualifiers = new byte[10][];
@@ -71,44 +72,41 @@ public class HbasePaymentDao extends HbaseBaseDao {
         qualifiers[6] = "Payment_fee".getBytes();
         bytes = new byte[8];
         ByteBuffer.wrap(bytes).putDouble((Double) payment.getPayment_fee());
-        values[6] = bytes;        
-        
+        values[6] = bytes;
 
         qualifiers[7] = "Points".getBytes();
         bytes = new byte[8];
         ByteBuffer.wrap(bytes).putDouble((Double) payment.getPoints());
-        values[7] = bytes;        
-        
-        qualifiers[8] = "Payer_email".getBytes();
-        values[8] = payment.getPayer_email().getBytes(); 
-        
-        qualifiers[9] = "fulljson".getBytes();
-        values[9] = payment.getJson().toString().getBytes();        
+        values[7] = bytes;
 
-        
+        qualifiers[8] = "Payer_email".getBytes();
+        values[8] = payment.getPayer_email().getBytes();
+
+        qualifiers[9] = "fulljson".getBytes();
+        values[9] = payment.getJson().toString().getBytes();
+
         final PutRequest request = new PutRequest(table, end_key, family, qualifiers, values);
         BaseTsdb.getClient().put(request).join();
     }
 
-    public List<OddeyePayModel> getAllPay() {        
-        List<OddeyePayModel> result= new ArrayList<>();
-            try {
-                final Scanner scanner = BaseTsdb.getClient().newScanner(table);                
-                ArrayList<ArrayList<KeyValue>> rows;
-                //TODO Do pagination
-                while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
-                    for (final ArrayList<KeyValue> row : rows) {
-                        result.add(new OddeyePayModel(row,Userdao));                        
-                    }                    
+    public List<OddeyePayModel> getAllPay() {
+        List<OddeyePayModel> result = new ArrayList<>();
+        try {
+            final Scanner scanner = BaseTsdb.getClient().newScanner(table);
+            ArrayList<ArrayList<KeyValue>> rows;
+            //TODO Do pagination
+            while ((rows = scanner.nextRows(1000).joinUninterruptibly()) != null) {
+                for (final ArrayList<KeyValue> row : rows) {
+                    result.add(new OddeyePayModel(row, Userdao));
                 }
-            } catch (Exception ex) {
-                LOGGER.error(globalFunctions.stackTrace(ex));
-                return null;
             }
-        
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+            return null;
+        }
+
         return result;
     }
-
 
     public OddeyeUserModel getPaymentByid(byte[] key) {
 
@@ -121,5 +119,8 @@ public class HbasePaymentDao extends HbaseBaseDao {
         return null;
     }
 
+    protected byte[] getKey(Object object) {
+      return ArrayUtils.addAll(((OddeyePayModel) object).getUser().getId().toString().getBytes(), ((OddeyePayModel) object).getIpn_track_id().getBytes());
+    }
 
 }

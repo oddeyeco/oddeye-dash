@@ -474,7 +474,7 @@ public class AdminUsersControlers extends GRUDControler {
                             LOGGER.error(globalFunctions.stackTrace(e));
                         }                        
                         UserService.updateConsumptionYear(updateuser);
-                        updateuser.setReferal(Userdao.getUserByUUID(updateuser.getSreferal()));
+                        updateuser.setReferal(Userdao.getUserByUUID(newUser.getSreferal()));
                         map.put("model", updateuser);
                     }
 
