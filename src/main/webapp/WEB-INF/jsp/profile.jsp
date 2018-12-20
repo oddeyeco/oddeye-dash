@@ -36,7 +36,7 @@
                             <a class="btn btn-success" href="${cp}/profile/edit"><i class="fa fa-edit m-right-xs"></i><spring:message code="profile.editProfile"/></a>
                     <br />                    
                 </div>        
-                <div class="col-sm-9 col-xs-12 profile_left">                    
+                <div class="col-sm-9 col-xs-12 profile_left metricstat">                    
                     <c:import url="metricinfo.jsp" />
 <!--                    <div id="listtablediv" class="table-responsive">
                         <table id="listtable" class="table projects">
