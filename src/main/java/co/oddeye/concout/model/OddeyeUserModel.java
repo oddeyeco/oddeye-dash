@@ -41,7 +41,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.listener.config.ContainerProperties;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

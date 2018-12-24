@@ -9,7 +9,7 @@ import org.apache.kafka.common.TopicPartition;
 
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.listener.config.ContainerProperties;
+import org.springframework.kafka.listener.ContainerProperties;
 
 /**
  * Creates 1 or more {@link KafkaMessageListenerContainer}s based on
