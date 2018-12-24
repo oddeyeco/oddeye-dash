@@ -165,6 +165,7 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel(true);
             UserService.updateConsumption2m(userDetails);
+            UserService.updatePayments(userDetails,10);
             map.put("curentuser", userDetails);
 
             map.put("activeuser", userDetails);

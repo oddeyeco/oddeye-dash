@@ -15,6 +15,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +36,7 @@ import org.springframework.stereotype.Repository;
 abstract public class HbaseBaseDao {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HbaseBaseDao.class);
-    
+
     @Autowired
     protected BaseTsdbConnect BaseTsdb;
     protected byte[] table = null;
@@ -89,6 +90,12 @@ abstract public class HbaseBaseDao {
                         if (Hbasedata.getValue() instanceof UUID) {
                             values[index] = ((UUID) Hbasedata.getValue()).toString().getBytes();
                         }
+
+                        if (Hbasedata.getValue() instanceof Double) {
+                            byte[] bytes = new byte[8];
+                            ByteBuffer.wrap(bytes).putDouble((Double) Hbasedata.getValue());
+                            values[index] = bytes;
+                        }
                         index++;
                     }
                     final PutRequest request = new PutRequest(table, key, family, qualifiers, values);
@@ -103,7 +110,7 @@ abstract public class HbaseBaseDao {
         Map<String, HashMap<String, Object>> changedata = new HashMap<>();
         for (Field field : object.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(HbaseColumn.class)) {
-                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), WhitelabelModel.class);
+                PropertyDescriptor PDescriptor = new PropertyDescriptor(field.getName(), object.getClass());
                 Method getter = PDescriptor.getReadMethod();
                 Object value = getter.invoke(object);
                 if (value != null) {
@@ -119,13 +126,10 @@ abstract public class HbaseBaseDao {
                                     Method getter2 = PDescriptor2.getReadMethod();
                                     value = getter2.invoke(value);
                                     changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
-                                }                                                                        
-                            }
-                            else
-                            {
+                                }
+                            } else {
                                 changedata.get(family).put(((HbaseColumn) an).qualifier(), value);
                             }
-                            
 
                         }
 
@@ -148,8 +152,8 @@ abstract public class HbaseBaseDao {
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-    }    
-    
+    }
+
     /**
      * @return the tablename
      */

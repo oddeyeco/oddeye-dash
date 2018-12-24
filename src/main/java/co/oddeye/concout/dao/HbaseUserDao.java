@@ -957,4 +957,8 @@ public class HbaseUserDao extends HbaseBaseDao {
     public void addPayment(OddeyeUserModel user, OddeyePayModel payment) throws Exception {
         PaymentDao.addPayment(user, payment);
     }
+
+    public List<OddeyePayModel> getPaymets(OddeyeUserModel env, int count) {
+        return PaymentDao.getPayments(env, count);
+    }
 }

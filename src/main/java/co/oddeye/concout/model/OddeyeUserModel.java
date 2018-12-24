@@ -31,6 +31,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -40,7 +41,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
-import org.springframework.kafka.listener.config.ContainerProperties;
+import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -49,22 +50,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
  *
  * @author vahan
  */
-public class OddeyeUserModel implements Serializable,IHbaseModel {
-
-    /**
-     * @return the template
-     */
-    public String getTemplate() {
-        return template;
-    }
-
-    /**
-     * @param template the template to set
-     */
-    public void setTemplate(String template) {
-        this.template = template;
-    }
-
+public class OddeyeUserModel implements Serializable, IHbaseModel {
 //    private transient HbaseUserDao Userdao;
     protected static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(OddeyeUserModel.class);
     private static final long serialVersionUID = 465895478L;
@@ -148,7 +134,9 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
     private Map<String, String> OptionsList;
 
     private ConsumptionList consumptionList;
-
+    private List<OddeyePayModel> paymentList;
+    
+    
     private Double consumption = 0d;
     private OddeyeUserModel SwitchUser;
 
@@ -196,7 +184,7 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
         return roles;
     }
 
-    public void SendWLConfirmMail(OddeyeMailSender Sender, String uri,String email) throws UnsupportedEncodingException {
+    public void SendWLConfirmMail(OddeyeMailSender Sender, String uri, String email) throws UnsupportedEncodingException {
         //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
         HashMap<String, String> model = new HashMap<>();
         model.put("userName", this.getName());
@@ -207,8 +195,7 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
         Sender.send("Please confirm your email address", email, "confirmhtml.ftl", "confirmtxt.ftl", model);
 
     }
-    
-    
+
     public void SendConfirmMail(OddeyeMailSender Sender, String uri) throws UnsupportedEncodingException {
         //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
         HashMap<String, String> model = new HashMap<>();
@@ -943,8 +930,8 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
 
     public void SendWlAdminMail(String action, OddeyeMailSender Sender, String mail) throws UnsupportedEncodingException {
         Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail() + "</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), mail);
-    }    
-    
+    }
+
     public void SendAdminMail(String action, OddeyeMailSender Sender) throws UnsupportedEncodingException {
         Sender.send(action, "<html><body>User:" + this.getName() + " " + this.getLastname() + "<br/>Signed by email:" + this.getEmail() + "</body></html>", "User:" + this.getName() + " " + this.getLastname() + "/n Signed by email:" + this.getEmail(), "ara@oddeye.co");
     }
@@ -1126,8 +1113,10 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
      * @param referal the referal to set
      */
     public void setReferal(OddeyeUserModel referal) {
+
+        this.referal = referal;
+        this.sreferal = null;
         if (referal != null) {
-            this.referal = referal;
             this.sreferal = referal.getId().toString();
         }
 
@@ -1275,4 +1264,37 @@ public class OddeyeUserModel implements Serializable,IHbaseModel {
         }
         return isRolePresent;
     }
+    
+    public List<OddeyePayModel> getPayments() {
+        return getPaymentList();
+    }        
+
+    /**
+     * @return the paymentList
+     */
+    public List<OddeyePayModel> getPaymentList() {
+        return paymentList;
+    }
+
+    /**
+     * @param paymentList the paymentList to set
+     */
+    public void setPaymentList(List<OddeyePayModel> paymentList) {
+        this.paymentList = paymentList;
+    }
+
+    /**
+     * @return the template
+     */
+    public String getTemplate() {
+        return template;
+    }
+
+    /**
+     * @param template the template to set
+     */
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
 }
