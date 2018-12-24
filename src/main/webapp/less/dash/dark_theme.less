@@ -1149,10 +1149,13 @@ div#accordion1 .table-bordered>tbody>tr>th {
                 box-shadow: 0 2px 1px @bg_baseLight;
                 border-radius: 0;
             }
+            .echart_time_icon{
+                .base_border(border-right, @width:27px, @color:lighten(@bg_baseLight,10%));
+            }
             .hoverShow {
-                background-color: #ededed;
+                background-color: lighten(@bg_baseLight,10%);
                 border-radius: 0 4px 4px 4px;
-                color: #000;
+                color: @bg_body;
             }
             .dropdown-menu {
                 background-color: @bg_base;
