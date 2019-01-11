@@ -22,7 +22,7 @@
                 <div>
                     <ul class="gotodash">
                         <c:forEach items="${activeuser.getDushListasObject()}" var="Dush" varStatus="loop">                                
-                            <li class="col-md-6">
+                            <li class="col-md-6 col-xs-4">
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">
                                     <c:if test="${Dush.value.get(\"locked\")==true}">
