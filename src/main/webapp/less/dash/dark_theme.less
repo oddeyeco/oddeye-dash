@@ -463,11 +463,6 @@ div.sidebar-footer.hidden-small {
     .base_border();
     border-radius: 4px;
     ul.gotodash {
-        &:hover a.gotodash {
-            box-shadow: inset 2px -1px 4px 0 rgba(57, 63, 63, 0.8);
-            background: linear-gradient(135deg,@bg_body,@bg_rightCol);
-            .base_border(@color: lighten(@bg_rightCol, 10%));
-        }
         li {
             position: relative;
             padding: 4px;
@@ -487,7 +482,6 @@ div.sidebar-footer.hidden-small {
                     background: lighten(@bg_base, 10%);
                     .base_border(@color: lighten(@bg_base, 15%));
                     box-shadow: -4px 6px 2px 0 rgba(0,0,0,0.6);                    
-/*                    font-weight: bold;*/
                 }
             } 
         }  
@@ -498,23 +492,22 @@ div.sidebar-footer.hidden-small {
                 background-color: @bg_rightCol;
                 .base_border(@color: lighten(@bg_rightCol, 10%));
                 border-radius: 4px;
-                margin-left: 10px;
                 &:before {
                     border: 0;
-                }
-                &:hover a.showtags {
-                    box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.6);
-                    background-color: lighten(@bg_base, 10%);
-                    .base_border(@color: lighten(@bg_base, 15%));
-                    border-radius: 4px;
-                    padding: 2px;
-                    
                 }
                 .count {
                     color: @clr_infoText;
                 }
                 a.showtags {
                     transition: all 0.4s;
+                    padding: 2px;
+                    .base_border();
+                    border-radius: 4px;
+                    &:hover {
+                    background-color: lighten(@bg_base, 10%);
+                    .base_border(@color: lighten(@bg_base, 15%));
+                    border-radius: 4px;
+                    }
                 }
             }
         }
