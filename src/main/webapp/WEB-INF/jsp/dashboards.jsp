@@ -22,7 +22,7 @@
                 <div>
                     <ul class="gotodash">
                         <c:forEach items="${activeuser.getDushListasObject()}" var="Dush" varStatus="loop">                                
-                            <li class="col-md-6 col-xs-6">
+                            <li class="col-lg-4 col-xs-6">
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">
                                     <c:if test="${Dush.value.get(\"locked\")==true}">
@@ -118,7 +118,7 @@
                 <div>
                     <ul class="gotodash lastdash">
                         <c:forEach items="${mylasttemplates}" var="Dush" varStatus="loop">                                
-                            <li class="col-lg-12">
+                            <li class="col-xs-12 col-md-12 col-sm-6 col-lg-12">
                                 <!--<input type="checkbox" class="flat">-->
                                 <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash">                                    
                                     <c:if test="${Dush.isRecomended()}">

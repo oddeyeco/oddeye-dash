@@ -488,27 +488,35 @@ div.sidebar-footer.hidden-small {
     }
     .x_content{
         .tile_count {
-            .tile_stats_count {
-                background-color: @bg_rightCol;
-                .base_border(@color: lighten(@bg_rightCol, 10%));
-                border-radius: 4px;
+            .tile_stats_count {                 
+                .tile_stats_inside {
+                    padding: 4px 4px 8px;
+                    background-color: @bg_rightCol;
+                    .base_border(@color: lighten(@bg_rightCol, 10%));
+                    border-radius: 4px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    .count {
+                        color: @clr_infoText;
+                    }
+                    a.showtags {
+                        transition: all 0.4s;
+                        padding: 2px;
+                        .base_border();
+                        border-radius: 4px;
+                        &:hover {
+                            background-color: lighten(@bg_base, 10%);
+                            .base_border(@color: lighten(@bg_base, 15%));
+                            border-radius: 4px;
+                        }
+                    }
+                }               
                 &:before {
                     border: 0;
                 }
-                .count {
-                    color: @clr_infoText;
-                }
-                a.showtags {
-                    transition: all 0.4s;
-                    padding: 2px;
-                    .base_border();
-                    border-radius: 4px;
-                    &:hover {
-                    background-color: lighten(@bg_base, 10%);
-                    .base_border(@color: lighten(@bg_base, 15%));
-                    border-radius: 4px;
-                    }
-                }
+                padding: 0 4px 0 2px;
+                border: none;
+                margin-bottom: 10px;
             }
         }
     }
@@ -1214,15 +1222,17 @@ div.jsoneditor-tree {
 	}
 	background: @clr_body;
 }
-
+//---- @media ----
 @media(max-width: 768px){
-    .sidebar-footer {
-        display: none;
-    }
-    .x_panel .x_content .tile_count .tile_stats_count {
+/*    .x_panel .x_content .tile_count .tile_stats_count {
         margin-left: 0;
-    }
+    }*/
     .balace_part .tile_count .tile_stats_count {
         .base_border(border-bottom);
+    }
+}
+@media (max-width: 1025px) {
+.sidebar-footer {
+        display: none;
     }
 }
