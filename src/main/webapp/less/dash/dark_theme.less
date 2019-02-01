@@ -697,6 +697,15 @@ div.modal-content {
     color: @clr_infoText;
     .modal-header {
         .base_border(border-bottom,@color:lighten(@bg_baseLight, 20%));
+        .close {    
+            text-shadow: none;
+            opacity: .5;
+            color: #fff;
+            &:hover, &:focus {
+                color: #000;
+                opacity: .8;
+            }
+        } 
     }
     .table-striped {
         >tbody {
