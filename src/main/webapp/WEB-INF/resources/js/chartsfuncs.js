@@ -307,7 +307,7 @@ var dataGiB = function (params) {
 };
 
 var format_data = function (params) {
-    var divatior = 1024;    
+    var divatior = 1024;
     var val = +paramtoval(params);
     if (val === 0)
     {
@@ -414,7 +414,7 @@ var timens = function (params) {
 
     if (val > divatior + 1)
     {
-        return format_time(moment.duration(val));
+        return format_time(moment.duration(Math.round(val)));
     }
 
     return val + " " + metric;
@@ -438,46 +438,49 @@ var timemicros = function (params) {
 
     if (val > divatior + 1)
     {
-        return format_time(moment.duration(val));
+        return format_time(moment.duration(Math.round(val)));
     }
 
     return val + " " + metric;
 };
 
 var timems = function (params) {
+//    console.log(params);
     var val = paramtoval(params);
     var divatior = 1000;
     var metric = "ms";
-
+    val = +val;
     if (val < 0)
     {
         val = 0;
     }
     if (val > divatior + 1)
     {
-        return format_time(moment.duration(val));
+        return format_time(moment.duration(Math.round(val)));
     }
-    return (+val).toFixed(2) + " " + metric;
+
+
+    return (val).toFixed(2) + " " + metric;
 };
 
 var timesec = function (params) {
     var val = paramtoval(params);
-    return format_time(moment.duration(val * 1000));
+    return format_time(moment.duration(Math.round(val * 1000)));
 };
 
 var timemin = function (params) {
     var val = paramtoval(params);
-    return format_time(moment.duration(val * 1000 * 60));
+    return format_time(moment.duration(Math.round(val * 1000 * 60)));
 };
 
 var timeh = function (params) {
     var val = paramtoval(params);
-    return format_time(moment.duration(val * 1000 * 60 * 60));
+    return format_time(moment.duration(Math.round(val * 1000 * 60 * 60)));
 };
 
 var timed = function (params) {
     var val = paramtoval(params);
-    return format_time(moment.duration(val * 1000 * 60 * 60 * 24));
+    return format_time(moment.duration(Math.round(val * 1000 * 60 * 60 * 24)));
 };
 
 
