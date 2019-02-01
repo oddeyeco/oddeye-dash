@@ -324,14 +324,16 @@ a:hover, .query-label a:hover, .data-label a:hover {
             transition: box-shadow 0.4s ease-out;            
             &:hover {
 /*                box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);                    */
-                background: @bg_rightCol;
+/*                background: @bg_rightCol;*/
+/*                background: lighten(@bg_baseLight, 5%);                */
+                background: fade(@bg_baseLight, 50%);
             }
             >a{ 
                 font-weight: 700;
                 margin: 0;
                 border-radius: 4px;
-                color: @clr_body;  
-                transition: 0.4s ease-out 0.2s;
+                color: @clr_body;                  
+/*                transition: 0.4s ease-out 0.2s;*/
                 &:hover{
 /*                    color: @clr_infoText !important;
                     transition: 0.4s ease-out 0.2s;*/
@@ -368,7 +370,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
             >li{
                 &.active {
                     >a {
-                        background: @bg_rightCol;
+/*                        background: @bg_rightCol;*/
+                        background: lighten(@bg_baseLight, 5%);
 /*                        color: @clr_infoText;*/
                         box-shadow: none;
                         font-weight: bold;
@@ -381,22 +384,23 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 >li {
                     >a {
                         padding: 9px;
-                        color: rgb(255, 255, 255);
+                        color: @clr_infoText;
                         font-size: 12px;                        
                     }
                 }
                 li {
                     &:hover {
-                        background: @bg_base;
+/*                        background: @bg_base;*/
+                        background: fade(@bg_baseLight, 60%);
 /*                     a{
                          color: @clr_infoText;
                      }*/
                     }
                 }        
                 li.current-page {
-                  background: fade(@bg_rightCol, 20%);
+                  background: fade(@bg_baseLight, 60%);
                   a {
-                        color: @clr_infoText;
+                        color: @clr_body;
                     }
                 }
             }
@@ -425,7 +429,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
     }
     .nav.side-menu {
         li.active-sm {
-            border-right: 3px solid @clr_OEgreen;
+/*            border-right: 2px solid @clr_OEgreen;*/
+            background: @bg_baseLight;
         }
     }    
     .left_col {
@@ -467,18 +472,18 @@ a:hover, .query-label a:hover, .data-label a:hover {
         }
     }
 }
-//---- hiding a marker in the menu list----
+//---- marker in the menu list ----
 .nav-md {
     ul.nav.child_menu {
 	li {
             &:after {
                 left: 6px;
-                border-left: 2px solid #141717;
+                border-left: 2px solid lighten(@bg_baseLight, 5%);
 /*            display: none;*/
             }
             &:before {
                 left: 3px;                
-                background: #141717;
+                background: lighten(@bg_baseLight, 5%);
                 height: 14px;
                 margin-top: 10px;
                 border-radius: 30%;
