@@ -318,33 +318,43 @@ a:hover, .query-label a:hover, .data-label a:hover {
         >li{
 /*          background: @bg_baseLight ;
             .base_border(@color:lighten(@bg_base, 20%));
-            border-radius: 4px;*/
+            border-radius: 4px;
             border-right: none;
             margin: 2px;
-            transition: box-shadow 0.4s ease-out;            
+            transition: box-shadow 0.4s ease-out;*/            
             &:hover {
 /*                box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);                    */
 /*                background: @bg_rightCol;*/
 /*                background: lighten(@bg_baseLight, 5%);                */
-                background: fade(@bg_baseLight, 50%);
+                background: fade(@bg_base, 40%);
             }
             >a{ 
                 font-weight: 700;
                 margin: 0;
-                border-radius: 4px;
+/*                border-radius: 4px;*/
                 color: @clr_body;                  
 /*                transition: 0.4s ease-out 0.2s;*/
                 &:hover{
-/*                    color: @clr_infoText !important;
+/*                  color: @clr_infoText !important;
                     transition: 0.4s ease-out 0.2s;*/
                 }
             }
-
-
         }
         ul.nav.child_menu {
             /*      background-color: @bg_base;*/
             background: lighten(@bg_base, 5%);
+            li {
+                &:hover {
+                    background: fade(@bg_base, 40%);
+                }    
+            }
+            li.current-page {
+                background: fade(@bg_base, 40%);
+                a {
+                        color: @clr_body;
+                }                
+            }
+            
         }
     }
 }
@@ -370,15 +380,12 @@ a:hover, .query-label a:hover, .data-label a:hover {
             >li{
                 &.active {
                     >a {
-/*                        background: @bg_rightCol;*/
-                        background: lighten(@bg_baseLight, 5%);
-/*                        color: @clr_infoText;*/
+                        background: @bg_baseLight;
                         box-shadow: none;
                         font-weight: bold;
-                        border-radius: 4px 4px 0 0;
-                    }         
-                }
-               
+                    }
+                    border-right: 2px solid lighten(@bg_baseLight, 10%);
+                }               
             }
             .nav.child_menu {
                 >li {
@@ -388,48 +395,46 @@ a:hover, .query-label a:hover, .data-label a:hover {
                         font-size: 12px;                        
                     }
                 }
-                li {
+/*                li {
                     &:hover {
-/*                        background: @bg_base;*/
                         background: fade(@bg_baseLight, 60%);
-/*                     a{
-                         color: @clr_infoText;
-                     }*/
                     }
-                }        
-                li.current-page {
+                }*/        
+/*                li.current-page {
                   background: fade(@bg_baseLight, 60%);
                   a {
                         color: @clr_body;
                     }
-                }
+                }*/
             }
         }
 
     }
 }
+
 //---- body class="nav-sm" ----
+
 .nav-sm {
     .nav_title {
-/*        background: @bg_baseDark;*/
+        /*        background: @bg_baseDark;*/
         background: lighten(@bg_base, 5%);
     }
-   div#sidebar-menu.main_menu_side {
-/*        background: @bg_baseDark;*/
-/*        background: lighten(@bg_base, 5%);*/
+    div#sidebar-menu.main_menu_side {
+        /*        background: @bg_baseDark;*/
+        /*        background: lighten(@bg_base, 5%);*/
         border:none;
     }
     .nav.child_menu {
         li {
-/*            background: @bg_rightCol;*/
+            /*            background: @bg_rightCol;*/
         }
         li.active {
-            border-right: 3px solid @clr_OEgreen ;
+            border-right: none;
         }
     }
     .nav.side-menu {
         li.active-sm {
-/*            border-right: 2px solid @clr_OEgreen;*/
+            border-right: 2px solid lighten(@bg_baseLight, 10%);
             background: @bg_baseLight;
         }
     }    
@@ -438,36 +443,44 @@ a:hover, .query-label a:hover, .data-label a:hover {
             .nav.side-menu {
                 >li {
                     margin: 0;
-                    border:none;
+                    /*                    border:none;*/
                     /*background: @bg_baseDark;*/                    
                 }
                 >li.active {
                     >a {
-/*                        background: lighten(@bg_base, 5%);
-                        border-top: 1px solid lighten(@bg_base, 10%);*/
-                        background: lighten(@bg_baseLight, 5%);
+                        box-shadow: none;
+                        /*                        background: lighten(@bg_baseLight, 5%);*/
                         border-top: 1px solid lighten(@bg_baseLight, 10%);
                         border-bottom: 1px solid lighten(@bg_baseLight, 10%);
                         border-radius: 0;
                     }                    
                 }
-            }
-        }
-    }
-    ul.nav.child_menu {
-        width: auto;
-        min-width: 120px;
-/*        background: lighten(@bg_base, 5%);
-        .base_border(@color:lighten(@bg_base, 10%));*/
-        background: lighten(@bg_baseLight, 5%);
-        .base_border(@color:lighten(@bg_baseLight, 10%));
-        border-radius: 0 4px 4px 0;
-        border-left: none;
-        li {
-            padding: 0 2px;
-            a {
-                width: 100%;
-                max-width: 190px;
+                ul.nav.child_menu {
+                    width: auto;
+                    min-width: 120px;
+                    /*        .base_border(@color:lighten(@bg_base, 10%));*/
+                    /*        background: lighten(@bg_baseLight, 5%);*/
+                    background: @bg_baseLight;
+                    .base_border(@color:lighten(@bg_baseLight, 10%));
+                    border-radius: 0 4px 4px 0;
+                    border-left: none;
+                    li {
+                        padding: 0 2px;
+                        a {
+                            width: 100%;
+                            max-width: 190px;
+                        }
+                        &:hover {
+                            background: fade(@bg_base, 20%);
+                        }
+                    }        
+                    li.current-page {
+                        background: fade(@bg_base, 20%);
+                        >a {
+                            color: @clr_body;
+                        }
+                    }
+                }
             }
         }
     }
@@ -477,12 +490,12 @@ a:hover, .query-label a:hover, .data-label a:hover {
     ul.nav.child_menu {
 	li {
             &:after {
-                left: 6px;
+                left: 14px;
                 border-left: 2px solid lighten(@bg_baseLight, 5%);
 /*            display: none;*/
             }
             &:before {
-                left: 3px;                
+                left: 11px;                
                 background: lighten(@bg_baseLight, 5%);
                 height: 14px;
                 margin-top: 10px;
