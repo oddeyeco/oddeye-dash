@@ -2506,7 +2506,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     var ri;
     var wi;
     $(".editchartpanel").hide();
-    $(".fulldash").show();
+    $(".fulldash").show();    
     if (dashJSON.locked)
     {
         $(".fulldash").addClass('locked');
@@ -2787,6 +2787,14 @@ function redrawAllJSON(dashJSON, redraw = false) {
 }
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
     $(".fulldash").hide();
+    if (dashJSON.locked)
+    {
+        $(".fulldash").addClass('locked');
+        $('#btnlock').addClass('btnunlock');
+        $('#btnlock i').addClass('fa-unlock');
+        $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide();
+    }    
+    
     for (var ri in dashJSON.rows)
     {
         var tmprow = dashJSON.rows[ri];
@@ -3146,7 +3154,8 @@ function repaint(redraw = false, rebuildform = true) {
             var action = getParameterByName("action");
             if (gdd.locked && (action === "edit"))
             {
-                window.location.href = cp + "/dashboard/Dashboard1?widget=0&row=0&action=view";
+                window.location.href = window.location.pathname+"?widget="+request_W_index+"&row="+request_R_index+"&action=view";
+                
             }
             AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", rebuildform, redraw);
             $(".editchartpanel select").select2({minimumResultsForSearch: 15});
