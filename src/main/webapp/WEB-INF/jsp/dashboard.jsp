@@ -199,7 +199,6 @@
                 <div id="refresh" class="reflock"  data-toggle="tooltip"  title="<spring:message code="dashboard.title.refresh"/>" data-placement="bottom" >                        
                     <i class="glyphicon glyphicon-refresh"></i>
                 </div>
-
             </div>
 
         </div>  
