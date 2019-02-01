@@ -1,10 +1,11 @@
 /* -- changes for dark_theme -- */
 // ---- colors ----
-@bg_body: #0d0e0e;
-@clr_body: #ffffee;
-@bg_rightCol: #141717;
+
+@bg_baseDark: #0d0e0e;
 @bg_base: #212424;
 @bg_baseLight: #393f3f;
+@clr_body: #ffffee;
+@bg_rightCol: #141717;
 
 @clr_OEgreen: #92ad57;
 @clr_OEblue: #2e92b0;
@@ -21,9 +22,10 @@
 .btn_border(@width:1px, @type:solid, @color:lighten(@bg,20%)){
     border:@arguments;
 }  
-.btn_OE(@color: @bg_body, @bg: @clr_body, @fw: bold, @trans: all 0.6s){    
+/*.btn_OE(@color: @bg_baseDark, @bg: @clr_body, @fw: bold, @trans: all 0.6s){    
     color: @bg;
-    background-color: rgba(0, 0, 0, 0);
+    //background-color: rgba(0, 0, 0, 0);
+    background-color: @bg_base;
     .btn_border(@color: @bg);
     font-weight: @fw;
     transition: @trans;
@@ -34,12 +36,30 @@
         font-weight: @fw;
     }
 }   
-.btn_OEhover(@color: @bg_body, @bg: @clr_body, @fw: bold){      
+.btn_OEhover(@color: @bg_baseDark, @bg: @clr_body, @fw: bold){      
     &:hover, &:active, &:active:hover, &:active:focus {
         color: @color;
         background-color: @bg;
         .btn_border();
         font-weight: @fw;        
+    }
+}*/
+.btn_OE(@color: @clr_body, @bg: @bg_baseDark , @fw: bold, @trans: all 0.4s){    
+    color: @color;
+    background-color: @bg;
+    .btn_border();
+    transition: @trans;
+    &:focus {
+        color: @bg;
+        background-color: rgba(0, 0, 0, 0);
+        .btn_border(@color: @bg);
+    }
+}   
+.btn_OEhover(@color: @clr_body, @bg: @bg_baseDark, @fw: bold){      
+    &:hover, &:active, &:active:hover, &:active:focus {
+        color: @color;
+        background-color: @bg_base;
+        .btn_border(@color: @bg);       
     }
 }
 
@@ -81,12 +101,12 @@ input::-webkit-inner-spin-button {
     .btn_OEhover(@bg: @clr_OEgreen);
 }
 .btn-default {
-  .btn_OE(@bg:lighten(@bg_base, 20%));
-  .btn_OEhover(@bg:lighten(@bg_base, 20%));
+  .btn_OE(@bg:lighten(@bg_baseLight, 20%));
+  .btn_OEhover(@bg:lighten(@bg_baseLight, 20%));
 }
 .btn-default-dash {
-  .btn_OE(@bg:lighten(@bg_base, 20%));
-  .btn_OEhover(@bg:lighten(@bg_base, 20%));
+  .btn_OE(@bg:lighten(@bg_baseLight, 25%));
+  .btn_OEhover(@bg:lighten(@bg_baseLight, 25%));
 }
 .btn-primary {
     .btn_OE(@bg:@clr_OEblue);
@@ -187,10 +207,13 @@ i.fa-chevron-up {
 
 body {
     color: @clr_body;
-    background: @bg_body;
+    background: lighten(@bg_base, 5%);
     .container.body .right_col, footer{
         background: @bg_rightCol;
     }
+}
+body.nav-sm {
+    background: @bg_baseDark;
 }
 // ---- dash ----
 .x_panel.locked {
@@ -198,8 +221,13 @@ body {
     background: none;
     box-shadow: none;
 }
-.fulldash {
+.x_panel.fulldash {
+    >.dash_header {
+/*        border-bottom: 1px solid @bg_base;*/
+    }
     padding: 0;
+/*    background-color: lighten(@bg_rightCol, 2%);   */
+    background-color: @bg_base;
 }
 .x_panel.locked .chartsection>div {
     border: none;
@@ -231,26 +259,27 @@ a:hover, .query-label a:hover, .data-label a:hover {
 }
 // ---- // ---- //
 /*.nav_title {
-    background: @bg_body;
+    background: @bg_baseDark;
 }*/
 .top_nav {
     .nav_menu {
-/*        background: lighten(@bg_body, 4%);*/
+/*        background: lighten(@bg_baseDark, 4%);*/
         background: @bg_rightCol;
         .base_border(border-bottom,@color: lighten(@bg_base, 10%));
         .navbar-nav.navbar-right {
             li>a {
                 color: @clr_body !important;
                 &:focus,&:hover{
-                    background: linear-gradient(to top, rgba(255,255,255,0) 5px, @bg_body 1px),
-                                linear-gradient(90deg, @bg_body, @clr_OEgreen, @bg_body);
+                   /* background: linear-gradient(to top, rgba(255,255,255,0) 5px, @bg_baseDark 1px),
+                                linear-gradient(90deg, @bg_baseDark, @clr_OEgreen, @bg_baseDark);*/
+                    background: @bg_baseDark;
                 }
             }        
             .open {
                 a{
-                    background: @bg_body;
+                    background: @bg_baseDark;
                     &:focus, &:hover{
-                        background: @bg_body; 
+                        background: @bg_baseDark; 
                     }
                 }
                 .dropdown-menu {
@@ -264,7 +293,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
                         color: @clr_body;        
                         &:hover,&:focus {
                             background: darken(@bg_rightCol, 2%);
-                            color: @clr_OEgreen !important;
+/*                            color: @clr_OEgreen !important;*/
                         }
                     }
                     .user-profile {
@@ -279,20 +308,23 @@ a:hover, .query-label a:hover, .data-label a:hover {
 //---- left-col ----
 .nav-md {
     .nav_title {
-        background: @bg_baseLight;
+/*        background: @bg_baseLight;*/
+        background: lighten(@bg_base, 5%);
     }
     .nav.side-menu{
-        &:hover >li>a:not(:hover){
+/*        &:hover >li>a:not(:hover){
             box-shadow: inset 3px 2px 4px 0 rgba(0, 0, 0, 0.6);            
-        }
+        }*/
         >li{
-            background: @bg_baseLight ;
+/*          background: @bg_baseLight ;
             .base_border(@color:lighten(@bg_base, 20%));
-            border-radius: 4px;
-            margin: 6px;
+            border-radius: 4px;*/
+            border-right: none;
+            margin: 2px;
             transition: box-shadow 0.4s ease-out;            
             &:hover {
-                box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);                    
+/*                box-shadow: -3px 3px 2px 0 rgba(0, 0, 0, 0.8);                    */
+                background: @bg_rightCol;
             }
             >a{ 
                 font-weight: 700;
@@ -301,8 +333,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 color: @clr_body;  
                 transition: 0.4s ease-out 0.2s;
                 &:hover{
-                    color: @clr_OEgreen !important;
-                    transition: 0.4s ease-out 0.2s;
+/*                    color: @clr_infoText !important;
+                    transition: 0.4s ease-out 0.2s;*/
                 }
             }
 
@@ -310,17 +342,17 @@ a:hover, .query-label a:hover, .data-label a:hover {
         }
         ul.nav.child_menu {
             /*      background-color: @bg_base;*/
+            background: lighten(@bg_base, 5%);
         }
     }
 }
 
 .left_col {
-    background: @bg_body;
+    background: @bg_baseDark;
     div#sidebar-menu.main_menu_side {
-/*        background: lighten(@bg_base, 10%);*/
         background: lighten(@bg_base, 5%);
-        .base_border(@color:@bg_baseLight);
-        border-radius: 0 0 4px 4px;
+/*        .base_border(@color:@bg_baseLight);
+        border-radius: 0 0 4px 4px;*/
         .menu_section {
             margin-bottom: 0;
             >ul {
@@ -336,9 +368,8 @@ a:hover, .query-label a:hover, .data-label a:hover {
             >li{
                 &.active {
                     >a {
-/*                        background: lighten(@bg_base, 15%);*/
                         background: @bg_rightCol;
-                        color: @clr_OEgreen;
+/*                        color: @clr_infoText;*/
                         box-shadow: none;
                         font-weight: bold;
                         border-radius: 4px 4px 0 0;
@@ -356,16 +387,16 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 }
                 li {
                     &:hover {
-                        background: @bg_rightCol;
-                     a{
-                         color: @clr_OEgreen;
-                     }
+                        background: @bg_base;
+/*                     a{
+                         color: @clr_infoText;
+                     }*/
                     }
                 }        
                 li.current-page {
                   background: fade(@bg_rightCol, 20%);
                   a {
-                        color: @clr_OEgreen;
+                        color: @clr_infoText;
                     }
                 }
             }
@@ -376,10 +407,10 @@ a:hover, .query-label a:hover, .data-label a:hover {
 //---- body class="nav-sm" ----
 .nav-sm {
     .nav_title {
-        background: @bg_body;
+        background: @bg_baseDark;
     }
    div#sidebar-menu.main_menu_side {
-        background: @bg_body;
+        background: @bg_baseDark;
         border:none;
     }
     .nav.child_menu {
@@ -401,7 +432,7 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 >li {
                     margin: 0;
                     border:none;
-                    background: @bg_body;
+                    background: @bg_baseDark;
                 }
                 >li.active {
                     >a {
@@ -433,25 +464,34 @@ a:hover, .query-label a:hover, .data-label a:hover {
     ul.nav.child_menu {
 	li {
             &:after {
-            display: none;
+                left: 6px;
+                border-left: 2px solid #141717;
+/*            display: none;*/
             }
             &:before {
-            display: none;
+                left: 3px;                
+                background: #141717;
+                height: 14px;
+                margin-top: 10px;
+                border-radius: 30%;
+/*            display: none;*/
             }
 	}
     }
 }
 //---- sidebare-footer ----
 div.sidebar-footer.hidden-small {
-    background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1));
+/* background: linear-gradient(90deg, rgba(0,173,238,0.1), rgba(0,173,238,0.8), rgba(0,173,238,0.1)); */
+        background: @bg_base;
+        padding: 0;
     >a {
-/*        background: @bg_rightCol;*/
-        background: @bg_baseLight;
+/*        background: @bg_baseLight;*/
+        background: @bg_base;
         color: @clr_OEgreen;
         text-decoration: none;
         &:hover {
             color: @clr_OEblue;
-            background: @bg_body;
+            background: @bg_baseDark;
         }
     }
 }
@@ -490,7 +530,7 @@ div.sidebar-footer.hidden-small {
         .tile_count {
             .tile_stats_count {                 
                 .tile_stats_inside {
-                    padding: 4px 4px 8px;
+                    padding: 4px 8px 8px;
                     background-color: @bg_rightCol;
                     .base_border(@color: lighten(@bg_rightCol, 10%));
                     border-radius: 4px;
@@ -500,15 +540,17 @@ div.sidebar-footer.hidden-small {
                         color: @clr_infoText;
                     }
                     a.showtags {
-                        transition: all 0.4s;
+/*                        transition: all 0.4s;
                         padding: 2px;
                         .base_border();
                         border-radius: 4px;
                         &:hover {
-                            background-color: lighten(@bg_base, 10%);
+                          padding: 2px;
+                          //background-color: lighten(@bg_base, 10%);
                             .base_border(@color: lighten(@bg_base, 15%));
                             border-radius: 4px;
-                        }
+                            box-shadow: inset 0 0 2px 0 rgba(138, 138, 138, 0.6);
+                        }*/
                     }
                 }               
                 &:before {
@@ -540,9 +582,9 @@ ul.bar_tabs {
     .base_border(border-bottom);
     >li {
         .base_border();
-        background: @bg_body;
+        background: @bg_baseDark;
         a {
-            background: @bg_body;
+            background: @bg_baseDark;
         }
     }
     >li.active {
@@ -591,7 +633,7 @@ ul.bar_tabs {
     }
     .select2-results__option--highlighted[aria-selected] {
         background-color: @clr_darkOrange !important;
-        color: @bg_body !important;
+        color: @bg_baseDark !important;
     }
     .select2-results__option[aria-selected=true] {
         background-color: @bg_baseLight !important;
@@ -649,10 +691,12 @@ div.modal-content .text-warning {
 //---- listtable_wrapper ----
 div.modal-content {
     background-color: lighten(@bg_base, 10%);
-    .base_border(@width: 2px,@color: lighten(@bg_base, 20%));
-    color: @bg_body;
+   /* background-color: lighten(@clr_infoText, 10%);*/
+    .base_border(@width: 2px,@color: lighten(@bg_baseLight, 20%));
+/*    color: @bg_baseDark;*/
+    color: @clr_infoText;
     .modal-header {
-        .base_border(border-bottom,@color:lighten(@bg_base, 20%));
+        .base_border(border-bottom,@color:lighten(@bg_baseLight, 20%));
     }
     .table-striped {
         >tbody {
@@ -661,6 +705,14 @@ div.modal-content {
                     background: linear-gradient(270deg,lighten(@bg_base, 10%),lighten(@bg_base, 20%),lighten(@bg_base, 10%));
                 }
             }
+        }
+    }
+    #listtable {
+        th.sorting_asc{
+            color: @clr_body;
+        }
+        td.sorting_1 {
+            color: @clr_body;
         }
     }
     .modal-footer {
@@ -673,7 +725,10 @@ div.modal-content {
     td {
         >a {
             &:not(.btn) {
-                color: @clr_infoText;
+                color: @clr_OEgreen;
+                &:hover {
+                    color: @clr_OEblue;
+                }                  
             }
         }
     }
@@ -688,13 +743,19 @@ div.modal-content {
     }
     td.sorting_1 {
         a { 
-            color: @clr_OEgreen;
-            &:hover {
-                color: @clr_OEblue;
-            }
+            &:not(.btn) {
+                color: @clr_OEgreen;
+                &:hover {
+                    color: @clr_OEblue;
+                }                
+            }                        
         }
+        color: @clr_body;
     } 
     #listtable2 {
+        th.sorting_asc{
+            color: @clr_body;
+        }
         th.sorting_disabled {
             button.btn-success {
                   .btn_OE(@bg:@clr_OEgreen);
@@ -795,13 +856,13 @@ table.table-bordered {
     td.available {
         &:hover {
             background: @clr_OEgreen;
-            color: @bg_body;
+            color: @bg_baseDark;
         }
     }
     th.available {
         &:hover {
             background: @clr_OEgreen;
-            color: @bg_body;
+            color: @bg_baseDark;
         }
     }
     td.active {
@@ -859,10 +920,10 @@ table.table-bordered {
     }  
 }
 div#tagsconteger.ui-sortable {
-    background: lighten(@bg_base, 5%);
+/*    background: lighten(@bg_base, 5%);
     .base_border(@color:@bg_baseLight);
     border-radius: 4px;
-    padding: 4px;    
+    padding: 4px;    */
         &:hover .draggable:not(:hover) {
                 box-shadow: inset 3px 2px 4px 0 rgba(0,0,0,0.6);
                 transition: 0.4s ease-out;
@@ -877,7 +938,8 @@ div#tagsconteger.ui-sortable {
         cursor: -webkit-grabbing;
         transition: 0.4s ease-out; 
         &:hover {
-            box-shadow: -3px 4px 2px 0 rgba(0,0,0,0.8);             
+            box-shadow: -3px 5px 2px 0 rgba(0,0,0,0.8);
+            background: lighten(@bg_baseLight,5%);
         }
         >label{
             cursor: grabbing;
@@ -893,7 +955,7 @@ div#tagsconteger.ui-sortable {
 }
 .autocomplete-selected {
         background-color: @clr_darkOrange !important;
-        color: @bg_body !important;
+        color: @bg_baseDark !important;
 }
 div.profile_right-table {
     >div.x_panel {
@@ -972,10 +1034,10 @@ div.x_panel {
         ul {
             color: @clr_bannerBlue;
             li.selected {
-                box-shadow: inset 0px 0px 20px @bg_body;
+                box-shadow: inset 0px 0px 20px @bg_baseDark;
                 .base_border();
                 border-radius: 18px;
-                color: @bg_body;
+                color: @bg_baseDark;
                 .metricname {
                     a {
                         color: @clr_OEblue;
@@ -1024,7 +1086,7 @@ div.btn-group-vertical {
         background-color: @clr_bannerBlue;
         &:hover {
             color: @clr_OEblue;
-            background-color: @bg_body;
+            background-color: @bg_baseDark;
         }
     }
 }
@@ -1097,14 +1159,29 @@ div#accordion1 .table-bordered>tbody>tr>th {
         .savetitle {
             color: @clr_OEgreen;
         }
-    } 
+    }
+/*    .btn-group {
+        .btn-group.btn-group-xs {
+            button.btn-warning {
+                background-color: @clr_darkOrange;
+                .base_border(@color:lighten(@bg_base,20%));
+                color: @bg_baseDark;
+                z-index: 2;
+                &:hover{
+                   background-color: @clr_infoText;
+                   
+                }
+            }
+        }
+    }*/
+    
     .dropdown-menu {
         .base_border(@color:lighten(@bg_base,20%));
         >li {
             >a.savedashasTemplate {
                 background-color: @bg_base;
                 .base_border(@color: lighten(@bg_base,15%));
-                color: #ec971f;
+                color: @clr_darkOrange;
             }
         }
     }
@@ -1136,7 +1213,8 @@ div#accordion1 .table-bordered>tbody>tr>th {
     }
 }
 .filter.fix {
-    background: fade(@bg_body, 30%);
+/*    background: fade(@bg_baseDark, 30%);*/
+    background: @bg_base;
     .base_border();
 }
 // ---- dash ----
@@ -1160,7 +1238,7 @@ div#accordion1 .table-bordered>tbody>tr>th {
             .hoverShow {
                 background-color: lighten(@bg_baseLight,10%);
                 border-radius: 0 4px 4px 4px;
-                color: @bg_body;
+                color: @bg_baseDark;
             }
             .dropdown-menu {
                 background-color: @bg_base;
@@ -1182,7 +1260,9 @@ div#accordion1 .table-bordered>tbody>tr>th {
         .tile-stats {
             background-color: inherit;
         }
-        background-color: @bg_rightCol;
+/*        background-color: @bg_rightCol;*/
+/*        background-color: lighten(@bg_rightCol, 2%);*/
+        background-color: @bg_base;
     }
 }
 // ---- dash edit ----
