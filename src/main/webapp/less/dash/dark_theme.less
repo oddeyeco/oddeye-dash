@@ -49,14 +49,14 @@
     background-color: @bg;
     .btn_border();
     transition: @trans;
-    &:focus {
+/*    &:focus {
         color: @bg;
         background-color: rgba(0, 0, 0, 0);
         .btn_border(@color: @bg);
-    }
+    }*/
 }   
 .btn_OEhover(@color: @clr_body, @bg: @bg_baseDark, @fw: bold){      
-    &:hover, &:active, &:active:hover, &:active:focus {
+    &:hover, &:active, &:focus, &:active:hover, &:active:focus {
         color: @color;
         background-color: @bg_base;
         .btn_border(@color: @bg);       
@@ -212,9 +212,9 @@ body {
         background: @bg_rightCol;
     }
 }
-body.nav-sm {
+/*body.nav-sm {
     background: @bg_baseDark;
-}
+}*/
 // ---- dash ----
 .x_panel.locked {
     border: none;
@@ -407,10 +407,12 @@ a:hover, .query-label a:hover, .data-label a:hover {
 //---- body class="nav-sm" ----
 .nav-sm {
     .nav_title {
-        background: @bg_baseDark;
+/*        background: @bg_baseDark;*/
+        background: lighten(@bg_base, 5%);
     }
    div#sidebar-menu.main_menu_side {
-        background: @bg_baseDark;
+/*        background: @bg_baseDark;*/
+/*        background: lighten(@bg_base, 5%);*/
         border:none;
     }
     .nav.child_menu {
@@ -432,12 +434,15 @@ a:hover, .query-label a:hover, .data-label a:hover {
                 >li {
                     margin: 0;
                     border:none;
-                    background: @bg_baseDark;
+                    /*background: @bg_baseDark;*/                    
                 }
                 >li.active {
                     >a {
-                        background: lighten(@bg_base, 5%);
-                        border-top: 1px solid lighten(@bg_base, 10%);
+/*                        background: lighten(@bg_base, 5%);
+                        border-top: 1px solid lighten(@bg_base, 10%);*/
+                        background: lighten(@bg_baseLight, 5%);
+                        border-top: 1px solid lighten(@bg_baseLight, 10%);
+                        border-bottom: 1px solid lighten(@bg_baseLight, 10%);
                         border-radius: 0;
                     }                    
                 }
@@ -447,8 +452,11 @@ a:hover, .query-label a:hover, .data-label a:hover {
     ul.nav.child_menu {
         width: auto;
         min-width: 120px;
-        background: lighten(@bg_base, 5%);
-        .base_border(@color:lighten(@bg_base, 10%));
+/*        background: lighten(@bg_base, 5%);
+        .base_border(@color:lighten(@bg_base, 10%));*/
+        background: lighten(@bg_baseLight, 5%);
+        .base_border(@color:lighten(@bg_baseLight, 10%));
+        border-radius: 0 4px 4px 0;
         border-left: none;
         li {
             padding: 0 2px;
