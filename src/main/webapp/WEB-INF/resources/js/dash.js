@@ -1302,23 +1302,27 @@ var queryCallback = function (inputdata) {
 
                 }
 
-                widget.options.tooltip = {
-                    "trigger": "item"
-                };
 
-
-                if (!widget.options.visualMap)
+                if (!widget.manual)
                 {
-                    widget.options.visualMap = {
-                        min: 0,
-                        max: datamax,
-                        calculable: true,
-                        itemHeight: "250",
-                        top: "0",
-                        right: "0",
-                        inRange: {}
+                    widget.options.tooltip = {
+                        "trigger": "item"
                     };
+                    if (!widget.options.visualMap)
+                    {
+                        widget.options.visualMap = {
+                            min: 0,
+                            max: datamax,
+                            calculable: true,
+                            itemHeight: "250",
+                            top: "0",
+                            right: "0",
+                            inRange: {}
+                        };
+                    }
                 }
+
+
                 if (!widget.options.grid)
                 {
                     widget.options.grid = {"x2": "60px"};
@@ -1422,27 +1426,30 @@ var queryCallback = function (inputdata) {
                 widget.options.series.sort(function (a, b) {
                     return compareStrings(a.name, b.name);
                 });
-                switch (widget.type) {
-                    case 'bar':
-                    {
-                        if (widget.options.series.length === 1)
+                if (!widget.manual)
+                {
+                    switch (widget.type) {
+                        case 'bar':
                         {
-                            widget.options.series[0].itemStyle = {normal: {color: function (params) {
-                                        return colorPalette[params.dataIndex % colorPalette.length];
-                                    }}};
+                            if (widget.options.series.length === 1)
+                            {
+                                widget.options.series[0].itemStyle = {normal: {color: function (params) {
+                                            return colorPalette[params.dataIndex % colorPalette.length];
+                                        }}};
+                            }
+                            widget.options.tooltip.trigger = 'axis';
+                            break;
                         }
-                        widget.options.tooltip.trigger = 'axis';
-                        break;
-                    }
-                    case 'line':
-                    {
-                        widget.options.tooltip.trigger = 'axis';
-                        break;
-                    }
-                    default:
-                    {
-                        widget.options.tooltip.trigger = 'item';
-                        break
+                        case 'line':
+                        {
+                            widget.options.tooltip.trigger = 'axis';
+                            break;
+                        }
+                        default:
+                        {
+                            widget.options.tooltip.trigger = 'item';
+                            break
+                        }
                     }
                 }
 
@@ -2000,8 +2007,8 @@ var queryCallback = function (inputdata) {
                     }
 
                     if (tmpLegendSer.indexOf(widget.options.series[ind].name) === -1)
-                    {           
-                        tmpLegendSer.push(widget.options.series[ind].name.replace("\n",""));
+                    {
+                        tmpLegendSer.push(widget.options.series[ind].name.replace("\n", ""));
                     }
                     if (widget.options.xAxis[xAxisIndex].type === "category")
                     {
@@ -2052,8 +2059,7 @@ var queryCallback = function (inputdata) {
                         if (widget.options.series[ind].type === "gauge")
                         {
                             widget.options.legend.itemWidth = 0;
-                        }
-                        else
+                        } else
                         {
                             delete widget.options.legend.itemWidth;
                         }
@@ -2506,7 +2512,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     var ri;
     var wi;
     $(".editchartpanel").hide();
-    $(".fulldash").show();    
+    $(".fulldash").show();
     if (dashJSON.locked)
     {
         $(".fulldash").addClass('locked');
@@ -2555,8 +2561,8 @@ function redrawAllJSON(dashJSON, redraw = false) {
             colapserow.addClass('expandrow');
             colapserow.find('i').removeClass('fa-minus');
             colapserow.find('i').addClass('fa-plus');
-            colapserow.attr('data-original-title', locale["dash.title.expand"]+' ('+tmprow.widgets.length+')');
-            crow.find(".title_text span").prepend('('+tmprow.widgets.length+') ')             
+            colapserow.attr('data-original-title', locale["dash.title.expand"] + ' (' + tmprow.widgets.length + ')');
+            crow.find(".title_text span").prepend('(' + tmprow.widgets.length + ') ')
             continue;
         }
 
@@ -2793,8 +2799,8 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         $('#btnlock').addClass('btnunlock');
         $('#btnlock i').addClass('fa-unlock');
         $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide();
-    }    
-    
+    }
+
     for (var ri in dashJSON.rows)
     {
         var tmprow = dashJSON.rows[ri];
@@ -2857,8 +2863,8 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     if (W_type === "heatmap")
     {
         var title = locale[acprefix + ".heatmap"];
-    }    
-        
+    }
+
     if (rebuildform)
     {
         $(".right_col").append('<div class="x_panel editpanel"></div>');
@@ -3068,12 +3074,12 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             }
         } else {
             wraperTitle.find(".echart_time_icon").css({display: 'none'});
-        }        
+        }
         if (singleWi.options)
-        {            
+        {
             if (singleWi.options.backgroundColor)
             {
-                
+
                 wraper.css("background-color", singleWi.options.backgroundColor);
             } else
             {
@@ -3083,7 +3089,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         {
             wraper.css("background-color", "");
         }
-        
+
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
             setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
@@ -3154,8 +3160,8 @@ function repaint(redraw = false, rebuildform = true) {
             var action = getParameterByName("action");
             if (gdd.locked && (action === "edit"))
             {
-                window.location.href = window.location.pathname+"?widget="+request_W_index+"&row="+request_R_index+"&action=view";
-                
+                window.location.href = window.location.pathname + "?widget=" + request_W_index + "&row=" + request_R_index + "&action=view";
+
             }
             AutoRefreshSingle(request_R_index, request_W_index, action !== "edit", rebuildform, redraw);
             $(".editchartpanel select").select2({minimumResultsForSearch: 15});
@@ -3608,7 +3614,7 @@ $(document).ready(function () {
         domodifier();
     });
     $('body').on("click", ".expandrow", function () {
-                console.log("dsfsdf");
+        console.log("dsfsdf");
         $(this).parents('.widgetraw').find('.rowcontent').fadeIn();
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = false;
