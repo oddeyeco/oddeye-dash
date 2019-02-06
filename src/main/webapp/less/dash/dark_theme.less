@@ -113,30 +113,31 @@ input::-webkit-inner-spin-button {
     .btn_OEhover(@bg:@clr_OEblue);
 
 }
+a.btn-primary:extend(.btn-primary){}
 // Success appears as green
 .btn-success {
   .btn_OE(@bg:@clr_OEgreen);
   .btn_OEhover(@bg:@clr_OEgreen);
 }
+a.btn-success:extend(.btn-success){}
 // Info appears as blue
 .btn-info {
   .btn_OE(@bg: lighten(saturate(@clr_OEblue,20%),12%));
   .btn_OEhover(@bg: lighten(@clr_OEblue,12%));
 }
+a.btn-info:extend(.btn-info){}
 // Warning appears as orange
 .btn-warning {
   .btn_OE(@bg:@clr_darkOrange);
   .btn_OEhover(@bg:@clr_darkOrange);
 }
+a.btn-warning:extend(.btn-warning){}
 // Danger and error appear as red
 .btn-danger {
 /*  .btn_OE(@bg:darken(@clr_darkRed,10%));*/
   .btn_OE(@bg:@clr_darkRed);
   .btn_OEhover(@bg:@clr_darkRed);
 }
-a.btn-success:extend(.btn-success){}
-a.btn-primary:extend(.btn-primary){}
-a.btn-warning:extend(btn-warning){}
 a.btn-danger:extend(.btn-danger){}
 
 // ---- form ----
