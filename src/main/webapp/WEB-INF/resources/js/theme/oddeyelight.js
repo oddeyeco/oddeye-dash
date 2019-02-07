@@ -371,7 +371,8 @@ var encodeHTML = function (source) {
                                     return out;
                                 }
                                 firstparam = format_date(params.value[0], 0);
-                                out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + firstparam + " " + params.seriesName + ' : ' + value;
+                                out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' +"<span clase='item-name'>"+ firstparam + " " + params.seriesName + '</span> : <span clase="item-value">' + value+" </span></div>";
+//                                out = out + '                      <br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + firstparam + " " + params.seriesName + ' : ' + value;
                                 return out;
                             }
 
