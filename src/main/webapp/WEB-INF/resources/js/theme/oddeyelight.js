@@ -209,6 +209,8 @@ var encodeHTML = function (source) {
         },
         tooltip: {
             backgroundColor: theme_tooltip_bg,
+            enterable: true, 
+            confine: true,
             formatter: function (params) {
                 var out = "";
 
@@ -219,16 +221,17 @@ var encodeHTML = function (source) {
                     if (param.value instanceof Array)
                     {
                         firstparam = format_date(param.value[0], 1);
-                        out = "<strong>" + firstparam + " " + params[0].name + "</strong>";
+                        out = "<tooltip-head><strong>" + firstparam + " " + params[0].name + "</strong></tooltip-head>";
                     } else
                     {
                         if (param)
                             if (param.data)
                                 if (param.data.name)
-                                    out = "<strong>" + param.data.name + "</strong>";
+                                    out = "<tooltip-head><strong>" + param.data.name + "</strong></tooltip-head>";
 
 
                     }
+                    out = out +"<div style='clear: both;'></div>"
                     for (var ind in params)
                     {
 
@@ -289,7 +292,7 @@ var encodeHTML = function (source) {
                         {
                             tmpname = tmpname + ":" + param.data.hname;
                         }
-                        out = out + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + tmpname + ' : ' + value;
+                        out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' +"<span clase='item-name'>"+ tmpname + '</span> : <span clase="item-value">' + value+" </span></div>";
                     }
                 } else
                 {
@@ -466,14 +469,6 @@ var encodeHTML = function (source) {
                 return out;
             },
             axisPointer: {
-//                label: {
-//                    formatter: function (params)
-//                    {
-//                        console.log(params);
-//                        return 'some text' + echarts.format.formatTime(params.value);
-//                    }
-//                },
-//                type: 'cross',
                 type: 'line',
                 lineStyle: {
                     color: '#008acd'
