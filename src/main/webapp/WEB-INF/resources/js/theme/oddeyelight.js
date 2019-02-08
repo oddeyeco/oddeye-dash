@@ -1,4 +1,4 @@
-/* global define, format_date, format_data, format_metric, legend_inactiveColor, legend_activeColor, gauge_detail_color */
+/* global define, format_date, format_data, format_metric, legend_inactiveColor, legend_activeColor, gauge_detail_color, theme_tooltip_bg */
 
 //var colorPalette = ["#DDCCAA","#ADB9D8","#799AF2","#8899AA","#1ABAE9","#776655","#886611","#0082A8","#3F517F","#116688","#883311","#3D494C","#224499","#005566","#004E66","#2B2B2B","#002733","#101011","#000022"];
 //
@@ -209,7 +209,7 @@ var encodeHTML = function (source) {
         },
         tooltip: {
             backgroundColor: theme_tooltip_bg,
-            enterable: true, 
+            enterable: true,
             confine: true,
             formatter: function (params) {
                 var out = "";
@@ -231,10 +231,10 @@ var encodeHTML = function (source) {
 
 
                     }
-                    out = out +"<div style='clear: both;'></div>"
+                    out = out + "<div style='clear: both;'></div>";
+                    out = out + "<div class='tooltip-body'>";
                     for (var ind in params)
                     {
-
                         param = params[ind];
                         if (typeof (param.value) === 'undefined')
                         {
@@ -279,10 +279,6 @@ var encodeHTML = function (source) {
                         {
                             if (typeof (value) !== "string")
                             {
-//                                if (param.data.isinverse === true)
-//                                {
-//                                    value = value * -1;
-//                                }
                                 value = Number.isInteger(value) ? value : value.toFixed(2);
                             }
 
@@ -292,8 +288,15 @@ var encodeHTML = function (source) {
                         {
                             tmpname = tmpname + ":" + param.data.hname;
                         }
-                        out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' +"<span clase='item-name'>"+ tmpname + '</span> : <span clase="item-value">' + value+" </span></div>";
+                        out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + "<span clase='item-name'>" + tmpname + '</span> : <span clase="item-value">' + value + " </span></div>";
+                        var indx= +ind+1;                        
+                        if (((indx % 25) == 0))
+                        {
+                            out = out + "</div>";
+                            out = out + "<div class='tooltip-body'>";                            
+                        }
                     }
+                    out = out + "</div>"
                 } else
                 {
 
@@ -371,7 +374,7 @@ var encodeHTML = function (source) {
                                     return out;
                                 }
                                 firstparam = format_date(params.value[0], 0);
-                                out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' +"<span clase='item-name'>"+ firstparam + " " + params.seriesName + '</span> : <span clase="item-value">' + value+" </span></div>";
+                                out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + "<span clase='item-name'>" + firstparam + " " + params.seriesName + '</span> : <span clase="item-value">' + value + " </span></div>";
 //                                out = out + '                      <br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + firstparam + " " + params.seriesName + ' : ' + value;
                                 return out;
                             }
