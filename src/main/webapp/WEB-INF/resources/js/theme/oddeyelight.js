@@ -210,7 +210,7 @@ var encodeHTML = function (source) {
         tooltip: {
             backgroundColor: theme_tooltip_bg,
 //            enterable: true,
-//            confine: true,
+            confine: true,
             formatter: function (params) {
                 var out = "";
 
