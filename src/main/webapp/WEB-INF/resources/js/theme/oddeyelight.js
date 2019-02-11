@@ -209,8 +209,8 @@ var encodeHTML = function (source) {
         },
         tooltip: {
             backgroundColor: theme_tooltip_bg,
-            enterable: true,
-            confine: true,
+//            enterable: true,
+//            confine: true,
             formatter: function (params) {
                 var out = "";
 
@@ -290,11 +290,11 @@ var encodeHTML = function (source) {
                         }
                         out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + "<span class='item-name'>" + tmpname + '</span> : <span class="item-value">' + value + " </span></div>";
                         var indx= +ind+1;                        
-                        if (((indx % 25) == 0))
-                        {
-                            out = out + "</div>";
-                            out = out + "<div class='tooltip-body'>";                            
-                        }
+//                        if (((indx % 25) == 0))
+//                        {
+//                            out = out + "</div>";
+//                            out = out + "<div class='tooltip-body'>";                            
+//                        }
                     }
                     out = out + "</div>";
                 } else
