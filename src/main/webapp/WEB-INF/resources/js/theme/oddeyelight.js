@@ -209,8 +209,12 @@ var encodeHTML = function (source) {
         },
         tooltip: {
             backgroundColor: theme_tooltip_bg,
-//            enterable: true,
 //            confine: true,
+//            enterable: true,
+//            triggerOn: 'click',
+//            position : function(pos) {
+//                            return [pos[0] + 20, pos[1] - 10];
+//                        },
             formatter: function (params) {
                 var out = "";
 
@@ -233,6 +237,7 @@ var encodeHTML = function (source) {
                     }
                     out = out + "<div style='clear: both;'></div>";
                     out = out + "<div class='tooltip-body'>";
+//                    out = out + "<div class='tooltip-body' style='width: 300px;height: 250px;overflow-x: auto;overflow-y: auto;'>";
                     for (var ind in params)
                     {
                         param = params[ind];
