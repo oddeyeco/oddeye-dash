@@ -129,21 +129,19 @@
                                     <form:errors path="timezone" />
                                 </div>
                             </div>    
-                            <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                <div class="form-group">                    
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="timezone"><spring:message code="profileedit.template"/>
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                            <div class="form-group">                    
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="template"><spring:message code="profileedit.template"/>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
 
-                                        <form:select path="template" cssClass="form-control select2_tz" tabindex="-1">
-                                            <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
-                                            <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
-                                      <%--  <form:option value="dark2" ><spring:message code="profileedit.template.dark2"/></form:option> --%>
-                                        </form:select>
-                                        <form:errors path="template" />
-                                    </div>
-                                </div>                                 
-                            </sec:authorize>
+                                    <form:select path="template" cssClass="form-control select2_tz" tabindex="-1">
+                                        <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
+                                        <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
+                                        <%--  <form:option value="dark2" ><spring:message code="profileedit.template.dark2"/></form:option> --%>
+                                    </form:select>
+                                    <form:errors path="template" />
+                                </div>
+                            </div>                                                             
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                     <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>
