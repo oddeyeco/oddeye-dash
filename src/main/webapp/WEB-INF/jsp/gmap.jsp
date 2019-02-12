@@ -27,6 +27,49 @@
 
     <script>
 
+        if (navigator.geolocation) {
+            console.log("valod");
+            navigator.geolocation.getCurrentPosition(showPosition, showError,{timeout:100000});
+        }
+
+        function showError(error) {
+            alert(error.message);
+            switch (error.code) {
+//                case error.PERMISSION_DENIED:
+//                    x.innerHTML = "User denied the request for Geolocation."
+//                    break;
+//                case error.POSITION_UNAVAILABLE:
+//                    x.innerHTML = "Location information is unavailable."
+//                    break;
+//                case error.TIMEOUT:
+//                    x.innerHTML = "The request to get user location timed out."
+//                    break;
+//                case error.UNKNOWN_ERROR:
+//                    x.innerHTML = "An unknown error occurred."
+//                    break;
+            }
+        }
+
+        function showPosition(position) {
+            console.log("Latitude: " + position.coords.latitude +
+                    "<br>Longitude: " + position.coords.longitude);
+            
+        var Yerevan = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: Yerevan,
+            zoom: 18,
+            mapTypeId: 'satellite'
+        });
+
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+            data: heatmapData,
+            radius: 10
+        });
+        heatmap.setMap(map);            
+            
+        }
+
         /* Data points defined as an array of LatLng objects */
         var heatmapData = [
             {location: new google.maps.LatLng(40.185558, 44.514880), weight: 10},
@@ -43,23 +86,11 @@
             {location: new google.maps.LatLng(40.185558, 44.514771), weight: 40},
             {location: new google.maps.LatLng(40.185558, 44.514762), weight: 40},
             {location: new google.maps.LatLng(40.185558, 44.514753), weight: 40},
-            {location: new google.maps.LatLng(40.185558, 44.514744), weight: 100},
+            {location: new google.maps.LatLng(40.185558, 44.514744), weight: 40},
 //            new google.maps.LatLng(40.185558, 44.514880)
         ];
 
-        var Yerevan = new google.maps.LatLng(40.185558, 44.514880);
 
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: Yerevan,
-            zoom: 20,
-            mapTypeId: 'satellite'
-        });
-
-        var heatmap = new google.maps.visualization.HeatmapLayer({
-            data: heatmapData,
-            radius:10
-        });
-        heatmap.setMap(map);
     </script>
 
 </html>
