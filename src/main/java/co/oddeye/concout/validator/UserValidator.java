@@ -80,9 +80,12 @@ public class UserValidator implements Validator {
         }
     }    
     
-    public void updatevalidate(Object target, Errors errors) {
+    public void updatevalidate(Object target, Errors errors,OddeyeUserModel userold) {
         OddeyeUserModel user = (OddeyeUserModel) target;
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");                       
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");   
+        if (userold.getEmail().equals("demodemo@oddeye.co")) {
+            errors.rejectValue("name", "demo.user", "Demo user must not be edited .");   
+        }
 
     }    
     
