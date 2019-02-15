@@ -270,8 +270,31 @@ var queryCallback = function (inputdata) {
     var uri = inputdata[15];
 
     return function (data) {
-
-
+// ---- tooltip.triggerOn + tooltip.enterable
+        if (widget.type === "line")
+                {                    
+                    if (widget.options.tooltip.triggerOn === "click")
+                    {
+                        widget.options.tooltip = {
+                            "trigger": "axis",
+                            "triggerOn": "click",
+//                          "position": function (pos) {
+//                              return [pos[0] + 5,pos[1] - 10];
+//                          },
+                            "enterable": true                            
+                        };
+                    }
+                    if (widget.options.tooltip.triggerOn === "mousemove")
+                    {
+                        widget.options.tooltip = {
+                            "trigger": "axis",
+                            "triggerOn": "mousemove",  
+                            "enterable": false                        
+                        };
+                    }                    
+                }
+// ---- /tooltip.triggerOn + tooltip.enterable 
+ 
         if (data.chartsdata)
         {
             if (widget.type === "counter")
@@ -1295,11 +1318,9 @@ var queryCallback = function (inputdata) {
                     {
                         delete ser.label.normal.show;
                     }
-
+                                       
                     data.push(ser);
-
-
-
+                    
                 }
 
 
@@ -1321,8 +1342,8 @@ var queryCallback = function (inputdata) {
                         };
                     }
                 }
-
-
+                
+                
                 if (!widget.options.grid)
                 {
                     widget.options.grid = {"x2": "60px"};

@@ -1074,7 +1074,24 @@ class BaseChartEditForm extends EditForm {
                                             {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "label.show", id: "display_label_2", name: "display_label_2", key_path: 'label.show', default: true}
                                         ]}
                                 ]}
-                        ]},
+                        ]},                    
+                    // -------  version tooliptip  -------
+                        {tag: "div", id: "", class: "form_main_block pull-left custominputs", label: {show: true, text: 'Tooltip' /* locale["editchartform.tooltip"] */, class: "typeline"}, content: [
+                            {tag: "div", class: "form-group form-group-custom typeline", content: [
+                                    {tag: "label", class: "control-label control-label-custom120", text: 'Trigger On' /* locale["editchartform.triggerOn"] */, lfor: "display_trig"},
+                                    {tag: "select", class: "form-control axes_select", prop_key: "triggerOn", id: "display_trig", name: "display_trig", key_path: 'options.tooltip.triggerOn', default: "mousemove", options: {
+                                            'mousemove': 'Move'/*locale["editchartform.mousemove"]*/,
+                                            'click': 'Click'/*locale["editchartform.click"]*/                                            
+                                        }}
+                                ]},
+//                            {tag: "div", class: "form-group form-group-custom typeline", content: [
+//                                    {tag: "label", class: "control-label control-label-custom120", text: 'Enterable'/*locale["editchartform.enterAble"]*/, lfor: "display_able"},
+//                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [
+//                                            {tag: "input", type: "checkbox", class: "js-switch-small", checked: "checked", prop_key: "enterable", id: "display_able", name: "display_able", key_path: 'options.tooltip.enterable', default: false}
+//                                        ]}
+//                                ]}
+                        ]},    
+                    // ------- /version tooliptip  -------                   
                     {tag: "div", id: "axes_select", class: "form_main_block pull-left custominputs", label: {show: true, text: locale["editchartform.detail"], class: "typegauge"}, content: [
 
                             {tag: "label", class: "control-label control-label-custom120 typegauge", text: locale["editchartform.color"], lfor: "detailColor"},
