@@ -294,7 +294,6 @@ var queryCallback = function (inputdata) {
                     }                    
                 }
 // ---- /tooltip.triggerOn + tooltip.enterable 
- 
         if (data.chartsdata)
         {
             if (widget.type === "counter")
