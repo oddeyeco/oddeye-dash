@@ -209,6 +209,7 @@ public class WhitelabelDao extends HbaseBaseDao {
                     }
                 }
             }
+            System.out.println("co.oddeye.concout.dao.WhitelabelDao.getByDomain()");
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
             return null;

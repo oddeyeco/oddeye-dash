@@ -69,25 +69,6 @@
             <c:import url="balacepart.jsp" />
         </c:if>            
 
-        <div class="x_panel payments_part">          
-            <div class="x_title">
-                <h2><spring:message code="payments"/></h2>                               
-                <div class="clearfix"></div>
-            </div>
-            <div class="x_content">
-                    <ul class="gotodash">
-                        <c:forEach items="${curentuser.getPayments()}" var="payment" varStatus="loop">                                
-                            <li class="col-lg-12">
-                                <span class="pull-left">  
-                                    <fmt:formatDate value="${payment.getPayment_date()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/>
-                                    
-                                </span> <span class="pull-right"> ${payment.getPayment_gross()} $ </span>
-                            </li>                                
-                        </c:forEach>
-                    </ul>
-            </div>                       
-        </div>          
-
         <div class="x_panel">          
             <div class="x_title">
                 <h2><spring:message code="dashboards.availableTemplates"/></h2>

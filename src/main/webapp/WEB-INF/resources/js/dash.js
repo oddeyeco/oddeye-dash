@@ -1320,6 +1320,8 @@ var queryCallback = function (inputdata) {
                                        
                     data.push(ser);
                     
+
+
                 }
 
 

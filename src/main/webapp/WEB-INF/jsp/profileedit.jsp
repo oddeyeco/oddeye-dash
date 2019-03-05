@@ -129,9 +129,8 @@
                                     <form:errors path="timezone" />
                                 </div>
                             </div>    
-                            <sec:authorize access="hasRole('ROLE_ADMIN')">
                                 <div class="form-group">                    
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="timezone"><spring:message code="profileedit.template"/>
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="template"><spring:message code="profileedit.template"/>
                                     </label>
                                     <div class="col-md-6 col-sm-6 col-xs-12">
 
@@ -143,7 +142,6 @@
                                         <form:errors path="template" />
                                     </div>
                                 </div>                                 
-                            </sec:authorize>
                             <div class="form-group">
                                 <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                                     <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>

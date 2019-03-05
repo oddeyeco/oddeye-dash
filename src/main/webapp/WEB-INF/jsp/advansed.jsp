@@ -176,7 +176,7 @@
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
                             <span class="count_top"><i class="fa far fa-clock"></i> <spring:message code="advansed.currentMinute20"/></span>
-                                <div class="count green">${Error.getRecurrence20m()}</div>
+                    <div class="count spincrement">${Error.getRecurrence20m()}</div>
                     <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence20m() > Error.getRecurrenceLast20m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast20m()} </i> <spring:message code="advansed.previousMinute20"/></span>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
