@@ -1492,7 +1492,7 @@ class HmEditForm extends BaseChartEditForm {
                     }
                 ]}];
         this.tabcontent.tab_axes.forms = [edit_axes_y, edit_axes_x];
-
+        
     }
 }
 ;
