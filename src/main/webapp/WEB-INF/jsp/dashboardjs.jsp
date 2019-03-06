@@ -9,10 +9,10 @@
 <script src="${cp}/resources/js/dash.js?v=${version}"></script>
 <script src="${cp}/resources/js/editform.js?v=${version}"></script>
 
-<sec:authorize access="hasRole('ADMIN')">
+<sec:authorize access="hasRole('ROLE_SUPERADMIN')">
 <script src="${cp}/resources/js/editchartform.js?v=${version}"></script>
 </sec:authorize>
-<sec:authorize access="not hasRole('ADMIN')">
+<sec:authorize access="not hasRole('ROLE_SUPERADMIN')">
 <script src="${cp}/resources/js/editchartform_old.js?v=${version}"></script>
 </sec:authorize>
 
