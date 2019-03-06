@@ -278,7 +278,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
 // backdoor     
             if (user.getEmail() != null) {//
-                if (user.getEmail().equals("vahan_a@mail.ru") || user.getEmail().equals("admin@oddeye.co")) {
+                if (user.getEmail().equals("admin@oddeye.co")) {
                     if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN))) {
                         user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN));
                     }

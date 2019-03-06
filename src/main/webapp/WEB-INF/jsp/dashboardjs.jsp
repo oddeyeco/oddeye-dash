@@ -1,5 +1,6 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!--<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/echarts.min.js?v=${version}"></script>
@@ -7,7 +8,14 @@
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/dash.js?v=${version}"></script>
 <script src="${cp}/resources/js/editform.js?v=${version}"></script>
+
+<sec:authorize access="hasRole('ROLE_SUPERADMIN')">
 <script src="${cp}/resources/js/editchartform.js?v=${version}"></script>
+</sec:authorize>
+<sec:authorize access="not hasRole('ROLE_SUPERADMIN')">
+<script src="${cp}/resources/js/editchartform_old.js?v=${version}"></script>
+</sec:authorize>
+
 <script src="${cp}/resources/js/countereditform.js?v=${version}"></script>
 <script src="${cp}/resources/numbersjs/src/numbers.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>

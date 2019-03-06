@@ -209,8 +209,12 @@ var encodeHTML = function (source) {
         },
         tooltip: {
             backgroundColor: theme_tooltip_bg,
+//            confine: true,
 //            enterable: true,
-            confine: true,
+//            triggerOn: 'click',
+//            position: function(pos) {
+//                            return [pos[0] + 10, pos[1] - 5];
+//                        },
             formatter: function (params) {
                 var out = "";
 
@@ -228,11 +232,10 @@ var encodeHTML = function (source) {
                             if (param.data)
                                 if (param.data.name)
                                     out = "<tooltip-head><strong>" + param.data.name + "</strong></tooltip-head>";
-
-
                     }
                     out = out + "<div style='clear: both;'></div>";
                     out = out + "<div class='tooltip-body'>";
+//                    out = out + "<div class='tooltip-body' style='max-height: 415px;overflow-y: auto;'>";
                     for (var ind in params)
                     {
                         param = params[ind];
@@ -251,7 +254,6 @@ var encodeHTML = function (source) {
                         {
                             value = param.value;
                         }
-
 
                         if (param.data.isinverse === true)
                         {
@@ -705,6 +707,7 @@ var encodeHTML = function (source) {
     };
     echarts.registerTheme('oddeyelight', theme);
 }));
+
 function getLevelOption(serieslen, l2) {
     return [
         {
