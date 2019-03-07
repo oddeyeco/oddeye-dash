@@ -1479,5 +1479,3 @@ class HmEditForm extends BaseChartEditForm {
     }
 }
 ;
-
-
