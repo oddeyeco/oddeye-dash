@@ -271,17 +271,15 @@ var queryCallback = function (inputdata) {
 
     return function (data) {
 // ---- tooltip.triggerOn + tooltip.enterable
-        if (widget.type === "line")
-                {                    
-                    if (widget.options.tooltip.triggerOn === "click")
-                    {
+        if (widget.type === "line") {                    
+                    if (widget.options.tooltip.triggerOn === "click") {
+                        
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "click",
-//                          "position": function (pos) {
-//                              return [pos[0] + 5,pos[1] - 10];
-//                          },
-                            "enterable": true                            
+                            "position": function(pos){return [pos[0] + 5,pos[1] - 10];},                  
+                            "enterable": true,
+                            "extraCssText": 'max-height: 415px; overflow-y: auto;'
                         };
                     }
                     if (widget.options.tooltip.triggerOn === "mousemove")
@@ -2537,7 +2535,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
     $(".fulldash").show();
     if (dashJSON.locked)
     {
-        $(".fulldash").addClass('locked');
+        $('.fulldash').addClass('locked');
         $('#btnlock').addClass('btnunlock');
         $('#btnlock i').addClass('fa-unlock');
         $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide();
