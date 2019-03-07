@@ -225,17 +225,16 @@ var encodeHTML = function (source) {
                     if (param.value instanceof Array)
                     {
                         firstparam = format_date(param.value[0], 1);
-                        out = "<tooltip-head><strong>" + firstparam + " " + params[0].name + "</strong></tooltip-head>";
+                        out = "<div class='tooltip-head' style='position: sticky;top: -5px;padding: 2px;background-color: #303232'><strong>" + firstparam + " " + params[0].name + "</strong></div>";
                     } else
                     {
                         if (param)
                             if (param.data)
                                 if (param.data.name)
-                                    out = "<tooltip-head><strong>" + param.data.name + "</strong></tooltip-head>";
+                                    out = "<div class='tooltip-head' style='position: sticky;top: -5px:padding: 2px:background-color: #303232'><strong>" + param.data.name + "</strong></div>";
                     }
                     out = out + "<div style='clear: both;'></div>";
                     out = out + "<div class='tooltip-body'>";
-//                    out = out + "<div class='tooltip-body' style='max-height: 415px;overflow-y: auto;'>";
                     for (var ind in params)
                     {
                         param = params[ind];
