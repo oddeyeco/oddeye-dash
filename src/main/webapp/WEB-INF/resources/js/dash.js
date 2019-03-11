@@ -277,7 +277,15 @@ var queryCallback = function (inputdata) {
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "click",
-                            "position": function(pos){return [pos[0] + 5,pos[1] - 10];},                  
+//                          "position": function(pos){return [pos[0] + 5,pos[1] - 10];},
+                            "position": function(pos, params, dom, rect, size){
+                                if (pos[0] < size.viewSize[0] / 2){
+                                    return [pos[0] + 5,pos[1] - 0];
+                                }
+                                if (pos[0] > size.viewSize[0] / 2){
+                                    return [pos[0] - size.contentSize[0] - 10,pos[1] - 10];
+                                }                               
+                            },
                             "enterable": true,
                             "extraCssText": 'max-height: 415px; overflow-y: auto;'
                         };
@@ -1315,9 +1323,9 @@ var queryCallback = function (inputdata) {
                     {
                         delete ser.label.normal.show;
                     }
-                                       
+
                     data.push(ser);
-                    
+
                 }
 
 
@@ -1339,8 +1347,8 @@ var queryCallback = function (inputdata) {
                         };
                     }
                 }
-                
-                
+
+
                 if (!widget.options.grid)
                 {
                     widget.options.grid = {"x2": "60px"};
@@ -2579,8 +2587,8 @@ function redrawAllJSON(dashJSON, redraw = false) {
             colapserow.addClass('expandrow');
             colapserow.find('i').removeClass('fa-minus');
             colapserow.find('i').addClass('fa-plus');
-            colapserow.attr('data-original-title', locale["dash.title.expand"] + ' (' + tmprow.widgets.length + ')');
-            crow.find(".title_text span").prepend('(' + tmprow.widgets.length + ') ')
+            colapserow.attr('data-original-title', locale["dash.title.expand"] + '(' + tmprow.widgets.length + ')');
+            crow.find(".title_text span").prepend('(' + tmprow.widgets.length + ')')
             continue;
         }
 

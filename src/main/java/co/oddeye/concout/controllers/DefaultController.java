@@ -90,7 +90,7 @@ public class DefaultController {
 ////        layaut = "indexPrime";
 //        return "indexPrime";
     }
-
+/*
     @RequestMapping(value = "/gugush.txt", method = RequestMethod.GET)
     public String gugush(ModelMap map, HttpServletRequest request) {
         map.put("slug", "login");
@@ -98,7 +98,7 @@ public class DefaultController {
         map.put("jspart", "gugushjs");
         return "indextxt";
     }
-
+*/
     @RequestMapping(value = "/preset", method = RequestMethod.GET)
     public String resetpassword(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

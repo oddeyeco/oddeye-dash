@@ -472,7 +472,7 @@ var encodeHTML = function (source) {
                 }
 
                 return out;
-            },            
+            },
             axisPointer: {
                 type: 'line',
                 lineStyle: {
@@ -484,7 +484,7 @@ var encodeHTML = function (source) {
                 shadowStyle: {
                     color: 'rgba(200,200,200,0.8)'
                 }
-            }  
+            }
         },
         dataZoom: {
             dataBackgroundColor: '#efefff',
@@ -703,7 +703,7 @@ var encodeHTML = function (source) {
                 offsetCenter: [0, '90%']
             }
         }
-    };  
+    };
     echarts.registerTheme('oddeyelight', theme);
 }));
 

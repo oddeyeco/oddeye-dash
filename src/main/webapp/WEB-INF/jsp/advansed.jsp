@@ -6,7 +6,7 @@
 <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css?v=${version}" rel="stylesheet">
 <div class="page-title">
     <div class="title_right">
-      
+
         <h3><spring:message code="advansed.detailedEvents" arguments="${Error.getName()}"/> <fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.getTimezone()}</h3>
     </div>
 </div>
@@ -170,18 +170,18 @@
                     <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence1m() > Error.getRecurrenceLast1m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast1m()} </i> <spring:message code="advansed.previousMinute1"/></span>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
-                            <span class="count_top"><i class="fa far fa-clock"></i> <spring:message code="advansed.currentMinute10"/></span>
-                                <div class="count spincrement">${Error.getRecurrence10m()}</div>
-                                <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence10m() > Error.getRecurrenceLast10m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast10m()} </i> <spring:message code="advansed.previousMinute10"/></span>
+                                <span class="count_top"><i class="fa far fa-clock"></i> <spring:message code="advansed.currentMinute10"/></span>
+                    <div class="count spincrement">${Error.getRecurrence10m()}</div>
+                    <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence10m() > Error.getRecurrenceLast10m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast10m()} </i> <spring:message code="advansed.previousMinute10"/></span>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
-                            <span class="count_top"><i class="fa far fa-clock"></i> <spring:message code="advansed.currentMinute20"/></span>
-                                <div class="count green">${Error.getRecurrence20m()}</div>
+                                <span class="count_top"><i class="fa far fa-clock"></i> <spring:message code="advansed.currentMinute20"/></span>
+                    <div class="count spincrement">${Error.getRecurrence20m()}</div>
                     <span class="count_bottom"><i class=" <c:choose><c:when test="${Error.getRecurrence20m() > Error.getRecurrenceLast20m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast20m()} </i> <spring:message code="advansed.previousMinute20"/></span>
                         </div>
                         <div class="col-md-3 col-sm-6 col-xs-12 tile_stats_count">
-                            <span class="count_top"><i class="fa far fa-clock"></i><spring:message code="advansed.currentMinute30"/></span>
-                                <div class="count spincrement">${Error.getRecurrence30m()}</div>
+                                <span class="count_top"><i class="fa far fa-clock"></i><spring:message code="advansed.currentMinute30"/></span>
+                    <div class="count spincrement">${Error.getRecurrence30m()}</div>
                     <span class="count_bottom"><i class="<c:choose><c:when test="${Error.getRecurrence30m() > Error.getRecurrenceLast30m()}">red</c:when><c:otherwise>green</c:otherwise></c:choose>">${Error.getRecurrenceLast30m()} </i> <spring:message code="advansed.previousMinute30"/></span>
                         </div>
                     </div>                        

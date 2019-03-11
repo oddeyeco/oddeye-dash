@@ -305,7 +305,6 @@ public class ProfileController {
             if ((currentUser.getSwitchUser() != null)) {
                 if (currentUser.getSwitchUser().getAlowswitch()) {
                     currentUser = currentUser.getSwitchUser();
-
                 }
             }
             userValidator.passwordvalidate(newuserdata, currentUser, result);
@@ -354,6 +353,8 @@ public class ProfileController {
     public String updateuser(@ModelAttribute("newuserdata") OddeyeUserModel newuserdata, BindingResult result,
             ModelMap map
     ) {
+        
+        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
@@ -363,7 +364,7 @@ public class ProfileController {
                     currentUser = currentUser.getSwitchUser();
                 }
             }
-            userValidator.updatevalidate(newuserdata, result);
+            userValidator.updatevalidate(newuserdata, result,currentUser);
 
             DefaultController.setLocaleInfo(map);
 
@@ -420,6 +421,7 @@ public class ProfileController {
     public String updatelevels(@ModelAttribute("newuserleveldata") OddeyeUserModel newuserdata, BindingResult result,
             ModelMap map
     ) {
+        //valod
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
@@ -429,14 +431,14 @@ public class ProfileController {
                     currentUser = currentUser.getSwitchUser();
                 }
             }
-            levelsValidator.validate(newuserdata, result);
+            levelsValidator.validateDemo(newuserdata, result,currentUser);
 
             DefaultController.setLocaleInfo(map);
 
             DefaultController.setLocaleInfo(map);
             if (result.hasErrors()) {
                 map.put("result", result);
-            } else {
+            } else {                                
                 try {
 
                     currentUser.setAlertLevels(newuserdata.getAlertLevels());

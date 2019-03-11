@@ -26,6 +26,14 @@ public class LevelsValidator implements Validator {
         return AlertLevel.class.isAssignableFrom(type);
     }
 
+    //,OddeyeUserModel userold
+    public void validateDemo(Object o, Errors errors, OddeyeUserModel userold) {
+        if (userold.getEmail().equals("demodemo@oddeye.co")) {
+            errors.rejectValue("AlertLevels[0][0]", "demo.user", "Demo user must not be edited .");
+        }
+        validate(o, errors);
+    }
+
     @Override
     public void validate(Object o, Errors errors) {
         OddeyeUserModel user = (OddeyeUserModel) o;
@@ -33,6 +41,7 @@ public class LevelsValidator implements Validator {
         for (Map.Entry<Integer, Map<Integer, Double>> levelEntry : user.getAlertLevels().entrySet()) {
             for (Map.Entry<Integer, Double> level : levelEntry.getValue().entrySet()) {
                 ValidationUtils.rejectIfEmptyOrWhitespace(errors, "AlertLevels[" + levelEntry.getKey() + "][" + level.getKey() + "]", "empty.value", "Value must not be empty.");
+
                 if (level.getValue() != null) {
                     if (Objects.equals(level.getKey(), AlertLevel.ALERT_PARAM_PECENT)) {
                         if (level.getValue() < 0) {
