@@ -4003,6 +4003,32 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
 
+    $('body').on("click", ".addstatus", function () {
+
+        for (var ri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[ri].widgets)
+            {
+                if (gdd.rows[ri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+                }
+            }
+        }
+        var ri = $(this).parents(".widgetraw").index();
+        if (!gdd.rows[ri].widgets)
+        {
+            gdd.rows[ri].widgets = [];
+        }
+        var wi = gdd.rows[ri].widgets.length;we 
+       gdd.rows[ri].widgets.push({type: "status", size: 2});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
+        domodifier();
+        AutoRefreshSingle(ri, wi);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+
+
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
         senddata = {};

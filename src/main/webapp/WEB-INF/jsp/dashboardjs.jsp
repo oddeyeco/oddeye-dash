@@ -32,11 +32,13 @@
 
         "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
         "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
+        "dash.edit.status": "<spring:message code="dash.edit.status"/>",        
         "dash.edit.table": "<spring:message code="dash.edit.table"/>",
         "dash.edit.heatmap": "<spring:message code="dash.edit.heatmap"/>",
         
         "dash.show.chart": "<spring:message code="dash.show.chart"/>",
         "dash.show.counter": "<spring:message code="dash.show.counter"/>",
+        "dash.show.status": "<spring:message code="dash.show.status"/>",        
         "dash.show.table": "<spring:message code="dash.show.table"/>",
 
         "dash.title.lockDashboard": "<spring:message code="dash.title.lockDashboard"/>",
@@ -46,6 +48,7 @@
         "dash.modal.confirmDelRow": "<spring:message code="dash.modal.confirmDelRow" javaScriptEscape="true"/>",
         "dash.modal.confirmDelChart": "<spring:message code="dash.modal.confirmDelChart" javaScriptEscape="true"/>",
         "dash.modal.confirmDelCounter": "<spring:message code="dash.modal.confirmDelCounter" javaScriptEscape="true"/>",
+        "dash.modal.confirmDelStatus": "<spring:message code="dash.modal.confirmDelStatus" javaScriptEscape="true"/>",        
         "dash.modal.confirmDelDashboard": "<spring:message code="dash.modal.confirmDelDashboard"/>",
         "dash.errorSavingData": "<spring:message code="dash.errorSavingData"/>",
 
