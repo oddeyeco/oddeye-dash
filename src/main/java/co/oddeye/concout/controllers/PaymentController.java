@@ -52,9 +52,7 @@ public class PaymentController {
     @Autowired
     private HbaseUserDao Userdao;
     
-    private static final String JSON_UTF8 = "application/json;charset=UTF-8";
-
-    @RequestMapping(value = "/paypal/ipn/", method = RequestMethod.POST, produces = JSON_UTF8)
+    @RequestMapping(value = "/paypal/ipn/", method = RequestMethod.POST, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String paypalipn(HttpServletRequest request, HttpServletResponse response) {
 //        String paypal_url = "https://www.sandbox.paypal.com/cgi-bin/websc";
         //String paypal_url = "https://www.paypal.com/cgi-bin/websc";        

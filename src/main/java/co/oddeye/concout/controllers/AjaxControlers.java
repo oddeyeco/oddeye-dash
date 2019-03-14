@@ -84,7 +84,7 @@ public class AjaxControlers {
     @Value("${paypal.fix}")
     private String paypal_fix;
     
-    private static final String JSON_UTF8 = "application/json;charset=UTF-8";
+    public static final String JSON_UTF8 = "application/json;charset=UTF-8";
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET, produces = JSON_UTF8)
     public @ResponseBody String singlechart(@RequestParam(value = "tags", required = false) String tags,

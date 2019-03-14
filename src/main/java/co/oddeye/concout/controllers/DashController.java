@@ -89,8 +89,6 @@ public class DashController {
     private String paypal_percent;
     @Value("${paypal.fix}")
     private String paypal_fix;
-    
-    private static final String JSON_UTF8 = "application/json;charset=UTF-8";
 
     @RequestMapping(value = {"/infrastructure/","/infrastructure/{version}/"}, method = RequestMethod.GET)
     public String infrastructure(ModelMap map,@PathVariable(required = false) String version) {
@@ -316,7 +314,7 @@ public class DashController {
         return "index";
     }
 
-    @RequestMapping(value = {"/dashboard/save"}, produces = JSON_UTF8)
+    @RequestMapping(value = {"/dashboard/save"}, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String SaveDash(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
@@ -382,7 +380,7 @@ public class DashController {
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/dashboard/savetemplate"}, produces = JSON_UTF8)
+    @RequestMapping(value = {"/dashboard/savetemplate"}, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String SaveDashTeplate(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
@@ -411,7 +409,7 @@ public class DashController {
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/dashboard/delete"}, produces = JSON_UTF8)
+    @RequestMapping(value = {"/dashboard/delete"}, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String DeleteDash(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
@@ -471,7 +469,7 @@ public class DashController {
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/savefilter", "/savefilter/{filtername}"}, produces = JSON_UTF8)
+    @RequestMapping(value = {"/savefilter", "/savefilter/{filtername}"}, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String savemonitoringsetings(@PathVariable(value = "filtername", required = false) String filtername, HttpServletRequest request) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -525,7 +523,7 @@ public class DashController {
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/addmonitoringpage/"}, produces = JSON_UTF8)
+    @RequestMapping(value = {"/addmonitoringpage/"}, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String savemonitoringOptions(HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails;
@@ -582,7 +580,7 @@ public class DashController {
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/deletemonitoringpage/"}, produces = JSON_UTF8)
+    @RequestMapping(value = {"/deletemonitoringpage/"}, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String deletemonitoringOptions(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails;
