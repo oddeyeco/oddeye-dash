@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -48,6 +47,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -314,8 +314,8 @@ public class DashController {
         return "index";
     }
 
-    @RequestMapping(value = {"/dashboard/save"})
-    public String SaveDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/dashboard/save"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String SaveDash(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
 
@@ -377,13 +377,11 @@ public class DashController {
             }
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/dashboard/savetemplate"})
-    public String SaveDashTeplate(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/dashboard/savetemplate"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String SaveDashTeplate(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
 
@@ -408,13 +406,11 @@ public class DashController {
             }
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/dashboard/delete"})
-    public String DeleteDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/dashboard/delete"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String DeleteDash(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
 
@@ -470,13 +466,11 @@ public class DashController {
             }
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/savefilter", "/savefilter/{filtername}"})
-    public String savemonitoringsetings(@PathVariable(value = "filtername", required = false) String filtername, ModelMap map, HttpServletRequest request) {
+    @RequestMapping(value = {"/savefilter", "/savefilter/{filtername}"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String savemonitoringsetings(@PathVariable(value = "filtername", required = false) String filtername, HttpServletRequest request) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -526,12 +520,11 @@ public class DashController {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/addmonitoringpage/"})
-    public String savemonitoringOptions(ModelMap map, HttpServletRequest request) {
+    @RequestMapping(value = {"/addmonitoringpage/"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String savemonitoringOptions(HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails;
         JsonObject jsonResult = new JsonObject();
@@ -584,12 +577,11 @@ public class DashController {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/deletemonitoringpage/"})
-    public String deletemonitoringOptions(ModelMap map, HttpServletRequest request) {
+    @RequestMapping(value = {"/deletemonitoringpage/"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String deletemonitoringOptions(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails;
         JsonObject jsonResult = new JsonObject();
@@ -637,8 +629,6 @@ public class DashController {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-        return "ajax";
+        return jsonResult.toString();
     }
-
 }
