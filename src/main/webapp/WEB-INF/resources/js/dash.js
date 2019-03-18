@@ -285,7 +285,23 @@ var queryCallback = function (inputdata) {
                     {
                         widget.options.tooltip = {
                             "trigger": "axis",
-                            "triggerOn": "mousemove",  
+                            "triggerOn": "mousemove",
+                            "position": function(pos, params, dom, rect, size){
+                                var p0, p1;
+                                p0 = pos[0] + 5;
+                                if (pos[1] < size.viewSize[1] / 2) {
+                                    p1 = pos[1];
+                                } else {
+                                    p1 = pos[1] - size.contentSize[1];
+                                }
+                                if (pos[0] > size.viewSize[0] / 2) {
+                                    p0 = p0 - size.contentSize[0] - 10;
+                                    p1 = p1 - 10;
+                                } else {
+                                    p0 = pos[0] + 5;
+                                }
+                                return [p0, p1];
+                            },
                             "enterable": false                        
                         };
                     }                    
