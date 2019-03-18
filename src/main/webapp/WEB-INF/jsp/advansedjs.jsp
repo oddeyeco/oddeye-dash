@@ -85,7 +85,8 @@
 
         echartLine.setOption({
             title: {
-                text: chartline.metric
+                text: chartline.metric,
+                left: 50
             },
             tooltip: {
                 trigger: 'axis'
@@ -96,10 +97,16 @@
             animation: false,
             toolbox: {
                 show: true,
+                right: 20,
                 feature: {
 //                    dataZoom: {show: true, title: "dataZoom"},
+                    
                     magicType: {
                         show: true,
+                        iconStyle: {
+                            color: '#3c763d',
+                            borderColor: '#92ad57'
+                        },
                         title: {
                             line: 'Line',
                             bar: 'Bar'
@@ -108,11 +115,16 @@
                     },
                     saveAsImage: {
                         show: true,
-                        title: "Save Image"
+                        title: "Save Image",
+                        iconStyle: {
+                            color: '#3c763d',
+                            borderColor: '#92ad57'
+                        }
                     }
                 }
             },
             grid: {
+                y: 30,
                 y2: 50
             },
             xAxis: [{
