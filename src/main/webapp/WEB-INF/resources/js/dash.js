@@ -260,8 +260,25 @@ var queryCallback = function (inputdata) {
     var start = inputdata[12];
     var end = inputdata[13];
     var whaitlist = inputdata[14];
-    var uri = inputdata[15];
-
+    var uri = inputdata[15];  
+    
+    var tooltipPos = function(pos, params, dom, rect, size) {
+        var p0, p1;
+        p0 = pos[0] + 5;
+        if (pos[1] < size.viewSize[1] / 2) {
+            p1 = pos[1];
+        } else {
+            p1 = pos[1] - size.contentSize[1];
+        }
+        if (pos[0] > size.viewSize[0] / 2) {
+            p0 = p0 - size.contentSize[0] - 10;
+            p1 = p1 - 10;
+        } else {
+            p0 = pos[0] + 5;
+        }
+        return [p0, p1];
+    };
+    
     return function (data) {
 // ---- tooltip.triggerOn + tooltip.enterable
         if (widget.type === "line") {                    
@@ -269,14 +286,7 @@ var queryCallback = function (inputdata) {
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "click",
-                            "position": function(pos, params, dom, rect, size){
-                                if (pos[0] < size.viewSize[0] / 2){
-                                    return [pos[0] + 5,pos[1] - 0];
-                                }
-                                if (pos[0] > size.viewSize[0] / 2){
-                                    return [pos[0] - size.contentSize[0] - 10,pos[1] - 10];
-                                }                               
-                            },
+                            "position": tooltipPos,
                             "enterable": true,
                             "extraCssText": 'max-height: 415px; overflow-y: auto;'
                         };
@@ -286,22 +296,7 @@ var queryCallback = function (inputdata) {
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "mousemove",
-                            "position": function(pos, params, dom, rect, size){
-                                var p0, p1;
-                                p0 = pos[0] + 5;
-                                if (pos[1] < size.viewSize[1] / 2) {
-                                    p1 = pos[1];
-                                } else {
-                                    p1 = pos[1] - size.contentSize[1];
-                                }
-                                if (pos[0] > size.viewSize[0] / 2) {
-                                    p0 = p0 - size.contentSize[0] - 10;
-                                    p1 = p1 - 10;
-                                } else {
-                                    p0 = pos[0] + 5;
-                                }
-                                return [p0, p1];
-                            },
+                            "position": tooltipPos,
                             "enterable": false                        
                         };
                     }                    
