@@ -277,7 +277,6 @@ var queryCallback = function (inputdata) {
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "click",
-//                          "position": function(pos){return [pos[0] + 5,pos[1] - 10];},
                             "position": function(pos, params, dom, rect, size){
                                 if (pos[0] < size.viewSize[0] / 2){
                                     return [pos[0] + 5,pos[1] - 0];
