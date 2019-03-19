@@ -2494,7 +2494,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             colapserow.find('i').removeClass('fa-minus');
             colapserow.find('i').addClass('fa-plus');
             colapserow.attr('data-original-title', locale["dash.title.expand"] + '(' + tmprow.widgets.length + ')');
-            crow.find(".title_text span").prepend('(' + tmprow.widgets.length + ')')
+            crow.find(".title_text span").prepend('(' + tmprow.widgets.length + ')');
             continue;
         }
 
@@ -3019,7 +3019,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
 function shutdownTimers() {
     for (var ri in gdd.rows)
     {
-        for (var wi in    gdd.rows[ri].widgets)
+        for (var wi in gdd.rows[ri].widgets)
         {
             if (gdd.rows[ri].widgets[wi])
             {
@@ -3141,10 +3141,10 @@ $(document).ready(function () {
     
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
-        shutdownTimers()
+        shutdownTimers();
 //        for (var lri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[lri].widgets)
+//            for (var wi in gdd.rows[lri].widgets)
 //            {
 //                if (gdd.rows[lri].widgets[wi])
 //                {
@@ -3379,10 +3379,10 @@ $(document).ready(function () {
                 startdate = gdd.times.pickerstart;
             }
         }
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3456,10 +3456,10 @@ $(document).ready(function () {
     
     $("#addrow").on("click", function () {
         gdd.rows.push({widgets: []});
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3472,10 +3472,10 @@ $(document).ready(function () {
     });
     
     $('body').on("click", "#deleterowconfirm", function () {
-        shutdownTimers()        
+        shutdownTimers();    
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3494,10 +3494,10 @@ $(document).ready(function () {
         $(this).parents('.widgetraw').find('.rowcontent').fadeOut();
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = true;
-        shutdownTimers()
+        shutdownTimers();
 //        for (var lri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[lri].widgets)
+//            for (var wi in gdd.rows[lri].widgets)
 //            {
 //                if (gdd.rows[lri].widgets[wi])
 //                {
@@ -3538,10 +3538,10 @@ $(document).ready(function () {
     
     $('body').on("click", "#applydashjson", function () {
         doapplyjson = true;
-        shutdownTimers()        
+        shutdownTimers();        
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3611,10 +3611,10 @@ $(document).ready(function () {
     });
     
     $('body').on("click", "#applyrowjson", function () {
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3676,10 +3676,10 @@ $(document).ready(function () {
     });
     
     $('body').on("click", "#deletewidgetconfirm", function () {        
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3747,7 +3747,7 @@ $(document).ready(function () {
     });
     
     $('body').on("click", ".dublicate", function () {
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
 //            for (var wi in gdd.rows[ri].widgets)
@@ -3781,10 +3781,10 @@ $(document).ready(function () {
     });
     
     $('body').on("click", ".addheatmap", function () {
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3808,10 +3808,10 @@ $(document).ready(function () {
     });
 
     $('body').on("click", ".addchart", function () {
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3836,10 +3836,10 @@ $(document).ready(function () {
     });
     //addchart
     $('body').on("click", ".addcounter", function () {
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -3974,10 +3974,10 @@ $(document).ready(function () {
 
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
-        shutdownTimers()
+        shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -4010,10 +4010,10 @@ $(document).ready(function () {
         }
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
-        shutdownTimers()        
+        shutdownTimers();       
 //        for (var ri in gdd.rows)
 //        {
-//            for (var wi in    gdd.rows[ri].widgets)
+//            for (var wi in gdd.rows[ri].widgets)
 //            {
 //                if (gdd.rows[ri].widgets[wi])
 //                {
@@ -4030,7 +4030,7 @@ $(document).ready(function () {
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
         window.history.pushState({}, "", window.location.pathname);
-        shutdDownTimers()
+        shutdDownTimers();
 //        for (var ri in gdd.rows)
 //        {
 //            for (var wi in    gdd.rows[ri].widgets)
