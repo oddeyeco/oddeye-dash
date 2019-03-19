@@ -470,7 +470,6 @@ var encodeHTML = function (source) {
 
                     }
                 }
-
                 return out;
             },
             axisPointer: {
