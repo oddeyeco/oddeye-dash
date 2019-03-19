@@ -200,6 +200,10 @@
         "editchartform.options": "<spring:message code="editchartform.options"/>",
         "editchartform.labels": "<spring:message code="editchartform.labels"/>",
         "editchartform.backgroundColors": "<spring:message code="editchartform.backgroundColors"/>",
+        "editchartform.tooltip": "<spring:message code="editchartform.tooltip"/>",
+        "editchartform.triggerOn": "<spring:message code="editchartform.triggerOn"/>",
+        "editchartform.mousemove": "<spring:message code="editchartform.mousemove"/>",
+        "editchartform.click": "<spring:message code="editchartform.click"/>",      
 
         "editchartform.visualMaporient": "<spring:message code="editchartform.visualMaporient"/>",
         "editchartform.visualMapshow": "<spring:message code="editchartform.visualMapshow"/>",

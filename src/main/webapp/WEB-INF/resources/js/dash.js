@@ -262,22 +262,24 @@ var queryCallback = function (inputdata) {
     var whaitlist = inputdata[14];
     var uri = inputdata[15];  
     
-    var tooltipPos = function(pos, params, dom, rect, size) {
-        var p0, p1;
-        p0 = pos[0] + 5;
-        if (pos[1] < size.viewSize[1] / 2) {
-            p1 = pos[1];
-        } else {
-            p1 = pos[1] - size.contentSize[1];
-        }
-        if (pos[0] > size.viewSize[0] / 2) {
-            p0 = p0 - size.contentSize[0] - 10;
-            p1 = p1 - 10;
-        } else {
-            p0 = pos[0] + 5;
-        }
-        return [p0, p1];
-    };
+//    var tooltipPos = function(pos, params, dom, rect, size) {
+//        var posX, posY;
+//        posX = pos[0];
+//        if (pos[1] < size.viewSize[1] / 2) {
+//            posY = pos[1];
+//        } else {
+//            posY = pos[1] - size.contentSize[1];
+//        }
+//        if (pos[0] > size.viewSize[0] / 2) {           
+//            posX = posX - Math.min(size.contentSize[0], posX);
+//            posY = posY - 10;
+//        } else {
+//            if((posX + size.contentSize[0]) > size.viewSize[0]){
+//                posX = posX - ((posX + size.contentSize[0]) - size.viewSize[0]);
+//            }            
+//        }
+//        return [posX, posY];
+//    };
     
     return function (data) {
 // ---- tooltip.triggerOn + tooltip.enterable
@@ -286,7 +288,7 @@ var queryCallback = function (inputdata) {
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "click",
-                            "position": tooltipPos,
+//                            "position": tooltipPos,
                             "enterable": true,
                             "extraCssText": 'max-height: 415px; overflow-y: auto;'
                         };
@@ -296,7 +298,7 @@ var queryCallback = function (inputdata) {
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "mousemove",
-                            "position": tooltipPos,
+//                            "position": tooltipPos,
                             "enterable": false                        
                         };
                     }                    
