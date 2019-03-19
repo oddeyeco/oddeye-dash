@@ -17,8 +17,8 @@ var timeAxis_splitLine_lineStyle_clr = 'rgba(238, 238, 238, 0.1)';
 var categoryAxis_splitLine_lineStyle_clr = 'rgba(238, 238, 238, 0.1)';
 var valueAxis_splitLine_lineStyle_clr = 'none';
 var axisLine_lineStyle = '#8c976e';
-var theme_tooltip_bg = 'rgba(50,50,50,0.9)';
-var legend_inactiveColor= "#494949";
+var theme_tooltip_bg = 'rgba(50,50,50,0.8)';
+var legend_inactiveColor= '#494949';
 var legend_activeColor = '#fff';
 
 var gauge_detail_color = '#fff';
