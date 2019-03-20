@@ -43,6 +43,19 @@ var single_wi = 0;
 var scrolltimer;
 var btn = null;
 
+function shutdownTimers() {
+    for (var ri in gdd.rows)
+    {
+        for (var wi in gdd.rows[ri].widgets)
+        {
+            if (gdd.rows[ri].widgets[wi])
+            {
+                clearTimeout(gdd.rows[ri].widgets[wi].timer);
+            }
+        }
+    }
+};
+
 function currentpagelock() {
     if ($('.current-i').hasClass('fa-lock')) {
         $('.current-i').removeClass('fa-lock').addClass('fa-unlock');
@@ -3128,16 +3141,17 @@ $(document).ready(function () {
     
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
-        for (var lri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[lri].widgets)
-            {
-                if (gdd.rows[lri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var lri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[lri].widgets)
+//            {
+//                if (gdd.rows[lri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
+//                }
+//            }
+//        }
         rowdrag = ri;
     });
     
@@ -3365,16 +3379,17 @@ $(document).ready(function () {
                 startdate = gdd.times.pickerstart;
             }
         }
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();        
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
 
         $('#global-down-sample').val(gdd.times.generalds[0]);
         if ($('#global-down-sample-ag').val() === "")
@@ -3441,31 +3456,33 @@ $(document).ready(function () {
     
     $("#addrow").on("click", function () {
         gdd.rows.push({widgets: []});
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();        
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         domodifier();
         redrawAllJSON(gdd);
     });
     
     $('body').on("click", "#deleterowconfirm", function () {
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         var ri = $(this).attr("index");
         gdd.rows.splice(ri, 1);
         domodifier();
@@ -3477,16 +3494,18 @@ $(document).ready(function () {
         $(this).parents('.widgetraw').find('.rowcontent').fadeOut();
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = true;
-        for (var lri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[lri].widgets)
-            {
-                if (gdd.rows[lri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
-                }
-            }
-        }
+
+        shutdownTimers();        
+//        for (var lri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[lri].widgets)
+//            {
+//                if (gdd.rows[lri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
+//                }
+//            }
+//        }
         redrawAllJSON(gdd);
         domodifier();
     });
@@ -3521,16 +3540,17 @@ $(document).ready(function () {
     $('body').on("click", "#applydashjson", function () {
         doapplyjson = true;
 
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         gdd = dasheditor.get();
         redrawAllJSON(gdd);
 
@@ -3593,16 +3613,17 @@ $(document).ready(function () {
     });
     
     $('body').on("click", "#applyrowjson", function () {
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         var ri = $(this).attr("index");
         gdd.rows[ri] = dasheditor.get();
         redrawAllJSON(gdd);
@@ -3657,16 +3678,17 @@ $(document).ready(function () {
     });
     
     $('body').on("click", "#deletewidgetconfirm", function () {
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         var ri = $(this).attr("ri");
         var wi = $(this).attr("wi");
         gdd.rows[ri].widgets.splice(wi, 1);
@@ -3727,16 +3749,17 @@ $(document).ready(function () {
     });
     
     $('body').on("click", ".dublicate", function () {
-        for (var ri in gdd.rows)
-        {
-            for (var wi in gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         var ri = $(this).parents(".widgetraw").index();
         var curentwi = $(this).parents(".chartsection").index();
         
@@ -3760,16 +3783,17 @@ $(document).ready(function () {
     });
 
     $('body').on("click", ".addheatmap", function () {
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3786,17 +3810,17 @@ $(document).ready(function () {
     });
 
     $('body').on("click", ".addchart", function () {
-
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3814,16 +3838,17 @@ $(document).ready(function () {
     });
     //addchart
     $('body').on("click", ".addcounter", function () {
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();        
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3951,16 +3976,17 @@ $(document).ready(function () {
 
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();        
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         AutoRefreshSingle(single_ri, single_wi, false, true);
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
@@ -3986,16 +4012,17 @@ $(document).ready(function () {
         }
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         AutoRefreshSingle(single_ri, single_wi, true, true);
         $RIGHT_COL.css('min-height', $(window).height());
     });
@@ -4005,16 +4032,17 @@ $(document).ready(function () {
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
         window.history.pushState({}, "", window.location.pathname);
-        for (var ri in gdd.rows)
-        {
-            for (var wi in    gdd.rows[ri].widgets)
-            {
-                if (gdd.rows[ri].widgets[wi])
-                {
-                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-                }
-            }
-        }
+        shutdownTimers();
+//        for (var ri in gdd.rows)
+//        {
+//            for (var wi in    gdd.rows[ri].widgets)
+//            {
+//                if (gdd.rows[ri].widgets[wi])
+//                {
+//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+//                }
+//            }
+//        }
         lockq = [];
         $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
