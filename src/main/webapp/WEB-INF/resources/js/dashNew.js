@@ -1,4 +1,5 @@
 /* global numbers, cp, colorPalette, format_metric, echarts, rangeslabels, gdd, PicerOptionSet1, cb, pickerlabel, $RIGHT_COL, moment, jsonmaker, EditForm, getmindate, globalstompClient, subtractlist, pieformater, abcformater, getParameterByName, locale, ColorScheme, DtPicerlocale, clr, jackClr, jackSecClr, secClr, html2canvas */
+
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
@@ -288,8 +289,8 @@ var queryCallback = function (inputdata) {
 //        }
 //        return [posX, posY];
 //    };
-
-    var setOptions = function() {
+    return function (data) {
+    function _setOptions() {
         if (redraw) {
             var datalist = [];
             if (chart.getOption().series.length === widget.options.series.length)
@@ -309,8 +310,46 @@ var queryCallback = function (inputdata) {
             chart.setOption(widget.options, true);
         }
     };
-    
-    return function (data) {
+    function _loadSeries() {
+        if (widget.q[q_index].yAxisIndex)
+        {
+            series.yAxisIndex = [];
+            for (var ax in widget.q[q_index].yAxisIndex)
+            {
+                if (widget.options.yAxis[widget.q[q_index].yAxisIndex[ax]])
+                {
+                    series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
+                }
+
+            }
+            if (series.yAxisIndex.length === 0)
+            {
+                delete series.yAxisIndex;
+            }
+        } else
+        {
+            delete series.yAxisIndex;
+        }
+        if (widget.q[q_index].xAxisIndex)
+        {
+            series.xAxisIndex = [];
+            for (var ax in widget.q[q_index].xAxisIndex)
+            {
+                if (widget.options.xAxis[widget.q[q_index].xAxisIndex[ax]])
+                {
+                    series.xAxisIndex.push(widget.q[q_index].xAxisIndex[ax]);
+                }
+            }
+            if (series.xAxisIndex.length === 0)
+            {
+                delete series.xAxisIndex;
+            }
+        } else
+        {
+            delete series.xAxisIndex;
+        }        
+    }
+        
 // ---- tooltip.triggerOn + tooltip.enterable
         if (widget.type === "line") {                    
                     if (widget.options.tooltip.triggerOn === "click") {
@@ -464,44 +503,7 @@ var queryCallback = function (inputdata) {
 
                                 var series = clone_obg(defserie);
                                 series.data = [];
-                                if (widget.q[q_index].yAxisIndex)
-                                {
-                                    series.yAxisIndex = [];
-                                    for (var ax in widget.q[q_index].yAxisIndex)
-                                    {
-                                        if (widget.options.yAxis[widget.q[q_index].yAxisIndex[ax]])
-                                        {
-                                            series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
-                                        }
-
-                                    }
-                                    if (series.yAxisIndex.length === 0)
-                                    {
-                                        delete series.yAxisIndex;
-                                    }
-
-                                } else
-                                {
-                                    delete series.yAxisIndex;
-                                }
-                                if (widget.q[q_index].xAxisIndex)
-                                {
-                                    series.xAxisIndex = [];
-                                    for (var ax in widget.q[q_index].xAxisIndex)
-                                    {
-                                        if (widget.options.xAxis[widget.q[q_index].xAxisIndex[ax]])
-                                        {
-                                            series.xAxisIndex.push(widget.q[q_index].xAxisIndex[ax]);
-                                        }
-                                    }
-                                    if (series.xAxisIndex.length === 0)
-                                    {
-                                        delete series.xAxisIndex;
-                                    }
-                                } else
-                                {
-                                    delete series.xAxisIndex;
-                                }
+                                _loadSeries();
                                 series.type = widget.type;
                                 if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                 {
@@ -775,45 +777,8 @@ var queryCallback = function (inputdata) {
                                 {
                                     delete series.stack;
                                 }
-
-                                if (widget.q[q_index].yAxisIndex)
-                                {
-                                    series.yAxisIndex = [];
-                                    for (var ax in widget.q[q_index].yAxisIndex)
-                                    {
-                                        if (widget.options.yAxis[widget.q[q_index].yAxisIndex[ax]])
-                                        {
-                                            series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
-                                        }
-
-                                    }
-                                    if (series.yAxisIndex.length === 0)
-                                    {
-                                        delete series.yAxisIndex;
-                                    }
-                                } else
-                                {
-                                    delete series.yAxisIndex;
-                                }
-                                if (widget.q[q_index].xAxisIndex)
-                                {
-                                    series.xAxisIndex = [];
-                                    for (var ax in widget.q[q_index].xAxisIndex)
-                                    {
-                                        if (widget.options.xAxis[widget.q[q_index].xAxisIndex[ax]])
-                                        {
-                                            series.xAxisIndex.push(widget.q[q_index].xAxisIndex[ax]);
-                                        }
-
-                                    }
-                                    if (series.xAxisIndex.length === 0)
-                                    {
-                                        delete series.xAxisIndex;
-                                    }
-                                } else
-                                {
-                                    delete series.xAxisIndex;
-                                }
+                                
+                                _loadSeries();
                                 series.name = key;
                                 series.data = tmp_series_1[key];
 //                                console.log(JSON.stringify(series.data) );
@@ -1414,7 +1379,7 @@ var queryCallback = function (inputdata) {
                 widget.options.visualMap.calculable = true;
                 widget.options.series = data;
                 try {
-                    setOptions();
+                    _setOptions();
                 } catch (e) {
                     dumpExceptionLog("HHHHHHHHHH", e, widget, uri, data);
                 }
@@ -2043,7 +2008,7 @@ var queryCallback = function (inputdata) {
                 }
 //*************************************                        
                 try {
-                    setOptions();
+                    _setOptions();
                 } catch (e) {
                     dumpExceptionLog("VVVVVVVVV", e, widget, uri, data);
                 }
