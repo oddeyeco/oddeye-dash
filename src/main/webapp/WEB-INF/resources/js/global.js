@@ -349,6 +349,19 @@ function fullscreenrequest(fullscreen)
 
 }
 
+function dumpExceptionLog(msg, exception, widget, uri, data) {
+    console.log("***********" + msg + "*****************");
+    if(typeof exception !== 'undefined')
+        console.log(exception);
+    if(typeof widget !== 'undefined')
+        console.log(widget);
+    if(typeof uri !== 'undefined')
+        console.log(uri);
+    if(typeof data !== 'undefined')    
+        console.log(data);
+    console.log("*******************************");    
+}
+
 function ModifierColor(color, angel) {    
     var colorarray = [];
     var alfa = "1";
