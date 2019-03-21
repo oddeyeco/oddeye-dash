@@ -288,6 +288,27 @@ var queryCallback = function (inputdata) {
 //        }
 //        return [posX, posY];
 //    };
+
+    var setOptions = function() {
+        if (redraw) {
+            var datalist = [];
+            if (chart.getOption().series.length === widget.options.series.length)
+            {
+                for (var key in widget.options.series)
+                {
+                    var ss = widget.options.series[key];
+                    datalist.push({data: ss.data});
+                }
+                chart.setOption({series: datalist, xAxis: widget.options.xAxis});
+            } else
+            {
+                chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
+            }
+        } else
+        {
+            chart.setOption(widget.options, true);
+        }
+    };
     
     return function (data) {
 // ---- tooltip.triggerOn + tooltip.enterable
@@ -1393,26 +1414,7 @@ var queryCallback = function (inputdata) {
                 widget.options.visualMap.calculable = true;
                 widget.options.series = data;
                 try {
-                    if (redraw)
-                    {
-                        var datalist = [];
-                        if (chart.getOption().series.length === widget.options.series.length)
-                        {
-                            for (var key in widget.options.series)
-                            {
-                                var ss = widget.options.series[key];
-                                datalist.push({data: ss.data});
-                            }
-                            chart.setOption({series: datalist, xAxis: widget.options.xAxis});
-                        } else
-                        {
-                            chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
-                        }
-
-                    } else
-                    {
-                        chart.setOption(widget.options, true);
-                    }
+                    setOptions();
                 } catch (e) {
                     dumpExceptionLog("HHHHHHHHHH", e, widget, uri, data);
                 }
@@ -2041,26 +2043,7 @@ var queryCallback = function (inputdata) {
                 }
 //*************************************                        
                 try {
-                    if (redraw)
-                    {
-                        var datalist = [];
-                        if (chart.getOption().series.length === widget.options.series.length)
-                        {
-                            for (var key in widget.options.series)
-                            {
-                                var ss = widget.options.series[key];
-                                datalist.push({data: ss.data});
-                            }
-                            chart.setOption({series: datalist, xAxis: widget.options.xAxis});
-                        } else
-                        {
-                            chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
-                        }
-                    } else
-                    {
-                        chart.setOption(widget.options, true);
-                    }
-//                    console.log(widget.options);
+                    setOptions();
                 } catch (e) {
                     dumpExceptionLog("VVVVVVVVV", e, widget, uri, data);
                 }
@@ -2108,16 +2091,16 @@ function changeSpan(that, step) {
 
     var ri = $(that).parents(".widgetraw").index();
     var wi = $(that).parents(".chartsection").index();
-    var oldsize = gdd.rows[ri].widgets[wi].size;    
-    var newSize = parseInt(oldsize + step);
+    var oldSize = parseInt(gdd.rows[ri].widgets[wi].size);    
+    var newSize = oldSize + step;
     
 //     if(oldsize > 12){
 //        oldsize = 12;
 //    }   
-    if (oldsize >= 1 && oldsize <= 12)
+    if (newSize >= 1 && newSize <= 12)
     {        
         gdd.rows[ri].widgets[wi].size = newSize;
-        $(that).parents(".chartsection").attr("size", newSize).removeClass("col-md-" + oldsize).addClass("col-md-" + newSize);
+        $(that).parents(".chartsection").attr("size", newSize).removeClass("col-md-" + oldSize).addClass("col-md-" + newSize);
         
         gdd.rows[ri].widgets[wi].echartLine.resize();
         domodifier();
