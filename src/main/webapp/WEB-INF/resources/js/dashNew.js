@@ -14,7 +14,7 @@ var defserie = {
     name: null,
     data: null
 };
-
+var $dashBody = $("body");
 var olddashname = "";
 var dashmodifier = false;
 var defoption = {
@@ -62,23 +62,21 @@ function currentpagelock() {
     } else if ($('.current-i').hasClass('fa-unlock')) {
         $('.current-i').removeClass('fa-unlock').addClass('fa-lock');
     }
-}
-;
+};
 
 function domodifier()
 {
     dashmodifier = true;
     $('.savedash').parent().find('.btn').addClass('btn-warning');
     $('.savedash').parent().find('.btn').removeClass('btn-default');
-}
-;
+};
 
 function dounmodifier()
 {
     dashmodifier = false;
     $('.savedash').parent().find('.btn').addClass('btn-default');
     $('.savedash').parent().find('.btn').removeClass('btn-warning');
-}
+};
 
 function doeditTitle(e) {
     if (((e.which === 13) && (e.type === 'keypress')) || (e.type === 'click'))
@@ -94,8 +92,8 @@ function doeditTitle(e) {
         }
         domodifier();
     }
-}
-;
+};
+
 function opensave() {
     $('#saveModal .modal-title').text(locale["dashboard.Modal.successfullySaved"]);
     $('#saveModal').modal('show');
@@ -103,8 +101,8 @@ function opensave() {
     setTimeout(function () {
         $('#saveModal').modal('hide');
     }, 2000);
-}
-;
+};
+
 function savedash() {
     var url = cp + "/dashboard/save";
     var senddata = {};
@@ -208,14 +206,12 @@ function btnlock() {
         {
             $('#btnlock').parents('.singleview').toggleClass('locked');
         }
-
         $('.dash_header,.raw-controls i,.raw-controls .btn-group').show(500);
         $('#btnlock').toggleClass('btnunlock');
         domodifier();
         $('#btnlock').find('i').toggleClass('fa-unlock');
         locktooltip();
         delete gdd.locked;
-
     } else
     {
         if (dashmodifier === true) {
@@ -224,7 +220,6 @@ function btnlock() {
                 $('#savelock').focus();
             });
             btn = $('#btnlock');
-
         } else {
             $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide(500, function () {
 
@@ -2118,6 +2113,34 @@ var queryCallback = function (inputdata) {
 };
 };
 
+
+function changeSpan(that, step) {
+
+    var ri = $(that).parents(".widgetraw").index();
+    var wi = $(that).parents(".chartsection").index();
+    var oldsize = gdd.rows[ri].widgets[wi].size;    
+    var newSize = parseInt(oldsize + step);
+    
+//     if(oldsize > 12){
+//        oldsize = 12;
+//    }   
+    if (oldsize >= 1 && oldsize <= 12)
+    {        
+        gdd.rows[ri].widgets[wi].size = newSize;
+        $(that).parents(".chartsection").attr("size", newSize).removeClass("col-md-" + oldsize).addClass("col-md-" + newSize);
+        
+        gdd.rows[ri].widgets[wi].echartLine.resize();
+        domodifier();
+        if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
+                (gdd.rows[ri].widgets[wi].type === 'pie') ||
+                (gdd.rows[ri].widgets[wi].type === 'funnel'))
+        {
+            setdatabyQ(gdd, ri, wi, "getdata", false);
+        }
+    }
+}
+
+
 function datafunc() {
     var d = [];
     var len = 0;
@@ -3431,7 +3454,7 @@ $(document).ready(function () {
         $('.current-page').find('i').toggleClass('current-i');
     }
 
-    $('body').on("change", "#global-down-sample-ag", function () {
+    $dashBody.on("change", "#global-down-sample-ag", function () {
         if (!doapplyjson)
         {
             if (!gdd.times.generalds)
@@ -3444,7 +3467,7 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on("blur", "#global-down-sample", function () {
+    $dashBody.on("blur", "#global-down-sample", function () {
         if (!gdd.times.generalds)
         {
             gdd.times.generalds = [];
@@ -3471,7 +3494,7 @@ $(document).ready(function () {
         redrawAllJSON(gdd);
     });
     
-    $('body').on("click", "#deleterowconfirm", function () {
+    $dashBody.on("click", "#deleterowconfirm", function () {
         shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
@@ -3490,7 +3513,7 @@ $(document).ready(function () {
         $("#deleteConfirm").modal('hide');
     });
     
-    $('body').on("click", ".colapserow", function () {
+    $dashBody.on("click", ".colapserow", function () {
         $(this).parents('.widgetraw').find('.rowcontent').fadeOut();
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = true;
@@ -3510,7 +3533,7 @@ $(document).ready(function () {
         domodifier();
     });
     
-    $('body').on("click", ".expandrow", function () {
+    $dashBody.on("click", ".expandrow", function () {
         console.log("dsfsdf");
         $(this).parents('.widgetraw').find('.rowcontent').fadeIn();
         var ri = $(this).parents(".widgetraw").index();
@@ -3519,7 +3542,7 @@ $(document).ready(function () {
         domodifier();
     });
     
-    $('body').on("click", ".deleterow", function () {
+    $dashBody.on("click", ".deleterow", function () {
         var ri = $(this).parents(".widgetraw").index();
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
@@ -3530,14 +3553,14 @@ $(document).ready(function () {
         domodifier();
     });
     
-    $('body').on("click", "#showasjson", function () {
+    $dashBody.on("click", "#showasjson", function () {
         $("#showjson").find('.btn-ok').attr('id', "applydashjson");
         var jsonstr = JSON.stringify(gdd, jsonmaker);
         dasheditor.set(JSON.parse(jsonstr));
         $("#showjson").modal('show');
     });
     
-    $('body').on("click", "#applydashjson", function () {
+    $dashBody.on("click", "#applydashjson", function () {
         doapplyjson = true;
 
         shutdownTimers();
@@ -3603,7 +3626,7 @@ $(document).ready(function () {
         domodifier();
     });
     
-    $('body').on("click", ".showrowjson", function () {
+    $dashBody.on("click", ".showrowjson", function () {
         var ri = $(this).parents(".widgetraw").index();
         $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
         $("#showjson").find('.btn-ok').attr('index', ri);
@@ -3612,7 +3635,7 @@ $(document).ready(function () {
         $("#showjson").modal('show');
     });
     
-    $('body').on("click", "#applyrowjson", function () {
+    $dashBody.on("click", "#applyrowjson", function () {
         shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
@@ -3631,53 +3654,64 @@ $(document).ready(function () {
         domodifier();
     });
     
-    $('body').on("click", ".minus", function () {
-        var ri = $(this).parents(".widgetraw").index();
-        var wi = $(this).parents(".chartsection").index();
-        
-        if (gdd.rows[ri].widgets[wi].size > 12)
-        {
-            gdd.rows[ri].widgets[wi].size = 12;
-        }
-        if (gdd.rows[ri].widgets[wi].size > 1)
-        {
-            var olssize = gdd.rows[ri].widgets[wi].size;
-            gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) - 1;
-            $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
-            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
-            gdd.rows[ri].widgets[wi].echartLine.resize();
-            domodifier();
-            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
-                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
-                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
-            {
-                setdatabyQ(gdd, ri, wi, "getdata", false);
-            }
-        }
+     $dashBody.on("click", ".plus", function () {
+//        var ri = $(this).parents(".widgetraw").index();
+//        var wi = $(this).parents(".chartsection").index();
+//        
+//        if (gdd.rows[ri].widgets[wi].size > 12)
+//        {
+//            gdd.rows[ri].widgets[wi].size = 12;
+//        }      
+//        if (gdd.rows[ri].widgets[wi].size < 12)
+//        {
+//            var olssize = gdd.rows[ri].widgets[wi].size;
+//            gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) + 1;
+//            $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
+//            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
+//            gdd.rows[ri].widgets[wi].echartLine.resize();
+//            domodifier();
+//            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
+//                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
+//                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
+//            {
+//                setdatabyQ(gdd, ri, wi, "getdata", false);
+//            }
+//        }
+        changeSpan(this,1);
+    });
+    $dashBody.on("click", ".minus", function () {
+//        var ri = $(this).parents(".widgetraw").index();
+//        var wi = $(this).parents(".chartsection").index();
+//        
+//        if (gdd.rows[ri].widgets[wi].size > 12)
+//        {
+//            gdd.rows[ri].widgets[wi].size = 12;
+//        }
+//        if (gdd.rows[ri].widgets[wi].size > 1)
+//        {
+//            var olssize = gdd.rows[ri].widgets[wi].size;
+//            gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) - 1;
+//            $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
+//            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
+//            gdd.rows[ri].widgets[wi].echartLine.resize();
+//            domodifier();
+//            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
+//                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
+//                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
+//            {
+//                setdatabyQ(gdd, ri, wi, "getdata", false);
+//            }
+//        }
+        changeSpan(this,-1);
     });
 
-    $('body').on("click", ".plus", function () {
-        var ri = $(this).parents(".widgetraw").index();
-        var wi = $(this).parents(".chartsection").index();
-        
-        if (gdd.rows[ri].widgets[wi].size < 12)
-        {
-            var olssize = gdd.rows[ri].widgets[wi].size;
-            gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) + 1;
-            $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
-            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
-            gdd.rows[ri].widgets[wi].echartLine.resize();
-            domodifier();
-            if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
-                    (gdd.rows[ri].widgets[wi].type === 'pie') ||
-                    (gdd.rows[ri].widgets[wi].type === 'funnel'))
-            {
-                setdatabyQ(gdd, ri, wi, "getdata", false);
-            }
-        }
-    });
+
+   
+
+
+   
     
-    $('body').on("click", "#deletewidgetconfirm", function () {
+    $dashBody.on("click", "#deletewidgetconfirm", function () {
         shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
@@ -3697,7 +3731,7 @@ $(document).ready(function () {
         $("#deleteConfirm").modal('hide');
     });
     
-    $('body').on("click", ".deletewidget", function () {
+    $dashBody.on("click", ".deletewidget", function () {
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
         if (getParameterByName("widget") !== null)
@@ -3748,7 +3782,7 @@ $(document).ready(function () {
         $("#deleteConfirm").modal('show');
     });
     
-    $('body').on("click", ".dublicate", function () {
+    $dashBody.on("click", ".dublicate", function () {
         shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
@@ -3782,7 +3816,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
 
-    $('body').on("click", ".addheatmap", function () {
+    $dashBody.on("click", ".addheatmap", function () {
         shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
@@ -3809,7 +3843,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
 
-    $('body').on("click", ".addchart", function () {
+    $dashBody.on("click", ".addchart", function () {
         shutdownTimers();
 //        for (var ri in gdd.rows)
 //        {
@@ -3837,7 +3871,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     //addchart
-    $('body').on("click", ".addcounter", function () {
+    $dashBody.on("click", ".addcounter", function () {
         shutdownTimers();        
 //        for (var ri in gdd.rows)
 //        {
@@ -3861,7 +3895,7 @@ $(document).ready(function () {
         AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
     });
-    $('body').on("click", "#deletedashconfirm", function () {
+    $dashBody.on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
         senddata = {};
         senddata.name = $("#name").val();
@@ -3888,16 +3922,16 @@ $(document).ready(function () {
         });
     });
 
-    $('body').on("click", ".fulldash .change_title_row, .change_title", function () {
+    $dashBody.on("click", ".fulldash .change_title_row, .change_title", function () {
         $(this).parent().css("display", "none");
         $(this).parents('.item_title').find('.title_input').css("display", "block");
         $(this).parents('.item_title').find('.title_input input').focus();
     });
-    $('body').on("click", ".fulldash .savetitlerow,.dash_header .savetitle", doeditTitle);
+    $dashBody.on("click", ".fulldash .savetitlerow,.dash_header .savetitle", doeditTitle);
     
-    $('body').on("keypress", ".fulldash .enter_title_row,.dash_header .enter_title", doeditTitle);
+    $dashBody.on("keypress", ".fulldash .enter_title_row,.dash_header .enter_title", doeditTitle);
     
-    $('body').on("click", ".deletedash", function () {
+    $dashBody.on("click", ".deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
         $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelDashboard"]);
@@ -3905,9 +3939,9 @@ $(document).ready(function () {
         $("#deleteConfirm").modal('show');
     });
     
-    $('body').on("click", ".savedash", savedash);
+    $dashBody.on("click", ".savedash", savedash);
     
-    $('body').on("click", ".savedashasTemplate", function () {
+    $dashBody.on("click", ".savedashasTemplate", function () {
         var url = cp + "/dashboard/savetemplate";
         var senddata = {};
 
@@ -3956,7 +3990,7 @@ $(document).ready(function () {
         }
     });
     
-    $('body').on("click", ".editchart", function () {
+    $dashBody.on("click", ".editchart", function () {
         $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();
@@ -3993,7 +4027,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     
-    $('body').on("click", ".viewchart", function () {
+    $dashBody.on("click", ".viewchart", function () {
         $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
         $(".editpanel").remove();
@@ -4027,7 +4061,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     
-    $('body').on("click", ".backtodush", function () {
+    $dashBody.on("click", ".backtodush", function () {
         $(".fulldash").show();
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
@@ -4064,7 +4098,7 @@ $(document).ready(function () {
         $RIGHT_COL.css('min-height', $(window).height());
     });
     
-    $('body').on("click", ".csv", function () {
+    $dashBody.on("click", ".csv", function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
         if (getParameterByName("widget") !== null)
@@ -4122,7 +4156,7 @@ $(document).ready(function () {
         exportToCsv(filename + fileFotmat, saveData);
     });
 
-    $('body').on('click', '.jsonsave', function () {
+    $dashBody.on('click', '.jsonsave', function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
         if (getParameterByName("widget") !== null)
@@ -4184,7 +4218,7 @@ $(document).ready(function () {
         exportTojson(filename + fileFotmat, saveData);
     });
 
-    $('body').on("click", ".imagesave", function () {
+    $dashBody.on("click", ".imagesave", function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
 
@@ -4223,16 +4257,16 @@ $(document).ready(function () {
         });
     });
 
-    $('body').on("click", "#refresh", function () {
+    $dashBody.on("click", "#refresh", function () {
         repaint(true, false);
     });
     
-    $('body').on("click", "#btnlock", function () {
+    $dashBody.on("click", "#btnlock", function () {
         btnlock();
         currentpagelock();
     });
     
-    $('body').on("click", "#savelock", function () {
+    $dashBody.on("click", "#savelock", function () {
         if (btn === null)
         {
             return;
@@ -4255,7 +4289,7 @@ $(document).ready(function () {
         }, 1000);
     });
 
-    $("body").on('keydown', function (event) {
+    $dashBody.on('keydown', function (event) {
         if ((event.ctrlKey || event.metaKey)) {
             switch (event.which) {
                 case 83:
@@ -4281,13 +4315,13 @@ $(document).ready(function () {
         }
     });
     
-    $("body").on("click", '.current-i', function () {
+    $dashBody.on("click", '.current-i', function () {
         currentpagelock();
         btnlock();
         return false;
     });
     
-    $('body').on("change", "#refreshtime", function () {
+    $dashBody.on("change", "#refreshtime", function () {
         if (!doapplyjson)
         {
             gdd.times.intervall = $(this).val();
@@ -4296,20 +4330,20 @@ $(document).ready(function () {
         }
     });
 
-    $('body').on("click", '#minimize', function () {
+    $dashBody.on("click", '#minimize', function () {
         filtershow = false;
         $('#filter').fadeOut(500);
         $('#maximize').fadeIn(500);
     });
     
-    $('body').on("click", '#maximize', function () {
+    $dashBody.on("click", '#maximize', function () {
         filtershow = true;
         $('#filter').fadeIn(500);
         $('#maximize').fadeOut(500);
     });
     var whaittimer;
     
-    $('body').on("mouseover", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
+    $dashBody.on("mouseover", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
         var elem = $(this);
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function ( ) {
@@ -4331,7 +4365,7 @@ $(document).ready(function () {
         }, 500);
     });
     
-    $('body').on("mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
+    $dashBody.on("mouseout", '.chartSubIcon, .hoverShow, .echart_time_icon', function () {
         clearTimeout(whaittimer);
         whaittimer = setTimeout(function ( ) {
             $('.hoverShow').fadeOut();
@@ -4342,7 +4376,7 @@ $(document).ready(function () {
         e.stopPropagation();
     });
     
-    $('body').on("click", '.dropdown-submenu a.more', function (e) {
+    $dashBody.on("click", '.dropdown-submenu a.more', function (e) {
         $(this).next('ul').toggle();
         e.stopPropagation();
         e.preventDefault();
