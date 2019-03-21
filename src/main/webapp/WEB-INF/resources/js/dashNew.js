@@ -1414,12 +1414,7 @@ var queryCallback = function (inputdata) {
                         chart.setOption(widget.options, true);
                     }
                 } catch (e) {
-                    console.log("***********HHHHHHHHHH*****************");
-                    console.log(e);
-                    console.log(widget);
-                    console.log(uri);
-                    console.log(data);
-                    console.log("*******************************");
+                    dumpExceptionLog("HHHHHHHHHH", e, widget, uri, data);
                 }
                 chart.hideLoading();
                 lockq[ri + " " + wi] = false;
@@ -2067,12 +2062,7 @@ var queryCallback = function (inputdata) {
                     }
 //                    console.log(widget.options);
                 } catch (e) {
-                    console.log("***********VVVVVVVVV*****************");
-                    console.log(e);
-                    console.log(widget);
-                    console.log(uri);
-                    console.log(data);
-                    console.log("*******************************");
+                    dumpExceptionLog("VVVVVVVVV", e, widget, uri, data);
                 }
                 chart.hideLoading();
                 lockq[ri + " " + wi] = false;
@@ -2413,10 +2403,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 try {
                     chart.setOption(widget.options);
                 } catch (e) {
-                    console.log("***********2076*****************");
-                    console.log(e);
-                    console.log(widget);
-                    console.log("*******************************");
+                    dumpExceptionLog("2076", e, widget);
                 }
                 return;
             }
@@ -2696,10 +2683,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     try {
                         tmprow.widgets[wi].echartLine.setOption(tmprow.widgets[wi].options);
                     } catch (e) {
-                        console.log("***********2376*****************");
-                        console.log(e);
-                        console.log(tmprow.widgets[wi]);
-                        console.log("*******************************");
+                        dumpExceptionLog("2376", e, tmprow.widgets[wi]);
                     }
                 }
             }
@@ -3042,10 +3026,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             try {
                 echartLine.setOption(dashJSON.rows[row].widgets[index].options);
             } catch (e) {
-                console.log("***********1743*****************");
-                console.log(e);
-                console.log(dashJSON.rows[row].widgets[index]);
-                console.log("*******************************");
+                dumpExceptionLog("1743", e, dashJSON.rows[row].widgets[index]);
             }
         }
     }
@@ -3165,16 +3146,6 @@ $(document).ready(function () {
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
         shutdownTimers();
-//        for (var lri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[lri].widgets)
-//            {
-//                if (gdd.rows[lri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
-//                }
-//            }
-//        }
         rowdrag = ri;
     });
     
@@ -3403,16 +3374,6 @@ $(document).ready(function () {
             }
         }
         shutdownTimers();        
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
 
         $('#global-down-sample').val(gdd.times.generalds[0]);
         if ($('#global-down-sample-ag').val() === "")
@@ -3480,32 +3441,12 @@ $(document).ready(function () {
     $("#addrow").on("click", function () {
         gdd.rows.push({widgets: []});
         shutdownTimers();        
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         domodifier();
         redrawAllJSON(gdd);
     });
     
     $dashBody.on("click", "#deleterowconfirm", function () {
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         var ri = $(this).attr("index");
         gdd.rows.splice(ri, 1);
         domodifier();
@@ -3519,16 +3460,6 @@ $(document).ready(function () {
         gdd.rows[ri].colapsed = true;
 
         shutdownTimers();        
-//        for (var lri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[lri].widgets)
-//            {
-//                if (gdd.rows[lri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[lri].widgets[wi].timer);
-//                }
-//            }
-//        }
         redrawAllJSON(gdd);
         domodifier();
     });
@@ -3564,16 +3495,6 @@ $(document).ready(function () {
         doapplyjson = true;
 
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         gdd = dasheditor.get();
         redrawAllJSON(gdd);
 
@@ -3637,16 +3558,6 @@ $(document).ready(function () {
     
     $dashBody.on("click", "#applyrowjson", function () {
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         var ri = $(this).attr("index");
         gdd.rows[ri] = dasheditor.get();
         redrawAllJSON(gdd);
@@ -3713,16 +3624,6 @@ $(document).ready(function () {
     
     $dashBody.on("click", "#deletewidgetconfirm", function () {
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         var ri = $(this).attr("ri");
         var wi = $(this).attr("wi");
         gdd.rows[ri].widgets.splice(wi, 1);
@@ -3784,16 +3685,6 @@ $(document).ready(function () {
     
     $dashBody.on("click", ".dublicate", function () {
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         var ri = $(this).parents(".widgetraw").index();
         var curentwi = $(this).parents(".chartsection").index();
         
@@ -3818,16 +3709,6 @@ $(document).ready(function () {
 
     $dashBody.on("click", ".addheatmap", function () {
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3845,16 +3726,6 @@ $(document).ready(function () {
 
     $dashBody.on("click", ".addchart", function () {
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3873,16 +3744,6 @@ $(document).ready(function () {
     //addchart
     $dashBody.on("click", ".addcounter", function () {
         shutdownTimers();        
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -4011,16 +3872,6 @@ $(document).ready(function () {
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
         shutdownTimers();        
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         AutoRefreshSingle(single_ri, single_wi, false, true);
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
@@ -4047,16 +3898,6 @@ $(document).ready(function () {
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         AutoRefreshSingle(single_ri, single_wi, true, true);
         $RIGHT_COL.css('min-height', $(window).height());
     });
@@ -4067,16 +3908,6 @@ $(document).ready(function () {
         var request_R_index = getParameterByName("row");
         window.history.pushState({}, "", window.location.pathname);
         shutdownTimers();
-//        for (var ri in gdd.rows)
-//        {
-//            for (var wi in    gdd.rows[ri].widgets)
-//            {
-//                if (gdd.rows[ri].widgets[wi])
-//                {
-//                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
-//                }
-//            }
-//        }
         lockq = [];
         $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
