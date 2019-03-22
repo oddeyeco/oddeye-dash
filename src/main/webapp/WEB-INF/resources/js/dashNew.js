@@ -253,6 +253,50 @@ function locktooltip() {
     }
 }
 
+class CallbackHelper {
+    constructor(inputdata) {
+        this.q_index = inputdata[0];
+        this.widget = inputdata[1];
+        this.oldseries = inputdata[2];
+        this.chart = inputdata[3];
+        this.count = inputdata[4];
+        this.json = inputdata[5];
+        this.ri = inputdata[6];
+        this.wi = inputdata[7];
+        this.url = inputdata[8];
+        this.redraw = inputdata[9];
+        this.callback = inputdata[10];
+        this.customchart = inputdata[11];
+        this.start = inputdata[12];
+        this.end = inputdata[13];
+        this.whaitlist = inputdata[14];
+        this.uri = inputdata[15];
+        
+        this.name;
+        this.name2;
+    }
+    applyAliases(chartData) {
+        if (typeof (this.widget.q[this.q_index].info) !== "undefined")
+        {
+            if (this.widget.q[this.q_index].info.alias)
+            {
+                if (this.widget.q[this.q_index].info.alias !== "")
+                {
+                    this.name = applyAlias(this.widget.q[this.q_index].info.alias, chartData);
+                }
+            }
+
+            if (this.widget.q[this.q_index].info.alias2)
+            {
+                if (this.widget.q[this.q_index].info.alias2 !== "")
+                {
+                    this.name2 = applyAlias(this.widget.q[this.q_index].info.alias2, chartData);
+                }
+            }
+        }
+    }
+}
+
 var queryCallback = function (inputdata) {
     var q_index = inputdata[0];
     var widget = inputdata[1];
@@ -270,6 +314,7 @@ var queryCallback = function (inputdata) {
     var end = inputdata[13];
     var whaitlist = inputdata[14];
     var uri = inputdata[15];
+    const that = new CallbackHelper(inputdata);
 
 //    var tooltipPos = function(pos, params, dom, rect, size) {
 //        var posX, posY;
@@ -290,65 +335,65 @@ var queryCallback = function (inputdata) {
 //        return [posX, posY];
 //    };
     return function (data) {
-    function _setOptions() {
-        if (redraw) {
-            var datalist = [];
-            if (chart.getOption().series.length === widget.options.series.length)
-            {
-                for (var key in widget.options.series)
+        function _setOptions() {
+            if (redraw) {
+                var datalist = [];
+                if (chart.getOption().series.length === widget.options.series.length)
                 {
-                    var ss = widget.options.series[key];
-                    datalist.push({data: ss.data});
+                    for (var key in widget.options.series)
+                    {
+                        var ss = widget.options.series[key];
+                        datalist.push({data: ss.data});
+                    }
+                    chart.setOption({series: datalist, xAxis: widget.options.xAxis});
+                } else
+                {
+                    chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
                 }
-                chart.setOption({series: datalist, xAxis: widget.options.xAxis});
             } else
             {
-                chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
+                chart.setOption(widget.options, true);
             }
-        } else
-        {
-            chart.setOption(widget.options, true);
-        }
-    };
-    function _loadSeries() {
-        if (widget.q[q_index].yAxisIndex)
-        {
-            series.yAxisIndex = [];
-            for (var ax in widget.q[q_index].yAxisIndex)
+        };
+        function _loadSeries() {
+            if (widget.q[q_index].yAxisIndex)
             {
-                if (widget.options.yAxis[widget.q[q_index].yAxisIndex[ax]])
+                series.yAxisIndex = [];
+                for (var ax in widget.q[q_index].yAxisIndex)
                 {
-                    series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
-                }
+                    if (widget.options.yAxis[widget.q[q_index].yAxisIndex[ax]])
+                    {
+                        series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
+                    }
 
-            }
-            if (series.yAxisIndex.length === 0)
+                }
+                if (series.yAxisIndex.length === 0)
+                {
+                    delete series.yAxisIndex;
+                }
+            } else
             {
                 delete series.yAxisIndex;
             }
-        } else
-        {
-            delete series.yAxisIndex;
-        }
-        if (widget.q[q_index].xAxisIndex)
-        {
-            series.xAxisIndex = [];
-            for (var ax in widget.q[q_index].xAxisIndex)
+            if (widget.q[q_index].xAxisIndex)
             {
-                if (widget.options.xAxis[widget.q[q_index].xAxisIndex[ax]])
+                series.xAxisIndex = [];
+                for (var ax in widget.q[q_index].xAxisIndex)
                 {
-                    series.xAxisIndex.push(widget.q[q_index].xAxisIndex[ax]);
+                    if (widget.options.xAxis[widget.q[q_index].xAxisIndex[ax]])
+                    {
+                        series.xAxisIndex.push(widget.q[q_index].xAxisIndex[ax]);
+                    }
                 }
-            }
-            if (series.xAxisIndex.length === 0)
+                if (series.xAxisIndex.length === 0)
+                {
+                    delete series.xAxisIndex;
+                }
+            } else
             {
                 delete series.xAxisIndex;
             }
-        } else
-        {
-            delete series.xAxisIndex;
-        }        
-    }
+        }
         
 // ---- tooltip.triggerOn + tooltip.enterable
         if (widget.type === "line") {                    
@@ -378,37 +423,39 @@ var queryCallback = function (inputdata) {
             {
                 for (var dindex in data.chartsdata)
                 {
-                    var name;
+//                    var name;
                     if (widget.title)
                     {
+                        clParams.name = widget.title.text;
                         name = widget.title.text;
                     } else
                     {
-                        name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
+                        that.name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
                     }
                     if (widget.title)
                     {
-                        var name2 = widget.title.text;
+                        that.name2 = widget.title.text;
                     }
 
-                    if (typeof (widget.q[q_index].info) !== "undefined")
-                    {
-                        if (widget.q[q_index].info.alias)
-                        {
-                            if (widget.q[q_index].info.alias !== "")
-                            {
-                                name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[dindex]);
-                            }
-                        }
-                        if (widget.q[q_index].info.alias2)
-                        {
-                            if (widget.q[q_index].info.alias2 !== "")
-                            {
-                                name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[dindex]);
-                            }
-                        }
-                    }
-                    widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
+                    that.applyAliases(data.chartsdata[dindex]);
+//                    if (typeof (widget.q[q_index].info) !== "undefined")
+//                    {
+//                        if (widget.q[q_index].info.alias)
+//                        {
+//                            if (widget.q[q_index].info.alias !== "")
+//                            {
+//                                name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[dindex]);
+//                            }
+//                        }
+//                        if (widget.q[q_index].info.alias2)
+//                        {
+//                            if (widget.q[q_index].info.alias2 !== "")
+//                            {
+//                                name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[dindex]);
+//                            }
+//                        }
+//                    }
+                    widget.data.push({data: data.chartsdata[dindex].data, name: that.name, name2: that.name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
             } else if (widget.type === "heatmap")
             {
@@ -420,33 +467,33 @@ var queryCallback = function (inputdata) {
                 {
                     if (data.chartsdata[index].data.length > 0)
                     {
-                        var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                        that.name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                         if (widget.title)
                         {
-                            var name2 = widget.title.text;
+                            that.name2 = widget.title.text;
                         }
-
-                        if (typeof (widget.q[q_index].info) !== "undefined")
-                        {
-                            if (widget.q[q_index].info.alias)
-                            {
-                                if (widget.q[q_index].info.alias !== "")
-                                {
-                                    name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
-                                }
-                            }
-
-                            if (widget.q[q_index].info.alias2)
-                            {
-                                if (widget.q[q_index].info.alias2 !== "")
-                                {
-                                    name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
-                                }
-                            }
-                        }
+                        that.applyAliases(data.chartsdata[index]);
+//                        if (typeof (widget.q[q_index].info) !== "undefined")
+//                        {
+//                            if (widget.q[q_index].info.alias)
+//                            {
+//                                if (widget.q[q_index].info.alias !== "")
+//                                {
+//                                    name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
+//                                }
+//                            }
+//
+//                            if (widget.q[q_index].info.alias2)
+//                            {
+//                                if (widget.q[q_index].info.alias2 !== "")
+//                                {
+//                                    name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
+//                                }
+//                            }
+//                        }
                         widget.data.list[index] = data.chartsdata[index];
-                        widget.data.list[index].name2 = name2;
-                        widget.data.list[index].name1 = name;
+                        widget.data.list[index].name2 = that.name2;
+                        widget.data.list[index].name1 = that.name;
                         widget.data.list[index].inverse = widget.q[q_index].info.inverse;
                         data.chartsdata[index].data.map(function (item) {
                             widget.data.xjson[+item[0]] = item;
@@ -476,30 +523,31 @@ var queryCallback = function (inputdata) {
                         {
                             if (data.chartsdata[index].data.length > 0)
                             {
-                                var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                                that.name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                                 if (widget.title)
                                 {
-                                    var name2 = widget.title.text;
+                                    that.name2 = widget.title.text;
                                 }
 
-                                if (typeof (widget.q[q_index].info) !== "undefined")
-                                {
-                                    if (widget.q[q_index].info.alias)
-                                    {
-                                        if (widget.q[q_index].info.alias !== "")
-                                        {
-                                            name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
-                                        }
-                                    }
-
-                                    if (widget.q[q_index].info.alias2)
-                                    {
-                                        if (widget.q[q_index].info.alias2 !== "")
-                                        {
-                                            name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
-                                        }
-                                    }
-                                }
+                                that.applyAliases(data.chartsdata[index]);
+//                                if (typeof (widget.q[q_index].info) !== "undefined")
+//                                {
+//                                    if (widget.q[q_index].info.alias)
+//                                    {
+//                                        if (widget.q[q_index].info.alias !== "")
+//                                        {
+//                                            name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
+//                                        }
+//                                    }
+//
+//                                    if (widget.q[q_index].info.alias2)
+//                                    {
+//                                        if (widget.q[q_index].info.alias2 !== "")
+//                                        {
+//                                            name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
+//                                        }
+//                                    }
+//                                }
 
                                 var series = clone_obg(defserie);
                                 series.data = [];
@@ -515,7 +563,7 @@ var queryCallback = function (inputdata) {
                                     delete series.showSymbol;
                                 }
 
-                                series.name = name;
+                                series.name = that.name;
                                 var chdata = data.chartsdata[index].data;
                                 series.data = [];
                                 var yAxis = 0;
