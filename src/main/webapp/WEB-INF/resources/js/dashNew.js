@@ -354,7 +354,36 @@ class CallbackHelper {
             delete series.xAxisIndex;
         }
     }
-}
+    finalizeCallback() {
+        var GlobalRefresh = true;
+        if (this.widget.times)
+        {
+            if (this.widget.times.intervall)
+            {
+                if (this.widget.times.intervall !== "General")
+                {
+                    GlobalRefresh = false;
+                    if (this.widget.times.intervall !== "off")
+                    {
+                        this.widget.timer = setTimeout(function () {
+                            setdatabyQ(this.json, this.ri, this.wi, this.url, true, null, this.customchart);
+                        }, this.widget.times.intervall);
+                    }
+                }
+            }
+        }
+        if (GlobalRefresh)
+        {
+            if (this.json.times.intervall)
+            {
+                    this.widget.timer = setTimeout(function () {
+                        setdatabyQ(this.json, this.ri, this.wi, this.url, true, null, customchart);
+                    }, this.json.times.intervall);
+                }
+            }
+            delete(this.widget.data);
+        }
+    }
 
 var queryCallback = function (inputdata) {
     var q_index = inputdata[0];
@@ -2015,34 +2044,34 @@ var queryCallback = function (inputdata) {
                     callback();
                 }
             }
-
-            var GlobalRefresh = true;
-            if (widget.times)
-            {
-                if (widget.times.intervall)
-                {
-                    if (widget.times.intervall !== "General")
-                    {
-                        GlobalRefresh = false;
-                        if (widget.times.intervall !== "off")
-                        {
-                            widget.timer = setTimeout(function () {
-                                setdatabyQ(json, ri, wi, url, true, null, customchart);
-                            }, widget.times.intervall);
-                        }
-                    }
-                }
-            }
-            if (GlobalRefresh)
-            {
-                if (json.times.intervall)
-                {
-                    widget.timer = setTimeout(function () {
-                        setdatabyQ(json, ri, wi, url, true, null, customchart);
-                    }, json.times.intervall);
-                }
-            }
-            delete(widget.data);
+            that.finalizeCallback();
+//            var GlobalRefresh = true;
+//            if (widget.times)
+//            {
+//                if (widget.times.intervall)
+//                {
+//                    if (widget.times.intervall !== "General")
+//                    {
+//                        GlobalRefresh = false;
+//                        if (widget.times.intervall !== "off")
+//                        {
+//                            widget.timer = setTimeout(function () {
+//                                setdatabyQ(json, ri, wi, url, true, null, customchart);
+//                            }, widget.times.intervall);
+//                        }
+//                    }
+//                }
+//            }
+//            if (GlobalRefresh)
+//            {
+//                if (json.times.intervall)
+//                {
+//                    widget.timer = setTimeout(function () {
+//                        setdatabyQ(json, ri, wi, url, true, null, customchart);
+//                    }, json.times.intervall);
+//                }
+//            }
+//            delete(widget.data);
         };
 };
 };
