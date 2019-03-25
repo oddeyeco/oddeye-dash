@@ -295,6 +295,65 @@ class CallbackHelper {
             }
         }
     }
+    setChartOptions() {
+        if (this.redraw) {
+            var datalist = [];
+            if (this.chart.getOption().series.length === this.widget.options.series.length)
+            {
+                for (var key in this.widget.options.series)
+                {
+                    var ss = this.widget.options.series[key];
+                    datalist.push({data: ss.data});
+                }
+                this.chart.setOption({series: datalist, xAxis: this.widget.options.xAxis});
+            } else
+            {
+                this.chart.setOption({series: this.widget.options.series, xAxis: this.widget.options.xAxis});
+            }
+        } else
+        {
+            this.chart.setOption(this.widget.options, true);
+        }
+    }
+    loadSeries(series) {
+        if (this.widget.q[this.q_index].yAxisIndex)
+        {
+            series.yAxisIndex = [];
+            for (var ax in this.widget.q[this.q_index].yAxisIndex)
+            {
+                if (this.widget.options.yAxis[this.widget.q[this.q_index].yAxisIndex[ax]])
+                {
+                    series.yAxisIndex.push(this.widget.q[this.q_index].yAxisIndex[ax]);
+                }
+
+            }
+            if (series.yAxisIndex.length === 0)
+            {
+                delete series.yAxisIndex;
+            }
+        } else
+        {
+            delete series.yAxisIndex;
+        }
+        if (this.widget.q[this.q_index].xAxisIndex)
+        {
+            series.xAxisIndex = [];
+            for (var ax in this.widget.q[this.q_index].xAxisIndex)
+            {
+                if (this.widget.options.xAxis[this.widget.q[this.q_index].xAxisIndex[ax]])
+                {
+                    series.xAxisIndex.push(this.widget.q[this.q_index].xAxisIndex[ax]);
+                }
+            }
+            if (series.xAxisIndex.length === 0)
+            {
+                delete series.xAxisIndex;
+            }
+        } else
+        {
+            delete series.xAxisIndex;
+        }
+    }
 }
 
 var queryCallback = function (inputdata) {
@@ -335,68 +394,8 @@ var queryCallback = function (inputdata) {
 //        return [posX, posY];
 //    };
     return function (data) {
-        function _setOptions() {
-            if (redraw) {
-                var datalist = [];
-                if (chart.getOption().series.length === widget.options.series.length)
-                {
-                    for (var key in widget.options.series)
-                    {
-                        var ss = widget.options.series[key];
-                        datalist.push({data: ss.data});
-                    }
-                    chart.setOption({series: datalist, xAxis: widget.options.xAxis});
-                } else
-                {
-                    chart.setOption({series: widget.options.series, xAxis: widget.options.xAxis});
-                }
-            } else
-            {
-                chart.setOption(widget.options, true);
-            }
-        };
-        function _loadSeries() {
-            if (widget.q[q_index].yAxisIndex)
-            {
-                series.yAxisIndex = [];
-                for (var ax in widget.q[q_index].yAxisIndex)
-                {
-                    if (widget.options.yAxis[widget.q[q_index].yAxisIndex[ax]])
-                    {
-                        series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
-                    }
-
-                }
-                if (series.yAxisIndex.length === 0)
-                {
-                    delete series.yAxisIndex;
-                }
-            } else
-            {
-                delete series.yAxisIndex;
-            }
-            if (widget.q[q_index].xAxisIndex)
-            {
-                series.xAxisIndex = [];
-                for (var ax in widget.q[q_index].xAxisIndex)
-                {
-                    if (widget.options.xAxis[widget.q[q_index].xAxisIndex[ax]])
-                    {
-                        series.xAxisIndex.push(widget.q[q_index].xAxisIndex[ax]);
-                    }
-                }
-                if (series.xAxisIndex.length === 0)
-                {
-                    delete series.xAxisIndex;
-                }
-            } else
-            {
-                delete series.xAxisIndex;
-            }
-        }
-        
 // ---- tooltip.triggerOn + tooltip.enterable
-        if (widget.type === "line") {                    
+        if (widget.type === "line") {
                     if (widget.options.tooltip.triggerOn === "click") {
                         widget.options.tooltip = {
                             "trigger": "axis",
@@ -427,7 +426,7 @@ var queryCallback = function (inputdata) {
                     if (widget.title)
                     {
                         clParams.name = widget.title.text;
-                        name = widget.title.text;
+                        that.name = widget.title.text;
                     } else
                     {
                         that.name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
@@ -500,7 +499,7 @@ var queryCallback = function (inputdata) {
 
                                 var series = clone_obg(defserie);
                                 series.data = [];
-                                _loadSeries();
+                                that.loadSeries(series);
                                 series.type = widget.type;
                                 if ((widget.points !== "none") && (typeof (widget.points) !== "undefined"))
                                 {
@@ -550,7 +549,7 @@ var queryCallback = function (inputdata) {
                                             }
                                             case 'bar':
                                             {
-                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': name2, isinverse: widget.q[q_index].info.inverse});
+                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'name': that.name2, isinverse: widget.q[q_index].info.inverse});
                                                 break;
                                             }
                                             case 'line':
@@ -560,7 +559,7 @@ var queryCallback = function (inputdata) {
                                                 {
                                                     tmptitle = widget.title.text;
                                                 }
-                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': name2 === tmptitle ? null : name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
+                                                series.data.push({value: val, 'unit': widget.options.yAxis[yAxis].unit, 'hname': that.name2 === tmptitle ? null : that.name2, isinverse: widget.q[q_index].info.inverse, name: tmptitle});
                                                 break;
                                             }
                                             default:
@@ -630,15 +629,15 @@ var queryCallback = function (inputdata) {
                         {
                             if (Object.keys(widget.q[q_index]).length > 0)
                             {
-                                var name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
-                                var name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                                that.name = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
+                                that.name2 = data.chartsdata[index].metric + JSON.stringify(data.chartsdata[index].tags);
                                 if (typeof (widget.q[q_index].info) !== "undefined")
                                 {
                                     if (widget.q[q_index].info.alias)
                                     {
                                         if (widget.q[q_index].info.alias !== "")
                                         {
-                                            name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
+                                            that.name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
                                         }
 
                                     }
@@ -646,7 +645,7 @@ var queryCallback = function (inputdata) {
                                     {
                                         if (widget.q[q_index].info.alias2 !== "")
                                         {
-                                            name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
+                                            that.name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
                                         }
                                     }
                                 }
@@ -696,15 +695,15 @@ var queryCallback = function (inputdata) {
                                 {
                                     val = chdata.length;
                                 }
-                                var tmpname = name;
-                                if (name2)
+                                var tmpname = that.name;
+                                if (that.name2)
                                 {
-                                    tmpname = name2;
+                                    tmpname = that.name2;
                                 }
 
-                                if (!tmp_series_1[name])
+                                if (!tmp_series_1[that.name])
                                 {
-                                    tmp_series_1[name] = [];
+                                    tmp_series_1[that.name] = [];
                                 }
                                 if (widget.q[q_index].info.inverse)
                                 {
@@ -726,8 +725,8 @@ var queryCallback = function (inputdata) {
                                     yAxis = 0;
                                 }
                                 nullkeylist[tmpname] = true;
-                                tmp_series_1[name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[yAxis].unit, isinverse: widget.q[q_index].info.inverse});
-                                sdata.push({value: val, name: name});
+                                tmp_series_1[that.name].push({value: Math.round(val * 100) / 100, name: tmpname, unit: widget.options.yAxis[yAxis].unit, isinverse: widget.q[q_index].info.inverse});
+                                sdata.push({value: val, name: that.name});
                             }
                         }
 
@@ -775,7 +774,7 @@ var queryCallback = function (inputdata) {
                                     delete series.stack;
                                 }
                                 
-                                _loadSeries();
+                                that.loadSeries(series);
                                 series.name = key;
                                 series.data = tmp_series_1[key];
 //                                console.log(JSON.stringify(series.data) );
@@ -1376,7 +1375,7 @@ var queryCallback = function (inputdata) {
                 widget.options.visualMap.calculable = true;
                 widget.options.series = data;
                 try {
-                    _setOptions();
+                    that.setChartOptions();
                 } catch (e) {
                     dumpExceptionLog("HHHHHHHHHH", e, widget, uri, data);
                 }
@@ -2005,7 +2004,7 @@ var queryCallback = function (inputdata) {
                 }
 //*************************************                        
                 try {
-                    _setOptions();
+                    that.setChartOptions();
                 } catch (e) {
                     dumpExceptionLog("VVVVVVVVV", e, widget, uri, data);
                 }
@@ -2044,7 +2043,7 @@ var queryCallback = function (inputdata) {
                 }
             }
             delete(widget.data);
-    };
+        };
 };
 };
 
