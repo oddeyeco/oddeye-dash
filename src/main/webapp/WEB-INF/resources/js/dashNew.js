@@ -438,23 +438,7 @@ var queryCallback = function (inputdata) {
                     }
 
                     that.applyAliases(data.chartsdata[dindex]);
-//                    if (typeof (widget.q[q_index].info) !== "undefined")
-//                    {
-//                        if (widget.q[q_index].info.alias)
-//                        {
-//                            if (widget.q[q_index].info.alias !== "")
-//                            {
-//                                name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[dindex]);
-//                            }
-//                        }
-//                        if (widget.q[q_index].info.alias2)
-//                        {
-//                            if (widget.q[q_index].info.alias2 !== "")
-//                            {
-//                                name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[dindex]);
-//                            }
-//                        }
-//                    }
+
                     widget.data.push({data: data.chartsdata[dindex].data, name: that.name, name2: that.name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
             } else if (widget.type === "heatmap")
@@ -473,24 +457,7 @@ var queryCallback = function (inputdata) {
                             that.name2 = widget.title.text;
                         }
                         that.applyAliases(data.chartsdata[index]);
-//                        if (typeof (widget.q[q_index].info) !== "undefined")
-//                        {
-//                            if (widget.q[q_index].info.alias)
-//                            {
-//                                if (widget.q[q_index].info.alias !== "")
-//                                {
-//                                    name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
-//                                }
-//                            }
-//
-//                            if (widget.q[q_index].info.alias2)
-//                            {
-//                                if (widget.q[q_index].info.alias2 !== "")
-//                                {
-//                                    name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
-//                                }
-//                            }
-//                        }
+
                         widget.data.list[index] = data.chartsdata[index];
                         widget.data.list[index].name2 = that.name2;
                         widget.data.list[index].name1 = that.name;
@@ -530,24 +497,6 @@ var queryCallback = function (inputdata) {
                                 }
 
                                 that.applyAliases(data.chartsdata[index]);
-//                                if (typeof (widget.q[q_index].info) !== "undefined")
-//                                {
-//                                    if (widget.q[q_index].info.alias)
-//                                    {
-//                                        if (widget.q[q_index].info.alias !== "")
-//                                        {
-//                                            name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
-//                                        }
-//                                    }
-//
-//                                    if (widget.q[q_index].info.alias2)
-//                                    {
-//                                        if (widget.q[q_index].info.alias2 !== "")
-//                                        {
-//                                            name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
-//                                        }
-//                                    }
-//                                }
 
                                 var series = clone_obg(defserie);
                                 series.data = [];
