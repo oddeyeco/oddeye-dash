@@ -383,7 +383,7 @@ class CallbackHelper {
         }
         delete(this.widget.data);
     }
-    handleWaitList() {
+    handleWaitList(data) {
         if (this.whaitlist)
             if (this.whaitlist[this.uri])
             {
@@ -455,7 +455,7 @@ var queryCallback = function (inputdata) {
                 widget.data.push({data: data.chartsdata[dindex].data, name: that.name, name2: that.name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
             }
         }
-        that.handleWaitList();
+        that.handleWaitList(data);
         count.value--;
 
         if (count.value === 0)
@@ -614,7 +614,7 @@ var queryCallback = function (inputdata) {
                     }
                 }
         }
-        that.handleWaitList();
+        that.handleWaitList(data);
         count.value--;
 
         if (count.value === 0)
@@ -1407,7 +1407,7 @@ var queryCallback = function (inputdata) {
                 }
             }
         
-        that.handleWaitList();
+        that.handleWaitList(data);
         count.value--;
 
         if (count.value === 0)
