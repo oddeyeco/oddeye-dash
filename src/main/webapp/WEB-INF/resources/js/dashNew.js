@@ -380,10 +380,20 @@ class CallbackHelper {
                         setdatabyQ(this.json, this.ri, this.wi, this.url, true, null, customchart);
                     }, this.json.times.intervall);
                 }
-            }
-            delete(this.widget.data);
         }
+        delete(this.widget.data);
     }
+    handleWaitList() {
+        if (this.whaitlist)
+            if (this.whaitlist[this.uri])
+            {
+                for (var uriind in this.whaitlist[this.uri])
+                {
+                    queryCallback(this.whaitlist[this.uri][uriind])(data);
+                }
+            }
+        }
+}
 
 var queryCallback = function (inputdata) {
     var q_index = inputdata[0];
@@ -972,14 +982,15 @@ var queryCallback = function (inputdata) {
                 }
             }
         }
-        if (whaitlist)
-            if (whaitlist[uri])
-            {
-                for (var uriind in whaitlist[uri])
-                {
-                    queryCallback(whaitlist[uri][uriind])(data);
-                }
-            }
+        that.handleWaitList();
+//        if (whaitlist)
+//            if (whaitlist[uri])
+//            {
+//                for (var uriind in whaitlist[uri])
+//                {
+//                    queryCallback(whaitlist[uri][uriind])(data);
+//                }
+//            }
         count.value--;
 
         if (count.value === 0)
