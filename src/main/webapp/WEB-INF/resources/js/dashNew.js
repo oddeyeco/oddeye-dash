@@ -365,9 +365,9 @@ class CallbackHelper {
                     GlobalRefresh = false;
                     if (this.widget.times.intervall !== "off")
                     {
-                        this.widget.timer = setTimeout(function () {
-                            setdatabyQ(this.json, this.ri, this.wi, this.url, true, null, this.customchart);
-                        }, this.widget.times.intervall);
+                        this.widget.timer = setTimeout(
+                           () => setdatabyQ(this.json, this.ri, this.wi, this.url, true, null, this.customchart),
+                           this.widget.times.intervall);
                     }
                 }
             }
@@ -376,9 +376,9 @@ class CallbackHelper {
         {
             if (this.json.times.intervall)
             {
-                    this.widget.timer = setTimeout(function () {
-                        setdatabyQ(this.json, this.ri, this.wi, this.url, true, null, this.customchart);
-                    }, this.json.times.intervall);
+                    this.widget.timer = setTimeout(
+                        () => setdatabyQ(this.json, this.ri, this.wi, this.url, true, null, this.customchart),
+                        this.json.times.intervall);
                 }
         }
         delete(this.widget.data);
