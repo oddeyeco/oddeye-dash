@@ -1076,25 +1076,16 @@ class BaseChartEditForm extends EditForm {
                                 ]}
                         ]},
                     // -------  version tooliptip  -------
-                        {tag: "div", id: "", class: "form_main_block pull-left custominputs", label: {show: true, text: 'Tooltip' /* locale["editchartform.tooltip"] */, class: "typeline"}, content: [
+                        {tag: "div", id: "", class: "form_main_block pull-left custominputs", label: {show: true, text: locale["editchartform.tooltip"] , class: "typeline"}, content: [
                             {tag: "div", class: "form-group form-group-custom typeline", content: [
-                                    {tag: "label", class: "control-label control-label-custom120", text: 'Trigger On' /* locale["editchartform.triggerOn"] */, lfor: "display_trig"},
+                                    {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.triggerOn"], lfor: "display_trig"},
                                     {tag: "select", class: "form-control axes_select", prop_key: "triggerOn", id: "display_trig", name: "display_trig", key_path: 'options.tooltip.triggerOn', default: "mousemove",
                                             options: {
-                                            'mousemove': 'Move'/*locale["editchartform.mousemove"]*/,
-                                            'click': 'Click'/*locale["editchartform.click"]*/                                            
+                                            'mousemove': locale["editchartform.mousemove"],
+                                            'click': locale["editchartform.click"]                                            
                                         }
-//                                        , actions: {"change": function () {
-//                                                if ($(this).val() === 'click') {
-//                                                    $('.tooltip-body').addClass('tooltip-body-click');
-//                                                }
-//                                                if ($(this).val() === 'mousemove') {
-//                                                    $('.tooltip-body').removeClass('tooltip-body-click');
-//                                                }                                                
-//                                            }}                                                                                                                                                            
                                     }
-                                    
-                                ]},
+                                ]}
 //                            {tag: "div", class: "form-group form-group-custom typeline", content: [
 //                                    {tag: "label", class: "control-label control-label-custom120", text: 'Enterable'/*locale["editchartform.enterAble"]*/, lfor: "display_able"},
 //                                    {tag: "div", class: "checkbox", style: "display: inline-block", content: [

@@ -99,9 +99,9 @@
                 show: true,
                 right: 20,
                 feature: {
-//                    dataZoom: {show: true, title: "dataZoom"},
+//                    dataZoom: {show: true, title: "dataZoom"},                    
                     
-                    magicType: {
+                magicType: {
                         show: true,
                         iconStyle: {
                             color: '#3c763d',
@@ -111,16 +111,16 @@
                             line: 'Line',
                             bar: 'Bar'
                         },
-                        type: ['line', 'bar']
-                    },
-                    saveAsImage: {
-                        show: true,
-                        title: "Save Image",
-                        iconStyle: {
-                            color: '#3c763d',
-                            borderColor: '#92ad57'
-                        }
+                            type: ['line', 'bar']
+                },
+                saveAsImage: {
+                    show: true,
+                    title: "Save Image",
+                    iconStyle: {
+                    color: '#3c763d',
+                    borderColor: '#92ad57'
                     }
+                }
                 }
             },
             grid: {
