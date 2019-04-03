@@ -433,16 +433,20 @@
             </script>                                         
 
             <!-- jQuery -->
-            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>           
+<!--            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>           -->
+            <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script>           
 
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
-
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
             <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>                    
             
+            <!-- Popper -->           
+            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/js/popper.min.js?v=${version}"></script>
+            
             <!-- Bootstrap -->           
-            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>
+<!--            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>-->
+            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/js/bootstrap.min.js?v=${version}"></script>
             <!-- moment.js -->            
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>
             <c:if test="${not empty pageContext.response.locale}" >
