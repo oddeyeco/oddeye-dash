@@ -29,8 +29,8 @@
             <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/${image}" />   
             <title>${title}|oddeye.co</title>
 
-            <!-- Bootstrap -->
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />      
+            <!-- Bootstrap -->  
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />
             <!-- Font Awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
@@ -433,17 +433,17 @@
             </script>                                         
 
             <!-- jQuery -->
-            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>    
+            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>           
 
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
 
-            <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>                    
+            <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
-            <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>        
-
-            <!-- Bootstrap -->
+            <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>                    
+            
+            <!-- Bootstrap -->           
             <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>
-            <!-- moment.js -->
+            <!-- moment.js -->            
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>
             <c:if test="${not empty pageContext.response.locale}" >
                 <c:if test="${udf:fileExists('/resources/js/moment/locale/' += pageContext.response.locale.language += '.js')}">
