@@ -30,7 +30,8 @@
             <title>${title}|oddeye.co</title>
 
             <!-- Bootstrap -->  
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />
+<!--            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />-->
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/css/bootstrap.css?v=${version}" />
             <!-- Font Awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
@@ -433,7 +434,7 @@
             </script>                                         
 
             <!-- jQuery -->
-<!--            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>           -->
+<!--            <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>   -->        
             <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script>           
 
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
@@ -445,7 +446,7 @@
             <script src="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/js/popper.min.js?v=${version}"></script>
             
             <!-- Bootstrap -->           
-<!--            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>-->
+<!--            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>  -->
             <script src="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/js/bootstrap.min.js?v=${version}"></script>
             <!-- moment.js -->            
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>

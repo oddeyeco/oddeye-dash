@@ -471,8 +471,11 @@ $(document).ready(function () {
 
     });
 });
-$(window).load(function () {
-    menuscroll();
+//$(window).load(function () {
+//    menuscroll();
+//});
+$(window).on('load', function(){ 
+     menuscroll();
 });
 
 $(window).resize(function () {
