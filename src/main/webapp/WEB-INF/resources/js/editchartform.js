@@ -1083,8 +1083,8 @@ class BaseChartEditForm extends EditForm {
                                             options: {
                                             'mousemove': locale["editchartform.mousemove"],
                                             'click': locale["editchartform.click"]                                            
-                                        }
-                                    }
+                                        }                                                                                                                                                          
+                                    }                                  
                                 ]}
 //                            {tag: "div", class: "form-group form-group-custom typeline", content: [
 //                                    {tag: "label", class: "control-label control-label-custom120", text: 'Enterable'/*locale["editchartform.enterAble"]*/, lfor: "display_able"},
