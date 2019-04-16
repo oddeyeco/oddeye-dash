@@ -30,8 +30,8 @@
             <title>${title}|oddeye.co</title>
 
             <!-- Bootstrap -->  
-<!--            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />-->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/css/bootstrap.min.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />
+<!--            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/css/bootstrap.min.css?v=${version}" />-->
             
             <!-- Font Awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
@@ -109,7 +109,7 @@
                                                             </div>
                                                         </div>-->
                             <!-- /menu profile quick info -->
-
+                            
                             <div class="clearfix"></div>
 
                             <!-- sidebar menu -->
@@ -141,49 +141,53 @@
                                                 <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a></li>
                                             </ul>
                                         </li>                                        
-                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
+                                        <li>
+                                            <a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
-                                                <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="dashboards.newDashboard"/></a></li>
-                                                    <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                                                    <li class="text-nowrap">
-                                                        <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                                            <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
-                                                            </c:if>                                                               
-                                                            <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
-                                                            </c:if>                                                                  
-                                                            ${Dush.key}                                                             
-                                                        </a>
+                                                <li>
+                                                    <a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="dashboards.newDashboard"/></a>
+                                                </li>
+                                                <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
+                                                <li class="text-nowrap">
+                                                    <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                        <c:if test="${Dush.value.get(\"locked\")==true}">
+                                                            &nbsp; <i  type="button" class="fa fas fa-lock"></i>
+                                                        </c:if>                                                               
+                                                        <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                                            &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
+                                                        </c:if>                                                                  
+                                                        ${Dush.key}                                                             
+                                                    </a>
 
-                                                    </li>
+                                                </li>
                                                 </c:forEach>
 
                                             </ul>
                                         </li>
                                         <sec:authorize access="hasRole('ADMIN')">
-                                            <li><a><i class="fa fa-edit"></i> <spring:message code="index.managment"/> <span class="fa fas fa-chevron-down"></span></a>
-                                                <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
-                                                    <sec:authorize access="hasRole('USERMANAGER')">
-                                                        <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                                        <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
-                                                        <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                                        <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
-                                                        </sec:authorize>
-                                                        <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                                        <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                                                        </sec:authorize>
-                                                        <sec:authorize access="hasRole('USERMANAGER')">
-                                                        <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
-                                                        </sec:authorize>                                                        
-                                                </ul>
-                                            </li>
-                                        </sec:authorize>   
+                                        <li>
+                                            <a><i class="fa fa-edit"></i> <spring:message code="index.managment"/> <span class="fa fas fa-chevron-down"></span></a>
+                                            <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
+                                                <sec:authorize access="hasRole('USERMANAGER')">
+                                                    <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
+                                                    <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                                    <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
+                                                    <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
+                                                </sec:authorize>
+                                                <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                                    <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
+                                                </sec:authorize>
+                                                <sec:authorize access="hasRole('USERMANAGER')">
+                                                    <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
+                                                </sec:authorize>                                                        
+                                            </ul>
+                                        </li>
+                                        </sec:authorize>                                                 
                                         <%--<sec:authorize access="hasRole('ROLE_CAN_SWICH')">
                                             <li><a><i class="fa fa-asterisk"></i> Administrations <span class="fa fas fa-chevron-down"></span></a>
                                                 <ul class="nav child_menu">                                                                                        
                                                      <li><a href="<c:url value="/templatelist"/>" >Templates</a></li>                                         
-                                                </ul>
+                                    </ul>
                                             </li>
                                         </sec:authorize>--%>                                              
                                     </ul>
@@ -435,9 +439,8 @@
             </script>                                         
 
             <!-- jQuery -->
-<!--             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>  -->
-<!--           <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script> -->
-            <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>
+             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>  
+<!--            <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>-->
             
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>
@@ -445,11 +448,11 @@
             <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>                    
             
             <!-- Popper -->
-            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/popper.min.js?v=${version}"></script>
+<!--            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/popper.min.js?v=${version}"></script>-->
             
             <!-- Bootstrap -->           
-<!--            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>  -->
-            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/bootstrap.min.js?v=${version}"></script>
+            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>  
+<!--            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/bootstrap.min.js?v=${version}"></script>-->
 
             <!-- moment.js -->            
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>
