@@ -1,3 +1,8 @@
+<%-- 
+    Document   : indexOE
+    Created on : Apr 15, 2019, 6:16:20 PM
+    Author     : tigran
+--%>
 <%@page import="java.net.InetAddress"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
@@ -31,8 +36,7 @@
 
             <!-- Bootstrap -->  
 <!--            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />-->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/css/bootstrap.min.css?v=${version}" />
-            
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/css/bootstrap.css?v=${version}" />
             <!-- Font Awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
@@ -101,13 +105,8 @@
                                     
                                     <span class="site_title" style="width: auto"><spring:message code="index.home"/></span> </a>                                    
                             </div>
-                            <div class="clearfix"></div>                            
-                            <!-- menu profile quick info -->
-                            <!--                            <div class="profile">
-                                                            <div class="profile_info">                                    
-                                                                <h2> <span>Welcome: </span> ${curentuser.getName()}&nbsp;${curentuser.getLastname()}</h2>                           
-                                                            </div>
-                                                        </div>-->
+                            <div class="clearfix"></div>  
+                            
                             <!-- /menu profile quick info -->
 
                             <div class="clearfix"></div>
@@ -206,9 +205,7 @@
                         <a data-toggle="tooltip" data-placement="top" title='<spring:message code="index.monitoring"/>' href="<c:url value="/monitoring"/>">
                             <span class="fa far fa-clock" aria-hidden="true"></span>
                         </a>                                                        
-                        <!--                        <a data-toggle="tooltip" data-placement="top" title="Lock">
-                                                    <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-                                                </a>-->
+                       
                     </div>
                     <!-- /menu footer buttons -->
                     <!-- top navigation -->
@@ -263,66 +260,7 @@
                                             <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="logout"/> </a></li>
                                         </ul>
                                     </li>
-                                    <!--                                    <li role="presentation" class="dropdown">
-                                                                            <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
-                                                                                <i class="fa fa-envelope-o"></i>
-                                                                                <span class="badge bg-green">6</span>
-                                                                            </a>
-                                                                            <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                                                                                <li>
-                                                                                    <a>                                                    
-                                                                                        <span>
-                                                                                            <span>John Smith</span>
-                                                                                            <span class="time">3 mins ago</span>
-                                                                                        </span>
-                                                                                        <span class="message">
-                                                                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                                                        </span>
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a>                                                    
-                                                                                        <span>
-                                                                                            <span>John Smith</span>
-                                                                                            <span class="time">3 mins ago</span>
-                                                                                        </span>
-                                                                                        <span class="message">
-                                                                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                                                        </span>
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a>                                                    
-                                                                                        <span>
-                                                                                            <span>John Smith</span>
-                                                                                            <span class="time">3 mins ago</span>
-                                                                                        </span>
-                                                                                        <span class="message">
-                                                                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                                                        </span>
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a>                                                    
-                                                                                        <span>
-                                                                                            <span>John Smith</span>
-                                                                                            <span class="time">3 mins ago</span>
-                                                                                        </span>
-                                                                                        <span class="message">
-                                                                                            Film festivals used to be do-or-die moments for movie makers. They were where...
-                                                                                        </span>
-                                                                                    </a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <div class="text-center">
-                                                                                        <a>
-                                                                                            <strong>See All Messges</strong>
-                                                                                            <i class="fa fa-angle-right"></i>
-                                                                                        </a>
-                                                                                    </div>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </li>                                    -->
+                                   
                                     <sec:authorize access="hasRole('ADMIN')">
                                         <li class=""><a>
                                                 <%
@@ -436,21 +374,19 @@
 
             <!-- jQuery -->
 <!--             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>  -->
-<!--           <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script> -->
-            <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>
+           <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script> 
             
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
             <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>                    
             
-            <!-- Popper -->
-            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/popper.min.js?v=${version}"></script>
+        <!--    <!-- Popper -->           -->
+            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/js/popper.min.js?v=${version}"></script>
             
             <!-- Bootstrap -->           
 <!--            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>  -->
-            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/bootstrap.min.js?v=${version}"></script>
-
+            <script src="${cp}/resources/bootstrap/dist/bootstrap-4.2.1/js/bootstrap.js?v=${version}"></script>
             <!-- moment.js -->            
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>
             <c:if test="${not empty pageContext.response.locale}" >
