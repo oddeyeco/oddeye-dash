@@ -120,7 +120,7 @@
                                         <li><a><i class="fa fas fa-info  "></i> <spring:message code="index.personal"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a></li>
-                                                <li><a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.dashboards"/></span></a></li>
+                                                <li><a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.summary"/></span></a></li>
                                                 <li><a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a></li>
                                                 <li><a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a></li>
                                             </ul>

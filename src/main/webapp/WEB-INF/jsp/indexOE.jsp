@@ -123,7 +123,7 @@
                                             </a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a></li>
-                                                <li><a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.dashboards"/></span></a></li>
+                                                <li><a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.summary"/></span></a></li>
                                                 <li><a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a></li>
                                                 <li><a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a></li>
                                             </ul>
@@ -252,10 +252,18 @@
                                                 </a>
                                             </li> 
                                             <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li>
+                                                <li>
+                                                    <a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i>
+                                                        <spring:message code="index.switchOff"/>
+                                                    </a>
+                                                </li>
                                                 </c:if>
                                                 <c:url value="/logout/" var="logoutUrl" />
-                                            <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="logout"/> </a></li>
+                                            <li>
+                                                <a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i>
+                                                    <spring:message code="logout"/>
+                                                </a>
+                                            </li>
                                         </ul>
                                     </li>
                                             
@@ -513,7 +521,7 @@
             <!-- Sidebar  -->
             <nav id="sidebar">
                 <div class="sidebar-header text-center">
-                    <a class="navbar-brand mr-0" href="<c:url value='/'>">
+                    <a class="navbar-brand mr-0" href="<c:url value='/'/>">
                         <c:if test="${empty whitelabel}" >
                 <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
                 </c:if>                        
@@ -536,7 +544,7 @@
                                 <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
                             </li>
                             <li>
-                                <a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.dashboards"/></span></a>
+                                <a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.summary"/></span></a>
                             </li>
                             <li>
                                 <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
@@ -674,7 +682,7 @@
                 <!-- sidebar-footer buttons -->
                 
                 <div class="sidebar-footer hidden-small">
-                    <a href="<c:url value="/logout/" />" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' data-original-title='<spring:message code="logout"/>'>
+                    <a href="<c:url value="/logout/"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' data-original-title='<spring:message code="logout"/>'>
                         <span class="fas fa-power-off" aria-hidden="true"></span>
                     </a>
                     <a data-toggle="tooltip" data-placement="top" title='<spring:message code="fullScreen"/>' data-original-title='<spring:message code="fullScreen"/>' id="FullScreen">
@@ -690,52 +698,104 @@
             </nav>
             <!-- ----------------- Page Content -------------------  -->        
             <div id="content">
-
                 <nav class="navbar navbar-expand-sm shadow navbar-light bg-light">
                     <div class="container-fluid">
-                        <!--                    <button type="button" id="collapseSidebar" class="btn btn-outline-dark">
-                                                <i class="fas fa-outdent"></i>
-                                            </button>
-                                            <div class="nav">
-                                                <h3 class="pagetitle">Dashboards</h3>
-                                            </div>
-                                            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                                                <ul class="nav navbar-nav ml-auto">
-                                                    <li>
-                                                        <div class="btn-group">
-                                                            <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                                demodemo@oddeye.co
-                                                            </button>-->
-
                         <button type="button" id="collapseSidebar" class="btn btn-outline-dark">
                             <i class="fas fa-indent"></i>
-                            <b class="pagetitle">Dashboards</b>
-                            <!--                            <span class="pagetitle">Dashboards</span>-->
+                            <b class="pagetitle"> ${htitle} </b>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNavDropdown">
                             <ul class="nav navbar-nav ml-auto">
-                                <li>
+                                <li class="">
                                     <div class="btn-group">
-                                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <b class="pagetitle">demodemo@oddeye.co</b>                                           
-                                            <!--  <span class="pagetitle font-weight-bold">demodemo@oddeye.co</span>-->
+                                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                                                     
+                                            <c:if test="${curentuser.getSwitchUser()==null}">
+                                                ${curentuser.getEmail()}
+                                            </c:if>
+                                            <c:if test="${curentuser.getSwitchUser()!=null}">
+                                                <b class="pagetitle"><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
+                                            </c:if>&nbsp;
                                         </button>
-
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <button class="dropdown-item" type="button"> Balance ()</button>
-                                            <button class="dropdown-item" type="button">Allow Edit</button>
-                                            <button class="dropdown-item" type="button">Logout</button>
-                                        </div>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li>
+                                             ${curentuser.reload()}
+                                                <c:set var="balance" value="${curentuser.getBalance()}" />
+                                                <c:if test="${balance>0}">
+                                                <a href="javascript:;" class="dropdown-item">
+                                                    <spring:message code="balance"/>&nbsp;
+                                                    <c:if test="${balance<Double.MAX_VALUE}">
+                                                        <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
+                                                    </c:if>
+                                                    <c:if test="${balance==Double.MAX_VALUE}">
+                                                        <span class="infin"> &infin; </span>
+                                                    </c:if>                                                        
+                                                </a>
+                                                </c:if>
+                                            </li>    
+                                            <li>    
+                                                <a href="javascript:void(0);" class="dropdown-item" id="allowedit">
+                                                    <c:if test="${curentuser.getAlowswitch()}">
+                                                    <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="15px">
+                                                    </c:if>                                                    
+                                                    <spring:message code="index.allowEdit"/>                                            
+                                                </a>
+                                            </li>     
+                                            <c:if test="${curentuser.getSwitchUser()!=null}"> 
+                                            <li>        
+                                                    <a href="<c:url value="/switchoff/"/>" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i>
+                                                        <spring:message code="index.switchOff"/>
+                                                    </a> 
+                                            </li> 
+                                            </c:if>                                                
+                                            <c:url value="/logout/" var="logoutUrl"/> 
+                                            <li> 
+                                                <a href="${logoutUrl}" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i>
+                                                    <spring:message code="logout"/>
+                                                </a> 
+                                            </li> 
+                                        </ul>
                                     </div>
                                 </li>
+                                <sec:authorize access="hasRole('ADMIN')">
+                                    <li class="">
+                                        <a>
+                                            <%
+                                                InetAddress ia = InetAddress.getLocalHost();
+                                                String node = ia.getHostName();
+                                                pageContext.setAttribute("node", node);
+                                            %>          
+                                            Server ${node}
+                                        </a>
+                                    </li>
+                                </sec:authorize>
                             </ul>
                         </div>
                     </div>
                 </nav>
                 <!-- ----------------- Right_Col -------------------  -->
-                <div class="right_col">                
+                <!-- page content -->
+                <div class="right_col" role="main">
+                 
+                    <c:if test="${!curentuser.getActive()}">
+                        <div class="clearfix"></div>
+                        <div class="alert alert-danger alert-dismissible fade in " role="alert">
+                            <spring:message code="index.alertNotActivate"/>
+                        </div>
+                    </c:if>                                         
+                    <c:if test="${curentuser.getMetricsMeta().size()==0}">
+                        <div class="clearfix"></div>
+                        <div class="alert alert-danger alert-dismissible fade in " role="alert">                                
+                            <spring:message code="index.installAgent"/>
+                        </div>
+                    </c:if>                            
+                    <c:catch var="e">
+                        <c:import url="${body}.jsp" />
+                    </c:catch>
+                    <c:if test="${!empty e}">                            
+                        <c:import url="errors/pageerror.jsp" />
+                    </c:if>
+                    
                     <div class="row">
-
                         <div class="col-12 col-xl-8 col-lg-8 order-1">
                             <div class="card shadow mb-4">
                                 <h4 class="card-header">
@@ -856,8 +916,8 @@
                                                 <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="webapp">Show List</a></span>
                                             </div>
                                         </div>
-
-                                        <!--                                    <div id="modall1" class="modal fadeInLeft" role="dialog">
+<!--            ---------------------------------    ///////////////////////////    -------------------------------------                -->
+                                                                            <div id="modall1" class="modal fadeInLeft" role="dialog">
                                                                                 <div class="modal-dialog modal-lg">
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header">
@@ -886,8 +946,8 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                            </div>-->
-                                        <!-- Modal1 -->
+                                                                            </div>
+                                    <!--    Modal1   -->
                                         <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
@@ -1016,7 +1076,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Modal2 -->
+                            <!--   Modal2   -->
                                         <div class="modal fade bd-example-modal-xl" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
@@ -1042,13 +1102,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
-
-
-
-
-
 
 
                                     </div>
@@ -1227,6 +1280,8 @@
                             </div>
                         </div>
                     </div>                            
+
                 </div>
             </div>                                                                                           
         </div>
+                                                
