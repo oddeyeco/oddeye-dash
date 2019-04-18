@@ -382,7 +382,7 @@
             </script>                                         
 
             <!-- jQuery -->
-<!--             <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>  -->
+<!--           <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>  -->
 <!--           <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script> -->
             <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>
             
@@ -509,13 +509,10 @@
 
         </body>
     </html>
-</compress:html>
-
+</compress:html>    
     
-    
-// ------------------------------------------ ////// -------------------------------- // ----------------------
-// ------------------------------------------ ////// -------------------------------- // --------------------------
-// ------------------------------------------ ////// -------------------------------- // -----------------
+// ====================================== ////// ==================== //////////// ==========================////===================
+// ====================================== ////// ==================== //////////// ==========================////===================
 
         <div class="wrapper">
             <!-- Sidebar  -->
@@ -696,7 +693,7 @@
                     </a>
                 </div>
             </nav>
-            <!-- ----------------- Page Content -------------------  -->        
+            <!-- ======================== Page Content =========================  -->        
             <div id="content">
                 <nav class="navbar navbar-expand-sm shadow navbar-light bg-light">
                     <div class="container-fluid">
@@ -772,7 +769,7 @@
                         </div>
                     </div>
                 </nav>
-                <!-- ----------------- Right_Col -------------------  -->
+                <!-- ========================== Right_Col ========================  -->
                 <!-- page content -->
                 <div class="right_col" role="main">
                  
@@ -794,7 +791,7 @@
                     <c:if test="${!empty e}">                            
                         <c:import url="errors/pageerror.jsp" />
                     </c:if>
-                    
+<!--                    
                     <div class="row">
                         <div class="col-12 col-xl-8 col-lg-8 order-1">
                             <div class="card shadow mb-4">
@@ -916,7 +913,7 @@
                                                 <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="webapp">Show List</a></span>
                                             </div>
                                         </div>
-<!--            ---------------------------------    ///////////////////////////    -------------------------------------                -->
+//            =================================================            MODALLS             ===========================================               
                                                                             <div id="modall1" class="modal fadeInLeft" role="dialog">
                                                                                 <div class="modal-dialog modal-lg">
                                                                                     <div class="modal-content">
@@ -947,7 +944,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
-                                    <!--    Modal1   -->
+//                                    ===================    Modal1   ===================
                                         <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog modal-lg" role="document">
                                                 <div class="modal-content">
@@ -1076,7 +1073,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                            <!--   Modal2   -->
+                               Modal2   
                                         <div class="modal fade bd-example-modal-xl" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
                                             <div class="modal-dialog modal-xl" role="document">
                                                 <div class="modal-content">
@@ -1102,8 +1099,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
+//                ==================================        /MODALLS        =================================================     
                                     </div>
                                 </div>
                             </div>                          
@@ -1279,7 +1275,8 @@
                                 </div>  
                             </div>
                         </div>
-                    </div>                            
+                    </div>
+                        -->
 
                 </div>
             </div>                                                                                           
