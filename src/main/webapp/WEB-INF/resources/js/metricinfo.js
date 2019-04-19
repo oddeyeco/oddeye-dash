@@ -25,12 +25,12 @@ function getmetainfo(tagkey) {
                 $('#count').html(data.count);
                 $("#tagslist").html('');
                 jQuery.each(data.tags, function (i, val) {
-                    $("#tagslist").append('<div class="col-lg-2 col-md-4 col-xs-6 tile_stats_count">' +
+                    $("#tagslist").append('<div class="col-xl-2 col-md-3 col-sm-5 tile_stats_count">' +
                             '<div class="tile_stats_inside">' +                    
                             '<span class="count_top"><i class="fa fa-th-list"></i> ' + locale["metricinfo.tagtitle"].replace("{0}", i) + '</span>' +
                             '<div class="count spincrement">' + val + '</div>' +
-                            '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">' + locale["metricinfo.showList"] + '</a></span>' +
-                            '</div>' + '</div>');                          
+                            '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' + locale["metricinfo.showList"] + '</a></span>' +
+                            '</div>' + '</div>');                            
                 });
 
                 $('.spincrement').spincrement({duration: 2000});
@@ -543,3 +543,6 @@ $(document).ready(function () {
         });
     });
 });
+
+//======================================================================================================
+

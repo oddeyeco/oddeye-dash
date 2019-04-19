@@ -1,41 +1,36 @@
 <%-- 
-    Document   : metricinfo
-    Created on : Jan 17, 2018, 10:40:59 AM
-    Author     : vahan
+    Document   : metricinfoOE
+    Created on : Apr 17, 2019, 6:21:25 PM
+    Author     : tigran
 --%>
-
-<!--<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.0/animate.min.css">-->
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %> 
  
 <h2>
-    <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="metricinfo.totalMetrics"/></span> 
+    <span class="count_top"><i class="fa fa-folder"></i><spring:message code="metricinfo.totalMetrics"/></span>
     (<span class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></span>)
 </h2>
-<div class="row tile_count">
-    <div class="col-lg-2 col-md-4 col-xs-6 tile_stats_count">
-    <div class="tile_stats_inside">
-        <span class="count_top"><i class="fa fa-list"></i> <spring:message code="metricNames"/></span>
-        <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" height='50px' ></div>       
-        <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="_name"><spring:message code="metricinfo.showList"/></a></span>
-    </div>                                                                                           
-    </div>                                                                                           
-    <div class="col-lg-2 col-md-4 col-xs-6 tile_stats_count">
-    <div class="tile_stats_inside">
-        <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="metricinfo.metricTypes"/></span>
+<div class="row justify-content-md-center justify-content-lg-start tile_count">
+    <div class="col-xl-2 col-md-4 col-sm-5 tile_stats_count">
+        <span class="count_top"><i class="fa fa-list"></i><spring:message code="metricNames"/></span>
+        <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
+        <span class="count_bottom">
+            <a href="javascript:void(0)" class="green showtags" value="_name" data-toggle="modal" data-target="#exampleModal" value="_name"><spring:message code="metricinfo.showList"/></a>
+        </span>
+    </div>
+    <div class="col-xl-2 col-md-4 col-sm-5 tile_stats_count">
+        <span class="count_top"><i class="fa fa-folder"></i><spring:message code="metricinfo.metricTypes"/></span>
         <div class="count" id="typecount"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
-        <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="_type"><spring:message code="metricinfo.showList"/></a></span>
-    </div>                                                          
-
-    </div>                                                          
+        <span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="_type" data-toggle="modal" data-target="#exampleModal" value="_type"><spring:message code="metricinfo.showList"/></a></span>
+    </div>
 </div>
-
 <h2>
-    <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="totalTags"/> </span> 
+    <span class="count_top"><i class="fa fa-folder"></i><spring:message code="totalTags"/></span>
     (<span class="count" id="tags"><img src="${cp}/assets/images/loading.gif" height='50px'></span>)
 </h2>
-<div class="row tile_count" id="tagslist">
-</div>
+<!-- // generation from "metricinfo.js" -->
+<div class="row justify-content-md-center justify-content-lg-start tile_count" id="tagslist"></div> 
+
 <!--//Vex
 http://joaopereirawd.github.io/animatedModal.js/-->
 <div id="modall1" class="modal fadeInLeft" role="dialog">
