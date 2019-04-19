@@ -65,10 +65,12 @@
 
             <c:if test="${empty curentuser.getTemplate()}" >
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />
             </c:if>                        
 
             <c:if test="${not empty curentuser.getTemplate()}" >
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />        
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
                         <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />                   
@@ -959,6 +961,7 @@
             <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>                        
             <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    
             <script src="${cp}/resources/js/global.js?v=${version}"></script>        
+            <script src="${cp}/resources/js/scriptOE.js?v=${version}"></script>
 
             <c:catch var="e">
                 <c:import url="${jspart}.jsp" />
