@@ -205,11 +205,9 @@
                     <i class="glyphicon glyphicon-refresh"></i>
                 </div>
             </div>
-
         </div>  
     </div>                
-    <div class="x_content" id="dashcontent">        
-    </div>
+    <div class="x_content" id="dashcontent"></div>
 </div>
 <div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">

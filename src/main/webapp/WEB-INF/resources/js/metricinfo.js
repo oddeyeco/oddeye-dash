@@ -30,8 +30,7 @@ function getmetainfo(tagkey) {
                             '<span class="count_top"><i class="fa fa-th-list"></i> ' + locale["metricinfo.tagtitle"].replace("{0}", i) + '</span>' +
                             '<div class="count spincrement">' + val + '</div>' +
                             '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" value="' + i + '">' + locale["metricinfo.showList"] + '</a></span>' +
-                            '</div>' + '</div>');
-                            
+                            '</div>' + '</div>');                          
                 });
 
                 $('.spincrement').spincrement({duration: 2000});
