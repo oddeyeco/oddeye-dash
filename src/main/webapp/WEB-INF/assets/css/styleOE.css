@@ -246,7 +246,7 @@ a.article:hover, a.download:hover {
 /*    #sidebar {
         margin-left: 0;
     }*/
-    #collapseSidebar span {
+    #menu_toggle span {
         display: none;
     }
 
