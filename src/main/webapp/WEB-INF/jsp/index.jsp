@@ -193,19 +193,16 @@
                             </li> 
                         </sec:authorize>
                     </ul>-->
-                                    
                                     <div class="accordion" id="sidebarMenu">
                                         <div class="card">
-                                            <div class="card-header" id="headPersonal">
-                                                <h5 class="mb-0">
+                                            <div class="card-header" id="headPersonal">                                                
                                                     <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="true" aria-controls="collapsePersonal">
                                                     <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
-                                                    </a>
-                                                </h5>
+                                                    </a>                                                
                                             </div>
                                             <div id="collapsePersonal" class="collapse" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
                                                 <div class="card-body">
-                                                    <ul class="list-unstyled" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                                    <ul class="list-unstyled child_menu" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
                                                         <li>
                                                             <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
                                                         </li>
@@ -223,16 +220,14 @@
                                             </div>
                                         </div>
                                         <div class="card">
-                                            <div class="card-header" id="headMonitoring">
-                                                <h5 class="mb-0">
+                                            <div class="card-header" id="headMonitoring">                                                
                                                     <a href="#monitoringMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
                                                         <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
-                                                    </a>
-                                                </h5>
+                                                    </a>                                                
                                             </div>
                                             <div id="collapseMonitoring" class="collapse" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
                                                 <div class="card-body">
-                                                    <ul class="list-unstyled" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                                    <ul class="list-unstyled child_menu" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
                                                         <li>
                                                             <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
                                                         </li>
@@ -251,16 +246,14 @@
                                             </div>
                                         </div>
                                         <div class="card">
-                                            <div class="card-header" id="headDashboards">
-                                                <h5 class="mb-0">
+                                            <div class="card-header" id="headDashboards">                                                
                                                     <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
                                                         <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
-                                                    </a>
-                                                </h5>
+                                                    </a>                                                
                                             </div>
                                             <div id="collapseDashboards" class="collapse" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
                                                 <div class="card-body">
-                                                    <ul class="list-unstyled" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                                    <ul class="list-unstyled child_menu" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
                                                         <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
                                                             <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                                             <li class="text-nowrap">
@@ -281,16 +274,14 @@
                                         </div>
                                         <sec:authorize access="hasRole('ADMIN')">                    
                                         <div class="card">
-                                            <div class="card-header" id="headManagment">
-                                                <h5 class="mb-0">
+                                            <div class="card-header" id="headManagment">                                                
                                                     <a href="#managementMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseManagment" aria-expanded="false" aria-controls="collapseManagment">
                                                         <i class="fa fa-edit"></i><spring:message code="index.managment"/>
-                                                    </a>
-                                                </h5>
+                                                    </a>                                                
                                             </div>
                                             <div id="collapseManagment" class="collapse" aria-labelledby="headManagment" data-parent="#sidebarMenu">
                                                 <div class="card-body">
-                                                    <ul class="list-unstyled" id="managementMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                                    <ul class="list-unstyled child_menu" id="managementMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
                                                         <sec:authorize access="hasRole('USERMANAGER')">
                                                             <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
                                                             <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
@@ -1095,7 +1086,7 @@
             <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js?v=${version}"></script>        
             <!-- Custom Theme Scripts -->
 <!--            <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>-->
-            <script src="${cp}/resources/js/customOE.js?v=${version}"></script>
+            <script src="${cp}/resources/build/js/customOE.js?v=${version}"></script>
             <!-- Select2 -->
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 

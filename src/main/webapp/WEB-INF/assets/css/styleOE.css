@@ -80,23 +80,24 @@ span {
 #sidebar .sidebar-header {
     background: #c7cccc;
 }
-#sidebar ul.components {
+#sidebar div#sidebar-menu {
     padding: 0.5rem;
 }
 #sidebar ul.strutComponents {
     padding: 0.5rem;
 }
-#sidebar ul.components li:hover {
+#sidebar div#sidebar-menu ul.child_menu li:hover {
     border-radius: 4px;
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,.2);
 }
-#sidebar ul li a {
+#sidebar #sidebarMenu a {
     padding: 10px;
     font-size: 1rem;
     display: block;
 }
 
-#sidebar ul li a:hover {
+#sidebar ul li a:hover,
+div#sidebar-menu .card-header a:hover {
     border-radius: 4px;
     color: #000;
     background: #fff;
@@ -107,10 +108,10 @@ span {
     margin-right: 4px;
 }
 
-/*#sidebar ul.components ul.collapse {
+/*#sidebar div#sidebar-menu ul.collapse {
     padding: 0.5rem;
 }*/
-#sidebar ul.components ul.collapse.show {
+#sidebar div#sidebar-menu ul.collapse.show {
 /*    display: block;
     max-height: 234px;
     left: 100%;
@@ -345,7 +346,7 @@ a[aria-expanded="true"] {
     color: #fff;
     background: #343a40;
 }
-#sidebar.active ul.components {
+#sidebar.active div#sidebar-menu {
     display: none;
 }
 #sidebar:not(.active) ul.strutComponents {

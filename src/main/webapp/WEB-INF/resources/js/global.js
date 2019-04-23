@@ -401,7 +401,7 @@ $(document).ready(function () {
 
     if (getCookie('small') == 'true')
     {
-        $(' ul.nav.child_menu').hide();
+        $('ul.child_menu').hide();
         if ($BODY.hasClass('nav-sm')) {
             $SIDEBAR_MENU.find('li.active ul').hide();
             $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');

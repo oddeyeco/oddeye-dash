@@ -28,7 +28,7 @@ $(document).ready(function() {
 
         // normalize content
         contentHeight -= $NAV_MENU.height() + footerHeight;
-         console.log(footerHeight); 
+       //  console.log(footerHeight); 
         $RIGHT_COL.css('min-height', contentHeight);
     };
 
