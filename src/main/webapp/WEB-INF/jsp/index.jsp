@@ -63,7 +63,7 @@
 
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />      
             <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css?v=${version}" />-->      
-
+            
             <c:if test="${empty curentuser.getTemplate()}" >
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />
@@ -105,71 +105,71 @@
                         </a>
                     </div>                    
                     <!-- sidebar Menu -->
-                <div id="sidebar-menu">
-<!--                    <ul class="list-unstyled components">
-                        <li>                    
-                            <a href="#personalMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
-                            </a>
-
-                            <ul class="collapse list-unstyled" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                <li>
-                                    <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
-                                </li>
-                                <li>
-                                    <a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.summary"/></span></a>
-                                </li>
-                                <li>
-                                    <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
-                                </li>
-                                <li>
-                                    <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
-                                </li>
-                            </ul>
-                        </li>                    
-                        <li>                    
-                            <a href="#monitoringMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
-                            </a>
-
-                            <ul class="collapse list-unstyled" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                <li>
-                                    <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
-                                </li>
-                                <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
-                                <li>
-                                    <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                        ${option.key}                                                             
-                                    </a>
-                                </li>
-                                </c:forEach>
-                                <li>
-                                    <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>                    
-                            <a href="#dashboardsMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
-                            </a>
-
-                            <ul class="collapse list-unstyled" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
-                                    <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                                    <li class="text-nowrap">
-                                        <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                            <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
-                                            </c:if>                                                               
-                                            <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
-                                            </c:if>                                                                  
-                                            ${Dush.key}                                                             
-                                        </a>
+                    <div id="sidebar-menu">
+                        <!--                    <ul class="list-unstyled components">
+                            <li>                    
+                                <a href="#personalMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                    <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
+                                </a>
+    
+                                <ul class="collapse list-unstyled" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                    <li>
+                                        <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
                                     </li>
-                                </c:forEach>
-                            </ul>
+                                    <li>
+                                        <a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.summary"/></span></a>
+                                    </li>
+                                    <li>
+                                        <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
+                                    </li>
+                                    <li>
+                                        <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
+                                    </li>
+                                </ul>
+                            </li>                    
+                            <li>                    
+                                <a href="#monitoringMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                                    <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
+                                </a>
+    
+                                <ul class="collapse list-unstyled" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                    <li>
+                                        <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
+                                    </li>
+                        <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
+                        <li>
+                            <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                            ${option.key}                                                             
+                        </a>
+                    </li>
+                        </c:forEach>
+                        <li>
+                            <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
                         </li>
+                    </ul>
+                </li>
+                <li>                    
+                    <a href="#dashboardsMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
+                    </a>
+
+                    <ul class="collapse list-unstyled" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                        <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
+                        <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
+                        <li class="text-nowrap">
+                            <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                            <c:if test="${Dush.value.get(\"locked\")==true}">
+                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
+                            </c:if>                                                               
+                            <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
+                            </c:if>                                                                  
+                            ${Dush.key}                                                             
+                        </a>
+                    </li>
+                        </c:forEach>
+                    </ul>
+                </li>
                         <sec:authorize access="hasRole('ADMIN')">
                             <li>                    
                                 <a href="#managementMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -177,213 +177,321 @@
                                 </a>
 
                                 <ul class="collapse list-unstyled" id="managementMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                    <sec:authorize access="hasRole('USERMANAGER')">
-                                        <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                        <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
-                                        <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                        <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                        <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasRole('USERMANAGER')">
-                                        <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
-                                    </sec:authorize> 
-                                </ul>
-                            </li> 
+                            <sec:authorize access="hasRole('USERMANAGER')">
+                                <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
+                                <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
+                                <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('CONTENTMANAGER')">
+                            <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('USERMANAGER')">
+                            <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
+                            </sec:authorize> 
+                        </ul>
+                    </li> 
                         </sec:authorize>
                     </ul>-->
-                                    <div class="accordion" id="sidebarMenu">
-                                        <div class="card">
-                                            <div class="card-header" id="headPersonal">                                                
-                                                    <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="true" aria-controls="collapsePersonal">
-                                                    <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
-                                                    </a>                                                
-                                            </div>
-                                            <div id="collapsePersonal" class="collapse" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
-                                                <div class="card-body">
-                                                    <ul class="list-unstyled child_menu" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                                        <li>
-                                                            <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header" id="headMonitoring">                                                
-                                                    <a href="#monitoringMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
-                                                        <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
-                                                    </a>                                                
-                                            </div>
-                                            <div id="collapseMonitoring" class="collapse" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
-                                                <div class="card-body">
-                                                    <ul class="list-unstyled child_menu" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                                        <li>
-                                                            <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
-                                                        </li>
-                                                        <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
-                                                         <li>
-                                                            <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                                                ${option.key}                                                             
-                                                            </a>
-                                                        </li>
-                                                        </c:forEach>
-                                                        <li>
-                                                            <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
-                                                        </li>
-                                                    </ul>            
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-header" id="headDashboards">                                                
-                                                    <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
-                                                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
-                                                    </a>                                                
-                                            </div>
-                                            <div id="collapseDashboards" class="collapse" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
-                                                <div class="card-body">
-                                                    <ul class="list-unstyled child_menu" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                                        <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
-                                                            <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                                                            <li class="text-nowrap">
-                                                                <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                                                    <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                                        &nbsp; <i  type="button" class="fa fas fa-lock"></i>
-                                                                    </c:if>                                                               
-                                                                    <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                                        &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
-                                                                    </c:if>                                                                  
-                                                                    ${Dush.key}                                                             
-                                                                </a>
-                                                            </li>
-                                                        </c:forEach>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <sec:authorize access="hasRole('ADMIN')">                    
-                                        <div class="card">
-                                            <div class="card-header" id="headManagment">                                                
-                                                    <a href="#managementMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseManagment" aria-expanded="false" aria-controls="collapseManagment">
-                                                        <i class="fa fa-edit"></i><spring:message code="index.managment"/>
-                                                    </a>                                                
-                                            </div>
-                                            <div id="collapseManagment" class="collapse" aria-labelledby="headManagment" data-parent="#sidebarMenu">
-                                                <div class="card-body">
-                                                    <ul class="list-unstyled child_menu" id="managementMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                                        <sec:authorize access="hasRole('USERMANAGER')">
-                                                            <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                                            <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
-                                                            <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                                            <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
-                                                        </sec:authorize>
-                                                        <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                                            <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                                                        </sec:authorize>
-                                                        <sec:authorize access="hasRole('USERMANAGER')">
-                                                            <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
-                                                        </sec:authorize> 
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </sec:authorize>            
-                                    </div>
+                        <!--                                    <div class="accordion" id="sidebarMenu">
+                                                                <div class="card">
+                                                                    <div class="card-header" id="headPersonal">                                                
+                                                                            <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="true" aria-controls="collapsePersonal">
+                                                                            <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
+                                                                            </a>                                                
+                                                                    </div>
+                                                                    <div id="collapsePersonal" class="collapse" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
+                                                                        <div class="card-body">
+                                                                            <ul class="list-unstyled child_menu" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                                                                <li>
+                                                                                    <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card">
+                                                                    <div class="card-header" id="headMonitoring">                                                
+                                                                            <a href="#monitoringMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
+                                                                                <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
+                                                                            </a>                                                
+                                                                    </div>
+                                                                    <div id="collapseMonitoring" class="collapse" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
+                                                                        <div class="card-body">
+                                                                            <ul class="list-unstyled child_menu" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                                                                                <li>
+                                                                                    <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
+                                                                                </li>
+                        <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
+                         <li>
+                            <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                            ${option.key}                                                             
+                        </a>
+                    </li>
+                        </c:forEach>
+                        <li>
+                            <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
+                        </li>
+                    </ul>            
                 </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header" id="headDashboards">                                                
+                    <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
+                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
+                    </a>                                                
+            </div>
+            <div id="collapseDashboards" class="collapse" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
+                <div class="card-body">
+                    <ul class="list-unstyled child_menu" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                        <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
+                        <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
+                        <li class="text-nowrap">
+                            <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                            <c:if test="${Dush.value.get(\"locked\")==true}">
+                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
+                            </c:if>                                                               
+                            <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
+                            </c:if>                                                                  
+                            ${Dush.key}                                                             
+                        </a>
+                    </li>
+                        </c:forEach>
+                    </ul>
+                </div>
+            </div>
+        </div>
+                        <sec:authorize access="hasRole('ADMIN')">                    
+                        <div class="card">
+                            <div class="card-header" id="headManagment">                                                
+                                    <a href="#managementMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseManagment" aria-expanded="false" aria-controls="collapseManagment">
+                                        <i class="fa fa-edit"></i><spring:message code="index.managment"/>
+                                    </a>                                                
+                            </div>
+                            <div id="collapseManagment" class="collapse" aria-labelledby="headManagment" data-parent="#sidebarMenu">
+                                <div class="card-body">
+                                    <ul class="list-unstyled child_menu" id="managementMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
+                            <sec:authorize access="hasRole('USERMANAGER')">
+                                <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
+                                <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
+                                <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
+                            </sec:authorize>
+                            <sec:authorize access="hasRole('USERMANAGER')">
+                                <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
+                            </sec:authorize> 
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                        </sec:authorize>            
+                    </div>-->
+                        <ul id="sidebarMenu" class="accordion list-unstyled">
+                            <li class="card">
+                                <div class="card-header" id="headPersonal">                                                
+                                    <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="true" aria-controls="collapsePersonal">
+                                        <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
+                                    </a>                                                
+                                </div>
+                                <div id="collapsePersonal" class="collapse" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled child_menu" id="personalMenu">
+                                                <li>
+                                                    <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
+                                            </li>
+                                            <li>
+                                                <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="card">
+                                <div class="card-header" id="headMonitoring">                                                
+                                    <a href="#monitoringMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
+                                        <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
+                                    </a>                                                
+                                </div>
+                                <div id="collapseMonitoring" class="collapse" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled child_menu" id="monitoringMenu">
+                                                <li>
+                                                    <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
+                                            </li>
+                                            <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
+                                                <li>
+                                                    <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                        ${option.key}                                                             
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
+                                            <li>
+                                                <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
+                                            </li>
+                                        </ul>            
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="card">
+                                <div class="card-header" id="headDashboards">                                                
+                                    <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
+                                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
+                                    </a>                                                
+                                </div>
+                                <div id="collapseDashboards" class="collapse" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled child_menu" id="dashboardsMenu">
+                                            <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
+                                                <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
+                                                <li class="text-nowrap">
+                                                    <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                        <c:if test="${Dush.value.get(\"locked\")==true}">
+                                                            &nbsp; <i  type="button" class="fa fas fa-lock"></i>
+                                                        </c:if>                                                               
+                                                        <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                                            &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
+                                                        </c:if>                                                                  
+                                                        ${Dush.key}                                                             
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <sec:authorize access="hasRole('ADMIN')">                    
+                                <li class="card">
+                                    <div class="card-header" id="headManagment">                                                
+                                        <a href="#managementMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseManagment" aria-expanded="false" aria-controls="collapseManagment">
+                                            <i class="fa fa-edit"></i><spring:message code="index.managment"/>
+                                        </a>                                                
+                                    </div>
+                                    <div id="collapseManagment" class="collapse" aria-labelledby="headManagment" data-parent="#sidebarMenu">
+                                        <div class="card-body">
+                                            <ul class="list-unstyled child_menu" id="managementMenu">
+                                                <sec:authorize access="hasRole('USERMANAGER')">
+                                                    <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
+                                                    <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                                    <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
+                                                    <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
+                                                    </sec:authorize>
+                                                    <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                                    <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
+                                                    </sec:authorize>
+                                                    <sec:authorize access="hasRole('USERMANAGER')">
+                                                    <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
+                                                    </sec:authorize> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </sec:authorize>            
+                        </ul>
+                        <ul id="sidebarSmallMenu" class="list-unstyled">
+                            <li>                
+                                <div class="dropdown dropright">
+                                    <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuPersonal" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fas fa-info "></i>  
+                                        <spring:message code="index.personal"/>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="menuPersonal">
+                                        <a class="dropdown-item" href="<c:url value="/profile"/>"><spring:message code="index.personal.profile"/></a>
+                                        <a class="dropdown-item" href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
+                                        <a class="dropdown-item" href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
+                                        <a class="dropdown-item" href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>                
+                                <div class="dropdown dropright">
+                                    <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuMonitoring" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa far fa-bell"></i>
+                                        <spring:message code="index.monitoring"/>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="menuMonitoring">
+                                        <a class="dropdown-item" href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
+                                        <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
+                                            <a href="<spring:url value="/monitoring/${option.key}/" htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                ${option.key}                                                             
+                                            </a>
+                                        </c:forEach>
+                                        <a class="dropdown-item" href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>                
+                                <div class="dropdown dropright">
+                                    <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuDash" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fas fa-desktop"></i>
+                                        <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="menuDash">
+                                        <a class="dropdown-item" href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a>
+                                        <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
+                                            <a class="dropdown-item" href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                <c:if test="${Dush.value.get(\"locked\")==true}">
+                                                    &nbsp; <i  type="button" class="fa fas fa-lock"></i>
+                                                </c:if>                                                               
+                                                <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                                    &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
+                                                </c:if>                                                                  
+                                                ${Dush.key}                                                             
+                                            </a>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </li>
+                            <sec:authorize access="hasRole('ADMIN')">
+                                <li>                
+                                    <div class="dropdown dropright">
+                                        <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuManagement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-edit"></i>
+                                            <spring:message code="index.managment"/> 
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="menuManagement">
+                                            <sec:authorize access="hasRole('USERMANAGER')">
+                                                <a class="dropdown-item" href="<c:url value="/userslist"/>"><spring:message code="index.managment.users"/></a>
+                                                <a class="dropdown-item" href="<c:url value="/cookreport"/>"><spring:message code="index.managment.cookAREKY"/></a>
+                                                <a class="dropdown-item" href="<c:url value="/paymentslist"/>"><spring:message code="index.managment.payments"/></a>
+                                                <a class="dropdown-item" href="<c:url value="/whitelable/list"/>"><spring:message code="index.managment.whitelabels"/></a>
+                                            </sec:authorize>
+                                            <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                                <a class="dropdown-item" href="<c:url value="/pages"/>"><spring:message code="index.managment.content"/></a>
+                                            </sec:authorize>
+                                            <sec:authorize access="hasRole('USERMANAGER')">
+                                                <a class="dropdown-item" href="<c:url value="/templatelist"/>"><spring:message code="index.managment.templates"/></a>
+                                            </sec:authorize>
+                                        </div>
+                                    </div>
+                                </li> 
+                            </sec:authorize>
+                        </ul>                        
+                    </div>
                     
 
                     <!--                sidebar active          -->
 
-                    <ul class="list-unstyled  strutComponents">
-                        <li>                
-                            <div class="dropdown dropright">
-                                <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuPersonal" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fas fa-info "></i>  
-                                    <spring:message code="index.personal"/>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="menuPersonal">
-                                    <a class="dropdown-item" href="<c:url value="/profile"/>"><spring:message code="index.personal.profile"/></a>
-                                    <a class="dropdown-item" href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
-                                    <a class="dropdown-item" href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
-                                    <a class="dropdown-item" href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>                
-                            <div class="dropdown dropright">
-                                <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuMonitoring" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa far fa-bell"></i>
-                                    <spring:message code="index.monitoring"/>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="menuMonitoring">
-                                    <a class="dropdown-item" href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
-                                    <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
-                                    <a href="<spring:url value="/monitoring/${option.key}/" htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                            ${option.key}                                                             
-                                    </a>
-                                    </c:forEach>
-                                    <a class="dropdown-item" href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
-                                </div>
-                            </div>
-                        </li>
-                        <li>                
-                            <div class="dropdown dropright">
-                                <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuDash" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fas fa-desktop"></i>
-                                    <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="menuDash">
-                                    <a class="dropdown-item" href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a>
-                                    <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                                        <a class="dropdown-item" href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                            <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
-                                            </c:if>                                                               
-                                            <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
-                                            </c:if>                                                                  
-                                            ${Dush.key}                                                             
-                                        </a>
-                                </c:forEach>
-                                </div>
-                            </div>
-                        </li>
-                        <sec:authorize access="hasRole('ADMIN')">
-                        <li>                
-                            <div class="dropdown dropright">
-                                <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuManagement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-edit"></i>
-                                    <spring:message code="index.managment"/> 
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="menuManagement">
-                                    <sec:authorize access="hasRole('USERMANAGER')">
-                                        <a class="dropdown-item" href="<c:url value="/userslist"/>"><spring:message code="index.managment.users"/></a>
-                                        <a class="dropdown-item" href="<c:url value="/cookreport"/>"><spring:message code="index.managment.cookAREKY"/></a>
-                                        <a class="dropdown-item" href="<c:url value="/paymentslist"/>"><spring:message code="index.managment.payments"/></a>
-                                        <a class="dropdown-item" href="<c:url value="/whitelable/list"/>"><spring:message code="index.managment.whitelabels"/></a>
-                                    </sec:authorize>
-                                    <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                        <a class="dropdown-item" href="<c:url value="/pages"/>"><spring:message code="index.managment.content"/></a>
-                                    </sec:authorize>
-                                    <sec:authorize access="hasRole('USERMANAGER')">
-                                        <a class="dropdown-item" href="<c:url value="/templatelist"/>"><spring:message code="index.managment.templates"/></a>
-                                    </sec:authorize>
-                                </div>
-                            </div>
-                        </li> 
-                        </sec:authorize>
-                    </ul>
+                   
 
                     <!-- sidebar-footer buttons -->
 
@@ -1086,7 +1194,7 @@
             <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js?v=${version}"></script>        
             <!-- Custom Theme Scripts -->
 <!--            <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>-->
-            <script src="${cp}/resources/build/js/customOE.js?v=${version}"></script>
+<!--            <script src="${cp}/resources/build/js/customOE.js?v=${version}"></script>-->
             <!-- Select2 -->
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 
@@ -1095,7 +1203,7 @@
             <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>    
             <script src="${cp}/resources/js/global.js?v=${version}"></script>        
             <script src="${cp}/resources/js/scriptOE.js?v=${version}"></script>
-
+            
             <c:catch var="e">
                 <c:import url="${jspart}.jsp" />
             </c:catch>

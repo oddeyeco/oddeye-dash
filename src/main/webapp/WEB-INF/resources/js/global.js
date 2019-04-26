@@ -399,15 +399,22 @@ $(document).ready(function () {
 //        $("#welcomemessage").modal('show');
     }
 
+//    if (getCookie('small') == 'true')
+//    {
+//        $('ul.child_menu').hide();
+//        if ($BODY.hasClass('nav-sm')) {
+//            $SIDEBAR_MENU.find('li.active ul').hide();
+//            $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+//        }
+//    }
     if (getCookie('small') == 'true')
     {
-        $('ul.child_menu').hide();
+        $('#sidebarMenu').hide();
         if ($BODY.hasClass('nav-sm')) {
-            $SIDEBAR_MENU.find('li.active ul').hide();
-            $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+            $('#sidebar, #content').addClass('active');
         }
-    }
-
+    } 
+    
     if (!$('.profile_left-form').is(":visible"))
     {
         $('.hidefilter').removeClass('fa-chevron-up');

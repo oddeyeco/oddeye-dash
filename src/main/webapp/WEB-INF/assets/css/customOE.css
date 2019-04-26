@@ -4,7 +4,7 @@
 */
 @charset "UTF-8";
 
-.left_col {
+/*.left_col {
   background: #2A3F54; }
 
 .nav-sm .container.body .col-md-3.left_col {
@@ -22,7 +22,7 @@
   overflow: visible; }
 
 .nav-sm .hidden-small {
-  visibility: hidden; }
+  visibility: hidden; }*/
 
 .nav-sm .container.body .right_col {
   padding: 10px 20px;

@@ -131,7 +131,7 @@
                                                     <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-
+                                                            
                                                             ${option.key}                                                             
                                                         </a>
 

@@ -83,7 +83,7 @@ span {
 #sidebar div#sidebar-menu {
     padding: 0.5rem;
 }
-#sidebar ul.strutComponents {
+#sidebar ul#sidebarSmallMenu {
     padding: 0.5rem;
 }
 #sidebar div#sidebar-menu ul.child_menu li:hover {
@@ -346,10 +346,10 @@ a[aria-expanded="true"] {
     color: #fff;
     background: #343a40;
 }
-#sidebar.active div#sidebar-menu {
+#sidebar.active ul#sidebarMenu {
     display: none;
 }
-#sidebar:not(.active) ul.strutComponents {
+#sidebar:not(.active) ul#sidebarSmallMenu {
     display: none;
 }
 #sidebar.active .sidebar-footer {
@@ -418,20 +418,20 @@ a[aria-expanded="true"] {
     color: #000;
 }
 
-ul.strutComponents .dropright.show .dropdown-menu.show {
+ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
     min-width: inherit;
     width: 140px;
     padding: 0.2rem 0.5rem 0.8rem;
     background-color: #343a40;
     border: none;
 }
-#sidebar.active ul.strutComponents .dropright.show .dropdown-menu.show>a {
+#sidebar.active ul#sidebarSmallMenu .dropright.show .dropdown-menu.show>a {
     color: #fff;
     padding: 10px 0 10px;
     text-align: center;
     font-size: 0.8rem;
 }
-#sidebar.active ul.strutComponents .dropright.show .dropdown-menu.show>a:hover {
+#sidebar.active ul#sidebarSmallMenu .dropright.show .dropdown-menu.show>a:hover {
     color: #000;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 1);
 }
