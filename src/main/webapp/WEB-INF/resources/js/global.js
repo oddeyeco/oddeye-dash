@@ -381,24 +381,20 @@ function ModifierColor(color, angel) {
     return newRgba;
 }
 
-var fullscreen = getCookie('fullscreen');
-if (fullscreen == 'true')
-{
-    $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").hide();
-    var right_col_style = "";
-    right_col_style = $(".right_col").attr('style');
-    setCookie("right_col_style", right_col_style, {path: '/'});
-    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('margin', "0");
-    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
-    $(".profile_right").css("width", "100%");
-}
+//var fullscreen = getCookie('fullscreen');
+//if (fullscreen == 'true')
+//{
+//    $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").hide();
+//    var right_col_style = "";
+//    right_col_style = $(".right_col").attr('style');
+//    setCookie("right_col_style", right_col_style, {path: '/'});
+//    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('margin', "0");
+//    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
+//    $(".profile_right").css("width", "100%");
+//}
 
 $(document).ready(function () {
-    if (Firstlogin)
-    {
-//        $("#welcomemessage").modal('show');
-    }
-
+    
 //    if (getCookie('small') == 'true')
 //    {
 //        $('ul.child_menu').hide();

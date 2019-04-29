@@ -57,7 +57,7 @@
             <link href="${cp}/resources/jsoneditor/dist/jsoneditor.min.css?v=${version}" rel="stylesheet" type="text/css">
             <!-- Custom Theme Style -->
 <!--            <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css?v=${version}" />  -->
-            <link rel="stylesheet" type="text/css" href="../assets/css/customOE.css" />
+<!--            <link rel="stylesheet" type="text/css" href="../assets/css/customOE.css" />-->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />
             <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css?v=${version}" rel="stylesheet">     
 
@@ -65,7 +65,7 @@
             <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css?v=${version}" />-->      
             
             <c:if test="${empty curentuser.getTemplate()}" >
-                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
+<!--                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />-->
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />
             </c:if>                        
 
@@ -303,7 +303,7 @@
                         <ul id="sidebarMenu" class="accordion list-unstyled">
                             <li class="card">
                                 <div class="card-header" id="headPersonal">                                                
-                                    <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="true" aria-controls="collapsePersonal">
+                                    <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="false" aria-controls="collapsePersonal">
                                         <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
                                     </a>                                                
                                 </div>
@@ -443,17 +443,18 @@
                                 <div class="dropdown dropright">
                                     <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuDash" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fas fa-desktop"></i>
-                                        <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
+                                        <spring:message code="index.dashboardsDushList"/>
+                                        <span class="d-block">[ ${curentuser.getDushList().size()} ]</span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="menuDash">
                                         <a class="dropdown-item" href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a>
                                         <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                             <a class="dropdown-item" href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
                                                 <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                    &nbsp; <i  type="button" class="fa fas fa-lock"></i>
+                                                    <i class="fa fas fa-lock"></i>
                                                 </c:if>                                                               
                                                 <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                    &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
+                                                    <i class="fa fas fa-lock-open"></i>
                                                 </c:if>                                                                  
                                                 ${Dush.key}                                                             
                                             </a>
@@ -499,7 +500,7 @@
                         <a href="<c:url value="/logout/"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' data-original-title='<spring:message code="logout"/>'>
                             <span class="fas fa-power-off" aria-hidden="true"></span>
                         </a>
-                        <a data-toggle="tooltip" data-placement="top" title='<spring:message code="fullScreen"/>' data-original-title='<spring:message code="fullScreen"/>' id="FullScreen">
+                        <a href="" data-toggle="tooltip" data-placement="top" title='<spring:message code="fullScreen"/>' data-original-title='<spring:message code="fullScreen"/>' id="FullScreen">
                             <span class="fas fa-arrows-alt" aria-hidden="true"></span>
                         </a>
                         <a href="${cp}/profile/edit" data-toggle="tooltip" data-placement="top" title='<spring:message code="settings"/>' data-original-title='<spring:message code="settings"/>'>
@@ -520,7 +521,19 @@
                             </button>
                             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                                 <ul class="nav navbar-nav ml-auto">
-                                    <li class="">
+                                    <sec:authorize access="hasRole('ADMIN')">
+                                        <li class="nav-item">
+                                            <a class="nav-link">
+                                                <%
+                                                    InetAddress ia = InetAddress.getLocalHost();
+                                                    String node = ia.getHostName();
+                                                    pageContext.setAttribute("node", node);
+                                                %>          
+                                                Server ${node}
+                                            </a>
+                                        </li>    
+                                    </sec:authorize>
+                                    <li class="nav-item">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                                                     
                                                 <c:if test="${curentuser.getSwitchUser()==null}">
@@ -569,19 +582,7 @@
                                                 </li> 
                                             </ul>
                                         </div>
-                                    </li>
-                                    <sec:authorize access="hasRole('ADMIN')">
-                                        <li class="">
-                                            <a>
-                                                <%
-                                                    InetAddress ia = InetAddress.getLocalHost();
-                                                    String node = ia.getHostName();
-                                                    pageContext.setAttribute("node", node);
-                                                %>          
-                                                Server ${node}
-                                            </a>
-                                        </li>
-                                    </sec:authorize>
+                                    </li>                                    
                                 </ul>
                             </div>
                         </div>
