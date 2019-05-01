@@ -17,14 +17,20 @@
                 <c:choose>
                     <c:when test="${(!empty result) && (tab == \"level-tab\")}">
                         <li role="presentation" class="disabled <c:if test="${tab == \"general-tab\"}">active</c:if>  ">
-                                <a id="general-tab" role="tab" aria-expanded="false">
+                            <a id="general-tab" role="tab" aria-expanded="false">
                                 <spring:message code="profileedit.general"/>
                             </a>
                         </li>
-                        <li role="presentation" class="<c:if test="${tab == \"level-tab\"}">active</c:if>  "><a href="#level_content" role="tab" id="level-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.levelsSettings"/></a>
-                            </li>
-                            <li role="presentation" class="disabled <c:if test="${tab == \"pass-tab\"}">active</c:if>"><a role="tab" id="profile-tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
-                            </li>
+                        <li role="presentation" class="<c:if test="${tab == \"level-tab\"}">active</c:if>  ">
+                            <a href="#level_content" role="tab" id="level-tab" data-toggle="tab" aria-expanded="false">
+                                <spring:message code="profileedit.levelsSettings"/>
+                            </a>
+                        </li>
+                        <li role="presentation" class="disabled <c:if test="${tab == \"pass-tab\"}">active</c:if>">
+                            <a role="tab" id="profile-tab" aria-expanded="false">
+                                <spring:message code="profileedit.security"/>
+                            </a>
+                        </li>
                     </c:when>    
                     <c:when test="${(!empty result) && (tab == \"pass-tab\")}">
                         <li role="presentation" class="disabled <c:if test="${tab == \"general-tab\"}">active</c:if>  ">
@@ -35,7 +41,7 @@
                         <li role="presentation" class="disabled <c:if test="${tab == \"level-tab\"}">active</c:if>  "><a  role="tab" id="level-tab" aria-expanded="false"><spring:message code="profileedit.levelsSettings"/></a>
                             </li>
                             <li role="presentation" class="<c:if test="${tab == \"pass-tab\"}">active</c:if>"><a href="#tab_pass" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false"><spring:message code="profileedit.security"/></a>
-                            </li>
+                        </li>
                     </c:when>                                                
                     <c:when test="${(!empty result) && (tab == \"general-tab\")}">
                         <li role="presentation" class="<c:if test="${tab == \"general-tab\"}">active</c:if>  ">
@@ -61,6 +67,7 @@
                     </c:otherwise>
                 </c:choose>                
             </ul>
+            
             <div id="myTabContent" class="tab-content">
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"general-tab\"}">active</c:if> " id="general_content" aria-labelledby="general_content">
                         <div class="x_content">
@@ -153,6 +160,7 @@
                         </form:form>                                                
                     </div>                
                 </div>
+                        
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"level-tab\"}">active</c:if> " id="level_content" aria-labelledby="level_content">
                     <form:form method="post" action="${cp}/profile/saveuserlevels" modelAttribute="newuserleveldata" novalidate="true" cssClass="form-horizontal form-label-left">                            
                         <div class="table-responsive">
@@ -196,6 +204,7 @@
 
                     </form:form>                    
                 </div>
+                    
                 <div role="tabpanel" class="tab-pane fade in <c:if test="${tab == \"pass-tab\"}">active</c:if>" id="tab_pass" aria-labelledby="pass-tab">
                         <div class="x_content">                                        
                         <form:form method="post" action="${cp}/profile/changepassword" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="passwordform">
@@ -229,9 +238,7 @@
                             </div>
                         </form:form>
                     </div>                     
-
                 </div>
-
             </div>
         </div>
     </div>
