@@ -5,7 +5,7 @@
 @import "https://fonts.googleapis.com/css?family=Lato|Roboto";
 body {    
     font-family: sans-serif,'Roboto','Lato';    
-    background: #fafafa;
+    background: #f0f0f0;
     font-size: 14px;
 }
 p {
@@ -332,7 +332,7 @@ a.article:hover, a.download:hover {
 }
 
 .depthShadowLight:hover {
-    background-color: #f7f7f7;
+    background-color: #f0f0f0;
     border-radius: 4px;
     -webkit-box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
     box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
@@ -501,9 +501,10 @@ ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    border: 1px solid #c7cccc;
+    background-color: #fff;
+    border: 1px solid #aeb3b3;
     border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
 }
 .tile_count .tile_stats_count:hover {
@@ -666,7 +667,7 @@ div#tagsconteger.ui-sortable .draggable {
 }*/
 div#tagsconteger.ui-sortable .draggable:hover {
     background-color: #343a40;
-    color: #c7cccc;
+    color: #ffffff;
     border-color: #343a40;
     box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3);   
 }
