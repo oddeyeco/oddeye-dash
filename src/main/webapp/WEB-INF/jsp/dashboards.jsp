@@ -17,9 +17,9 @@
                       <a class="btn btn-outline-success btn-sm float-right" href="<spring:url value="/dashboard/new" htmlEscape="true"/>"><spring:message code="dashboards.newDashboard"/></a>                            
                   </h4>                           
                   <div class="card-body">
-                      <ul class="row gotodash">                            
+                      <ul class="row gotodash depthShadowLight">                            
                           <c:forEach items="${activeuser.getDushListasObject()}" var="Dush" varStatus="loop">                                
-                              <li class=" col-6 col-sm-6 col-lg-4">
+                              <li class=" col-12 col-sm-6 col-md-4 col-lg-4">
                                   <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">
                                       <c:if test="${Dush.value.get(\"locked\")==true}">
                                           &nbsp; <i class="fa fas fa-lock"></i>
@@ -59,7 +59,7 @@
                       <spring:message code="dashboards.availableTemplates"/>                                 
                   </h4>
                   <div class="card-body">
-                      <ul class="row list-unstyled gotodash">
+                      <ul class="row list-unstyled gotodash depthShadowLight">
                           <c:forEach items="${recomend}" var="Dush" varStatus="loop">                                
                               <li class="col-xl-12">
                                   <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span> 
@@ -76,7 +76,7 @@
                       <spring:message code="dashboards.myTemplates"/>           
                   </h4>
                   <div class="card-body"> 
-                      <ul class="row list-unstyled gotodash"> 
+                      <ul class="row list-unstyled gotodash depthShadowLight"> 
                           <c:forEach items="${mylasttemplates}" var="Dush" varStatus="loop">                                
                               <li class="col-12">
                                   <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash">                                    

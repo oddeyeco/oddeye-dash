@@ -50,7 +50,7 @@
             <link href="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css?v=${version}" rel="stylesheet" />
             <link href="${cp}/resources/cropper/dist/cropper.min.css?v=${version}" rel="stylesheet" /> 
             <!-- Select2 -->
-            <link href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}" rel="stylesheet">
+<!--            <link href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}" rel="stylesheet">-->
             <!-- Bootstrap bootstrap-daterangepicker -->
             <link href="${cp}/resources/bootstrap-daterangepicker/daterangepicker.css?v=${version}" rel="stylesheet"> 
             <!-- Jsoneditor -->
@@ -307,7 +307,7 @@
                                         <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
                                     </a>                                                
                                 </div>
-                                <div id="collapsePersonal" class="collapse" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
+                                <div id="collapsePersonal" class="collapse depthShadowDark" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
                                     <div class="card-body">
                                         <ul class="list-unstyled child_menu" id="personalMenu">
                                                 <li>
@@ -332,7 +332,7 @@
                                         <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
                                     </a>                                                
                                 </div>
-                                <div id="collapseMonitoring" class="collapse" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
+                                <div id="collapseMonitoring" class="collapse depthShadowDark" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
                                     <div class="card-body">
                                         <ul class="list-unstyled child_menu" id="monitoringMenu">
                                                 <li>
@@ -358,7 +358,7 @@
                                         <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
                                     </a>                                                
                                 </div>
-                                <div id="collapseDashboards" class="collapse" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
+                                <div id="collapseDashboards" class="collapse depthShadowDark" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
                                     <div class="card-body">
                                         <ul class="list-unstyled child_menu" id="dashboardsMenu">
                                             <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
@@ -366,10 +366,10 @@
                                                 <li class="text-nowrap">
                                                     <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
                                                         <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                            &nbsp; <i  type="button" class="fa fas fa-lock"></i>
+                                                            &nbsp; <i class="fa fas fa-lock"></i>
                                                         </c:if>                                                               
                                                         <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                            &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
+                                                            &nbsp; <i class="fa fas fa-lock-open"></i>
                                                         </c:if>                                                                  
                                                         ${Dush.key}                                                             
                                                     </a>
@@ -386,7 +386,7 @@
                                             <i class="fa fa-edit"></i><spring:message code="index.managment"/>
                                         </a>                                                
                                     </div>
-                                    <div id="collapseManagment" class="collapse" aria-labelledby="headManagment" data-parent="#sidebarMenu">
+                                    <div id="collapseManagment" class="collapse depthShadowDark" aria-labelledby="headManagment" data-parent="#sidebarMenu">
                                         <div class="card-body">
                                             <ul class="list-unstyled child_menu" id="managementMenu">
                                                 <sec:authorize access="hasRole('USERMANAGER')">

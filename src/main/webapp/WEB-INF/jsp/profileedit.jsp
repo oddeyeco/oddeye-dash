@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>        
+<!--<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>        -->
 <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}"/>
                         
 <div class="col-lg-12 col-md-12 col-12 mb-4">
@@ -42,79 +42,84 @@
                 <div class="tab-pane fade show <c:if test="${tab == \"general-tab\"}">active</c:if>" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab">
                     <form:form method="post" action="${cp}/profile/saveuser" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="userdata">                            
                         <div class="form-group row">
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="name">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="name">
                                 <spring:message code="profileedit.firstName"/> <span class="required">*</span>
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
+                            <div class="col-lg-5 col-md-6 col-12">
                                 <spring:message code="profileedit.firstName" var="ph"/> 
                                 <form:input path="name" cssClass="form-control" required="" placeholder="${ph}"/>
                                 <form:errors path="name" />
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="lastname">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="lastname">
                                 <spring:message code="profileedit.lastName"/> 
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
+                            <div class="col-lg-5 col-md-6 col-12">
                                 <spring:message code="profileedit.lastName" var="ph"/> 
                                 <form:input path="lastname" cssClass="form-control" placeholder="${ph}"/>
                                 <form:errors path="lastname" />
                             </div>
                         </div>                    
                         <div class="form-group row">
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="company">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="company">
                                 <spring:message code="profileedit.companyName"/> 
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
+                            <div class="col-lg-5 col-md-6 col-12">
                                 <spring:message code="profileedit.companyName" var="ph"/>
                                 <form:input path="company" cssClass="form-control" placeholder="${ph} "/>
                                 <form:errors path="company" />
                             </div>
                         </div>
                         <div class="form-group row">   
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="country">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="country">
                                 <spring:message code="profileedit.country"/>
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
-                                <form:select path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1"/>                                        
+                            <div class="col-lg-5 col-md-6 col-12">
+                           <%-- <form:select path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1" />                                       
+                                <form:errors path="country" /> --%>                    
+                                <form:select path="country" items="${countryList}" cssClass="form-control"/>                                       
                                 <form:errors path="country" />                    
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="city">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="city">
                                 <spring:message code="profileedit.city"/> 
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
+                            <div class="col-lg-5 col-md-6 col-12">
                                 <spring:message code="profileedit.city" var="ph"/>    
                                 <form:input path="city" cssClass="form-control" placeholder="${ph}"/>
                                 <form:errors path="city" />                    
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="region">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="region">
                                 <spring:message code="profileedit.region"/> 
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
+                            <div class="col-lg-5 col-md-6 col-12">
                                 <spring:message code="profileedit.region" var="ph"/> 
                                 <form:input path="region" cssClass="form-control" placeholder="${ph}"/>
                                 <form:errors path="region" />              
                             </div>
                         </div>
                         <div class="form-group row">                    
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="timezone">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="timezone">
                                 <spring:message code="profileedit.timezone"/> <span class="required">*</span>
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
-                                <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                        
+                            <div class="col-lg-5 col-md-6 col-12">
+                                <%-- <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                       
+                                <form:errors path="timezone" />--%> 
+                                <form:select path="timezone" items="${tzone}" cssClass="form-control"/>                                        
                                 <form:errors path="timezone" />
                             </div>
                         </div>    
                         <div class="form-group row">                    
-                            <label class="col-form-label col-lg-4 col-md-4 col-4 text-md-right text-center text-muted" for="template">
+                            <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="template">
                                 <spring:message code="profileedit.template"/>
                             </label>
-                            <div class="col-lg-5 col-md-6 col-8">
-                                <form:select path="template" cssClass="form-control select2_tz" tabindex="-1">
+                            <div class="col-lg-5 col-md-6 col-12">
+                                <%--<form:select path="template" cssClass="form-control select2_tz" tabindex="-1">--%>
+                                <form:select path="template" cssClass="form-control">                                    
                                     <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
                                     <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
                                     <%--  <form:option value="dark2" ><spring:message code="profileedit.template.dark2"/></form:option> --%>
@@ -123,9 +128,9 @@
                             </div>
                         </div>                                                             
                         <div class="form-group row">
-                            <div class="col-lg-6 col-md-6 col-12 offset-lg-4">                                    
-                                <a class="btn btn-outline-primary" href="#" role="button" type="reset"><spring:message code="cancel"/></a>
-                                <a class="btn btn-outline-success" href="#" role="button" type="submit"><spring:message code="save"/></a>
+                            <div class="col-lg-6 col-md-6 col-12 offset-lg-4"> 
+                                <button type="reset" class="btn btn-outline-primary mr-1"><spring:message code="cancel"/></button>
+                                <button type="submit" class="btn btn-outline-success"><spring:message code="save"/></button>
                             </div>
                         </div>
                     </form:form> 
@@ -167,8 +172,8 @@
                         </div>
                         <div class="form-group">
                             <div class="float-left">
-                                <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>
-                                <button type="submit" class="btn btn-success"><spring:message code="save"/></button>
+                                <button type="reset" class="btn btn-outline-primary mr-1"><spring:message code="cancel"/></button>
+                                <button type="submit" class="btn btn-outline-success"><spring:message code="save"/></button>
                             </div>
                         </div>                        
 
@@ -209,8 +214,8 @@
                         </div>
                         <div class="form-group row">
                             <div class="col-lg-5 col-md-6 col-12 offset-lg-4">
-                                <button type="reset" class="btn btn-primary"><spring:message code="cancel"/></button>
-                                <button type="submit" class="btn btn-success"><spring:message code="savePassword"/></button>
+                                <button type="reset" class="btn btn-outline-primary mr-1"><spring:message code="cancel"/></button>
+                                <button type="submit" class="btn btn-outline-success"><spring:message code="savePassword"/></button>
                             </div>
                         </div>    
                     </form:form> 
