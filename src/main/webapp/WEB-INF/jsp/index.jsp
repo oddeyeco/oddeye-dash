@@ -1197,7 +1197,8 @@
 <!--            <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>-->
 <!--            <script src="${cp}/resources/build/js/customOE.js?v=${version}"></script>-->
             <!-- Select2 -->
-            <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
+<!--            <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>-->
+            <script src="${cp}/resources/select2/dist/js/select2.js?v=${version}"></script>
 
             <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script> 
             <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>                        

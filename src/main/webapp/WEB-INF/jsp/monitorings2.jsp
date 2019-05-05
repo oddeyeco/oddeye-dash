@@ -295,7 +295,7 @@
                                                                     <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
                                                                 </div>
                                                                 <div class="form-group col-8">                                                           
-                                                                    <select class="form-control form-control-sm" id="allfilter">                                                                            
+                                                                    <select class="add_filter_select form-control form-control-sm" id="allfilter">                                                                            
                                                                         <option value="">&nbsp;</option>
                                                                         <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                                                         <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
@@ -349,7 +349,7 @@
                                                                 <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
                                                             </div>
                                                             <div class="form-group col-8">                                                           
-                                                                <select class="form-control form-control-sm" id="mlfilter">                                                                            
+                                                                <select class="add_filter_select form-control form-control-sm" id="mlfilter">                                                                            
                                                                     <option value="">&nbsp;</option>
                                                                     <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                                                     <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
@@ -405,7 +405,7 @@
                                                                 <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
                                                             </div>
                                                             <div class="form-group col-8">                                                           
-                                                                <select class="form-control form-control-sm" id="manualfilter">                                                                            
+                                                                <select class="add_filter_select form-control form-control-sm" id="manualfilter">                                                                            
                                                                     <option value="">&nbsp;</option>
                                                                     <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                                                     <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
