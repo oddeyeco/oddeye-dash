@@ -105,7 +105,7 @@
                         </a>
                     </div>                    
                     <!-- sidebar Menu -->
-                    <div id="sidebar-menu">
+                    <div id="sidebar-menu">                       
                         <!--                    <ul class="list-unstyled components">
                             <li>                    
                                 <a href="#personalMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -1148,7 +1148,7 @@
                     </c:otherwise>                                                    
                 </c:choose>
             </c:if>             
-
+   
             <script>
                 var headerName = "${_csrf.headerName}";
                 var token = "${_csrf.token}";

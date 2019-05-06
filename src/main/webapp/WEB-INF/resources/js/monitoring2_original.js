@@ -21,12 +21,10 @@ function redrawBoard() {
     {
         DrawErrorList(errorlistJson, $(".metrictable"));
     }
-
 }
 
 function connectstompClient()
 {
-
     var headers = {};
     headers[headerName] = token;
     headers["sotoken"] = sotoken;
