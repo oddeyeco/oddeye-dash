@@ -44,7 +44,7 @@ var single_wi = 0;
 var scrolltimer;
 var btn = null;
 
-function shutdownTimers() {
+function shutdownTimers(gdd) {
     for (var ri in gdd.rows)
     {
         for (var wi in gdd.rows[ri].widgets)
@@ -584,6 +584,9 @@ var queryCallback = function (inputdata) {
 
             that.finalizeCallback();
         };
+    }
+     function statusCallback(data) {
+         counterCallback(data);
     }
     function heatmapCallback(data) {
         if (data.chartsdata)
@@ -2073,6 +2076,8 @@ var queryCallback = function (inputdata) {
         switch(widget.type) {
             case "counter":
                 return counterCallback(data);
+            case "status":
+                return statusCallback(data);
             case "heatmap":
                 return heatmapCallback(data);
             default:
@@ -2719,17 +2724,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide();
     }
 
-    for (var ri in dashJSON.rows)
-    {
-        var tmprow = dashJSON.rows[ri];
-        for (var wi in    tmprow.widgets)
-        {
-            if (tmprow.widgets[wi])
-            {
-                clearTimeout(tmprow.widgets[wi].timer);
-            }
-        }
-    }
+    shutdownTimers(dashJSON);
     if (rebuildform)
     {
         Edit_Form = null;
@@ -2764,20 +2759,15 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         acprefix = "dash.show";
     }
-    var title = locale[acprefix + ".chart"];
     var W_type = dashJSON.rows[row].widgets[index].type;
 
-    if (W_type === "table")
-    {
-        var title = locale[acprefix + ".table"];
-    }
-    if (W_type === "counter")
-    {
-        var title = locale[acprefix + ".counter"];
-    }
-    if (W_type === "heatmap")
-    {
-        var title = locale[acprefix + ".heatmap"];
+    var title;// = locale[acprefix + ".chart"];
+    switch(W_type) {
+        case "table":title = locale[acprefix + ".table"];break;
+        case "counter":title = locale[acprefix + ".counter"];break;
+        case "status":title = locale[acprefix + ".status"];break;
+        case "heatmap":title = locale[acprefix + ".heatmap"];break;
+        default:title = locale[acprefix + ".chart"];break;
     }
     if (rebuildform)
     {
@@ -2820,6 +2810,16 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
                 Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
+            }
+        } else if (W_type === "status")
+        {
+            $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
+                    '<div class="counter_single" id="status_single"></div>' +
+                    '</div>');
+            if (!readonly)
+            {
+                $(".right_col .editpanel").append('<div class="x_content edit-form">');
+                Edit_Form = new StatusEditForm($(".edit-form"), row, index, dashJSON, domodifier);
             }
         } else if (W_type === "table")
         {
@@ -3123,7 +3123,7 @@ $(document).ready(function () {
     
     $("#dashcontent").on('sortstart', function (event, ui) {
         var ri = ui.item.index();
-        shutdownTimers();
+        shutdownTimers(gdd);
         rowdrag = ri;
     });
     
@@ -3351,7 +3351,7 @@ $(document).ready(function () {
                 startdate = gdd.times.pickerstart;
             }
         }
-        shutdownTimers();        
+        shutdownTimers(gdd);        
 
         $('#global-down-sample').val(gdd.times.generalds[0]);
         if ($('#global-down-sample-ag').val() === "")
@@ -3418,13 +3418,13 @@ $(document).ready(function () {
     
     $("#addrow").on("click", function () {
         gdd.rows.push({widgets: []});
-        shutdownTimers();        
+        shutdownTimers(gdd);        
         domodifier();
         redrawAllJSON(gdd);
     });
     
     $dashBody.on("click", "#deleterowconfirm", function () {
-        shutdownTimers();
+        shutdownTimers(gdd);
         var ri = $(this).attr("index");
         gdd.rows.splice(ri, 1);
         domodifier();
@@ -3437,7 +3437,7 @@ $(document).ready(function () {
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = true;
 
-        shutdownTimers();        
+        shutdownTimers(gdd);        
         redrawAllJSON(gdd);
         domodifier();
     });
@@ -3472,7 +3472,7 @@ $(document).ready(function () {
     $dashBody.on("click", "#applydashjson", function () {
         doapplyjson = true;
 
-        shutdownTimers();
+        shutdownTimers(gdd);
         gdd = dasheditor.get();
         redrawAllJSON(gdd);
 
@@ -3535,7 +3535,7 @@ $(document).ready(function () {
     });
     
     $dashBody.on("click", "#applyrowjson", function () {
-        shutdownTimers();
+        shutdownTimers(gdd);
         var ri = $(this).attr("index");
         gdd.rows[ri] = dasheditor.get();
         redrawAllJSON(gdd);
@@ -3601,7 +3601,7 @@ $(document).ready(function () {
    
     
     $dashBody.on("click", "#deletewidgetconfirm", function () {
-        shutdownTimers();
+        shutdownTimers(gdd);
         var ri = $(this).attr("ri");
         var wi = $(this).attr("wi");
         gdd.rows[ri].widgets.splice(wi, 1);
@@ -3662,7 +3662,7 @@ $(document).ready(function () {
     });
     
     $dashBody.on("click", ".dublicate", function () {
-        shutdownTimers();
+        shutdownTimers(gdd);
         var ri = $(this).parents(".widgetraw").index();
         var curentwi = $(this).parents(".chartsection").index();
         
@@ -3686,7 +3686,7 @@ $(document).ready(function () {
     });
 
     $dashBody.on("click", ".addheatmap", function () {
-        shutdownTimers();
+        shutdownTimers(gdd);
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3703,7 +3703,7 @@ $(document).ready(function () {
     });
 
     $dashBody.on("click", ".addchart", function () {
-        shutdownTimers();
+        shutdownTimers(gdd);
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3721,7 +3721,7 @@ $(document).ready(function () {
     });
     //addchart
     $dashBody.on("click", ".addcounter", function () {
-        shutdownTimers();        
+        shutdownTimers(gdd);        
         var ri = $(this).parents(".widgetraw").index();
         if (!gdd.rows[ri].widgets)
         {
@@ -3729,6 +3729,21 @@ $(document).ready(function () {
         }
         var wi = gdd.rows[ri].widgets.length;
         gdd.rows[ri].widgets.push({type: "counter", size: 2});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
+        domodifier();
+        AutoRefreshSingle(ri, wi);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+    //addchart
+    $dashBody.on("click", ".addstatus", function () {
+        shutdownTimers(gdd);        
+        var ri = $(this).parents(".widgetraw").index();
+        if (!gdd.rows[ri].widgets)
+        {
+            gdd.rows[ri].widgets = [];
+        }
+        var wi = gdd.rows[ri].widgets.length;
+        gdd.rows[ri].widgets.push({type: "status", size: 2});
         window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
         domodifier();
         AutoRefreshSingle(ri, wi);
@@ -3849,7 +3864,7 @@ $(document).ready(function () {
 
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=edit");
-        shutdownTimers();        
+        shutdownTimers(gdd);        
         AutoRefreshSingle(single_ri, single_wi, false, true);
         $(".editchartpanel select").select2({minimumResultsForSearch: 15});
         $(".select2_group").select2({dropdownCssClass: "menu-select"});
@@ -3875,7 +3890,7 @@ $(document).ready(function () {
         }
         lockq[single_ri + " " + single_wi] = false;
         window.history.pushState({}, "", "?widget=" + single_wi + "&row=" + single_ri + "&action=view");
-        shutdownTimers();
+        shutdownTimers(gdd);
         AutoRefreshSingle(single_ri, single_wi, true, true);
         $RIGHT_COL.css('min-height', $(window).height());
     });
@@ -3885,7 +3900,7 @@ $(document).ready(function () {
         var request_W_index = getParameterByName("widget");
         var request_R_index = getParameterByName("row");
         window.history.pushState({}, "", window.location.pathname);
-        shutdownTimers();
+        shutdownTimers(gdd);
         lockq = [];
         $(".right_col .fulldash .dash_header").after($("#dash_main"));
         $(".editpanel").empty();
