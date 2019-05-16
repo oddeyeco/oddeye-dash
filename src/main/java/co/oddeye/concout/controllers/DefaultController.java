@@ -43,10 +43,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -54,7 +53,6 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Controller
 public class DefaultController {
-
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -327,7 +325,7 @@ public class DefaultController {
                     newUser.SendConfirmMail(mailSender, baseUrl);
                 }
 
-                newUser.SendAdminMail("User Sined", mailSender);
+                newUser.SendAdminMail("User Signed", mailSender);
                 newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
                 newUser.setActive(Boolean.FALSE);
                 Userdao.addUser(newUser);
