@@ -57,6 +57,7 @@ import javax.servlet.http.Cookie;
 
 //import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -69,6 +70,8 @@ import org.springframework.stereotype.Repository;
 //TODO REFACTOR
 @Repository("Userdao")
 public class HbaseUserDao extends HbaseBaseDao {
+    @Value("${dash.rootuser}")
+    private String dashRootUser;
 
     @Autowired
     HbaseMetaDao MetaDao;
@@ -278,7 +281,7 @@ public class HbaseUserDao extends HbaseBaseDao {
 
 // backdoor     
             if (user.getEmail() != null) {//
-                if (user.getEmail().equals("admin@oddeye.co")) {
+                if (user.getEmail().equals(dashRootUser)) {
                     if (!user.getAuthorities().contains(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN))) {
                         user.getAuthorities().add(new SimpleGrantedAuthority(OddeyeUserModel.ROLE_SUPERADMIN));
                     }

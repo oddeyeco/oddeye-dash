@@ -90,9 +90,6 @@ public class DashController {
     @Value("${paypal.fix}")
     private String paypal_fix;
 
-    @Value("${dash.rootuser}")
-    private String dashRootUser;
-
     @RequestMapping(value = {"/infrastructure/","/infrastructure/{version}/"}, method = RequestMethod.GET)
     public String infrastructure(ModelMap map,@PathVariable(required = false) String version) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -167,9 +164,6 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel(true);
-            if(userDetails.getEmail().equals(dashRootUser)) {
-                System.out.print("Done!");
-            }
             UserService.updateConsumption2m(userDetails);
             UserService.updatePayments(userDetails,10);
             map.put("curentuser", userDetails);

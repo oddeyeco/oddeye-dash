@@ -53,6 +53,11 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 @Controller
 public class DefaultController {
+    @Value("${captcha.on}")
+    private String captchaOn;    
+    @Value("${captcha.secret}")
+    private String captchaSecret;    
+    
     @Autowired
     private UserValidator userValidator;
     @Autowired
@@ -280,31 +285,35 @@ public class DefaultController {
 
         WhitelabelModel wl = whiteLabelResolver.getWhitelabelModel();
         userValidator.validate(newUser, result);
-        if (request.getParameter("g-recaptcha-response") != null) {
-            if (!request.getParameter("g-recaptcha-response").isEmpty()) {
-                String ip = request.getHeader("X-Real-IP");
-                if (ip == null) {
-                    ip = request.getRemoteAddr();
-                }
-                try {
-                    JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", "secret=6LfUVzcUAAAAAIMxs6jz0GhGxgTCUD360UhcSbYr&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip);
-                    if (capchaRequest.getAsJsonObject().get("success") == null) {
-                        result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                    } else {
-                        if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
-                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                        }
+        if("true".equalsIgnoreCase(captchaOn)) {
+            if (request.getParameter("g-recaptcha-response") != null) {
+                if (!request.getParameter("g-recaptcha-response").isEmpty()) {
+                    String ip = request.getHeader("X-Real-IP");
+                    if (ip == null) {
+                        ip = request.getRemoteAddr();
                     }
-                } catch (Exception ex) {
-                    result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                    LOGGER.error(globalFunctions.stackTrace(ex));
-                }
+                    try {
+                        String captchaTestParams = "secret=" + captchaSecret + "&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip;
 
+                        JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", captchaTestParams);
+                        if (capchaRequest.getAsJsonObject().get("success") == null) {
+                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                        } else {
+                            if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
+                                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                            }
+                        }
+                    } catch (Exception ex) {
+                        result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
+
+                } else {
+                    result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                }
             } else {
                 result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
             }
-        } else {
-            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
         }
         if (result.hasErrors()) {
             setLocaleInfo(map);
@@ -318,7 +327,7 @@ public class DefaultController {
                 if (wl != null) {
                     newUser.setWhitelabel(wl);
                     newUser.addAuthoritie(OddeyeUserModel.ROLE_WHITELABEL_USER);
-                    newUser.SendWlAdminMail("User Sined in wl", mailSender, wl.getOwner().getEmail());
+                    newUser.SendWlAdminMail("User Signed in wl", mailSender, wl.getOwner().getEmail());
                     newUser.SendWLConfirmMail(mailSender, baseUrl, wl.getOwner().getEmail());
                 }
                 if (wl == null) {                    
@@ -334,7 +343,6 @@ public class DefaultController {
 //                return redirecttodashboard();
                 map.put("body", "signupconfirm");
                 map.put("jspart", "signupconfirmjs");
-
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
                 map.put("newUser", newUser);
