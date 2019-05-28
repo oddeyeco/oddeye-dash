@@ -88,7 +88,7 @@
                         <!--<a href="<c:url value="/preset"/>" class="btn btn-warning btn-block">Reset password</a>-->
                     </c:if>                      
                     <div class="pull-left"><spring:message code="login.isNew"/><a href="<c:url value="/signup/"/>" class="btn btn-href btn-sm"><spring:message code="createAccount"/></a>
-
+                    <div class="pull-left"><spring:message code="login.forgotPassword"/><a href="<c:url value="/psrecovery/"/>" class="btn btn-href btn-sm"><spring:message code="psRecovery"/></a>
                     </div>              
                 </div>              
             </form>

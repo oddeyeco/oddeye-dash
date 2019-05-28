@@ -168,21 +168,21 @@ public class DefaultController {
 //        return "index";
 //    }    
     @RequestMapping(value = {"/{slug}"}, method = RequestMethod.GET)
-    public String bytemplate(@PathVariable(value = "slug") String slug, ModelMap map, HttpServletRequest request) {
+    public String prepareJSP(@PathVariable(value = "slug") String slug, ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String layaut = "indexPrime";
+        String layout = "indexPrime";
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
             map.put("curentuser", userDetails);
             map.put("isAuthentication", true);
-            layaut = "index";
+            layout = "index";
             map.put("body", slug);
             map.put("jspart", slug + "js");
         } else {
             request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
             map.put("isAuthentication", false);
-            if (!slug.equals("signup")) {
+            if (!slug.equals("signup") || !slug.equals("psrecovery")) {
                 map.put("wraper", "noautwraper");
             }
             map.put("body", slug);
@@ -234,8 +234,31 @@ public class DefaultController {
 
             setLocaleInfo(map);
         }
+       if (slug.equals("psrecovery")) {
+            if (!(auth instanceof AnonymousAuthenticationToken)) {
+                return redirecttodashboard();
+            }
+            OddeyeUserModel newUser = new OddeyeUserModel();
+            map.put("newUser", newUser);
+            map.put("title", slug);
+            map.put("slug", slug);
+            map.put("body", slug);
+            map.put("jspart", slug + "js");
 
-        return layaut;
+            try {
+                String ip = request.getHeader("X-Real-IP");
+                if (ip == null) {
+                    ip = request.getRemoteAddr();
+                }
+                InetAddress ipAddress = InetAddress.getByName(ip);
+            } catch (IOException ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+
+            setLocaleInfo(map);
+        }
+
+        return layout;
     }
 
     private String redirecttodashboard() {
@@ -387,5 +410,69 @@ public class DefaultController {
         map.put("countryList", country);
         map.put("tzone", timezones);
     }
+    
+    @RequestMapping(value = "/psrecovery", method = RequestMethod.POST)
+    public String passwordRecovery(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
+        userValidator.validate(newUser, result);
+        if("true".equalsIgnoreCase(captchaOn)) {
+            if (request.getParameter("g-recaptcha-response") != null) {
+                if (!request.getParameter("g-recaptcha-response").isEmpty()) {
+                    String ip = request.getHeader("X-Real-IP");
+                    if (ip == null) {
+                        ip = request.getRemoteAddr();
+                    }
+                    try {
+                        String captchaTestParams = "secret=" + captchaSecret + "&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip;
 
+                        JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", captchaTestParams);
+                        if (capchaRequest.getAsJsonObject().get("success") == null) {
+                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                        } else {
+                            if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
+                                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                            }
+                        }
+                    } catch (Exception ex) {
+                        result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
+
+                } else {
+                    result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+                }
+            } else {
+                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
+            }
+        }
+        if (result.hasErrors()) {
+            setLocaleInfo(map);
+            map.put("newUser", newUser);
+            map.put("result", result);
+            map.put("body", "signup");
+            map.put("jspart", "signupjs");
+        } else {
+            try {
+                String baseUrl = mailSender.getBaseurl(request);
+                newUser.SendConfirmMail(mailSender, baseUrl);
+
+                newUser.SendAdminMail("User Signed", mailSender);
+                newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
+                newUser.setActive(Boolean.FALSE);
+                Userdao.addUser(newUser);
+                Userdao.saveSineUpCookes(newUser, request.getCookies());
+
+                map.put("body", "signupconfirm");
+                map.put("jspart", "signupconfirmjs");
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+                map.put("newUser", newUser);
+                map.put("result", result);
+                map.put("body", "signup");
+                map.put("jspart", "signupjs");
+                map.put("message", ex.toString());
+            }
+        }
+        map.put("title", messageSource.getMessage("title.signUp", new String[]{""}, LocaleContextHolder.getLocale()));
+        return "indexPrime";
+    }
 }
