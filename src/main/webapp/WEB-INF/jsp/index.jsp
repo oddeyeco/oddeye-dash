@@ -1158,13 +1158,12 @@
                 <c:if test="${not empty curentuser}">
                 Firstlogin = ${curentuser.getFirstlogin()};
                 </c:if>
-
             </script>                                         
             <!-- jQuery -->
 <!--           <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>  -->
 <!--           <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script> -->
             <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>
-
+            
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
@@ -1197,8 +1196,8 @@
 <!--            <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>-->
 <!--            <script src="${cp}/resources/build/js/customOE.js?v=${version}"></script>-->
             <!-- Select2 -->
-<!--            <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>-->
-            <script src="${cp}/resources/select2/dist/js/select2.js?v=${version}"></script>
+            <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
+<!--            <script src="${cp}/resources/select2/dist/js/select2.js?v=${version}"></script>-->
 
             <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script> 
             <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>                        

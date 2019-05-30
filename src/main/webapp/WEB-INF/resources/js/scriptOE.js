@@ -316,6 +316,6 @@ var id = [
         {
             echartLine.resize();
         }
-    });
+    });     
       
 });

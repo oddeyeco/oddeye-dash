@@ -1,6 +1,6 @@
 <%-- 
-    Document   : monitorings2new
-    Created on : May 28, 2019, 3:27:50 PM
+    Document   : monitorings2OE
+    Created on : May 3, 2019, 2:14:01 PM
     Author     : tigran
 --%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
@@ -8,7 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<link href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>
 
 <div id="saveModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
@@ -43,8 +43,8 @@
             </div>
         </div>
     </div>
-</div>    
-
+</div>   
+                
 <div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -63,10 +63,10 @@
         </div>
     </div>
 </div>  
-
+            
 <div class="clearfix"></div>
 
-<div class="row">
+<!--<div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 ">
         <div class="x_panel">
             <div id="query_form_content">
@@ -79,7 +79,8 @@
                                     <h4 class=""><spring:message code="monitorings2.filtersAll"/></h4>
                                     <div class="add-filter">
                                         <label for="all_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
-                                        <select class="add_filter_select col-sm-8" id="allfilter"><option value="">&nbsp;</option>
+                                        <select class="add_filter_select col-sm-8" id="allfilter">
+                                            <option value="">&nbsp;</option>
                                             <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                             <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="<spring:message code="tags"/>">
@@ -99,7 +100,8 @@
                                     <h4 class=""><spring:message code="monitorings2.filtersMachine"/></h4>
                                     <div class="add-filter">
                                         <label for="ml_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
-                                        <select class="add_filter_select col-sm-8" id="mlfilter"><option value="">&nbsp;</option>
+                                        <select class="add_filter_select col-sm-8" id="mlfilter">
+                                            <option value="">&nbsp;</option>
                                             <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                             <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="<spring:message code="tags"/>">
@@ -119,7 +121,8 @@
                                     <h4 class=""><spring:message code="monitorings2.filtersManually"/></h4>
                                     <div class="add-filter">
                                         <label for="manual_filter" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addFilter"/></label>
-                                        <select class="add_filter_select col-sm-8" id="manualfilter"><option value="">&nbsp;</option>
+                                        <select class="add_filter_select col-sm-8" id="manualfilter">
+                                            <option value="">&nbsp;</option>
                                             <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
                                             <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
                                             <optgroup label="<spring:message code="tags"/>">
@@ -144,7 +147,7 @@
                             <table class="options" style="width: 100%">
                                 <tbody><tr>
                                         <td class="card-fields name">
-                                            <label><spring:message code="monitorings2.displayFields"/> </label>
+                                            <label><spring:message code="monitorings2.displayFields"/></label>
                                         </td>
                                         <td class="card-fields value">
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
@@ -174,8 +177,9 @@
                                                     </c:forEach>                                
                                                 </optgroup>
                                                 <option value="message" key="message" label="message"><spring:message code="monitorings2.displayFieldsMessage"/>
-                                                </option>                                                                                               
+                                                </option> 
                                             </select>                                                                                  
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -187,7 +191,8 @@
                         <div class="filter-body">
                             <div class="add-notifier">
                                 <label for="addNotifier" class="all_filter col-sm-4 text-right"><spring:message code="monitorings2.addNotifier"/></label>
-                                <select class="add_notifier_select col-sm-8" id="addNotifier"><option value="">&nbsp;</option>
+                                <select class="add_notifier_select col-sm-8" id="addNotifier">
+                                    <option value="">&nbsp;</option>
                                     <option value="email" fname="<spring:message code="monitorings2.addressEmail"/>"><spring:message code="monitorings2.addNotifierEmail"/></option>
                                     <option value="telegram"  fname="<spring:message code="monitorings2.chatIdTelegram"/>"><spring:message code="monitorings2.addNotifierTelegram"/></option>                                
                                 </select>
@@ -214,17 +219,17 @@
                     <div class="btn-group pull-right" role="group" aria-label="Delete group">
                         <button href="#" class="btn btn-xs btn-danger" id="rem_filter"><spring:message code="deleteView"/></button>    
                     </div>
-                </c:if>   
-            </div>            
-
+                </c:if>
+            </div>
             <div class="buttons ">
                 <div class="btn-group"></div>
             </div>
-                
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
                     <h4 class="summary">
-                        <b><spring:message code="total"/></b><span class="Tablecount">0</span><b><spring:message code="monitorings2.machineLearned"/></b><span class="regcount">0</span><b><spring:message code="monitorings2.manuallyDefined"/></b><span class="Speccount">0 </span>
+                        <b><spring:message code="total"/></b><span class="Tablecount">0</span>
+                        <b><spring:message code="monitorings2.machineLearned"/></b><span class="regcount">0</span>
+                        <b><spring:message code="monitorings2.manuallyDefined"/></b><span class="Speccount">0 </span>
                     </h4>                 
                 </div>
             </div>      
@@ -235,29 +240,29 @@
                 <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.reduceSeverity"/>"><i class="fa far fa-bell-slash"></i></button>
                 <button type="button" class="btn btn-secondary" id="Move_down"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.bottom"/>"><i class="fa fas fa-angle-double-down"></i></button>
                 <span class="badge bg-green">0</span>
-                <!--<button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>-->
+                <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
             </div>            
 
             <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
-                <!-- start List -->
                 <ul class="monitorlist">
                     <li id="special">
-                        <ul id="speciallist"></ul>
+                        <ul id="speciallist">
+                        </ul>
                     </li>
                     <li id="regular">
-                        <ul id="regularlist"></ul>                            
+                        <ul id="regularlist">
+                        </ul>                            
                     </li>
                 </ul>
             </div>             
         </div>
     </div>
-</div>
-</div>
-
+</div>-->
 <!-- /page content -->
 
-<!--==================================================================================================================================-->
-<!--<div class="row"> 
+                                <!--    ==================================================================    -->
+                                
+<div class="row"> 
     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card shadow">
             <div class="card-body row">
@@ -593,4 +598,4 @@
             </div>
         </div>
     </div>
-</div>   -->
+</div>                                 

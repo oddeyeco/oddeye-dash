@@ -172,8 +172,6 @@
                                                 </optgroup>
                                                 <option value="message" key="message" label="message"><spring:message code="monitorings2.displayFieldsMessage"/>
                                                 </option>                                                                                               
-
-
                                             </select>                                                                                  
 
                                         </td>
