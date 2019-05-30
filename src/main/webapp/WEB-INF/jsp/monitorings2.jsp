@@ -1,8 +1,4 @@
-<%-- 
-    Document   : monitorings2new
-    Created on : May 28, 2019, 3:27:50 PM
-    Author     : tigran
---%>
+
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
