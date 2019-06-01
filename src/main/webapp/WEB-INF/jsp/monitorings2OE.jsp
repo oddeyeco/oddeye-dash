@@ -240,7 +240,6 @@
                 <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.reduceSeverity"/>"><i class="fa far fa-bell-slash"></i></button>
                 <button type="button" class="btn btn-secondary" id="Move_down"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.bottom"/>"><i class="fa fas fa-angle-double-down"></i></button>
                 <span class="badge bg-green">0</span>
-                <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="left" title="Cleare Rules"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
             </div>            
 
             <div class="col-md-10 col-sm-9 col-xs-12 profile_right-table">
@@ -362,28 +361,8 @@
                                                             </div> 
                                                         </div>
                                                         <div class="defined_filter">
-                                                            <table class="filters-table"></table>
-                                                            <div class="form-row">
-                                                                <div class="form-group form-group-inline col-3">                                                                           
-                                                                    <label class="mr-2 mb-0" for="valueLevel">Level</label>                                                                             
-                                                                    <select class="form-control form-control-sm" id="valueLevel">                                                                            
-                                                                        <option value="">is</option>
-                                                                        <option value="">is not</option>                                                                       
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group col-7">                                                           
-                                                                    <select class=" form-control form-control-sm js-example-placeholder-multiple js-example-multiple" id="" multiple="multiple" style="width: 100%;">
-                                                                        <option title="<span class='badge badge-info'>Any</span>" value="0">Any</option>
-                                                                        <option title="<span class='badge badge-info'>Low</span>" value="1">Low</option>
-                                                                        <option title="<span class='badge badge-info'>Guarded</span>" value="2">Guarded</option>
-                                                                        <option title="<span class='badge badge-info'>Elevated</span>" value="3" selected="selected">Elevated</option>
-                                                                        <option title="<span class='badge badge-info'>High</span>" value="4" selected="selected">High</option>
-                                                                        <option title="<span class='badge badge-info'>Severe</span>" value="5" selected="selected">Severe</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                            <table class="filters-table"></table>                                                            
                                                         </div>
-
                                                     </div>
                                                 </div>
 
@@ -418,28 +397,8 @@
                                                             </div> 
                                                         </div>
                                                         <div class="defined_filter">
-                                                            <table class="filters-table"></table>
-                                                            <div class="form-row">
-                                                                <div class="form-group form-group-inline col-3">                                                                           
-                                                                    <label class="mr-2 mb-0" for="valueLevel">Level</label>                                                                             
-                                                                    <select class="form-control form-control-sm" id="">                                                                            
-                                                                        <option value="">is</option>
-                                                                        <option value="">is not</option>                                                                       
-                                                                    </select>
-                                                                </div>
-                                                                <div class="form-group col-7">                                                           
-                                                                    <select class=" form-control form-control-sm js-example-placeholder-multiple js-example-multiple" id="" multiple="multiple" style="width: 100%;">
-                                                                        <option title="<span class='badge badge-info'>Any</span>" value="0">Any</option>
-                                                                        <option title="<span class='badge badge-info'>Low</span>" value="1">Low</option>
-                                                                        <option title="<span class='badge badge-info'>Guarded</span>" value="2">Guarded</option>
-                                                                        <option title="<span class='badge badge-info'>Elevated</span>" value="3" selected="selected">Elevated</option>
-                                                                        <option title="<span class='badge badge-info'>High</span>" value="4" selected="selected">High</option>
-                                                                        <option title="<span class='badge badge-info'>Severe</span>" value="5" selected="selected">Severe</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
+                                                            <table class="filters-table"></table>                                                                                                                       
                                                         </div>
-
                                                     </div>
                                                 </div>
 
@@ -598,4 +557,5 @@
             </div>
         </div>
     </div>
-</div>                                 
+</div>
+                    

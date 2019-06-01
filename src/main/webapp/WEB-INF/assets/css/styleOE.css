@@ -803,7 +803,7 @@ div#tagsconteger.ui-sortable .draggable>label{
 
 /*---- Monitoring real-time ----*/
 
-/*#filters {
+#filters {
     display: none;
 }
 #options {
@@ -816,7 +816,7 @@ div#tagsconteger.ui-sortable .draggable>label{
 .form-group-inline {
     display: flex;
     align-items: center;
-}*/
+}
 
 /*table.table.filters-table>tr>td input {
     padding: 3px 0;
