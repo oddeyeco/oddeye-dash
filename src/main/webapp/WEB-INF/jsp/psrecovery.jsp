@@ -1,7 +1,7 @@
 <%-- 
-    Document   : signup
-    Created on : Jun 13, 2016, 4:58:05 PM
-    Author     : vahan
+    Document   : psrecovery
+    Created on : May 22, 2019, 4:01:07 PM
+    Author     : sasha
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -43,7 +43,7 @@
             </div>
         </div>    
         <div class=" contactform col-lg-6 col-xs-12">               
-            <form:form method="post" action="${cp}/psrecovery/" modelAttribute="newUser" novalidate="true">            
+            <form:form method="post" action="${cp}/psrecovery/" modelAttribute="psRecoveryInfo" novalidate="true">            
                 <c:if test="${not empty message}" >
                     <div class="alert alert-danger alert-dismissible fadein" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -58,10 +58,7 @@
                     <form:input path="email" cssClass="form-control" type="email" required="" placeholder="${ph} *"/>                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="email" />
                 </div>
-                <div class="form-group">                    
-                    <form:hidden path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                        
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="timezone" />
-                </div>
+
                 <c:if test="${dashProp.captchaOn eq 'true'}" >
                 <div class="form-group">                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />

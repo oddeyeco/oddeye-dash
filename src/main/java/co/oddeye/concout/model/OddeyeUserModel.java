@@ -193,9 +193,19 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
         model.put("email", this.getEmail());
         model.put("id", this.getId().toString());
         Sender.send("Please confirm your email address", email, "confirmhtml.ftl", "confirmtxt.ftl", model);
-
     }
 
+    public void sendPasswordRecoveryMail(OddeyeMailSender Sender, String uri) throws UnsupportedEncodingException {
+        //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
+        HashMap<String, String> model = new HashMap<>();
+        model.put("userName", this.getName());
+        model.put("userLastName", this.getLastname());
+        model.put("uri", uri);
+        model.put("email", this.getEmail());
+        model.put("id", this.getId().toString());
+        Sender.send("Please reset your password", this.getEmail(), "psresethtml.ftl", "psresttxt.ftl", model);
+    }
+    
     public void SendConfirmMail(OddeyeMailSender Sender, String uri) throws UnsupportedEncodingException {
         //        Sender.send("Confirm Email ", "Hello " + this.getName() + " " + this.getLastname() + "<br/>for Confirm Email click<br/> <a href='" + uri + "/confirm/" + this.getId().toString() + "'>hear</a>", this.getEmail());
         HashMap<String, String> model = new HashMap<>();

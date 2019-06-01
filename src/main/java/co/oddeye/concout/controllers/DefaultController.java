@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import co.oddeye.concout.beans.PasswordRecoveryInfo;
 import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
@@ -25,10 +26,12 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Cookie;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.ValidationUtils;
 
 /**
  *
@@ -238,8 +242,8 @@ public class DefaultController {
             if (!(auth instanceof AnonymousAuthenticationToken)) {
                 return redirecttodashboard();
             }
-            OddeyeUserModel newUser = new OddeyeUserModel();
-            map.put("newUser", newUser);
+            PasswordRecoveryInfo passwordRecoveryInfo = new PasswordRecoveryInfo();
+            map.put("psRecoveryInfo", passwordRecoveryInfo);
             map.put("title", slug);
             map.put("slug", slug);
             map.put("body", slug);
@@ -301,6 +305,39 @@ public class DefaultController {
 //        map.put("curentuser", user);
 //        map.put("body", templatename);
 //        return "index";
+    }
+    
+    @RequestMapping(value = "/psreset/{uuid}", method = RequestMethod.GET)
+    public String passwordReset(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+        OddeyeUserModel userDetails = null;
+        if (SecurityContextHolder.getContext().getAuthentication() != null
+                && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
+                && //when Anonymous Authentication is enabled
+                !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+        } else {
+            userDetails = Userdao.getUserByUUID(UUID.fromString(uuid));
+        }
+        if (userDetails == null) {
+            return "redirect:/signup/?invalidconfirmcode";
+        }
+        userDetails.setActive(Boolean.TRUE);
+        boolean confirm = false;
+        if (userDetails.getMailconfirm() == null) {
+            userDetails.setFirstlogin(Boolean.TRUE);
+            userDetails.setBalance(50.0);
+            userDetails.setMailconfirm(Boolean.TRUE);
+            confirm = true;
+        }
+
+        try {
+            Userdao.addUser(userDetails);
+            userDetails.SendAdminMail("User Confirm Email", mailSender);
+        } catch (Exception ex) {
+            LOGGER.error(globalFunctions.stackTrace(ex));
+        }
+        return "redirect:/login?confirm=" + confirm;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -412,8 +449,24 @@ public class DefaultController {
     }
     
     @RequestMapping(value = "/psrecovery", method = RequestMethod.POST)
-    public String passwordRecovery(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
-        userValidator.validate(newUser, result);
+    public String passwordRecovery(@ModelAttribute("psRecoveryInfo") PasswordRecoveryInfo passwordRecoveryInfo, BindingResult result, ModelMap map, HttpServletRequest request) {
+        ValidationUtils.rejectIfEmptyOrWhitespace(result, "email", "email.empty", "Email address must not be empty.");
+        if (!EmailValidator.getInstance().isValid(passwordRecoveryInfo.getEmail())) {
+            result.rejectValue("email", "email.notValid", "Email address is not valid!");
+        }   
+        OddeyeUserDetails existingUser = null;
+        
+        try {
+            existingUser = Userdao.getUserByEmail(passwordRecoveryInfo.getEmail());
+            
+            if (null == existingUser)
+            {
+                result.rejectValue("email", "email.notExist", "Email address is not exist!");
+            }
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(UserValidator.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        
         if("true".equalsIgnoreCase(captchaOn)) {
             if (request.getParameter("g-recaptcha-response") != null) {
                 if (!request.getParameter("g-recaptcha-response").isEmpty()) {
@@ -446,29 +499,27 @@ public class DefaultController {
         }
         if (result.hasErrors()) {
             setLocaleInfo(map);
-            map.put("newUser", newUser);
+            map.put("newUser", existingUser);
             map.put("result", result);
-            map.put("body", "signup");
-            map.put("jspart", "signupjs");
+            map.put("body", "psrecovery");
+            map.put("jspart", "psrecoveryjs");
         } else {
             try {
                 String baseUrl = mailSender.getBaseurl(request);
-                newUser.SendConfirmMail(mailSender, baseUrl);
+                
+                OddeyeUserModel um = existingUser.getUserModel();
+                um.sendPasswordRecoveryMail(mailSender, baseUrl);
 
-                newUser.SendAdminMail("User Signed", mailSender);
-                newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
-                newUser.setActive(Boolean.FALSE);
-                Userdao.addUser(newUser);
-                Userdao.saveSineUpCookes(newUser, request.getCookies());
+                um.SendAdminMail("User requested password recovery", mailSender);
 
-                map.put("body", "signupconfirm");
-                map.put("jspart", "signupconfirmjs");
+                map.put("body", "psrecovery");
+                map.put("jspart", "psrecoveryjs");
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
-                map.put("newUser", newUser);
+                map.put("newUser", existingUser);
                 map.put("result", result);
-                map.put("body", "signup");
-                map.put("jspart", "signupjs");
+                map.put("body", "psrecovery");
+                map.put("jspart", "psrecoveryjs");
                 map.put("message", ex.toString());
             }
         }
