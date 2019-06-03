@@ -27,6 +27,7 @@ public class DashProperties implements Serializable {
     public String getCaptchaSecret() {
         return captchaSecret;
     }
+
     public String getCaptchaSiteKey() {
         return captchaSiteKey;
     }

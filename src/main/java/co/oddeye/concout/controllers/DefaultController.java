@@ -9,6 +9,7 @@ import co.oddeye.concout.beans.PasswordRecoveryInfo;
 import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
+import co.oddeye.concout.helpers.PasswordResetTokenEncoder;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.model.WhitelabelModel;
@@ -58,9 +59,12 @@ import org.springframework.validation.ValidationUtils;
 @Controller
 public class DefaultController {
     @Value("${captcha.on}")
-    private String captchaOn;    
+    private String captchaOn;
     @Value("${captcha.secret}")
-    private String captchaSecret;    
+    private String captchaSecret;
+    
+    @Autowired
+    private PasswordResetTokenEncoder passwordResetTokenEncoder;
     
     @Autowired
     private UserValidator userValidator;
@@ -450,23 +454,6 @@ public class DefaultController {
     
     @RequestMapping(value = "/psrecovery", method = RequestMethod.POST)
     public String passwordRecovery(@ModelAttribute("psRecoveryInfo") PasswordRecoveryInfo passwordRecoveryInfo, BindingResult result, ModelMap map, HttpServletRequest request) {
-        ValidationUtils.rejectIfEmptyOrWhitespace(result, "email", "email.empty", "Email address must not be empty.");
-        if (!EmailValidator.getInstance().isValid(passwordRecoveryInfo.getEmail())) {
-            result.rejectValue("email", "email.notValid", "Email address is not valid!");
-        }   
-        OddeyeUserDetails existingUser = null;
-        
-        try {
-            existingUser = Userdao.getUserByEmail(passwordRecoveryInfo.getEmail());
-            
-            if (null == existingUser)
-            {
-                result.rejectValue("email", "email.notExist", "Email address is not exist!");
-            }
-        } catch (Exception ex) {
-            java.util.logging.Logger.getLogger(UserValidator.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        
         if("true".equalsIgnoreCase(captchaOn)) {
             if (request.getParameter("g-recaptcha-response") != null) {
                 if (!request.getParameter("g-recaptcha-response").isEmpty()) {
@@ -497,26 +484,53 @@ public class DefaultController {
                 result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
             }
         }
+
+        OddeyeUserDetails existingUser = null;
+        
+        if(!result.hasErrors()) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(result, "email", "email.empty", "Email address must not be empty.");
+            if (!EmailValidator.getInstance().isValid(passwordRecoveryInfo.getEmail())) {
+                result.rejectValue("email", "email.notValid", "Email address is not valid!");
+            }   
+
+            try {
+                existingUser = Userdao.getUserByEmail(passwordRecoveryInfo.getEmail());
+
+                if (null == existingUser)
+                {
+                    result.rejectValue("email", "email.notExist", "Email address is not exist!");
+                }
+            } catch (Exception ex) {
+                java.util.logging.Logger.getLogger(UserValidator.class.getName()).log(Level.SEVERE, null, ex);
+            }        
+        }
         if (result.hasErrors()) {
             setLocaleInfo(map);
-            map.put("newUser", existingUser);
             map.put("result", result);
             map.put("body", "psrecovery");
             map.put("jspart", "psrecoveryjs");
         } else {
             try {
                 String baseUrl = mailSender.getBaseurl(request);
-                
+                baseUrl = "http://localhost:8080/OddeyeCoconut";// Development URL remove on production
                 OddeyeUserModel um = existingUser.getUserModel();
-                um.sendPasswordRecoveryMail(mailSender, baseUrl);
-
-                um.SendAdminMail("User requested password recovery", mailSender);
-
-                map.put("body", "psrecovery");
-                map.put("jspart", "psrecoveryjs");
+                String timestamp = Long.toString(System.currentTimeMillis());
+                String resetToken = passwordResetTokenEncoder.createRecoveryToken(
+                        timestamp,
+                        um);
+                if(um.sendPasswordRecoveryMail(mailSender, baseUrl, resetToken)){
+                    um.SendAdminMail("User requested password recovery", mailSender);
+                    map.put("body", "psrecoveryconfirm");
+                    map.put("jspart", "psrecoveryconfirmjs");
+                } else {
+                    setLocaleInfo(map);
+                    result.reject("Something went wrong, please try later");
+                    map.put("result", result);
+                    map.put("body", "psrecovery");
+                    map.put("jspart", "psrecoveryjs");                
+                }
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
-                map.put("newUser", existingUser);
                 map.put("result", result);
                 map.put("body", "psrecovery");
                 map.put("jspart", "psrecoveryjs");

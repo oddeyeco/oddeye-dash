@@ -535,14 +535,14 @@
                             <![endif]-->
                             <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                               <div style="Margin-left: 20px;Margin-right: 20px;">
-                                <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong> Thanks for signing up! </h2>
-                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">To completed registration, please click on activate account buttton below:</h3>
+                                <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong> You are  </h2>
+                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">To complete task, please click on "Reset Password" button below:</h3>
                               </div>
                               <div style="Margin-left: 20px;Margin-right: 20px;">
                                 <div class="btn fullwidth btn--shadow btn--large" style="text-align: center;">
                                   <![if !mso]>
                                     <a style="border-radius: 4px;display: block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px 13px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.2);font-family: Georgia, serif;    background: #26B99A;    border: 1px solid #169F85;"
-                                    href="${uri}/confirm/${id}">Activate Account</a>
+                                    href="${uri}/psreset/${resetToken}">Reset Password</a>
                                   <![endif]>
                                   <!--[if mso]>
                                     <p style="line-height:0;margin:0;">&nbsp;</p>
@@ -575,7 +575,7 @@
                             <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                               <div style="Margin-left: 20px;Margin-right: 20px;">
                                 <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">If the button not working, please copy/paste the following link into your browser</h3>
-                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;"><a href="${uri}/confirm/${id}">${uri}/confirm/${id}</a>.</h3>
+                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;"><a href="${uri}/psreset/${resetToken}">${uri}/psreset/${resetToken}</a>.</h3>
                               </div>
                             </div>
                             <!--[if (mso)|(IE)]>
