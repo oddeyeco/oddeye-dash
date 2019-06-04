@@ -516,7 +516,6 @@ public class DefaultController {
                 OddeyeUserModel um = existingUser.getUserModel();
                 String timestamp = Long.toString(System.currentTimeMillis());
                 String resetToken = passwordResetTokenEncoder.createRecoveryToken(
-                        timestamp,
                         um);
                 if(um.sendPasswordRecoveryMail(mailSender, baseUrl, resetToken)){
                     um.SendAdminMail("User requested password recovery", mailSender);
