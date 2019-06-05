@@ -511,7 +511,7 @@
                               <a style="text-decoration: none;transition: opacity 0.1s ease-in;color: #41637e;" href="https://www.oddeye.co/">
 								<img align="left" border="0" src="${uri}/assets/images/email/logo_100px.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 100px;float: left" width="100">
 								<p style="font-size: 30px;line-height: 21px;text-align: center ;margin: 3px;float: left;">Welcome to OddEye.</p>
-								<p style="font-size: 20px;line-height: 40px;text-align: center ;margin: 3px;float: left; color:#8BC53F">World's the most advanced monitoring platform.</p>
+								<p style="font-size: 20px;line-height: 40px;text-align: center ;margin: 3px;float: left; color:#8BC53F">Cloud scale intelligent monitoring & analytics platform</p>
 
                               </a>
                             </div>
@@ -535,8 +535,8 @@
                             <![endif]-->
                             <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                               <div style="Margin-left: 20px;Margin-right: 20px;">
-                                <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong> You are  </h2>
-                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">To complete task, please click on "Reset Password" button below:</h3>
+                                <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong><br>You recently requested a password reset for your OddEye account.</h2>
+                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">Click the button below to reset it.</h3>
                               </div>
                               <div style="Margin-left: 20px;Margin-right: 20px;">
                                 <div class="btn fullwidth btn--shadow btn--large" style="text-align: center;">
@@ -574,7 +574,7 @@
                             <![endif]-->
                             <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                               <div style="Margin-left: 20px;Margin-right: 20px;">
-                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">If the button not working, please copy/paste the following link into your browser</h3>
+                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">If you're having trouble clicking the password button copy and paste the URL below into your web browser.</h3>
                                 <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;"><a href="${uri}/psreset/${resetToken}">${uri}/psreset/${resetToken}</a>.</h3>
                               </div>
                             </div>

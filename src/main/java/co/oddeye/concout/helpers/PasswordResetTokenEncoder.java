@@ -122,11 +122,10 @@ public class PasswordResetTokenEncoder {
         
         long decodedTimestamp = bb.getLong();
         byte[] decodedDigestBytes = new byte[BYTES_IN_DIGEST];
-        bb.get(decodedDigestBytes, BYTES_IN_LONG, BYTES_IN_DIGEST);
+        bb.get(decodedDigestBytes, 0, BYTES_IN_DIGEST);
         
-        int bytesInEmail = tokenBytes.length - BYTES_IN_LONG - BYTES_IN_DIGEST;
-        byte[] decodedEmailBytes = new byte[bytesInEmail];
-        bb.get(decodedEmailBytes, BYTES_IN_LONG + BYTES_IN_DIGEST, bytesInEmail);
+        byte[] decodedEmailBytes = new byte[bb.remaining()];
+        bb.get(decodedEmailBytes, 0, bb.remaining());
 
         String email = new String(decodedEmailBytes, "UTF-8");
         byte[] calculatedDigestBytes = getAttributesDigest(decodedTimestamp, email, userModel);

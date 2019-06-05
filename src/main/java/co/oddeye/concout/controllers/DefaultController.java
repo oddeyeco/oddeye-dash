@@ -10,6 +10,7 @@ import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.helpers.PasswordResetTokenEncoder;
+import co.oddeye.concout.helpers.PasswordResetTokenEncoder.ResetInfo;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
 import co.oddeye.concout.model.WhitelabelModel;
@@ -514,9 +515,9 @@ public class DefaultController {
                 String baseUrl = mailSender.getBaseurl(request);
                 baseUrl = "http://localhost:8080/OddeyeCoconut";// Development URL remove on production
                 OddeyeUserModel um = existingUser.getUserModel();
-                String timestamp = Long.toString(System.currentTimeMillis());
                 String resetToken = passwordResetTokenEncoder.createRecoveryToken(
                         um);
+                ResetInfo ri = passwordResetTokenEncoder.decodeToken(resetToken, um);
                 if(um.sendPasswordRecoveryMail(mailSender, baseUrl, resetToken)){
                     um.SendAdminMail("User requested password recovery", mailSender);
                     map.put("body", "psrecoveryconfirm");
