@@ -212,20 +212,14 @@
                     <div class="btn-group pull-right" role="group" aria-label="Delete group">
                         <button href="#" class="btn btn-xs btn-danger" id="rem_filter"><spring:message code="deleteView"/></button>    
                     </div>                    
-
                 </c:if>                
-
-
             </div>            
 
             <div class="buttons ">
-
-
                 <div class="btn-group">
-
                 </div>
-
             </div>
+                
             <div class="row">
                 <div class="col-md-10 col-sm-9 col-xs-12 profile_right">
                     <h4 class="summary">
