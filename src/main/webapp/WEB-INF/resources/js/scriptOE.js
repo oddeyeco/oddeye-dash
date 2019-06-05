@@ -287,6 +287,7 @@ var id = [
                     $(name + " i").removeClass('fa-outdent');
                     $(name + " i").addClass('fa-indent');
                     $(value).show();
+                    $(this).parents().find("select").select2({minimumResultsForSearch: 15});
                 }
             });
         });

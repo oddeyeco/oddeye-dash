@@ -817,7 +817,9 @@ div#tagsconteger.ui-sortable .draggable>label{
     display: flex;
     align-items: center;
 }
-
+#query_form_content fieldset td.card-fields {
+    padding: 20px;
+}
 /*table.table.filters-table>tr>td input {
     padding: 3px 0;
     border-radius: 4px;
