@@ -307,7 +307,7 @@
                                         <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
                                     </a>                                                
                                 </div>
-                                <div id="collapsePersonal" class="collapse depthShadowDark" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
+                                <div id="collapsePersonal" class="collapse depthShadowDarkHover" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
                                     <div class="card-body">
                                         <ul class="list-unstyled child_menu" id="personalMenu">
                                                 <li>
@@ -332,7 +332,7 @@
                                         <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
                                     </a>                                                
                                 </div>
-                                <div id="collapseMonitoring" class="collapse depthShadowDark" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
+                                <div id="collapseMonitoring" class="collapse depthShadowDarkHover" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
                                     <div class="card-body">
                                         <ul class="list-unstyled child_menu" id="monitoringMenu">
                                                 <li>
@@ -358,7 +358,7 @@
                                         <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
                                     </a>                                                
                                 </div>
-                                <div id="collapseDashboards" class="collapse depthShadowDark" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
+                                <div id="collapseDashboards" class="collapse depthShadowDarkHover" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
                                     <div class="card-body">
                                         <ul class="list-unstyled child_menu" id="dashboardsMenu">
                                             <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
@@ -386,7 +386,7 @@
                                             <i class="fa fa-edit"></i><spring:message code="index.managment"/>
                                         </a>                                                
                                     </div>
-                                    <div id="collapseManagment" class="collapse depthShadowDark" aria-labelledby="headManagment" data-parent="#sidebarMenu">
+                                    <div id="collapseManagment" class="collapse depthShadowDarkHover" aria-labelledby="headManagment" data-parent="#sidebarMenu">
                                         <div class="card-body">
                                             <ul class="list-unstyled child_menu" id="managementMenu">
                                                 <sec:authorize access="hasRole('USERMANAGER')">

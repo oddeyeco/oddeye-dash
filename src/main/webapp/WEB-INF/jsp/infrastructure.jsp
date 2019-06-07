@@ -27,14 +27,15 @@
                                         <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>                                                    
                                     </div>
 
-                                    <div id="tagsconteger" style="clear: both" class="scrollTagsContant mt-3 ui-sortable depthShadowLight">
+                                    <div id="tagsconteger" style="clear: both" class="scrollTagsContant mt-3 ui-sortable depthShadowLightHover">
                                         <label class="col-lg-12 col-md-12 col-12"><spring:message code="tags"/></label>
                                         <c:forEach items="${taglist}" var="tagitem">                                  
-                                            <div class="form-group tag-grop draggable" style="display: none">
+                                            <div class="form-group tag-grop draggable draggableHint" style="display: none">
                                                 <label class="col-lg-12 col-md-12 col-12">
                                                     ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}
                                                     <input <c:if test="${true == tagitem.value}"> checked="true" </c:if>  type="checkbox" class="js-switch-small filter-switch" id="check_${tagitem.key}" name="check_${tagitem.key}" value="${tagitem.key}"/> 
-                                                    </label>
+                                                    <i class="fas fa-arrows-alt-v float-right pt-1"></i>
+                                                </label>
                                                     <div class="col-lg-12 col-md-12 col-12 p-0">
                                                     <c:set value="${tagitem.key}_input" var="inputname" />
                                                     <spring:message code="infrastructure.valueFilter" var="ph"/>

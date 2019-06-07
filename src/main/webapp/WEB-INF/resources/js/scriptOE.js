@@ -317,6 +317,57 @@ var id = [
         {
             echartLine.resize();
         }
-    });     
-      
+    });  
+    
 });
+
+$(window).on('load', function () {
+    setTimeout(function () {
+        $("div#tagsconteger div.draggableHint:odd:visible").effect( "shake", { direction: "up", times: 3, distance: 24}, 1300 );
+        $("div#tagsconteger div.draggableHint:even:visible").effect( "shake", { direction: "up", times: 4, distance: 16}, 1000 );
+    }, 1200);
+});
+
+//$(function () {
+//    var parent = $("#tagsconteger");
+//    var divs = parent.children();
+//    while (divs.length) {
+//        parent.append(divs.splice(Math.floor(Math.random() * divs.length), 1)[0]);
+//    }
+//});
+
+//function doBounce(element, times, distance, speed) {
+//    for(var i = 0; i < times; i++) {
+//        element.animate({marginTop: '-='+distance}, speed)
+//            .animate({marginTop: '+='+distance}, speed);
+//    }        
+//}
+//
+//
+//$(window).on('load', function () {
+//    doBounce($(".draggableHint"), 2, '10px', 300); 
+//});
+
+
+
+
+
+
+//$.fn.swap = function (b) {
+//  $(this).each(function(i){
+//    var b1 = $(b)[i],
+//      a2 = $(this).clone(),
+//      b2 = $(b1).clone();
+//    $(this).replaceWith(b2);
+//    $(b1).replaceWith(a2);
+//  });
+//};
+//
+//$(window).on('load', function () {
+//    setTimeout(function () {
+//        $("div#tagsconteger div.draggable:odd").swap($("div#tagsconteger div.draggable:even"));
+//    }, 2000);
+//});
+
+
+

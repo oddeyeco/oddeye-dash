@@ -790,7 +790,7 @@ $(document).ready(function () {
     $("body").on("change", ".add_filter_select", function () {
         $(this).find(':selected').attr("disabled", "disabled");
         var row = $("<tr>");
-        row.append("<td class='filter_label'>" + $(this).find(':selected').attr("fname") + "</td>");
+        row.append("<th class='filter_label align-middle'>" + $(this).find(':selected').attr("fname") + "</th>");
         if ($(this).find(':selected').attr("value") === 'level')
         {
             row.append('<td class="action"><select class="operators_' + $(this).find(':selected').attr("value") + '" name="op[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + ']">' + eniumop + '</select> </td>');
@@ -841,7 +841,7 @@ $(document).ready(function () {
                     var name = Oldindex.replace("check_", "");
                     var opt = $(".all_filter .add_filter_select option[alias=" + name + "]:first");
                     opt.attr("disabled", "disabled");
-                    row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+                    row.append("<th class='filter_label align-middle'>" + opt.attr("fname") + "</th>");
 
                     row.append("<td class='action'> <select class='operators_subject' name='op[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
                     row.append("<td class='value'><input class='filter-value' type='text' name='v[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + filterOldJson[name + "_input"] + "></td>");
@@ -855,7 +855,7 @@ $(document).ready(function () {
             var name = "level";
             var opt = $(".all_filter .add_filter_select option[value=" + name + "]:first");
             opt.attr("disabled", "disabled");
-            row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+            row.append("<th class='filter_label align-middle'>" + opt.attr("fname") + "</th>");
             $(".all_filter").find(".filters-table").append(row);
 
             row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
@@ -890,7 +890,7 @@ $(document).ready(function () {
                     var name = "level";
                     var opt = Domsection.find(".add_filter_select option[value=" + name + "]:first");
                     opt.attr("disabled", "disabled");
-                    row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+                    row.append("<th class='filter_label align-middle'>" + opt.attr("fname") + "</th>");
                     Domsection.find(".filters-table").append(row);
 
                     row.append('<td class="action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
@@ -911,7 +911,7 @@ $(document).ready(function () {
                         var name = filter;
                         var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
                         opt.attr("disabled", "disabled");
-                        row.append("<td class='filter_label'>" + opt.attr("fname") + "</td>");
+                        row.append("<th class='filter_label align-middle'>" + opt.attr("fname") + "</th>");
 
                         row.append("<td class='action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
                         row.append("<td class='value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");

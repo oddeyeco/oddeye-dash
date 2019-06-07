@@ -1074,7 +1074,7 @@
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.filters"/></b>
                                     </button>
                                 </h4>                        
-                                <div class="card-body markBody filter-body p-0" id="filters">
+                                <div class="card-body filter-body p-0" id="filters">
                                     <div class="filters row">
                                         <div class="filter all_filter col-12 col-lg-4 pr-lg-0">  
                                             <div class="card shadow">
@@ -1084,11 +1084,10 @@
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersAll"/></b>
                                                     </button>
                                                 </h4> 
-                                                <div class="card-body markBody" id="All_msg" style="display: block;">
-                                                    <div class="add-filter">
+                                                <div class="card-body markBody" id="All_msg" style="display: block;">                                                    
                                                         <div class="form-row">
-                                                            <div class="form-group form-group-inline col-2 mb-2">                                                                           
-                                                                <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
+                                                            <div class="form-group text-right col-2 mb-2">                                                                           
+                                                                <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
                                                             </div>
                                                             <div class="form-group col-8">                                                           
                                                                 <select class="add_filter_select form-control form-control-sm" id="allfilter">                                                                            
@@ -1103,12 +1102,10 @@
                                                                     </optgroup>
                                                                 </select>
                                                             </div> 
-                                                        </div>  
-                                                    </div> 
+                                                        </div> 
                                                     <div class="defined_filter">
-                                                        <table class="filters-table"></table>                                   
+                                                        <table class="table table-sm table-borderless table-secondary filters-table"></table>                                   
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
@@ -1122,8 +1119,8 @@
                                                 </h4> 
                                                 <div class="card-body markBody" id="Machine_msg" style="display: block;">
                                                     <div class="form-row">
-                                                        <div class="form-group form-group-inline col-2 mb-2">                                                                           
-                                                            <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
+                                                        <div class="form-group text-right col-2 mb-2">                                                                           
+                                                            <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
                                                         </div>
                                                         <div class="form-group col-8">                                                           
                                                             <select class="add_filter_select form-control form-control-sm" id="mlfilter">                                                                            
@@ -1140,7 +1137,7 @@
                                                         </div> 
                                                     </div>
                                                     <div class="defined_filter">
-                                                        <table class="filters-table"></table>                                                            
+                                                        <table class="table table-sm table-borderless table-secondary filters-table"></table>                                                            
                                                     </div>
                                                 </div>
                                             </div>
@@ -1155,8 +1152,8 @@
                                                 </h4> 
                                                 <div class="card-body markBody" id="Manual_msg" style="display: block;">
                                                     <div class="form-row">
-                                                        <div class="form-group form-group-inline col-2 mb-2">                                                                           
-                                                            <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
+                                                        <div class="form-group text-right col-2 mb-2">                                                                           
+                                                            <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
                                                         </div>
                                                         <div class="form-group col-8">                                                           
                                                             <select class="add_filter_select form-control form-control-sm" id="manualfilter">                                                                            
@@ -1173,7 +1170,7 @@
                                                         </div> 
                                                     </div>
                                                     <div class="defined_filter">
-                                                        <table class="filters-table"></table>                                                            
+                                                        <table class="table table-sm table-borderless table-secondary filters-table"></table>                                                            
                                                     </div>
                                                 </div>
                                             </div>
@@ -1191,12 +1188,12 @@
                                 </h4>
                                 <div class="card-body markBody filter-body minHeight180" id="options">
                                     <div class="table-responsive mt-2">
-                                        <table class="table-secondary table-bordered options" style="width: 100%">
+                                        <table class="table table-secondary table-bordered options" style="width: 100%">
                                             <tbody>
                                                 <tr>
-                                                    <td class="card-fields name">
+                                                    <th class="card-fields name align-middle">
                                                         <label><spring:message code="monitorings2.displayFields"/></label>
-                                                    </td>
+                                                    </th>
                                                     <td class="card-fields value">
                                                         <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
                                                             <option value="actions" label="actions" key="actions"><spring:message code="monitorings2.displayFieldsActions"/></option>
@@ -1234,8 +1231,8 @@
                                     </button>
                                 </h4>
                                 <div class="card-body markBody filter-body minHeight180" id="notifiers">
-                                    <div class="add-notifier">
-                                        <label for="addNotifier" class="all_filter col-md-4 text-right"><spring:message code="monitorings2.addNotifier"/></label>
+                                    <div class="add-notifier border border-secondary pt-2">                                        
+                                        <label for="addNotifier" class="all_filter font-weight-bold text-center col-md-2"><spring:message code="monitorings2.addNotifier"/></label>                                                                               
                                         <select class="add_notifier_select col-md-8" id="addNotifier">
                                             <option value="">&nbsp;</option>
                                             <option value="email" fname="<spring:message code="monitorings2.addressEmail"/>"><spring:message code="monitorings2.addNotifierEmail"/></option>
@@ -1279,15 +1276,15 @@
                     </div>
                 </div>      
 
-                <div class="selected-actions btn-group-vertical">              
-                    <button type="button" class="btn btn-secondary" id="Move_top"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.top"/>"><i class="fa fas fa-angle-double-up"></i></button>
-                    <button type="button" class="btn btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="<spring:message code="dash.show.chart"/>"><i class="fa fas fa-chart-area"></i></button>
-                    <button type="button" class="btn btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.reduceSeverity"/>"><i class="fa far fa-bell-slash"></i></button>
-                    <button type="button" class="btn btn-secondary" id="Move_down"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.bottom"/>"><i class="fa fas fa-angle-double-down"></i></button>
-                    <span class="badge bg-green">0</span>
-                </div>            
+                <div class="selected-actions btn-group-vertical fixedRight" role="group" aria-label="Vertical button group">
+                    <button type="button" class="btn  btn-secondary" id="Move_top"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.top"/>"><i class="fa fas fa-angle-double-up"></i></button>
+                    <button type="button" class="btn  btn-secondary" id="Show_chart" data-toggle="tooltip" data-placement="left" title="<spring:message code="dash.show.chart"/>"><i class="fa fas fa-chart-area"></i></button>
+                    <button type="button" class="btn  btn-secondary" id="Clear_reg"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.reduceSeverity"/>"><i class="fa far fa-bell-slash"></i></button>
+                    <button type="button" class="btn  btn-secondary" id="Move_down"  data-toggle="tooltip" data-placement="left" title="<spring:message code="title.bottom"/>"><i class="fa fas fa-angle-double-down"></i></button>
+                    <span class="badge badge-success">0</span>
+                </div>
 
-                <div class="col-12 profile_right-table" style="width: 100%;">
+                <div class="col-12 profile_right-table w-100 py-2 depthShadowLight">
                     <ul class="monitorlist">                                            
                         <li id="special">
                             <ul id="speciallist"></ul>
@@ -1297,8 +1294,8 @@
                         </li>
                     </ul>
                 </div>
-                    
-            </div>
+                         
+            </div> 
         </div>                
     </div>
 </div>
