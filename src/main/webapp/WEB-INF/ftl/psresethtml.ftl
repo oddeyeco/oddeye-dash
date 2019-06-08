@@ -483,8 +483,7 @@
                             <td style="width: 280px" valign="top">
                             <![endif]-->
                             <div class="snippet" style="display: table-cell;Float: left;font-size: 12px;line-height: 19px;max-width: 280px;min-width: 140px; width: 140px;width: calc(14000% - 78120px);padding: 10px 0 5px 0;color: #999;font-family: Georgia,serif;">
-                              <div style="mso-hide:all;position:fixed;height:0;max-height:0;overflow:hidden;font-size:0;">You need to click inside this email to officially subscribe! It only takes 10
-                                seconds.</div>
+                              <div style="mso-hide:all;position:fixed;height:0;max-height:0;overflow:hidden;font-size:0;">You need to click inside this email to your OddEye account password</div>
                             </div>
                             <!--[if (mso)|(IE)]>
                             </td>

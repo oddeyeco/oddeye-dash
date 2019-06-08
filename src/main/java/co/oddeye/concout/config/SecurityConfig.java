@@ -67,7 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/calculator/**", "/resources/**", "/assets/**", "/signup/", "/",
-                        "/confirm/**", "/psreset/**", "/about/**", "/pricing/**", "/documentation/**",
+                        "/confirm/**", "/psreset/**", "/pschange/**", "/about/**", "/pricing/**", "/documentation/**",
                         "/faq/**", "/contact/**", "/login/**", "/psrecovery/"/*, "/gugush.txt"*/).permitAll()
                 .antMatchers("/getstat*", "/getpayinfo*").permitAll()
                 //                .antMatchers("/getdata*").permitAll()
