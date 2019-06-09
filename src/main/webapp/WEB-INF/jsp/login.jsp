@@ -7,6 +7,22 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
 <div id="main"></div>
+<div id="psChanged" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><spring:message code="password.changedConfirmation"/></h4>
+            </div>
+            <div class="modal-body">
+                <spring:message code="password.changedConfirmationBody"/>
+            </div>
+            <div class="modal-footer">
+                <input   type="button" class="btn btn-success " data-dismiss="modal"value="OK">
+            </div>
+        </div>
+    </div>
+</div>
 <div id="confirmTrue" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

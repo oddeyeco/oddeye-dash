@@ -451,7 +451,7 @@ public class DefaultController {
         } else {
             try {
                 String baseUrl = mailSender.getBaseurl(request);
-                baseUrl = "http://localhost:8080/OddeyeCoconut";// Development URL remove on production
+//                baseUrl = "http://localhost:8080/OddeyeCoconut";// Development URL remove on production
                 OddeyeUserModel um = existingUser.getUserModel();
                 String resetToken = passwordResetTokenEncoder.createRecoveryToken(
                         um);
@@ -527,8 +527,15 @@ public class DefaultController {
                         });
 
                         Userdao.saveAll(ri.getUserModel(), newUserData, EditConfig);
+                        return "redirect:/login?pschanged";
                     } catch (Exception ex) {
                         LOGGER.error(globalFunctions.stackTrace(ex));
+                        result.rejectValue("password", "pasword.notValid", "Something went wrong");                        
+                        map.put("passwordResetInfo", passwordResetInfo);
+                        map.put("result", result);
+                        map.put("body", "psreset");
+                        map.put("jspart", "psresetjs");
+                        map.put("message", ex.toString());
                     }
                 }
                 map.remove("passwordResetInfo");
