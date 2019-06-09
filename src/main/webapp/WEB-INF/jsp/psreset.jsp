@@ -46,7 +46,6 @@
                     </div>      
                 </c:if>                
 
-
                 <div class="form-group">
                     <spring:message code="adminlist.email" var="ph"/>
                     <form:label path="email" cssClass="form-control">${passwordResetInfo.email}</form:label>                    
@@ -60,7 +59,12 @@
                     <spring:message code="adminlist.reEnterPassword" var="ph"/>
                     <form:input path="passwordRepeat" cssClass="form-control" type="password" required="" placeholder="${ph} *"/>
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="passwordRepeat"  />
-                </div>                
+                </div>
+                <div class="form-group">
+                    <form:hidden path="resetToken" placeholder="Reset Token"/>
+                </div>           
+                
+                
                 <c:if test="${dashProp.captchaOn eq 'true'}" >
                 <div class="form-group">                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
@@ -70,7 +74,7 @@
                 </c:if>
                 <c:if test="${dashProp.captchaOn ne 'true'}" >
                 <div class="form-group">                    
-                    <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="signUp"/></button>
+                    <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="savePassword"/></button>
                 </div>
                 </c:if>
 

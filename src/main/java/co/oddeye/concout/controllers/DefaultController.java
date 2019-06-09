@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -479,7 +480,7 @@ public class DefaultController {
                 String resetToken = passwordResetTokenEncoder.createRecoveryToken(
                         um);
                 
-                resetToken = URLEncoder.encode(resetToken, StandardCharsets.UTF_8.toString());
+//                resetToken = URLEncoder.encode(resetToken, StandardCharsets.UTF_8.toString());
                 if(um.sendPasswordRecoveryMail(mailSender, baseUrl, resetToken)){
                     um.SendAdminMail("User requested password recovery", mailSender);
                     map.put("body", "psrecoveryconfirm");
@@ -544,24 +545,42 @@ public class DefaultController {
             map.put("jspart", "psresetjs");
         } else {
             try {
-//                String baseUrl = mailSender.getBaseurl(request);
-//                if (wl != null) {
-//                    user.setWhitelabel(wl);
-//                    user.addAuthoritie(OddeyeUserModel.ROLE_WHITELABEL_USER);
-//                    user.SendWlAdminMail("User Signed in wl", mailSender, wl.getOwner().getEmail());
-//                    user.SendWLConfirmMail(mailSender, baseUrl, wl.getOwner().getEmail());
-//                }
-//                if (wl == null) {                    
-//                    user.SendConfirmMail(mailSender, baseUrl);
-//                }
-//
-//                user.SendAdminMail("User Signed", mailSender);
-//                user.addAuthoritie(OddeyeUserModel.ROLE_USER);
-//                user.setActive(Boolean.FALSE);
-//                Userdao.addUser(user);
-//                Userdao.saveSineUpCookes(user, request.getCookies());
+                String baseUrl = mailSender.getBaseurl(request);
+                final ResetInfo ri = passwordResetTokenEncoder.validateToken(passwordResetInfo.getResetToken());
+                if(!ri.getStatus())
+                    return "redirect:/login";
 
-//                return redirecttodashboard();
+                OddeyeUserModel currentUser = ri.getUserModel();
+                OddeyeUserModel newUserData = new OddeyeUserModel();
+                newUserData.setEmail(currentUser.getEmail());
+                newUserData.setPassword(passwordResetInfo.getPassword());
+                newUserData.setPasswordsecond(passwordResetInfo.getPasswordRepeat());
+                newUserData.setOldpassword(currentUser.getPassword());
+                userValidator.passwordvalidate(newUserData, currentUser, result);
+
+                DefaultController.setLocaleInfo(map);
+                if (result.hasErrors()) {
+                    map.put("result", result);
+                } else {
+                    try {
+                        final Map<String, Object> EditConfig = new LinkedHashMap<>();
+                        EditConfig.put("password", new HashMap<String, Object>() {
+                                        {
+                                            put("title", messageSource.getMessage("title.password",new String[]{""},LocaleContextHolder.getLocale()));
+                                            put("title", "Password");
+                                            put("path", "password");                            
+                                            put("retitle", messageSource.getMessage("retitle.reEnterPassword",new String[]{""},LocaleContextHolder.getLocale()));
+                                            put("type", "password");
+                                        }
+                        });
+
+                        Userdao.saveAll(currentUser, newUserData, EditConfig);
+                    } catch (Exception ex) {
+                        LOGGER.error(globalFunctions.stackTrace(ex));
+                    }
+
+                }
+
                 map.put("body", "psrecoveryconfirm");
                 map.put("jspart", "psrecoveryconfirmjs");
             } catch (Exception ex) {
@@ -583,12 +602,13 @@ public class DefaultController {
     public String passwordReset(@PathVariable(value = "token") String token, ModelMap map, HttpServletRequest request) {
         try {
             final ResetInfo ri = passwordResetTokenEncoder.validateToken(token);
-            if(!passwordResetTokenEncoder.validateToken(token).getStatus())
+            if(!ri.getStatus())
                 return "redirect:/login";
             map.put("resetInfo", ri);
             PasswordResetInfo passwordResetInfo = new PasswordResetInfo();
             passwordResetInfo.setEmail(ri.getEmail());
-            passwordResetInfo.setUserName(ri.getUserModel().getName());            
+            passwordResetInfo.setUserName(ri.getUserModel().getName());
+            passwordResetInfo.setResetToken(token);
             map.put("passwordResetInfo", passwordResetInfo);
             map.put("title", "psreset");
             map.put("slug", "psreset");

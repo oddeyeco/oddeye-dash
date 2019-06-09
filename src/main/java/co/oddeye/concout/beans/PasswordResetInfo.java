@@ -15,6 +15,7 @@ public class PasswordResetInfo {
     private String password;
     private String passwordRepeat;
     private String recaptcha;
+    private String resetToken;
     
     public void setUserName(String userName) {
         this.userName = userName;
@@ -45,5 +46,11 @@ public class PasswordResetInfo {
     }
     public String getRecaptcha() {
         return recaptcha;
+    }
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+    public String getResetToken() {
+        return resetToken;
     }
 }

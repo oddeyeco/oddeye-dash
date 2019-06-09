@@ -14,11 +14,11 @@ import java.security.Key;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Base64;
 import javax.annotation.PostConstruct;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base32;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -196,7 +196,8 @@ public class PasswordResetTokenEncoder {
         try
         {
             cipher.init(Cipher.ENCRYPT_MODE, key);
-            return Base64.getEncoder().encodeToString(cipher.doFinal(bytesToEncrypt));
+            Base32 base32 = new Base32();
+            return base32.encodeToString(cipher.doFinal(bytesToEncrypt));
         }
         catch (Exception e)
         {
@@ -210,7 +211,8 @@ public class PasswordResetTokenEncoder {
         try
         {
             cipher.init(Cipher.DECRYPT_MODE, key);
-            return cipher.doFinal(Base64.getDecoder().decode(strToDecrypt));
+            Base32 base32 = new Base32();
+            return cipher.doFinal(base32.decode(strToDecrypt));
         }
         catch (Exception e)
         {
