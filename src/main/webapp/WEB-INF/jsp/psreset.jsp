@@ -33,11 +33,11 @@
     <div class="row">
         <div class="col-lg-4 col-xs-12 text-right">            
             <div> 
-                <spring:message code="sineup.demoInfo"/>
+                <spring:message code="psreset.welcome"/>
             </div>
         </div>    
         <div class=" contactform col-lg-6 col-xs-12">               
-            <form:form method="post" action="${cp}/pschange/" modelAttribute="passwordResetInfo" novalidate="true">            
+            <form:form method="post" action="${cp}/pschange" modelAttribute="passwordResetInfo" novalidate="true">            
                 <c:if test="${not empty message}" >
                     <div class="alert alert-danger alert-dismissible fadein" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -63,13 +63,19 @@
                 <div class="form-group">
                     <form:hidden path="resetToken" placeholder="Reset Token"/>
                 </div>           
+                <div class="form-group">
+                    <form:hidden path="email" placeholder="Email"/>
+                </div>           
+                <div class="form-group">
+                    <form:hidden path="userName" placeholder="User Name"/>
+                </div>           
                 
                 
                 <c:if test="${dashProp.captchaOn eq 'true'}" >
                 <div class="form-group">                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
                     <div id="recaptcha" data-sitekey="${dashProp.captchaSiteKey}"></div>                
-                    <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="signUp"/></button>
+                    <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="savePassword"/></button>
                 </div>
                 </c:if>
                 <c:if test="${dashProp.captchaOn ne 'true'}" >

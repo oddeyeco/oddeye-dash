@@ -68,6 +68,8 @@ public class DefaultController {
     private String captchaOn;
     @Value("${captcha.secret}")
     private String captchaSecret;
+    @Value("${passwordRecovery.emailTimeToLive}")
+    public int passwordRecoveryEmailTimeToLive;
     
     @Autowired
     private PasswordResetTokenEncoder passwordResetTokenEncoder;
@@ -312,36 +314,7 @@ public class DefaultController {
 
         WhitelabelModel wl = whiteLabelResolver.getWhitelabelModel();
         userValidator.validate(newUser, result);
-        if("true".equalsIgnoreCase(captchaOn)) {
-            if (request.getParameter("g-recaptcha-response") != null) {
-                if (!request.getParameter("g-recaptcha-response").isEmpty()) {
-                    String ip = request.getHeader("X-Real-IP");
-                    if (ip == null) {
-                        ip = request.getRemoteAddr();
-                    }
-                    try {
-                        String captchaTestParams = "secret=" + captchaSecret + "&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip;
-
-                        JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", captchaTestParams);
-                        if (capchaRequest.getAsJsonObject().get("success") == null) {
-                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                        } else {
-                            if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
-                                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                            }
-                        }
-                    } catch (Exception ex) {
-                        result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                        LOGGER.error(globalFunctions.stackTrace(ex));
-                    }
-
-                } else {
-                    result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                }
-            } else {
-                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-            }
-        }
+        validateCaptcha(request, result);        
         if (result.hasErrors()) {
             setLocaleInfo(map);
             map.put("newUser", newUser);
@@ -415,8 +388,7 @@ public class DefaultController {
         map.put("tzone", timezones);
     }
     
-    @RequestMapping(value = "/psrecovery", method = RequestMethod.POST)
-    public String passwordRecovery(@ModelAttribute("psRecoveryInfo") PasswordRecoveryInfo passwordRecoveryInfo, BindingResult result, ModelMap map, HttpServletRequest request) {
+    private void validateCaptcha(HttpServletRequest request, BindingResult result) {
         if("true".equalsIgnoreCase(captchaOn)) {
             if (request.getParameter("g-recaptcha-response") != null) {
                 if (!request.getParameter("g-recaptcha-response").isEmpty()) {
@@ -447,7 +419,11 @@ public class DefaultController {
                 result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
             }
         }
-
+    }
+    
+    @RequestMapping(value = "/psrecovery", method = RequestMethod.POST)
+    public String passwordRecovery(@ModelAttribute("psRecoveryInfo") PasswordRecoveryInfo passwordRecoveryInfo, BindingResult result, ModelMap map, HttpServletRequest request) {
+        validateCaptcha(request, result);
         OddeyeUserDetails existingUser = null;
         
         if(!result.hasErrors()) {
@@ -482,7 +458,7 @@ public class DefaultController {
                 
 //                resetToken = URLEncoder.encode(resetToken, StandardCharsets.UTF_8.toString());
                 if(um.sendPasswordRecoveryMail(mailSender, baseUrl, resetToken)){
-                    um.SendAdminMail("User requested password recovery", mailSender);
+                    //um.SendAdminMail("User requested password recovery", mailSender);
                     map.put("body", "psrecoveryconfirm");
                     map.put("jspart", "psrecoveryconfirmjs");
                 } else {
@@ -506,37 +482,7 @@ public class DefaultController {
     
     @RequestMapping(value = "/pschange", method = RequestMethod.POST)
     public String passwordChangeRecovery(@ModelAttribute("passwordResetInfo") PasswordResetInfo passwordResetInfo, BindingResult result, ModelMap map, HttpServletRequest request) {
-
-        if("true".equalsIgnoreCase(captchaOn)) {
-            if (request.getParameter("g-recaptcha-response") != null) {
-                if (!request.getParameter("g-recaptcha-response").isEmpty()) {
-                    String ip = request.getHeader("X-Real-IP");
-                    if (ip == null) {
-                        ip = request.getRemoteAddr();
-                    }
-                    try {
-                        String captchaTestParams = "secret=" + captchaSecret + "&response=" + request.getParameter("g-recaptcha-response") + "&remoteip=" + ip;
-
-                        JsonElement capchaRequest = OddeyeHttpURLConnection.getPostJSON("https://www.google.com/recaptcha/api/siteverify", captchaTestParams);
-                        if (capchaRequest.getAsJsonObject().get("success") == null) {
-                            result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                        } else {
-                            if (!capchaRequest.getAsJsonObject().get("success").getAsBoolean()) {
-                                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                            }
-                        }
-                    } catch (Exception ex) {
-                        result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                        LOGGER.error(globalFunctions.stackTrace(ex));
-                    }
-
-                } else {
-                    result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-                }
-            } else {
-                result.rejectValue("recaptcha", "recaptcha.notValid", "Please complete the CAPTCHA to complete your registration.");
-            }
-        }
+        validateCaptcha(request, result);
         if (result.hasErrors()) {
             setLocaleInfo(map);
             map.put("passwordResetInfo", passwordResetInfo);
@@ -547,20 +493,26 @@ public class DefaultController {
             try {
                 String baseUrl = mailSender.getBaseurl(request);
                 final ResetInfo ri = passwordResetTokenEncoder.validateToken(passwordResetInfo.getResetToken());
-                if(!ri.getStatus())
-                    return "redirect:/login";
-
-                OddeyeUserModel currentUser = ri.getUserModel();
-                OddeyeUserModel newUserData = new OddeyeUserModel();
-                newUserData.setEmail(currentUser.getEmail());
-                newUserData.setPassword(passwordResetInfo.getPassword());
-                newUserData.setPasswordsecond(passwordResetInfo.getPasswordRepeat());
-                newUserData.setOldpassword(currentUser.getPassword());
-                userValidator.passwordvalidate(newUserData, currentUser, result);
+                OddeyeUserModel newUserData = new OddeyeUserModel();                
+                if(!ri.getStatus()) {
+                    result.rejectValue("password", "pasword.notValid", ri.getMessage());
+                } else {
+                    OddeyeUserModel currentUser = ri.getUserModel();
+                    newUserData.setId(currentUser.getId());
+                    newUserData.setEmail(currentUser.getEmail());
+                    newUserData.setPassword(passwordResetInfo.getPassword());
+                    newUserData.setPasswordsecond(passwordResetInfo.getPasswordRepeat());
+    //                newUserData.setOldpassword(currentUser.getPassword());
+                    userValidator.passwordResetValidate(newUserData, currentUser, result);
+                }
 
                 DefaultController.setLocaleInfo(map);
                 if (result.hasErrors()) {
+                    map.put("passwordResetInfo", passwordResetInfo);
                     map.put("result", result);
+                    map.put("body", "psreset");
+                    map.put("jspart", "psresetjs");
+                    return "indexPrime";
                 } else {
                     try {
                         final Map<String, Object> EditConfig = new LinkedHashMap<>();
@@ -574,21 +526,19 @@ public class DefaultController {
                                         }
                         });
 
-                        Userdao.saveAll(currentUser, newUserData, EditConfig);
+                        Userdao.saveAll(ri.getUserModel(), newUserData, EditConfig);
                     } catch (Exception ex) {
                         LOGGER.error(globalFunctions.stackTrace(ex));
                     }
-
                 }
-
-                map.put("body", "psrecoveryconfirm");
-                map.put("jspart", "psrecoveryconfirmjs");
+                map.remove("passwordResetInfo");
+                return "redirect:/login";
             } catch (Exception ex) {
                 LOGGER.error(globalFunctions.stackTrace(ex));
                 map.put("passwordResetInfo", passwordResetInfo);
                 map.put("result", result);
-                map.put("body", "psrecovery");
-                map.put("jspart", "psrecoveryjs");
+                map.put("body", "psreset");
+                map.put("jspart", "psresetjs");
                 map.put("message", ex.toString());
             }
         }
@@ -602,8 +552,12 @@ public class DefaultController {
     public String passwordReset(@PathVariable(value = "token") String token, ModelMap map, HttpServletRequest request) {
         try {
             final ResetInfo ri = passwordResetTokenEncoder.validateToken(token);
-            if(!ri.getStatus())
-                return "redirect:/login";
+            if(!ri.getStatus()) {
+                map.put("body", "errors/usererror");
+                map.put("jspart", "errorjs");
+                map.put("message",  messageSource.getMessage("usererror.recoveryLinkExpired",new Object[]{passwordRecoveryEmailTimeToLive},LocaleContextHolder.getLocale()));
+                return "indexPrime";
+            }
             map.put("resetInfo", ri);
             PasswordResetInfo passwordResetInfo = new PasswordResetInfo();
             passwordResetInfo.setEmail(ri.getEmail());
@@ -620,7 +574,14 @@ public class DefaultController {
             return "indexPrime";
          }
         catch(Exception e){
-            return "redirect:/login";
+            map.put("body", "errors/usererror");
+            map.put("jspart", "errorjs");
+            map.put("message",
+                    messageSource.getMessage(
+                            "usererror.recoveryLinkExpired",
+                            new Object[]{passwordRecoveryEmailTimeToLive},
+                            LocaleContextHolder.getLocale()));
+            return "indexPrime";
         }
     }
 }

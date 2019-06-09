@@ -32,12 +32,7 @@
     <!--<h2 class="text-center">Create Account.</h2>-->        
     <div class="row">
         <div class="col-lg-4 col-xs-12 text-right">            
-            <c:if test="${empty whitelabel}" >
-                <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
-                </c:if>                        
-            <c:if test="${not empty whitelabel}" >
-                <a href="https://${whitelabel.url}/" ><img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="250px"></a>                                
-            </c:if>                
+            <a href="https://www.oddeye.co/" ><img src="${cp}/assets/images/logowhite.png" alt="logo" width="250px"></a>                
             <div> 
                 <spring:message code="sineup.demoInfo"/>
             </div>

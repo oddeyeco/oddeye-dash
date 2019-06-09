@@ -82,12 +82,12 @@ public class PasswordResetTokenEncoder {
     @Value("${passwordRecovery.secret}")
     public String passwordRecoverySecret;
     
-     @Value("${passwordRecovery.emailTimeToLive}")
+    @Value("${passwordRecovery.emailTimeToLive}")
     public int passwordRecoveryEmailTimeToLive;
     
     private final static int BYTES_IN_LONG = 8;
     private final static int BYTES_IN_DIGEST = 20;
-    private String algorithm = "AES/ECB/PKCS5Padding";
+    private final static String algorithm = "AES/ECB/PKCS5Padding";
     
     private Cipher cipher;
     private Key key;
