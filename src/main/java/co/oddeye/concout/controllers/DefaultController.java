@@ -25,8 +25,6 @@ import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -70,7 +68,9 @@ public class DefaultController {
     private String captchaSecret;
     @Value("${passwordRecovery.emailTimeToLive}")
     public int passwordRecoveryEmailTimeToLive;
-    
+    @Value("${dash.baseurl}")
+    public String dashBaseUrl;
+
     @Autowired
     private PasswordResetTokenEncoder passwordResetTokenEncoder;
     
@@ -198,7 +198,7 @@ public class DefaultController {
         } else {
             request.getSession().removeAttribute("SPRING_SECURITY_SAVED_REQUEST");
             map.put("isAuthentication", false);
-            if (!slug.equals("signup") || !slug.equals("psrecovery")) {
+            if (!slug.equals("signup") && !slug.equals("psrecovery")) {
                 map.put("wraper", "noautwraper");
             }
             map.put("body", slug);
@@ -215,7 +215,6 @@ public class DefaultController {
             default: {
                 map.put("title", slug);
             }
-
         }
 
         map.put("slug", slug);
@@ -323,15 +322,14 @@ public class DefaultController {
             map.put("jspart", "signupjs");
         } else {
             try {
-                String baseUrl = mailSender.getBaseurl(request);
                 if (wl != null) {
                     newUser.setWhitelabel(wl);
                     newUser.addAuthoritie(OddeyeUserModel.ROLE_WHITELABEL_USER);
                     newUser.SendWlAdminMail("User Signed in wl", mailSender, wl.getOwner().getEmail());
-                    newUser.SendWLConfirmMail(mailSender, baseUrl, wl.getOwner().getEmail());
+                    newUser.SendWLConfirmMail(mailSender, dashBaseUrl, wl.getOwner().getEmail());
                 }
                 if (wl == null) {                    
-                    newUser.SendConfirmMail(mailSender, baseUrl);
+                    newUser.SendConfirmMail(mailSender, dashBaseUrl);
                 }
 
                 newUser.SendAdminMail("User Signed", mailSender);
@@ -450,14 +448,12 @@ public class DefaultController {
             map.put("jspart", "psrecoveryjs");
         } else {
             try {
-                String baseUrl = mailSender.getBaseurl(request);
-//                baseUrl = "http://localhost:8080/OddeyeCoconut";// Development URL remove on production
                 OddeyeUserModel um = existingUser.getUserModel();
-                String resetToken = passwordResetTokenEncoder.createRecoveryToken(
-                        um);
+                String resetToken =
+                        passwordResetTokenEncoder.createRecoveryToken(um);
                 
 //                resetToken = URLEncoder.encode(resetToken, StandardCharsets.UTF_8.toString());
-                if(um.sendPasswordRecoveryMail(mailSender, baseUrl, resetToken)){
+                if(um.sendPasswordRecoveryMail(mailSender, dashBaseUrl, resetToken)){
                     //um.SendAdminMail("User requested password recovery", mailSender);
                     map.put("body", "psrecoveryconfirm");
                     map.put("jspart", "psrecoveryconfirmjs");
@@ -491,7 +487,6 @@ public class DefaultController {
             map.put("jspart", "psresetjs");
         } else {
             try {
-                String baseUrl = mailSender.getBaseurl(request);
                 final ResetInfo ri = passwordResetTokenEncoder.validateToken(passwordResetInfo.getResetToken());
                 OddeyeUserModel newUserData = new OddeyeUserModel();                
                 if(!ri.getStatus()) {
