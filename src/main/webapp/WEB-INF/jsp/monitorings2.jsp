@@ -1067,14 +1067,14 @@
             <div class="card-body">
                 <div id="query_form_content">
                     <form class="form-options form-row">
-                        <fieldset class="col-12"> 
-                            <div class="card shadow">
+                        <fieldset class="form-group col-12"> 
+<!--                            <div class="card shadow">-->
                                 <h4 class="card-header p-1">
                                     <button type="button" id="collapseFilters" class="btn btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.filters"/></b>
                                     </button>
                                 </h4>                        
-                                <div class="card-body filter-body p-0" id="filters">
+<!--    card-body depthShadowLight  --><div class="filter-body p-0" id="filters">
                                     <div class="filters row">
                                         <div class="filter all_filter col-12 col-lg-4 pr-lg-0">  
                                             <div class="card shadow">
@@ -1084,7 +1084,7 @@
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersAll"/></b>
                                                     </button>
                                                 </h4> 
-                                                <div class="card-body markBody" id="All_msg" style="display: block;">                                                    
+                                                <div class="card-body depthShadowLightHover" id="All_msg" style="display: block;">                                                    
                                                         <div class="form-row">
                                                             <div class="form-group text-right col-2 mb-2">                                                                           
                                                                 <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
@@ -1104,7 +1104,7 @@
                                                             </div> 
                                                         </div> 
                                                     <div class="defined_filter">
-                                                        <table class="table table-sm table-borderless table-secondary filters-table"></table>                                   
+                                                        <table class="table table-sm bg-light text-nowrap filters-table"></table>                                   
                                                     </div>
                                                 </div>
                                             </div>
@@ -1117,7 +1117,7 @@
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersMachine"/></b>
                                                     </button>
                                                 </h4> 
-                                                <div class="card-body markBody" id="Machine_msg" style="display: block;">
+                                                <div class="card-body depthShadowLightHover" id="Machine_msg" style="display: block;">
                                                     <div class="form-row">
                                                         <div class="form-group text-right col-2 mb-2">                                                                           
                                                             <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
@@ -1137,7 +1137,7 @@
                                                         </div> 
                                                     </div>
                                                     <div class="defined_filter">
-                                                        <table class="table table-sm table-borderless table-secondary filters-table"></table>                                                            
+                                                        <table class="table table-sm bg-light text-nowrap filters-table"></table>                                                            
                                                     </div>
                                                 </div>
                                             </div>
@@ -1150,7 +1150,7 @@
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersManually"/></b>
                                                     </button>
                                                 </h4> 
-                                                <div class="card-body markBody" id="Manual_msg" style="display: block;">
+                                                <div class="card-body depthShadowLightHover" id="Manual_msg" style="display: block;">
                                                     <div class="form-row">
                                                         <div class="form-group text-right col-2 mb-2">                                                                           
                                                             <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
@@ -1170,25 +1170,24 @@
                                                         </div> 
                                                     </div>
                                                     <div class="defined_filter">
-                                                        <table class="table table-sm table-borderless table-secondary filters-table"></table>                                                            
+                                                        <table class="table table-sm bg-light text-nowrap filters-table"></table>                                                            
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                       
+<!--                            </div>                       -->
                         </fieldset>
-                        <fieldset class="col-lg-6 col-12 pr-lg-0">
+                        <fieldset class="form-group col-lg-6 col-12 pr-lg-0">
                             <div class="card shadow">
                                 <h4 class="card-header rounded-0 p-1">
                                     <button type="button" id="collapseOptions" class="btn btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.options"/></b>
                                     </button>
                                 </h4>
-                                <div class="card-body markBody filter-body minHeight180" id="options">
-                                    <div class="table-responsive mt-2">
-                                        <table class="table table-secondary table-bordered options" style="width: 100%">
+                                <div class="card-body depthShadowLightHover filter-body minHeight180" id="options">                                    
+                                        <table class="table table-bordered options" style="width: 100%">
                                             <tbody>
                                                 <tr>
                                                     <th class="card-fields name align-middle">
@@ -1218,11 +1217,11 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>                               
+                                                                 
                                 </div>
                             </div>                       
                         </fieldset>
-                        <fieldset class="col-lg-6 col-12 pl-lg-0">
+                        <fieldset class="form-group col-lg-6 col-12 pl-lg-0">
                             <div class="card shadow">
                                 <h4 class="card-header rounded-0 p-1">
                                     <button type="button" id="collapseNotifiers" class="btn btn-outline-dark markBtn">
@@ -1230,7 +1229,7 @@
                                         <b class="pagetitle"><spring:message code="monitorings2.externalNotifiers"/></b>
                                     </button>
                                 </h4>
-                                <div class="card-body markBody filter-body minHeight180" id="notifiers">
+                                <div class="card-body depthShadowLightHover filter-body minHeight180" id="notifiers">
                                     <div class="add-notifier border border-secondary pt-2">                                        
                                         <label for="addNotifier" class="all_filter font-weight-bold text-center col-md-2"><spring:message code="monitorings2.addNotifier"/></label>                                                                               
                                         <select class="add_notifier_select col-md-8" id="addNotifier">

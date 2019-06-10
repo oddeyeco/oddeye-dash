@@ -860,6 +860,21 @@ div#tagsconteger.ui-sortable .draggable>label{
 #query_form_content fieldset td.card-fields {
     padding: 20px;
 }
+.defined_filter>table.filters-table {
+    border: 1px solid #aeb3b3;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s cubic-bezier(.24,.43,.6,.43);
+}
+.defined_filter>table.filters-table:hover {
+    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.25), 0 8px 12px -2px rgba(0,0,0,0.22);
+}
+#options table.options {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+#options table.options:hover {
+    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.25), 0 8px 12px -2px rgba(0,0,0,0.22);
+}
 /*table.table.filters-table>tr>td input {
     padding: 3px 0;
     border-radius: 4px;
