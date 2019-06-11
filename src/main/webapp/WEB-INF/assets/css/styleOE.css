@@ -865,6 +865,12 @@ fieldset .filter>.card {
 fieldset .filter>.card>h4.card-header {
     border-bottom: 4px outset rgba(0, 0, 0, 0.15);     
 }
+fieldset #filters .filter .defined_filter>table>tr>th {
+    border: 0;
+}
+fieldset #filters .filter .defined_filter>table>tr>td {
+    border: 0;
+}
 .add-notifier, .add-filter {
     background-color: #d6d8db;
 }

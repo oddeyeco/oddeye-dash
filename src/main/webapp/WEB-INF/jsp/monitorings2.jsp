@@ -1068,7 +1068,7 @@
                 <div id="query_form_content">
                     <form class="form-options form-row">
                         <fieldset class="form-group col-12"> 
-                                <h4 class="card-header p-1">
+                                <h4 class="card-header shadow p-1">
                                     <button type="button" id="collapseFilters" class="btn btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.filters"/></b>
                                     </button>
@@ -1097,7 +1097,7 @@
                                                                     <optgroup label="<spring:message code="tags"/>">
                                                                         <c:forEach items="${list}" var="tagitem">   
                                                                             <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
+                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="${text}">Tag:${text} (${tagitem.value.size()})</option>
                                                                         </c:forEach>                                
                                                                     </optgroup>
                                                                 </select>
@@ -1130,7 +1130,7 @@
                                                                     <optgroup label="<spring:message code="tags"/>">
                                                                         <c:forEach items="${list}" var="tagitem">   
                                                                             <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
+                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="${text}">Tag:${text} (${tagitem.value.size()})</option>
                                                                         </c:forEach>                                
                                                                     </optgroup>
                                                                 </select>
@@ -1163,7 +1163,7 @@
                                                                     <optgroup label="<spring:message code="tags"/>">
                                                                         <c:forEach items="${list}" var="tagitem">   
                                                                             <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
+                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="${text}">Tag:${text} (${tagitem.value.size()})</option>
                                                                         </c:forEach>                                
                                                                     </optgroup>
                                                                 </select>
