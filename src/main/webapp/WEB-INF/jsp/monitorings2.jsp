@@ -1068,28 +1068,28 @@
                 <div id="query_form_content">
                     <form class="form-options form-row">
                         <fieldset class="form-group col-12"> 
-<!--                            <div class="card shadow">-->
                                 <h4 class="card-header p-1">
                                     <button type="button" id="collapseFilters" class="btn btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.filters"/></b>
                                     </button>
                                 </h4>                        
-<!--    card-body depthShadowLight  --><div class="filter-body p-0" id="filters">
+                                <div class="filter-body p-0" id="filters">
                                     <div class="filters row">
                                         <div class="filter all_filter col-12 col-lg-4 pr-lg-0">  
                                             <div class="card shadow">
                                                 <h4 class="card-header text-center p-0 bg-light">
-                                                    <button type="button" id="collapseAll_msg" class="btn btn-outline-dark markBtn p-1">
+                                                    <button type="button" id="collapseAll_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
                                                         <i class="fas fa-rotate-90 fa-indent"></i>
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersAll"/></b>
                                                     </button>
                                                 </h4> 
-                                                <div class="card-body depthShadowLightHover" id="All_msg" style="display: block;">                                                    
-                                                        <div class="form-row">
-                                                            <div class="form-group text-right col-2 mb-2">                                                                           
-                                                                <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
+                                                <div class="card-body p-3 depthShadowLightHover" id="All_msg" style="display: block;"> 
+                                                    <div class="card defined_filter">
+                                                        <div class="card-header form-row add-filter p-1 m-0">
+                                                            <div class="col-2 text-center">                                                                           
+                                                                <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
                                                             </div>
-                                                            <div class="form-group col-8">                                                           
+                                                            <div class="col-8">                                                           
                                                                 <select class="add_filter_select form-control form-control-sm" id="allfilter">                                                                            
                                                                     <option value="">&nbsp;</option>
                                                                     <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
@@ -1102,82 +1102,81 @@
                                                                     </optgroup>
                                                                 </select>
                                                             </div> 
-                                                        </div> 
-                                                    <div class="defined_filter">
-                                                        <table class="table table-sm bg-light text-nowrap filters-table"></table>                                   
-                                                    </div>
-                                                </div>
+                                                        </div>                                                              
+                                                        <table class="card-body table table-sm text-nowrap bg-light filters-table"></table>                                                              
+                                                    </div>              
+                                                </div>                                                                        
                                             </div>
                                         </div>
                                         <div class="filter machine_filter col-12 col-lg-4 p-lg-0">
                                             <div class="card shadow">
                                                 <h4 class="card-header  text-center p-0 bg-light">
-                                                    <button type="button" id="collapseMachine_msg" class="btn btn-outline-dark markBtn p-1">
+                                                    <button type="button" id="collapseMachine_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
                                                         <i class="fas fa-rotate-90 fa-indent"></i>
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersMachine"/></b>
                                                     </button>
                                                 </h4> 
-                                                <div class="card-body depthShadowLightHover" id="Machine_msg" style="display: block;">
-                                                    <div class="form-row">
-                                                        <div class="form-group text-right col-2 mb-2">                                                                           
-                                                            <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
-                                                        </div>
-                                                        <div class="form-group col-8">                                                           
-                                                            <select class="add_filter_select form-control form-control-sm" id="mlfilter">                                                                            
-                                                                <option value="">&nbsp;</option>
-                                                                <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
-                                                                <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
-                                                                <optgroup label="<spring:message code="tags"/>">
-                                                                    <c:forEach items="${list}" var="tagitem">   
-                                                                        <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                                        <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
-                                                                    </c:forEach>                                
-                                                                </optgroup>
-                                                            </select>
-                                                        </div> 
-                                                    </div>
-                                                    <div class="defined_filter">
-                                                        <table class="table table-sm bg-light text-nowrap filters-table"></table>                                                            
-                                                    </div>
+                                                <div class="card-body p-3 depthShadowLightHover" id="Machine_msg" style="display: block;">
+                                                    <div class="card defined_filter">
+                                                        <div class="card-header form-row add-filter p-1 m-0">
+                                                            <div class="col-2 text-center">                                                                           
+                                                                <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
+                                                            </div>
+                                                            <div class="col-8">                                                           
+                                                                <select class="add_filter_select form-control form-control-sm" id="mlfilter">                                                                            
+                                                                    <option value="">&nbsp;</option>
+                                                                    <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
+                                                                    <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
+                                                                    <optgroup label="<spring:message code="tags"/>">
+                                                                        <c:forEach items="${list}" var="tagitem">   
+                                                                            <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
+                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
+                                                                        </c:forEach>                                
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div> 
+                                                        </div>                                                              
+                                                        <table class="card-body table table-sm text-nowrap bg-light filters-table"></table>                                                              
+                                                    </div>               
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="filter manual_filter col-12 col-lg-4 pl-lg-0">
                                             <div class="card shadow">
                                                 <h4 class="card-header  text-center p-0 bg-light">
-                                                    <button type="button" id="collapseManual_msg" class="btn btn-outline-dark markBtn p-1">
+                                                    <button type="button" id="collapseManual_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
                                                         <i class="fas fa-rotate-90 fa-indent"></i>
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersManually"/></b>
                                                     </button>
                                                 </h4> 
-                                                <div class="card-body depthShadowLightHover" id="Manual_msg" style="display: block;">
-                                                    <div class="form-row">
-                                                        <div class="form-group text-right col-2 mb-2">                                                                           
-                                                            <label for="all_filter" class="all_filter font-weight-bold"><spring:message code="monitorings2.addFilter"/></label> 
-                                                        </div>
-                                                        <div class="form-group col-8">                                                           
-                                                            <select class="add_filter_select form-control form-control-sm" id="manualfilter">                                                                            
-                                                                <option value="">&nbsp;</option>
-                                                                <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
-                                                                <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
-                                                                <optgroup label="<spring:message code="tags"/>">
-                                                                    <c:forEach items="${list}" var="tagitem">   
-                                                                        <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
-                                                                        <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
-                                                                    </c:forEach>                                
-                                                                </optgroup>
-                                                            </select>
-                                                        </div> 
-                                                    </div>
-                                                    <div class="defined_filter">
-                                                        <table class="table table-sm bg-light text-nowrap filters-table"></table>                                                            
-                                                    </div>
+                                                <div class="card-body p-3 depthShadowLightHover" id="Manual_msg" style="display: block;">
+                                                    <div class="card defined_filter">
+                                                        <div class="card-header form-row add-filter p-1 m-0">
+                                                            <div class="col-2 text-center">                                                                           
+                                                                <label for="all_filter" class="all_filter"><spring:message code="monitorings2.addFilter"/></label> 
+                                                            </div>
+                                                            <div class="col-8">                                                           
+                                                                <select class="add_filter_select form-control form-control-sm" id="manualfilter">                                                                            
+                                                                    <option value="">&nbsp;</option>
+                                                                    <option value="info.name" fname="<spring:message code="metricName"/>" alias="metric"><spring:message code="metricName"/></option>
+                                                                    <option value="level" fname="<spring:message code="level"/>" alias="level"><spring:message code="level"/></option>                                
+                                                                    <optgroup label="<spring:message code="tags"/>">
+                                                                        <c:forEach items="${list}" var="tagitem">   
+                                                                            <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>
+                                                                            <option value="info.tags.${tagitem.key}.value" alias="${tagitem.key}" fname="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
+                                                                        </c:forEach>                                
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div> 
+                                                        </div>                                                              
+                                                        <table class="card-body table table-sm text-nowrap bg-light filters-table"></table>                                                              
+                                                    </div>               
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-<!--                            </div>                       -->
+
                         </fieldset>
                         <fieldset class="form-group col-lg-6 col-12 pr-lg-0">
                             <div class="card shadow">
@@ -1186,8 +1185,8 @@
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.options"/></b>
                                     </button>
                                 </h4>
-                                <div class="card-body depthShadowLightHover filter-body minHeight180" id="options">                                    
-                                        <table class="table table-bordered options" style="width: 100%">
+                                <div class="card-body filter-body depthShadowLightHover p-3 minHeight180" id="options">                                    
+                                        <table class="table options" style="width: 100%">
                                             <tbody>
                                                 <tr>
                                                     <th class="card-fields name align-middle">
@@ -1229,19 +1228,24 @@
                                         <b class="pagetitle"><spring:message code="monitorings2.externalNotifiers"/></b>
                                     </button>
                                 </h4>
-                                <div class="card-body depthShadowLightHover filter-body minHeight180" id="notifiers">
-                                    <div class="add-notifier border border-secondary pt-2">                                        
-                                        <label for="addNotifier" class="all_filter font-weight-bold text-center col-md-2"><spring:message code="monitorings2.addNotifier"/></label>                                                                               
-                                        <select class="add_notifier_select col-md-8" id="addNotifier">
-                                            <option value="">&nbsp;</option>
-                                            <option value="email" fname="<spring:message code="monitorings2.addressEmail"/>"><spring:message code="monitorings2.addNotifierEmail"/></option>
-                                            <option value="telegram"  fname="<spring:message code="monitorings2.chatIdTelegram"/>"><spring:message code="monitorings2.addNotifierTelegram"/></option>                                
-                                        </select>
-                                    </div>                            
-                                    <div class="defined_notifier">
-                                        <div class="notifiers-table row">
-                                        </div>                                    
-                                    </div>                             
+                                <div class="card-body filter-body depthShadowLightHover p-3 minHeight180" id="notifiers">
+                                    <div class="card defined_notifier">
+                                        <div class="card-header form-row add-filter p-1 m-0">
+                                            <div class="col-2 text-center">                                                                           
+                                                <label for="addNotifier" class="all_filter font-weight-bold"><spring:message code="monitorings2.addNotifier"/></label>
+                                            </div>
+                                            <div class="col-8">                                                           
+                                                <select class="add_notifier_select col-8" id="addNotifier">
+                                                    <option value="">&nbsp;</option>
+                                                    <option value="email" fname="<spring:message code="monitorings2.addressEmail"/>"><spring:message code="monitorings2.addNotifierEmail"/></option>
+                                                    <option value="telegram"  fname="<spring:message code="monitorings2.chatIdTelegram"/>"><spring:message code="monitorings2.addNotifierTelegram"/></option>                                
+                                                </select>
+                                            </div> 
+                                        </div> 
+                                        <div class="card-body p-2">
+                                            <div class="notifiers-table row"></div>                                    
+                                        </div>
+                                    </div>                                                                        
                                 </div> 
                             </div> 
                         </fieldset>
