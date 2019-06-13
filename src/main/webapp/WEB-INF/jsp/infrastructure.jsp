@@ -21,12 +21,12 @@
                         <div class="mb-auto">
                             <form class="form-group row form-label-left form-filter profile_left-form" style="display: block;">
                                 <div class="form-group">
-                                    <label class="col-12 col-form-label"><spring:message code="infrastructure.forMetric"/></label>
+                                    <label class="col-form-label"><spring:message code="infrastructure.forMetric"/></label>
                                     <div class="col-12">
                                         <input class="form-control autocomplete-append-metric filter-input" type="text" name="metric_input" id="metric_input" tagkey="metric" value="" autocomplete="off">
                                         <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>                                                    
                                     </div>
-                                    <label class="col-12 col-form-label"><spring:message code="tags"/></label>
+                                    <label class="col-form-label"><spring:message code="tags"/></label>
                                     <div id="tagsconteger" style="clear: both" class="scrollTagsContant ui-sortable depthShadowLightHover">                                        
                                         <c:forEach items="${taglist}" var="tagitem">                                  
                                             <div class="form-group tag-grop draggable draggableHint" style="display: none">
@@ -57,7 +57,7 @@
                         </div>                                
                     </div>
                     <div class="col-lg-10 col-md-9 col-12 profile_right-table">        
-                        <div class="x_panel">
+                        <div class="x_panel depthShadowDark">
                             <div id="echart_line"></div>
                         </div> 
                     </div>

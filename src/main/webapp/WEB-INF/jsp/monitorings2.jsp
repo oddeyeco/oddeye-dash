@@ -1103,7 +1103,7 @@
                                                                 </select>
                                                             </div> 
                                                         </div>                                                              
-                                                        <table class="card-body table table-sm text-nowrap bg-light filters-table"></table>                                                              
+                                                        <table class="card-body table text-nowrap filters-table"></table>                                                              
                                                     </div>              
                                                 </div>                                                                        
                                             </div>
@@ -1136,7 +1136,7 @@
                                                                 </select>
                                                             </div> 
                                                         </div>                                                              
-                                                        <table class="card-body table table-sm text-nowrap bg-light filters-table"></table>                                                              
+                                                        <table class="card-body table text-nowrap filters-table"></table>                                                              
                                                     </div>               
                                                 </div>
                                             </div>
@@ -1169,7 +1169,7 @@
                                                                 </select>
                                                             </div> 
                                                         </div>                                                              
-                                                        <table class="card-body table table-sm text-nowrap bg-light filters-table"></table>                                                              
+                                                        <table class="card-body table text-nowrap filters-table"></table>                                                              
                                                     </div>               
                                                 </div>
                                             </div>
@@ -1232,7 +1232,7 @@
                                     <div class="card defined_notifier">
                                         <div class="card-header form-row add-filter p-1 m-0">
                                             <div class="col-2 text-center">                                                                           
-                                                <label for="addNotifier" class="all_filter font-weight-bold"><spring:message code="monitorings2.addNotifier"/></label>
+                                                <label for="addNotifier" class="all_filter"><spring:message code="monitorings2.addNotifier"/></label>
                                             </div>
                                             <div class="col-8">                                                           
                                                 <select class="add_notifier_select col-8" id="addNotifier">

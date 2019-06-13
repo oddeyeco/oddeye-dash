@@ -792,12 +792,12 @@ $(document).ready(function () {
         var row = $("<tr class='row m-0'>");         
         if ($(this).find(':selected').attr("value") === 'level')
         {
-            row.append("<th class='col-1 filter_label pt-2'>" + $(this).find(':selected').attr("fname") + "</th>");
-            row.append('<td class="col-2 action"><select class="operators_' + $(this).find(':selected').attr("value") + '" name="op[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + ']">' + eniumop + '</select> </td>');
-            row.append('<td class="col-7 value"><select class="value" id="values_' + $(this).find(':selected').attr("value") + '_1" name="v[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + '][]" multiple="multiple" size="4"><option value="0">' + locale["level_0"] + '</option><option value="1">' + locale["level_1"] + '</option><option value="2">' + locale["level_2"] + '</option><option value="3">' + locale["level_3"] + '</option><option value="4">' + locale["level_4"] + '</option><option value="5">' + locale["level_5"] + '</option></select></td>');
+            row.append("<th class='col-1 filter_label mr-3'>" + $(this).find(':selected').attr("fname") + "</th>");
+            row.append('<td class="col-1 action mr-4"><select class="operators_' + $(this).find(':selected').attr("value") + '" name="op[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + ']">' + eniumop + '</select> </td>');
+            row.append('<td class="col-8 value ml-1"><select class="value" id="values_' + $(this).find(':selected').attr("value") + '_1" name="v[' + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + '][]" multiple="multiple" size="4"><option value="0">' + locale["level_0"] + '</option><option value="1">' + locale["level_1"] + '</option><option value="2">' + locale["level_2"] + '</option><option value="3">' + locale["level_3"] + '</option><option value="4">' + locale["level_4"] + '</option><option value="5">' + locale["level_5"] + '</option></select></td>');
         } else
         {
-            row.append("<th class='col-3 filter_label pt-2'>" + $(this).find(':selected').attr("fname") + "</th>");
+            row.append("<th class='col-3 filter_label'>" + $(this).find(':selected').attr("fname") + "</th>");
             row.append("<td class='col-3 action'> <select class='operators_subject' name='op[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "'>" + strop + " </select> </td>");
             row.append("<td class='col-5 value'><input class='filter-value' type='text' name='v[" + $(this).attr("id") + "_" + $(this).find(':selected').attr("value") + "]' tagkey='" + $(this).find(':selected').attr("value") + "' autocomplete='off'></td>");
         }
@@ -811,8 +811,8 @@ $(document).ready(function () {
     
     $("body").on("change", ".add_notifier_select", function () {
 //        $(this).find(':selected').attr("disabled", "disabled");
-        var row = $("<div class='col-lg-4 col-md-6'>");
-        row.append("<div class='item notifier_label'>" + $(this).find(':selected').attr("fname") + "</div>");
+        var row = $("<div class='col-xl-4 col-lg-6 col-12'>");
+        row.append("<div class='item notifier_label font-weight-bold'>" + $(this).find(':selected').attr("fname") + "</div>");
         row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + $(this).find(':selected').attr("value") + "][]' autocomplete='off'></div>");
         $(this).parents(".filter-body").find(".notifiers-table").append(row);
 
@@ -842,10 +842,10 @@ $(document).ready(function () {
                     var name = Oldindex.replace("check_", "");
                     var opt = $(".all_filter .add_filter_select option[alias=" + name + "]:first");
                     opt.attr("disabled", "disabled");
-                    row.append("<th class='col-1 filter_label pt-2'>" + opt.attr("fname") + "</th>");
+                    row.append("<th class='col-1 filter_label mr-3'>" + opt.attr("fname") + "</th>");
 
-                    row.append("<td class='col-2 action'> <select class='operators_subject' name='op[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
-                    row.append("<td class='col-7 value'><input class='filter-value' type='text' name='v[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + filterOldJson[name + "_input"] + "></td>");
+                    row.append("<td class='col-1 action mr-4'> <select class='operators_subject' name='op[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
+                    row.append("<td class='col-8 value ml-1'><input class='filter-value' type='text' name='v[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + filterOldJson[name + "_input"] + "></td>");
                     $(".all_filter").find(".filters-table").append(row);
                 }
             }
@@ -856,11 +856,11 @@ $(document).ready(function () {
             var name = "level";
             var opt = $(".all_filter .add_filter_select option[value=" + name + "]:first");
             opt.attr("disabled", "disabled");
-            row.append("<th class='col-1 filter_label pt-2'>" + opt.attr("fname") + "</th>");
+            row.append("<th class='col-1 filter_label mr-3'>" + opt.attr("fname") + "</th>");
             $(".all_filter").find(".filters-table").append(row);
 
-            row.append('<td class="col-2 action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
-            row.append('<td class="col-7 value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
+            row.append('<td class="col-1 action mr-4"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
+            row.append('<td class="col-8 value ml-1"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
                     '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_0"] + '</option>' +
                     '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_1"] + '</option>' +
                     '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_2"] + '</option>' +
@@ -891,12 +891,12 @@ $(document).ready(function () {
                     var name = "level";
                     var opt = Domsection.find(".add_filter_select option[value=" + name + "]:first");
                     opt.attr("disabled", "disabled");
-                    row.append("<th class='col-1 filter_label pt-2'>" + opt.attr("fname") + "</th>");
+                    row.append("<th class='col-1 filter_label mr-3'>" + opt.attr("fname") + "</th>");
                     Domsection.find(".filters-table").append(row);
 
-                    row.append('<td class="col-2 action"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
+                    row.append('<td class="col-1 action mr-4"><select tagkey="' + opt.attr("value") + '" class="operators_' + opt.attr("value") + '" name="op[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + ']">' + eniumop + '</select> </td>');
                     row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
-                    row.append('<td class="col-7 value"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
+                    row.append('<td class="col-8 value ml-1"><select tagkey="' + opt.attr("value") + '"class="value" id="values_' + opt.attr("value") + '_1" name="v[' + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + '][]" multiple="multiple" size="4">' +
                             '<option value="0" ' + (levels.indexOf("0") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_0"] + '</option>' +
                             '<option value="1" ' + (levels.indexOf("1") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_1"] + '</option>' +
                             '<option value="2" ' + (levels.indexOf("2") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_2"] + '</option>' +
@@ -912,10 +912,10 @@ $(document).ready(function () {
                         var name = filter;
                         var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
                         opt.attr("disabled", "disabled");
-                        row.append("<th class='col-1 filter_label pt-2'>" + opt.attr("fname") + "</th>");
+                        row.append("<th class='col-1 filter_label mr3'>" + opt.attr("fname") + "</th>");
 
-                        row.append("<td class='col-2 action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
-                        row.append("<td class='col-7 value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
+                        row.append("<td class='col-1 action mr-4'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
+                        row.append("<td class='col-8 value ml-1'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
 
                         row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
                         Domsection.find(".filters-table").append(row);
@@ -932,8 +932,8 @@ $(document).ready(function () {
             for (var nvalue in optionsJson["notifier-v"][notifier])
             {
 //                console.log(notifier + "=" + optionsJson["notifier-v"][notifier][nvalue]);
-                var row = $("<div class='col-lg-4 col-md-6'>");
-                row.append("<div class='item notifier_label'>" + opt.attr("fname") + "</div>");
+                var row = $("<div class='col-xl-4 col-lg-6 col-12'>");
+                row.append("<div class='item notifier_label font-weight-bold'>" + opt.attr("fname") + "</div>");
                 row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + opt.attr("value") + "][]' value='" + optionsJson["notifier-v"][notifier][nvalue] + "' autocomplete='off'></div>");
                 Domsection.find(".notifiers-table").append(row);
             }           
