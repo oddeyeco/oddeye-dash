@@ -1,8 +1,3 @@
-<%-- 
-    Document   : dashboardOE
-    Created on : Apr 17, 2019, 4:55:00 PM
-    Author     : tigran
---%>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <div id="saveModal" class="modal fade" tabindex="-1" role="dialog">
@@ -205,9 +200,11 @@
                     <i class="glyphicon glyphicon-refresh"></i>
                 </div>
             </div>
+
         </div>  
     </div>                
-    <div class="x_content" id="dashcontent"></div>
+    <div class="x_content" id="dashcontent">        
+    </div>
 </div>
 <div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">

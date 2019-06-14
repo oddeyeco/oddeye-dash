@@ -3,16 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!--<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>        -->
+<!-- <link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>  -->
 <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}"/>
  
 <div class="row">
     <div class="col-12">
-        <div class="card shadow">
+        <div class="card shadow">            
             <h4 class="card-header">
                 <spring:message code="profileedit.controlSecure.h2"/>
-            </h4>
-            
+            </h4>            
             <div class="card-body pr-0 pl-0" role="tabpanel" data-example-id="togglable-tabs">            
                 <nav id="nav-customTab" class="nav nav-tabs pl-sm-5 pl-sm-2 p-0 customTab"  role="tablist">                        
                     <c:choose>                    
