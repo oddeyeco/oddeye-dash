@@ -728,7 +728,7 @@ div#tagsconteger.ui-sortable .draggable {
     transition: .4s ease-out;
 }
 /*
-    div#tagsconteger.ui-sortable:hover .draggable:not(:hover) {
+div#tagsconteger.ui-sortable:hover .draggable:not(:hover) {
     border-radius: 4px;
     box-shadow: inset 0 0.1rem 1rem rgba(0, 0, 0, 0.22);
     box-shadow: inset 0 0 1rem rgba(0,0,0,0.3);
@@ -770,6 +770,7 @@ form.form-row>.form-group.detailedFilter:hover {
 }
 
 /*---- Switches ----*/
+
 /*.switch {
   font-size: 1rem;
   position: relative;
@@ -1042,6 +1043,7 @@ span.selection {
     width: inherit;
 }
 /*---- Monitoring Detailed ----*/  
+
 .accordion .panel {
     margin-bottom: 5px;
     border-style: none;
@@ -1065,9 +1067,27 @@ span.selection {
 }
 
 
-/*=============================*/
+
 /*#draggableHint {
     width: 100px;
     height: 100px;
     background: #27562f;
   }*/
+
+/*==== Dashboard ====*/
+#filter span.select2.select2-container.select2-container--default {
+    display: none !important;
+}
+#filter .blockTimeRefreshLock>div:not(#refresh_wrap) {
+    height: calc(1.5em + .75rem + 2px);
+/*    padding: .375rem .75rem;*/
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}

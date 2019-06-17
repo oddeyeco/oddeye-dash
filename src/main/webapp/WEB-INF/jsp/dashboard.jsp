@@ -5,7 +5,7 @@
 --%>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>
+<!--<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>-->
 <div id="saveModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
 
@@ -35,8 +35,11 @@
             </div>
         </div>
     </div>
-</div>  
-
+</div> 
+            
+<div class="row">
+    <div class="col-12 ">
+                       
 <div class="d-none" id="rowtemplate">
     <div class="raw widgetraw">
         <div class="raw-controls text-right">   
@@ -149,69 +152,85 @@
     <div class="card-body" id="dash_main">
        
         
-<!--        <div  id="filter" class="filter form form-row raw">
-            <div class="col-6">
-                <div class="form-group row">                   
-                        <label class="col-form-label text-nowrap down-sample-label" for="global-down-sample"><spring:message code="dashboard.downSample"/></label>
-                        <input id="global-down-sample" name="global-down-sample" class="form-control query_input" type="text">
-                        <label class="col-form-label" for="global-down-sample-ag"><spring:message code="dashboard.agregator"/></label>        
-                        <select id="global-down-sample-ag" name="global-down-sample-ag" class="form-control query_input" data-width="100%"></select> 
-                        <div class="checkbox">
-                            <label id="downsampling_label" class="col-form-label" for="global-downsampling-switsh"> <spring:message code="dashboard.enabled"/></label>
-                            <input type="checkbox" style="display: none" class="js-switch-general" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh"/> 
-                        </div> 
-                </div>
+<div  id="filter" class="filter form form-row raw">
+        <div class="col-6">
+      
+            <!--<form class="form-inline">
+                    <label class="mr-sm-2 mb-0">First Name</label>
+                    <input class="form-control mr-sm-2 mb-2 mb-sm-0">
+                    <label class="mr-sm-2 mb-0">Last Name</label>
+                    <input class="form-control mr-sm-2 mb-2 mb-sm-0" id="last_name">
+                    <button class="btn btn-primary mt-2 mt-sm-0">Submit</button>
+            </form>-->
+
+             
+                <div class="blockDownsampleAggregatorEnabled form-inline">
+                    <div class="mr-2">
+                        <label class="col-form-label text-nowrap down-sample-label" for="global-down-sample"><spring:message code="dashboard.downSample"/></label> 
+                    </div>
+                    <div class="mr-2">
+                        <input class="form-control  query_input" id="global-down-sample" name="global-down-sample" type="text">  
+                    </div>
+                    <div class="mr-2">
+                        <label class="col-form-label" for="global-down-sample-ag"><spring:message code="dashboard.agregator"/></label>          
+                    </div>
+                    <div class="mr-2">
+                        <select class="form-control" id="global-down-sample-ag" name="global-down-sample-ag" data-width="100%"></select>            
+                    </div>
+                    <div class="mr-2">
+                        <label class="col-form-label" id="downsampling_label" for="global-downsampling-switsh"> <spring:message code="dashboard.enabled"/></label>            
+                    </div>                        
+                    <div class="checkbox">                
+                        <input class="js-switch-general" type="checkbox" style="display: none" chart_prop_key="" id="global-downsampling-switsh" name="global-downsampling-switsh"/> 
+                    </div>  
+                </div>    
             </div>
-            <div class="col-6">
-                <div class="form-group row">
-                    <div class="float-right">
-                <div id="minimize" class="float-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title="<spring:message code="dash.title.hideFilter"/>">                        
-                    <i class="fa fa fa-eye-slash" ></i>
-                </div>
-                <div id="btnlock" class="float-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
-                    <i class="fa fas fa-lock" ></i>
-                </div>
+            
+        <div class="col-6">
+        <div class="row"> 
+            <div class="col-6 ml-auto">
+                <div class="blockTimeRefreshLock form-row float-right">
+                    <div id="reportrange" class="reportrange" data-toggle="tooltip"  title="<spring:message code="dashboard.title.quickRanges"/>" data-placement="bottom" >
+                        <i class="fa fa-calendar"></i>
+                        <span></span> <b class="caret"></b>
+                    </div>                  
+                    <div id="refresh_wrap" class="">
+                        <select id="refreshtime" name="refreshtime" class="form-control query_input" data-width="100%">
+                            <option value="" selected><spring:message code="dashboard.refreshOff"/></option>
+                            <option value="5000"><spring:message code="dashboard.refresh5s"/></option>
+                            <option value="10000"><spring:message code="dashboard.refresh10s"/></option>
+                            <option value="30000"><spring:message code="dashboard.refresh30s"/></option>
+                            <option value="60000"><spring:message code="dashboard.refresh1m"/></option>
+                            <option value="300000"><spring:message code="dashboard.refresh5m"/></option>
+                            <option value="900000"><spring:message code="dashboard.refresh15m"/></option>
+                            <option value="1800000"><spring:message code="dashboard.refresh30m"/></option>
+                            <option value="3600000"><spring:message code="dashboard.refresh1h"/></option>
+                            <option value="7200000"><spring:message code="dashboard.refresh2h"/></option>
+                            <option value="86400000"><spring:message code="dashboard.refresh1d"/></option>                
+                        </select>            
+                    </div>
+                    <div id="refresh" class="reflock" data-toggle="tooltip"  title="<spring:message code="dashboard.title.refresh"/>" data-placement="bottom" >                        
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <div id="minimize" class="btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title="<spring:message code="dash.title.hideFilter"/>">                        
+                        <i class="fa fa fa-eye-slash" ></i>
+                    </div>
+                    <div id="btnlock" class="btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
+                        <i class="fa fas fa-lock" ></i>
+                    </div>    
+                </div>  
             </div>
-            <div class="refresh-block">
-                <div id="reportrange" class="reportrange" data-toggle="tooltip"  title="<spring:message code="dashboard.title.quickRanges"/>" data-placement="bottom" >
-                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                    <span></span> <b class="caret"></b>
-                </div>                  
-                <div id="refresh_wrap" class="">
-                    <select id="refreshtime" name="refreshtime" class="form-control query_input" data-width="100%">
-                        <option value="" selected><spring:message code="dashboard.refreshOff"/></option>
-                        <option value="5000"><spring:message code="dashboard.refresh5s"/></option>
-                        <option value="10000"><spring:message code="dashboard.refresh10s"/></option>
-                        <option value="30000"><spring:message code="dashboard.refresh30s"/></option>
-                        <option value="60000"><spring:message code="dashboard.refresh1m"/></option>
-                        <option value="300000"><spring:message code="dashboard.refresh5m"/></option>
-                        <option value="900000"><spring:message code="dashboard.refresh15m"/></option>
-                        <option value="1800000"><spring:message code="dashboard.refresh30m"/></option>
-                        <option value="3600000"><spring:message code="dashboard.refresh1h"/></option>
-                        <option value="7200000"><spring:message code="dashboard.refresh2h"/></option>
-                        <option value="86400000"><spring:message code="dashboard.refresh1d"/></option>                
-                    </select>            
-                </div>
-                <div id="refresh" class="reflock"  data-toggle="tooltip"  title="<spring:message code="dashboard.title.refresh"/>" data-placement="bottom" >                        
-                    <i class="fas fa-sync"></i>
-                </div>
-            </div> 
-                </div>
-                 
-            </div>
-        </div>                    -->
+                             
+        </div>                
+    </div>    
+    </div>
+    
+</div>                    
         
         
                         
-<div id="filter" class="filter raw">
-    <div class="float-right smpadding">
-        <div id="minimize" class="float-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title="<spring:message code="dash.title.hideFilter"/>">                        
-            <i class="fa fa fa-eye-slash" ></i>
-        </div>
-        <div id="btnlock" class="float-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
-            <i class="fa fas fa-lock" ></i>
-        </div>
-    </div>            
+<!--
+<div id="filter" class="filter raw">               
     <div class="form-group-custom float-left form-horizontal filtermargin col-sm-6">
         <div class="large">
             <label class="col-form-label text-nowrap down-sample-label" for="global-down-sample"><spring:message code="dashboard.downSample"/>
@@ -256,16 +275,25 @@
             </select>            
         </div>
         <div id="refresh" class="reflock"  data-toggle="tooltip"  title="<spring:message code="dashboard.title.refresh"/>" data-placement="bottom" >                        
-            <i class="glyphicon glyphicon-refresh"></i>
+            <i class="fas fa-sync"></i>
         </div>
+         <div class="float-right smpadding">
+        <div id="minimize" class="float-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom" title="<spring:message code="dash.title.hideFilter"/>">                        
+            <i class="fa fa fa-eye-slash" ></i>
+        </div>
+        <div id="btnlock" class="float-right btnlock reflock"  data-toggle="tooltip"  data-placement="bottom">                        
+            <i class="fa fas fa-lock" ></i>
+        </div>
+    </div>    
     </div>
-</div>              
+</div>-->
                         
 </div> 
             
     <div class="x_content" id="dashcontent"></div>
     
 </div>
+            
 <div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -302,3 +330,6 @@
         </div>
     </div>
 </div> 
+            
+    </div>  
+</div>            

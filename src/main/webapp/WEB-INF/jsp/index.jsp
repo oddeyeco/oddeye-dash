@@ -1195,7 +1195,7 @@
             <!-- Custom Theme Scripts -->
 <!--            <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>-->
 <!--            <script src="${cp}/resources/build/js/customOE.js?v=${version}"></script>-->
-            <!-- Select2 -->
+            <!-- Select2 -->          
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 <!--            <script src="${cp}/resources/select2/dist/js/select2.js?v=${version}"></script>-->
 

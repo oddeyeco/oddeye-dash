@@ -1121,13 +1121,10 @@ class EditForm {
 
                             }}}
                 ]
-
             }];
 //        this.tabcontent.tab_json.active = true;
 
         this.tabcontent.tab_json.forms = [edit_json];
-
-
     }
 
     repaintq(contener, content)
@@ -1262,7 +1259,6 @@ class EditForm {
         this.formwraper.on("change", "select", function () {
             form.change($(this));
         });
-
 
         var options = {modes: ['form', 'tree', 'code'], mode: 'code'};
         this.editor = new JSONEditor(document.getElementById("jsoneditor"), options);

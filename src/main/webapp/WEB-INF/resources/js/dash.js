@@ -3104,7 +3104,7 @@ function repaint(redraw = false, rebuildform = true) {
 
 $(document).ready(function () {
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
-    
+      
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
