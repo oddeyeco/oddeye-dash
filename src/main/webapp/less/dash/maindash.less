@@ -113,14 +113,14 @@ a:hover, a:focus {
 
 .widgetraw 
 {    
-    border: 1px solid rgba(200,200,200,0.5); 
+/*    border: 1px solid rgba(200,200,200,0.5); 
     margin: 2px;
-    border-radius: 5px;   
+    border-radius: 5px;   */
     /*overflow: hidden;*/
     .raw-controls {
-        margin: -1px -1px 0;                          
+/*        margin: -1px -1px 0;                          
         border-radius: 5px 5px 0px 0px;
-        background-color:rgba(200, 200, 200, 0.6);
+        background-color:rgba(200, 200, 200, 0.6);*/
         &:hover
             {
             cursor: move;
@@ -132,11 +132,11 @@ a:hover, a:focus {
         }
         span
         {
-            margin: 0 2px;        
+            margin: 0 5px;        
         }
-        color: #73879C;
+/*        color: #73879C;
         font-weight: bold;
-        margin:2px 2px 0;    
+        margin:2px 2px 0;    */
     }  
     .title_input{
         .savetitlerow{
@@ -981,12 +981,13 @@ i[data-toggle="tooltip"] {
     padding: 2px;  
     .chartTitleDiv {
         &:hover {
-            -webkit-box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
-            -moz-box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
-            box-shadow: 3px 3px 5px rgba(0,0,0,0.5);
+/*            -webkit-box-shadow: 0px 3px 4px rgba(0,0,0,0.4);
+            -moz-box-shadow: 0px 3px 4px rgba(0,0,0,0.4);
+            box-shadow: 0px 3px 4px rgba(0,0,0,0.4);*/
             cursor: move;
-            z-index: 5000;
+/*            z-index: 5000;*/
         }
+        background-color: rgba(108,117,125,0.5);
         text-align: center;
         border-style: solid;
         border-width: 0;
@@ -994,7 +995,9 @@ i[data-toggle="tooltip"] {
         position: relative;
         box-sizing: content-box;
         min-height: 27px;
-        border-radius: 5px;
+/*        border-top: 1px solid rgba(108,117,125,0.6);*/
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
         .hoverShow {
             max-width: 300px;
             display: none;
@@ -1009,17 +1012,25 @@ i[data-toggle="tooltip"] {
             color: rgb(255, 255, 255);
         }
         .chartTitle {
-            &.open .dropdown-toggle {
-                outline: 0;
-                border-radius: 5px;
-
+            &.show .dropdown-toggle {
+/*                outline: 0;
+                border-radius: 5px;*/
             }              
-            .dropdown-toggle {
+            >.dropdown-toggle {
                 padding: 0 3px;
+                margin-top: 2px;
+                min-width: 120px;
             } 
             &:hover {                
                 cursor: pointer;
-            }            
+            }
+            >.dropdown-menu {
+            left: 50%!important;
+            transform: translate3d(-50%,26px,0px)!important;
+            min-width: 120px;
+            max-width: 120px;       
+            z-index: 1000;
+            }
             h3 {
                 display: inline-block;
                 margin: 0;
@@ -1035,13 +1046,13 @@ i[data-toggle="tooltip"] {
             }                                
             display: inline-block;
             position: relative;
-
+/*            min-width: 120px;*/
         }
         .echart_time_icon, .chartSubIcon {
             z-index: 999;
-            border-right: 27px solid #EDEDED;
+            border-right: 20px solid rgba(108,117,125,0.6);
             border-left: none;
-            border-bottom: 27px solid transparent;
+            border-bottom: 27px solid rgba(108,117,125,0.6);
             border-top: none;
             padding: 0px;
             margin: 0px;
@@ -1051,16 +1062,16 @@ i[data-toggle="tooltip"] {
                 color: black;
                 position: absolute;
                 right: 5px;
-                top: 3px;
-                font-size: 11px;
+                top: 8px;
+                font-size: 12px;
             }
         }
         .chartSubIcon {
             display: block;
-            border-left: 27px solid #EDEDED;
+            border-left: 20px solid rgba(108,117,125,0.6);
             border-right: none;
             i {
-                left: 5px;
+                left: 8px;
                 right: unset;
             }
         }
@@ -1079,7 +1090,6 @@ i[data-toggle="tooltip"] {
                 border-top-right-radius: 5px;
             }
         }
-
         .dropdown-menu {
             .resize
             {
@@ -1096,36 +1106,31 @@ i[data-toggle="tooltip"] {
                 .more i:last-child {
                     float: right;
                     padding: 3px;
+                    padding-top: 7px;
                 }
                 .dropdown-menu {
                     .jsonIcon {
                         font-weight: bolder;
                         margin: 0;
                     }
-                    top: -1px;
+                    min-width: 80px;
+                    top: 2px;
                     left: 100%;
-                    margin-left: 2px;
-                    right: auto;
-
+                    margin-left: 4px;
+                    right: auto;                    
                 }
             }
             >li {
-                margin: 2px;
-                white-space: nowrap;
+/*                margin: 2px;
+                white-space: nowrap;*/
             }
-            >li>a
-            {
-                >span
-                {
+            >li>a {
+                >span {
                     margin: 0 2px;    
                 }
-                padding: 3px 4px;
-            }
-            left: auto;
-            right: 0;                       
-            min-width: 105px;
-            z-index: 1000;
-        }
+/*                padding: 3px 4px;*/
+            }           
+        }        
     }
 
 }
@@ -1138,7 +1143,7 @@ i[data-toggle="tooltip"] {
 }
 .rowcontent .chartsection > div
 {
-    border: 1px solid rgba(200,200,200,0.5); 
+    border: 1px solid rgba(108,117,125,0.6); 
     padding: 2px;
     border-radius: 5px;    
 }

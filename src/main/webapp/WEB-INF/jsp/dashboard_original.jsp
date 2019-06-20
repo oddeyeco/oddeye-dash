@@ -59,8 +59,7 @@
             </div>  
             <div class="clearfix"></div>
         </div>
-        <div class="rowcontent raw">
-        </div>  
+        <div class="rowcontent raw"></div>  
         <div class="clearfix"></div>
     </div>
 </div>  
@@ -114,7 +113,9 @@
             <div class="btn-group"> 
 
                 <div class="btn-group btn-group-xs">
-                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.saveDash"/>"><i class="fa far fa-save"></i></button>
+                    <button type="button" class="btn btn-default savedash" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.saveDash"/>">
+                        <i class="fa far fa-save"></i>
+                    </button>
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
                         <span class="sr-only"></span>
@@ -203,8 +204,7 @@
 
         </div>  
     </div>                
-    <div class="x_content" id="dashcontent">        
-    </div>
+    <div class="x_content" id="dashcontent"></div>
 </div>
 <div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">

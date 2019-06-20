@@ -55,16 +55,17 @@ function currentpagelock() {
 function domodifier()
 {
     dashmodifier = true;
-    $('.savedash').parent().find('.btn').addClass('btn-warning');
-    $('.savedash').parent().find('.btn').removeClass('btn-default');
+    $('.savedash').parent().find('.btn').addClass('btn-outline-warning');
+    $('.savedash').parent().find('.btn').removeClass('btn-default');    
 }
 ;
 
 function dounmodifier()
 {
     dashmodifier = false;
+    
     $('.savedash').parent().find('.btn').addClass('btn-default');
-    $('.savedash').parent().find('.btn').removeClass('btn-warning');
+    $('.savedash').parent().find('.btn').removeClass('btn-outline-warning');
 }
 
 function doeditTitle(e) {
@@ -3611,7 +3612,7 @@ $(document).ready(function () {
         domodifier();
     });
     
-    $('body').on("click", ".showrowjson", function () {
+    $('body').on("click", ".showJsonRow", function () {
         var ri = $(this).parents(".widgetraw").index();
         $("#showjson").find('.btn-ok').attr('id', "applyrowjson");
         $("#showjson").find('.btn-ok').attr('index', ri);
@@ -3900,7 +3901,7 @@ $(document).ready(function () {
     
     $('body').on("keypress", ".fulldash .enter_title_row,.dash_header .enter_title", doeditTitle);
     
-    $('body').on("click", ".deletedash", function () {
+    $('body').on("click", "#deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
         $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelDashboard"]);

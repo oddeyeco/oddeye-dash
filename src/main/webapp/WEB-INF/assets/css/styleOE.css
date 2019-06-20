@@ -502,10 +502,20 @@ a[aria-expanded="true"] {
 .btn-outline-dark:hover {
     box-shadow: 0 0.3rem 0.5rem rgba(0,0,0,.3);
 }
-.btn-outline-dark {
-    color: #000;
+.fulldash button.savedash.btn-outline-warning,
+.fulldash button.dropdown-toggle.btn-outline-warning {
+    color: #ffc107 !important;
+    background-color: #343a40 !important;
+    border-color: black;
 }
-
+.fulldash button.savedash.btn-outline-warning:hover,
+.fulldash button.dropdown-toggle.btn-outline-warning:hover {
+    color: #343a40 !important;
+    background-color: #ffc107 !important;
+}
+.fulldash button.btn-outline-dark:hover {
+    border-color: black;
+}
 ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
     min-width: inherit;
 /*    width: 160px;*/
@@ -1090,4 +1100,23 @@ span.selection {
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+.blockSaveJsonRowDelete,
+.blockCounterHeatmapChartJsonDelete{
+    background-color: #ffffff;
+    border-radius: .25rem;
+}
+.blockSaveJsonRowDelete .dropdown-menu {
+    padding: 0.5rem;
+    background-color: #ffc107;
+    box-shadow: 0 0.3rem 0.5rem rgba(0,0,0,.3);   
+}
+.blockSaveJsonRowDelete .dropdown-menu>a.dropdown-item {
+    font-size: 0.9rem;   
+}
+.blockSaveJsonRowDelete .dropdown-menu>a.dropdown-item:hover { 
+    border-radius: 4px;
+    color: #fff;
+    background: #343a40;
+    box-shadow: 0 0.5rem 0.8rem rgba(0,0,0,.3);
 }
