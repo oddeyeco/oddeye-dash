@@ -2,7 +2,7 @@
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
-var basecounter = '<div class="animated flipInY col-xs-6 chartsection" >' +
+var basecounter = '<div class="animated flipInY col-6 chartsection" >' +
         '<div class="tile-stats">' +
         '<h3>Title</h3>' +
         '<p></p>' +
@@ -1069,7 +1069,7 @@ var queryCallback = function (inputdata) {
                         {
                             widget.col = 6;
                         }
-                        JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);
+                        JQcounter.attr("class", "animated flipInY chartsection" + " col-12 col-md-" + widget.col);
                         JQcounter.find('.tile-stats h3').text(widget.data[val].name);
                         if (widget.title)
                         {
@@ -1137,7 +1137,7 @@ var queryCallback = function (inputdata) {
                 {
                     JQcounter = $(basecounter);
                     chart.append(JQcounter);
-                    JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
+                    JQcounter.attr("class", "animated flipInY chartsection" + " col-12");
                     JQcounter.find('.tile-stats h3').text("No data");
                     chart.append(JQcounter);
                 }
@@ -2331,7 +2331,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 {
                     if (chart.attr("id") === "singlewidget")
                     {
-                        chart.attr("class", " col-xs-12 col-sm-" + widget.size);
+                        chart.attr("class", " col-12 col-md-" + widget.size);
                     }
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
                     lockq[ri + " " + wi] = true;
@@ -2590,7 +2590,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 }
                 chartobj.attr("id", "widget" + ri + "_" + wi);
                 chartobj.attr("type", tmprow.widgets[wi].type);
-                chartobj.attr("class", "chartsection " + bkgclass + " col-xs-12 col-md-" + tmprow.widgets[wi].size);
+                chartobj.attr("class", "chartsection " + bkgclass + " col-12 col-lg-" + tmprow.widgets[wi].size);
                 chartobj.find(".echart_line").attr("id", "echart_line" + ri + "_" + wi);
                 chartobj.find(".echart_line").html("");
 
@@ -2816,7 +2816,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         if (!readonly)
         {
             $(".right_col .editpanel").append('<div class="x_title dash_action">' +
-                    '<h1 class="col-md-4 nowrap">' + title + '</h1>' +
+                    '<h1 class="col-lg-4 nowrap">' + title + '</h1>' +
                     '<div class="pull-right">' +
                     '<span><a class="btn btn-primary savedash"  type="button">' + locale["save"] + ' </a></span>' +
                     '<a class="btn btn-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </a>' +
@@ -2828,7 +2828,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         } else
         {
             $(".right_col .editpanel").append('<div class="x_title dash_action">' +
-                    '<h1 class="col-md-3">' + title + '</h1>' +
+                    '<h1 class="col-lg-3">' + title + '</h1>' +
                     '<div class="pull-right">' +
                     '<a class="btn btn-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </a>' +
                     '</div>' +
@@ -2844,7 +2844,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         $(".right_col .editpanel").append('<div class="clearfix"></div>');
         if (W_type === "counter")
         {
-            $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
+            $(".right_col .editpanel").append('<div class="' + " col-12 col-lg-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
                     '<div class="counter_single" id="counter_single"></div>' +
                     '</div>');
             if (!readonly)
@@ -3487,7 +3487,7 @@ $(document).ready(function () {
     $('body').on("click", "#deleterowconfirm", function () {
         for (var ri in gdd.rows)
         {
-            for (var wi in    gdd.rows[ri].widgets)
+            for (var wi in gdd.rows[ri].widgets)
             {
                 if (gdd.rows[ri].widgets[wi])
                 {
@@ -3652,7 +3652,7 @@ $(document).ready(function () {
             var olssize = gdd.rows[ri].widgets[wi].size;
             gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) - 1;
             $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
-            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
+            $(this).parents(".chartsection").removeClass("col-lg-" + olssize).addClass("col-lg-" + gdd.rows[ri].widgets[wi].size);
             gdd.rows[ri].widgets[wi].echartLine.resize();
             domodifier();
             if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
@@ -3673,7 +3673,7 @@ $(document).ready(function () {
             var olssize = gdd.rows[ri].widgets[wi].size;
             gdd.rows[ri].widgets[wi].size = parseInt(gdd.rows[ri].widgets[wi].size) + 1;
             $(this).parents(".chartsection").attr("size", gdd.rows[ri].widgets[wi].size);
-            $(this).parents(".chartsection").removeClass("col-md-" + olssize).addClass("col-md-" + gdd.rows[ri].widgets[wi].size);
+            $(this).parents(".chartsection").removeClass("col-lg-" + olssize).addClass("col-lg-" + gdd.rows[ri].widgets[wi].size);
             gdd.rows[ri].widgets[wi].echartLine.resize();
             domodifier();
             if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
@@ -4359,10 +4359,11 @@ $(document).on('scroll', function () {
     if ($(document).scrollTop() >= $('#dash_main').offset().top) {
         if (!$('#filter').hasClass("fix"))
         {
-            $('#filter').css('left', $(".nav_menu").position().left);
+            $('#filter').css('left', $("#sidebar").width() + 4);
             $('#filter').addClass("fix");
             $('#minimize').css('display', 'block');
             $('#filter').css('display', 'none');
+            $('#filter').css('display', 'flex');
             if (filtershow)
             {
                 $('#filter').fadeIn();

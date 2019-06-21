@@ -513,7 +513,7 @@
                 </nav>
                 <!-- ======================== Page Content =========================  -->        
                 <div id="content">
-                    <nav class="navbar navbar-expand-sm shadow navbar-light bg-light">
+                    <nav class="navbar navbar-expand-sm navbar-light bg-light shadow">
                         <div class="container-fluid">
                             <button type="button" id="menu_toggle" class="btn btn-outline-dark">
                                 <i class="fas fa-indent"></i>
