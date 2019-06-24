@@ -507,19 +507,21 @@ a[aria-expanded="true"] {
 .btn-outline-dark:hover {
     box-shadow: 0 0.3rem 0.5rem rgba(0,0,0,.3);
 }
+.editpanel button.savedash.btn-outline-warning,
 .fulldash button.savedash.btn-outline-warning,
 .fulldash button.dropdown-toggle.btn-outline-warning {
     color: #ffc107 !important;
     background-color: #343a40 !important;
-    border-color: black;
+    border-color: #000;
 }
+.editpanel button.savedash.btn-outline-warning:hover,
 .fulldash button.savedash.btn-outline-warning:hover,
 .fulldash button.dropdown-toggle.btn-outline-warning:hover {
     color: #343a40 !important;
     background-color: #ffc107 !important;
 }
 .fulldash button.btn-outline-dark:hover {
-    border-color: black;
+    border-color: #000;
 }
 ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
     min-width: inherit;

@@ -2812,28 +2812,28 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     }
     if (rebuildform)
     {
-        $(".right_col").append('<div class="x_panel editpanel"></div>');
+        $(".right_col").append('<div class="card shadow editpanel"></div>');
         if (!readonly)
         {
-            $(".right_col .editpanel").append('<div class="x_title dash_action">' +
-                    '<h1 class="col-lg-4 nowrap">' + title + '</h1>' +
-                    '<div class="pull-right">' +
-                    '<span><a class="btn btn-primary savedash"  type="button">' + locale["save"] + ' </a></span>' +
-                    '<a class="btn btn-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </a>' +
+            $(".right_col .editpanel").append('<h4 class="card-header dash_action">' +
+                    title +
+                    '<div class="float-right">' +
+                    '<span><button class="btn btn-outline-primary savedash"  type="button">' + locale["save"] + ' </button></span>' +
+                    '<button class="btn btn-outline-primary ml-1 backtodush" type="button">' + locale["dash.backToDash"] + ' </button>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
-                    '</div>');
+                    '</h4');
             $(".right_col .editpanel").addClass("singleedit");
 
         } else
         {
-            $(".right_col .editpanel").append('<div class="x_title dash_action">' +
-                    '<h1 class="col-lg-3">' + title + '</h1>' +
-                    '<div class="pull-right">' +
-                    '<a class="btn btn-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </a>' +
+            $(".right_col .editpanel").append('<h4 class="card-header dash_action">' +
+                    title +
+                    '<div class="float-right">' +
+                    '<button class="btn btn-outline-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </button>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
-                    '</div>');
+                    '</h4>');
             $(".right_col .editpanel").addClass("singleview");
         }
         if (dashJSON.locked)
