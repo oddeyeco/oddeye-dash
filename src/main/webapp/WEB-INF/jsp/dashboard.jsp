@@ -79,7 +79,7 @@
             </div>        
             <div class="clearfix"></div>
         </div>
-        <div class="card-body rowcontent raw p-0"></div>  
+        <div class="card-body rowcontent row raw p-1"></div>  
         <div class="clearfix"></div>
     </div>
 </div>  
@@ -142,7 +142,7 @@
                 </div>
                     
             </div>          
-            <div class="echart_line" style="height:300px;"></div>                   
+            <div class="echart_line row" style="height:300px;"></div>                   
         </div>
     </div>   
 </div>
