@@ -34,9 +34,10 @@ body {
 }
 p {
 /*    font-family: 'Lato','Roboto', sans-serif;*/
-    font-size: 1.1em;
+/*    font-size: 1.1em;
     font-weight: 300;
-    line-height: 1.7em;
+    line-height: 1.7em;*/
+    margin: auto;
     color: #999;
 }
 a,
@@ -567,7 +568,7 @@ ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.25), 0 8px 12px -2px rgba(0,0,0,0.22);
 }
 .count{
-    font-size: 40px;
+    font-size: 2rem;
     line-height: 47px;
     font-weight: 600;
     color: #777e7e;

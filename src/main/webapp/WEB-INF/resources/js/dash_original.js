@@ -1039,7 +1039,7 @@ var queryCallback = function (inputdata) {
                         if (!widget.col)
                         {
                             widget.col = 6;
-                        }
+                        }                        
                         JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);
                         JQcounter.find('.tile-stats h3').text(widget.data[val].name);
                         if (widget.title)
@@ -1107,7 +1107,7 @@ var queryCallback = function (inputdata) {
                 if (chart.find(".chartsection").length === 0)
                 {
                     JQcounter = $(basecounter);
-                    chart.append(JQcounter);
+                    chart.append(JQcounter);                    
                     JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
                     JQcounter.find('.tile-stats h3').text("No data");
                     chart.append(JQcounter);

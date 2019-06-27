@@ -2,14 +2,13 @@
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
-var basecounter = '<div class="animated flipInY col-6 chartsection" >' +
-        '<div class="tile-stats">' +
-        '<h3>Title</h3>' +
-        '<p></p>' +
-        '<div class="count"><span class="number">0</span><span class="param"></span></div>' +
-        '</div>' +
-        '</div>';
-
+var basecounter = '<div class="animated flipInY col-6 chartsection">' +
+                    '<div class="tile-stats card mb-1">' +
+                        '<h6>Title</h6>' +
+                        '<p></p>' +
+                        '<div class="count text-break"><span class="number">0</span><span class="param"></span></div>' +
+                    '</div>' +
+                  '</div>';
 var defserie = {
     name: null,
     data: null
@@ -56,7 +55,7 @@ function domodifier()
 {
     dashmodifier = true;
     $('.savedash').parent().find('.btn').addClass('btn-outline-warning');
-    $('.savedash').parent().find('.btn').removeClass('btn-default');    
+    $('.savedash').parent().find('.btn').removeClass('btn-outline-dark');    
 }
 ;
 
@@ -64,7 +63,7 @@ function dounmodifier()
 {
     dashmodifier = false;
     
-    $('.savedash').parent().find('.btn').addClass('btn-default');
+    $('.savedash').parent().find('.btn').addClass('btn-outline-dark');
     $('.savedash').parent().find('.btn').removeClass('btn-outline-warning');
 }
 
@@ -1027,8 +1026,7 @@ var queryCallback = function (inputdata) {
                 }
                 widget.data.sort(function (a, b) {
                     return compareNameName(a, b);
-                });
-
+                });                
                 chart.find(".chartsection").addClass("tmpfix");
                 for (var val in widget.data)
                 {
@@ -1070,12 +1068,12 @@ var queryCallback = function (inputdata) {
                             widget.col = 6;
                         }
                         JQcounter.attr("class", "animated flipInY chartsection" + " col-12 col-md-" + widget.col);
-                        JQcounter.find('.tile-stats h3').text(widget.data[val].name);
+                        JQcounter.find('.tile-stats h6').text(widget.data[val].name);
                         if (widget.title)
                         {
                             if (widget.title.textStyle)
                             {
-                                JQcounter.find('.tile-stats h3').css(widget.title.textStyle);
+                                JQcounter.find('.tile-stats h6').css(widget.title.textStyle);
                             }
                             if (widget.title.subtextStyle)
                             {
@@ -1138,9 +1136,9 @@ var queryCallback = function (inputdata) {
                     JQcounter = $(basecounter);
                     chart.append(JQcounter);
                     JQcounter.attr("class", "animated flipInY chartsection" + " col-12");
-                    JQcounter.find('.tile-stats h3').text("No data");
+                    JQcounter.find('.tile-stats h6').text("No data");
                     chart.append(JQcounter);
-                }
+                }               
                 lockq[ri + " " + wi] = false;
                 
             } else if (widget.type === "heatmap")
@@ -2332,6 +2330,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     if (chart.attr("id") === "singlewidget")
                     {
                         chart.attr("class", " col-12 col-md-" + widget.size);
+                        chart.css({'display' : 'flex', 'flex-wrap':'wrap'});
                     }
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
                     lockq[ri + " " + wi] = true;
