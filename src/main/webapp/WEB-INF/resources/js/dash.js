@@ -2848,12 +2848,12 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>');
             if (!readonly)
             {
-                $(".right_col .editpanel").append('<div class="x_content edit-form">');
+                $(".right_col .editpanel").append('<div class="card-body edit-form">');
                 Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
             }
         } else if (W_type === "table")
         {
-            $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+            $(".right_col .editpanel").append('<div class="card-body" id="singlewidget">' +
                     '<div class="table_single" id="table_single"></div>' +
                     '</div>');
         } else //chart
@@ -2862,7 +2862,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             {
                 if (readonly)
                 {
-                    $(".right_col .editpanel").append('<div class="x_content" id="singlewidget">' +
+                    $(".right_col .editpanel").append('<div class="card-body" id="singlewidget">' +
                             '<div class="echart_line_single" id="echart_line_single"></div>' +
                             '</div>');
                     var wraper = $(".right_col .editpanel #singlewidget");
@@ -2877,7 +2877,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                         }
                         height = dashJSON.rows[row].widgets[index].height;
                     }
-                    var wraper = $('<div class="x_content" id="singlewidget">' +
+                    var wraper = $('<div class="card-body" id="singlewidget">' +
                             '<div class="echart_line_single" id="echart_line_single" ></div>' +
                             '</div>');
                     wraper.find(".echart_line_single").css("height", height);
@@ -2888,7 +2888,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             }
             if (!readonly)
             {
-                $(".right_col .editpanel").append('<div class="x_content edit-form">');
+                $(".right_col .editpanel").append('<div class="card-body edit-form">');
                 if (W_type === "heatmap")
                 {
                     Edit_Form = new HmEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);

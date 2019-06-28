@@ -77,7 +77,7 @@ $(document).ready(function () {
             minDate: moment().subtract(1, 'year'),
             maxDate: moment().add(1, 'days'),
             dateLimit: {
-                days: 60
+                days: 180
             },
             showDropdowns: true,
             showWeekNumbers: true,
@@ -85,6 +85,7 @@ $(document).ready(function () {
             timePicker24Hour: true,
             timePickerIncrement: 5,
             ranges: {},
+            linkedCalendars:false,
             opens: 'left',
             buttonClasses: ['btn btn-default'],
             applyClass: 'btn-small btn-primary',
@@ -112,7 +113,7 @@ $(document).ready(function () {
             maxDate: moment().add(1, 'days'),
 //            drops: "up",
             dateLimit: {
-                days: 60
+                days: 180
             },
             showDropdowns: true,
             showWeekNumbers: true,
@@ -120,6 +121,7 @@ $(document).ready(function () {
             timePicker24Hour: true,
             timePickerIncrement: 15,
             ranges: {},
+            linkedCalendars:false,
             buttonClasses: ['btn btn-default'],
             applyClass: 'btn-small btn-primary',
             cancelClass: 'btn-small',

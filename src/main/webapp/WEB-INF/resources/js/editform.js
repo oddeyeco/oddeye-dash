@@ -23,7 +23,7 @@ class EditForm {
             checked = this.dashJSON.rows[this.row]["widgets"][this.index].manual;
         }
 
-        this.formwraper.append('<div class="pull-right tabcontrol"><label class="control-label" >' + locale["editform.jsonManualEdit"] + '</label>' +
+        this.formwraper.append('<div class="float-right tabcontrol"><label class="control-label" >' + locale["editform.jsonManualEdit"] + '</label>' +
                 '<div class="checkbox" style="display: inline-block">' +
                 '<input type="checkbox" class="js-switch-small"  chart_prop_key="manual" id="manual" name="manual" key_path="manual" /> ' +
                 '</div> '
