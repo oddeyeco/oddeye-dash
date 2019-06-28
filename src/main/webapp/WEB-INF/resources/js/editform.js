@@ -47,13 +47,13 @@ class EditForm {
         }
 
         this.formwraper.append('<div role="tabpanel" id="tabpanel">');
-        this.formwraper.find('#tabpanel').append('<ul id="formTab" class="nav nav-tabs bar_tabs" role="tablist">');
+        this.formwraper.find('#tabpanel').append('<nav><ul id="formTab" class="nav nav-tabs bar_tabs" role="tablist"></nav>');
         this.formwraper.find('#tabpanel').append('<div id="TabContent" class="tab-content" >');
         var tabs = this.gettabs();
         for (var key in tabs)
         {
             var tab = tabs[key];
-            this.formwraper.find('#tabpanel #formTab').append('<li role="presentation"><a href="#' + tab.contentid + '" id="' + tab.id + '" role="tab" data-toggle="tab">' + tab.title + '</a>');
+            this.formwraper.find('#tabpanel #formTab').append('<li role="presentation"><a class="nav-item nav-link" href="#' + tab.contentid + '" id="' + tab.id + '" role="tab" data-toggle="tab">' + tab.title + '</a>');
             this.formwraper.find('#tabpanel #TabContent').append('<div role="tabpanel" class="tab-pane fade in" id="' + tab.contentid + '" aria-labelledby="' + tab.id + '"> ');
 //            console.log(this.gettabcontent(tab.contentid));
             if (this.gettabcontent(tab.contentid))
@@ -62,7 +62,7 @@ class EditForm {
                 if (content.active)
                 {
                     this.formwraper.find('#tabpanel #formTab #' + tab.id).parent().addClass('active');
-                    this.formwraper.find('#tabpanel #TabContent #' + tab.contentid).addClass('active');
+                    this.formwraper.find('#tabpanel #TabContent #' + tab.contentid).addClass('show active');
                 }
                 this.formwraper.find('#tabpanel #TabContent #' + tab.contentid).append('<div class="row">');
                 var contenttab = this.formwraper.find('#tabpanel #TabContent #' + tab.contentid + ' div');
