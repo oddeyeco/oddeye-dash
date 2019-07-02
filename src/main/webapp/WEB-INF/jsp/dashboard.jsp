@@ -892,8 +892,7 @@
                                     <div template_index="0" id="0_data_zoom_xAxisIndex" type="choose_array" name="data_zoom_xAxisIndex" style="display:inline-block" key_path="xAxisIndex">
                                         <span>0<div class="icheckbox_flat-green checked" style="position: relative;">
                                                 <input type="checkbox" index="0" class="flat" ,="" name="data_zoom_xAxisIndex[]" checked="true" style="position: absolute; opacity: 0;">
-                                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
-                                                </ins>
+                                                <ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
                                             </div>
                                         </span>
                                     </div>

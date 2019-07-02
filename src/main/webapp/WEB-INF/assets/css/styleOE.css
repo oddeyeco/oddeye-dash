@@ -1128,3 +1128,48 @@ span.selection {
     background: #343a40;
     box-shadow: 0 0.5rem 0.8rem rgba(0,0,0,.3);
 }
+
+/*==== edit dash ====*/
+#tabpanel .tab-content span.select2.select2-container.select2-container--default {
+    display: none !important;
+}
+#tabpanel .tab-content form.edit-query select.query_input,  
+#tabpanel .tab-content form.edit-query input.query_input { 
+    width: 300px;
+}
+#tabpanel .tab-content form.edit-query .form-inline label, 
+#tabpanel .tab-content form.edit-datazoom .form-inline label { 
+   display: inline;
+}
+.form-control {
+    padding-left: 0.2rem;
+}
+.input-group-addon {
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: .375rem .75rem;
+    margin-left: -4px;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+.title_input_small {
+    font-size: 0.9rem;
+    }
+.title_select {
+
+    font-size: 0.9rem;
+}
+#edit_legend .legendform .title_select {
+    width: 110px;
+    display: inline-block;
+    font-size: 0.9rem;
+}

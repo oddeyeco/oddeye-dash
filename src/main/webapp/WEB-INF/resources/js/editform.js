@@ -54,7 +54,7 @@ class EditForm {
         {
             var tab = tabs[key];
             this.formwraper.find('#tabpanel #formTab').append('<li role="presentation"><a class="nav-item nav-link" href="#' + tab.contentid + '" id="' + tab.id + '" role="tab" data-toggle="tab">' + tab.title + '</a>');
-            this.formwraper.find('#tabpanel #TabContent').append('<div role="tabpanel" class="tab-pane fade in" id="' + tab.contentid + '" aria-labelledby="' + tab.id + '"> ');
+            this.formwraper.find('#tabpanel #TabContent').append('<div role="tabpanel" class="tab-pane fade" id="' + tab.contentid + '" aria-labelledby="' + tab.id + '"> ');
 //            console.log(this.gettabcontent(tab.contentid));
             if (this.gettabcontent(tab.contentid))
             {
@@ -961,7 +961,7 @@ class EditForm {
         this.tabcontent.tab_general = {};
         this.tabcontent.tab_metric = {};
         this.tabcontent.tab_json = {};
-        var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_dimensions", label: {show: true, text: locale["editform.dimensions"], checker: false}};
+        var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left col-3", id: "edit_dimensions", label: {show: true, text: locale["editform.dimensions"], checker: false}};
         edit_dimensions.content = [{tag: "div", class: "form-group form-group-custom", content: [
                     {tag: "label", class: "control-label control-label-custom120", text: locale["editform.span"], lfor: "dimensions_span"},
                     {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
@@ -973,7 +973,7 @@ class EditForm {
         ];
 //        this.tabcontent.tab_metric.active = true;
         var current = this;
-        var edit_q = {tag: "div", class: 'forms', id: "edit_q"};
+        var edit_q = {tag: "div", class: 'forms col-12', id: "edit_q"};
         var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
                     {tag: "div", class: "form-group form-group-custom forinside", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.disabled"], lfor: "metric_check_disabled"},
@@ -989,7 +989,7 @@ class EditForm {
                             {tag: "div", class: "data-label metrics", prop_key: "metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form-group form-group-custom form-inline", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.aggregator"], lfor: "aggregator"},
                             {tag: "select", class: "form-control query_input aggregator", prop_key: "aggregator", id: "{index}_aggregator", name: "aggregator", key_path: 'info.aggregator', default: "", options: this.aggregatoroptions},
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.alias"], lfor: "alias", info: {text: locale["editform.alias.text"]}},
@@ -997,7 +997,7 @@ class EditForm {
                             {tag: "label", class: "control-label control-label-custom155", text: locale["editform.aliasSecondary"], lfor: "alias2", info: {text: locale["editform.aliasSecondary.text"]}},
                             {tag: "input", type: "text", class: "form-control query_input alias2", prop_key: "alias2", id: "{index}_alias2", name: "alias2", key_path: 'info.alias2', default: ""}
                         ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form-group form-group-custom form-inline", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.downSample"], lfor: "down-sample"},
                             {tag: "input", type: "text", class: "form-control query_input down-sample-time", prop_key: "time", id: "{index}_down-sample-time", name: "down-sample-time", key_path: 'info.ds.time', default: ""},
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.aggregator"], lfor: "down-sample-aggregator"},
@@ -1009,7 +1009,7 @@ class EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.rate"], lfor: "alias2"},
                             {tag: "input", type: "checkbox", class: "js-switch-small enable_rate", prop_key: "rate", id: "{index}_enable_rate", name: "enable_rate", key_path: 'info.rate', default: false}
                         ]},
-                    {tag: "div", class: "btn btn-success dublicateq btn-xs", id: "{index}_dublicateq",
+                    {tag: "div", class: "btn btn-outline-success dublicateq btn-sm m-1", id: "{index}_dublicateq",
                         text: locale["editchartform.dublicate"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
@@ -1023,7 +1023,7 @@ class EditForm {
                             }
                         }
                     },
-                    {tag: "div", class: "btn btn-danger removeq btn-xs", id: "{index}_removeq",
+                    {tag: "div", class: "btn btn-outline-danger removeq btn-sm m-1", id: "{index}_removeq",
                         text: locale["editchartform.remove"],
                         actions: {click: function () {
                                 var curindex = parseInt($(this).attr('template_index'));
@@ -1039,7 +1039,7 @@ class EditForm {
                     }
                 ]}
         ];
-        edit_q.content = [{tag: "button", class: "btn btn-success Addq btn-xs",
+        edit_q.content = [{tag: "button", class: "btn btn-outline-success Addq btn-sm m-1",
                 text: locale["editchartform.add"],
                 id: "addq",
                 key_path: "q",
@@ -1065,19 +1065,19 @@ class EditForm {
         this.tabcontent.tab_metric.forms = [edit_q];
 
         this.tabcontent.tab_time = {};
-        var edit_time = {tag: "form", class: 'form-horizontal form-label-left edit-times pull-left', id: "edit_time"};
+        var edit_time = {tag: "form", class: 'form-inline form-label-left edit-times col', id: "edit_time"};
         edit_time.content = [{tag: "div", class: "form-group form-group-custom filter", content: [
-                    {tag: "label", class: "control-label pull-left", text: locale["editform.times"], lfor: "padding_height"},
-                    {tag: "div", id: "reportrange_private", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                    {tag: "label", class: "control-label", text: locale["editform.times"], lfor: "padding_height"},
+                    {tag: "div", id: "reportrange_private", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
                         content: [
-                            {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
-                            {tag: "span"},
-                            {tag: "b", class: "caret"}
+                            {tag: "i", class: "fa fa-calendar"},
+                            {tag: "span"}
+//                            {tag: "b", class: "caret"}
                         ]},
 
-                    {tag: "div", id: "refresh_wrap_private", class: "pull-left",
+                    {tag: "div", id: "refresh_wrap_private",
                         content: [
-                            {tag: "select", id: "refreshtime_private", name: "refreshtime", key_path: 'times.intervall', style: "width: 150px", options: this.privaterefreshtimes}
+                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', style: "width: 150px", options: this.privaterefreshtimes}
                         ]}
 
                 ]}];
@@ -1085,15 +1085,15 @@ class EditForm {
 
         this.tabcontent.tab_time.forms = [edit_time];
         this.tabcontent.tab_json = {};
-        var edit_json = {tag: "form", class: 'edit-ljson', id: "edit_json", label: {show: true, text: locale["editform.jsonEditor"], checker: false}};
+        var edit_json = {tag: "form", class: 'edit-ljson col', id: "edit_json", label: {show: true, text: locale["editform.jsonEditor"], checker: false}};
 
         edit_json.content = [{tag: "div", id: "jsoneditor"},
             {tag: "div", class: "col-md-12 col-sm-12 col-xs-12 text-right", content: [
-                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonReset", text: locale["reset"], actions: {click: function () {
+                    {tag: "button", class: "btn btn-outline-primary m-1", type: "button", value: "Default", id: "jsonReset", text: locale["reset"], actions: {click: function () {
                                 var jsonstr = JSON.stringify(current.dashJSON.rows[current.row]["widgets"][current.index], jsonmaker);
                                 current.editor.set(JSON.parse(jsonstr));
                             }}},
-                    {tag: "button", class: "btn btn-primary", type: "button", value: "Default", id: "jsonApply", text: locale["apply"], actions: {click: function () {
+                    {tag: "button", class: "btn btn-outline-primary m-1", type: "button", value: "Default", id: "jsonApply", text: locale["apply"], actions: {click: function () {
                                 var tmpJson = current.editor.get();
                                 clearTimeout(current.dashJSON.rows[current.row]["widgets"][current.index].timer);
                                 for (var key in tmpJson)
