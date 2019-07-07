@@ -30,6 +30,7 @@
         "dash.show.chart": "<spring:message code="dash.show.chart"/>",
         "dash.show.counter": "<spring:message code="dash.show.counter"/>",
         "dash.show.table": "<spring:message code="dash.show.table"/>",
+        "dash.show.heatmap": "<spring:message code="dash.show.heatmap"/>",
 
         "dash.title.lockDashboard": "<spring:message code="dash.title.lockDashboard"/>",
         "dash.title.unlockDashboard": "<spring:message code="dash.title.unlockDashboard"/>",
