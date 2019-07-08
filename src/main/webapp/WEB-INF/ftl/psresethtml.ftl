@@ -483,8 +483,7 @@
                             <td style="width: 280px" valign="top">
                             <![endif]-->
                             <div class="snippet" style="display: table-cell;Float: left;font-size: 12px;line-height: 19px;max-width: 280px;min-width: 140px; width: 140px;width: calc(14000% - 78120px);padding: 10px 0 5px 0;color: #999;font-family: Georgia,serif;">
-                              <div style="mso-hide:all;position:fixed;height:0;max-height:0;overflow:hidden;font-size:0;">You need to click inside this email to officially subscribe! It only takes 10
-                                seconds.</div>
+                              <div style="mso-hide:all;position:fixed;height:0;max-height:0;overflow:hidden;font-size:0;">You need to click inside this email to reset your OddEye account password</div>
                             </div>
                             <!--[if (mso)|(IE)]>
                             </td>
@@ -511,7 +510,7 @@
                               <a style="text-decoration: none;transition: opacity 0.1s ease-in;color: #41637e;" href="https://www.oddeye.co/">
 								<img align="left" border="0" src="${uri}/assets/images/email/logo_100px.png" alt="Image" title="Image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: 0;height: auto;float: none;width: 100%;max-width: 100px;float: left" width="100">
 								<p style="font-size: 30px;line-height: 21px;text-align: center ;margin: 3px;float: left;">Welcome to OddEye.</p>
-								<p style="font-size: 20px;line-height: 40px;text-align: center ;margin: 3px;float: left; color:#8BC53F">World's the most advanced monitoring platform.</p>
+								<p style="font-size: 20px;line-height: 40px;text-align: center ;margin: 3px;float: left; color:#8BC53F">Cloud scale intelligent monitoring & analytics platform</p>
 
                               </a>
                             </div>
@@ -535,14 +534,14 @@
                             <![endif]-->
                             <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                               <div style="Margin-left: 20px;Margin-right: 20px;">
-                                <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong> Thanks for signing up! </h2>
-                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">To complete registration, please click on activate account buttton below:</h3>
+                                <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong><br>You recently requested a password reset for your OddEye account.</h2>
+                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">Click the button below to reset it.</h3>
                               </div>
                               <div style="Margin-left: 20px;Margin-right: 20px;">
                                 <div class="btn fullwidth btn--shadow btn--large" style="text-align: center;">
                                   <![if !mso]>
                                     <a style="border-radius: 4px;display: block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px 13px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.2);font-family: Georgia, serif;    background: #26B99A;    border: 1px solid #169F85;"
-                                    href="${uri}/confirm/${id}">Activate Account</a>
+                                    href="${uri}/psreset/${resetToken}">Reset Password</a>
                                   <![endif]>
                                   <!--[if mso]>
                                     <p style="line-height:0;margin:0;">&nbsp;</p>
@@ -574,8 +573,8 @@
                             <![endif]-->
                             <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                               <div style="Margin-left: 20px;Margin-right: 20px;">
-                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">If the button not working, please copy/paste the following link into your browser</h3>
-                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;"><a href="${uri}/confirm/${id}">${uri}/confirm/${id}</a>.</h3>
+                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">If you're having trouble clicking the password button copy and paste the URL below into your web browser.</h3>
+                                <h3 style="Margin-top: 20px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;"><a href="${uri}/psreset/${resetToken}">${uri}/psreset/${resetToken}</a>.</h3>
                               </div>
                             </div>
                             <!--[if (mso)|(IE)]>

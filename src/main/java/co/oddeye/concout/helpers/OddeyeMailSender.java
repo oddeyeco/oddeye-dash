@@ -101,14 +101,16 @@ public class OddeyeMailSender extends JavaMailSenderImpl {
         }
     }
 
-    public void send(String subject, String toEmail, String htmltemplatename,String txttemplatename, Object model) {
+    public boolean send(String subject, String toEmail, String htmltemplatename,String txttemplatename, Object model) {
 
         try {
             String html = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfig.getConfiguration().getTemplate(htmltemplatename), model);
             String text = FreeMarkerTemplateUtils.processTemplateIntoString(freemarkerConfig.getConfiguration().getTemplate(txttemplatename), model);
             this.send(subject, text,html, toEmail);
+            return true;
         } catch (TemplateException | IOException e) {
             LOGGER.error(globalFunctions.stackTrace(e));
+            return false;
         }
 
     }
