@@ -1067,7 +1067,7 @@ class EditForm {
         this.tabcontent.tab_time = {};
         var edit_time = {tag: "form", class: 'form-horizontal form-label-left edit-times pull-left', id: "edit_time"};
         edit_time.content = [{tag: "div", class: "form-group form-group-custom filter", content: [
-                    {tag: "label", class: "control-label pull-left", text: locale["editform.times"], lfor: "padding_height"},
+                    {tag: "label", class: "control-label pull-left", text: [locale["editform.times"],'_x0'], lfor: "padding_height"},
                     {tag: "div", id: "reportrange_private", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
                         content: [
                             {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
@@ -1080,7 +1080,23 @@ class EditForm {
                             {tag: "select", id: "refreshtime_private", name: "refreshtime", key_path: 'times.intervall', style: "width: 150px", options: this.privaterefreshtimes}
                         ]}
 
-                ]}];
+                ]},            
+                {tag: "div", class: "form-group form-group-custom filter", content: [
+                    {tag: "label", class: "control-label pull-left", text: [locale["editform.times"],'_x1'], lfor: "padding_height"},
+                    {tag: "div", id: "reportrange_private_x1", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                        content: [
+                            {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
+                            {tag: "span"},
+                            {tag: "b", class: "caret"}
+                        ]},
+
+                    {tag: "div", id: "shiftTime", class: "pull-left",
+                        content: [
+                            {tag: "input", id: "shift_x1", name: "", key_path: '', style: "width: 100px; height: 31px; border: #cccccc 1px solid; padding-left: 8px;", placeholder:"Time Shift"}
+                        ]}
+
+                ]}
+        ];
 
 
         this.tabcontent.tab_time.forms = [edit_time];
@@ -1289,11 +1305,13 @@ class EditForm {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
                     $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
+                    $('#reportrange_private_x1 span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
                 } else
                 {
                     PicerOptionSet2.startDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerstart);
                     PicerOptionSet2.endDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerend);
                     $('#reportrange_private span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
+                    $('#reportrange_private_x1 span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
                 }
             }
         }
@@ -1301,6 +1319,12 @@ class EditForm {
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');
+            form.change(input);
+        });
+        PicerOptionSet2.minDate = getmindate();
+        $('#reportrange_private_x1').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
+        $('#reportrange_private_x1').on('apply.daterangepicker', function (ev, picker) {
+            var input = $('#reportrange_private_x1');
             form.change(input);
         });
 
