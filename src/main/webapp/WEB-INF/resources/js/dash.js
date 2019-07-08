@@ -323,8 +323,7 @@ var queryCallback = function (inputdata) {
 //                                    p0 = pos[0] + 5;
 //                                }
 //                                return [p0, p1];
-//                            },
-//                                                        
+//                            },                                                        
 //                            "position": tooltipPos,
 
                             "enterable": false                        
@@ -2848,7 +2847,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                     '</div>');
             if (!readonly)
             {
-                $(".right_col .editpanel").append('<div class="card-body edit-form">');
+                $(".right_col .editpanel").append('<div class="edit-form">');
                 Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
             }
         } else if (W_type === "table")
@@ -2888,7 +2887,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             }
             if (!readonly)
             {
-                $(".right_col .editpanel").append('<div class="card-body edit-form">');
+                $(".right_col .editpanel").append('<div class="edit-form">');
                 if (W_type === "heatmap")
                 {
                     Edit_Form = new HmEditForm(echartLine, $(".edit-form"), row, index, dashJSON, domodifier);

@@ -47,8 +47,8 @@ class EditForm {
         }
 
         this.formwraper.append('<div role="tabpanel" id="tabpanel">');
-        this.formwraper.find('#tabpanel').append('<nav><ul id="formTab" class="nav nav-tabs bar_tabs" role="tablist"></nav>');
-        this.formwraper.find('#tabpanel').append('<div id="TabContent" class="tab-content" >');
+        this.formwraper.find('#tabpanel').append('<nav id="nav-editTab" class="nav-tabs pl-sm-5 pl-sm-2 p-0"><ul id="formTab" class="nav bar_tabs" role="tablist"></nav>');
+        this.formwraper.find('#tabpanel').append('<div id="TabContent" class="card-body tab-content" >');
         var tabs = this.gettabs();
         for (var key in tabs)
         {
@@ -727,8 +727,12 @@ class EditForm {
     }
 
     get xpositionoptions()
-    {
-        return {"": "&nbsp;", "center": locale["editchartform.center"], "left": locale["editchartform.left"], "right": locale["editchartform.right"]};
+    {       
+        return {"": "&nbsp;",            
+            "center": locale["editchartform.center"],
+            "left": locale["editchartform.left"],
+            "right": locale["editchartform.right"]            
+        };
     }
     get ypositionoptions()
     {
@@ -979,12 +983,12 @@ class EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.disabled"], lfor: "metric_check_disabled"},
                             {tag: "input", type: "checkbox", class: "js-switch-small metric_check_disabled", prop_key: "check_disabled", id: "{index}_metric_check_disabled", name: "metric_check_disabled", key_path: 'check_disabled', default: false}
                         ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form-group form-group-custom form-inline", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["tags"], lfor: "tags"},
                             {tag: "div", class: "data-label tags", prop_key: "tags", key_path: "info.tags", id: "{index}_tags", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label tags", text: '<a><i class="fa fa-plus "></i></a>'}
                         ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
+                    {tag: "div", class: "form-group form-group-custom form-inline", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["metrics"], lfor: "metrics"},
                             {tag: "div", class: "data-label metrics", prop_key: "metrics", key_path: "info.metrics", id: "{index}_metrics", type: "split_string", split: ";"},
                             {tag: "label", class: "control-label query-label metrics", text: '<a><i class="fa fa-plus "></i></a>'}
@@ -1039,7 +1043,7 @@ class EditForm {
                     }
                 ]}
         ];
-        edit_q.content = [{tag: "button", class: "btn btn-outline-success Addq btn-sm m-1",
+         edit_q.content = [{tag: "button", class: "btn btn-outline-success Addq btn-sm m-1",
                 text: locale["editchartform.add"],
                 id: "addq",
                 key_path: "q",
@@ -1057,6 +1061,7 @@ class EditForm {
 //                        contener.html("");
 //                        current.drawcontent(edit_q.content, contener, current.dashJSON.rows[current.row]["widgets"][current.index]);
                         current.repaintq(contener, edit_q.content);
+
                     }
                 }
             }
@@ -1067,20 +1072,35 @@ class EditForm {
         this.tabcontent.tab_time = {};
         var edit_time = {tag: "form", class: 'form-inline form-label-left edit-times col', id: "edit_time"};
         edit_time.content = [{tag: "div", class: "form-group form-group-custom filter", content: [
-                    {tag: "label", class: "control-label", text: locale["editform.times"], lfor: "padding_height"},
+                    {tag: "label", class: "control-label", text: [locale["editform.times"],"_x0"], lfor: "padding_height"},
                     {tag: "div", id: "reportrange_private", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
                         content: [
                             {tag: "i", class: "fa fa-calendar"},
                             {tag: "span"}
-//                            {tag: "b", class: "caret"}
                         ]},
 
                     {tag: "div", id: "refresh_wrap_private",
                         content: [
-                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', style: "width: 150px", options: this.privaterefreshtimes}
+                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
                         ]}
 
-                ]}];
+                ]},
+                {tag: "div", class: "form-group form-group-custom filter", content: [
+                    {tag: "label", class: "control-label", text: [locale["editform.times"],"_x1"], lfor: "padding_height"},
+                    {tag: "div", id: "reportrange_privateX", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                        content: [
+                            {tag: "i", class: "fa fa-calendar"},
+                            {tag: "span"}
+                        ]},
+
+                    {tag: "div", id: "refresh_wrap_privateX",
+                        content: [
+                            {tag: "select", id: "refreshtime_privateX", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes},
+                            {tag: "input", id: "shiftX", class: "form-control form-control-sm", type:'text', key_path: 'times.intervall',style: "width: 80px", placeholder: 'Time Shift'}
+                        ]}
+
+                ]}
+        ];
 
 
         this.tabcontent.tab_time.forms = [edit_time];
@@ -1285,11 +1305,13 @@ class EditForm {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
                     $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
+                    $('#reportrange_privateX span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
                 } else
                 {
                     PicerOptionSet2.startDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerstart);
                     PicerOptionSet2.endDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerend);
                     $('#reportrange_private span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
+                    $('#reportrange_privateX span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
                 }
             }
         }
@@ -1297,6 +1319,12 @@ class EditForm {
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');
+            form.change(input);
+        });
+        PicerOptionSet2.minDate = getmindate();
+        $('#reportrange_privateX').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
+        $('#reportrange_privateX').on('apply.daterangepicker', function (ev, picker) {
+            var input = $('#reportrange_privateX');
             form.change(input);
         });
 
