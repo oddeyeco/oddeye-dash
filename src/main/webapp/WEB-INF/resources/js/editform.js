@@ -1078,27 +1078,11 @@ class EditForm {
                             {tag: "i", class: "fa fa-calendar"},
                             {tag: "span"}
                         ]},
-
                     {tag: "div", id: "refresh_wrap_private",
                         content: [
-                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
-                        ]}
-
-                ]},
-                {tag: "div", class: "form-group form-group-custom filter", content: [
-                    {tag: "label", class: "control-label", text: [locale["editform.times"],"_x1"], lfor: "padding_height"},
-                    {tag: "div", id: "reportrange_privateX", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
-                        content: [
-                            {tag: "i", class: "fa fa-calendar"},
-                            {tag: "span"}
+                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}                            
                         ]},
-
-                    {tag: "div", id: "refresh_wrap_privateX",
-                        content: [
-                            {tag: "select", id: "refreshtime_privateX", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes},
-                            {tag: "input", id: "shiftX", class: "form-control form-control-sm", type:'text', key_path: 'times.intervall',style: "width: 80px", placeholder: 'Time Shift'}
-                        ]}
-
+                    {tag: "select", id: "shiftX", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift",default: "off", options: this.shifttimes}
                 ]}
         ];
 
@@ -1159,16 +1143,16 @@ class EditForm {
     static get refreshtimes() {
         return {
             "off": "Refresh Off",
-            "5000": "Refresh every 5s",
-            "10000": "Refresh every 10s",
-            "30000": "Refresh every 30s",
-            "60000": "Refresh every 1m",
-            "300000": "Refresh every 5m",
-            "900000": "Refresh every 15m",
-            "1800000": "Refresh every 30m",
-            "3600000": "Refresh every 1h",
-            "7200000": "Refresh every 2h",
-            "86400000": "Refresh every 1d"
+            " 5000": "Refresh every 5s", 
+            " 10000": "Refresh every 10s",
+            " 30000": "Refresh every 30s",
+            " 60000": "Refresh every 1m",
+            " 300000": "Refresh every 5m",
+            " 900000": "Refresh every 15m",
+            " 1800000": "Refresh every 30m",
+            " 3600000": "Refresh every 1h",
+            " 7200000": "Refresh every 2h",
+            " 86400000": "Refresh every 1d"
         };
     }
 
@@ -1186,6 +1170,22 @@ class EditForm {
             " 3600000": locale["editform.refresh1h"],
             " 7200000": locale["editform.refresh2h"],
             " 86400000": locale["editform.refresh1d"]
+        };
+    }
+    get shifttimes() {
+        return {
+            "off": "Shift Time",
+            " 300000": "shift 5m",
+            " 900000": "shift 15m",
+            " 1800000": "shift 30m",
+            " 3600000": "shift 1h",
+            " 10800000": "shift 3h",
+            " 21600000": "shift 6h",
+            " 43200000": "shift 12h",
+            " 86400000": "shift 1d",
+            " 259200000": "shift 3d",
+            " 604800000 ": "shift 7d",
+            " 2592000000 ": "shift 30d"
         };
     }
     check_q_dublicates(contener, json) {
@@ -1295,7 +1295,7 @@ class EditForm {
 
             if (form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall)
             {
-                $("#refreshtime_private").val(form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall);
+                $("#refreshtime_private").val(form.dashJSON.rows[form.row]["widgets"][form.index].times.intervall);               
             }
 
             if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel)
@@ -1304,14 +1304,12 @@ class EditForm {
                 {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
-                    $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
-                    $('#reportrange_privateX span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
+                    $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);                    
                 } else
                 {
                     PicerOptionSet2.startDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerstart);
                     PicerOptionSet2.endDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerend);
                     $('#reportrange_private span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
-                    $('#reportrange_privateX span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
                 }
             }
         }
@@ -1319,12 +1317,6 @@ class EditForm {
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');
-            form.change(input);
-        });
-        PicerOptionSet2.minDate = getmindate();
-        $('#reportrange_privateX').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
-        $('#reportrange_privateX').on('apply.daterangepicker', function (ev, picker) {
-            var input = $('#reportrange_privateX');
             form.change(input);
         });
 

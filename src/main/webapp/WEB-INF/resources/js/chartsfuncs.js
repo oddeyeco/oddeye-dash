@@ -142,7 +142,7 @@ $(document).ready(function () {
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays"], [3])] = [moment().subtract(3, 'day')];
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays2"], [7])] = [moment().subtract(7, 'day')];
         PicerOptionSet2.ranges[replaceArgumets(locale["datetime.lastdays2"], [30])] = [moment().subtract(30, 'day')];
-
+       
         rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [5])] = [];
         rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [15])] = [];
         rangeslabelsds[replaceArgumets(locale["datetime.lastminute"], [30])] = [];
@@ -169,7 +169,7 @@ $(document).ready(function () {
         rangeslabels[replaceArgumets(locale["datetime.lastdays"], [3])] = "3d-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [7])] = "7d-ago";
         rangeslabels[replaceArgumets(locale["datetime.lastdays2"], [30])] = "30d-ago";
-//        console.log(rangeslabels0);
+//        console.log(rangeslabels0);      
     }
 });
 var rangescustomds = {

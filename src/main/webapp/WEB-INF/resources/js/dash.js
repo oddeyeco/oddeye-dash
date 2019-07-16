@@ -976,7 +976,12 @@ var queryCallback = function (inputdata) {
                             delete(widget.options.xAxis[xAxis_Index].min);
                         }
                     }
-
+// shift =============================================== 
+//                    if (widget.times.shift !== "off")
+//                    {                           
+//                        widget.options.xAxis[xAxis_Index].max = new Date().getTime() - widget.times.shift;                                                                                      
+//                    }
+// /shift =============================================== 
                 }
             }
         }
@@ -2220,10 +2225,20 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 end = "now";
                 usePersonalTime = true;
             }
-
         }
+// shift ===============================================      
+        if (widget.times.shift)
+        {
+            if (widget.times.shift !== "off")
+            {
+                start = widget.times.pickerstart - widget.times.shift;
+                end = widget.times.pickerend - widget.times.shift;
+                usePersonalTime = true;
+            }
+        }
+// /shift ===============================================            
     }
-
+                            
     var count = {"value": widget.q.length, "base": widget.q.length};
 
     for (k in widget.q)
