@@ -223,7 +223,8 @@
         "countereditform.fontSize": "<spring:message code="countereditform.fontSize"/>",
         "countereditform.subtitle": "<spring:message code="countereditform.subtitle"/>",
         "countereditform.box": "<spring:message code="countereditform.box"/>",
-
+        
+        "dashboard.title.refresh": "<spring:message code="dashboard.title.refresh"/>",        
         "dashboard.Modal.successfullySaved": "<spring:message code="dashboard.Modal.successfullySaved"/>"
     };
 

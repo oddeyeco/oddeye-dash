@@ -70,7 +70,6 @@ class EditForm {
                 {
                     for (var f_key in content.forms)
                     {
-
                         var form = content.forms[f_key];
                         contenttab.append('<' + form.tag + ' class="' + form.class + '" id="' + form.id + '"><div class="form_main_block">');
                         if (form.label)
@@ -1071,21 +1070,35 @@ class EditForm {
 
         this.tabcontent.tab_time = {};
         var edit_time = {tag: "form", class: 'form-inline form-label-left edit-times col', id: "edit_time"};
-        edit_time.content = [{tag: "div", class: "form-group form-group-custom filter", content: [
-                    {tag: "label", class: "control-label", text: [locale["editform.times"],"_x0"], lfor: "padding_height"},
-                    {tag: "div", id: "reportrange_private", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
-                        content: [
-                            {tag: "i", class: "fa fa-calendar"},
-                            {tag: "span"}
-                        ]},
-                    {tag: "div", id: "refresh_wrap_private",
-                        content: [
-                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}                            
-                        ]},
-                    {tag: "select", id: "shiftX", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift",default: "off", options: this.shifttimes}
-                ]}
-        ];
+        edit_time.content = [{tag: "div", class: "filter form-row", content: [
+                    {tag: "div", class: "form-inline col-6", content: [
+                      {tag: "div", class: "form-inline col-12", content: [
+                            {tag: "label", class: "control-label", text: [locale["editform.times"], "_x0"], lfor: "padding_height"},
+                            {tag: "div", id: "reportrange_private", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                                content: [
+                                    {tag: "i", class: "fa fa-calendar"},
+                                    {tag: "span"}
+                                ]},
 
+                            {tag: "select", id: "shiftX", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift", default: "off", options: this.shifttimes}
+                        ]},
+                    {tag: "div", class: "form-inline col-12", content: [
+                            {tag: "label", class: "control-label", text: [locale["editform.times"], "_x1"], lfor: "padding_height"},
+                            {tag: "div", id: "reportrange_privateX1", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",content: [
+                                    {tag: "i", class: "fa fa-calendar"},
+                                    {tag: "span"}
+                                ]},
+                            {tag: "select", id: "shiftX1", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift", default: "off", options: this.shifttimes}
+                        ]}      
+                    ]},
+                    {tag: "div", class: "col-6", content: [
+                       {tag: "div", class: "form-inline col-12", id: "refresh_wrap_private", content: [
+                            {tag: "label", class: "control-label", text: [locale["dashboard.title.refresh"]], lfor: "padding_height"},
+                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
+                        ]}     
+                    ]}                                                         
+            ]}        
+        ];
 
         this.tabcontent.tab_time.forms = [edit_time];
         this.tabcontent.tab_json = {};
@@ -1304,22 +1317,61 @@ class EditForm {
                 {
                     PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
                     PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
-                    $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);                    
+                    $('#reportrange_private span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);                   
+//                    $('#reportrange_privateX1 span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);                   
+                                        
                 } else
                 {
                     PicerOptionSet2.startDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerstart);
                     PicerOptionSet2.endDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerend);
-                    $('#reportrange_private span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
+                    $('#reportrange_private span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));                    
+//                    $('#reportrange_privateX1 span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));                    
                 }
             }
         }
         PicerOptionSet2.minDate = getmindate();
         $('#reportrange_private').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_private')));
+//        $('#reportrange_privateX1').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_privateX1')));
         $('#reportrange_private').on('apply.daterangepicker', function (ev, picker) {
             var input = $('#reportrange_private');
             form.change(input);
         });
+//        $('#reportrange_privateX1').on('apply.daterangepicker', function (ev, picker) {
+//            var inputX1 = $('#reportrange_privateX1');
+//            form.change(inputX1);
+//        });
+        
+//      shiftX1  =========================================================
+            if (form.dashJSON.rows[form.row]["widgets"][form.index].times)
+            {
+                if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel)
+                {
+                    if (form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel !== DtPicerlocale["customRangeLabel"])
+                    {
+                        PicerOptionSet2.startDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][0];
+                        PicerOptionSet2.endDate = PicerOptionSet2.ranges[form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel][1];
 
+                        $('#reportrange_privateX1 span').html(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerlabel);
+
+                    } else
+                    {
+                        PicerOptionSet2.startDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerstart);
+                        PicerOptionSet2.endDate = moment(form.dashJSON.rows[form.row]["widgets"][form.index].times.pickerend);
+
+                        $('#reportrange_privateX1 span').html(PicerOptionSet2.startDate.format("MM/DD/YYYY HH:mm:ss") + " - " + PicerOptionSet2.endDate.format("MM/DD/YYYY HH:mm:ss"));
+                    }
+                }
+            }
+            PicerOptionSet2.minDate = getmindate();
+
+            $('#reportrange_privateX1').daterangepicker(PicerOptionSet2, cbJson(form.dashJSON.rows[form.row]["widgets"][form.index], $('#reportrange_privateX1')));
+
+            $('#reportrange_privateX1').on('apply.daterangepicker', function (ev, picker) {
+                var inputX1 = $('#reportrange_privateX1');
+                form.change(inputX1);
+            });
+        
+//     /shiftX1  =========================================================
 
         this.formwraper.on("click", "span.tag_label .fa-times", function () {
             var input = $(this).parents(".data-label");
