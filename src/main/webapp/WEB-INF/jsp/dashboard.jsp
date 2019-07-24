@@ -30,7 +30,7 @@
                 <p class="text-warning"><spring:message code="dashboard.Modal.confirmSaveDashboard"/></p>
             </div>
             <div class="modal-footer">
-                <input  type="button" class="btn btn-default" data-dismiss="modal" value="<spring:message code="no"/>">
+                <input  type="button" class="btn btn-outline-secondary" data-dismiss="modal" value="<spring:message code="no"/>">
                 <input id="savelock" type="button" class="btn btn-success nowrap" data-dismiss="modal" value="<spring:message code="yes"/>">
             </div>
         </div>
@@ -273,7 +273,7 @@
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-default" data-dismiss="modal" value="<spring:message code="close"/>">
+                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal" value="<spring:message code="close"/>">
                 <input type="button" id="deletedashconfirm" class="btn btn-ok" value="<spring:message code="delete"/>">
             </div>
         </div>
@@ -290,7 +290,7 @@
                 <div id="dasheditor"></div>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-default" data-dismiss="modal"value="<spring:message code="close"/>">
+                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal"value="<spring:message code="close"/>">
                 <input type="button" id="applyrowjson" class="btn btn-ok" value="<spring:message code="apply"/>">
             </div>
         </div>

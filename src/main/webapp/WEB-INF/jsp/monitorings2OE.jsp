@@ -57,7 +57,7 @@
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-default" data-dismiss="modal"value="<spring:message code="close"/>">
+                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal"value="<spring:message code="close"/>">
                 <input type="button" id="deletedashconfirm" class="btn btn-ok" value="<spring:message code="delete"/>">
             </div>
         </div>

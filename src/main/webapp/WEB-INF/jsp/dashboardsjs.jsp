@@ -5,8 +5,13 @@
 --%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
-<script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>
+<!--<script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
+<script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>-->
+<!-- DataTables bootstrap4 -->
+    <script src="${cp}/resources/dataTablesBS4/js/jquery.dataTables.min.js?v=${version}"></script> 
+    <script src="${cp}/resources/dataTablesBS4/js/dataTables.bootstrap4.min.js?v=${version}"></script> 
+    
+            
 <!--<script src="${cp}/assets/js/metricinfo.min.js?v=${version}"></script>-->
 <script src="${cp}/resources/js/metricinfo.js?v=${version}"></script>
 <script>

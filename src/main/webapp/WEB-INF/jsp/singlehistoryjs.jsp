@@ -6,8 +6,12 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
-<script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>
+<!--<script src="${cp}/resources/datatables.net/js/jquery.dataTables.min.js?v=${version}"></script>
+<script src="${cp}/resources/datatables.net-bs/js/dataTables.bootstrap.min.js?v=${version}"></script>-->
+<!-- DataTables bootstrap4 -->
+    <script src="${cp}/resources/dataTablesBS4/js/jquery.dataTables.min.js?v=${version}"></script> 
+    <script src="${cp}/resources/dataTablesBS4/js/dataTables.bootstrap4.min.js?v=${version}"></script> 
+    
 <!--<script src="${cp}/resources/echarts/dist/echarts-en.min.js?v=${version}"></script>-->
 <script src="${cp}/assets/js/echarts.min.js?v=${version}"></script>
 <script src="${cp}/resources/js/theme/oddeyelight.js?v=${version}"></script>

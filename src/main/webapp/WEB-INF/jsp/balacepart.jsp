@@ -14,7 +14,7 @@
     </h4>
     <div class="card-body">                                
         <div class="row">
-            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12">
+            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 balanceAvailable">
                 <h4 class="count_top"><spring:message code="dashboards.available"/></h4>
                 <div class="count">
                     <c:set var="balance" value="${curentuser.getBalance()}" />
