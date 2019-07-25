@@ -6,15 +6,19 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <script src="<c:url value="/assets/dist/particles.min.js?v=${version}"/>"></script>    
+<c:if test="${dashProp.captchaOn eq 'true'}" >
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
         async defer>
     </script>
 <script>
     var onloadCallback = function () {        
         grecaptcha.render('recaptcha', {
-          'sitekey' : '6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY'        
+          'sitekey' : '${dashProp.captchaSiteKey}'      
         });        
     };
+    </script>
+</c:if>
+<script>
     $(document).ready(function () {
 //        $(".select2_country").select2({
 //            placeholder: "Select a Country",

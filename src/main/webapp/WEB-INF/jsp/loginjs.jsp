@@ -133,6 +133,10 @@
             {
                 $("#confirmFalse").modal('show');
             }
+        } else
+        if (getParameterByName("pschanged") !== null)
+        {
+                $("#psChanged").modal('show');
         }
     }
 
