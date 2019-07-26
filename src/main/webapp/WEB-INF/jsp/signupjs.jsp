@@ -10,7 +10,7 @@
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
         async defer>
     </script>
-<script>
+    <script>
     var onloadCallback = function () {        
         grecaptcha.render('recaptcha', {
           'sitekey' : '${dashProp.captchaSiteKey}'      

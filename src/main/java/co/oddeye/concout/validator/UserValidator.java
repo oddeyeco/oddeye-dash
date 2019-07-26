@@ -104,12 +104,12 @@ public class UserValidator implements Validator {
             errors.rejectValue("passwordsecond", "passwordsecond.passwordMismatch", "Passwords mismatch.");
         }
 
-    }    
+    }
     public void passwordResetValidate(OddeyeUserModel user,OddeyeUserModel selfuser, Errors errors) {
         if (selfuser.getEmail().equals("demodemo@oddeye.co"))
         {
             errors.rejectValue("password", "oldpassword.isdemo", "password demodemo@oddeye.co is readonly.");
-}
+        }
         
         if (!(user.getPasswordst()).equals(user.getPasswordsecondst())) {
             errors.rejectValue("passwordRepeat", "passwordsecond.passwordMismatch", "Passwords mismatch.");

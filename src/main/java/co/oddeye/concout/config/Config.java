@@ -80,7 +80,7 @@ public class Config implements WebMvcConfigurer {
         registry.addConverter(stringToDoubleConvertor);
         registry.addConverter(stringToOddeyeUserModelConverter);
     }
-
+    
     @Bean
     @Order(0)
     public WhiteLabelResolver whiteLabelResolver() {

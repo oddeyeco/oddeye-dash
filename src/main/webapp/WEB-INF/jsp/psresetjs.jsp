@@ -1,18 +1,34 @@
 <%-- 
-    Document   : loginjs
-    Created on : Apr 4, 2017, 4:31:01 PM
-    Author     : vahan
+    Document   : psresetjs
+    Created on : May 29, 2019, 22:31:16
+    Author     : sasha
 --%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<script src="<c:url value="/assets/dist/particles.min.js?v=${version}"/>"></script>    
+<script src="<c:url value="/assets/dist/particles.min.js?v=${version}"/>"></script>
+<c:if test="${dashProp.captchaOn eq 'true'}" >
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit"
+        async defer>
+    </script>
+    <script>
+    var onloadCallback = function () {        
+        grecaptcha.render('recaptcha', {
+          'sitekey' : '${dashProp.captchaSiteKey}'      
+        });        
+    };
+    </script>
+</c:if>
 <script>
     $(document).ready(function () {
-        $('body').on('submit', '#loginform', function (e) {
-            $(this).find("button").hide();
-            $(".progress-wrap").show();
-        })
-
-
+//        $(".select2_country").select2({
+//            placeholder: "Select a Country",
+//            allowClear: true
+//        });
+        $(".select2_tz").val(moment.tz.guess());
+//        $(".select2_tz").select2({
+//            placeholder: "Select a TimeZone",
+//            allowClear: true
+//        });
         var particlejson = {
             "particles": {
                 "number": {
@@ -124,22 +140,10 @@
             "retina_detect": false
         };
         particlesJS('main', particlejson);
-        if (getParameterByName("confirm") !== null)
+        if (getParameterByName("invalidconfirmcode")!==null)
         {
-            if (getParameterByName("confirm"))
-            {
-                $("#confirmTrue").modal('show');
-            } else
-            {
-                $("#confirmFalse").modal('show');
-            }
-        } else
-        if (getParameterByName("pschanged") !== null)
-        {
-                $("#psChanged").modal('show');
+            $("#confirmError").modal('show');            
         }
-        }     
-
-
+    }
     );
 </script>
