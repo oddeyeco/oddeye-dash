@@ -3546,7 +3546,7 @@ $(document).ready(function () {
         var ri = $(this).parents(".widgetraw").index();
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
-        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-outline-danger");
         $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelRow"], [$(this).parents(".raw-controls").find(".title_text span").text()]));
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
@@ -3731,7 +3731,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
         $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
-        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-outline-danger");
 
         if (gdd.rows[ri].widgets[wi].options)
         {
@@ -3916,7 +3916,7 @@ $(document).ready(function () {
     
     $('body').on("click", "#deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
-        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-danger");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-outline-danger");
         $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelDashboard"]);
         $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
         $("#deleteConfirm").modal('show');

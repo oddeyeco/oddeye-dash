@@ -10,9 +10,11 @@
 <div id="confirmTrue" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <div class="modal-header">                
                 <h4 class="modal-title"><spring:message code="login.confirmationSucceed"/></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <span>&times;</span>>
+                </button>
             </div>
             <div class="modal-body">
                 <spring:message code="login.confirmationSucceedBody"/>

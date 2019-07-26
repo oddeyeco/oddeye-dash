@@ -11,8 +11,10 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header custom-modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><spring:message code="dashboard.Modal.successfullySaved"/> </h4>
+                <h4 class="modal-title"><spring:message code="dashboard.Modal.successfullySaved"/></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                   <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         </div>
 
@@ -20,10 +22,10 @@
 </div>
 
 <div class="alert alert-danger alert-dismissible collapse " id="manyalert" role="alert">
+    <p><spring:message code="monitorings2.manyAlert"/></p>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>                    
-    <spring:message code="monitorings2.manyAlert"/>
+      <span aria-hidden="true">&times;</span>
+    </button> 
 </div> 
 
 <div id="lostconnection" class="modal fade">
@@ -42,10 +44,12 @@
                 
 <div id="deleteConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content">            
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><spring:message code="confirmation"/></h4>
+                <button type="button" class="close" data-dismiss="modal"  aria-hidden="true">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <p><spring:message code="monitorings2.modal.confirmDelDashboard"/></p>

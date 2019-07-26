@@ -11,9 +11,12 @@
 
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header custom-modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><spring:message code="dashboard.Modal.successfullySaved"/> </h4>
+            <div class="modal-header custom-modal-header"><h4 class="modal-title">
+                    <spring:message code="dashboard.Modal.successfullySaved"/></h4>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                
             </div>
         </div>
     </div>
@@ -22,8 +25,10 @@
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><spring:message code="confirmation"/></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <span aria-hidden="true">&times;</span>
+                </button>                
             </div>
             <div class="modal-body">
                 <p><spring:message code="dashboard.Modal.needsSavedDashboard"/></p>
@@ -31,7 +36,7 @@
             </div>
             <div class="modal-footer">
                 <input  type="button" class="btn btn-outline-secondary" data-dismiss="modal" value="<spring:message code="no"/>">
-                <input id="savelock" type="button" class="btn btn-success nowrap" data-dismiss="modal" value="<spring:message code="yes"/>">
+                <input id="savelock" type="button" class="btn btn-outline-success nowrap" data-dismiss="modal" value="<spring:message code="yes"/>">
             </div>
         </div>
     </div>
@@ -265,8 +270,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><spring:message code="confirmation"/></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    <span>&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <p><spring:message code="dashboard.Modal.confirmDelDashboard"/></p>
