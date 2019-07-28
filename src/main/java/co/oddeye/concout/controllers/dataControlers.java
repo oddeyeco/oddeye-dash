@@ -325,19 +325,11 @@ public class dataControlers {
                     userDetails = userDetails.getSwitchUser();
                 }
             }
-            OddeeyMetricMeta metric = null;
+            Map<String, OddeeyMetricMeta> foundMetrics = new HashMap<>();            
             if ((hash != null)) {
-                metric = userDetails.getMetricsMeta().get(hash);
+                OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(hash);
                 if (metric == null) {
-                    jsonResult.addProperty("sucsses", Boolean.FALSE);
-                    LOGGER.warn("Metric for hash:" + hash + " for user " + userDetails.getEmail() + " not exist");
-                    map.put("jsonmodel", jsonResult);
-                    return "ajax";
-                }
-                metrics = metric.getName();
-                tags = "";
-                for (Map.Entry<String, OddeyeTag> tag : metric.getTags().entrySet()) {
-                    tags = tags + tag.getKey() + "=" + tag.getValue().getValue() + ";";
+                    foundMetrics.put(hash, metric);
                 }
             }
             
@@ -351,8 +343,6 @@ public class dataControlers {
                 ConcoutMetricMetaList metricList;
                 metricList = userDetails.getMetricsMeta().getbyType("0");
                 
-//                Set<String> specialMetricsSet = userDetails.getMetricsMeta().getSpecialNamelist();
-                Map<String, OddeeyMetricMeta> foundMetrics = new HashMap<>();
                 for(String hashKey : metricList.keySet()) {
                     OddeeyMetricMeta nextMetric = metricList.get(hashKey);
                     if(metricsNamesSet.contains(nextMetric.getName())){
@@ -367,7 +357,17 @@ public class dataControlers {
                         ErrorState es = getMetricRecentState(metric2check, timezone);
                         if(null!= es) {
                             JsonObject jsonMessage = new JsonObject();
-                            jsonMessage.addProperty("Status", es.getLevelName());
+                            jsonMessage.addProperty("Name", metric2check.getName());
+                            jsonMessage.addProperty("Level", es.getLevelName());
+                            jsonMessage.addProperty("Info", es.getMessage());
+                            jsonMessage.addProperty("LastTime", es.getTimeend());
+                            long duration;
+                            if(0 != es.getTimeend())
+                                duration = es.getTimeend() - es.getTimestart();
+                            else
+                                duration = System.currentTimeMillis() - es.getTimestart();
+                            jsonMessage.addProperty("Durarion", duration);
+                            jsonMessage.addProperty("StartTime", es.getTimestart());                            
                             jsonMessages.add(hashKey, jsonMessage);
                         }
                     }
