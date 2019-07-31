@@ -29,8 +29,9 @@ function getmetainfo(tagkey) {
                             '<div class="tile_stats_inside">' +                    
                             '<span class="count_top"><i class="fa fa-th-list"></i> ' + locale["metricinfo.tagtitle"].replace("{0}", i) + '</span>' +
                             '<div class="count spincrement">' + val + '</div>' +
-                            '<span class="count_bottom"><a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' + locale["metricinfo.showList"] + '</a></span>' +
-                            '</div>' + '</div>');                            
+                            '<span class="count_bottom">'+
+                            '<a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' + locale["metricinfo.showList"] + '</a>'+
+                            '</span>'+'</div>'+'</div>');                            
                 });
 
                 $('.spincrement').spincrement({duration: 2000});

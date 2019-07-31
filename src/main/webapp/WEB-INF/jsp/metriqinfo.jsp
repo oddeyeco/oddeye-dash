@@ -33,7 +33,7 @@
                                         <c:forEach items="${metric.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
-                                                    <span class="name"> ${Tag.getKey()}: </span>
+                                                    <span class="name"> ${Tag.getKey()}:&#8194; </span>
                                                     <span class="value text-success"> ${Tag.getValue()}</span>
                                                 </li>
                                             </c:if>    
@@ -44,7 +44,7 @@
                                     <div class="col-6">
                                         <ul class="font16">                                                 
                                             <li>
-                                                <span class="name"><spring:message code="regression.correlationCoefficient"/> </span>                            
+                                                <span class="name"><spring:message code="regression.correlationCoefficient"/>:&#8194; </span>                            
                                                 <span class="value text-success">
                                                     <c:choose>
                                                         <c:when test="${metric.getRegression().getR() == Double.NaN}">
@@ -59,7 +59,7 @@
                                                 </span>                            
                                             </li>
                                             <li>
-                                                <span class="name"><spring:message code="regression.slope"/> </span>
+                                                <span class="name"><spring:message code="regression.slope"/>:&#8194; </span>
                                                 <span class="value text-success">                                        
                                                     <c:choose>
                                                         <c:when test="${metric.getRegression().getSlope() == Double.NaN}">
@@ -74,7 +74,7 @@
                                                 </span>                                                                       
                                             </li> 
                                             <li>
-                                                <span class="name"><spring:message code="regression.rSquare"/> </span>
+                                                <span class="name"><spring:message code="regression.rSquare"/>:&#8194; </span>
                                                 <span class="value text-success">
                                                     <c:choose>
                                                         <c:when test="${metric.getRegression().getRSquare() == Double.NaN}">
@@ -89,7 +89,7 @@
                                                 </span>
                                             </li>
                                             <li>
-                                                <span class="name"><spring:message code="regression.counts"/> </span>
+                                                <span class="name"><spring:message code="regression.counts"/>:&#8194; </span>
                                                 <span class="value text-success">${metric.getRegression().getN()}</span>
                                             </li>
                                         </ul>

@@ -280,8 +280,8 @@
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal" value="<spring:message code="close"/>">
                 <input type="button" id="deletedashconfirm" class="btn btn-ok" value="<spring:message code="delete"/>">
+                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal" value="<spring:message code="close"/>">                
             </div>
         </div>
     </div>
@@ -290,15 +290,15 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><spring:message code="dashboard.Modal.jsonEditor"/></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>                
             </div>
             <div class="modal-body">
                 <div id="dasheditor"></div>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal"value="<spring:message code="close"/>">
-                <input type="button" id="applyrowjson" class="btn btn-ok" value="<spring:message code="apply"/>">
+                <input type="button" id="applyrowjson" class="btn btn-ok btn-outline-success" value="<spring:message code="apply"/>">
+                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal"value="<spring:message code="close"/>">                
             </div>
         </div>
     </div>

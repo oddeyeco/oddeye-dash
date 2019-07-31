@@ -9,7 +9,8 @@
     Created on : Feb 23, 2017, 9:31:26 AM
     Author     : vahan
 --%>
-<div class="x_panel">    
+<div class="card shadow">    
+    <div class="card-body">   
     <form:form method="post" action="${cp}/${path}/edit/${model.id}/?${_csrf.parameterName}=${_csrf.token}" modelAttribute="model" novalidate="true" cssClass="form-horizontal form-label-left" enctype="multipart/form-data">                            
     <form:hidden path="id" />                            
     <c:forEach items="${configMap}" var="config">
@@ -170,6 +171,7 @@
         </c:choose> 
     </c:forEach>         
 </form:form>                                                
+</div>
 </div>
 <c:catch var="e">
     <c:import url="${path}.jsp" />

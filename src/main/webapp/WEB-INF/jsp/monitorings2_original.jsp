@@ -145,24 +145,15 @@
                                         </td>
                                         <td class="card-fields value">
                                             <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
-                                                <option value="actions" label="actions" key="actions"><spring:message code="monitorings2.displayFieldsActions"/>
-                                                </option>
-                                                <option value="level" label="Level" key="levelname" ><spring:message code="level"/>
-                                                </option> 
-                                                <option value="updatecounter"  key="updatecounter" label="Update Counter"><spring:message code="monitorings2.displayFieldsUpdateCounter"/>
-                                                </option>                                                          
-                                                <option value="updateinterval"  key="updateinterval" label="Update Interval"><spring:message code="monitorings2.displayFieldsUpdateInterval"/>
-                                                </option>                                                                                                   
-                                                <option value="info_name"  key="info.name" label="Metric name"><spring:message code="metricName"/>
-                                                </option>                                                    
-                                                <option value="Start_Time"  key="StartTime" label="Start Time"><spring:message code="startTime"/>
-                                                </option> 
-                                                <option value="Last_Time"  key="LastTime" label="Last Time"><spring:message code="lastTime"/>
-                                                </option>   
-                                                <option value="duration"  key="duration" label="Duration"><spring:message code="duration"/>
-                                                </option>                                                                                                    
-                                                <option value="info"  key="info" label="Info"><spring:message code="info"/>
-                                                </option>                                                          
+                                                <option value="actions" label="actions" key="actions"><spring:message code="monitorings2.displayFieldsActions"/></option>
+                                                <option value="level" label="Level" key="levelname" ><spring:message code="level"/></option> 
+                                                <option value="updatecounter"  key="updatecounter" label="Update Counter"><spring:message code="monitorings2.displayFieldsUpdateCounter"/></option>                                                          
+                                                <option value="updateinterval"  key="updateinterval" label="Update Interval"><spring:message code="monitorings2.displayFieldsUpdateInterval"/></option>                                                                                                   
+                                                <option value="info_name"  key="info.name" label="Metric name"><spring:message code="metricName"/></option>                                                    
+                                                <option value="Start_Time"  key="StartTime" label="Start Time"><spring:message code="startTime"/></option> 
+                                                <option value="Last_Time"  key="LastTime" label="Last Time"><spring:message code="lastTime"/></option>   
+                                                <option value="duration"  key="duration" label="Duration"><spring:message code="duration"/></option>                                                                                                    
+                                                <option value="info"  key="info" label="Info"><spring:message code="info"/></option>                                                          
                                                 <optgroup label="<spring:message code="tags"/>">
                                                     <c:forEach items="${list}" var="tagitem">   
                                                         <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
@@ -170,8 +161,7 @@
                                                                 key="info.tags.${tagitem.key}.value" label="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
                                                     </c:forEach>                                
                                                 </optgroup>
-                                                <option value="message" key="message" label="message"><spring:message code="monitorings2.displayFieldsMessage"/>
-                                                </option>                                                                                               
+                                                <option value="message" key="message" label="message"><spring:message code="monitorings2.displayFieldsMessage"/></option>                                                                                               
                                             </select>                                                                                  
 
                                         </td>

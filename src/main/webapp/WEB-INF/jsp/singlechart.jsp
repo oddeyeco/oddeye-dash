@@ -6,7 +6,7 @@
     <div class="col-12">
         <div class="card shadow">
             <h4 class="card-header">
-              <spring:message code="singlechart.chartFor.h1" arguments="${cp},${metric.sha256Code()},${metric.getDisplayName()},${metric.getTypeName()}"/> 
+                    <spring:message code="singlechart.chartFor.h1" arguments="${cp},${metric.sha256Code()},${metric.getDisplayName()},${metric.getTypeName()}"/>
             </h4>
             <div class="card-body row metriqs">
                 <div class="col-6">
