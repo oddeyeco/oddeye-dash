@@ -5,7 +5,7 @@
 --%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <div id="confirmError" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -97,11 +97,18 @@
                     <form:hidden path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                        
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="timezone" />
                 </div>
+                <c:if test="${dashProp.captchaOn eq 'true'}" >
                 <div class="form-group">                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
-                    <div id="recaptcha" data-sitekey="6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY"></div>                
+                    <div id="recaptcha" data-sitekey="${dashProp.captchaSiteKey}"></div>                
                     <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="signUp"/></button>
                 </div>
+                </c:if>
+                <c:if test="${dashProp.captchaOn ne 'true'}" >
+                <div class="form-group">                    
+                    <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="signUp"/></button>
+                </div>
+                </c:if>
 
                 <div class="clearfix"></div>
                 <div class="separator">

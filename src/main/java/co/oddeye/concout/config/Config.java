@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.config;
 
+import co.oddeye.concout.beans.DashProperties;
 import co.oddeye.concout.beans.WhiteLabelResolver;
 import co.oddeye.concout.convertor.StringToDoubleConvertor;
 import co.oddeye.concout.convertor.StringToOddeyeUserModelConverter;
@@ -79,16 +80,23 @@ public class Config implements WebMvcConfigurer {
         registry.addConverter(stringToDoubleConvertor);
         registry.addConverter(stringToOddeyeUserModelConverter);
     }
-
+    
     @Bean
     @Order(0)
     public WhiteLabelResolver whiteLabelResolver() {
         return new WhiteLabelResolver();
     }
 
+    @Bean(name="dashProp")
+    public DashProperties dashProperties() {
+        return new DashProperties();
+    }
+    
     @Bean
     public UrlBasedViewResolver setupViewResolver() {
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();
+        resolver.setExposeContextBeansAsAttributes(true);
+        resolver.setExposedContextBeanNames("dashProp");
         resolver.setPrefix("/WEB-INF/jsp/");
         resolver.setSuffix(".jsp");
         resolver.setViewClass(JstlView.class);        

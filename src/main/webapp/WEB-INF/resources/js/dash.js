@@ -332,7 +332,7 @@ var queryCallback = function (inputdata) {
 // ---- /tooltip.triggerOn + tooltip.enterable 
         if (data.chartsdata)
         {
-            if (widget.type === "counter")
+            if (widget.type === "counter" || widget.type === "status")
             {
                 for (var dindex in data.chartsdata)
                 {
@@ -1016,7 +1016,7 @@ var queryCallback = function (inputdata) {
                 }
             }
 
-            if (widget.type === "counter")
+            if (widget.type === "counter" || widget.type === "status")
             {
                 if (!redraw)
                 {
@@ -2235,10 +2235,10 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     }
     count.value = count.base;
     var oldseries = {};
-    if (widget.type === "counter")
+    if (widget.type === "counter" || widget.type === "status")
     {
         oldseries = clone_obg(widget.series);
-    } else
+    } else    
     {
         oldseries = clone_obg(widget.options.series);
         widget.options.series = [];
@@ -2319,7 +2319,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         }
         
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-        if (widget.type === "counter")
+        if (widget.type === "counter" || widget.type === "status")
         {
             widget.data = [];
             if (getParameterByName('metrics', uri))
@@ -2339,7 +2339,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         success: queryCallback(inputdata),
                         error: function (xhr, error) {
                             console.log(widget.type);
-                            if (widget.type === "counter")
+                            if (widget.type === "counter" || widget.type === "status")
                             {
 
                             } else
@@ -2629,7 +2629,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 chartobj.find(".echart_time").attr("id", "echart_line");
             }
 
-            if (tmprow.widgets[wi].type !== "counter")
+            if (tmprow.widgets[wi].type !== "counter" && tmprow.widgets[wi].type !== "status")
             {
                 if (typeof (tmprow.widgets[wi].options) === "undefined")
                 {
@@ -2649,7 +2649,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             {
                 if (!tmprow.widgets[wi].echartLine || !redraw)
                 {
-                    if (tmprow.widgets[wi].type === "counter")
+                    if (tmprow.widgets[wi].type === "counter" || tmprow.widgets[wi].type === "status")
                     {
                         $("#echart_line" + ri + "_" + wi).removeAttr("style");
                         tmprow.widgets[wi].echartLine = $("#echart_line" + ri + "_" + wi);
@@ -2661,7 +2661,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 setdatabyQ(dashJSON, ri, wi, "getdata", redraw);
             } else
             {
-                if (tmprow.widgets[wi].type === "counter")
+                if (tmprow.widgets[wi].type === "counter" || tmprow.widgets[wi].type === "status")
                 {
                     $("#echart_line" + ri + "_" + wi).removeAttr("style");
                 } else
@@ -2803,6 +2803,10 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         var title = locale[acprefix + ".counter"];
     }
+    if (W_type === "status")
+    {
+        var title = locale[acprefix + ".status"];
+    }
     if (W_type === "heatmap")
     {
         var title = locale[acprefix + ".heatmap"];
@@ -2848,6 +2852,16 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
                 Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
+            }
+        } else if (W_type === "status")
+        {
+            $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
+                    '<div class="counter_single" id="counter_single"></div>' +
+                    '</div>');
+            if (!readonly)
+            {
+                $(".right_col .editpanel").append('<div class="x_content edit-form">');
+                Edit_Form = new StatusEditForm($(".edit-form"), row, index, dashJSON, domodifier);
             }
         } else if (W_type === "table")
         {
@@ -2900,7 +2914,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         var wraper = $(".right_col .editpanel #singlewidget");
     }
-    if (W_type === "counter")
+    if (W_type === "counter" || W_type === "status")
     {
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
@@ -3862,6 +3876,33 @@ $(document).ready(function () {
         AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
     });
+
+    $('body').on("click", ".addstatus", function () {
+
+        for (var ri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[ri].widgets)
+            {
+                if (gdd.rows[ri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+                }
+            }
+        }
+        var ri = $(this).parents(".widgetraw").index();
+        if (!gdd.rows[ri].widgets)
+        {
+            gdd.rows[ri].widgets = [];
+        }
+        var wi = gdd.rows[ri].widgets.length;
+        gdd.rows[ri].widgets.push({type: "status", size: 2});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
+        domodifier();
+        AutoRefreshSingle(ri, wi);
+        $RIGHT_COL.css('min-height', $(window).height());
+    });
+
+
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
         senddata = {};
@@ -4453,7 +4494,7 @@ window.onresize = function () {
                         }
                         if (gdd.rows[ri].widgets[wi].visible)
                         {
-                            if (gdd.rows[ri].widgets[wi].type !== "counter")
+                            if (gdd.rows[ri].widgets[wi].type !== "counter" && gdd.rows[ri].widgets[wi].type !== "status")
                             {
                                 chart.resize();
                             }
