@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import static co.oddeye.concout.controllers.dataControlers.LOGGER;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
@@ -15,6 +16,7 @@ import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
 import co.oddeye.concout.core.SendToKafka;
 import co.oddeye.concout.model.OddeyeUserDetails;
+import co.oddeye.core.ErrorState;
 import co.oddeye.core.OddeeyMetricTypesEnum;
 import co.oddeye.core.OddeyeHttpURLConnection;
 import com.google.gson.Gson;
@@ -23,16 +25,27 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.stumbleupon.async.Deferred;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.opentsdb.core.DataPoint;
 import net.opentsdb.core.DataPoints;
 import net.opentsdb.core.SeekableView;
 import net.opentsdb.utils.DateTime;
+import org.apache.commons.lang.ArrayUtils;
+import org.hbase.async.GetRequest;
+import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 //import com.google.gson.JsonObject;
@@ -304,6 +317,69 @@ public class AjaxControlers {
 
         return "ajax";
     }
+
+    @RequestMapping(value = {"/getSpecialMetricsNames"})
+    public String getSpecialMetricsNames(
+            @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
+            ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+        JsonArray jsondata = new JsonArray();
+        OddeyeUserModel userDetails = null;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+        }
+
+        if (userDetails != null) {
+            try {
+                if ((userDetails.getSwitchUser() != null)) {
+                    if (userDetails.getSwitchUser().getAlowswitch()) {
+                        userDetails = userDetails.getSwitchUser();
+                    }
+                }
+                String[] tagslist = tags.split(";");
+                final Map<String, String> tagsMap = new HashMap<>();
+                for (String tag : tagslist) {
+                    String[] tgitem = tag.split("=");
+                    if (tgitem.length == 2) {
+                        if (tgitem[1].equals("")) {
+                            tgitem[1] = "*";
+                        }
+                        tagsMap.put(tgitem[0], tgitem[1]);
+                    }
+                }
+
+                if (filter.equals("") || filter.equals("*")) {
+                    filter = "^(.*)$";
+                }
+                ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
+                jsonResult.addProperty("sucsses", true);
+
+                ArrayList<String> data = new ArrayList<>();
+
+                data.addAll(Metriclist.getSpecialNameSorted());
+                jsonResult.addProperty("specialcount", data.size());
+
+                Gson gson = new Gson();
+
+                jsondata.addAll(gson.toJsonTree(data).getAsJsonArray());
+                
+                jsonResult.addProperty("count", data.size());
+                jsonResult.add("data", jsondata);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+        map.put("jsonmodel", jsonResult);
+
+        return "ajax";
+    }
+
 
     @RequestMapping(value = {"/gettypesinfo"})
     public String GetMetricsTypesInfo(ModelMap map) {
