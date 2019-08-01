@@ -2837,12 +2837,12 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         } else if (W_type === "status")
         {
             $(".right_col .editpanel").append('<div class="' + " col-xs-12 col-md-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
-                    '<div class="counter_single" id="counter_single"></div>' +
-                    '</div>');
+                    '<div class="status_single" id="status_single"></div>'+'</div>');
             if (!readonly)
             {
                 $(".right_col .editpanel").append('<div class="x_content edit-form">');
                 Edit_Form = new StatusEditForm($(".edit-form"), row, index, dashJSON, domodifier);
+//                Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
             }
         } else if (W_type === "table")
         {
