@@ -20,7 +20,7 @@ class StatusEditForm extends EditForm {
         var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom", content: [
                     {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_text"},
-                    {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'title.text', default: ""},
+                    {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'title.text', default: ""}
                 ]}];
 
         this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
