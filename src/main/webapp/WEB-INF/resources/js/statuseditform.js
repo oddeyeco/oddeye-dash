@@ -8,6 +8,22 @@
 /* global locale */
 
 class StatusEditForm extends EditForm {
+    makeMetricInput(metricinput, wraper, metricFilter)
+    {
+        var tags = "";
+        wraper.parents("form").find(".tagspan .text").each(function () {
+            tags = tags + $(this).text().replace("*", "(.*)") + ";";
+        });
+
+        var uri = cp + "/getSpecialMetricsNames?tags=" + tags + "&filter=" + encodeURIComponent("^(.*)$");
+        $.getJSON(uri, null, function (data) {
+            metricinput.autocomplete({
+                lookup: data.data,
+                minChars: 0
+            });
+        });
+    }    
+    
     inittabcontent()
     {
         super.inittabcontent();

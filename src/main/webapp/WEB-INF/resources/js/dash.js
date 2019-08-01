@@ -2125,6 +2125,13 @@ function datafunc() {
     return d;
 }
 
+function getURL(type) {
+    if(type === "status")
+        return "getStatusData";
+    else
+        return "getdata"
+}
+
 var lockq = {};
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
     if (lockq[ri + " " + wi])
@@ -2639,7 +2646,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         tmprow.widgets[wi].echartLine = echarts.init(document.getElementById("echart_line" + ri + "_" + wi), 'oddeyelight');
                     }
                 }
-                setdatabyQ(dashJSON, ri, wi, "getdata", redraw);
+                setdatabyQ(dashJSON, ri, wi, getURL(tmprow.widgets[wi].type), redraw);
             } else
             {
                 if (tmprow.widgets[wi].type === "counter" || tmprow.widgets[wi].type === "status")
@@ -2899,7 +2906,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
-            setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
+            setdatabyQ(dashJSON, row, index, getURL(W_type), redraw, callback, $(".right_col .editpanel #singlewidget"));
         } else
         {
 //                updatecounter($(".right_col .editpanel"), dashJSON.rows[row].widgets[index]);
@@ -3020,7 +3027,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         }
 
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
-        {
+        {   // typeNotStatus
             setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, echartLine);
         } else
         {
@@ -3650,7 +3657,7 @@ $(document).ready(function () {
             if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
                     (gdd.rows[ri].widgets[wi].type === 'pie') ||
                     (gdd.rows[ri].widgets[wi].type === 'funnel'))
-            {
+            {   // typeNotStatus
                 setdatabyQ(gdd, ri, wi, "getdata", false);
             }
         }
@@ -3671,7 +3678,7 @@ $(document).ready(function () {
             if ((gdd.rows[ri].widgets[wi].type === 'gauge') ||
                     (gdd.rows[ri].widgets[wi].type === 'pie') ||
                     (gdd.rows[ri].widgets[wi].type === 'funnel'))
-            {
+            {   // typeNotStatus
                 setdatabyQ(gdd, ri, wi, "getdata", false);
             }
         }
@@ -4431,7 +4438,7 @@ $(document).on('scroll', function () {
                             {
                                 if (typeof (gdd.rows[ri].widgets[wi].q) !== "undefined")
                                 {
-                                    setdatabyQ(gdd, ri, wi, "getdata", false);
+                                    setdatabyQ(gdd, ri, wi, getURL(gdd.rows[ri].widgets[wi].type), false);
                                 }
                             }
                         }
@@ -4470,7 +4477,7 @@ window.onresize = function () {
                         {
                             if (typeof (gdd.rows[ri].widgets[wi].q) !== "undefined")
                             {
-                                setdatabyQ(gdd, ri, wi, "getdata", false);
+                                setdatabyQ(gdd, ri, wi, getURL(gdd.rows[ri].widgets[wi].type), false);
                             }
                         }
                         if (gdd.rows[ri].widgets[wi].visible)

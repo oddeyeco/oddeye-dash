@@ -1591,7 +1591,7 @@ class EditForm {
         return object;
     }
 
-    makeMetricInput(metricinput, wraper)
+    makeMetricInput(metricinput, wraper, metricFilter)
     {
         var tags = "";
         wraper.parents("form").find(".tagspan .text").each(function () {
