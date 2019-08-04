@@ -1163,7 +1163,6 @@ var queryCallback = function (inputdata) {
                 {
                     chart.html("");
                 }
-;
 
                 chart.find(".chartsection").addClass("tmpfix");
                 for (var dindex in data.chartsdata)
