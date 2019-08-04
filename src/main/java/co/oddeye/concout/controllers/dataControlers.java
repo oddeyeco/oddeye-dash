@@ -33,6 +33,8 @@ import java.util.Set;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang.ArrayUtils;
@@ -292,6 +294,20 @@ public class dataControlers {
         return "index";
     }
     
+    private static boolean matches(OddeeyMetricMeta meta, Map<String, Pattern> filterTags) {
+        Map<String, OddeyeTag> valueTags = meta.getTags();
+        for(String valueTagName : valueTags.keySet()) {
+            if(filterTags.containsKey(valueTagName)) {
+                final Pattern p = filterTags.get(valueTagName);
+                final OddeyeTag valueTag = valueTags.get(valueTagName);
+                final Matcher m = p.matcher(valueTag.getValue());
+                if(!m.matches())
+                    return false;
+            }
+        }
+        return true;
+    }
+    
     @RequestMapping(value = "/getStatusData", method = RequestMethod.GET)
     public String getStatusData(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) String hash,
@@ -310,7 +326,25 @@ public class dataControlers {
         }
 
         Gson gson = new Gson();
-        Map<String, String> Tagmap;
+        Map<String, Pattern> tagMap = new HashMap<>();
+        if(null != tags) {
+            String tagsArray[] = tags.split(";");
+            for(String tagNameValue : tagsArray) {
+                String tagNameValueSplitted[] = tagNameValue.split("=");
+                if(tagNameValueSplitted.length > 1) {
+                    String filter = tagNameValueSplitted[1];
+                    if(!"UUID".equals(filter)){
+                        Pattern p;
+                        if("*".equals(filter))
+                            p = Pattern.compile(".*");
+                        else
+                            p = Pattern.compile(filter);
+                        tagMap.put(tagNameValueSplitted[0], p);
+                    }
+                }
+            }  
+        }
+        
         JsonObject jsonMessages = new JsonObject();
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
@@ -328,7 +362,7 @@ public class dataControlers {
             Map<String, OddeeyMetricMeta> foundMetrics = new HashMap<>();            
             if ((hash != null)) {
                 OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(hash);
-                if (metric == null) {
+                if (metric == null && matches(metric, tagMap)) {
                     foundMetrics.put(hash, metric);
                 }
             }
@@ -345,7 +379,7 @@ public class dataControlers {
                 
                 for(String hashKey : metricList.keySet()) {
                     OddeeyMetricMeta nextMetric = metricList.get(hashKey);
-                    if(metricsNamesSet.contains(nextMetric.getName())){
+                    if(metricsNamesSet.contains(nextMetric.getName()) && matches(nextMetric, tagMap)){
                         foundMetrics.put(hashKey, nextMetric);
                     }
                 }
@@ -357,20 +391,24 @@ public class dataControlers {
                         ErrorState es = getMetricRecentState(metric2check, timezone);
                         if(null!= es) {
                             JsonObject jsonMessage = new JsonObject();
-                            jsonMessage.addProperty("Name", metric2check.getName());
-                            jsonMessage.addProperty("Level", es.getLevelName());
-                            jsonMessage.addProperty("Info", es.getMessage());
-                            jsonMessage.addProperty("LastTime", es.getTimeend());
-                            long duration;
-                            if(0 != es.getTimeend())
-                                duration = es.getTimeend() - es.getTimestart();
-                            else
-                                duration = System.currentTimeMillis() - es.getTimestart();
-                            jsonMessage.addProperty("Durarion", duration);
-                            jsonMessage.addProperty("StartTime", es.getTimestart());                            
-                            jsonMessages.add(hashKey, jsonMessage);
+                            jsonMessage.addProperty("name", metric2check.getName());
+                            jsonMessage.addProperty("level", es.getLevelName());
+                            jsonMessage.addProperty("info", es.getMessage());
+                            jsonMessage.addProperty("start", es.getTimestart());
+                            jsonMessage.addProperty("end", es.getTimeend());
+
+                            JsonObject tagsMessage = new JsonObject();
+                            for(OddeyeTag tag : metric2check.getTags().values()) {
+                                String tagName = tag.getKey();
+                                if(!"UUID".equals(tagName)) {
+                                    tagsMessage.addProperty(tagName, tag.getValue());
+                                }
+                            }
+                            jsonMessage.add("tags", tagsMessage);
+                            jsonMessages.add(hashKey, jsonMessage);                            
                         }
-                    }
+
+                     }
                     jsonResult.add("chartsdata", jsonMessages);
                 } catch (Exception e) {
                     LOGGER.error(globalFunctions.stackTrace(e));
