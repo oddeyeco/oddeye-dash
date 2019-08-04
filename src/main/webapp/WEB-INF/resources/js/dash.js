@@ -313,7 +313,43 @@ var queryCallback = function (inputdata) {
 // ---- /tooltip.triggerOn + tooltip.enterable 
         if (data.chartsdata)
         {
-            if (widget.type === "counter" || widget.type === "status")
+            if (widget.type === "counter")
+            {
+                for (var dindex in data.chartsdata)
+                {
+                    var name;
+                    if (widget.title)
+                    {
+                        name = widget.title.text;
+                    } else
+                    {
+                        name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
+                    }
+                    if (widget.title)
+                    {
+                        var name2 = widget.title.text;
+                    }
+
+                    if (typeof (widget.q[q_index].info) !== "undefined")
+                    {
+                        if (widget.q[q_index].info.alias)
+                        {
+                            if (widget.q[q_index].info.alias !== "")
+                            {
+                                name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[dindex]);
+                            }
+                        }
+                        if (widget.q[q_index].info.alias2)
+                        {
+                            if (widget.q[q_index].info.alias2 !== "")
+                            {
+                                name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[dindex]);
+                            }
+                        }
+                    }
+                    widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
+                }
+            } else if (widget.type === "status")
             {
                 for (var dindex in data.chartsdata)
                 {
@@ -997,7 +1033,7 @@ var queryCallback = function (inputdata) {
                 }
             }
 
-            if (widget.type === "counter" || widget.type === "status")
+            if (widget.type === "counter")
             {
                 if (!redraw)
                 {
@@ -1109,6 +1145,42 @@ var queryCallback = function (inputdata) {
                     {
                         JQcounter.find(".count .number").text(avalue[numberindex]);
                     }
+                }
+                chart.find(".tmpfix").remove();
+                if (chart.find(".chartsection").length === 0)
+                {
+                    JQcounter = $(basecounter);
+                    chart.append(JQcounter);
+                    JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
+                    JQcounter.find('.tile-stats h3').text("No data");
+                    chart.append(JQcounter);
+                }
+                lockq[ri + " " + wi] = false;
+
+            } else if (widget.type === "status")
+            {
+                if (!redraw)
+                {
+                    chart.html("");
+                }
+;
+
+                chart.find(".chartsection").addClass("tmpfix");
+                for (var dindex in data.chartsdata)
+                {
+                    var statusInfo = data.chartsdata[dindex];
+                    var textInfo = 
+                            "metric:[" + statusInfo.metric + "] "+
+                            "level:[" + statusInfo.level + "] "+
+                            "info:[" + statusInfo.info + "] "+
+                            "start:[" + statusInfo.start + "] "+
+                            "end:[" + statusInfo.end + "] "+
+                            "tags:" + JSON.stringify(statusInfo.tags);
+                    var JQcounter = $(basecounter);
+                    chart.append(JQcounter);
+                    JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
+                    JQcounter.find('.tile-stats h3').text(textInfo);
+ //                   chart.append(JQcounter);                    
                 }
                 chart.find(".tmpfix").remove();
                 if (chart.find(".chartsection").length === 0)
@@ -2223,7 +2295,11 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     }
     count.value = count.base;
     var oldseries = {};
-    if (widget.type === "counter" || widget.type === "status")
+    if (widget.type === "counter")
+    {
+        oldseries = clone_obg(widget.series);
+    } else
+    if (widget.type === "status")
     {
         oldseries = clone_obg(widget.series);
     } else    
@@ -2307,7 +2383,47 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         }
         
         var uri = cp + "/" + url + "?" + query + "&startdate=" + start + "&enddate=" + end;
-        if (widget.type === "counter" || widget.type === "status")
+        if (widget.type === "counter")
+        {
+            widget.data = [];
+            if (getParameterByName('metrics', uri))
+            {
+                if (prevuri !== uri)
+                {
+                    if (chart.attr("id") === "singlewidget")
+                    {
+                        chart.attr("class", " col-xs-12 col-sm-" + widget.size);
+                    }
+                    var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
+                    lockq[ri + " " + wi] = true;
+                    $.ajax({
+                        dataType: "json",
+                        url: uri,
+                        data: null,
+                        success: queryCallback(inputdata),
+                        error: function (xhr, error) {
+                            console.log(widget.type);
+                            if (widget.type === "counter" || widget.type === "status")
+                            {
+
+                            } else
+                            {
+                                chart.hideLoading();
+                            }
+                            $(chart).before("<h2 class='error'>Invalid Query");
+                        }
+                    });
+                } else
+                {
+                    if (!whaitlist[uri])
+                    {
+                        whaitlist[uri] = [];
+                    }
+                    whaitlist[uri].push([k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end, null, uri]);
+                }
+                prevuri = uri;
+            }
+        } else if (widget.type === "status")
         {
             widget.data = [];
             if (getParameterByName('metrics', uri))
