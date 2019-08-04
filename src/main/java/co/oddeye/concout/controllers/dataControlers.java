@@ -18,6 +18,7 @@ import co.oddeye.core.OddeeyMetricMeta;
 import co.oddeye.core.OddeyeTag;
 import co.oddeye.core.globalFunctions;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.util.ArrayList;
@@ -391,11 +392,12 @@ public class dataControlers {
                         ErrorState es = getMetricRecentState(metric2check, timezone);
                         if(null!= es) {
                             JsonObject jsonMessage = new JsonObject();
-                            jsonMessage.addProperty("name", metric2check.getName());
+                            jsonMessage.addProperty("metric", metric2check.getName());
                             jsonMessage.addProperty("level", es.getLevelName());
                             jsonMessage.addProperty("info", es.getMessage());
                             jsonMessage.addProperty("start", es.getTimestart());
                             jsonMessage.addProperty("end", es.getTimeend());
+                            jsonMessage.add("data", new JsonArray());
 
                             JsonObject tagsMessage = new JsonObject();
                             for(OddeyeTag tag : metric2check.getTags().values()) {
