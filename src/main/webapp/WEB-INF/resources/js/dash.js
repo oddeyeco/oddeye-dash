@@ -1174,11 +1174,20 @@ var queryCallback = function (inputdata) {
                             "info:[" + statusInfo.info + "] "+
                             "start:[" + statusInfo.start + "] "+
                             "end:[" + statusInfo.end + "] "+
-                            "tags:" + JSON.stringify(statusInfo.tags);
-                    var JQcounter = $(basecounter);
+                            "tags:" + JSON.stringify(statusInfo.tags);                    
+                    
+                    var basecounterStatus = '<div class="animated flipInY col-xs-6 chartsection" >' +
+                            '<div class="tile-stats" id="metricStatus">' +
+                                '<h3>'+'<div class="metricname">' + statusInfo.metric + '</div>' + '</h3>' +                                
+                                '<div class="label label-info level">' + statusInfo.level + '</div>' +
+                                '<div class="tags">'+ JSON.stringify(statusInfo.tags)+'</div>' + 
+                                '<div class="message">' + statusInfo.info + '</div>' +                                       
+                            '</div>' +
+                        '</div>';
+                    var JQcounter = $(basecounterStatus);
                     chart.append(JQcounter);
                     JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
-                    JQcounter.find('.tile-stats h3').text(textInfo);
+//                    JQcounter.find('.tile-stats h3').text(textInfo);
  //                   chart.append(JQcounter);                    
                 }
                 chart.find(".tmpfix").remove();
@@ -3998,7 +4007,7 @@ $(document).ready(function () {
             gdd.rows[ri].widgets = [];
         }
         var wi = gdd.rows[ri].widgets.length;
-        gdd.rows[ri].widgets.push({type: "status", size: 2});
+        gdd.rows[ri].widgets.push({type: "status", size: 4});
         window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
         domodifier();
         AutoRefreshSingle(ri, wi);
