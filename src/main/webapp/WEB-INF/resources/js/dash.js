@@ -1163,10 +1163,15 @@ var queryCallback = function (inputdata) {
                 {
                     chart.html("");
                 }
+                widget.data.sort(function (a, b) {
+                    return compareNameName(a, b);
+                });
 
                 chart.find(".chartsection").addClass("tmpfix");
-                for (var dindex in data.chartsdata)
+                for (var val in widget.data)
                 {
+                    var JQcounter;
+                    var dataarray = widget.data[val].data;
                     var statusInfo = data.chartsdata[dindex];
                     var textInfo = 
                             "metric:[" + statusInfo.metric + "] "+
@@ -1174,21 +1179,50 @@ var queryCallback = function (inputdata) {
                             "info:[" + statusInfo.info + "] "+
                             "start:[" + statusInfo.start + "] "+
                             "end:[" + statusInfo.end + "] "+
-                            "tags:" + JSON.stringify(statusInfo.tags);                    
-                    
+                            "tags:" + JSON.stringify(statusInfo.tags);
                     var basecounterStatus = '<div class="animated flipInY col-xs-6 chartsection" >' +
                             '<div class="tile-stats" id="metricStatus">' +
-                                '<h3>'+'<div class="metricname">' + statusInfo.metric + '</div>' + '</h3>' +                                
+                                '<div class="metricname">' + statusInfo.metric + '</div>' + 
                                 '<div class="label label-info level">' + statusInfo.level + '</div>' +
-                                '<div class="tags">'+ JSON.stringify(statusInfo.tags)+'</div>' + 
+                                '<div class="tags">'+ JSON.stringify(statusInfo.tags)+'</div>' +
+                                '<p class="alias2"></p>'+                           
                                 '<div class="message">' + statusInfo.info + '</div>' +                                       
                             '</div>' +
                         '</div>';
-                    var JQcounter = $(basecounterStatus);
-                    chart.append(JQcounter);
-                    JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
-//                    JQcounter.find('.tile-stats h3').text(textInfo);
- //                   chart.append(JQcounter);                    
+                    JQcounter = chart.find("#" + widget.data[val].id + val);
+                    if ((!redraw) || (JQcounter.length === 0))
+                    {
+                        JQcounter = $(basecounterStatus);
+                        chart.append(JQcounter);
+                        if (!widget.col)
+                        {
+                            widget.col = 6;
+                        }
+                        JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);
+                        JQcounter.find('.tile-stats div.tags').text(widget.data[val].name);
+                        if (widget.title)
+                        {
+                            if (widget.title.textStyle)
+                            {
+                                JQcounter.find('.tile-stats div.tags').css(widget.title.textStyle);
+                            }
+                            if (widget.title.subtextStyle)
+                            {
+                                JQcounter.find('.tile-stats p.alias2').css(widget.title.subtextStyle);
+                            }
+                        }
+                        JQcounter.find('.tile-stats p.alias2').text(widget.data[val].name2);
+
+                        if (widget.style)
+                        {
+                            JQcounter.find('.tile-stats').css(widget.style);
+                        }
+                        JQcounter.attr("id", widget.data[val].id + val);
+                    } else
+                    {
+                        JQcounter.removeClass("tmpfix");
+                        JQcounter = chart.find("#" + widget.data[val].id + val);
+                    }  
                 }
                 chart.find(".tmpfix").remove();
                 if (chart.find(".chartsection").length === 0)
@@ -1201,7 +1235,8 @@ var queryCallback = function (inputdata) {
                 }
                 lockq[ri + " " + wi] = false;
 
-            } else if (widget.type === "heatmap")
+            }
+             else if (widget.type === "heatmap")
             {
                 var xdata = Object.keys(widget.data.xjson);
                 xdata.sort();
