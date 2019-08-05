@@ -28,7 +28,8 @@ class StatusEditForm extends EditForm {
     {
         super.inittabcontent();
 //        console.log(this.tabcontent.tab_general.forms[0]);
-        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form-group form-group-custom", content: [
+        
+        this.tabcontent.tab_general.forms[0].content[2] = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
                 {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
             ]};
@@ -41,19 +42,14 @@ class StatusEditForm extends EditForm {
 
         this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
 
-//        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form-group form-group-custom", content: [
-//                {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
-//                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
-//            ]};
-
-        this.tabcontent.tab_display = {};//suren
+        this.tabcontent.tab_display = {};
 
         var edit_display = {tag: "div", class: 'forms', id: "edit_display"};
         edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
                 content: [
 
                     {tag: "div", class: "form-group form-group-custom text-center h4", content: [
-                            {tag: "label", class: "control-label", text: locale["countereditform.backgroundColors"]},
+                            {tag: "label", class: "control-label", text: locale["countereditform.backgroundColors"]}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
@@ -187,17 +183,11 @@ class StatusEditForm extends EditForm {
                 ]}
         ];
 
-
-//                    {tag: "div", class: "form-group form-group-custom", content: [
-//                            {tag: "label", class: "control-label control-label-custom-legend", text: "Unit", lfor: "axes_unit_y"},
-//                            {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
-//                        ]},
-
-        this.tabcontent.tab_display.forms = [edit_display];//suren            
-        this.tabcontent.tab_metric.forms[0].content[0].template[0].content[4].content.push({tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.unit"], lfor: "axes_unit_y"},
-                {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
-            ]}, );
+        this.tabcontent.tab_display.forms = [edit_display];
+        
+        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.shift();
+        this.tabcontent.tab_metric.forms[0].content[0].template[0].content.splice(3, 2);
+        this.tabcontent.tab_metric.forms[0].content[0].template[0].content[2].content.splice(0, 2);                       
         this.tabcontent.tab_metric.active = true;
     }
 
@@ -211,7 +201,6 @@ class StatusEditForm extends EditForm {
         return [{id: "general-tab", title: locale["editchartform.general"], contentid: "tab_general"},
             {id: "metrics-tab", title: locale["metrics"], contentid: "tab_metric"},
             {id: "display-tab", title: locale["display"], contentid: "tab_display"},
-            {id: "time-tab", title: locale["editchartform.timeRange"], contentid: "tab_time"},
             {id: "json-tab", title: locale["editchartform.json"], contentid: "tab_json"}
         ];
     }
