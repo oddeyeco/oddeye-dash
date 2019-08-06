@@ -1799,6 +1799,19 @@ table.filters-table
     margin: 0;
 }
 // ==== statusWidget====
+
+#metricStatus.level_OK {
+     background-color: @background_color_9;
+}
+#metricStatus.level_Severe {
+    background-color: @background_color_4;
+}
+#metricStatus.level_High {
+    background-color: @background_color_5;
+}
+#metricStatus.level_Elevated {
+    background-color: @background_color_6;
+}
 #metricStatus {
     .metricname {
         border: 1px solid #d5d5d5;
@@ -1825,8 +1838,8 @@ table.filters-table
         margin-left: 10px;
     }
     font-weight: bold;
-    background-color: #ffc0c0;
 }
+
 // ==== Switchery ====
 .switchery-small {
     width: 42px;

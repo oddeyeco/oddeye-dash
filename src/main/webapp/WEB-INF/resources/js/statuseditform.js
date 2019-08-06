@@ -27,9 +27,12 @@ class StatusEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
-//        console.log(this.tabcontent.tab_general.forms[0]);
         
-        this.tabcontent.tab_general.forms[0].content[2] = {tag: "div", class: "form-group form-group-custom", content: [
+//        this.tabcontent.tab_general.forms[0].content[2] = {tag: "div", class: "form-group form-group-custom", content: [
+//                {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
+//                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
+//            ]};
+        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
                 {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
             ]};

@@ -349,10 +349,20 @@ var queryCallback = function (inputdata) {
                     }
                     widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
-            } else if (widget.type === "status")
+            }
+            else if (widget.type === "status")
             {
                 for (var dindex in data.chartsdata)
                 {
+                    var metricname = data.chartsdata[dindex].metric;
+                    var metriclevel = data.chartsdata[dindex].level;
+                    var metricinfo = data.chartsdata[dindex].info;
+                    
+                     if (metriclevel === "NaN -1")
+                        {
+                            metriclevel = "OK";
+                        }
+                    
                     var name;
                     if (widget.title)
                     {
@@ -383,7 +393,7 @@ var queryCallback = function (inputdata) {
                             }
                         }
                     }
-                    widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
+                    widget.data.push({data: data.chartsdata[dindex].data,metricinfo: metricinfo, metriclevel: metriclevel, metricname: metricname, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
             } else if (widget.type === "heatmap")
             {
@@ -1158,7 +1168,7 @@ var queryCallback = function (inputdata) {
                 lockq[ri + " " + wi] = false;
 
             } else if (widget.type === "status")
-            {
+            {                
                 if (!redraw)
                 {
                     chart.html("");
@@ -1171,25 +1181,21 @@ var queryCallback = function (inputdata) {
                 for (var val in widget.data)
                 {
                     var JQcounter;
+                    var widgetVal = widget.data[val];
                     var dataarray = widget.data[val].data;
                     var statusInfo = data.chartsdata[dindex];
-                    var textInfo = 
-                            "metric:[" + statusInfo.metric + "] "+
-                            "level:[" + statusInfo.level + "] "+
-                            "info:[" + statusInfo.info + "] "+
-                            "start:[" + statusInfo.start + "] "+
-                            "end:[" + statusInfo.end + "] "+
-                            "tags:" + JSON.stringify(statusInfo.tags);
-                    var basecounterStatus = '<div class="animated flipInY col-xs-6 chartsection" >' +
-                            '<div class="tile-stats" id="metricStatus">' +
-                                '<div class="metricname">' + statusInfo.metric + '</div>' + 
-                                '<div class="label label-info level">' + statusInfo.level + '</div>' +
-                                '<div class="tags">'+ JSON.stringify(statusInfo.tags)+'</div>' +
+                    
+                    var basecounterStatus = 
+                        '<div class="animated flipInY col-xs-6 chartsection" >' +
+                            '<div class="tile-stats level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
+                                '<div class="metricname"></div>' +                           
+                                '<div class="label label-info level"></div>' +
+                                '<div class="tags"></div>' +
                                 '<p class="alias2"></p>'+                           
-                                '<div class="message">' + statusInfo.info + '</div>' +                                       
+                                '<div class="message"></div>' +                                       
                             '</div>' +
                         '</div>';
-                    JQcounter = chart.find("#" + widget.data[val].id + val);
+                    JQcounter = chart.find("#" + widgetVal.id + val);
                     if ((!redraw) || (JQcounter.length === 0))
                     {
                         JQcounter = $(basecounterStatus);
@@ -1198,8 +1204,12 @@ var queryCallback = function (inputdata) {
                         {
                             widget.col = 6;
                         }
-                        JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);
-                        JQcounter.find('.tile-stats div.tags').text(widget.data[val].name);
+                        JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);                        
+                        JQcounter.find('.tile-stats div.tags').text(widgetVal.name);
+                        JQcounter.find('.tile-stats div.metricname').text(widgetVal.metricname);                        
+                        JQcounter.find('.tile-stats div.level').text(widgetVal.metriclevel);                        
+                        JQcounter.find('.tile-stats div.message').text(widgetVal.metricinfo);
+                        
                         if (widget.title)
                         {
                             if (widget.title.textStyle)
@@ -1222,7 +1232,7 @@ var queryCallback = function (inputdata) {
                     {
                         JQcounter.removeClass("tmpfix");
                         JQcounter = chart.find("#" + widget.data[val].id + val);
-                    }  
+                    } 
                 }
                 chart.find(".tmpfix").remove();
                 if (chart.find(".chartsection").length === 0)
