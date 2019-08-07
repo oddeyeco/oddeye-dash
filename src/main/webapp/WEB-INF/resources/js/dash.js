@@ -2333,8 +2333,18 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 end = "now";
                 usePersonalTime = true;
             }
-
         }
+// shift ===============================================      
+        if (widget.times.shift)
+        {
+            if (widget.times.shift !== "off")
+            {
+                start = widget.times.pickerstart - widget.times.shift;
+                end = widget.times.pickerend - widget.times.shift;
+                usePersonalTime = true;
+            }
+        }
+// /shift ===============================================
     }
 
     var count = {"value": widget.q.length, "base": widget.q.length};
