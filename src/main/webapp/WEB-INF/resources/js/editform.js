@@ -1080,8 +1080,7 @@ class EditForm {
         ];
         this.tabcontent.tab_general.forms = [edit_dimensions];
         this.tabcontent.tab_metric.forms = [edit_q];
-
-        
+                
         this.tabcontent.tab_time = {};
         var edit_time = {tag: "form", class: 'form-horizontal form-label-left edit-times', id: "edit_time"};
         edit_time.content = [{tag: "div", class: "form-group form-group-custom pull-left filter", content: [
