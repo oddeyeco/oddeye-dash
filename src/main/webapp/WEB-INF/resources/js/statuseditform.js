@@ -37,7 +37,7 @@ class StatusEditForm extends EditForm {
                 {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
             ]};
         
-        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
+        var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left float-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
         edit_chart_title.content = [{tag: "div", class: "form-group form-group-custom", content: [
                     {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_text"},
                     {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'title.text', default: ""}
@@ -48,7 +48,7 @@ class StatusEditForm extends EditForm {
         this.tabcontent.tab_display = {};
 
         var edit_display = {tag: "div", class: 'forms', id: "edit_display"};
-        edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
+        edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display float-left counter-colors",
                 content: [
 
                     {tag: "div", class: "form-group form-group-custom text-center h4", content: [
@@ -107,7 +107,7 @@ class StatusEditForm extends EditForm {
                         ]}
                 ]},
             //**********************************
-            {tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
+            {tag: "div", class: "form-horizontal form-label-left edit-display float-left counter-colors",
                 content: [
 
                     {tag: "div", class: "form-group form-group-custom text-center h4", content: [
@@ -156,7 +156,7 @@ class StatusEditForm extends EditForm {
                         ]}
                 ]},
             //*************************************
-            {tag: "div", class: "form-horizontal form-label-left edit-display pull-left",
+            {tag: "div", class: "form-horizontal form-label-left edit-display float-left",
                 content: [
 
                     {tag: "div", class: "form-group form-group-custom text-center h4", content: [
