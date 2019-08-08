@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import static co.oddeye.concout.controllers.AjaxControlers.JSON_UTF8;
 import static co.oddeye.concout.controllers.AjaxControlers.LOGGER;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.BaseTsdbConnect;
@@ -55,6 +56,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -309,8 +311,8 @@ public class dataControlers {
         return true;
     }
     
-    @RequestMapping(value = "/getStatusData", method = RequestMethod.GET)
-    public String getStatusData(@RequestParam(value = "tags", required = false) String tags,
+    @RequestMapping(value = "/getStatusData", method = RequestMethod.GET, produces = JSON_UTF8)
+    public @ResponseBody String getStatusData(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) String hash,
             @RequestParam(value = "metrics", required = false) String metrics,
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
@@ -350,8 +352,8 @@ public class dataControlers {
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
             jsonResult.addProperty("sucsses", Boolean.FALSE);
-            map.put("jsonmodel", jsonResult);
-            return "ajax";
+//            map.put("jsonmodel", jsonResult);
+            return jsonResult.toString();
         }
 
         if (userDetails != null) {
@@ -419,9 +421,9 @@ public class dataControlers {
                 }                
                 }
         }
-        map.put("jsonmodel", jsonResult);
+//        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
     
     public ErrorState getMetricRecentState(OddeeyMetricMeta meta, String timezone) throws Exception {

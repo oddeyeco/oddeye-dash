@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -297,7 +298,67 @@ public class AjaxControlers {
 
         return jsonResult.toString();
     }
+    @RequestMapping(value = {"/getSpecialMetricsNames"}, produces = JSON_UTF8)
+    public @ResponseBody String getSpecialMetricsNames(
+            @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
+            ModelMap map) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        JsonObject jsonResult = new JsonObject();
+        JsonArray jsondata = new JsonArray();
+        OddeyeUserModel userDetails = null;
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+        }
 
+        if (userDetails != null) {
+            try {
+                if ((userDetails.getSwitchUser() != null)) {
+                    if (userDetails.getSwitchUser().getAlowswitch()) {
+                        userDetails = userDetails.getSwitchUser();
+                    }
+                }
+                String[] tagslist = tags.split(";");
+                final Map<String, String> tagsMap = new HashMap<>();
+                for (String tag : tagslist) {
+                    String[] tgitem = tag.split("=");
+                    if (tgitem.length == 2) {
+                        if (tgitem[1].equals("")) {
+                            tgitem[1] = "*";
+                        }
+                        tagsMap.put(tgitem[0], tgitem[1]);
+                    }
+                }
+
+                if (filter.equals("") || filter.equals("*")) {
+                    filter = "^(.*)$";
+                }
+                ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta().getbyTags(tagsMap, filter);
+                jsonResult.addProperty("sucsses", true);
+
+                ArrayList<String> data = new ArrayList<>();
+
+                data.addAll(Metriclist.getSpecialNameSorted());
+                jsonResult.addProperty("specialcount", data.size());
+
+                Gson gson = new Gson();
+
+                jsondata.addAll(gson.toJsonTree(data).getAsJsonArray());
+                
+                jsonResult.addProperty("count", data.size());
+                jsonResult.add("data", jsondata);
+            } catch (Exception ex) {
+                jsonResult.addProperty("sucsses", false);
+                LOGGER.error(globalFunctions.stackTrace(ex));
+            }
+        } else {
+            jsonResult.addProperty("sucsses", false);
+        }
+        map.put("jsonmodel", jsonResult);
+
+        return jsonResult.toString();
+    }
     @RequestMapping(value = {"/gettypesinfo"}, produces = JSON_UTF8)
     public @ResponseBody String getMetricsTypesInfo() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
