@@ -24,7 +24,6 @@
         "dash.backToDash": "<spring:message code="dash.backToDash"/>",
 
         "dash.edit.chart": "<spring:message code="dash.edit.chart"/>",
-        "dash.edit.status": "<spring:message code="dash.edit.status"/>",
         "dash.edit.counter": "<spring:message code="dash.edit.counter"/>",
         "dash.edit.status": "<spring:message code="dash.edit.status"/>",        
         "dash.edit.table": "<spring:message code="dash.edit.table"/>",

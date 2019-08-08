@@ -4045,7 +4045,6 @@ $(document).ready(function () {
     });
 
     $('body').on("click", ".addstatus", function () {
-
         for (var ri in gdd.rows)
         {
             for (var wi in    gdd.rows[ri].widgets)
@@ -4068,8 +4067,8 @@ $(document).ready(function () {
         AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
     });
-
-
+    
+    
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
         senddata = {};
