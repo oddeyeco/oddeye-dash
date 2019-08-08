@@ -368,8 +368,55 @@ var queryCallback = function (inputdata) {
                         }
                     }
                     widget.data.push({data: data.chartsdata[dindex].data, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
+                }                
+            }
+            else if (widget.type === "status")
+            {
+                for (var dindex in data.chartsdata)
+                {
+                    var metricname = data.chartsdata[dindex].metric;
+                    var metriclevel = data.chartsdata[dindex].level;
+                    var metricinfo = data.chartsdata[dindex].info;
+                    
+                     if (metriclevel === "NaN -1")
+                        {
+                            metriclevel = "OK";
+                        }
+                    
+                    var name;
+                    if (widget.title)
+                    {
+                        name = widget.title.text;
+                    } else
+                    {
+                        name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
+                    }
+                    if (widget.title)
+                    {
+                        var name2 = widget.title.text;
+                    }
+
+                    if (typeof (widget.q[q_index].info) !== "undefined")
+                    {
+                        if (widget.q[q_index].info.alias)
+                        {
+                            if (widget.q[q_index].info.alias !== "")
+                            {
+                                name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[dindex]);
+                            }
+                        }
+                        if (widget.q[q_index].info.alias2)
+                        {
+                            if (widget.q[q_index].info.alias2 !== "")
+                            {
+                                name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[dindex]);
+                            }
+                        }
+                    }
+                    widget.data.push({data: data.chartsdata[dindex].data,metricinfo: metricinfo, metriclevel: metriclevel, metricname: metricname, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
-            } else if (widget.type === "heatmap")
+            }
+            else if (widget.type === "heatmap")
             {
                 if (!widget.data)
                 {
@@ -1145,7 +1192,87 @@ var queryCallback = function (inputdata) {
                 }               
                 lockq[ri + " " + wi] = false;
                 
-            } else if (widget.type === "heatmap")
+            } 
+            else if (widget.type === "status")
+            {                
+                if (!redraw)
+                {
+                    chart.html("");
+                }
+                widget.data.sort(function (a, b) {
+                    return compareNameName(a, b);
+                });
+
+                chart.find(".chartsection").addClass("tmpfix");
+                for (var val in widget.data)
+                {
+                    var JQcounter;
+                    var widgetVal = widget.data[val];
+                    var dataarray = widget.data[val].data;
+                    var statusInfo = data.chartsdata[dindex];
+                    
+                    var basecounterStatus = 
+                        '<div class="animated flipInY col-xs-6 chartsection" >' +
+                            '<div class="tile-stats level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
+                                '<div class="metricname"></div>' +                           
+                                '<div class="label label-info level"></div>' +
+                                '<div class="tags"></div>' +
+                                '<p class="alias2"></p>'+                           
+                                '<div class="message"></div>' +                                       
+                            '</div>' +
+                        '</div>';
+                    JQcounter = chart.find("#" + widgetVal.id + val);
+                    if ((!redraw) || (JQcounter.length === 0))
+                    {
+                        JQcounter = $(basecounterStatus);
+                        chart.append(JQcounter);
+                        if (!widget.col)
+                        {
+                            widget.col = 6;
+                        }
+                        JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);                        
+                        JQcounter.find('.tile-stats div.tags').text(widgetVal.name);
+                        JQcounter.find('.tile-stats div.metricname').text(widgetVal.metricname);                        
+                        JQcounter.find('.tile-stats div.level').text(widgetVal.metriclevel);                        
+                        JQcounter.find('.tile-stats div.message').text(widgetVal.metricinfo);
+                        
+                        if (widget.title)
+                        {
+                            if (widget.title.textStyle)
+                            {
+                                JQcounter.find('.tile-stats div.tags').css(widget.title.textStyle);
+                            }
+                            if (widget.title.subtextStyle)
+                            {
+                                JQcounter.find('.tile-stats p.alias2').css(widget.title.subtextStyle);
+                            }
+                        }
+                        JQcounter.find('.tile-stats p.alias2').text(widget.data[val].name2);
+
+                        if (widget.style)
+                        {
+                            JQcounter.find('.tile-stats').css(widget.style);
+                        }
+                        JQcounter.attr("id", widget.data[val].id + val);
+                    } else
+                    {
+                        JQcounter.removeClass("tmpfix");
+                        JQcounter = chart.find("#" + widget.data[val].id + val);
+                    } 
+                }
+                chart.find(".tmpfix").remove();
+                if (chart.find(".chartsection").length === 0)
+                {
+                    JQcounter = $(basecounter);
+                    chart.append(JQcounter);
+                    JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
+                    JQcounter.find('.tile-stats h3').text("No data");
+                    chart.append(JQcounter);
+                }
+                lockq[ri + " " + wi] = false;
+
+            }
+            else if (widget.type === "heatmap")
             {
                 var xdata = Object.keys(widget.data.xjson);
                 xdata.sort();
@@ -2149,6 +2276,15 @@ function datafunc() {
     return d;
 }
 
+function getURL(type) {
+    if(type === "status"){
+        return "getStatusData";
+    }
+    else {
+        return "getdata";
+    }
+}
+
 var lockq = {};
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
     if (lockq[ri + " " + wi])
@@ -2253,7 +2389,12 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     if (widget.type === "counter")
     {
         oldseries = clone_obg(widget.series);
-    } else
+    }
+    else if (widget.type === "status")
+    {
+        oldseries = clone_obg(widget.series);
+    }
+    else
     {
         oldseries = clone_obg(widget.options.series);
         widget.options.series = [];
@@ -2357,12 +2498,52 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                             console.log(widget.type);
                             if (widget.type === "counter")
                             {
-
                             } else
                             {
                                 chart.hideLoading();
                             }
-                            $(chart).before("<h2 class='error'>Invalid Query");
+                            $(chart).before("<h2 class='error'>Invalid Query</h2>");
+                        }
+                    });
+                } else
+                {
+                    if (!whaitlist[uri])
+                    {
+                        whaitlist[uri] = [];
+                    }
+                    whaitlist[uri].push([k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, end, null, uri]);
+                }
+                prevuri = uri;
+            }            
+        }
+        else if (widget.type === "status")
+        {
+            widget.data = [];
+            if (getParameterByName('metrics', uri))
+            {
+                if (prevuri !== uri)
+                {
+                    if (chart.attr("id") === "singlewidget")
+                    {
+                        chart.attr("class", " col-12 col-md-" + widget.size);
+                        chart.css({'display' : 'flex', 'flex-wrap':'wrap'});
+                    }
+                    var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];
+                    lockq[ri + " " + wi] = true;
+                    $.ajax({
+                        dataType: "json",
+                        url: uri,
+                        data: null,
+                        success: queryCallback(inputdata),
+                        error: function (xhr, error) {
+                            console.log(widget.type);
+                            if (widget.type === "status")
+                            {
+                            } else
+                            {
+                                chart.hideLoading();
+                            }
+                            $(chart).before("<h2 class='error'>Invalid Query</h2>");
                         }
                     });
                 } else
@@ -2375,7 +2556,8 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 }
                 prevuri = uri;
             }
-        } else if (chart)
+        }
+        else if (chart)
         {
             if (chart._dom.className !== "echart_line_single")
             {
@@ -2645,7 +2827,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
                 chartobj.find(".echart_time").attr("id", "echart_line");
             }
 
-            if (tmprow.widgets[wi].type !== "counter")
+            if (tmprow.widgets[wi].type !== "counter" && tmprow.widgets[wi].type !== "status")
             {
                 if (typeof (tmprow.widgets[wi].options) === "undefined")
                 {
@@ -2665,7 +2847,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             {
                 if (!tmprow.widgets[wi].echartLine || !redraw)
                 {
-                    if (tmprow.widgets[wi].type === "counter")
+                    if (tmprow.widgets[wi].type === "counter" || tmprow.widgets[wi].type === "status")
                     {
                         $("#echart_line" + ri + "_" + wi).removeAttr("style");
                         tmprow.widgets[wi].echartLine = $("#echart_line" + ri + "_" + wi);
@@ -2674,10 +2856,10 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         tmprow.widgets[wi].echartLine = echarts.init(document.getElementById("echart_line" + ri + "_" + wi), 'oddeyelight');
                     }
                 }
-                setdatabyQ(dashJSON, ri, wi, "getdata", redraw);
+                 setdatabyQ(dashJSON, ri, wi, getURL(tmprow.widgets[wi].type), redraw);
             } else
             {
-                if (tmprow.widgets[wi].type === "counter")
+                if (tmprow.widgets[wi].type === "counter" || tmprow.widgets[wi].type === "status")
                 {
                     $("#echart_line" + ri + "_" + wi).removeAttr("style");
                 } else
@@ -2819,6 +3001,10 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         var title = locale[acprefix + ".counter"];
     }
+    if (W_type === "status")
+    {
+        var title = locale[acprefix + ".status"];
+    }
     if (W_type === "heatmap")
     {
         var title = locale[acprefix + ".heatmap"];
@@ -2865,7 +3051,18 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
                 $(".right_col .editpanel").append('<div class="edit-form">');
                 Edit_Form = new CounterEditForm($(".edit-form"), row, index, dashJSON, domodifier);
             }
-        } else if (W_type === "table")
+        }
+         else if (W_type === "status")
+        {
+            $(".right_col .editpanel").append('<div class="' + " col-12 col-lg-" + dashJSON.rows[row].widgets[index].size + '" id="singlewidget">' +
+                    '<div class="status_single" id="status_single"></div>'+'</div>');
+            if (!readonly)
+            {
+                $(".right_col .editpanel").append('<div class="x_content edit-form">');
+                Edit_Form = new StatusEditForm($(".edit-form"), row, index, dashJSON, domodifier);
+            }
+        }
+        else if (W_type === "table")
         {
             $(".right_col .editpanel").append('<div class="card-body" id="singlewidget">' +
                     '<div class="table_single" id="table_single"></div>' +
@@ -2916,11 +3113,11 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         var wraper = $(".right_col .editpanel #singlewidget");
     }
-    if (W_type === "counter")
+    if (W_type === "counter" || W_type === "status")
     {
         if (typeof (dashJSON.rows[row].widgets[index].q) !== "undefined")
         {
-            setdatabyQ(dashJSON, row, index, "getdata", redraw, callback, $(".right_col .editpanel #singlewidget"));
+            setdatabyQ(dashJSON, row, index, getURL(W_type), redraw, callback, $(".right_col .editpanel #singlewidget"));
         } else
         {
 //                updatecounter($(".right_col .editpanel"), dashJSON.rows[row].widgets[index]);
@@ -3877,7 +4074,32 @@ $(document).ready(function () {
         domodifier();
         AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
+    });  
+    
+    $('body').on("click", ".addstatus", function () {
+        for (var ri in gdd.rows)
+        {
+            for (var wi in    gdd.rows[ri].widgets)
+            {
+                if (gdd.rows[ri].widgets[wi])
+                {
+                    clearTimeout(gdd.rows[ri].widgets[wi].timer);
+                }
+            }
+        }
+        var ri = $(this).parents(".widgetraw").index();
+        if (!gdd.rows[ri].widgets)
+        {
+            gdd.rows[ri].widgets = [];
+        }
+        var wi = gdd.rows[ri].widgets.length;
+        gdd.rows[ri].widgets.push({type: "status", size: 4});
+        window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
+        domodifier();
+        AutoRefreshSingle(ri, wi);
+        $RIGHT_COL.css('min-height', $(window).height());
     });
+    
     $('body').on("click", "#deletedashconfirm", function () {
         url = cp + "/dashboard/delete";
         senddata = {};
@@ -4426,7 +4648,7 @@ $(document).on('scroll', function () {
                             {
                                 if (typeof (gdd.rows[ri].widgets[wi].q) !== "undefined")
                                 {
-                                    setdatabyQ(gdd, ri, wi, "getdata", false);
+                                    setdatabyQ(gdd, ri, wi, getURL(gdd.rows[ri].widgets[wi].type), false);
                                 }
                             }
                         }
@@ -4465,12 +4687,12 @@ window.onresize = function () {
                         {
                             if (typeof (gdd.rows[ri].widgets[wi].q) !== "undefined")
                             {
-                                setdatabyQ(gdd, ri, wi, "getdata", false);
+                                setdatabyQ(gdd, ri, wi, getURL(gdd.rows[ri].widgets[wi].type), false);
                             }
                         }
                         if (gdd.rows[ri].widgets[wi].visible)
                         {
-                            if (gdd.rows[ri].widgets[wi].type !== "counter")
+                            if (gdd.rows[ri].widgets[wi].type !== "counter" && gdd.rows[ri].widgets[wi].type !== "status")
                             {
                                 chart.resize();
                             }

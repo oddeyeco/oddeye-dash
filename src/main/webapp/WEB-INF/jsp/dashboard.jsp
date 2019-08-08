@@ -62,6 +62,9 @@
             <div class="float-right">
                 <div class="btn-group blockCounterHeatmapChartJsonDelete float-right">
                     <div class="btn-group btn-group-sm" role="group">
+                        <button class="btn btn-outline-dark addstatus" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addStatusWidget"/>'>
+                            <i class="fas fa-sort-amount-up"></i>
+                        </button>
                         <button class="btn btn-outline-dark addcounter" type="button" data-toggle="tooltip" data-placement="top" title='<spring:message code="dashboard.title.addCounterWidget"/>'>
                             <i class="fa fa-code"></i>
                         </button>
