@@ -1106,6 +1106,61 @@ span.selection {
     background: #27562f;
   }*/
 
+/*==== Status ====*/
+#metricStatus.level_Severe {
+    background-color: #f0666c;  
+}
+#metricStatus.level_High {
+    background-color: #ffbd44;  
+}
+#metricStatus.level_Elevated {
+    background-color: #73879c;  
+}
+#metricStatus.level_OK {
+    background-color: #67cc7d;  
+}
+.tile_count #metricStatus.tile_stats_count {
+    margin: 10px;
+    padding: 2px 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    border: 1px solid #aeb3b3;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
+}
+#metricStatus .metricname {
+    border: 1px solid #aeb3b3;
+    padding: 5px;
+    margin-bottom: 5px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: #c7cccc;
+    color: #343a40;
+    clear: both;
+}
+#metricStatus p.alias2 {
+    color: #212529;
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*==== Dashboard ====*/
 #filter span.select2.select2-container.select2-container--default {
     display: none !important;

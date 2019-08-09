@@ -2,8 +2,8 @@
 var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
-var basecounter = '<div class="animated flipInY col-6 chartsection">' +
-                    '<div class="tile-stats card mb-1">' +
+var basecounter = '<div class="animated flipInY tile_count col-6 chartsection">' +
+                    '<div class="tile-stats tile_stats_count card mb-1">' +
                         '<h6>Title</h6>' +
                         '<p></p>' +
                         '<div class="count text-break"><span class="number">0</span><span class="param"></span></div>' +
@@ -1212,15 +1212,16 @@ var queryCallback = function (inputdata) {
                     var statusInfo = data.chartsdata[dindex];
                     
                     var basecounterStatus = 
-                        '<div class="animated flipInY col-xs-6 chartsection" >' +
-                            '<div class="tile-stats level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
+                        '<div class="animated flipInY tile_count col-6 chartsection" >' +
+                            '<div class="tile-stats tile_stats_count level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
                                 '<div class="metricname"></div>' +                           
-                                '<div class="label label-info level"></div>' +
-                                '<div class="tags"></div>' +
-                                '<p class="alias2"></p>'+                           
-                                '<div class="message"></div>' +                                       
+                                '<h6 class="m-0"><span class="badge badge-dark p-1 level"></span></h6>' +
+                                '<div class="text-wrap tags"></div>' +
+                                '<p class="text-wrap alias2"></p>'+                           
+                                '<div class="text-wrap message"></div>' +                                       
                             '</div>' +
                         '</div>';
+                
                     JQcounter = chart.find("#" + widgetVal.id + val);
                     if ((!redraw) || (JQcounter.length === 0))
                     {
@@ -1230,10 +1231,10 @@ var queryCallback = function (inputdata) {
                         {
                             widget.col = 6;
                         }
-                        JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12 col-sm-" + widget.col);                        
+                        JQcounter.attr("class", "animated flipInY tile_count chartsection" + " col-12 col-sm-" + widget.col);                        
                         JQcounter.find('.tile-stats div.tags').text(widgetVal.name);
                         JQcounter.find('.tile-stats div.metricname').text(widgetVal.metricname);                        
-                        JQcounter.find('.tile-stats div.level').text(widgetVal.metriclevel);                        
+                        JQcounter.find('.tile-stats span.level').text(widgetVal.metriclevel);                        
                         JQcounter.find('.tile-stats div.message').text(widgetVal.metricinfo);
                         
                         if (widget.title)
@@ -1265,8 +1266,8 @@ var queryCallback = function (inputdata) {
                 {
                     JQcounter = $(basecounter);
                     chart.append(JQcounter);
-                    JQcounter.attr("class", "animated flipInY chartsection" + " col-xs-12");
-                    JQcounter.find('.tile-stats h3').text("No data");
+                    JQcounter.attr("class", "animated  tile_count flipInY chartsection" + " col-12");
+                    JQcounter.find('.tile-stats tile_stats_count h3').text("No data");
                     chart.append(JQcounter);
                 }
                 lockq[ri + " " + wi] = false;
