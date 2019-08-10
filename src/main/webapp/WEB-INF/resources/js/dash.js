@@ -1267,7 +1267,7 @@ var queryCallback = function (inputdata) {
                     JQcounter = $(basecounter);
                     chart.append(JQcounter);
                     JQcounter.attr("class", "animated  tile_count flipInY chartsection" + " col-12");
-                    JQcounter.find('.tile-stats tile_stats_count h3').text("No data");
+                    JQcounter.find('.tile-stats.tile_stats_count h6').text("No data");
                     chart.append(JQcounter);
                 }
                 lockq[ri + " " + wi] = false;
