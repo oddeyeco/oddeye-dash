@@ -353,6 +353,28 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("jspart", "adminjs");
         return "index";
     }
+    
+    @RequestMapping(value = "user/new", method = RequestMethod.GET)
+    public String newUser(ModelMap map, HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+            map.put("curentuser", userDetails);
+            map.put("isAuthentication", true);
+        } else {
+            map.put("isAuthentication", false);
+        }
+     
+        OddeyeUserModel newUser = new OddeyeUserModel();
+        map.put("newUser", newUser);
+        map.put("configMap", getEditConfig());
+        map.put("modelname", "User");
+        map.put("path", "user");
+        map.put("body", "adminNewUser");
+        map.put("jspart", "adminNewUserjs");
+        return "index";
+    }
 
     class GrantedAuthorityEditor extends PropertyEditorSupport {
 
