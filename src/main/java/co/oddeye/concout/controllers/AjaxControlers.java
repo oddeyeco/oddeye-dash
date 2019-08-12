@@ -5,7 +5,6 @@
  */
 package co.oddeye.concout.controllers;
 
-import static co.oddeye.concout.controllers.dataControlers.LOGGER;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.HbaseDataDao;
 import co.oddeye.concout.dao.HbaseMetaDao;
