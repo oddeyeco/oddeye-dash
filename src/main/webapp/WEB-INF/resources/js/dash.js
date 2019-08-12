@@ -377,12 +377,17 @@ var queryCallback = function (inputdata) {
                     var metricname = data.chartsdata[dindex].metric;
                     var metriclevel = data.chartsdata[dindex].level;
                     var metricinfo = data.chartsdata[dindex].info;
+                    var hasdata = data.chartsdata[dindex].hasData;
                     
                      if (metriclevel === "NaN -1")
                         {
                             metriclevel = "OK";
                         }
-                    
+                    if (hasdata === "false")
+                        {
+                            metriclevel = "Severe";
+                            metricinfo = "DO BAD? WHAT DO YOU PUT BEFORE ME?? BE MEEK !!!";
+                        }
                     var name;
                     if (widget.title)
                     {
@@ -413,7 +418,7 @@ var queryCallback = function (inputdata) {
                             }
                         }
                     }
-                    widget.data.push({data: data.chartsdata[dindex].data,metricinfo: metricinfo, metriclevel: metriclevel, metricname: metricname, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
+                    widget.data.push({data: data.chartsdata[dindex].data, hasdata: hasdata, metricinfo: metricinfo, metriclevel: metriclevel, metricname: metricname, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
             }
             else if (widget.type === "heatmap")
