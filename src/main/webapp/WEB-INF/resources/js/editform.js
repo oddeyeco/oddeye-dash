@@ -1074,6 +1074,7 @@ class EditForm {
                     {tag: "div", class: "form-inline col-6", content: [
                       {tag: "div", class: "form-inline col-12", content: [
                             {tag: "label", class: "control-label", text: [locale["editform.times"], "_x0"], lfor: "padding_height"},
+                            {tag: "span", class: "float-right q_warning",info: {text: locale["editform.infoShift.text"]} },
                             {tag: "div", id: "reportrange_private", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
                                 content: [
                                     {tag: "i", class: "fa fa-calendar"},
@@ -1084,12 +1085,13 @@ class EditForm {
                         ]},
                     {tag: "div", class: "form-inline col-12", content: [
                             {tag: "label", class: "control-label", text: [locale["editform.times"], "_x1"], lfor: "padding_height"},
+                            {tag: "span", class: "float-right q_warning",info: {text: locale["editform.infoShift.text"]} },
                             {tag: "div", id: "reportrange_privateX1", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",content: [
                                     {tag: "i", class: "fa fa-calendar"},
                                     {tag: "span"}
                                 ]},
                             {tag: "select", id: "shiftX1", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift", default: "off", options: this.shifttimes}
-                        ]}      
+                        ]}                    
                     ]},
                     {tag: "div", class: "col-6", content: [
                        {tag: "div", class: "form-inline col-12", id: "refresh_wrap_private", content: [
@@ -1097,7 +1099,7 @@ class EditForm {
                             {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
                         ]}     
                     ]}                                                         
-            ]}        
+                ]}             
         ];
 
         this.tabcontent.tab_time.forms = [edit_time];

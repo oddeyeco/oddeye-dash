@@ -1271,7 +1271,6 @@ var queryCallback = function (inputdata) {
                     chart.append(JQcounter);
                 }
                 lockq[ri + " " + wi] = false;
-
             }
             else if (widget.type === "heatmap")
             {

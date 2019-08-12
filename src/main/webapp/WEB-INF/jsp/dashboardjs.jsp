@@ -66,6 +66,7 @@
         "editform.aliasSecondary": "<spring:message code="editform.aliasSecondary"/>",
         "editform.alias.text": "<spring:message code="editform.alias.text"/>",
         "editform.aliasSecondary.text": "<spring:message code="editform.aliasSecondary.text"/>",
+        "editform.infoShift.text": "<spring:message code="editform.infoShift.text"/>",
         "editform.downSample": "<spring:message code="editform.downSample"/>",
         "editform.disableDownsampling": "<spring:message code="editform.disableDownsampling"/>",
         "editform.rate": "<spring:message code="editform.rate"/>",

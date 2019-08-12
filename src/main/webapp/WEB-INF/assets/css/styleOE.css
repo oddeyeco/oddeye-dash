@@ -1147,20 +1147,6 @@ span.selection {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*==== Dashboard ====*/
 #filter span.select2.select2-container.select2-container--default {
     display: none !important;
@@ -1288,6 +1274,12 @@ select#refreshtime_private {
 /*        text-align: right;
         width: 115px;*/
 }
+
+.q_warning{
+    margin: -14px 14px 0px 0px;
+    color: #FF8C00;
+}
+
 /* ==== Modals ==== */
 
 .modal-90
