@@ -97,6 +97,8 @@ public class AjaxControlers {
     private String paypal_percent;
     @Value("${paypal.fix}")
     private String paypal_fix;
+    
+    public static final String JSON_UTF8 = "application/json;charset=UTF-8";
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET)
     public String singlechart(@RequestParam(value = "tags", required = false) String tags,
@@ -991,7 +993,7 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
+//        map.put("jsonmodel", jsonResult);
         return jsonResult.toString();
     }
 
@@ -1025,7 +1027,7 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
+//        map.put("jsonmodel", jsonResult);
         return jsonResult.toString();
     }
 
