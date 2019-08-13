@@ -410,12 +410,18 @@ public class dataControlers {
 
                         if(null!= es) {
                             jsonMessage.addProperty("level", es.getLevelName());
-                            jsonMessage.addProperty("info", es.getMessage());
+                            String message = es.getMessage();
+                            if(message.startsWith("{DURATION}")) {
+                                long duration = System.currentTimeMillis() - metric2check.getLasttime();
+                                message = message.replaceAll("\\{DURATION\\}", Double.toString(duration / 1000.0) + " sec.");
+                            }
+                            jsonMessage.addProperty("info", message);
                             jsonMessage.addProperty("start", es.getTimestart());
                             jsonMessage.addProperty("end", es.getTimeend());
                             jsonMessage.addProperty("hasData", "true");
                         } else {
-                            jsonMessage.addProperty("hasData", "false");
+                            jsonMessage.addProperty("hasData", "false");                            
+                            jsonMessage.addProperty("noDataTime", deltaStatusMinutes);
                         }
                      }
                     jsonResult.add("chartsdata", jsonMessages);
