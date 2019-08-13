@@ -367,7 +367,7 @@ var queryCallback = function (inputdata) {
                      if (hasdata === "false")
                         {
                             metriclevel = "Severe";
-                            metricinfo = "No data was received within "+ nodatatime + " minutes";
+                            metricinfo = "No data was received during last "+ nodatatime + " minutes";
                         }
                     
                     var name;
