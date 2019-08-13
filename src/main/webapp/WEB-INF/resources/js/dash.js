@@ -378,6 +378,7 @@ var queryCallback = function (inputdata) {
                     var metriclevel = data.chartsdata[dindex].level;
                     var metricinfo = data.chartsdata[dindex].info;
                     var hasdata = data.chartsdata[dindex].hasData;
+                    var nodatatime = data.chartsdata[dindex].noDataTime;
                     
                      if (metriclevel === "NaN -1")
                         {
@@ -386,7 +387,7 @@ var queryCallback = function (inputdata) {
                     if (hasdata === "false")
                         {
                             metriclevel = "Severe";
-                            metricinfo = "DO BAD? WHAT DO YOU PUT BEFORE ME?? BE MEEK !!!";
+                            metricinfo = "No data was received during last "+ nodatatime + " minutes";
                         }
                     var name;
                     if (widget.title)
@@ -418,7 +419,7 @@ var queryCallback = function (inputdata) {
                             }
                         }
                     }
-                    widget.data.push({data: data.chartsdata[dindex].data, hasdata: hasdata, metricinfo: metricinfo, metriclevel: metriclevel, metricname: metricname, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
+                    widget.data.push({data: data.chartsdata[dindex].data, hasdata: hasdata, nodatatime:nodatatime, metricinfo: metricinfo, metriclevel: metriclevel, metricname: metricname, name: name, name2: name2, id: data.chartsdata[dindex].taghash + data.chartsdata[dindex].metric, q_index: q_index});
                 }
             }
             else if (widget.type === "heatmap")

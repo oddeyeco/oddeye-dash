@@ -64,6 +64,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -951,8 +952,8 @@ public class AjaxControlers {
         return "ajax";
     }
 
-    @RequestMapping(value = {"/getmetastat"})
-    public String getmetastat(ModelMap map) {
+    @RequestMapping(value = {"/getmetastat"}, produces = JSON_UTF8)
+    public @ResponseBody String getmetastat(ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -990,13 +991,11 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
         map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getmetastat/{uuid}"})
+    @RequestMapping(value = {"/getmetastat/{uuid}"}, produces = JSON_UTF8)
     public String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         OddeyeUserModel userDetails;
@@ -1026,10 +1025,8 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
         map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/switchallow"})
