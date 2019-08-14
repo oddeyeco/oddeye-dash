@@ -536,7 +536,7 @@
                             <div class="column" style="text-align: left;color: #333;font-size: 14px;line-height: 21px;font-family: Georgia,serif;max-width: 600px;min-width: 320px; width: 320px;width: calc(28000% - 167400px);">
                               <div style="Margin-left: 20px;Margin-right: 20px;">
                                 <h2 style="Margin-top: 0;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 17px;line-height: 26px;"><strong>Hello ${userName} ${userLastName}</strong> Thanks for signing up! </h2>
-                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">To completed registration, please click on activate account buttton below:</h3>
+                                <h3 style="Margin-top: 16px;Margin-bottom: 0;font-style: normal;font-weight: normal;color: #333;font-size: 16px;line-height: 24px;">To complete registration, please click on activate account buttton below:</h3>
                               </div>
                               <div style="Margin-left: 20px;Margin-right: 20px;">
                                 <div class="btn fullwidth btn--shadow btn--large" style="text-align: center;">
