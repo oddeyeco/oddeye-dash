@@ -100,8 +100,8 @@ public class AjaxControlers {
     
     public static final String JSON_UTF8 = "application/json;charset=UTF-8";
 
-    @RequestMapping(value = "/getdata", method = RequestMethod.GET)
-    public String singlechart(@RequestParam(value = "tags", required = false) String tags,
+    @RequestMapping(value = "/getdata", method = RequestMethod.GET, produces = JSON_UTF8)
+    public @ResponseBody String singlechart(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) String hash,
             @RequestParam(value = "metrics", required = false) String metrics,
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
@@ -123,8 +123,9 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
             jsonResult.addProperty("sucsses", Boolean.FALSE);
-            map.put("jsonmodel", jsonResult);
-            return "ajax";
+//            map.put("jsonmodel", jsonResult);
+//            return "ajax";
+        return jsonResult.toString();
         }
 
         if (userDetails != null) {
@@ -139,8 +140,9 @@ public class AjaxControlers {
                 if (metric == null) {
                     jsonResult.addProperty("sucsses", Boolean.FALSE);
                     LOGGER.warn("Metric for hash:" + hash + " for user " + userDetails.getEmail() + " not exist");
-                    map.put("jsonmodel", jsonResult);
-                    return "ajax";
+//                    map.put("jsonmodel", jsonResult);
+//                    return "ajax";
+                    return jsonResult.toString();
                 }
                 metrics = metric.getName();
                 tags = "";
@@ -155,8 +157,9 @@ public class AjaxControlers {
 
                 jsonResult.addProperty("sucsses", Boolean.FALSE);
                 jsonResult.addProperty("message", " End time [" + enddate + "] must be greater than the start time [" + startdate + "]");
-                map.put("jsonmodel", jsonResult);
-                return "ajax";
+//                map.put("jsonmodel", jsonResult);
+//                return "ajax";
+                return jsonResult.toString();
 
             }
             try {
@@ -243,13 +246,13 @@ public class AjaxControlers {
 //            jsonMessages.
             
         }
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getfiltredmetricsnames"})
-    public String GetMetricsLargeNames(
+    @RequestMapping(value = {"/getfiltredmetricsnames"}, produces = JSON_UTF8)
+    public @ResponseBody String GetMetricsLargeNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             @RequestParam(value = "all", required = false, defaultValue = "false") String s_all,
@@ -315,13 +318,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getSpecialMetricsNames"})
-    public String getSpecialMetricsNames(
+    @RequestMapping(value = {"/getSpecialMetricsNames"}, produces = JSON_UTF8)
+    public @ResponseBody String getSpecialMetricsNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             ModelMap map) {
@@ -377,14 +380,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
 
-    @RequestMapping(value = {"/gettypesinfo"})
-    public String GetMetricsTypesInfo(ModelMap map) {
+    @RequestMapping(value = {"/gettypesinfo"}, produces = JSON_UTF8)
+    public @ResponseBody String GetMetricsTypesInfo(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();
@@ -424,13 +427,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getmetricsnamesinfo"})
-    public String GetMetricsNamesInfo(ModelMap map) {
+    @RequestMapping(value = {"/getmetricsnamesinfo"}, produces = JSON_UTF8)
+    public @ResponseBody String GetMetricsNamesInfo(ModelMap map) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();
@@ -464,13 +467,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getfiltredmetrics"})
-    public String GetMetricsLarge(
+    @RequestMapping(value = {"/getfiltredmetrics"}, produces = JSON_UTF8)
+    public @ResponseBody String GetMetricsLarge(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             ModelMap map) {
@@ -537,13 +540,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getmetrics"})
-    public String GetMetrics(
+    @RequestMapping(value = {"/getmetrics"}, produces = JSON_UTF8)
+    public @ResponseBody String GetMetrics(
             @RequestParam(value = "key") String key,
             @RequestParam(value = "value") String value,
             ModelMap map) {
@@ -600,14 +603,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/deletemetrics"})
-    public String DeleteMetrics(
+    @RequestMapping(value = {"/deletemetrics"}, produces = JSON_UTF8)
+    public @ResponseBody String DeleteMetrics(
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "hash", required = false) String hash,
@@ -693,15 +695,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
-        map.put(
-                "jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();        
     }
 
-    @RequestMapping(value = {"/gettagkey"})
-    public String getTagkeys(
+    @RequestMapping(value = {"/gettagkey"}, produces = JSON_UTF8)
+    public @ResponseBody String getTagkeys(
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
@@ -721,7 +721,6 @@ public class AjaxControlers {
                 }
             }
             try {
-
 //                if (userDetails.getMetricsMeta() == null) {
 //                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 //                }
@@ -753,14 +752,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/gettagvalue"})
-    public String getTagvalues(
+    @RequestMapping(value = {"/gettagvalue"}, produces = JSON_UTF8)
+    public @ResponseBody String getTagvalues(
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
             @RequestParam(value = "key", required = true) String key,
             ModelMap map) {
@@ -822,13 +820,13 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/resetregression"})
-    public String regrresinreset(
+    @RequestMapping(value = {"/resetregression"}, produces = JSON_UTF8)
+    public @ResponseBody String regrresinreset(
             @RequestParam(value = "hash") String hash,
             ModelMap map) {
         JsonObject jsonResult = new JsonObject();
@@ -878,14 +876,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getstat"})
-    public String getstat(ModelMap map) {
+    @RequestMapping(value = {"/getstat"}, produces = JSON_UTF8)
+    public @ResponseBody String getstat(ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         try {
             jsonResult.addProperty("metriccount", MetaDao.getFullmetalist().size());
@@ -925,14 +922,13 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getpayinfo"})
-    public String getpayinfo(ModelMap map) {
+    @RequestMapping(value = {"/getpayinfo"}, produces = JSON_UTF8)
+    public @ResponseBody String getpayinfo(ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         try {
 //            valod 
@@ -948,10 +944,9 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getmetastat"}, produces = JSON_UTF8)
@@ -998,7 +993,7 @@ public class AjaxControlers {
     }
 
     @RequestMapping(value = {"/getmetastat/{uuid}"}, produces = JSON_UTF8)
-    public String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+    public @ResponseBody String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         OddeyeUserModel userDetails;
         userDetails = UserDao.getUserByUUID(UUID.fromString(uuid));
@@ -1031,8 +1026,8 @@ public class AjaxControlers {
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/switchallow"})
-    public String switchallow(ModelMap map) {
+    @RequestMapping(value = {"/switchallow"}, produces = JSON_UTF8)
+    public @ResponseBody String switchallow(ModelMap map) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -1055,9 +1050,8 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 }

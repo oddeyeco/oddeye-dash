@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -51,9 +52,11 @@ public class PaymentController {
 
     @Autowired
     private HbaseUserDao Userdao;
+    
+    public static final String JSON_UTF8 = "application/json;charset=UTF-8";
 
-    @RequestMapping(value = "/paypal/ipn/", method = RequestMethod.POST)
-    public String paypalipn(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/paypal/ipn/", method = RequestMethod.POST, produces = JSON_UTF8)
+    public @ResponseBody String paypalipn(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
 //        String paypal_url = "https://www.sandbox.paypal.com/cgi-bin/websc";
         //String paypal_url = "https://www.paypal.com/cgi-bin/websc";        
         String req = "cmd=_notify-validate";
@@ -81,8 +84,8 @@ public class PaymentController {
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+//        map.put("jsonmodel", jsonResult);
+//        return "ajax";
+        return jsonResult.toString();
     }
 }
