@@ -150,7 +150,7 @@
                 </div>
                     
             </div>          
-            <div class="echart_line row" style="height:300px;"></div>                   
+            <div class="echart_line overflow-hidden" style="height:300px;"></div>                   
         </div>
     </div>   
 </div>

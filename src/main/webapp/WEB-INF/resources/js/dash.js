@@ -1115,7 +1115,7 @@ var queryCallback = function (inputdata) {
                     }
                     var avalue = value.split(" ");
 
-                    JQcounter = chart.find("#" + widget.data[val].id + val);
+                    JQcounter = chart.addClass('row').find("#" + widget.data[val].id + val);
                     if ((!redraw) || (JQcounter.length === 0))
                     {
                         JQcounter = $(basecounter);
@@ -1228,7 +1228,7 @@ var queryCallback = function (inputdata) {
                             '</div>' +
                         '</div>';
                 
-                    JQcounter = chart.find("#" + widgetVal.id + val);
+                    JQcounter = chart.addClass('row').find("#" + widgetVal.id + val);
                     if ((!redraw) || (JQcounter.length === 0))
                     {
                         JQcounter = $(basecounterStatus);
