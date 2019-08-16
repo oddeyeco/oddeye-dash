@@ -1319,6 +1319,13 @@ select#refreshtime_private {
     padding: 0.5rem;
 }
 
+.page-link {
+    color: #343a40;
+}
+.page-item.active .page-link {
+    background-color: #343a40;
+    border-color: #aeb3b3;
+}
 /* ==== Metriq ==== */
 
 .card-body.multichart .card-header,
