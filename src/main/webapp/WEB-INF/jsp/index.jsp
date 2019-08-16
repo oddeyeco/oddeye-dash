@@ -164,13 +164,13 @@
                                                 <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                     <sec:authorize access="hasRole('USERMANAGER')">
                                                         <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                                        <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                                        <%--<li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>--%>
                                                         <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                                        <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
+                                                        <%--<li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>--%>
                                                         </sec:authorize>
-                                                        <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                                        <%--<sec:authorize access="hasRole('CONTENTMANAGER')">
                                                         <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                                                        </sec:authorize>
+                                                        </sec:authorize>--%>
                                                         <sec:authorize access="hasRole('USERMANAGER')">
                                                         <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
                                                         </sec:authorize>                                                        

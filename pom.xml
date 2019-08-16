@@ -232,22 +232,15 @@
                             <skipMerge>true</skipMerge>
                             <jsSourceDir>js</jsSourceDir>
                             <jsSourceFiles>                                               
-                                <jsSourceFile>calc.js</jsSourceFile>
-                                <jsSourceFile>chartsfuncs.js</jsSourceFile>
-<!--                                <jsSourceFile>statusEditForm.js</jsSourceFile>  -->
-<!--                                <jsSourceFile>countereditform.js</jsSourceFile>  -->
-<!--                                <jsSourceFile>dash.js</jsSourceFile> -->
-<!--                                <jsSourceFile>editchartform.js</jsSourceFile> -->
-<!--                                <jsSourceFile>editform.js</jsSourceFile> -->
-                                <jsSourceFile>general.js</jsSourceFile>
-                                <jsSourceFile>global.js</jsSourceFile>
-<!--                                <jsSourceFile>kalman.js</jsSourceFile> -->
-                                <jsSourceFile>global.js</jsSourceFile>
                                 <jsSourceFile>login.js</jsSourceFile>
-                                <jsSourceFile>metricinfo.js</jsSourceFile>
-                                <jsSourceFile>monitoring2.js</jsSourceFile>
+                                <jsSourceFile>general.js</jsSourceFile>                                                                
                                 <jsSourceFile>public.js</jsSourceFile>                                                                
-                                <jsSourceFile>stomp.js</jsSourceFile>                                                               
+                                <jsSourceFile>chartsfuncs.js</jsSourceFile>                                                                
+                                <jsSourceFile>monitoring2.js</jsSourceFile>                                                                
+                                <jsSourceFile>stomp.js</jsSourceFile>                                                                
+                                <jsSourceFile>metricinfo.js</jsSourceFile>  
+                                <jsSourceFile>calc.js</jsSourceFile>  
+                                <jsSourceFile>echarts.js</jsSourceFile>  
                             </jsSourceFiles>
                         </configuration>                        
                         <goals>
