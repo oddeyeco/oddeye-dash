@@ -1114,8 +1114,11 @@ var queryCallback = function (inputdata) {
                         value = valueformatter.replace(new RegExp("{value}", 'g'), Number.isInteger(value) ? value : value.toFixed(2));
                     }
                     var avalue = value.split(" ");
-
-                    JQcounter = chart.addClass('row').find("#" + widget.data[val].id + val);
+                    
+                    if (chart.attr("id") !== "singlewidget")
+                    { 
+                        JQcounter = chart.addClass('row').find("#" + widgetVal.id + val);
+                    }                    
                     if ((!redraw) || (JQcounter.length === 0))
                     {
                         JQcounter = $(basecounter);
@@ -1228,7 +1231,10 @@ var queryCallback = function (inputdata) {
                             '</div>' +
                         '</div>';
                 
-                    JQcounter = chart.addClass('row').find("#" + widgetVal.id + val);
+                    if (chart.attr("id") !== "singlewidget")
+                    { 
+                        JQcounter = chart.addClass('row').find("#" + widgetVal.id + val);
+                    }
                     if ((!redraw) || (JQcounter.length === 0))
                     {
                         JQcounter = $(basecounterStatus);
@@ -2524,14 +2530,14 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
         }
         else if (widget.type === "status")
         {
-            widget.data = [];
+            widget.data = [];            
             if (getParameterByName('metrics', uri))
             {
                 if (prevuri !== uri)
                 {
                     if (chart.attr("id") === "singlewidget")
-                    {
-                        chart.attr("class", " col-12 col-md-" + widget.size);
+                    { 
+                        chart.attr("class", " col-12 col-md-" + widget.size);                        
                         chart.css({'display' : 'flex', 'flex-wrap':'wrap'});
                     }
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, redraw, callback, customchart, start, end, whaitlist, uri];

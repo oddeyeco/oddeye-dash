@@ -98,6 +98,25 @@ span {
 .green {
    color: #28a745;
 }
+
+/*===== form:focus =====*/
+.form-control:focus {
+    border-color: #aeb3b3;
+    box-shadow: inset 0 0 0 0.15rem rgba(0,123,255,.25);
+}
+.custom-select:focus {
+    border-color: #aeb3b3;
+    box-shadow: inset 0 0 0 0.15rem rgba(0,123,255,.25);
+}
+.page-link:focus {
+    box-shadow: inset 0 0 0 0.15rem rgba(255, 255, 255, 0.25);
+}
+
+
+
+
+
+
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
