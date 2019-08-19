@@ -1117,8 +1117,8 @@ var queryCallback = function (inputdata) {
                     
                     if (chart.attr("id") !== "singlewidget")
                     { 
-                        JQcounter = chart.addClass('row').find("#" + widgetVal.id + val);
-                    }                    
+                       JQcounter = chart.addClass('row').find("#" + widget.data[val].id + val);
+                    }
                     if ((!redraw) || (JQcounter.length === 0))
                     {
                         JQcounter = $(basecounter);
@@ -1230,7 +1230,6 @@ var queryCallback = function (inputdata) {
                                 '<div class="text-wrap message"></div>' +                                       
                             '</div>' +
                         '</div>';
-                
                     if (chart.attr("id") !== "singlewidget")
                     { 
                         JQcounter = chart.addClass('row').find("#" + widgetVal.id + val);
