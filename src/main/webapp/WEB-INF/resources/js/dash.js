@@ -121,7 +121,7 @@ function savedash() {
         senddata.info = JSON.stringify(localjson);
         senddata.name = $("#name").val();
         senddata.unloadRef = globalstompClient.ws._transport.unloadRef;
-
+        
         if (olddashname !== $("#name").val())
         {
             senddata.oldname = olddashname;
@@ -202,7 +202,7 @@ function btnlock() {
         $('#btnlock').find('i').toggleClass('fa-unlock');
         locktooltip();
         delete gdd.locked;
-
+        
     } else
     {
         if (dashmodifier === true) {
@@ -260,8 +260,8 @@ var queryCallback = function (inputdata) {
     var start = inputdata[12];
     var end = inputdata[13];
     var whaitlist = inputdata[14];
-    var uri = inputdata[15];
-
+    var uri = inputdata[15];  
+    
 //    var tooltipPos = function(pos, params, dom, rect, size) {
 //        var posX, posY;
 //        posX = pos[0];
@@ -284,31 +284,24 @@ var queryCallback = function (inputdata) {
     return function (data) {
 // ---- tooltip.triggerOn + tooltip.enterable
         if (widget.type === "line") {                    
-                    if (widget.options.tooltip.triggerOn === "click") {
+                    if (widget.options.tooltip.triggerOn === "click") {                     
                         widget.options.tooltip = {
                             "trigger": "axis",
                             "triggerOn": "click",
-                            "position": function(pos, params, dom, rect, size){
-                                if (pos[0] < size.viewSize[0] / 2){
-                                    return [pos[0] + 5,pos[1] - 0];
-                                }
-                                if (pos[0] > size.viewSize[0] / 2){
-                                    return [pos[0] - size.contentSize[0] - 10,pos[1] - 10];
-                                }                               
-                            },
+//                            "position": tooltipPos,
                             "enterable": true,
                             "extraCssText": 'max-height: 415px; overflow-y: auto;'
-                        };
+                        };                        
                     }
                     if (widget.options.tooltip.triggerOn === "mousemove")
                     {
                         widget.options.tooltip = {
                             "trigger": "axis",
-                            "triggerOn": "mousemove",  
+                            "triggerOn": "mousemove",
 //                            "position": tooltipPos,
                             "enterable": false                        
-                        };
-                    }                    
+                        };           
+                    } 
                 }
 // ---- /tooltip.triggerOn + tooltip.enterable 
         if (data.chartsdata)
@@ -374,7 +367,7 @@ var queryCallback = function (inputdata) {
                                     name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
                                 }
                             }
-
+                            
                             if (widget.q[q_index].info.alias2)
                             {
                                 if (widget.q[q_index].info.alias2 !== "")
@@ -382,7 +375,7 @@ var queryCallback = function (inputdata) {
                                     name2 = applyAlias(widget.q[q_index].info.alias2, data.chartsdata[index]);
                                 }
                             }
-                        }
+                        }                       
                         widget.data.list[index] = data.chartsdata[index];
                         widget.data.list[index].name2 = name2;
                         widget.data.list[index].name1 = name;
@@ -519,7 +512,7 @@ var queryCallback = function (inputdata) {
                                         {
                                             val[1] = -1 * val[1];
                                         }
-
+                                        
                                         switch (widget.type) {
                                             case 'pie':
                                             {
@@ -1120,7 +1113,7 @@ var queryCallback = function (inputdata) {
                     chart.append(JQcounter);
                 }
                 lockq[ri + " " + wi] = false;
-
+                
             } else if (widget.type === "heatmap")
             {
                 var xdata = Object.keys(widget.data.xjson);
@@ -1141,7 +1134,7 @@ var queryCallback = function (inputdata) {
                 {
                     max = numbers.basic.max(ydata);
                     var i = numbers.basic.min(ydata);
-
+                    
                     delete (widget.options.yAxis[ind].max);
 
                     var step = (max - i) / 10;
@@ -2108,8 +2101,8 @@ var queryCallback = function (inputdata) {
                 }
             }
             delete(widget.data);
+        };
     };
-};
 };
 
 function datafunc() {
@@ -2426,7 +2419,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                 prevuri = uri;
             }
         }
-}
+    }
 }
 
 function AutoRefresh(redraw = false) {
@@ -2511,7 +2504,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             {
                 tmprow.widgets.splice(wi, 1);
                 continue;
-            }
+            }            
             if (!tmprow.widgets[wi].echartLine || !redraw)
             {
                 var bkgclass = "";
@@ -2619,13 +2612,13 @@ function redrawAllJSON(dashJSON, redraw = false) {
                     tmprow.widgets[wi].options.series[0].data = datafunc();
                 }
             }
-
+            
             if (typeof (tmprow.widgets[wi].q) === "undefined")
             {
                 tmprow.widgets[wi].q = clone_obg(tmprow.widgets[wi].queryes);
                 delete tmprow.widgets[wi].queryes;
             }
-
+            
             if (typeof (tmprow.widgets[wi].q) !== "undefined")
             {
                 if (!tmprow.widgets[wi].echartLine || !redraw)
@@ -2682,7 +2675,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
             appendTo: ".rowcontent",
             cancel: "canvas,input,.echart_line,.chartTitle"
         });
-
+        
         var wingetindrag = false;
         $("#row" + ri + " .rowcontent").on('sortstart', function (event, ui) {
             ui.item.find('.inner').css('border', "5px solid rgba(200,200,200,1)");
@@ -2748,7 +2741,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
     {
         dashJSON.rows[row].widgets[index].q = clone_obg(dashJSON.rows[row].widgets[index].queryes);
         delete dashJSON.rows[row].widgets[index].queryes;
-    }
+    } 
     //Change queryes downsample 
     if (dashJSON.rows[row].widgets[index].q)
     {
@@ -3083,7 +3076,7 @@ function repaint(redraw = false, rebuildform = true) {
 
 $(document).ready(function () {
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});
-
+    
     $("#dashcontent").sortable({
         cursor: "move",
         appendTo: ".rowcontent",
@@ -3382,7 +3375,7 @@ $(document).ready(function () {
                 }
             }
         }
-
+        
         $('#global-down-sample').val(gdd.times.generalds[0]);
         if ($('#global-down-sample-ag').val() === "")
         {
@@ -3435,7 +3428,7 @@ $(document).ready(function () {
             repaint(true, false);
         }
     });
-
+    
     $('body').on("blur", "#global-down-sample", function () {
         if (!gdd.times.generalds)
         {
@@ -3480,7 +3473,7 @@ $(document).ready(function () {
         $("#deleteConfirm").modal('hide');
     });
     
-    $('body').on("click", ".colapserow", function () {
+    $('body').on("click", ".colapserow", function () {        
         $(this).parents('.widgetraw').find('.rowcontent').fadeOut();
         var ri = $(this).parents(".widgetraw").index();
         gdd.rows[ri].colapsed = true;
@@ -3527,7 +3520,7 @@ $(document).ready(function () {
     
     $('body').on("click", "#applydashjson", function () {
         doapplyjson = true;
-
+        
         for (var ri in gdd.rows)
         {
             for (var wi in    gdd.rows[ri].widgets)
@@ -3540,7 +3533,7 @@ $(document).ready(function () {
         }
         gdd = dasheditor.get();
         redrawAllJSON(gdd);
-
+        
         if (gdd.times.generalds)
         {
             $('#global-down-sample').val(gdd.times.generalds[0]);
@@ -3641,7 +3634,7 @@ $(document).ready(function () {
             }
         }
     });
-
+    
     $('body').on("click", ".plus", function () {
         var ri = $(this).parents(".widgetraw").index();
         var wi = $(this).parents(".chartsection").index();
@@ -3663,7 +3656,7 @@ $(document).ready(function () {
         }
     });
     
-    $('body').on("click", "#deletewidgetconfirm", function () {
+    $('body').on("click", "#deletewidgetconfirm", function () {        
         for (var ri in gdd.rows)
         {
             for (var wi in    gdd.rows[ri].widgets)
@@ -3765,7 +3758,7 @@ $(document).ready(function () {
         AutoRefreshSingle(ri, wi);
         $RIGHT_COL.css('min-height', $(window).height());
     });
-
+    
     $('body').on("click", ".addheatmap", function () {
         for (var ri in gdd.rows)
         {
@@ -3869,7 +3862,7 @@ $(document).ready(function () {
             }
         });
     });
-
+    
     $('body').on("click", ".fulldash .change_title_row, .change_title", function () {
         $(this).parent().css("display", "none");
         $(this).parents('.item_title').find('.title_input').css("display", "block");
@@ -3928,7 +3921,7 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.sucsses)
                     {
-
+                        
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
@@ -4100,7 +4093,7 @@ $(document).ready(function () {
         console.log(saveData);
         exportToCsv(filename + fileFotmat, saveData);
     });
-
+    
     $('body').on('click', '.jsonsave', function () {
         var single_ri = $(this).parents(".widgetraw").index();
         var single_wi = $(this).parents(".chartsection").index();
@@ -4233,7 +4226,7 @@ $(document).ready(function () {
             savedash();
         }, 1000);
     });
-
+    
     $("body").on('keydown', function (event) {
         if ((event.ctrlKey || event.metaKey)) {
             switch (event.which) {
@@ -4274,7 +4267,7 @@ $(document).ready(function () {
             repaint(true, false);
         }
     });
-
+    
     $('body').on("click", '#minimize', function () {
         filtershow = false;
         $('#filter').fadeOut(500);
