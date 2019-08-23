@@ -77,10 +77,12 @@
                                     <spring:message code="profileedit.country"/>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
+                                    <div class="custom-select">
                                     <%-- <form:select path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1" />                                       
-                                         <form:errors path="country" /> --%>                    
-                                    <form:select path="country" items="${countryList}" cssClass="form-control"/>                                       
-                                    <form:errors path="country" />                    
+                                         <form:errors path="country" /> --%>                                       
+                                        <form:select path="country" items="${countryList}" cssClass="form-control"/>                                       
+                                        <form:errors path="country" />                                   
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -108,24 +110,28 @@
                                     <spring:message code="profileedit.timezone"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
-                                    <%-- <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                       
-                                    <form:errors path="timezone" />--%> 
-                                    <form:select path="timezone" items="${tzone}" cssClass="form-control"/>                                        
-                                    <form:errors path="timezone" />
+                                    <div class="custom-select">
+                                        <%-- <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                       
+                                        <form:errors path="timezone" />--%> 
+                                        <form:select path="timezone" items="${tzone}" cssClass="form-control"/>                                        
+                                        <form:errors path="timezone" />
+                                    </div>
                                 </div>
                             </div>    
                             <div class="form-group row">                    
                                 <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="template">
                                     <spring:message code="profileedit.template"/>
                                 </label>
-                                <div class="col-lg-5 col-md-6 col-12">
-                                    <%--<form:select path="template" cssClass="form-control select2_tz" tabindex="-1">--%>
-                                    <form:select path="template" cssClass="form-control">                                    
-                                        <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
-                                        <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
-                                        <%--  <form:option value="dark2" ><spring:message code="profileedit.template.dark2"/></form:option> --%>
-                                    </form:select>
-                                    <form:errors path="template" />
+                                <div class="col-lg-5 col-md-6 col-12"> 
+                                    <div class="custom-select customTemplate">
+                                        <%--<form:select path="template" cssClass="form-control select2_tz" tabindex="-1">--%>
+                                        <form:select path="template" cssClass="form-control rounded-0 w-50">                          
+                                            <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
+                                            <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
+                                            <%--  <form:option value="dark2" ><spring:message code="profileedit.template.dark2"/></form:option> --%>
+                                        </form:select>
+                                        <form:errors path="template" />                                
+                                    </div>
                                 </div>
                             </div>                                                             
                             <div class="form-group row">

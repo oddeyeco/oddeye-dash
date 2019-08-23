@@ -15,29 +15,37 @@
                     <h6><spring:message code="filter"/></h6>
                     <form class="form-row p-3 depthShadowLightHover">
                         <div class="form-group col-12 detailedFilter">
-                            <label class="col-form-label"><spring:message code="errorsanalysis.group"/></label>                           
+                            <label class="col-form-label"><spring:message code="errorsanalysis.group"/></label>
+                            <div class="custom-select">
                             <select class="form-control" name="group_item">
                                 <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
                                     <option <c:if test="${group_item == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
                                 </c:forEach>
-                            </select>                          
-                        </div>
+                            </select> 
+                            </div>                            
+                        </div>                        
                         <div class="form-group col-12 detailedFilter">
-                            <label class="col-form-label"><spring:message code="errorsanalysis.showTag"/></label>                            
+                            <label class="col-form-label"><spring:message code="errorsanalysis.showTag"/></label>
+                            <div class="custom-select">
                             <select class="form-control" name="ident_tag">
                                 <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
                                     <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
                                 </c:forEach>
-                            </select>                           
+                            </select>
+                            
+                        </div>
                         </div>
                         <div class="form-group col-12 detailedFilter">
-                            <label class="col-form-label"><spring:message code="level"/></label>                           
+                            <label class="col-form-label"><spring:message code="level"/></label>
+                            <div class="custom-select">
                             <select class="form-control" name="level" id="level">
-                                <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > <spring:message code="errorsanalysis.custom"/> </option>  
-                                <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
+                                <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > <spring:message code="errorsanalysis.custom"/> </option> 
+                                <c:forEach items="${curentuser.getAlertLevels()}" var="level">                                   
                                     <option <c:if test="${level_item == level.key}"> selected="true" </c:if>  value="${level.key}"><spring:message code="level_${level.key}"/> </option>
-                                </c:forEach>
-                            </select>                           
+                                </c:forEach>                                 
+                            </select>
+                                
+                        </div>
                         </div>
                         <div class="form-group col-12 customvalue detailedFilter" <c:if test="${level_item != -1}"> style="display: none"</c:if>>
                             <label class="col-form-label"><spring:message code="minValue"/></label>                          

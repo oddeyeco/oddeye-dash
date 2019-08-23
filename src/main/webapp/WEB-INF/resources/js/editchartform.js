@@ -838,7 +838,7 @@ class BaseChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.selectMode"], lfor: "legend_select_mode"},
-                                    {tag: "select", class: "form-control title_select", prop_key: "selectedMode", id: "", name: "legend_select_mode", key_path: 'options.legend.selectedMode', default: "", options: this.legendMode}
+                                    {tag: "select", class: "form-control title_select", prop_key: "selectedMode", id: "legend_mode", name: "legend_select_mode", key_path: 'options.legend.selectedMode', default: "", options: this.legendMode}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.background"], lfor: "legend_background_color"},

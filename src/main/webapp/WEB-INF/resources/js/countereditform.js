@@ -33,7 +33,7 @@ class CounterEditForm extends EditForm {
         this.tabcontent.tab_display = {};//suren
 
         var edit_display = {tag: "div", class: 'forms', id: "edit_display"};
-        edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
+        edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display float-left counter-colors",
                 content: [
 
                     {tag: "div", class: "form-group form-group-custom text-center h4", content: [
@@ -92,7 +92,7 @@ class CounterEditForm extends EditForm {
                         ]}
                 ]},
             //**********************************
-            {tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
+            {tag: "div", class: "form-horizontal form-label-left edit-display float-left counter-colors",
                 content: [
 
                     {tag: "div", class: "form-group form-group-custom text-center h4", content: [
@@ -141,7 +141,7 @@ class CounterEditForm extends EditForm {
                         ]}
                 ]},
             //*************************************
-            {tag: "div", class: "form-horizontal form-label-left edit-display pull-left",
+            {tag: "div", class: "form-horizontal form-label-left edit-display float-left",
                 content: [
 
                     {tag: "div", class: "form-group form-group-custom text-center h4", content: [

@@ -40,6 +40,21 @@ p {
     margin: auto;
     color: #999;
 }
+/*=========== scroll ================*/
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+
+/*=========== /scroll ================*/
 a,
 a:hover,
 a:focus {
@@ -112,10 +127,129 @@ span {
     box-shadow: inset 0 0 0 0.15rem rgba(255, 255, 255, 0.25);
 }
 
+/*===== form style =====*/
 
+/*the container must be positioned relative:*/
+.custom-select {
+  position: relative;
+ /* font-family: Arial;*/
+}
+.custom-select select {
+  display: none;/* hide original SELECT element:*/
+}
+.select-selected {
+/*  background-color: DodgerBlue;*/
+}
+/*style the arrow inside the select element:*/
+/*.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #000 transparent transparent transparent;
+}*/
+/*point the arrow upwards when the select box is open (active):*/
+/*.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #000 transparent;
+  top: 7px;
+}*/
+/*style the items (options), including the selected item:*/
+.select-items div {
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  padding: .4rem;
+}
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  height: 360px;
+  background-color: #c7cccc;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+  z-index: 99;
+}
+div.detailedFilter .select-items,
+div.customTemplate .select-items{
+  height: auto;
+}
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+.select-items div:hover, .same-as-selected {
+    background: #343a40;
+    color: #efefef;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3);
+}
+/*
+select#template {
+    width: 140px;    
+}
+select#template option{
+    background-color: #c7cccc;  
+    color: #495057
+}*/
 
+span.select2-results ul.select2-results__options,
+span.select2-results ul#select2-allfilter-results,
+span.select2-results ul#select2-mlfilter-results,
+span.select2-results ul#select2-manualfilter-results {
+    background-color: #c7cccc!important;
+    padding: 4px;
+}
+.select2-container--default span.select2-results .select2-results__option[aria-disabled=true] {
+    color: #ffffff!important;
+}
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #c7cccc!important;
+    color: #ffffff!important;
+}
+span.select2-results ul.select2-results__options {
+    background-color: #c7cccc!important;
+}
 
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #343a40!important;
+    color: #efefef!important;
+    border-radius: 4px!important;
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3)!important;
+}
 
+select#global-down-sample-ag option,
+select#refreshtime option,
+select#visualMap_orient option,
+select#visualMap_color option,
+select#shiftX option,
+select#shiftX1 option,
+select#refreshtime_private option,
+select#display_charttype option,
+select#display_points option,
+select#display_fillArea option,
+select#step option,
+select#display_label_pos option,
+select#display_trig option,
+select.datazoom_type_width option,
+select.axes_select option,
+select.aggregator option,
+select.down-sample-aggregator option,
+select#legend_x_position option,
+select#legend_y_position option,
+select#legend_orient option,
+select#legend_mode option,
+select#dimensions_col option,
+select#dimensions_span option,
+select#title_y_position option,
+select#title_x_position option {
+    background-color: #c7cccc;
+}
 
 /* ---------------------------------------------------
     SIDEBAR STYLE
@@ -618,7 +752,7 @@ ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
     width: 30px; 
 }
 .od input {
-    width: 150px;
+    width: 100px;
     border: #d6dce0 solid 1px;
     background-color: transparent;
 }
@@ -1233,8 +1367,8 @@ span.selection {
     display: flex;
     -ms-flex-align: center;
     align-items: center;
-    padding: .375rem .75rem;
-    margin-left: -4px;
+    padding: .2rem .4rem;
+    margin-left: -2px;
     margin-bottom: 0;
     font-size: 1rem;
     font-weight: 400;
@@ -1242,9 +1376,20 @@ span.selection {
     color: #495057;
     text-align: center;
     white-space: nowrap;
-    background-color: #e9ecef;
+/*    background-color: #e9ecef;*/
+    background-image: linear-gradient(to right,
+        rgba(220, 0, 0, 0.8),
+        rgba(0, 202, 15, 0.8),
+        rgba(11, 0, 180, 0.8));
     border: 1px solid #ced4da;
-    border-radius: .25rem;
+    border-top-right-radius: .25rem!important;
+    border-bottom-right-radius: .25rem!important;
+/*    border-radius: .25rem;*/
+}
+.input-group-addon i {
+    height: 20px;
+    width: 20px;
+    background-color: #c7cccc;
 }
 .title_input_small {
     font-size: 0.9rem;
@@ -1282,9 +1427,11 @@ select#refreshtime_private {
     border-bottom-left-radius: 0!important;
     margin-left: -1px;
 }
+#tab_display .input-group-addon,
 #tab_legend .input-group-addon {
     margin-left:0;
-    height: 35.60px;
+    height: 35.5px;
+    border-radius: .25rem;
 }
 #tab_legend .color-button {
     margin-bottom: 0;
