@@ -883,6 +883,17 @@ ul.lastdash {
     }    
 }
 
+#edit_time {
+    .q_warning{
+        float: right;
+        font-size: 30px;
+        margin: -14px 14px 0px 0px;
+        color: #337ab7;
+    } 
+}
+
+
+
 .dropdown_button
 {
     cursor: pointer;
@@ -1798,8 +1809,49 @@ table.filters-table
     padding: 0;
     margin: 0;
 }
+// ==== statusWidget====
 
-// ---- Switchery ----
+#metricStatus.level_OK {
+     background-color: @background_color_9;
+}
+#metricStatus.level_Severe {
+    background-color: @background_color_4;
+}
+#metricStatus.level_High {
+    background-color: @background_color_5;
+}
+#metricStatus.level_Elevated {
+    background-color: @background_color_6;
+}
+#metricStatus {
+    .metricname {
+        border: 1px solid #d5d5d5;
+        padding: 5px;
+        margin: 5px;
+        text-align: center;
+        border-radius: 5px;
+        border-color: #73879c;
+        background-color: #73879c;
+        color: #e4e4e4;
+        clear: both;
+    }
+    .level {
+        font-size: 13px;
+        margin-left: 10px;
+    }
+    .message {
+    white-space: initial;
+    font-style: italic;
+    border-top: 1px solid #d5d5d5;
+    margin: 8px;    
+    }
+    .tags {
+        margin-left: 10px;
+    }
+    font-weight: bold;
+}
+
+// ==== Switchery ====
 .switchery-small {
     width: 42px;
     height: 16px;
