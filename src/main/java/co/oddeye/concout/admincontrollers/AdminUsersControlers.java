@@ -5,10 +5,12 @@
  */
 package co.oddeye.concout.admincontrollers;
 
+import static co.oddeye.concout.controllers.DefaultController.setLocaleInfo;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.model.WhitelabelModel;
 import co.oddeye.concout.service.OddeyeUserService;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
@@ -29,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -353,6 +356,40 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("jspart", "adminjs");
         return "index";
     }
+    
+    @RequestMapping(value = "user/new", method = RequestMethod.GET)
+    public String startRegisteringNewUser(
+            ModelMap map,
+            HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+            map.put("curentuser", userDetails);
+            map.put("isAuthentication", true);
+        } else {
+            map.put("isAuthentication", false);
+        }
+     
+        OddeyeUserModel newUser = new OddeyeUserModel();
+        map.put("newUser", newUser);
+        map.put("configMap", getEditConfig());
+        map.put("modelname", "User");
+        map.put("path", "user");
+        map.put("body", "adminNewUser");
+        map.put("jspart", "adminNewUserjs");
+        return "index";
+    }
+    
+    @RequestMapping(value = "user/new", method = RequestMethod.POST)
+    public String registerNewUser(
+            @ModelAttribute("newUser") OddeyeUserModel newUser,
+            ModelMap map,
+            HttpServletRequest request) {
+        int x = 5;
+
+        return "indexPrime";
+    }    
 
     class GrantedAuthorityEditor extends PropertyEditorSupport {
 
