@@ -47,13 +47,11 @@ import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-//import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -64,6 +62,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -97,16 +96,17 @@ public class AjaxControlers {
     @Value("${paypal.fix}")
     private String paypal_fix;
 
-    @RequestMapping(value = "/getdata", method = RequestMethod.GET)
-    public String singlechart(@RequestParam(value = "tags", required = false) String tags,
+    public static final String JSON_UTF8 = "application/json;charset=UTF-8";
+
+    @RequestMapping(value = "/getdata", method = RequestMethod.GET, produces = JSON_UTF8)
+    public @ResponseBody String singlechart(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) String hash,
             @RequestParam(value = "metrics", required = false) String metrics,
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
             @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,
             @RequestParam(value = "rate", required = false, defaultValue = "false") Boolean rate,
-            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
-            ModelMap map) {
+            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -120,8 +120,7 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
             jsonResult.addProperty("sucsses", Boolean.FALSE);
-            map.put("jsonmodel", jsonResult);
-            return "ajax";
+            return jsonResult.toString();
         }
 
         if (userDetails != null) {
@@ -136,8 +135,7 @@ public class AjaxControlers {
                 if (metric == null) {
                     jsonResult.addProperty("sucsses", Boolean.FALSE);
                     LOGGER.warn("Metric for hash:" + hash + " for user " + userDetails.getEmail() + " not exist");
-                    map.put("jsonmodel", jsonResult);
-                    return "ajax";
+                    return jsonResult.toString();
                 }
                 metrics = metric.getName();
                 tags = "";
@@ -152,9 +150,7 @@ public class AjaxControlers {
 
                 jsonResult.addProperty("sucsses", Boolean.FALSE);
                 jsonResult.addProperty("message", " End time [" + enddate + "] must be greater than the start time [" + startdate + "]");
-                map.put("jsonmodel", jsonResult);
-                return "ajax";
-
+                return jsonResult.toString();
             }
             try {
                 ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
@@ -240,17 +236,15 @@ public class AjaxControlers {
 //            jsonMessages.
             
         }
-        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getfiltredmetricsnames"})
-    public String GetMetricsLargeNames(
+    @RequestMapping(value = {"/getfiltredmetricsnames"}, produces = JSON_UTF8)
+    public @ResponseBody String getMetricsLargeNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            @RequestParam(value = "all", required = false, defaultValue = "false") String s_all,
-            ModelMap map) {
+            @RequestParam(value = "all", required = false, defaultValue = "false") String s_all) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -312,16 +306,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getSpecialMetricsNames"})
-    public String getSpecialMetricsNames(
+    @RequestMapping(value = {"/getSpecialMetricsNames"}, produces = JSON_UTF8)
+    public @ResponseBody String getSpecialMetricsNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
-            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            ModelMap map) {
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -374,14 +366,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
 
 
     @RequestMapping(value = {"/gettypesinfo"})
-    public String GetMetricsTypesInfo(ModelMap map) {
+    public @ResponseBody String GetMetricsTypesInfo() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();
@@ -421,13 +412,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getmetricsnamesinfo"})
-    public String GetMetricsNamesInfo(ModelMap map) {
+    @RequestMapping(value = {"/getmetricsnamesinfo"}, produces = JSON_UTF8)
+    public @ResponseBody String getMetricsNamesInfo() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();
@@ -461,16 +451,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getfiltredmetrics"})
-    public String GetMetricsLarge(
+    @RequestMapping(value = {"/getfiltredmetrics"}, produces = JSON_UTF8)
+    public @ResponseBody String getMetricsLarge(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
-            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            ModelMap map) {
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -534,16 +522,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getmetrics"})
-    public String GetMetrics(
+    @RequestMapping(value = {"/getmetrics"}, produces = JSON_UTF8)
+    public @ResponseBody String getMetrics(
             @RequestParam(value = "key") String key,
-            @RequestParam(value = "value") String value,
-            ModelMap map) {
+            @RequestParam(value = "value") String value) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -598,18 +584,15 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/deletemetrics"})
-    public String DeleteMetrics(
+    @RequestMapping(value = {"/deletemetrics"}, produces = JSON_UTF8)
+    public @ResponseBody String deleteMetrics(
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "hash", required = false) String hash,
-            @RequestParam(value = "name", required = false) String name,
-            ModelMap map
+            @RequestParam(value = "name", required = false) String name
     ) {
 
         SendToKafka KafkaLocalSender = (OddeyeUserModel user, String action, Object hash1) -> {
@@ -691,16 +674,12 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put(
-                "jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/gettagkey"})
-    public String getTagkeys(
-            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            ModelMap map) {
+    @RequestMapping(value = {"/gettagkey"}, produces = JSON_UTF8)
+    public @ResponseBody String getTagkeys(
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -751,16 +730,13 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/gettagvalue"})
-    public String getTagvalues(
+    @RequestMapping(value = {"/gettagvalue"}, produces = JSON_UTF8)
+    public @ResponseBody String getTagvalues(
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            @RequestParam(value = "key", required = true) String key,
-            ModelMap map) {
+            @RequestParam(value = "key", required = true) String key) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -819,15 +795,12 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/resetregression"})
-    public String regrresinreset(
-            @RequestParam(value = "hash") String hash,
-            ModelMap map) {
+    @RequestMapping(value = {"/resetregression"}, produces = JSON_UTF8)
+    public @ResponseBody String regrresinreset(
+            @RequestParam(value = "hash") String hash) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -876,13 +849,11 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getstat"})
-    public String getstat(ModelMap map) {
+    @RequestMapping(value = {"/getstat"}, produces = JSON_UTF8)
+    public @ResponseBody String getstat() {
         JsonObject jsonResult = new JsonObject();
         try {
             jsonResult.addProperty("metriccount", MetaDao.getFullmetalist().size());
@@ -923,13 +894,11 @@ public class AjaxControlers {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getpayinfo"})
-    public String getpayinfo(ModelMap map) {
+    @RequestMapping(value = {"/getpayinfo"}, produces = JSON_UTF8)
+    public @ResponseBody String getpayinfo() {
         JsonObject jsonResult = new JsonObject();
         try {
 //            valod 
@@ -946,13 +915,11 @@ public class AjaxControlers {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getmetastat"})
-    public String getmetastat(ModelMap map) {
+    @RequestMapping(value = {"/getmetastat"}, produces = JSON_UTF8)
+    public @ResponseBody String getmetastat() {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -991,13 +958,11 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/getmetastat/{uuid}"})
-    public String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+    @RequestMapping(value = {"/getmetastat/{uuid}"}, produces = JSON_UTF8)
+    public @ResponseBody String getmetastatadmin(@PathVariable(value = "uuid") String uuid) {
         JsonObject jsonResult = new JsonObject();
         OddeyeUserModel userDetails;
         userDetails = UserDao.getUserByUUID(UUID.fromString(uuid));
@@ -1027,13 +992,11 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/switchallow"})
-    public String switchallow(ModelMap map) {
+    @RequestMapping(value = {"/switchallow"}, produces = JSON_UTF8)
+    public @ResponseBody String switchallow() {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -1057,8 +1020,6 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        map.put("jsonmodel", jsonResult);
-
-        return "ajax";
+        return jsonResult.toString();
     }
 }

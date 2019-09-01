@@ -22,9 +22,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -52,8 +52,8 @@ public class PaymentController {
     @Autowired
     private HbaseUserDao Userdao;
 
-    @RequestMapping(value = "/paypal/ipn/", method = RequestMethod.POST)
-    public String paypalipn(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/paypal/ipn/", method = RequestMethod.POST, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String paypalipn(HttpServletRequest request, HttpServletResponse response) {
 //        String paypal_url = "https://www.sandbox.paypal.com/cgi-bin/websc";
         //String paypal_url = "https://www.paypal.com/cgi-bin/websc";        
         String req = "cmd=_notify-validate";
@@ -81,8 +81,7 @@ public class PaymentController {
         } catch (Exception ex) {
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-        map.put("jsonmodel", jsonResult);
 
-        return "ajax";
+        return jsonResult.toString();
     }
 }

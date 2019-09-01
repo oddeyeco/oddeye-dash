@@ -55,6 +55,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -313,15 +314,14 @@ public class dataControlers {
     }
     
     @RequestMapping(value = "/getStatusData", method = RequestMethod.GET)
-    public String getStatusData(@RequestParam(value = "tags", required = false) String tags,
+    public @ResponseBody String getStatusData(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) String hash,
             @RequestParam(value = "metrics", required = false) String metrics,
             @RequestParam(value = "startdate", required = false, defaultValue = "10m-ago") String startdate,
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
             @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,
             @RequestParam(value = "rate", required = false, defaultValue = "false") Boolean rate,
-            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
-            ModelMap map) {
+            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample) {
         long startTime = System.currentTimeMillis();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails = null;
@@ -354,8 +354,7 @@ public class dataControlers {
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
             jsonResult.addProperty("sucsses", Boolean.FALSE);
-            map.put("jsonmodel", jsonResult);
-            return "ajax";
+            return jsonResult.toString();
         }
 
         if (userDetails != null) {
@@ -432,9 +431,8 @@ public class dataControlers {
                 }                
                 }
         }
-        map.put("jsonmodel", jsonResult);
         LOGGER.info("getStatusData tooks:{} seconds", (System.currentTimeMillis() - startTime) / 1000.0);
-        return "ajax";
+        return jsonResult.toString();
     }
     
     public ErrorState getMetricRecentState(OddeeyMetricMeta meta, String timezone) throws Exception {
