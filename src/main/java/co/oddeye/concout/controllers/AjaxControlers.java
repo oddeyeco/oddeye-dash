@@ -95,7 +95,7 @@ public class AjaxControlers {
     private String paypal_percent;
     @Value("${paypal.fix}")
     private String paypal_fix;
-
+    
     public static final String JSON_UTF8 = "application/json;charset=UTF-8";
 
     @RequestMapping(value = "/getdata", method = RequestMethod.GET, produces = JSON_UTF8)
@@ -370,9 +370,8 @@ public class AjaxControlers {
         return jsonResult.toString();
     }
 
-
-    @RequestMapping(value = {"/gettypesinfo"})
-    public @ResponseBody String GetMetricsTypesInfo() {
+    @RequestMapping(value = {"/gettypesinfo"}, produces = JSON_UTF8)
+    public @ResponseBody String getMetricsTypesInfo() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();

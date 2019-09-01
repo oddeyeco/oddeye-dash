@@ -116,11 +116,11 @@
                     saveAsImage: {
                         show: true,
                         title: "Save Image",
-                        iconStyle: {
-                            color: '#3c763d',
-                            borderColor: '#92ad57'
+                            iconStyle: {
+                                color: '#3c763d',
+                                borderColor: '#92ad57'
+                            }
                     }
-                }
                 }
             },
             grid: {

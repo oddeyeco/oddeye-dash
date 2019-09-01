@@ -208,7 +208,7 @@ var encodeHTML = function (source) {
             }
         },
         tooltip: {
-            backgroundColor: theme_tooltip_bg,
+            backgroundColor: theme_tooltip_bg,           
 //            confine: true,
 //            enterable: true,
 //            triggerOn: 'click',
@@ -234,7 +234,7 @@ var encodeHTML = function (source) {
                                     out = "<div class='tooltip-head' style='position: sticky;top: -5px:padding: 2px:background-color: #303232'><strong>" + param.data.name + "</strong></div>";
                     }
                     out = out + "<div style='clear: both;'></div>";
-                    out = out + "<div class='tooltip-body'>";
+                    out = out + "<div class='tooltip-body'>";             
                     for (var ind in params)
                     {
                         param = params[ind];

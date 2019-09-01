@@ -178,7 +178,7 @@
         "editchartform.labelFormat": "<spring:message code="editchartform.labelFormat"/>",
         "editchartform.labelFormat.text": "<spring:message code="editchartform.labelFormat.text"/>",
         "editchartform.labelFormat.text2": "<spring:message code="editchartform.labelFormat.text2"/>",
-        "editchartform.labelShow": "<spring:message code="editchartform.labelShow"/>",
+        "editchartform.labelShow": "<spring:message code="editchartform.labelShow"/>",       
         "editchartform.stacked": "<spring:message code="editchartform.stacked"/>",
         "editchartform.smooth": "<spring:message code="editchartform.smooth"/>",
         "editchartform.middle": "<spring:message code="editchartform.middle"/>",
