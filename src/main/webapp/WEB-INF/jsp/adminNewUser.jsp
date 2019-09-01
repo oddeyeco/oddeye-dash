@@ -32,7 +32,7 @@
     <!--<h2 class="text-center">Create Account.</h2>-->        
     <div class="row">
         <div class=" contactform col-lg-6 col-xs-12">               
-            <form:form method="post" action="${cp}/signup/" modelAttribute="newUser" novalidate="true" autocomplete="off">            
+            <form:form method="post" action="${cp}/createUserFromAdmin/" modelAttribute="newUser" novalidate="true" autocomplete="off">            
                 <c:if test="${not empty message}" >
                     <div class="alert alert-danger alert-dismissible fadein" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>

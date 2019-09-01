@@ -56,6 +56,30 @@ public class UserValidator implements Validator {
         }
     }
     
+    public void adminCreateValidate(Object target, Errors errors) {
+        OddeyeUserModel user = (OddeyeUserModel) target;
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "name.empty", "Username must not be empty.");
+        String username = user.getName();
+        
+        if (!(user.getPasswordst()).equals(user.getPasswordsecondst())) {
+            errors.rejectValue("passwordsecond", "passwordsecond.passwordDontMatch", "Passwords don't match.");
+        }
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "email.empty", "Email address must not be empty.");
+        if (!EmailValidator.getInstance().isValid(user.getEmail())) {
+            errors.rejectValue("email", "email.notValid", "Email address is not valid.");
+        }
+        try {
+            if (Userdao.checkUserByEmail(user))
+            {
+                errors.rejectValue("email", "email.Exist", "Email address is exist.");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(UserValidator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }    
+    
     public void adminvalidate(Object target, Errors errors) {
         OddeyeUserModel user = (OddeyeUserModel) target;
 
