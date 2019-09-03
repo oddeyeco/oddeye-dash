@@ -94,7 +94,7 @@
 <div class="d-none" id="charttemplate">
     <div class="col-lg-12 chartsection" size="12">
         <div class="inner col-12">
-            <div class="chartTitleDiv depthShadowLightHover">
+            <div class="chartTitleDiv depthShadowChartsection">
                 <div class="chartDesc wrap">
                     <div class="borderRadius">
                         <span class="chartSubIcon" style="display: none">

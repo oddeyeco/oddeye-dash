@@ -845,7 +845,7 @@ class BaseChartEditForm extends EditForm {
                                     {tag: "div", class: "color-button", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "legend_background_color", name: "legend_background_color", key_path: 'options.legend.backgroundColor', default: ""},
-                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                    {tag: "span", class: "input-group-addon legend_bg", content: [{tag: "i"}]}
                                                 ]}
                                         ]}
                                 ]},
@@ -854,7 +854,7 @@ class BaseChartEditForm extends EditForm {
                                     {tag: "div", class: "color-button", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "color", id: "legend_text_color", name: "legend_text_color", key_path: 'options.legend.textStyle.color', default: ""},
-                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                    {tag: "span", class: "input-group-addon legend_clTxt", content: [{tag: "i"}]}
                                                 ]}
                                         ]}
                                 ]}
@@ -888,7 +888,7 @@ class BaseChartEditForm extends EditForm {
                                     {tag: "div", class: "color-button align-bottom ", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "legend_border_color", name: "legend_border_color", key_path: 'options.legend.borderColor', default: ""},
-                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                    {tag: "span", class: "input-group-addon legend_clBorder", content: [{tag: "i"}]}
                                                 ]}
                                         ]},
                                     {tag: "label", class: "control-label control-label-custom-legend3", text: locale["editchartform.width"], lfor: "legend_border_width"},
@@ -926,7 +926,7 @@ class BaseChartEditForm extends EditForm {
                                     {tag: "div", class: "color-button", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "backgroundColor", name: "backgroundColor", key_path: 'options.backgroundColor', default: ""},
-                                                    {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
+                                                    {tag: "span", class: "input-group-addon display_bg", content: [{tag: "i"}]}
                                                 ]}
                                         ]}
 

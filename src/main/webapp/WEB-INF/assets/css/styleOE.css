@@ -555,6 +555,11 @@ a.article:hover, a.download:hover {
     box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
     transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
 }
+.depthShadowChartsection:hover {
+    -webkit-box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
+}
 
 ul.gotodash {
     padding: 10px;
@@ -1427,8 +1432,10 @@ select#refreshtime_private {
     border-bottom-left-radius: 0!important;
     margin-left: -1px;
 }
-#tab_display .input-group-addon,
-#tab_legend .input-group-addon {
+#tab_display .input-group-addon.display_bg,
+#tab_legend .input-group-addon.legend_bg, 
+#tab_legend .input-group-addon.legend_clTxt, 
+#tab_legend .input-group-addon.legend_clBorder {
     margin-left:0;
     height: 35.5px;
     border-radius: .25rem;
