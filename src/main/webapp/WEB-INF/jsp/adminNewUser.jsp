@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <spring:message code="adminlist.lastName" var="ph"/>
-                    <form:input path="name" cssClass="form-control" required="" placeholder="${ph} *" autocomplete="off"/>
+                    <form:input path="lastname" cssClass="form-control" required="" placeholder="${ph} *" autocomplete="off"/>
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="lastname" />
                 </div>                
                 <div class="form-group">
