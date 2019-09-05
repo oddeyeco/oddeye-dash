@@ -356,38 +356,6 @@ public class DefaultController {
         //else
 
     }
-
-    @RequestMapping(value = "/createUserFromAdmin", method = RequestMethod.POST)
-    public String createUserFromAdmin(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
-
-        userValidator.adminCreateValidate(newUser, result);
-        if (result.hasErrors()) {
-            setLocaleInfo(map);
-            map.put("newUser", newUser);
-            map.put("result", result);
-            map.put("body", "adminNewUser");
-            map.put("jspart", "adminNewUserjs");
-        } else {
-            try {
-                newUser.SendAdminMail("New user created from admin panel", mailSender);
-                newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
-                newUser.setActive(Boolean.FALSE);
-                Userdao.addUser(newUser);
-
-                map.put("body", "signupconfirm");
-                map.put("jspart", "signupconfirmjs");
-            } catch (Exception ex) {
-                LOGGER.error(globalFunctions.stackTrace(ex));
-                map.put("newUser", newUser);
-                map.put("result", result);
-                map.put("body", "adminNewUser");
-                map.put("jspart", "adminNewUserjs");
-                map.put("message", ex.toString());
-            }
-        }
-        map.put("title", messageSource.getMessage("title.signUp", new String[]{""}, LocaleContextHolder.getLocale()));
-        return "indexPrime";
-    }
     
     public static void setLocaleInfo(ModelMap map) {
 

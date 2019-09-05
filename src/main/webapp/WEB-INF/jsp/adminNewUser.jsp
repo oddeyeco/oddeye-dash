@@ -32,7 +32,7 @@
     <!--<h2 class="text-center">Create Account.</h2>-->        
     <div class="row">
         <div class=" contactform col-lg-6 col-xs-12">               
-            <form:form method="post" action="${cp}/createUserFromAdmin/" modelAttribute="newUser" novalidate="true" autocomplete="off">            
+            <form:form method="post" action="${cp}/user/new/" modelAttribute="newUser" novalidate="true" autocomplete="off">            
                 <c:if test="${not empty message}" >
                     <div class="alert alert-danger alert-dismissible fadein" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
@@ -40,7 +40,16 @@
                         ${message}
                     </div>      
                 </c:if>                
-
+                <div class="form-group">
+                    <spring:message code="adminlist.firstName" var="ph"/>
+                    <form:input path="name" cssClass="form-control" required="" placeholder="${ph} *" autocomplete="off"/>
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="name" />
+                </div>
+                <div class="form-group">
+                    <spring:message code="adminlist.lastName" var="ph"/>
+                    <form:input path="name" cssClass="form-control" required="" placeholder="${ph} *" autocomplete="off"/>
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="lastname" />
+                </div>                
                 <div class="form-group">
                     <spring:message code="adminlist.email" var="ph"/>
                     <form:input path="email" cssClass="form-control" type="email" required="" placeholder="${ph} *" autocomplete="off"/>                    
@@ -56,11 +65,6 @@
                     <form:input path="passwordsecond" cssClass="form-control" type="password" required="" placeholder="${ph} *" autocomplete="off"/>
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="passwordsecond"  />
                 </div>                
-                <div class="form-group">
-                    <spring:message code="adminlist.firstName" var="ph"/>
-                    <form:input path="name" cssClass="form-control" required="" placeholder="${ph} *" autocomplete="off"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="name" />
-                </div>
                 <div class="form-group">                    
                     <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="createUser"/></button>
                 </div>

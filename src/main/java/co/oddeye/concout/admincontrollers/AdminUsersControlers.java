@@ -380,17 +380,37 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("jspart", "adminNewUserjs");
         return "index";
     }
-    
+
     @RequestMapping(value = "user/new", method = RequestMethod.POST)
-    public String registerNewUser(
-            @ModelAttribute("newUser") OddeyeUserModel newUser,
-            ModelMap map,
-            HttpServletRequest request) {
-        int x = 5;
+    public String createUserFromAdmin(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
 
+        userValidator.adminCreateValidate(newUser, result);
+        if (result.hasErrors()) {
+            setLocaleInfo(map);
+            map.put("newUser", newUser);
+            map.put("result", result);
+            map.put("body", "adminNewUser");
+            map.put("jspart", "adminNewUserjs");
+        } else {
+            try {
+//                newUser.SendAdminMail("New user created from admin panel", mailSender);
+                newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
+                newUser.setActive(Boolean.FALSE);
+                Userdao.addUser(newUser);
+                return "redirect:/user/edit/" + newUser.getId().toString();
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+                map.put("newUser", newUser);
+                map.put("result", result);
+                map.put("body", "adminNewUser");
+                map.put("jspart", "adminNewUserjs");
+                map.put("message", ex.toString());
+            }
+        }
         return "indexPrime";
-    }    
-
+    }
+    
+    
     class GrantedAuthorityEditor extends PropertyEditorSupport {
 
         @Override
