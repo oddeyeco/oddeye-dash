@@ -1075,7 +1075,7 @@ class EditForm {
                       {tag: "div", class: "form-inline col-12", content: [
                             {tag: "label", class: "control-label", text: [locale["editform.times"], "_x0"], lfor: "padding_height"},
                             {tag: "span", class: "float-right q_warning",info: {text: locale["editform.infoShift.text"]} },
-                            {tag: "div", id: "reportrange_private", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                            {tag: "div", id: "reportrange_private", class: "form-control form-control dropdown-toggle", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
                                 content: [
                                     {tag: "i", class: "fa fa-calendar"},
                                     {tag: "span"}
@@ -1086,7 +1086,7 @@ class EditForm {
                     {tag: "div", class: "form-inline col-12", content: [
                             {tag: "label", class: "control-label", text: [locale["editform.times"], "_x1"], lfor: "padding_height"},
                             {tag: "span", class: "float-right q_warning",info: {text: locale["editform.infoShift.text"]} },
-                            {tag: "div", id: "reportrange_privateX1", class: "form-control form-control-sm dropdown-toggle my-1 mr-sm-2", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",content: [
+                            {tag: "div", id: "reportrange_privateX1", class: "form-control form-control dropdown-toggle", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",content: [
                                     {tag: "i", class: "fa fa-calendar"},
                                     {tag: "span"}
                                 ]},
@@ -1096,7 +1096,7 @@ class EditForm {
                     {tag: "div", class: "col-6", content: [
                        {tag: "div", class: "form-inline col-12", id: "refresh_wrap_private", content: [
                             {tag: "label", class: "control-label", text: [locale["dashboard.title.refresh"]], lfor: "padding_height"},
-                            {tag: "select", id: "refreshtime_private", class: "form-control custom-select-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
+                            {tag: "select", id: "refreshtime_private", class: "form-control form-control-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
                         ]}     
                     ]}                                                         
                 ]}             
@@ -1388,9 +1388,9 @@ class EditForm {
             var input = $(this).parents(".form-group").find(".data-label");
             if (input.hasClass("metrics"))
             {
-                input.append("<span class='control-label metrics tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fas fa-times'></i></a></span></span>");
+                input.append("<span class='control-label metrics tag_label'><span class='tagspan'><span class='text'></span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fas fa-times'></i></a></span></span>");
                 input.find(".tagspan").last().hide();
-                input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a><i class="fa fa-check"></i></a><a><i class="fa fas fa-times"></i></a></div>');
+                input.find(".tagspan").last().after('<div class="edit"><input id="metrics" name="metrics" class="form-control query_input" type="text" value=""><a class="mx-1"><i class="fa fa-check"></i></a><a class="mr-1"><i class="fa fas fa-times"></i></a></div>');
                 var metricinput = input.find("input");
                 form.makeMetricInput(metricinput, input);
             }
@@ -1399,7 +1399,7 @@ class EditForm {
             {
                 input.append("<span class='control-label tags tag_label' ><span class='tagspan'><span class='text'></span><a><i class='fa fas fa-pencil-alt'></i> </a> <a><i class='fa fas fa-times'></i></a></span></span>");
                 input.find(".tagspan").last().hide();
-                input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a><i class="fa fa-check"></i></a><a><i class="fa fas fa-times"></i></a></div>');
+                input.find(".tagspan").last().after('<div class="edit"><input id="tagk" name="tagk" class="form-control query_input" type="text" value=""> </div><div class="edit"><input id="tagv" name="tagv" class="form-control query_input" type="text" value=""> <a class="mr-1"><i class="fa fa-check"></i></a><a class="mr-1"><i class="fa fas fa-times"></i></a></div>');
                 var tagkinput = input.find("input#tagk");
                 form.maketagKInput(tagkinput, input);
             }

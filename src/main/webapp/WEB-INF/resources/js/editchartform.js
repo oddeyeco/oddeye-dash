@@ -859,28 +859,28 @@ class BaseChartEditForm extends EditForm {
                                         ]}
                                 ]}
                         ]},
-                    {tag: "div", class: "form_main_block col-3", content: [
+                    {tag: "div", class: "form_main_block col-3", id: "legend_position", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: "X", lfor: "legend_x_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "x", id: "legend_x_position", name: "legend_x_position", key_path: 'options.legend.x', default: "", options: this.xpositionoptions},
 //                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
-                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "legend_x_position_text", name: "legend_x_position_text", key_path: 'options.legend.x', placeholder: "or px", default: ""},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "legend_x_position_text", name: "legend_x_position_text", key_path: 'options.legend.x', placeholder: "or px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: "Y", lfor: "legend_y_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "y", id: "legend_y_position", name: "legend_y_position", key_path: 'options.legend.y', default: "", options: this.ypositionoptions},
 //                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
-                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "legend_y_position_text", name: "legend_y_position_text", key_path: 'options.legend.y', placeholder: "or px", default: ""},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "legend_y_position_text", name: "legend_y_position_text", key_path: 'options.legend.y', placeholder: "or px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
-                                ]},                            
+                                ]}
                         ]},
                     {tag: "div", class: "form_main_block col-3", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.shapeWidth"], lfor: "legend_shape_width"},
                                     {tag: "input", type: "number", class: "form-control title_select", prop_key: "itemWidth", id: "legend_shape_width", name: "legend_shape_width", key_path: 'options.legend.itemWidth', placeholder: " px", default: ""},
                                     {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editform.height"], lfor: "legend_shape_height"},
-                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "itemHeight", id: "legend_shape_height", name: "legend_shape_height", key_path: 'options.legend.itemHeight', placeholder: " px", default: ""},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "itemHeight", id: "legend_shape_height", name: "legend_shape_height", key_path: 'options.legend.itemHeight', placeholder: " px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
@@ -892,7 +892,7 @@ class BaseChartEditForm extends EditForm {
                                                 ]}
                                         ]},
                                     {tag: "label", class: "control-label control-label-custom-legend3", text: locale["editchartform.width"], lfor: "legend_border_width"},
-                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "borderWidth", id: "legend_border_width", name: "legend_border_width", key_path: 'options.legend.borderWidth', placeholder: " px", default: ""},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "borderWidth", id: "legend_border_width", name: "legend_border_width", key_path: 'options.legend.borderWidth', placeholder: " px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                             ]}
                     ]}

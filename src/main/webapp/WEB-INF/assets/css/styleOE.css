@@ -43,15 +43,16 @@ p {
 /*=========== scroll ================*/
 html {
     overflow: scroll;
-    overflow-x: hidden;
+/*    overflow-x: hidden;*/
 }
 ::-webkit-scrollbar {
-    width: 0px;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
+  width: 4px;
+  height: 8px;
+  background-color: #aeb3b3;
 }
 /* Optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-    background: #FF0000;
+    background: #000000;
 }
 
 /*=========== /scroll ================*/
@@ -189,15 +190,96 @@ div.customTemplate .select-items{
     border-radius: 4px;
     box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3);
 }
-/*
-select#template {
-    width: 140px;    
-}
-select#template option{
-    background-color: #c7cccc;  
-    color: #495057
-}*/
 
+#userdata span.select2.select2-container.select2-container--default {
+    width: 100%!important;    
+}
+span.select2-selection.select2-selection--single {
+    display: block;
+    height: calc(1.5em + .75rem + 2px);
+/*    padding: .375rem .75rem;*/
+    padding: .2rem .7rem;
+/*    padding-left: 0.2rem;*/
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+#filters .action span.select2-selection.select2-selection--single {
+    padding: 0 .4rem;
+    margin: 0;
+    height: 30px;
+}
+#filters .value span.select2-selection.select2-selection--multiple {
+    padding: 0 .4rem;
+    margin: 0;
+}
+#filters .value ul.select2-selection__rendered {
+    padding: 0;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding: 0!important;
+}
+.select2wraper span.select2-selection.select2-selection--single,
+#refresh_wrap span.select2-selection.select2-selection--single,
+#edit_q span.select2-selection.select2-selection--single {
+    padding: .2rem .75rem;
+}
+#refresh_wrap {
+    width: 180px;
+}
+
+#select2-title_target-container,
+#select2-title_subtarget-container,
+#select2-display_charttype-container {
+    width: 70px!important;
+}
+#select2-display_points-container,
+#select2-refreshtime_private-container {
+    width: 140px;
+}
+#select2-shiftX-container,
+#select2-shiftX1-container {
+    width: 80px;
+}
+#reportrange_private,
+#reportrange_privateX1 {
+    margin: 0 2px 2px;
+}
+span#select2-global-down-sample-ag-container.select2-selection__rendered,
+span#select2-legend_mode-container.select2-selection__rendered,
+span#select2-legend_orient-container.select2-selection__rendered,
+span#select2-display_label_pos-container.select2-selection__rendered,
+span#select2-refreshtime_private-container.select2-selection__rendered,
+#edit_q .select2-selection__rendered {
+    display: inline-block;
+}
+.custom-select.customTemplate {
+   padding: .375rem 1.75rem .375rem .2rem; 
+}
+:focus {
+    outline:none;
+    border-color: #aeb3b3;
+   -webkit-box-shadow: inset 0 0 0 0.15rem rgba(0,123,255,.25);
+    box-shadow: inset 0 0 0 0.15rem rgba(0,123,255,.25);
+}
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    font-size: large;
+    margin-right: 10px;
+}
+span.select2-selection__arrow {
+    height: 36px!important;
+}
+span.select2-search.select2-search--dropdown {
+   background-color: #aeb3b3;
+}
 span.select2-results ul.select2-results__options,
 span.select2-results ul#select2-allfilter-results,
 span.select2-results ul#select2-mlfilter-results,
@@ -250,7 +332,9 @@ select#title_y_position option,
 select#title_x_position option {
     background-color: #c7cccc;
 }
-
+.select2wraper.global-down-sample-ag-wraper {
+    width: 120px;
+}
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -1307,7 +1391,7 @@ span.selection {
 
 /*==== Dashboard ====*/
 #filter span.select2.select2-container.select2-container--default {
-    display: none !important;
+/*    display: none !important;*/
 }
 #filter .blockTimeRefreshLock>div:not(#refresh_wrap) {
     height: calc(1.5em + .75rem + 2px);
@@ -1355,7 +1439,7 @@ span.selection {
 
 
 #tabpanel .tab-content span.select2.select2-container.select2-container--default {
-    display: none !important;
+/*    display: none !important;*/
 }
 #tabpanel .tab-content form.edit-query select.query_input,  
 #tabpanel .tab-content form.edit-query input.query_input { 
@@ -1413,14 +1497,13 @@ select#refreshtime_private {
     display: inline-block;
     font-size: 0.9rem;  
 }
-#edit_chart_title #position_block #title_x_position,
-#edit_chart_title #position_block #title_y_position,
-#edit_legend .legendform #legend_x_position,
-#edit_legend .legendform #legend_y_position {
+#position_block span.select2-selection.select2-selection--single,
+#legend_position span.select2-selection.select2-selection--single {
     border-top-left-radius: .25rem!important;
     border-bottom-left-radius: .25rem!important;
     border-top-right-radius: 0!important;
-    border-bottom-right-radius: 0!important;   
+    border-bottom-right-radius: 0!important;
+    height: fit-content;
 }
 #edit_chart_title #position_block #title_x_position_text,
 #edit_chart_title #position_block #title_y_position_text,
@@ -1437,8 +1520,16 @@ select#refreshtime_private {
 #tab_legend .input-group-addon.legend_clTxt, 
 #tab_legend .input-group-addon.legend_clBorder {
     margin-left:0;
-    height: 35.5px;
+    height: 24px;
     border-radius: .25rem;
+}
+#tab_display .input-group-addon.display_bg i,
+#tab_legend .input-group-addon.legend_bg i, 
+#tab_legend .input-group-addon.legend_clTxt i, 
+#tab_legend .input-group-addon.legend_clBorder i {
+    width: 18px;
+    height: 12px;  
+    border-radius: inherit;
 }
 #tab_legend .color-button {
     margin-bottom: 0;

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!-- <link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>  -->
+ <link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>  
 <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}"/>
  
 <div class="row">
@@ -77,12 +77,12 @@
                                     <spring:message code="profileedit.country"/>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
-                                    <div class="custom-select">
+<!--                                    <div class="custom-select">-->
                                     <%-- <form:select path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1" />                                       
                                          <form:errors path="country" /> --%>                                       
-                                        <form:select path="country" items="${countryList}" cssClass="form-control"/>                                       
+                                        <form:select path="country" items="${countryList}" cssClass="form-control select2_country"/>                                       
                                         <form:errors path="country" />                                   
-                                    </div>
+<!--                                    </div>-->
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -110,12 +110,12 @@
                                     <spring:message code="profileedit.timezone"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
-                                    <div class="custom-select">
+<!--                                    <div class="custom-select">-->
                                         <%-- <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                       
                                         <form:errors path="timezone" />--%> 
-                                        <form:select path="timezone" items="${tzone}" cssClass="form-control"/>                                        
+                                        <form:select path="timezone" items="${tzone}" cssClass="form-control select2_country"/>                                        
                                         <form:errors path="timezone" />
-                                    </div>
+<!--                                    </div>-->
                                 </div>
                             </div>    
                             <div class="form-group row">                    

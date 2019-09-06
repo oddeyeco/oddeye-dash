@@ -5,7 +5,7 @@
 --%>
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!--<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>-->
+<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>
 <div id="saveModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
 
@@ -216,7 +216,9 @@
                                 <label class="col-form-label" for="global-down-sample-ag"><spring:message code="dashboard.agregator"/></label>          
                             </div>
                             <div class="mr-2">
-                                <select class="form-control" id="global-down-sample-ag" name="global-down-sample-ag" data-width="100%"></select>            
+                                <div class="select2wraper global-down-sample-ag-wraper">
+                                    <select class="form-control" id="global-down-sample-ag" name="global-down-sample-ag" data-width="100%"></select>      
+                                </div>                                      
                             </div>
                             <div class="mr-2">
                                 <label class="col-form-label" id="downsampling_label" for="global-downsampling-switsh"> <spring:message code="dashboard.enabled"/></label>            
