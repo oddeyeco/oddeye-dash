@@ -16,7 +16,7 @@
                 <h4 class="card-title float-left">
                     <span class="badge badge-dark text-success align-top shadow"><a href="${cp}/metriq/${metric.sha256Code()}"> ${metric.getDisplayName()} :</a></span> ${metric.getTypeName()}               
                 </h4>
-                <div id="reportrange" class="float-right dropdown-toggle rounded-top border-secondary reportrange" >
+                <div id="reportrange" class="float-right pull-right dropdown-toggle rounded-top border-secondary reportrange" >
                     <i class="fa fa-calendar p-1"></i>
                     <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}" timeZone="${curentuser.getTimezone()}"/></span>                 
                 </div>

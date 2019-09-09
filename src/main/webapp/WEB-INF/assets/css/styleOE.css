@@ -1562,6 +1562,17 @@ select#refreshtime_private {
 #modall2 table>tbody>tr>td {
    padding: 0.5rem; 
 }
+#modall2 th.sorting_disabled ul.dropdown-menu.show {
+    padding-left: .3rem;
+}
+#modall2 th.sorting_disabled ul.dropdown-menu.show>li>a:hover {
+    background: #343a40;
+    color: #efefef;
+    padding: 0 0.2rem;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3);
+}
+
 #modall1 table>tbody>tr>td.sorting_1 {
     text-align: left;
     padding-left: 20px;
