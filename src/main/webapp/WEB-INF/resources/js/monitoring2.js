@@ -206,14 +206,14 @@ function drawUL(errorjson, table, hashindex, update) {
                             if (errorjson.isspec === 0)
                             {
 //                                html = html + '<div class="inline icons"><input type="checkbox" class="rawflat" name="table_records"><div class="fa-div"> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fas fa-chart-area"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a> <i class="action fa ' + arrowclass + '" style="color:' + color + ';"></i></div></div>';
-                                html = html + '<div class="icons"><i class="pull-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fas fa-chart-area"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a>' +
+                                html = html + '<div class="icons"><i class="float-left action fa ' + arrowclass + '" style="color:' + color + ';"></i> <a href="' + cp + '/chart/' + errorjson.hash + '" target="_blank"><i class="fa fas fa-chart-area"></i></a><a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a>' +
                                         '<a href="#"><i class="fa far fa-bell-slash resetregretion"></i></a>' +
                                         '<a href="#"><i class="fa far fa-trash-alt deletemetric"></i></a>' +
 //                                        '<a href="#"><span class="glyphicon glyphicon-trash resetrules" aria-hidden="true"></span></a>' +
                                         '</div>';
                             } else
                             {
-                                html = html + '<div class="icons"><i class="fa fa-bell pull-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a><a href="#"><i class="fa far fa-trash-alt deletemetric"></i></a></div>';
+                                html = html + '<div class="icons"><i class="fa fa-bell float-left"></i> <a href="' + cp + '/history/' + errorjson.hash + '" target="_blank"><i class="fa fa-history"></i></a><a href="#"><i class="fa far fa-trash-alt deletemetric"></i></a></div>';
                             }
                             break;
                         }
@@ -375,7 +375,7 @@ function drawUL(errorjson, table, hashindex, update) {
         }
         if (arrowclass !== "")
         {
-            $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action pull-left fa " + arrowclass);
+            $("." + table).find("li#" + hashindex + " .icons i.action").attr("class", "action float-left fa " + arrowclass);
             $("." + table).find("li#" + hashindex + " .icons i.action").css("color", color);
         }
     }

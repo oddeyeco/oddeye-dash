@@ -216,9 +216,11 @@ span.select2-selection.select2-selection--single {
     margin: 0;
     height: 30px;
 }
+#options .value span.select2-selection.select2-selection--multiple,
 #filters .value span.select2-selection.select2-selection--multiple {
     padding: 0 .4rem;
     margin: 0;
+    border: 1px solid #ced4da;
 }
 #filters .value ul.select2-selection__rendered {
     padding: 0;
@@ -640,8 +642,9 @@ a.article:hover, a.download:hover {
     transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
 }
 .depthShadowChartsection:hover {
-    -webkit-box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
-    box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
+/*    -webkit-box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0px 0rem 0.5rem rgba(0, 0, 0, 0.4);*/
+    background-color: #e2e6ea!important;
     transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
 }
 
@@ -1185,6 +1188,7 @@ fieldset .filter>.card>h4.card-header {
 }
 fieldset #filters .filter .defined_filter>table>tr>th {
     border: 0;
+    padding: .5rem;
 }
 fieldset #filters .filter .defined_filter>table>tr>td {
     border: 0;
@@ -1232,18 +1236,25 @@ fieldset #options table.options th.name {
     flex-wrap: wrap;
 }
 .monitorlist li ul li {
+    position: relative;
     flex: 1;
     list-style: none;
-    padding: 8px;
-    border: solid 1px #d5d5d5;
-    border-radius: 5px;
     margin: 3px;
+    padding: 8px;
+    border: solid 1px #aeb3b3;
+    border-radius: 5px;
     word-wrap: break-word;
     text-align: left;
     white-space: nowrap;
     cursor: pointer;
-    position: relative;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s cubic-bezier(.24,.43,.6,.43);  
 }
+.monitorlist li ul li.selected {
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.4), inset 0px 0px 8px 4px rgba(0, 0, 0, 0.3);
+}
+
 .monitorlist li ul li .icons {
     text-align: right;
     margin: -3px -3px 0;
@@ -1255,7 +1266,7 @@ fieldset #options table.options th.name {
 }
 .monitorlist li ul li .inline {
     display: inline-block;
-    margin: 0 5px 0 0;
+    margin: 0 5px 5px 0;
 }
 .monitorlist li ul li .metricname {
     border: 1px solid #d5d5d5;
@@ -1265,7 +1276,13 @@ fieldset #options table.options th.name {
     border-radius: 5px;
     background-color: #e4e4e4;
     clear: both;
-} 
+}
+.monitorlist li ul li .icons .fa-bell {
+    color: #c60200;
+}
+.monitorlist li ul#speciallist .info.name {
+    background-color: #c60200;
+}
 .monitorlist .level_0 {
         background-color: #f8f8f8;
 }  
