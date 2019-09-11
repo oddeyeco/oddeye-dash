@@ -528,13 +528,13 @@ class BaseChartEditForm extends EditForm {
                         tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom", text: "X", lfor: "title_x_position"},
                             {tag: "select", class: "form-control title_select", prop_key: "x", id: "title_x_position", name: "title_x_position", key_path: 'title.x', default: "", options: this.xpositionoptions},
-//                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "title_x_position_text", name: "title_x_position_text", key_path: 'title.x', placeholder: "or px", default: ""},
+                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "title_x_position_text", name: "title_x_position_text", key_path: 'title.x', placeholder: "px", default: ""},
 //                            {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"},
                             {tag: "label", class: "control-label control-label_Y", text: "Y", lfor: "title_y_position"},
                             {tag: "select", class: "form-control title_select", prop_key: "y", id: "title_y_position", name: "title_y_position", key_path: 'title.y', default: "", options: this.ypositionoptions},
-//                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'title.y', placeholder: "or px", default: ""},
+                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'title.y', placeholder: "px", default: ""},
 //                            {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                         ]
                     }]},
@@ -863,15 +863,15 @@ class BaseChartEditForm extends EditForm {
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: "X", lfor: "legend_x_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "x", id: "legend_x_position", name: "legend_x_position", key_path: 'options.legend.x', default: "", options: this.xpositionoptions},
-//                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
-                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "legend_x_position_text", name: "legend_x_position_text", key_path: 'options.legend.x', placeholder: "or px", default: ""}
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "legend_x_position_text", name: "legend_x_position_text", key_path: 'options.legend.x', placeholder: "px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: "Y", lfor: "legend_y_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "y", id: "legend_y_position", name: "legend_y_position", key_path: 'options.legend.y', default: "", options: this.ypositionoptions},
-//                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
-                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "legend_y_position_text", name: "legend_y_position_text", key_path: 'options.legend.y', placeholder: "or px", default: ""}
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
+                                    {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "legend_y_position_text", name: "legend_y_position_text", key_path: 'options.legend.y', placeholder: "px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]}
                         ]},
@@ -885,7 +885,7 @@ class BaseChartEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.borderColor"], lfor: "legend_border_color"},
-                                    {tag: "div", class: "color-button align-bottom ", content: [
+                                    {tag: "div", class: "color-button title_select", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_noinput colorpicker-element", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "legend_border_color", name: "legend_border_color", key_path: 'options.legend.borderColor', default: ""},
                                                     {tag: "span", class: "input-group-addon legend_clBorder", content: [{tag: "i"}]}

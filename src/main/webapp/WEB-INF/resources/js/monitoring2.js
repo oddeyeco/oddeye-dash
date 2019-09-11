@@ -843,7 +843,6 @@ $(document).ready(function () {
                     var opt = $(".all_filter .add_filter_select option[alias=" + name + "]:first");
                     opt.attr("disabled", "disabled");
                     row.append("<th class='col-1 filter_label mr-3'>" + opt.attr("fname") + "</th>");
-
                     row.append("<td class='col-1 action mr-4'> <select class='operators_subject' name='op[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
                     row.append("<td class='col-8 value ml-1'><input class='filter-value' type='text' name='v[" + $(".all_filter .add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + filterOldJson[name + "_input"] + "></td>");
                     $(".all_filter").find(".filters-table").append(row);
@@ -912,11 +911,9 @@ $(document).ready(function () {
                         var name = filter;
                         var opt = Domsection.find(".add_filter_select option[value='" + name + "']:first");
                         opt.attr("disabled", "disabled");
-                        row.append("<th class='col-1 filter_label mr3'>" + opt.attr("fname") + "</th>");
-
-                        row.append("<td class='col-1 action mr-4'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
-                        row.append("<td class='col-8 value ml-1'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
-
+                        row.append("<th class='col-3 filter_label'>" + opt.attr("fname") + "</th>");
+                        row.append("<td class='col-3 action'> <select class='operators_subject' name='op[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "'>" + strop + " </select> </td>");
+                        row.append("<td class='col-5 value'><input class='filter-value' type='text' name='v[" + Domsection.find(".add_filter_select").attr("id") + "_" + opt.attr("value") + "]' tagkey='" + opt.attr("value") + "' autocomplete='off' value=" + optionsJson.v[section][filter] + "></td>");
                         row.find(".action option[value='" + optionsJson.op[section][filter] + "']").prop('selected', 'selected');
                         Domsection.find(".filters-table").append(row);
                     }
