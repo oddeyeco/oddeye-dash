@@ -986,6 +986,16 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     public OddeyeUserModel getSwitchUser() {
         return SwitchUser;
     }
+    
+    /**
+     * @return the SwitchUser if not null and this user if null
+     */
+    public OddeyeUserModel proxy() {
+        if(null != SwitchUser)
+            return SwitchUser;
+        else
+            return this;
+    }    
 
     /**
      * @param SwitchUser the SwitchUser to set
@@ -1305,5 +1315,7 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     public void setTemplate(String template) {
         this.template = template;
     }
+    
+    
 
 }

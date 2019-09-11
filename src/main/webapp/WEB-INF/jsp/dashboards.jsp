@@ -84,7 +84,7 @@
                                         <i class="fa fas fa-info-circle" data-toggle="tooltip" data-html="true" data-placement="left" title="" data-delay='{"hide":"1000"}' data-original-title="${fn:escapeXml(Dush.getDescription())} <div> Metrics-${Dush.getUsednames().size()}<br>Tag Filters-${Dush.getUsedtags().size()}</div>"></i>
 
                                         ${Dush.getName()}</span>
-                                    <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/></span>                                    
+                                    <span class="pull-right"><fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.proxy().getTimezone()}"/></span>                                    
                                 </a> 
                             </li>                                
                         </c:forEach>
@@ -109,7 +109,7 @@
                                         <i class="fa fa-dot-circle-o blue"></i>
                                     </c:if>                                         
                                     <span>${Dush.getName()}</span>
-                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/></span>                                    
+                                    <span class="pull-right"> <fmt:formatDate value="${Dush.getTime()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.proxy().getTimezone()}"/></span>                                    
                                 </a> 
                             </li>                                
                         </c:forEach>

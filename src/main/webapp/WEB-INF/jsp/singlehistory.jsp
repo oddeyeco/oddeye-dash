@@ -13,7 +13,7 @@
         <div class="x_title">
             <div id="reportrange" class="pull-right reportrange" >
                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}" timeZone="${curentuser.getTimezone()}"/></span> <b class="caret"></b>
+                <span><fmt:formatDate type="both" pattern="dd/MM/YYYY" value="${date}" timeZone="${curentuser.proxy().getTimezone()}"/></span> <b class="caret"></b>
             </div>
             <h1><a href="${cp}/metriq/${metric.sha256Code()}"> ${metric.getDisplayName()} </a>: ${metric.getTypeName()}</h1>
 
@@ -164,7 +164,7 @@
                                     </td>                                    
                                     <jsp:setProperty name="dateValue" property="time" value="${listitem.getTime()}"/>
                                     <td class="time" value ="${listitem.getTime()}">                                        
-                                        <fmt:formatDate type="both" pattern="MM/dd H:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>
+                                        <fmt:formatDate type="both" pattern="MM/dd H:mm:ss" value="${dateValue}" timeZone="${curentuser.proxy().getTimezone()}"/>
                                     </td>   
                                     <td class="timeinterval" value ="${lasttime-listitem.getTime()}">                                                                                
                                     </td>                                       
@@ -173,7 +173,7 @@
                                         <c:if test="${listitem.getLevel()>=0}">
                                             <c:if test="${not empty listitem.getStarttimes()[listitem.getLevel()]}">
                                                 <jsp:setProperty name="dateValue" property="time" value="${listitem.getStarttimes()[listitem.getLevel()]}"/>
-                                                <fmt:formatDate type="both" pattern="MM/dd hh:mm:ss" value="${dateValue}" timeZone="${curentuser.getTimezone()}"/>                                            
+                                                <fmt:formatDate type="both" pattern="MM/dd hh:mm:ss" value="${dateValue}" timeZone="${curentuser.proxy().getTimezone()}"/>                                            
                                             </c:if>
                                         </c:if>
                                     </td>       

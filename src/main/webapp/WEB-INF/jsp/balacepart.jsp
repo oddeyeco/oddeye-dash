@@ -16,7 +16,7 @@
         <div class="col-sm-6 col-xs-12 tile_stats_count">
             <h4 class="count_top"><spring:message code="dashboards.available"/></h4>
             <div class="count">
-                <c:set var="balance" value="${curentuser.getBalance()}" />
+                <c:set var="balance" value="${curentuser.proxy().getBalance()}" />
                 <c:if test="${balance<Double.MAX_VALUE}">
                     <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${balance}" />
                 </c:if>                    
@@ -27,7 +27,7 @@
                     0
                 </c:if>                             
             </div>
-            <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
+            <c:set var="Consumption" value="${curentuser.proxy().getConsumptionList().getConsumptionListDay(0)}" />
             <!--                    <span class="count_bottom">
                                     Consumed
                                     <i class="green">
@@ -42,7 +42,7 @@
         </div>
         <div class="col-sm-6 col-xs-12 tile_stats_count Consumptions">
             <h4 class="count_top"><spring:message code="dashboards.burnRate"/></h4>
-            <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />                    
+            <c:set var="Consumption" value="${curentuser.proxy().getConsumptionList().getConsumptionListDay(0)}" />                    
             <div class="count_bottom clearfix">                        
                 <span class="pull-left"><spring:message code="dashboards.burnRateToday"/> </span>
                 <div class="green">
@@ -54,7 +54,7 @@
                     </c:if> 
                 </div> 
             </div>                                 
-            <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(1)}" />
+            <c:set var="Consumption" value="${curentuser.proxy().getConsumptionList().getConsumptionListDay(1)}" />
             <div class="count_bottom clearfix">                        
                 <span class="pull-left"><spring:message code="dashboards.burnRateYesterday"/> </span>
                 <div class="green">
@@ -66,7 +66,7 @@
                     </c:if> 
                 </div>
             </div>                          
-            <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(0)}" />
+            <c:set var="Consumption" value="${curentuser.proxy().getConsumptionList().getConsumptionListMonth(0)}" />
             <div class="count_bottom clearfix">                        
                 <span class="pull-left"><spring:message code="dashboards.burnRateThisMonth"/></span>
                 <div class="green" id="thismonth">
@@ -78,7 +78,7 @@
                     </c:if> 
                 </div>
             </div>
-            <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListMonth(1)}" />
+            <c:set var="Consumption" value="${curentuser.proxy().getConsumptionList().getConsumptionListMonth(1)}" />
             <div class="count_bottom clearfix">                        
                 <span class="pull-left"><spring:message code="dashboards.burnRatePreviousMonth"/></span>
                 <div class="green" id="prevmonth">
@@ -111,9 +111,9 @@
                 <form action="${paypal_url}" method="post" >
                     <input type="hidden" name="cmd" value="_xclick">
                     <input type="hidden" name="business" value="${paypal_email}">
-                    <input id="paypalItemName" type="hidden" name="item_name" value="Oddeye Points ${curentuser.getEmail()}" text="OddEye units ${curentuser.getEmail()}">                            
+                    <input id="paypalItemName" type="hidden" name="item_name" value="Oddeye Points ${curentuser.proxy().getEmail()}" text="OddEye units ${curentuser.proxy().getEmail()}">                            
                     <input id="paypalAmmount" type="hidden" name="amount" value="">                            
-                    <input type="hidden" name="custom" value="${curentuser.getId()}">
+                    <input type="hidden" name="custom" value="${curentuser.proxy().getId()}">
                     <input type="hidden" name="no_shipping" value="1">
                     <input type="hidden" name="return" value="${paypal_returnurl}">
                     <input type="hidden" name="notify_url" value="${paypal_notifyurl}">
@@ -134,10 +134,10 @@
     </div>
     <div class="x_content">
         <ul class="gotodash">
-            <c:forEach items="${curentuser.getPayments()}" var="payment" varStatus="loop">                                
+            <c:forEach items="${curentuser.proxy().getPayments()}" var="payment" varStatus="loop">                                
                 <li class="col-lg-12">
                     <span class="pull-left">  
-                        <fmt:formatDate value="${payment.getPayment_date()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.getTimezone()}"/>
+                        <fmt:formatDate value="${payment.getPayment_date()}" pattern="MM/dd/yyyy HH:mm:ss z" timeZone="${curentuser.proxy().getTimezone()}"/>
 
                     </span> <span class="pull-right"> ${payment.getPayment_gross()} $ </span>
                 </li>                                

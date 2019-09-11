@@ -9,8 +9,8 @@
 
 <script>
     var balanse = 0;
-    <c:if test="${curentuser.getBalance()!=null}">
-    balanse = ${curentuser.getBalance()};
+    <c:if test="${curentuser.proxy().getBalance()!=null}">
+    balanse = ${curentuser.proxy().getBalance()};
     </c:if>
     var locale = {
         "datetime.lastminute": "<spring:message code="datetime.lastminute"/>",
