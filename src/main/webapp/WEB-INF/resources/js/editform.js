@@ -61,7 +61,8 @@ class EditForm {
                 var content = this.gettabcontent(tab.contentid);
                 if (content.active)
                 {
-                    this.formwraper.find('#tabpanel #formTab #' + tab.id).parent().addClass('active');
+//                    this.formwraper.find('#tabpanel #formTab #' + tab.id).parent().addClass('active');
+                    this.formwraper.find('#tabpanel #formTab #' + tab.id).addClass('active');
                     this.formwraper.find('#tabpanel #TabContent #' + tab.contentid).addClass('show active');
                 }
                 this.formwraper.find('#tabpanel #TabContent #' + tab.contentid).append('<div class="row">');

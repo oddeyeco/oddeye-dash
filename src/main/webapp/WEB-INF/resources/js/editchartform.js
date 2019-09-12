@@ -891,7 +891,7 @@ class BaseChartEditForm extends EditForm {
                                                     {tag: "span", class: "input-group-addon legend_clBorder", content: [{tag: "i"}]}
                                                 ]}
                                         ]},
-                                    {tag: "label", class: "control-label control-label-custom-legend3", text: locale["editchartform.width"], lfor: "legend_border_width"},
+                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.width"], lfor: "legend_border_width"},
                                     {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "borderWidth", id: "legend_border_width", name: "legend_border_width", key_path: 'options.legend.borderWidth', placeholder: " px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                             ]}
@@ -1192,7 +1192,7 @@ class BaseChartEditForm extends EditForm {
                 ]}];
 
         var edit_data_zoom = {tag: "div", class: 'forms col', id: "edit_data_zoom"};
-        edit_data_zoom.content = [{tag: "div", class: "form_main_block", content: [{tag: "button", class: "btn btn-outline-success Addq btn-sm m-1",
+        edit_data_zoom.content = [{tag: "div", class: "form_main_block d-flex", content: [{tag: "button", class: "btn btn-outline-success Addq btn-sm m-1",
                         text: locale["editchartform.add"],
                         id: "addq",
                         key_path: "options.dataZoom",
