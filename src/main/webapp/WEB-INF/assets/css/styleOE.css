@@ -1551,14 +1551,15 @@ select#refreshtime_private {
 #tab_legend .color-button {
     margin-bottom: 0;
 }
-.control-label-custom-legend2 {
+edit-form .control-label-custom-legend2 {
     padding: 2px;
     width: 50px;
     text-align: right;
 }
-.control-label-custom-legend3 {
-/*        text-align: right;
-        width: 115px;*/
+edit-form .control-label-custom-legend3 {    
+    width: auto;
+    margin: 0;
+    padding: 2px;
 }
 
 .q_warning{

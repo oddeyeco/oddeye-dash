@@ -863,14 +863,14 @@ class BaseChartEditForm extends EditForm {
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: "X", lfor: "legend_x_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "x", id: "legend_x_position", name: "legend_x_position", key_path: 'options.legend.x', default: "", options: this.xpositionoptions},
-                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
+                                    {tag: "label", class: "control-label control-label-custom-legend3", text: locale["editchartform.OR"]},
                                     {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "legend_x_position_text", name: "legend_x_position_text", key_path: 'options.legend.x', placeholder: "px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom-legend", text: "Y", lfor: "legend_y_position"},
                                     {tag: "select", class: "form-control title_select", prop_key: "y", id: "legend_y_position", name: "legend_y_position", key_path: 'options.legend.y', default: "", options: this.ypositionoptions},
-                                    {tag: "label", class: "control-label control-label-custom-legend2", text: locale["editchartform.OR"]},
+                                    {tag: "label", class: "control-label control-label-custom-legend3", text: locale["editchartform.OR"]},
                                     {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "legend_y_position_text", name: "legend_y_position_text", key_path: 'options.legend.y', placeholder: "px", default: ""}
 //                                    {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                                 ]}
