@@ -602,7 +602,7 @@ class BaseChartEditForm extends EditForm {
         var edit_axes_y = {tag: "div", class: 'form_main_block col-3', id: "edit_y", label: {show: true, text: locale["editchartform.Yaxes"]}};
         var current = this;
 
-        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_yaxes", content: [
+        var axes_template = [{tag: "form", class: "form-horizontal depthShadowLightHover form-label-left edit-axes", id: "{index}_yaxes", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_y"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
@@ -708,7 +708,7 @@ class BaseChartEditForm extends EditForm {
         var edit_axes_x = {tag: "section", class: 'form_main_block col-3', id: "edit_x", label: {show: true, text: locale["editchartform.Xaxes"]}};
         var current = this;
 
-        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_xaxes", content: [
+        var axes_template = [{tag: "form", class: "form-horizontal depthShadowLightHover form-label-left edit-axes", id: "{index}_xaxes", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_x"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}
@@ -1406,7 +1406,7 @@ class HmEditForm extends BaseChartEditForm {
         var edit_axes_y = {tag: "div", class: 'form_main_block float-left', id: "edit_y", label: {show: true, text: locale["editchartform.Yaxes"]}};
         var current = this;
 
-        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_yaxes", content: [
+        var axes_template = [{tag: "form", class: "form-horizontal depthShadowLightHover form-label-left edit-axes", id: "{index}_yaxes", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_y"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_y", prop_key: "show", id: "{index}_axes_show_y", name: "axes_show_y", key_path: 'show', default: true}
@@ -1457,7 +1457,7 @@ class HmEditForm extends BaseChartEditForm {
         var edit_axes_x = {tag: "section", class: 'form_main_block float-left', id: "edit_x", label: {show: true, text: locale["editchartform.Xaxes"]}};
         var current = this;
 
-        var axes_template = [{tag: "form", class: "form-horizontal form-label-left edit-axes", id: "{index}_xaxes", content: [
+        var axes_template = [{tag: "form", class: "form-horizontal depthShadowLightHover form-label-left edit-axes", id: "{index}_xaxes", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "axes_show_x"},
                             {tag: "input", type: "checkbox", class: "js-switch-small axes_show_x", prop_key: "show", id: "{index}_axes_show_x", name: "axes_show_x", key_path: 'show', default: true}

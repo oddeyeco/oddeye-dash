@@ -256,7 +256,7 @@
             <div class="card-body">
                 <div id="query_form_content">
                     <form class="form-options form-row">
-                        <fieldset class="form-group col-12"> 
+                        <fieldset class="form-group col-lg-4 col-12"> 
                                 <h4 class="card-header shadow p-1">
                                     <button type="button" id="collapseFilters" class="btn btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.filters"/></b>
@@ -264,7 +264,7 @@
                                 </h4>                        
                                 <div class="filter-body p-0" id="filters">
                                     <div class="filters row">
-                                        <div class="filter all_filter col-12 col-lg-4 pr-lg-0">  
+                                        <div class="filter all_filter col-12">  
                                             <div class="card shadow">
                                                 <h4 class="card-header text-center p-0 bg-light">
                                                     <button type="button" id="collapseAll_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
@@ -297,7 +297,7 @@
                                                 </div>                                                                        
                                             </div>
                                         </div>
-                                        <div class="filter machine_filter col-12 col-lg-4 p-lg-0">
+                                        <div class="filter machine_filter col-12">
                                             <div class="card shadow">
                                                 <h4 class="card-header  text-center p-0 bg-light">
                                                     <button type="button" id="collapseMachine_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
@@ -330,7 +330,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="filter manual_filter col-12 col-lg-4 pl-lg-0">
+                                        <div class="filter manual_filter col-12">
                                             <div class="card shadow">
                                                 <h4 class="card-header  text-center p-0 bg-light">
                                                     <button type="button" id="collapseManual_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
@@ -367,7 +367,7 @@
                                 </div>
 
                         </fieldset>
-                        <fieldset class="form-group col-lg-6 col-12 pr-lg-0">
+                        <fieldset class="form-group col-lg-4 col-12 pr-lg-0">
                             <div class="card shadow">
                                 <h4 class="card-header rounded-0 p-1">
                                     <button type="button" id="collapseOptions" class="btn btn-outline-dark markBtn">
@@ -376,11 +376,15 @@
                                 </h4>
                                 <div class="card-body filter-body depthShadowLightHover p-3 minHeight180" id="options">                                    
                                         <table class="table options" style="width: 100%">
-                                            <tbody>
+                                            <thead>
                                                 <tr>
                                                     <th class="card-fields name align-middle">
                                                         <label><spring:message code="monitorings2.displayFields"/></label>
                                                     </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
                                                     <td class="card-fields value">
                                                         <select name="f_col[]" multiple="multiple" class="f_col"  style="width: 100%">
                                                             <option value="actions" label="actions" key="actions"><spring:message code="monitorings2.displayFieldsActions"/></option>
@@ -409,7 +413,7 @@
                                 </div>
                             </div>                       
                         </fieldset>
-                        <fieldset class="form-group col-lg-6 col-12 pl-lg-0">
+                        <fieldset class="form-group col-lg-4 col-12 pl-lg-0">
                             <div class="card shadow">
                                 <h4 class="card-header rounded-0 p-1">
                                     <button type="button" id="collapseNotifiers" class="btn btn-outline-dark markBtn">

@@ -978,7 +978,7 @@ class EditForm {
 //        this.tabcontent.tab_metric.active = true;
         var current = this;
         var edit_q = {tag: "div", class: 'forms col-12', id: "edit_q"};
-        var q_template = [{tag: "form", class: "form-horizontal form-label-left edit-query", id: "{index}_query", content: [
+        var q_template = [{tag: "form", class: "form-horizontal depthShadowLightHover form-label-left edit-query", id: "{index}_query", content: [
                     {tag: "div", class: "form-group form-group-custom forinside", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editform.disabled"], lfor: "metric_check_disabled"},
                             {tag: "input", type: "checkbox", class: "js-switch-small metric_check_disabled", prop_key: "check_disabled", id: "{index}_metric_check_disabled", name: "metric_check_disabled", key_path: 'check_disabled', default: false}

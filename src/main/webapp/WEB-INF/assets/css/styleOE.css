@@ -41,20 +41,25 @@ p {
     color: #999;
 }
 /*=========== scroll ================*/
+
+/*
 html {
     overflow: scroll;
-/*    overflow-x: hidden;*/
+    overflow-x: hidden;
 }
+*/
 ::-webkit-scrollbar {
-  width: 4px;
-  height: 8px;
-  background-color: #aeb3b3;
+    width: 12px;
 }
-/* Optional: show position indicator in red */
+::-webkit-scrollbar-track {
+    background-color: rgb(52, 58, 64);
+}
 ::-webkit-scrollbar-thumb {
-    background: #000000;
+    background-color: rgb(199, 204, 204);
+    border-radius: 4px;
+    box-shadow: inset 1px 0px 6px 2px rgba(0,0,0,0.5);
+    -webkit-box-shadow: inset 1px 0px 6px 2px rgba(0,0,0,0.5);
 }
-
 /*=========== /scroll ================*/
 a,
 a:hover,
@@ -353,7 +358,7 @@ select#title_x_position option {
     background: #c7cccc;
     color: #000;    
     z-index: 999;
-    transition: all 0.3s;
+/*    transition: all 0.3s;*/
 }
 #sidebar ul li a {
     text-align: left;
@@ -495,7 +500,7 @@ a.article:hover, a.download:hover {
     position: absolute;
     top: 0;
     right: 0;
-    transition: all 0.3s;
+/*    transition: all 0.3s;*/
 }
 #content.active {
     width: calc(100% - 100px);
@@ -782,11 +787,14 @@ a[aria-expanded="true"] {
     border-color: #000;
 }
 ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
-    min-width: inherit;
-/*    width: 160px;*/
+    max-width: inherit;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0.2rem 0.5rem 0.8rem;
     background-color: #343a40;
     border: none;
+    
 }
 #sidebar.active ul#sidebarSmallMenu .dropright.show .dropdown-menu.show>a {
     color: #fff;

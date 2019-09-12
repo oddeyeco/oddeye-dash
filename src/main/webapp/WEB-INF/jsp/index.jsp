@@ -365,7 +365,7 @@
                                         <ul class="list-unstyled child_menu" id="dashboardsMenu">
                                             <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
                                                 <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                                                <li class="text-nowrap">
+                                                <li class="text-wrap">
                                                     <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
                                                         <c:if test="${Dush.value.get(\"locked\")==true}">
                                                             &nbsp; <i class="fa fas fa-lock"></i>
