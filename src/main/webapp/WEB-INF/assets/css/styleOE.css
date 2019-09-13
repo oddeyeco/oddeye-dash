@@ -30,7 +30,8 @@ font-style: normal;
 body {    
     font-family: 'Ubuntu','Roboto','Lato', sans-serif;
     background: #f0f0f0;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.2;
 }
 p {
 /*    font-family: 'Lato','Roboto', sans-serif;*/
@@ -1559,12 +1560,12 @@ select#refreshtime_private {
 #tab_legend .color-button {
     margin-bottom: 0;
 }
-edit-form .control-label-custom-legend2 {
+.control-label-custom-legend2 {
     padding: 2px;
     width: 50px;
     text-align: right;
 }
-edit-form .control-label-custom-legend3 {    
+.control-label-custom-legend3 {    
     width: auto;
     margin: 0;
     padding: 2px;

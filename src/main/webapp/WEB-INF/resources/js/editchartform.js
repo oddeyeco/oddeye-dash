@@ -1122,7 +1122,7 @@ class BaseChartEditForm extends EditForm {
         this.tabcontent.tab_display.forms = [edit_display];//suren
         this.tabcontent.tab_data_zoom = {};//suren
 
-        var data_zoom_template = [{tag: "form", class: "form-horizontal form-label-left edit-datazoom float-left", id: "{index}_data_zoom", content: [
+        var data_zoom_template = [{tag: "form", class: "form-horizontal depthShadowLightHover form-label-left edit-datazoom float-left", id: "{index}_data_zoom", content: [
                     {tag: "div", class: "form-group form-group-custom forslider", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.show"], lfor: "data_zoom_show"},
                             {tag: "input", type: "checkbox", class: "js-switch-small data_zoom_show", prop_key: "show", id: "{index}_data_zoom_show", name: "data_zoom_show", key_path: 'show', default: true}
@@ -1135,7 +1135,7 @@ class BaseChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.start"] + " %", lfor: "datazoom_start"},
                             {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "start", id: "{index}_datazoom_start", name: "datazoom_start", key_path: 'start', default: 0, min: 0, max: 100},
                             {tag: "label", class: "control-label control-label-custom-axes", text: locale["editchartform.end"] + " %", lfor: "datazoom_end"},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "end", id: "{index}_datazoom_end", name: "datazoom_end", key_path: 'end', default: 100, min: 0, max: 100}
+                            {tag: "input", type: "number", class: "form-control title_input_small mr-2", prop_key: "end", id: "{index}_datazoom_end", name: "datazoom_end", key_path: 'end', default: 100, min: 0, max: 100}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom form-inline", content: [
@@ -1205,7 +1205,6 @@ class BaseChartEditForm extends EditForm {
                                 current.dashJSON.rows[current.row].widgets[current.index].options.dataZoom.push({});
                                 var contener = $(this).parent();
                                 current.repaintdatazoom(contener, edit_data_zoom.content[0].content);
-
                             }
                         }
                     }

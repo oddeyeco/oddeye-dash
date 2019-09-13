@@ -256,12 +256,14 @@
             <div class="card-body">
                 <div id="query_form_content">
                     <form class="form-options form-row">
-                        <fieldset class="form-group col-lg-4 col-12"> 
-                                <h4 class="card-header shadow p-1">
-                                    <button type="button" id="collapseFilters" class="btn btn-outline-dark markBtn">
+                        <fieldset class="form-group col-lg-4 col-12 pr-lg-0">
+                            <div class="card shadow">
+                                <h4 class="card-header p-1">
+                                    <button type="button" id="collapseFilters" class="btn btn-sm btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.filters"/></b>
                                     </button>
-                                </h4>                        
+                                </h4>
+                            </div>                       
                                 <div class="filter-body p-0" id="filters">
                                     <div class="filters row">
                                         <div class="filter all_filter col-12">  
@@ -367,10 +369,10 @@
                                 </div>
 
                         </fieldset>
-                        <fieldset class="form-group col-lg-4 col-12 pr-lg-0">
+                        <fieldset class="form-group col-lg-4 col-12 px-lg-0">
                             <div class="card shadow">
-                                <h4 class="card-header rounded-0 p-1">
-                                    <button type="button" id="collapseOptions" class="btn btn-outline-dark markBtn">
+                                <h4 class="card-header p-1">
+                                    <button type="button" id="collapseOptions" class="btn btn-sm btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.options"/></b>
                                     </button>
                                 </h4>
@@ -415,8 +417,8 @@
                         </fieldset>
                         <fieldset class="form-group col-lg-4 col-12 pl-lg-0">
                             <div class="card shadow">
-                                <h4 class="card-header rounded-0 p-1">
-                                    <button type="button" id="collapseNotifiers" class="btn btn-outline-dark markBtn">
+                                <h4 class="card-header p-1">
+                                    <button type="button" id="collapseNotifiers" class="btn btn-sm btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i>
                                         <b class="pagetitle"><spring:message code="monitorings2.externalNotifiers"/></b>
                                     </button>
