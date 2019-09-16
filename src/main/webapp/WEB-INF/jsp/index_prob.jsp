@@ -714,12 +714,16 @@
             <!-- Select2 -->          
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
 <!--            <script src="${cp}/resources/select2/dist/js/select2.js?v=${version}"></script>-->
+ <!-- DataTables bootstrap4 -->
+            <script src="${cp}/resources/dataTablesBS4/js/jquery.dataTables.min.js?v=${version}"></script>
+            <script src="${cp}/resources/dataTablesBS4/js/dataTables.bootstrap4.min.js?v=${version}"></script> 
 
             <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script>
             <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>                    
             <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>
+            <script src="${cp}/resources/js/scriptOE.js?v=${version}"></script>
             <script src="${cp}/resources/js/global.js?v=${version}"></script>
-            <script src="${cp}/resources/js/scriptOE.js?v=${version}"></script>   
+             
                  
             
             
@@ -731,10 +735,7 @@
                     <c:import url="${path}js.jsp" />
                 </c:catch>                        
             </c:if>
-            <!-- DataTables bootstrap4 -->
-            <script src="${cp}/resources/dataTablesBS4/js/jquery.dataTables.min.js?v=${version}"></script>
-            <script src="${cp}/resources/dataTablesBS4/js/dataTables.bootstrap4.min.js?v=${version}"></script> 
-
+           
             <script>
                 $(function () {
                     $MENU_TOGGLE.on('click', function () {

@@ -343,14 +343,59 @@ select#title_x_position option {
 .select2wraper.global-down-sample-ag-wraper {
     width: 120px;
 }
-/* ---------------------------------------------------
+/* ========================================================
+    SIDEBAR - CONTENT & nav-md - nav-sm
+=========================================================== */
+.nav-md #sidebar {   
+    width: 220px;    
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: #c7cccc;
+    color: #000;      
+    z-index: 99;
+}
+.nav-sm #sidebar {    
+    width: 100px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: #c7cccc;
+    color: #000;      
+    z-index: 999;
+}
+
+.nav-md #content {
+    margin-left: 220px;
+    min-height: 100vh;  
+    position: absolute;
+    top: 0;
+    right: 0;
+    left:0;
+}
+
+.nav-sm #content {
+    margin-left: 100px;
+    min-height: 100vh;  
+    position: absolute;
+    top: 0;
+    right: 0;
+    left:0;
+}
+
+
+
+/* ========================================================
     SIDEBAR STYLE
------------------------------------------------------ */
+=========================================================== */
 .wrapper {
     display: flex;
     width: 100%;
 }
-#sidebar {
+/*#sidebar {
     width: 220px;
     position: fixed;
     top: 0;
@@ -359,8 +404,8 @@ select#title_x_position option {
     background: #c7cccc;
     color: #000;    
     z-index: 999;
-/*    transition: all 0.3s;*/
-}
+    transition: all 0.3s;
+}*/
 #sidebar ul li a {
     text-align: left;
 }
@@ -495,17 +540,18 @@ a.article:hover, a.download:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 
-#content {
+/*#content {
     width: calc(100% - 220px);
     min-height: 100vh;  
     position: absolute;
     top: 0;
     right: 0;
-/*    transition: all 0.3s;*/
+    transition: all 0.3s;
 }
 #content.active {
     width: calc(100% - 100px);
-}
+}*/
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
@@ -706,10 +752,10 @@ a[aria-expanded="true"] {
 #sidebar.active .sidebar-footer {
     display: none;
 }
-#sidebar.active {
+/*#sidebar.active {
     width: 100px;
     text-align: center;
-}
+}*/
 #sidebar.active .sidebar-header span {
     display: none;
 }
