@@ -571,6 +571,7 @@ a.article:hover, a.download:hover {
         position: fixed;
         min-width: 100px;
         max-width: 100px;
+        height: 100%;
         text-align: center;
         margin-left: 0 !important;
     }
