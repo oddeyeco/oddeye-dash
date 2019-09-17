@@ -1,0 +1,406 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Dec 5, 2016, 9:52:30 AM
+    Author     : vahan
+*/
+body {  
+    /*color: #fff*/
+}
+
+.main_menu .fa { //For  Font Awesome 5 in custom css
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    &.fas
+    {
+        font-weight: 900;    
+    }
+    &.far
+    {
+        font-weight: 400;    
+    }    
+}
+#main {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-image: url("../images/bkg.jpg");
+} 
+.toggle {
+    position: relative;
+    padding: 11px 16px;
+    width: unset;
+    #mobileLeftMenu {
+        padding: 0;
+        &:focus , &:hover{
+            color: #ddd;
+        }
+    }
+}
+#recaptcha
+{
+    float: left;
+}
+.sineup
+{
+    .contactform
+    {
+        /*padding: 0 20px;*/
+    }
+    a
+    {
+        &.btn-href
+        {
+            margin: 5px; 
+            color: rgba(255,255,255,0.66);
+            background: rgba(30,80,0,1);
+            border-width: 0;  
+            &:hover {
+                transform: scale(1.05);
+                background: rgba(30,80,0,0.9);    
+                color: rgba(255,255,255,0.66);
+            }        
+        }
+    }  
+    button.SineUp
+    {
+        margin-left: 6px;
+        float: right;
+        width: 45%;
+        height: 78px;    
+    }
+    color: #fff;    
+    padding-top: 100px;
+}
+@media (min-width: 1200px)
+{
+    .sineup {
+        width: 1170px;
+    }
+}
+@media (max-width: 1199px)
+{
+    .sineup {
+        width: 80%;
+    }
+}
+.logincontener
+{    
+    .login
+    {
+        background: none;
+    }
+    a
+    {
+        &.btn-href
+        {
+            margin: 5px; 
+            color: rgba(255,255,255,0.66);
+            background: rgba(30,80,0,1);
+            border-width: 0;  
+            &:hover {
+                transform: scale(1.05);
+                background: rgba(30,80,0,0.9);    
+                color: rgba(255,255,255,0.66);
+            }        
+        }
+    }    
+    color: #fff;
+    position: absolute;  
+    top: 3%; 
+    width: 100%
+}  
+.select2-results__option
+{
+    color: #000;
+}
+.icheckbox_flat-green
+{
+    margin-top: -4px;
+    margin-right: 10px;
+}
+.logo
+{
+    .progress-wrap
+    {
+        display: none;
+    }        
+}
+.modal-dialog
+{
+    .modal-body
+    {
+        p
+        {
+
+        }
+    }
+    color: #73879C;    
+    font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.471;    
+
+}
+.modal_margin{
+    margin: 0px 50px;
+}
+@media (max-width: 760px)
+{
+
+    .modal_margin{
+        margin: 0px 20px;
+    }
+
+    .col-xs-12.logo
+    {
+        .progress-wrap
+        {
+            width: 100%;
+            position: absolute;
+            bottom: -40px;
+            right: 0px;
+            padding: 0px 15px;
+            .progress
+            {
+                .progress-bar
+                {
+                    border-radius: 4px;
+                }
+                border-radius: 4px;
+            }            
+        }
+        text-align: center;
+    }   
+    .col-xs-12.login
+    {
+        text-align: center;
+        padding: 30px;
+    }    
+}
+@media (min-width: 768px)
+{
+
+    .col-xs-12.logo
+    {
+        text-align: right;
+    }
+
+    .col-xs-12.login
+    {
+        text-align: left;
+    }
+    .logo
+    {
+        .progress-wrap
+        {
+            width: 176px;
+            position: absolute;
+            bottom: -9px;
+            right: 43px;
+            .progress
+            {
+                .progress-bar
+                {
+                    font-size: 30px;
+                    line-height: 55px;
+                    border-radius: 7px;
+                }
+                height: 53px;
+                border-radius: 7px;
+            }
+        }        
+    }    
+    .col-xs-12.login 
+    {
+        form
+        {
+            width: 250px;                
+        }
+    }
+    .logincontener
+    {
+        position: absolute;  
+        top: 30%; 
+        width: 100%
+    }   
+}
+#wrapper {
+    #sidebar-wrapper {
+        .sidebar-nav {
+            li{
+                a{
+                    &:hover{
+                        background: rgba(255,255,255,0.2);
+                        text-decoration: none;
+                        border-right: 5px solid #1ABB9C;
+                    }
+                    i{
+                        font-size: 25px; 
+                        text-align: center;
+                        width: 100% ;
+                    }
+                    color: #E7E7E7;
+                    display: block;
+                    text-decoration: none;
+                }
+                line-height: 20px;
+                text-align: center;
+                font-size: 11px;
+                margin-bottom: 15px;
+            }
+            .sidebar-brand {
+                height: 65px;
+                line-height: 60px;
+                font-size: 13px;
+            }
+            display: block;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        width: 70px;
+        background: #2A3F54;
+        position: fixed;
+        height: 100%;
+        /*z-index: 10000;*/
+        transition: all .4s ease 0s;
+    }
+    height: 100%
+}
+.nav
+{
+    .navbar-nav
+    {
+        li
+        {
+            a.try-now
+            {
+                color: #fff !important;
+                background-color: #00adee;
+                &:hover{
+                    color:  #e7e7e7;
+                    background-color: #00a1d1;
+                }                    
+
+            }
+        }    
+    }
+
+}
+
+/*.navbar-inverse {
+    .navbar-nav{
+        li{
+            .try-now{
+                color: #fff;
+                background-color: #00adee;
+                &:hover{
+                    color:  #e7e7e7;
+                    background-color: #00a1d1;
+                }
+            }
+            a{
+
+                &:hover{
+                    cursor: pointer;
+                    color: #515356;
+                    background-color: rgb(217, 222, 228);
+                }
+                color: #515356;
+            }
+
+
+        }
+    }
+    .navbar-toggle{
+        .icon-bar {
+            background-color:#2a3f54;
+        }
+        &:focus,&:hover {
+            .icon-bar {
+                background-color:#fff;
+            }
+            background-color:#2a3f54; 
+        }
+        border-color: #2a3f54;
+    }
+    .navbar-collapse{
+        border-color: #2a3f54;
+    }
+
+    background-color:#EDEDED;
+    border-color: #D9DEE4;
+    margin-left: 70px;
+}*/
+
+
+#return-to-top {
+    z-index: 3;
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    background: #73879C;
+    width: 50px;
+    height: 50px;
+    display: block;
+    text-decoration: none;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    display: none;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s ease;
+    -ms-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;    
+    opacity: 0.5;
+    & i {
+        color: #F7F7F7;
+        margin: 0;
+        position: relative;
+        left: 18px;
+        top: 14px;
+        font-size: 19px;
+        font-weight: bolder; 
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+        -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+    }
+    &:hover {
+        background: #3f4c5a;    
+        opacity: unset;
+    }
+    &:hover i {
+        top: 12px;
+    }
+}
+
+@media (max-width: 767px) {
+
+    #fix {
+        display: none;
+        height:100vh;
+    }
+    .nav-sm .container.body .right_col,.nav-sm .main_container .top_nav {
+        margin-left: 0px; 
+    }
+}
+@media (max-width: 990px) {
+    #return-to-top:hover i {
+        top: 14px;
+    }
+    #return-to-top:hover {
+        background: #73879C;    
+        opacity: 0.5;
+    }
+}
+@import "calculator.less";
