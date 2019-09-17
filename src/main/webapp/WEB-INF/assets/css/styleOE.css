@@ -558,7 +558,10 @@ a.article:hover, a.download:hover {
 
 @media (max-width: 768px) {
     #content {
-        width: 100%;
+        width: auto;             
+    }
+    .nav-md #content {
+       margin-left: 0;            
     }
     .sidebar-footer {
         display: none !important;
