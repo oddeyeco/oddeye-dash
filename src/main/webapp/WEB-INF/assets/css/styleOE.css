@@ -839,17 +839,17 @@ a[aria-expanded="true"] {
 }
 ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
     max-width: inherit;
-    max-height: 400px;
+    max-height: 530px;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0.2rem 0.5rem 0.8rem;
+    padding: 0.2rem 0.3rem;
     background-color: #343a40;
     border: none;
     
 }
 #sidebar.active ul#sidebarSmallMenu .dropright.show .dropdown-menu.show>a {
     color: #fff;
-    padding: 10px 4px 10px;
+    padding: .5rem .2rem;
     text-align: left;
     font-size: 0.8rem;
 }
@@ -1771,4 +1771,5 @@ select#refreshtime_private {
     box-shadow: 0 0.3rem 0.5rem rgba(0,0,0,.4);
     background-color: #343a40;
 }
+
 
