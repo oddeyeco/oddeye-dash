@@ -41,7 +41,7 @@
                             </div>
                             <div class="card-body row p-1">
                                 <div class="col-6">
-                                    <ul class="font16">
+                                    <ul class="">
                                         <c:forEach items="${metric.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
@@ -54,7 +54,7 @@
                                 </div>
                                 <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
                                     <div class="col-6">
-                                        <ul class="font16">                                                 
+                                        <ul class="">                                                 
                                             <li>
                                                 <span class="name"><spring:message code="regression.correlationCoefficient"/>:&#8194; </span>                            
                                                 <span class="value text-success">

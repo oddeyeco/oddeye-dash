@@ -12,10 +12,10 @@
 <div class="row">
           <div class="col-lg-8">
               <div class="card shadow mb-4">
-                  <h4 class="card-header">
+                  <h5 class="card-header">
                       <spring:message code="dashboards.myDashboards"/> (${activeuser.getDushList().size()})
-                      <a class="btn btn-outline-success btn-sm float-right" href="<spring:url value="/dashboard/new" htmlEscape="true"/>"><spring:message code="dashboards.newDashboard"/></a>                            
-                  </h4>                           
+                      <a class="btn btn-outline-success btn-xs float-right" href="<spring:url value="/dashboard/new" htmlEscape="true"/>"><spring:message code="dashboards.newDashboard"/></a>                            
+                  </h5>                           
                   <div class="card-body">
                       <ul class="row gotodash depthShadowLightHover">                            
                           <c:forEach items="${activeuser.getDushListasObject()}" var="Dush" varStatus="loop">                                
@@ -35,11 +35,11 @@
                   </div>
               </div>
               <div class="card shadow mb-4">
-                  <h4 class="card-header">
+                  <h5 class="card-header">
                       <spring:message code="dashboards.statistic"/>
-                      <a id="Get_Agent" class="btn btn-outline-success btn-sm float-right ml-2" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.getAgent"/></a>
-                      <a id="Agent_Guide" class="btn btn-outline-success btn-sm float-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/" htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.guideAgent"/></a>
-                  </h4>
+                      <a id="Get_Agent" class="btn btn-outline-success btn-xs float-right ml-2" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.getAgent"/></a>
+                      <a id="Agent_Guide" class="btn btn-outline-success btn-xs float-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/" htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.guideAgent"/></a>
+                  </h5>
                   <div class="card-body metricstat">
                       <c:import url="metricinfo.jsp"/>                                  
                   </div>
@@ -55,9 +55,9 @@
                   <c:import url="balacepart.jsp" />
               </c:if>                       
               <div class="card shadow mb-4">
-                  <h4 class="card-header">
+                  <h5 class="card-header">
                       <spring:message code="dashboards.availableTemplates"/>                                 
-                  </h4>
+                  </h5>
                   <div class="card-body">
                       <ul class="row list-unstyled gotodash depthShadowLightHover">
                           <c:forEach items="${recomend}" var="Dush" varStatus="loop">                                
@@ -72,9 +72,9 @@
                           </c:forEach>
                       </ul>                  
                   </div>
-                  <h4 class="card-header">
+                  <h5 class="card-header">
                       <spring:message code="dashboards.myTemplates"/>           
-                  </h4>
+                  </h5>
                   <div class="card-body"> 
                       <ul class="row list-unstyled gotodash depthShadowLightHover"> 
                           <c:forEach items="${mylasttemplates}" var="Dush" varStatus="loop">                                

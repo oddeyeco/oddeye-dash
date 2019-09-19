@@ -8,7 +8,7 @@
 <div class="row"> 
     <div class="col-12">
         <div class="card shadow">
-            <h4 class="card-header"><spring:message code="errorsanalysis.advancedAnalytic.h2"/></h4>
+            <h5 class="card-header"><spring:message code="errorsanalysis.advancedAnalytic.h2"/></h5>
             <div class="card-body row">
                  <%--<c:set var="group_item" value="host" />--%> 
                 <div class="col-lg-2 col-md-12 col-12 profile_left">

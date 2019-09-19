@@ -8,9 +8,9 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow">
-            <h4 class="card-header">
+            <h5 class="card-header">
                 <spring:message code="advansed.detailedEvents" arguments="${Error.getName()}"/> <fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.getTimezone()}
-            </h4>
+            </h5>
             <div class="card-body row advansed">
                 <div class="col-6">
                     <div class="card row shadow">
@@ -40,7 +40,7 @@
                             </div>
                             <div class="card-body row p-1">
                                 <div class="col-4">
-                                    <ul class="font16">
+                                    <ul class="">
                                         <c:forEach items="${Error.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
@@ -52,7 +52,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-4">
-                                    <ul class="font16">
+                                    <ul class="">
                                         <li>
                                             <span class="name"> <spring:message code="errorsanalysis.value"/>:&#8194; </span>
                                             <span class="value text-success"> <fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getValue()}" /></span>
@@ -81,7 +81,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-4">
-                                        <ul class="font16">                                                 
+                                        <ul class="">                                                 
                                             <li>
                                                 <span class="name"> <spring:message code="regression.predictDeviation"/>:&#8194; </span>
                                                 <span class="value text-success">

@@ -21,7 +21,7 @@
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-success " data-dismiss="modal" value="OK">
+                <input   type="button" class="btn btn-sm btn-success " data-dismiss="modal" value="OK">
             </div>
         </div>
     </div>
@@ -100,12 +100,12 @@
                 <div class="form-group">                    
                     <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
                     <div id="recaptcha" data-sitekey="6LfUVzcUAAAAAAixePsdRSiy2dSagG7jcXQFgCcY"></div>                
-                    <button class="btn btn-primary btn-block SineUp" type="submit"><spring:message code="signUp"/></button>
+                    <button class="btn btn-sm btn-primary btn-block SineUp" type="submit"><spring:message code="signUp"/></button>
                 </div>
 
                 <div class="clearfix"></div>
                 <div class="separator">
-                    <p class="change_link"><spring:message code="sineup.member"/><a class="btn btn-href btn-sm" href="<c:url value="/login/" />" > <spring:message code="login"/> </a>
+                    <p class="change_link"><spring:message code="sineup.member"/><a class="btn btn-sm btn-href" href="<c:url value="/login/" />" > <spring:message code="login"/> </a>
                     </p>
                 </div>                    
             </form:form>           

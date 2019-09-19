@@ -5,9 +5,9 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow">
-            <h4 class="card-header">
+            <h5 class="card-header">
                     <spring:message code="singlechart.chartFor.h1" arguments="${cp},${metric.sha256Code()},${metric.getDisplayName()},${metric.getTypeName()}"/>
-            </h4>
+            </h5>
             <div class="card-body row metriqs">
                 <div class="col-6">
                     <div class="card row shadow">
@@ -27,7 +27,7 @@
                             </div>
                             <div class="card-body row p-1">
                                 <div class="col-6">
-                                    <ul class="font16">
+                                    <ul class="">
                                         <c:forEach items="${metric.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
@@ -40,7 +40,7 @@
                                 </div>
                                 
                                     <div class="col-6">
-                                        <ul class="font16">                                                 
+                                        <ul class="">                                                 
                                             <li>
                                                 <span class="name"><spring:message code="regression.correlationCoefficient"/>: </span>                            
                                                 <span class="value text-success">&#8194;

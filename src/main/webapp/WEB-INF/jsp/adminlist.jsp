@@ -10,9 +10,9 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow">
-            <h4 class="card-header">
+            <h5 class="card-header">
                 <spring:message code="adminlist.listOf.h2"/> ${modelname}
-            </h4>
+            </h5>
             <div class="card-body" id="dashcontent">
                 <a href="<c:url value="/${path}/new/"/>" class="btn btn-outline-info btn-sm float-right"><i class="fa fa-navicon"></i> <spring:message code="adminlist.new"/> </a>
                 <table id="datatable-responsive" class="table table-sm table-striped table-bordered dt-responsive table-responsive nowrap" cellspacing="0" width="100%">

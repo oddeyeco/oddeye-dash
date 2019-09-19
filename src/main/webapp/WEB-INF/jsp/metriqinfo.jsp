@@ -6,14 +6,13 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow">
-            <h4 class="card-header">
+            <h5 class="card-header">
                 <spring:message code="metriginfo.metric.h1" arguments="${cp},${metric.sha256Code()},${metric.getName()}"/><fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}
-            </h4>
+            </h5>
             <div class="card-body row metriqs">
                 <div class="col-6">
                     <div class="card row shadow">
                         <div class="col-12">
-
                             <div class="card-header row">
                                 <div class="col-6">
                                     <h6 class="card-title">
@@ -29,7 +28,7 @@
                             </div>
                             <div class="card-body row p-1">
                                 <div class="col-6">
-                                    <ul class="font16">
+                                    <ul class="">
                                         <c:forEach items="${metric.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
@@ -42,7 +41,7 @@
                                 </div>
                                 <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
                                     <div class="col-6">
-                                        <ul class="font16">                                                 
+                                        <ul class="">                                                 
                                             <li>
                                                 <span class="name"><spring:message code="regression.correlationCoefficient"/>:&#8194; </span>                            
                                                 <span class="value text-success">

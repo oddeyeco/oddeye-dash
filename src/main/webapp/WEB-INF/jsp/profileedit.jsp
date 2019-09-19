@@ -9,9 +9,9 @@
 <div class="row">
     <div class="col-12">
         <div class="card shadow">            
-            <h4 class="card-header">
+            <h5 class="card-header">
                 <spring:message code="profileedit.controlSecure.h2"/>
-            </h4>            
+            </h5>            
             <div class="card-body pr-0 pl-0" role="tabpanel" data-example-id="togglable-tabs">            
                 <nav id="nav-customTab" class="nav nav-tabs pl-sm-5 pl-sm-2 p-0 customTab"  role="tablist">                        
                     <c:choose>                    
@@ -136,8 +136,8 @@
                             </div>                                                             
                             <div class="form-group row">
                                 <div class="col-lg-6 col-md-6 col-12 offset-lg-4"> 
-                                    <button type="reset" class="btn btn-outline-primary mr-1"><spring:message code="cancel"/></button>
-                                    <button type="submit" class="btn btn-outline-success"><spring:message code="save"/></button>
+                                    <button type="reset" class="btn btn-sm btn-outline-primary mr-1"><spring:message code="cancel"/></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-success"><spring:message code="save"/></button>
                                 </div>
                             </div>
                         </form:form> 
@@ -179,8 +179,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="float-left">
-                                    <button type="reset" class="btn btn-outline-primary mr-1"><spring:message code="cancel"/></button>
-                                    <button type="submit" class="btn btn-outline-success"><spring:message code="save"/></button>
+                                    <button type="reset" class="btn btn-sm btn-outline-primary mr-1"><spring:message code="cancel"/></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-success"><spring:message code="save"/></button>
                                 </div>
                             </div>                        
 
@@ -221,8 +221,8 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-lg-5 col-md-6 col-12 offset-lg-4">
-                                    <button type="reset" class="btn btn-outline-primary mr-1"><spring:message code="cancel"/></button>
-                                    <button type="submit" class="btn btn-outline-success"><spring:message code="savePassword"/></button>
+                                    <button type="reset" class="btn btn-sm btn-outline-primary mr-1"><spring:message code="cancel"/></button>
+                                    <button type="submit" class="btn btn-sm btn-outline-success"><spring:message code="savePassword"/></button>
                                 </div>
                             </div>    
                         </form:form> 

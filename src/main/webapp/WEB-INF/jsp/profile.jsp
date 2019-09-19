@@ -6,9 +6,9 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-12">                    
                         <div class="card shadow">                    
-                            <h4 class="card-header text-justify">
+                            <h5 class="card-header text-justify">
                                 <spring:message code="profile.userID"/> ${activeuser.getId().toString()}
-                            </h4>                   
+                            </h5>                   
                             <div class="card-body">
                                 <div class="row">    
                                     <div class="col-lg-3 col-md-3 col-12 profile_left">

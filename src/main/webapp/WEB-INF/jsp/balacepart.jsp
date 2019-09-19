@@ -9,13 +9,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="card shadow mb-4">
-    <h4 class="card-header">
+    <h5 class="card-header">
         <spring:message code="balance"/>
-    </h4>
+    </h5>
     <div class="card-body">                                
         <div class="row">
             <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 balanceAvailable">
-                <h4 class="count_top"><spring:message code="dashboards.available"/></h4>
+                <h6 class="count_top"><spring:message code="dashboards.available"/></h6>
                 <div class="count">
                     <c:set var="balance" value="${curentuser.getBalance()}" />
                     <c:if test="${balance<Double.MAX_VALUE}">
@@ -37,7 +37,7 @@
                 </c:if>   
             </div>
             <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 tile_stats_count Consumptions">
-                <h4 class="count_top"><spring:message code="dashboards.burnRate"/></h4>
+                <h6 class="count_top"><spring:message code="dashboards.burnRate"/></h6>
                 <div class="count_bottom clearfix">
                     <span class="float-left"><spring:message code="dashboards.burnRateToday"/></span>
                     <div class="green float-right">
@@ -88,13 +88,13 @@
             </div>
             <div class="clearfix"></div>
             <div class="col-12 moreunits">
-                <h4><spring:message code="dashboards.getMore"/></h4>
+                <h6><spring:message code="dashboards.getMore"/></h6>
                 <div class="clearfix"></div>
-                <div class="float-left col-xl-6 col-lg-12 col-sm-6 od">
+                <div class="float-left col-xl-6 col-lg-12 col-sm-6 od p-0">
                     <label for="amount"><spring:message code="dashboards.pay"/></label>
                     <input id="oddeyeAmmount" type="number" name="amount" value="1" step="1"><spring:message code="usd"/><br>
                 </div>
-                <div class="float-right col-xl-6 col-lg-12 col-sm-6 pp">
+                <div class="float-right col-xl-6 col-lg-12 col-sm-6 pp p-0">
                     <form action="${paypal_url}" method="post" >
                         <input type="hidden" name="cmd" value="_xclick">
                         <input type="hidden" name="business" value="${paypal_email}">
@@ -115,7 +115,7 @@
     </div>
 </div>                       
 <div class="card shadow mb-4">
-    <h4 class="card-header"><spring:message code="payments"/></h4>
+    <h5 class="card-header"><spring:message code="payments"/></h5>
     <div class="card-body"> 
         <ul class="row list-unstyled">
             <c:forEach items="${curentuser.getPayments()}" var="payment" varStatus="loop">                                

@@ -3024,25 +3024,25 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         $(".right_col").append('<div class="card shadow editpanel"></div>');
         if (!readonly)
         {
-            $(".right_col .editpanel").append('<h4 class="card-header dash_action">' +
+            $(".right_col .editpanel").append('<h5 class="card-header dash_action">' +
                     title +
                     '<div class="float-right">' +
-                    '<span><button class="btn btn-outline-primary savedash"  type="button">' + locale["save"] + ' </button></span>' +
-                    '<button class="btn btn-outline-primary ml-1 backtodush" type="button">' + locale["dash.backToDash"] + ' </button>' +
+                    '<span><button class="btn btn-sm btn-outline-primary savedash"  type="button">' + locale["save"] + ' </button></span>' +
+                    '<button class="btn btn-sm btn-outline-primary ml-1 backtodush" type="button">' + locale["dash.backToDash"] + ' </button>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
-                    '</h4');
+                    '</h5');
             $(".right_col .editpanel").addClass("singleedit");
 
         } else
         {
-            $(".right_col .editpanel").append('<h4 class="card-header dash_action">' +
+            $(".right_col .editpanel").append('<h5 class="card-header dash_action">' +
                     title +
                     '<div class="float-right">' +
-                    '<button class="btn btn-outline-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </button>' +
+                    '<button class="btn btn-sm btn-outline-primary backtodush" type="button">' + locale["dash.backToDash"] + ' </button>' +
                     '</div>' +
                     '<div class="clearfix"></div>' +
-                    '</h4>');
+                    '</h5>');
             $(".right_col .editpanel").addClass("singleview");
         }
         if (dashJSON.locked)
@@ -3753,7 +3753,7 @@ $(document).ready(function () {
         var ri = $(this).parents(".widgetraw").index();
         $("#deleteConfirm").find('.btn-ok').attr('id', "deleterowconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('index', ri);
-        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-outline-danger");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-sm btn-ok btn-outline-danger");
         $("#deleteConfirm").find('.modal-body p').html(replaceArgumets(locale["dash.modal.confirmDelRow"], [$(this).parents(".raw-controls").find(".title_text span").text()]));
         $("#deleteConfirm").find('.modal-body .text-warning').html("");
         $("#deleteConfirm").modal('show');
@@ -3938,7 +3938,7 @@ $(document).ready(function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletewidgetconfirm");
         $("#deleteConfirm").find('.btn-ok').attr('ri', ri);
         $("#deleteConfirm").find('.btn-ok').attr('wi', wi);
-        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-outline-danger");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-sm btn-ok btn-outline-danger");
 
         if (gdd.rows[ri].widgets[wi].options)
         {
@@ -4148,7 +4148,7 @@ $(document).ready(function () {
     
     $('body').on("click", "#deletedash", function () {
         $("#deleteConfirm").find('.btn-ok').attr('id', "deletedashconfirm");
-        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-ok btn-outline-danger");
+        $("#deleteConfirm").find('.btn-ok').attr('class', "btn btn-sm btn-ok btn-outline-danger");
         $("#deleteConfirm").find('.modal-body p').html(locale["dash.modal.confirmDelDashboard"]);
         $("#deleteConfirm").find('.modal-body .text-warning').html($("#name").val());
         $("#deleteConfirm").modal('show');

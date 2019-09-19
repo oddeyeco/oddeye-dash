@@ -56,8 +56,8 @@
                 <p class="text-warning"></p>
             </div>
             <div class="modal-footer">
-                <input   type="button" class="btn btn-outline-secondary" data-dismiss="modal"value="<spring:message code="close"/>">
-                <input type="button" id="deletedashconfirm" class="btn btn-ok" value="<spring:message code="delete"/>">
+                <input   type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal"value="<spring:message code="close"/>">
+                <input type="button" id="deletedashconfirm" class="btn btn-sm btn-ok" value="<spring:message code="delete"/>">
             </div>
         </div>
     </div>
@@ -258,22 +258,22 @@
                     <form class="form-options form-row">
                         <fieldset class="form-group col-lg-4 col-12 pr-lg-0">
                             <div class="card shadow">
-                                <h4 class="card-header p-1">
+                                <h5 class="card-header p-1">
                                     <button type="button" id="collapseFilters" class="btn btn-sm btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.filters"/></b>
                                     </button>
-                                </h4>
+                                </h5>
                             </div>                       
                                 <div class="filter-body p-0" id="filters">
                                     <div class="filters row">
                                         <div class="filter all_filter col-12">  
                                             <div class="card shadow">
-                                                <h4 class="card-header text-center p-0 bg-light">
+                                                <h5 class="card-header text-center p-0 bg-light">
                                                     <button type="button" id="collapseAll_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
                                                         <i class="fas fa-rotate-90 fa-indent"></i>
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersAll"/></b>
                                                     </button>
-                                                </h4> 
+                                                </h5> 
                                                 <div class="card-body p-3 depthShadowLightHover" id="All_msg" style="display: block;"> 
                                                     <div class="card defined_filter">
                                                         <div class="card-header form-row add-filter p-1 m-0">
@@ -301,12 +301,12 @@
                                         </div>
                                         <div class="filter machine_filter col-12">
                                             <div class="card shadow">
-                                                <h4 class="card-header  text-center p-0 bg-light">
+                                                <h5 class="card-header  text-center p-0 bg-light">
                                                     <button type="button" id="collapseMachine_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
                                                         <i class="fas fa-rotate-90 fa-indent"></i>
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersMachine"/></b>
                                                     </button>
-                                                </h4> 
+                                                </h5> 
                                                 <div class="card-body p-3 depthShadowLightHover" id="Machine_msg" style="display: block;">
                                                     <div class="card defined_filter">
                                                         <div class="card-header form-row add-filter p-1 m-0">
@@ -334,12 +334,12 @@
                                         </div>
                                         <div class="filter manual_filter col-12">
                                             <div class="card shadow">
-                                                <h4 class="card-header  text-center p-0 bg-light">
+                                                <h5 class="card-header  text-center p-0 bg-light">
                                                     <button type="button" id="collapseManual_msg" class="btn btn-sm btn-outline-dark markBtn p-1">
                                                         <i class="fas fa-rotate-90 fa-indent"></i>
                                                         <b class="pagetitle"><spring:message code="monitorings2.filtersManually"/></b>
                                                     </button>
-                                                </h4> 
+                                                </h5> 
                                                 <div class="card-body p-3 depthShadowLightHover" id="Manual_msg" style="display: block;">
                                                     <div class="card defined_filter">
                                                         <div class="card-header form-row add-filter p-1 m-0">
@@ -371,11 +371,11 @@
                         </fieldset>
                         <fieldset class="form-group col-lg-4 col-12 px-lg-0">
                             <div class="card shadow">
-                                <h4 class="card-header p-1">
+                                <h5 class="card-header p-1">
                                     <button type="button" id="collapseOptions" class="btn btn-sm btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i><b class="pagetitle"><spring:message code="monitorings2.options"/></b>
                                     </button>
-                                </h4>
+                                </h5>
                                 <div class="card-body filter-body depthShadowLightHover p-3 minHeight180" id="options">                                    
                                         <table class="table options" style="width: 100%">
                                             <thead>
@@ -417,12 +417,12 @@
                         </fieldset>
                         <fieldset class="form-group col-lg-4 col-12 pl-lg-0">
                             <div class="card shadow">
-                                <h4 class="card-header p-1">
+                                <h5 class="card-header p-1">
                                     <button type="button" id="collapseNotifiers" class="btn btn-sm btn-outline-dark markBtn">
                                         <i class="fas fa-outdent fa-rotate-90"></i>
                                         <b class="pagetitle"><spring:message code="monitorings2.externalNotifiers"/></b>
                                     </button>
-                                </h4>
+                                </h5>
                                 <div class="card-body filter-body depthShadowLightHover p-3 minHeight180" id="notifiers">
                                     <div class="card defined_notifier">
                                         <div class="card-header form-row add-filter p-1 m-0">

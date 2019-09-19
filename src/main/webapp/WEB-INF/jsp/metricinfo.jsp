@@ -6,10 +6,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %> 
  
-<h2>
+<h6>
     <span class="count_top"><i class="fa fa-folder"></i>&#8195;<spring:message code="metricinfo.totalMetrics"/></span>
     (<span class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></span>)
-</h2>
+</h6>
 <div class="row justify-content-md-center justify-content-lg-start tile_count rounded-0 depthShadowLightHover">
     <div class="col-xl-2 col-md-4 col-sm-5 tile_stats_count">
         <span class="count_top"><i class="fa fa-list"></i>&#160;<spring:message code="metricNames"/></span>
@@ -26,10 +26,10 @@
         </span>
     </div>
 </div>
-<h2>
+<h6>
     <span class="count_top"><i class="fa fa-folder"></i>&#8195;<spring:message code="totalTags"/></span>
     (<span class="count" id="tags"><img src="${cp}/assets/images/loading.gif" height='50px'></span>)
-</h2>
+</h6>
 <!-- // generation from "metricinfo.js" -->
 <div class="row justify-content-md-center justify-content-lg-start tile_count depthShadowLightHover" id="tagslist"></div> 
 
@@ -41,14 +41,14 @@ http://joaopereirawd.github.io/animatedModal.js/-->
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Modal Header</h4>
+                <h6 class="modal-title">Modal Header</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>                
             </div>
             <div class="modal-body"></div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">
                     <spring:message code="close"/>
                 </button>
             </div>
@@ -62,7 +62,7 @@ http://joaopereirawd.github.io/animatedModal.js/-->
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Modal Header</h4>
+                <h6 class="modal-title">Modal Header</h6>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -71,7 +71,7 @@ http://joaopereirawd.github.io/animatedModal.js/-->
                 <p>Some text in the modal.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">
                     <spring:message code="close"/>
                 </button>
             </div>
