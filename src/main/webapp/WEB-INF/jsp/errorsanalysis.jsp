@@ -73,7 +73,7 @@
                         </div> 
                         <div class="form-group col-12">                        
                         <div class="float-right mt-1">                                
-                            <button class="btn btn-outline-primary" type="submit" value="Submit"><spring:message code="submit"/></button>
+                            <button class="btn btn-sm btn-outline-primary" type="submit" value="Submit"><spring:message code="submit"/></button>
                         </div>
                     </div>
                     </form>

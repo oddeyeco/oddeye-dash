@@ -6,15 +6,15 @@
     <div class="col-12">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title float-left">
+                <h5 class="float-left m-0">
                     <spring:message code="multichart.multiChart.h1"/>           
-                </h4>                               
+                </h5>                               
             </div>
             <div class="card-body row multichart"> 
                 <div class="col-12 p-0">
                     <div class="card shadow">
                         <div class="card-header">
-                            <h6 class="card-title float-left">
+                            <h6 class="float-left">
                                 <i class="fa fas fa-chart-area"></i> <spring:message code="chart.h2"/>               
                             </h6>
                             <div class="filter">

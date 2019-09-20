@@ -77,7 +77,7 @@ class EditForm {
                         {
                             if (form.label.show)
                             {
-                                contenttab.find('#' + form.id + ' .form_main_block').append('<h3><label class="control-label" >' + form.label.text + '</label></h3>');
+                                contenttab.find('#' + form.id + ' .form_main_block').append('<h5><label class="control-label" >' + form.label.text + '</label></h5>');
                                 if (form.label.checker)
                                 {
                                     contenttab.find('#' + form.id + ' .form_main_block h3').append('<div class="checkbox" style="display: inline-block">' +
@@ -216,7 +216,7 @@ class EditForm {
 //***************************
                     if (item.label)
                     {
-                        jobject.append('<h4 class="form-group ' + item.label.class + '"><label class="control-label" >' + item.label.text + '</label></h4>');
+                        jobject.append('<h5 class="form-group ' + item.label.class + '"><label class="control-label" >' + item.label.text + '</label></h5>');
                     }
 
 //***************************
@@ -966,14 +966,16 @@ class EditForm {
         this.tabcontent.tab_metric = {};
         this.tabcontent.tab_json = {};
         var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left col-3", id: "edit_dimensions", label: {show: true, text: locale["editform.dimensions"], checker: false}};
-        edit_dimensions.content = [{tag: "div", class: "form-group form-group-custom", content: [
-                    {tag: "label", class: "control-label control-label-custom120", text: locale["editform.span"], lfor: "dimensions_span"},
-                    {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
-                ]},
-            {tag: "div", class: "form-group form-group-custom", content: [
-                    {tag: "label", class: "control-label control-label-custom120", text: locale["editform.height"], lfor: "dimensions_height"},
-                    {tag: "input", type: "text", class: "form-control dimensions_input", prop_key: "height", id: "dimensions_height", name: "dimensions_height", key_path: 'height', default: "300px"}
-                ]}
+        edit_dimensions.content = [{tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom120", text: locale["editform.span"], lfor: "dimensions_span"},
+                            {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
+                        ]},
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom120", text: locale["editform.height"], lfor: "dimensions_height"},
+                            {tag: "input", type: "text", class: "form-control dimensions_input", prop_key: "height", id: "dimensions_height", name: "dimensions_height", key_path: 'height', default: "300px"}
+                        ]}
+                    ]}            
         ];
 //        this.tabcontent.tab_metric.active = true;
         var current = this;
@@ -1068,10 +1070,9 @@ class EditForm {
         ];
         this.tabcontent.tab_general.forms = [edit_dimensions];
         this.tabcontent.tab_metric.forms = [edit_q];
-
         this.tabcontent.tab_time = {};
         var edit_time = {tag: "form", class: 'form-inline form-label-left edit-times col', id: "edit_time"};
-        edit_time.content = [{tag: "div", class: "filter form-row", content: [
+        edit_time.content = [{tag: "div", class: "filter form-row depthShadowLightHover p-2", content: [
                     {tag: "div", class: "form-inline col-6", content: [
                       {tag: "div", class: "form-inline col-12", content: [
                             {tag: "label", class: "control-label", text: [locale["editform.times"], "_x0"], lfor: "padding_height"},
@@ -1109,11 +1110,11 @@ class EditForm {
 
         edit_json.content = [{tag: "div", id: "jsoneditor"},
             {tag: "div", class: "col-md-12 col-sm-12 col-xs-12 text-right", content: [
-                    {tag: "button", class: "btn btn-outline-primary m-1", type: "button", value: "Default", id: "jsonReset", text: locale["reset"], actions: {click: function () {
+                    {tag: "button", class: "btn btn-sm btn-outline-primary m-1", type: "button", value: "Default", id: "jsonReset", text: locale["reset"], actions: {click: function () {
                                 var jsonstr = JSON.stringify(current.dashJSON.rows[current.row]["widgets"][current.index], jsonmaker);
                                 current.editor.set(JSON.parse(jsonstr));
                             }}},
-                    {tag: "button", class: "btn btn-outline-primary m-1", type: "button", value: "Default", id: "jsonApply", text: locale["apply"], actions: {click: function () {
+                    {tag: "button", class: "btn btn-sm btn-outline-primary m-1", type: "button", value: "Default", id: "jsonApply", text: locale["apply"], actions: {click: function () {
                                 var tmpJson = current.editor.get();
                                 clearTimeout(current.dashJSON.rows[current.row]["widgets"][current.index].timer);
                                 for (var key in tmpJson)

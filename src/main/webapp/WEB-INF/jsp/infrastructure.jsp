@@ -49,10 +49,10 @@
                         </div>                                
                         <div class="row profile_btn">
                             <div class="col-auto mr-auto p-0">                                
-                                <button class="btn btn-outline-success" type="button" value="Default" id="Save"><spring:message code="save"/></button>
+                                <button class="btn btn-sm btn-outline-success" type="button" value="Default" id="Save"><spring:message code="save"/></button>
                             </div>                                                         
                             <div class="col-auto p-0 text-right">
-                                <button class=" btn btn-outline-primary" type="button" value="Default" id="Show"><spring:message code="display"/></button>
+                                <button class=" btn btn-sm btn-outline-primary" type="button" value="Default" id="Show"><spring:message code="display"/></button>
                             </div> 
                         </div>                                
                     </div>

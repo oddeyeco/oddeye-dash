@@ -15,7 +15,7 @@
                                         <div class="profile_img">
                                             <div id="crop-avatar"></div>
                                         </div>
-                                        <h3>${activeuser.getName()} ${activeuser.getLastname()}</h3>
+                                        <h6>${activeuser.getName()} ${activeuser.getLastname()}</h6>
                                         <ul class="list-unstyled user_data">
                                             <li class="pt-2">
                                                 <i class="fa fa-map-marker user-profile-icon"></i>
