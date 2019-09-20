@@ -533,7 +533,7 @@ class BaseChartEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label_Y", text: "Y", lfor: "title_y_position"},
                             {tag: "select", class: "form-control title_select", prop_key: "y", id: "title_y_position", name: "title_y_position", key_path: 'title.y', default: "", options: this.ypositionoptions},
                             {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'title.y', placeholder: "px", default: ""},
+                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'title.y', placeholder: "px", default: ""}
 //                            {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
                         ]
                     }]},
