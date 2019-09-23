@@ -57,7 +57,7 @@
             <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css?v=${version}" />-->      
 
 
-            <c:if test="${empty curentuser.getSwitchUser().getTemplate()}" >
+<%--            <c:if test="${empty curentuser.getSwitchUser().getTemplate()}" >
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
             </c:if>                        
 
@@ -77,7 +77,29 @@
 
             <c:if test="${not empty whitelabel}" >                
                 <link rel="stylesheet" href="<c:url value="${whitelabel.getFullfileName()}${whitelabel.cssfilename}?v=${version}"/>" />
-            </c:if>     
+            </c:if>   --%>  
+
+            <c:if test="${empty curentuser.getTemplate()}" >
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
+            </c:if>                        
+
+            <c:if test="${not empty curentuser.getTemplate()}" >
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
+                <c:choose>
+                    <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />                   
+                    </c:when>
+                    <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />
+                    </c:when>                        
+                    <c:otherwise>                      
+                    </c:otherwise>                                                    
+                </c:choose>
+            </c:if>            
+
+            <c:if test="${not empty whitelabel}" >                
+                <link rel="stylesheet" href="<c:url value="${whitelabel.getFullfileName()}${whitelabel.cssfilename}?v=${version}"/>" />
+            </c:if>    
 
 
         </head>
