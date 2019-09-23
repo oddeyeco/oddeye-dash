@@ -2259,6 +2259,7 @@ function getURL(type) {
 
 var lockq = {};
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
+    redraw = false;
     if (lockq[ri + " " + wi])
     {
         return;
