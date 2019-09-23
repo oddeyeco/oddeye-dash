@@ -470,8 +470,6 @@ $(document).ready(function () {
 //
 //            $SIDEBAR_MENU.find('li ul').slideUp();
 //        }
-//
-//
 //    });
 });
 //$(window).load(function () {

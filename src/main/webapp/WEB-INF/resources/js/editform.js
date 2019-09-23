@@ -966,7 +966,7 @@ class EditForm {
         this.tabcontent.tab_metric = {};
         this.tabcontent.tab_json = {};
         var edit_dimensions = {tag: "form", class: "form-horizontal form-label-left col-3", id: "edit_dimensions", label: {show: true, text: locale["editform.dimensions"], checker: false}};
-        edit_dimensions.content = [{tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
+        edit_dimensions.content = [{tag: "div", class: "form_main_block depthShadowLightHover mb-0 p-2", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom120", text: locale["editform.span"], lfor: "dimensions_span"},
                             {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}

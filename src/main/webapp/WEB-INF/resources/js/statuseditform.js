@@ -32,7 +32,7 @@ class StatusEditForm extends EditForm {
 //                {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
 //                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
 //            ]};
-        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
+        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form_main_block depthShadowLightHover my-0 px-2 pb-2", content: [
                 {tag: "div", class: "form-group form-group-custom", content: [
                 {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
                 {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
