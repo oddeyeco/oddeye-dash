@@ -357,7 +357,7 @@
                             <li class="card">
                                 <div class="card-header" id="headDashboards">                                                
                                     <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
-                                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
+                                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> [${curentuser.getDushList().size()}]
                                     </a>                                                
                                 </div>
                                 <div id="collapseDashboards" class="collapse depthShadowDarkHover" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
