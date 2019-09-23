@@ -111,7 +111,7 @@
                                                     <span class="date">${i-4}</span>
                                                 </div>
                                                 <div class="status"> 
-                                                    <h5><fmt:formatDate value="${dateValue}" pattern="HH:mm" timeZone="${curentuser.getTimezone()}"/></h5>
+                                                    <h6><fmt:formatDate value="${dateValue}" pattern="HH:mm" timeZone="${curentuser.getTimezone()}"/></h6>
                                                 </div>
                                             </li>
                                         </a>

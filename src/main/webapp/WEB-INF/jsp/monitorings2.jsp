@@ -381,7 +381,7 @@
                                             <thead>
                                                 <tr>
                                                     <th class="card-fields name align-middle">
-                                                        <label><spring:message code="monitorings2.displayFields"/></label>
+                                                        <label class="m-0"><spring:message code="monitorings2.displayFields"/></label>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -426,10 +426,10 @@
                                 <div class="card-body filter-body depthShadowLightHover p-3 minHeight180" id="notifiers">
                                     <div class="card defined_notifier">
                                         <div class="card-header form-row add-filter p-1 m-0">
-                                            <div class="col-2 text-center">                                                                           
+                                            <div class="col-3 text-center">                                                                           
                                                 <label for="addNotifier" class="all_filter"><spring:message code="monitorings2.addNotifier"/></label>
                                             </div>
-                                            <div class="col-8">                                                           
+                                            <div class="col-7">                                                           
                                                 <select class="add_notifier_select col-8" id="addNotifier">
                                                     <option value="">&nbsp;</option>
                                                     <option value="email" fname="<spring:message code="monitorings2.addressEmail"/>"><spring:message code="monitorings2.addNotifierEmail"/></option>

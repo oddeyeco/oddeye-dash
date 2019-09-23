@@ -148,7 +148,12 @@ span {
 .green {
    color: #28a745;
 }
-
+.badge.badge-light {
+   line-height: 1.2;
+}
+.badge.badge-light:hover {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 /*===== form:focus =====*/
 .form-control:focus {
     border-color: #aeb3b3;
@@ -387,6 +392,7 @@ select#title_x_position option {
     background: #c7cccc;
     color: #000;      
     z-index: 99;
+    transition: all 0.2s;
 }
 .nav-sm #sidebar {    
     width: 100px;
@@ -398,6 +404,7 @@ select#title_x_position option {
     background: #c7cccc;
     color: #000;      
     z-index: 999;
+    transition: all 0.2s;
 }
 
 .nav-md #content {
@@ -407,6 +414,7 @@ select#title_x_position option {
     top: 0;
     right: 0;
     left:0;
+    transition: all 0.2s;
 }
 
 .nav-sm #content {
@@ -416,9 +424,8 @@ select#title_x_position option {
     top: 0;
     right: 0;
     left:0;
+    transition: all 0.2s;
 }
-
-
 
 /* ========================================================
     SIDEBAR STYLE
@@ -1807,12 +1814,12 @@ select#refreshtime_private {
     left: 36%;
     transition: all 200ms ease-in;
 }
-.timelinecontener .li.complete .status h5 {
+.timelinecontener .li.complete .status h6 {
     color: #343a40;
     margin-top: 10px;
     margin-bottom: 0;
 }
-.timelinecontener .status h5 {
+.timelinecontener .status h6 {
     font-weight: 600;
 }
 /* ==== History ==== */

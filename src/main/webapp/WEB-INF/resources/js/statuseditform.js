@@ -67,7 +67,6 @@ class StatusEditForm extends EditForm {
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                         ]}
                                 ]}
-
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom", text: locale["countereditform.subtitle"], lfor: "subtextbackground-color"},
@@ -77,7 +76,6 @@ class StatusEditForm extends EditForm {
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                         ]}
                                 ]}
-
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.value"], lfor: "valuebackground-color"},
