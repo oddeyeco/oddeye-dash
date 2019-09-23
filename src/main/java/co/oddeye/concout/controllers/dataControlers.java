@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import static co.oddeye.concout.controllers.AjaxControlers.JSON_UTF8;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseDataDao;
@@ -313,7 +314,7 @@ public class dataControlers {
         return true;
     }
     
-    @RequestMapping(value = "/getStatusData", method = RequestMethod.GET)
+    @RequestMapping(value = "/getStatusData", method = RequestMethod.GET, produces = JSON_UTF8)
     public @ResponseBody String getStatusData(@RequestParam(value = "tags", required = false) String tags,
             @RequestParam(value = "hash", required = false) String hash,
             @RequestParam(value = "metrics", required = false) String metrics,
