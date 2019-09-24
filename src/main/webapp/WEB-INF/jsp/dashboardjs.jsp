@@ -62,6 +62,8 @@
         "editform.height": "<spring:message code="editform.height"/>",
         "editform.disabled": "<spring:message code="editform.disabled"/>",
         "editform.aggregator": "<spring:message code="editform.aggregator"/>",
+        "editform.alias1": "<spring:message code="editform.alias1"/>",
+        "editform.alias2": "<spring:message code="editform.alias2"/>",
         "editform.alias": "<spring:message code="editform.alias"/>",
         "editform.aliasSecondary": "<spring:message code="editform.aliasSecondary"/>",
         "editform.alias.text": "<spring:message code="editform.alias.text"/>",

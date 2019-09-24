@@ -32,16 +32,16 @@ class CounterEditForm extends EditForm {
 
         this.tabcontent.tab_display = {};//suren
 
-        var edit_display = {tag: "div", class: 'forms', id: "edit_display"};
+        var edit_display = {tag: "div", class: 'counterDisplay forms', id: "edit_display"};
         edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
                 content: [
 
-                    {tag: "div", class: "form-group form-group-custom text-center h4", content: [
+                    {tag: "div", class: "form-group form-group-custom text-left h4", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.backgroundColors"]},
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlebackground-color"},
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.alias"], lfor: "titlebackground-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "titlebackground-color", id: "titlebackground-color", name: "titlebackground-color", key_path: 'title.textStyle.background-color', default: ""},
@@ -51,7 +51,7 @@ class CounterEditForm extends EditForm {
 
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextbackground-color"},
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.aliasSecondary"], lfor: "subtextbackground-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "subtextbackground-color", id: "subtextbackground-color", name: "subtextbackground-color", key_path: 'title.subtextStyle.background-color', default: ""},
@@ -61,7 +61,7 @@ class CounterEditForm extends EditForm {
 
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuebackground-color"},
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editchartform.value"], lfor: "valuebackground-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "valuebackground-color", id: "valuebackground-color", name: "valuebackground-color", key_path: 'valueStyle.background-color', default: ""},
@@ -71,7 +71,7 @@ class CounterEditForm extends EditForm {
 
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitbackground-color"},
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editchartform.unit"], lfor: "unitbackground-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "unitbackground-color", id: "unitbackground-color", name: "unitbackground-color", key_path: 'unitStyle.background-color', default: ""},
@@ -81,7 +81,7 @@ class CounterEditForm extends EditForm {
 
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.box"], lfor: "background-color"},
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["countereditform.box"], lfor: "background-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "background-color", id: "background-color", name: "background-color", key_path: 'style.background-color', default: ""},
@@ -95,12 +95,12 @@ class CounterEditForm extends EditForm {
             {tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
                 content: [
 
-                    {tag: "div", class: "form-group form-group-custom text-center h4", content: [
+                    {tag: "div", class: "form-group form-group-custom text-left h4", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.fontColors"]}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-color"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "titlefont-color", id: "titlefont-color", name: "titlefont-color", key_path: 'title.textStyle.color', default: ""},
@@ -110,7 +110,7 @@ class CounterEditForm extends EditForm {
 
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-color"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "subtextfont-color", id: "subtextfont-color", name: "subtextfont-color", key_path: 'title.subtextStyle.color', default: ""},
@@ -120,7 +120,7 @@ class CounterEditForm extends EditForm {
 
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuefont-color"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuefont-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "valuefont-color", id: "valuefont-color", name: "valuefont-color", key_path: 'valueStyle.color', default: ""},
@@ -130,7 +130,7 @@ class CounterEditForm extends EditForm {
 
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitfont-color"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitfont-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "unitfont-color", id: "unitfont-color", name: "unitfont-color", key_path: 'unitStyle.color', default: ""},
@@ -144,27 +144,27 @@ class CounterEditForm extends EditForm {
             {tag: "div", class: "form-horizontal form-label-left edit-display pull-left",
                 content: [
 
-                    {tag: "div", class: "form-group form-group-custom text-center h4", content: [
+                    {tag: "div", class: "form-group form-group-custom text-left h4", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.fontSize"]}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-font-size"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-font-size"},
 
                             {tag: "input", type: "number", class: "form-control general_font", prop_key: "titlefont-font-size", id: "titlefont-font-size", name: "titlefont-font-size", key_path: 'title.textStyle.font-size', default: "24"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-font-size"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-font-size"},
 
                             {tag: "input", type: "number", class: "form-control general_font", prop_key: "subtextfont-font-size", id: "subtextfont-font-size", name: "subtextfont-font-size", key_path: 'title.subtextStyle.font-size', default: "12"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuefont-font-size"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuefont-font-size"},
 
                             {tag: "input", type: "number", class: "form-control general_font", prop_key: "valuefont-font-size", id: "valuefont-font-size", name: "valuefont-font-size", key_path: 'valueStyle.font-size', default: "50"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitfont-font-size"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitfont-font-size"},
 
                             {tag: "input", type: "number", class: "form-control general_font", prop_key: "unitfont-font-size", id: "unitfont-font-size", name: "unitfont-font-size", key_path: 'unitStyle.font-size', default: "30"}
                         ]}

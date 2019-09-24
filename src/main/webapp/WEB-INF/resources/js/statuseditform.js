@@ -47,80 +47,73 @@ class StatusEditForm extends EditForm {
 
         this.tabcontent.tab_display = {};
 
-        var edit_display = {tag: "div", class: 'forms', id: "edit_display"};
+        var edit_display = {tag: "div", class: 'statusDisplay forms', id: "edit_display"};
         edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
                 content: [
 
-                    {tag: "div", class: "form-group form-group-custom text-center h4", content: [
+                    {tag: "div", class: "form-group form-group-custom text-left h4", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.backgroundColors"]}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlebackground-color"},
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.alias"], lfor: "titlebackground-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "titlebackground-color", id: "titlebackground-color", name: "titlebackground-color", key_path: 'title.textStyle.background-color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
-
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextbackground-color"},
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.aliasSecondary"], lfor: "subtextbackground-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "subtextbackground-color", id: "subtextbackground-color", name: "subtextbackground-color", key_path: 'title.subtextStyle.background-color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
-
                         ]}
                 ]},
             //**********************************
             {tag: "div", class: "form-horizontal form-label-left edit-display pull-left counter-colors",
                 content: [
 
-                    {tag: "div", class: "form-group form-group-custom text-center h4", content: [
+                    {tag: "div", class: "form-group form-group-custom text-left h4", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.fontColors"]}
                         ]},
-
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-color"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "titlefont-color", id: "titlefont-color", name: "titlefont-color", key_path: 'title.textStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
-
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-color"},
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-color"},
                             {tag: "div", class: "titile_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "subtextfont-color", id: "subtextfont-color", name: "subtextfont-color", key_path: 'title.subtextStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
                                         ]}
                                 ]}
-
                         ]}
                 ]},
             //*************************************
             {tag: "div", class: "form-horizontal form-label-left edit-display pull-left",
                 content: [
 
-                    {tag: "div", class: "form-group form-group-custom text-center h4", content: [
+                    {tag: "div", class: "form-group form-group-custom text-left h4", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.fontSize"]}
                         ]},
 
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-font-size"},
-
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["title"], lfor: "titlefont-font-size"},
                             {tag: "input", type: "number", class: "form-control general_font", prop_key: "titlefont-font-size", id: "titlefont-font-size", name: "titlefont-font-size", key_path: 'title.textStyle.font-size', default: "24"}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-font-size"},
-
+//                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-font-size"},
                             {tag: "input", type: "number", class: "form-control general_font", prop_key: "subtextfont-font-size", id: "subtextfont-font-size", name: "subtextfont-font-size", key_path: 'title.subtextStyle.font-size', default: "12"}
                         ]}
                 ]}
