@@ -74,36 +74,6 @@ class StatusEditForm extends EditForm {
                                         ]}
                                 ]}
 
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuebackground-color"},
-                            {tag: "div", class: "titile_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "valuebackground-color", id: "valuebackground-color", name: "valuebackground-color", key_path: 'valueStyle.background-color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
-                                        ]}
-                                ]}
-
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitbackground-color"},
-                            {tag: "div", class: "titile_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "unitbackground-color", id: "unitbackground-color", name: "unitbackground-color", key_path: 'unitStyle.background-color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
-                                        ]}
-                                ]}
-
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.box"], lfor: "background-color"},
-                            {tag: "div", class: "titile_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "background-color", id: "background-color", name: "background-color", key_path: 'style.background-color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
-                                        ]}
-                                ]}
-
                         ]}
                 ]},
             //**********************************
@@ -133,26 +103,6 @@ class StatusEditForm extends EditForm {
                                         ]}
                                 ]}
 
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuefont-color"},
-                            {tag: "div", class: "titile_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "valuefont-color", id: "valuefont-color", name: "valuefont-color", key_path: 'valueStyle.color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
-                                        ]}
-                                ]}
-
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitfont-color"},
-                            {tag: "div", class: "titile_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "unitfont-color", id: "unitfont-color", name: "unitfont-color", key_path: 'unitStyle.color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i"}]}
-                                        ]}
-                                ]}
-
                         ]}
                 ]},
             //*************************************
@@ -172,16 +122,6 @@ class StatusEditForm extends EditForm {
                             {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.subtitle"], lfor: "subtextfont-font-size"},
 
                             {tag: "input", type: "number", class: "form-control general_font", prop_key: "subtextfont-font-size", id: "subtextfont-font-size", name: "subtextfont-font-size", key_path: 'title.subtextStyle.font-size', default: "12"}
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.value"], lfor: "valuefont-font-size"},
-
-                            {tag: "input", type: "number", class: "form-control general_font", prop_key: "valuefont-font-size", id: "valuefont-font-size", name: "valuefont-font-size", key_path: 'valueStyle.font-size', default: "50"}
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120", text: locale["editchartform.unit"], lfor: "unitfont-font-size"},
-
-                            {tag: "input", type: "number", class: "form-control general_font", prop_key: "unitfont-font-size", id: "unitfont-font-size", name: "unitfont-font-size", key_path: 'unitStyle.font-size', default: "30"}
                         ]}
                 ]}
         ];
