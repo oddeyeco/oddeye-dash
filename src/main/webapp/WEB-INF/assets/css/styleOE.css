@@ -1683,7 +1683,14 @@ select#refreshtime_private {
     margin: -14px 14px 0px 0px;
     color: #FF8C00;
 }
-
+#edit_display.counterDisplay .form-horizontal.counter-colors .form-group-custom,
+#edit_display.statusDisplay .form-horizontal.counter-colors .form-group-custom {
+    margin-bottom: 10px;
+}
+#edit_display.counterDisplay .form-horizontal .form-group-custom,
+#edit_display.statusDisplay .form-horizontal .form-group-custom {
+    margin: 2px 0 2px;
+}
 /* ==== Modals ==== */
 
 .modal-90
