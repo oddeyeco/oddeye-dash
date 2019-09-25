@@ -12,9 +12,9 @@ class CounterEditForm extends EditForm {
     {
         super.inittabcontent();
 //        console.log(this.tabcontent.tab_general.forms[0]);
-        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form_main_block depthShadowLightHover my-0 px-2 pb-2", content: [
+        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form_main_block depthShadowLightHover my-0 p-2", content: [
                 {tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
+                {tag: "label", class: "control-label", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
                 {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
             ]}   
         ]};
@@ -23,7 +23,7 @@ class CounterEditForm extends EditForm {
         var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
         edit_chart_title.content = [{tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_text"},
+                            {tag: "label", class: "control-label", text: locale["title"], lfor: "title_text"},
                             {tag: "input", type: "text", class: "form-control title_input_large", prop_key: "text", id: "title_text", name: "title_text", key_path: 'title.text', default: ""}
                         ]}
                 ]}
