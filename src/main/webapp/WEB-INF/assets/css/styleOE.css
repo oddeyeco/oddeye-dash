@@ -1500,9 +1500,11 @@ span.selection {
 #metricStatus p.alias2 {
     color: #212529;
     margin: 0;
+    font-size: 14px;
 }
 #metricStatus .text-wrap.message {
     border-top: 1px solid #212529;
+    font-size: 14px;
     font-weight: bold;
 }
 

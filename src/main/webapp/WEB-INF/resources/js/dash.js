@@ -1224,7 +1224,7 @@ var queryCallback = function (inputdata) {
                             '<div class="tile-stats tile_stats_count level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
                                 '<div class="metricname"></div>' +                           
                                 '<h6 class="m-0"><span class="badge badge-dark p-1 level"></span></h6>' +
-                                '<div class="text-wrap tags"></div>' +
+                                '<h6 class="m-0 text-wrap tags"></h6>' +
                                 '<p class="text-wrap alias2"></p>'+                           
                                 '<div class="text-wrap message"></div>' +                                       
                             '</div>' +
@@ -1242,7 +1242,7 @@ var queryCallback = function (inputdata) {
                             widget.col = 6;
                         }
                         JQcounter.attr("class", "animated flipInY tile_count chartsection" + " col-12 col-sm-" + widget.col);                        
-                        JQcounter.find('.tile-stats div.tags').text(widgetVal.name);
+                        JQcounter.find('.tile-stats h6.tags').text(widgetVal.name);
                         JQcounter.find('.tile-stats div.metricname').text(widgetVal.metricname);                        
                         JQcounter.find('.tile-stats span.level').text(widgetVal.metriclevel);                        
                         JQcounter.find('.tile-stats div.message').text(widgetVal.metricinfo);
@@ -1251,7 +1251,7 @@ var queryCallback = function (inputdata) {
                         {
                             if (widget.title.textStyle)
                             {
-                                JQcounter.find('.tile-stats div.tags').css(widget.title.textStyle);
+                                JQcounter.find('.tile-stats h6.tags').css(widget.title.textStyle);
                             }
                             if (widget.title.subtextStyle)
                             {
