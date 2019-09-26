@@ -3,7 +3,7 @@ var SingleRedrawtimer;
 var dasheditor;
 var echartLine;
 var basecounter = '<div class="animated flipInY tile_count col-6 chartsection">' +
-                    '<div class="tile-stats tile_stats_count card mb-1">' +
+                    '<div class="tile-stats tile_stats_count card mb-1" id="metricCounter">' +
                         '<h6>Title</h6>' +
                         '<p></p>' +
                         '<div class="count text-break"><span class="number">0</span><span class="param"></span></div>' +

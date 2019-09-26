@@ -1502,7 +1502,10 @@ span.selection {
     margin: 0;
     border-top: 1px solid #212529;
 }
-
+#metricCounter.tile-stats.tile_stats_count {
+    background-color: #c7cccc;
+    border: 1px solid rgba(0,0,0,.125);
+}
 
 /*==== Dashboard ====*/
 #filter span.select2.select2-container.select2-container--default {
