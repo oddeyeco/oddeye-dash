@@ -261,6 +261,11 @@ a:hover, .query-label a:hover, .data-label a:hover {
 /*.nav_title {
     background: @bg_baseDark;
 }*/
+.navbar-brand {
+    display: inline-block;
+    padding-top: .3rem;
+    padding-bottom: 0;
+}
 .top_nav {
     .nav_menu {
 /*        background: lighten(@bg_baseDark, 4%);*/
@@ -1293,7 +1298,7 @@ div#accordion1 .table-bordered>tbody>tr>th {
             }
         }
         .tile-stats {
-            background-color: inherit;
+/*            background-color: @bg_baseLight;*/
         }
 /*        background-color: @bg_rightCol;*/
 /*        background-color: lighten(@bg_rightCol, 2%);*/
@@ -1307,6 +1312,8 @@ div#accordion1 .table-bordered>tbody>tr>th {
     }
     .tile-stats:extend(.rowcontent .chartsection .tile-stats) {
         .base_border();
+/*        background-color: @bg_baseLight;*/
+        margin-top: 2px;
     }
 }
 span.tagspan {
@@ -1337,6 +1344,11 @@ div.jsoneditor-tree {
 	}
 	background: @clr_body;
 }
+/*           ========== StatusWidget==========       */
+#metricStatus {
+        color: @clr_body;
+}
+
 //---- @media ----
 @media(max-width: 768px){
 /*    .x_panel .x_content .tile_count .tile_stats_count {

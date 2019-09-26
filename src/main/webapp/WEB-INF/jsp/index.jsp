@@ -20,24 +20,21 @@
     <html lang="en">
         <head>
             <sec:csrfMetaTags/>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">            
             <!-- Meta, title, CSS, favicons, etc. -->
             <link rel="shortcut icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
-            <link rel="icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
-
+            <link rel="icon" href="${cp}/assets/images/logo.png" type="image/x-icon">            
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <c:if test="${!empty ogimage}">                        
                 <c:set var="image" value="${ogimage}" scope="request" />
             </c:if>              
-            <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/${image}" />   
+            <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/${image}" />            
             <title>${title}|oddeye.co</title>
 
             <!-- Bootstrap -->  
-<!--            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/bootstrap/bootstrap.css?v=${version}" />-->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/css/bootstrap.min.css?v=${version}" />
-
             <!-- Font Awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
@@ -56,21 +53,14 @@
             <!-- Jsoneditor -->
             <link href="${cp}/resources/jsoneditor/dist/jsoneditor.min.css?v=${version}" rel="stylesheet" type="text/css">
             <!-- Custom Theme Style -->
-<!--            <link rel="stylesheet" type="text/css" href="${cp}/resources/build/css/custom.min.css?v=${version}" />  -->
-<!--            <link rel="stylesheet" type="text/css" href="../assets/css/customOE.css" />-->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />
-<!--            <link href="${cp}/resources/datatables.net-bs/css/dataTables.bootstrap.min.css?v=${version}" rel="stylesheet">-->
             <!-- DataTables bootstrap4 -->
-            <link href="${cp}/resources/dataTablesBS4/css/dataTables.bootstrap4.min.css?v=${version}" rel="stylesheet">     
-
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />      
-            <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/css/site.css?v=${version}" />-->      
+            <link href="${cp}/resources/dataTablesBS4/css/dataTables.bootstrap4.min.css?v=${version}" rel="stylesheet"> 
+            <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />          
             
             <c:if test="${empty curentuser.getTemplate()}" >
-<!--                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />-->
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />
-            </c:if>                        
-
+            </c:if> 
             <c:if test="${not empty curentuser.getTemplate()}" >
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />        
@@ -84,8 +74,7 @@
                     <c:otherwise>                      
                     </c:otherwise>                                                    
                 </c:choose>
-            </c:if>            
-
+            </c:if>
             <c:if test="${not empty whitelabel}" >                
                 <link rel="stylesheet" href="<c:url value="${whitelabel.getFullfileName()}${whitelabel.cssfilename}?v=${version}"/>" />
             </c:if> 
@@ -107,201 +96,7 @@
                         </a>
                     </div>                    
                     <!-- sidebar Menu -->
-                    <div id="sidebar-menu">                       
-                        <!--                    <ul class="list-unstyled components">
-                            <li>                    
-                                <a href="#personalMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                    <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
-                                </a>
-    
-                                <ul class="collapse list-unstyled" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                    <li>
-                                        <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
-                                    </li>
-                                    <li>
-                                        <a href="<c:url value="/dashboard/"/>"><span><spring:message code="index.personal.summary"/></span></a>
-                                    </li>
-                                    <li>
-                                        <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
-                                    </li>
-                                    <li>
-                                        <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
-                                    </li>
-                                </ul>
-                            </li>                    
-                            <li>                    
-                                <a href="#monitoringMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                    <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
-                                </a>
-    
-                                <ul class="collapse list-unstyled" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                    <li>
-                                        <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
-                                    </li>
-                        <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
-                        <li>
-                            <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                            ${option.key}                                                             
-                        </a>
-                    </li>
-                        </c:forEach>
-                        <li>
-                            <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
-                        </li>
-                    </ul>
-                </li>
-                <li>                    
-                    <a href="#dashboardsMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
-                    </a>
-
-                    <ul class="collapse list-unstyled" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                        <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
-                        <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                        <li class="text-nowrap">
-                            <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                            <c:if test="${Dush.value.get(\"locked\")==true}">
-                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
-                            </c:if>                                                               
-                            <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
-                            </c:if>                                                                  
-                            ${Dush.key}                                                             
-                        </a>
-                    </li>
-                        </c:forEach>
-                    </ul>
-                </li>
-                        <sec:authorize access="hasRole('ADMIN')">
-                            <li>                    
-                                <a href="#managementMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                                    <i class="fa fa-edit"></i><spring:message code="index.managment"/>
-                                </a>
-
-                                <ul class="collapse list-unstyled" id="managementMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                            <sec:authorize access="hasRole('USERMANAGER')">
-                                <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
-                                <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('CONTENTMANAGER')">
-                            <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('USERMANAGER')">
-                            <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
-                            </sec:authorize> 
-                        </ul>
-                    </li> 
-                        </sec:authorize>
-                    </ul>-->
-                        <!--                                    <div class="accordion" id="sidebarMenu">
-                                                                <div class="card">
-                                                                    <div class="card-header" id="headPersonal">                                                
-                                                                            <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="true" aria-controls="collapsePersonal">
-                                                                            <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
-                                                                            </a>                                                
-                                                                    </div>
-                                                                    <div id="collapsePersonal" class="collapse" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
-                                                                        <div class="card-body">
-                                                                            <ul class="list-unstyled child_menu" id="personalMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                                                                <li>
-                                                                                    <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
-                                                                                </li>
-                                                                                <li>
-                                                                                    <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="card">
-                                                                    <div class="card-header" id="headMonitoring">                                                
-                                                                            <a href="#monitoringMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
-                                                                                <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
-                                                                            </a>                                                
-                                                                    </div>
-                                                                    <div id="collapseMonitoring" class="collapse" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
-                                                                        <div class="card-body">
-                                                                            <ul class="list-unstyled child_menu" id="monitoringMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                                                                                <li>
-                                                                                    <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
-                                                                                </li>
-                        <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
-                         <li>
-                            <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                            ${option.key}                                                             
-                        </a>
-                    </li>
-                        </c:forEach>
-                        <li>
-                            <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
-                        </li>
-                    </ul>            
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-header" id="headDashboards">                                                
-                    <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
-                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()})
-                    </a>                                                
-            </div>
-            <div id="collapseDashboards" class="collapse" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
-                <div class="card-body">
-                    <ul class="list-unstyled child_menu" id="dashboardsMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                        <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
-                        <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                        <li class="text-nowrap">
-                            <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                            <c:if test="${Dush.value.get(\"locked\")==true}">
-                                &nbsp; <i  type="button" class="fa fas fa-lock"></i>
-                            </c:if>                                                               
-                            <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                &nbsp; <i  type="button" class="fa fas fa-lock-open"></i>
-                            </c:if>                                                                  
-                            ${Dush.key}                                                             
-                        </a>
-                    </li>
-                        </c:forEach>
-                    </ul>
-                </div>
-            </div>
-        </div>
-                        <sec:authorize access="hasRole('ADMIN')">                    
-                        <div class="card">
-                            <div class="card-header" id="headManagment">                                                
-                                    <a href="#managementMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseManagment" aria-expanded="false" aria-controls="collapseManagment">
-                                        <i class="fa fa-edit"></i><spring:message code="index.managment"/>
-                                    </a>                                                
-                            </div>
-                            <div id="collapseManagment" class="collapse" aria-labelledby="headManagment" data-parent="#sidebarMenu">
-                                <div class="card-body">
-                                    <ul class="list-unstyled child_menu" id="managementMenu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
-                            <sec:authorize access="hasRole('USERMANAGER')">
-                                <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
-                                <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                            </sec:authorize>
-                            <sec:authorize access="hasRole('USERMANAGER')">
-                                <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
-                            </sec:authorize> 
-                        </ul>
-                    </div>
-                </div>
-            </div>
-                        </sec:authorize>            
-                    </div>-->
+                    <div id="sidebar-menu"> 
                         <ul id="sidebarMenu" class="accordion list-unstyled">
                             <li class="card">
                                 <div class="card-header" id="headPersonal">                                                
@@ -491,11 +286,7 @@
                         </ul>                        
                     </div>
                     
-
                     <!--                sidebar active          -->
-
-                   
-
                     <!-- sidebar-footer buttons -->
 
                     <div class="sidebar-footer hidden-small">
@@ -614,43 +405,10 @@
                     </div>
                 </div>                                                                                           
             </div>
-
-            <%--<c:if test="${activeuser.getFirstlogin()==true}">--%>
-            <%--<c:if test="${false==true}">
-                <div id="welcomemessage" class="modal  fade" tabindex="-1">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h4 class="modal-title">Welcome to OddEye smart monitoring and data analitic system</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>  Для начала работы мы с радостью предоставляем вам 50 OddEye Coin -ов (в дальнейшем OC ). Чтобы продолжить   нужно установить агент OddEye для этого можно скачать и запустить агент для linux или windows или воспользоваться API и отправлять данные из любой удобной вам среды.</p>
-                                <p>Подробнее можно узнать по ссылкам</p>
-                                <ul>
-                                    <li><a href="#">скачать Агент linux</a> </li>
-                                    <li><a href="#">скачать Агент windows</a></li>
-                                    <li><a href="#">описание  API</a></li>
-                                    <li><a href="#">как установить Агент linux</a></li>
-                                    <li><a href="#">как установить Агент windows</a></li>
-                                    <li><a href="#">Калькулятор стоимости </a></li>
-                                    <li><a href="#">Основная страница</a></li>
-                                    <li><a href="#">Настройка мониторинга</a></li>
-                                    <li><a href="#">Создание графиков </a>  </li>
-                                </ul>
-                            </div>
-                            <div class="modal-footer">
-                                <input   type="button" class="btn btn-default" data-dismiss="modal" value="Close">                                
-                            </div>
-                        </div>
-                    </div>
-                </div>                        
-            </c:if>--%>
-
+         
             <c:if test="${empty curentuser.getTemplate()}" >
                 <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
             </c:if>                        
-
             <c:if test="${not empty curentuser.getTemplate()}" >                
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
@@ -676,22 +434,15 @@
                 </c:if>
             </script>                                         
             <!-- jQuery -->
-<!--           <script src="<c:url value="/assets/dist/jquery.min.js?v=${version}"/>"></script>  -->
-<!--           <script src="<c:url value="/assets/dist/jquery-3.3.1.min.js?v=${version}"/>"></script> -->
-            <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>
-            
+            <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>           
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery-ui.custom.min.js?v=${version}"></script>
             <script src="${cp}/assets/dist/jquery.autocomplete.min.js?v=${version}"></script>        
-            <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script>                    
-
+            <script src="${cp}/assets/dist/jquery.spincrement.min.js?v=${version}"></script> 
             <!-- Popper -->
             <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/popper.min.js?v=${version}"></script>
-
             <!-- Bootstrap -->           
-<!--            <script src="${cp}/resources/bootstrap/dist/js/bootstrap.min.js?v=${version}"></script>  -->
             <script src="${cp}/resources/bootstrap/dist/bootstrap-4.3.1/js/bootstrap.min.js?v=${version}"></script>
-
             <!-- moment.js -->            
             <script src="${cp}/resources/js/moment/moment.min.js?v=${version}"></script>
             <c:if test="${not empty pageContext.response.locale}" >
@@ -708,21 +459,15 @@
             <script src="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js?v=${version}"></script>
             <!-- Bootstrap bootstrap-daterangepicker -->
             <script src="${cp}/resources/bootstrap-daterangepicker/daterangepicker.js?v=${version}"></script>        
-            <!-- Custom Theme Scripts -->
-<!--            <script src="${cp}/resources/build/js/custom.min.js?v=${version}"></script>-->
-<!--            <script src="${cp}/resources/build/js/customOE.js?v=${version}"></script>-->            
+            <!-- Custom Theme Scripts -->          
             <!-- Select2 -->          
             <script src="${cp}/resources/select2/dist/js/select2.full.min.js?v=${version}"></script>
-<!--            <script src="${cp}/resources/select2/dist/js/select2.js?v=${version}"></script>-->
 
             <script src="${cp}/assets/dist/sockjs-1.1.1.min.js?v=${version}"></script>
             <script src="${cp}/assets/js/stomp.min.js?v=${version}"></script>                    
             <script src="<c:url value="/assets/js/general.min.js?v=${version}"/>"></script>
             <script src="${cp}/resources/js/global.js?v=${version}"></script>
-            <script src="${cp}/resources/js/scriptOE.js?v=${version}"></script>   
-                 
-            
-            
+            <script src="${cp}/resources/js/scriptOE.js?v=${version}"></script>             
             <c:catch var="e">
                 <c:import url="${jspart}.jsp" />
             </c:catch>
@@ -734,7 +479,6 @@
             <!-- DataTables bootstrap4 -->
             <script src="${cp}/resources/dataTablesBS4/js/jquery.dataTables.min.js?v=${version}"></script>
             <script src="${cp}/resources/dataTablesBS4/js/dataTables.bootstrap4.min.js?v=${version}"></script> 
-
             <script>
                 $(function () {
                     $MENU_TOGGLE.on('click', function () {
@@ -754,20 +498,17 @@
                     a.src = g;
                     m.parentNode.insertBefore(a, m)
                 })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
                 ga('create', 'UA-101325828-1', 'auto');
                 ga('send', 'pageview');
                 setTimeout(function () {
                     ga('send', 'event', '10 seconds', 'read');
                 }, 10000);
-
                 window._mfq = window._mfq || [];
                 (function () {
                     var mf = document.createElement("script");
                     mf.type = "text/javascript";
                     mf.async = true;
                     mf.src = "//cdn.mouseflow.com/projects/56872595-6055-428f-99ba-9995277fc45c.js";
-
                     document.getElementsByTagName("head")[0].appendChild(mf);
                 })();
             </script>            
@@ -808,7 +549,6 @@
                     moment.locale('${pageContext.response.locale}');
                 </script>
             </c:if>              
-
         </body>
     </html>
 </compress:html>                                                    

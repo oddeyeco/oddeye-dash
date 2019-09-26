@@ -1500,6 +1500,7 @@ span.selection {
 #metricStatus p.alias2 {
     color: #212529;
     margin: 0;
+    border-top: 1px solid #212529;
 }
 
 
