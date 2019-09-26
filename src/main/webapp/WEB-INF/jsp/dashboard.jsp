@@ -11,8 +11,8 @@
 
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header custom-modal-header"><h4 class="modal-title">
-                    <spring:message code="dashboard.Modal.successfullySaved"/></h4>
+            <div class="modal-header custom-modal-header"><h5 class="modal-title">
+                    <spring:message code="dashboard.Modal.successfullySaved"/></h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
                 </button>
