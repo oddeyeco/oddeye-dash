@@ -1500,8 +1500,12 @@ span.selection {
 #metricStatus p.alias2 {
     color: #212529;
     margin: 0;
-    border-top: 1px solid #212529;
 }
+#metricStatus .text-wrap.message {
+    border-top: 1px solid #212529;
+    font-weight: bold;
+}
+
 #metricCounter.tile-stats.tile_stats_count {
     background-color: #c7cccc;
     border: 1px solid rgba(0,0,0,.125);
