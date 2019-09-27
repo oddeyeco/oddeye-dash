@@ -1341,7 +1341,43 @@ div.jsoneditor-tree {
 }
 /*           ========== StatusWidget==========       */
 #metricStatus {
-        color: @clr_body;
+    height: 150px;
+    font-weight: bold;
+    color: @bg_baseLight;
+    border: 1px solid #d5d5d5;
+    .metricname {
+        border: 1px solid #d5d5d5;
+        padding: 5px;
+        margin: 5px;
+        font-size: 14px;
+        text-align: center;
+        border-radius: 5px;
+        background-color: #73879c;
+        color: #e4e4e4;
+        clear: both;
+    }    
+    .level {        
+        font-size: 20px;
+        float: right;
+        color: #e4e4e4;
+        margin: 5px 5px 0 0;        
+        border: 1px solid #d5d5d5;
+    }
+    .label-info-status {
+        background-color: #73879c;
+    }
+    .tags {
+        margin-left: 10px;
+        font-size: 16px;
+    }
+    p.alias2 {
+        font-size: 16px;
+    }
+    .message {
+    white-space: initial;
+    border-top: 1px solid @bg_baseLight;
+    margin: 8px;    
+    }
 }
 #metricCounter.tile-stats {
     background-color: @bg_baseLight;

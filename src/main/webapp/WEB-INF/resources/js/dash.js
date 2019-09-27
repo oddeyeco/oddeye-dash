@@ -1189,7 +1189,7 @@ var queryCallback = function (inputdata) {
                         '<div class="animated flipInY col-xs-6 chartsection" >' +
                             '<div class="tile-stats level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
                                 '<div class="metricname"></div>' +                           
-                                '<div class="label label-info level"></div>' +
+                                '<div class="label label-info-status level"></div>' +
                                 '<div class="tags"></div>' +
                                 '<p class="alias2"></p>'+                           
                                 '<div class="message"></div>' +                                       
@@ -2254,7 +2254,7 @@ function getURL(type) {
     if(type === "status")
         return "getStatusData";
     else
-        return "getdata"
+        return "getdata";
 }
 
 var lockq = {};
@@ -2496,6 +2496,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     if (chart.attr("id") === "singlewidget")
                     {
                         chart.attr("class", " col-xs-12 col-sm-" + widget.size);
+//                        chart.attr("class", " col-xs-12 col-sm-12");
                     }
                     var inputdata = [k, widget, oldseries, chart, count, json, ri, wi, url, false, callback, customchart, start, end, whaitlist, uri];
                     lockq[ri + " " + wi] = true;
@@ -4061,7 +4062,7 @@ $(document).ready(function () {
             gdd.rows[ri].widgets = [];
         }
         var wi = gdd.rows[ri].widgets.length;
-        gdd.rows[ri].widgets.push({type: "status", size: 4});
+        gdd.rows[ri].widgets.push({type: "status", size: 6});
         window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
         domodifier();
         AutoRefreshSingle(ri, wi);
