@@ -1476,6 +1476,7 @@ span.selection {
     background-color: #67cc7d;  
 }
 .tile_count #metricStatus.tile_stats_count {
+    height: 150px!important;
     margin: 10px;
     padding: 2px 4px;
     text-overflow: ellipsis;
@@ -1497,15 +1498,19 @@ span.selection {
     color: #343a40;
     clear: both;
 }
-#metricStatus p.alias2 {
-    color: #212529;
-    margin: 0;
-    font-size: 14px;
+#metricStatus h6.alias2 {
+
+}
+#metricStatus hr {
+    margin-top: .2rem;
+    margin-bottom: .2rem;
+    border: 0;
+    border-top: 1px solid #343a40;
 }
 #metricStatus .text-wrap.message {
-    border-top: 1px solid #212529;
     font-size: 14px;
     font-weight: bold;
+/*    border-top: 1px solid #212529;*/
 }
 
 #metricCounter.tile-stats.tile_stats_count {

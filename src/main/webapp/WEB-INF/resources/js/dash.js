@@ -1220,12 +1220,17 @@ var queryCallback = function (inputdata) {
                     var statusInfo = data.chartsdata[dindex];
                     
                     var basecounterStatus = 
-                        '<div class="animated flipInY tile_count col-6 chartsection" >' +
+                         '<div class="animated flipInY tile_count col-6 chartsection" >' +
                             '<div class="tile-stats tile_stats_count level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
                                 '<div class="metricname"></div>' +                           
-                                '<h6 class="m-0"><span class="badge badge-dark p-1 level"></span></h6>' +
-                                '<h6 class="m-0 text-wrap tags"></h6>' +
-                                '<p class="text-wrap alias2"></p>'+                           
+                                '<div class="float-left">' +
+                                '<h6 class="m-0 text-wrap tags"></h6>'+'<h6 class="m-0 text-wrap alias2"></h6>' +
+                                '</div>' +
+                                '<div class="float-right">' +
+                                '<h4 class="mx-0 my-2"><span class="badge badge-dark p-1 level"></span></h4>' +
+                                '</div>' +
+                                '<div class="clearfix"></div>'+
+                                '<hr></hr>' +                         
                                 '<div class="text-wrap message"></div>' +                                       
                             '</div>' +
                         '</div>';
@@ -1255,10 +1260,10 @@ var queryCallback = function (inputdata) {
                             }
                             if (widget.title.subtextStyle)
                             {
-                                JQcounter.find('.tile-stats p.alias2').css(widget.title.subtextStyle);
+                                JQcounter.find('.tile-stats h6.alias2').css(widget.title.subtextStyle);
                             }
                         }
-                        JQcounter.find('.tile-stats p.alias2').text(widget.data[val].name2);
+                        JQcounter.find('.tile-stats h6.alias2').text(widget.data[val].name2);
 
                         if (widget.style)
                         {
@@ -4080,7 +4085,7 @@ $(document).ready(function () {
             gdd.rows[ri].widgets = [];
         }
         var wi = gdd.rows[ri].widgets.length;
-        gdd.rows[ri].widgets.push({type: "counter", size: 2});
+        gdd.rows[ri].widgets.push({type: "counter", size: 4});
         window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
         domodifier();
         AutoRefreshSingle(ri, wi);
@@ -4104,7 +4109,7 @@ $(document).ready(function () {
             gdd.rows[ri].widgets = [];
         }
         var wi = gdd.rows[ri].widgets.length;
-        gdd.rows[ri].widgets.push({type: "status", size: 4});
+        gdd.rows[ri].widgets.push({type: "status", size: 6});
         window.history.pushState({}, "", "?widget=" + wi + "&row=" + ri + "&action=edit");
         domodifier();
         AutoRefreshSingle(ri, wi);
