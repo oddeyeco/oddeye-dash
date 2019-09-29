@@ -110,11 +110,11 @@ public class dataControlers {
                 map.put("curentuser", currentUser);
 
                 OddeyeUserModel userDetails = currentUser;
-                if ((currentUser.getSwitchUser() != null)) {
-                    if (currentUser.getSwitchUser().getAlowswitch()) {
-                        userDetails = currentUser.getSwitchUser();
-                    }
-                }
+//                if ((currentUser.getSwitchUser() != null)) {
+//                    if (currentUser.getSwitchUser().getAlowswitch()) {
+//                        userDetails = currentUser.getSwitchUser();
+//                    }
+//                }
 
                 map.put("activeuser", userDetails);
 //                if (userDetails.getMetricsMeta() == null) {
@@ -175,11 +175,11 @@ public class dataControlers {
                 map.put("curentuser", currentUser);
 
                 OddeyeUserModel userDetails = currentUser;
-                if ((currentUser.getSwitchUser() != null)) {
-                    if (currentUser.getSwitchUser().getAlowswitch()) {
-                        userDetails = currentUser.getSwitchUser();
-                    }
-                }
+//                if ((currentUser.getSwitchUser() != null)) {
+//                    if (currentUser.getSwitchUser().getAlowswitch()) {
+//                        userDetails = currentUser.getSwitchUser();
+//                    }
+//                }
 
                 map.put("activeuser", userDetails);
 
@@ -359,11 +359,11 @@ public class dataControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             Map<String, OddeeyMetricMeta> foundMetrics = new HashMap<>();            
             if ((hash != null)) {
                 OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(hash);

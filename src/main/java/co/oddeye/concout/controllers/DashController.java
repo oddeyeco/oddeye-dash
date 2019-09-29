@@ -180,15 +180,15 @@ public class DashController {
             map.put("paypal_percent", paypal_percent);
             map.put("paypal_fix", paypal_fix);
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    map.put("activeuser", userDetails.getSwitchUser());
-                    map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails.getSwitchUser(), 50));
-                    map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails.getSwitchUser(), 50));
-                    map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails.getSwitchUser(), 50));
-
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    map.put("activeuser", userDetails.getSwitchUser());
+//                    map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails.getSwitchUser(), 50));
+//                    map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails.getSwitchUser(), 50));
+//                    map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails.getSwitchUser(), 50));
+//
+//                }
+//            }
         }
         map.put("paypal_url", paypal_url);
         map.put("paypal_email", paypal_email);
@@ -239,11 +239,11 @@ public class DashController {
                     getAuthentication().getPrincipal()).getUserModel();
 
             map.put("curentuser", userDetails);
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             map.put("activeuser", userDetails);
             map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
             map.put("htitle", "Dashboard" + (userDetails.getDushList().size() + 1));
@@ -285,11 +285,11 @@ public class DashController {
 
             map.put("curentuser", userDetails);
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             map.put("activeuser", userDetails);
             map.put("dashname", dashname);
             map.put("htitle", dashname);
@@ -323,11 +323,11 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String DushName = request.getParameter("name").trim().replaceAll(" +", " ");
             String DushInfo = request.getParameter("info").trim();
             String oldname = request.getParameter("oldname");
@@ -389,11 +389,11 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String DushName = request.getParameter("name").trim();
             String DushInfo = request.getParameter("info").trim();
             if (DushName != null) {
@@ -418,11 +418,11 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String DushName = request.getParameter("name").trim();
             if (DushName != null) {
                 try {
@@ -480,11 +480,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             if (filtername == null) {
                 filtername = "oddeye_base_def";
             }
@@ -531,11 +531,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String optionsname = request.getParameter("optionsname");
             if (optionsname == null) {
                 optionsname = "";
@@ -588,11 +588,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String optionsname = request.getParameter("optionsname");
 
             if (!optionsname.isEmpty()) {

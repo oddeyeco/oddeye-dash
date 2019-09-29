@@ -124,11 +124,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             OddeeyMetricMeta metric = null;
             if ((hash != null)) {
                 metric = userDetails.getMetricsMeta().get(hash);
@@ -258,11 +258,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
                 for (String tag : tagslist) {
@@ -325,11 +325,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
                 for (String tag : tagslist) {
@@ -386,11 +386,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
 
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
                 jsonResult.addProperty("sucsses", true);
@@ -431,11 +431,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
 
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
                 jsonResult.addProperty("sucsses", true);
@@ -468,11 +468,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
@@ -537,11 +537,11 @@ public class AjaxControlers {
             try {
                 OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal()).getUserModel();
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
                 ConcoutMetricMetaList Metriclist;
                 if (key.equals("_name")) {
                     Metriclist = userDetails.getMetricsMeta().getbyName(value);
@@ -622,11 +622,11 @@ public class AjaxControlers {
             try {
                 OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal()).getUserModel();
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
 
                 if (hash != null) {
                     if (MetaDao.deleteMeta(hash, userDetails) != null) {
@@ -690,11 +690,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
 
 //                if (userDetails.getMetricsMeta() == null) {
@@ -748,11 +748,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
 
             Gson gson = new Gson();
 
@@ -812,11 +812,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
                 JsonObject Jsonchangedata = new JsonObject();
                 Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
@@ -930,11 +930,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());

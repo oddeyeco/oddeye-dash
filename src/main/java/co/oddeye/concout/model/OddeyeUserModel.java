@@ -138,7 +138,7 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     
     
     private Double consumption = 0d;
-    private OddeyeUserModel SwitchUser;
+//    private OddeyeUserModel SwitchUser;
 
     private transient UserConcurrentMessageListenerContainer<Integer, String> listenerContainer;
 
@@ -148,7 +148,7 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     private String recaptcha;
 
     public OddeyeUserModel() {
-        this.SwitchUser = null;
+//        this.SwitchUser = null;
         this.id = UUID.randomUUID();
         this.authorities = new ArrayList<>();
 //        this.MetricsMetas = null;
@@ -983,9 +983,9 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     /**
      * @return the SwitchUser
      */
-    public OddeyeUserModel getSwitchUser() {
-        return SwitchUser;
-    }
+//    public OddeyeUserModel getSwitchUser() {
+//        return SwitchUser;
+//    }
     
     /**
      * @return the SwitchUser if not null and this user if null
@@ -997,9 +997,9 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     /**
      * @param SwitchUser the SwitchUser to set
      */
-    public void setSwitchUser(OddeyeUserModel SwitchUser) {
-        this.SwitchUser = SwitchUser;
-    }
+//    public void setSwitchUser(OddeyeUserModel SwitchUser) {
+//        this.SwitchUser = SwitchUser;
+//    }
 
     /**
      * @return the consumption

@@ -425,29 +425,29 @@ public class AdminUsersControlers extends GRUDControler {
         binder.registerCustomEditor(GrantedAuthority.class, new GrantedAuthorityEditor());
     }
 
-    @RequestMapping(value = "user/switch/{id}", method = RequestMethod.GET)
-    public String userswitch(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();
-            userDetails.setSwitchUser(Userdao.getUserByUUID(UUID.fromString(id), true));
-        }
-        return "redirect:/dashboard/";
+//    @RequestMapping(value = "user/switch/{id}", method = RequestMethod.GET)
+//    public String userswitch(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+//                    getAuthentication().getPrincipal()).getUserModel();
+//            userDetails.setSwitchUser(Userdao.getUserByUUID(UUID.fromString(id), true));
+//        }
+//        return "redirect:/dashboard/";
+//
+//    }
 
-    }
-
-    @RequestMapping(value = "/switchoff/", method = RequestMethod.GET)
-    public String userswitchoff(ModelMap map, HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();
-            userDetails.setSwitchUser(null);
-        }
-        return "redirect:/dashboard/";
-
-    }
+//    @RequestMapping(value = "/switchoff/", method = RequestMethod.GET)
+//    public String userswitchoff(ModelMap map, HttpServletRequest request) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+//                    getAuthentication().getPrincipal()).getUserModel();
+//            userDetails.setSwitchUser(null);
+//        }
+//        return "redirect:/dashboard/";
+//
+//    }
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("model") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request, HttpServletResponse response) {

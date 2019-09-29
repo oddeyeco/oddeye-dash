@@ -102,11 +102,11 @@ public class ProfileController {
             }
             map.put("page", page);
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    map.put("activeuser", userDetails.getSwitchUser());
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    map.put("activeuser", userDetails.getSwitchUser());
+//                }
+//            }
             map.put("title", messageSource.getMessage("title.myAccount",new String[]{""},LocaleContextHolder.getLocale()));
 
         } else {
@@ -131,11 +131,11 @@ public class ProfileController {
 
                 map.put("curentuser", currentUser);
                 OddeyeUserModel userDetails = currentUser;
-                if ((currentUser.getSwitchUser() != null)) {
-                    if (currentUser.getSwitchUser().getAlowswitch()) {
-                        userDetails = currentUser.getSwitchUser();
-                    }
-                }
+//                if ((currentUser.getSwitchUser() != null)) {
+//                    if (currentUser.getSwitchUser().getAlowswitch()) {
+//                        userDetails = currentUser.getSwitchUser();
+//                    }
+//                }
 
                 map.put("activeuser", userDetails);
 
@@ -264,13 +264,13 @@ public class ProfileController {
             map.put("newuserleveldata", userDetails);
             map.put("newuserdata", userDetails);
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    map.put("activeuser", userDetails.getSwitchUser());
-                    map.put("newuserleveldata", userDetails.getSwitchUser());
-                    map.put("newuserdata", userDetails.getSwitchUser());
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    map.put("activeuser", userDetails.getSwitchUser());
+//                    map.put("newuserleveldata", userDetails.getSwitchUser());
+//                    map.put("newuserdata", userDetails.getSwitchUser());
+//                }
+//            }
             map.put("title", messageSource.getMessage("title.changeProfile",new String[]{""},LocaleContextHolder.getLocale()));
  //         map.put("title", "Change Profile");
             DefaultController.setLocaleInfo(map);
@@ -302,11 +302,11 @@ public class ProfileController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((currentUser.getSwitchUser() != null)) {
-                if (currentUser.getSwitchUser().getAlowswitch()) {
-                    currentUser = currentUser.getSwitchUser();
-                }
-            }
+//            if ((currentUser.getSwitchUser() != null)) {
+//                if (currentUser.getSwitchUser().getAlowswitch()) {
+//                    currentUser = currentUser.getSwitchUser();
+//                }
+//            }
             userValidator.passwordvalidate(newuserdata, currentUser, result);
 
             DefaultController.setLocaleInfo(map);
@@ -359,11 +359,11 @@ public class ProfileController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((currentUser.getSwitchUser() != null)) {
-                if (currentUser.getSwitchUser().getAlowswitch()) {
-                    currentUser = currentUser.getSwitchUser();
-                }
-            }
+//            if ((currentUser.getSwitchUser() != null)) {
+//                if (currentUser.getSwitchUser().getAlowswitch()) {
+//                    currentUser = currentUser.getSwitchUser();
+//                }
+//            }
             userValidator.updatevalidate(newuserdata, result,currentUser);
 
             DefaultController.setLocaleInfo(map);
@@ -426,11 +426,11 @@ public class ProfileController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             OddeyeUserModel currentUser = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((currentUser.getSwitchUser() != null)) {
-                if (currentUser.getSwitchUser().getAlowswitch()) {
-                    currentUser = currentUser.getSwitchUser();
-                }
-            }
+//            if ((currentUser.getSwitchUser() != null)) {
+//                if (currentUser.getSwitchUser().getAlowswitch()) {
+//                    currentUser = currentUser.getSwitchUser();
+//                }
+//            }
             levelsValidator.validateDemo(newuserdata, result,currentUser);
 
             DefaultController.setLocaleInfo(map);

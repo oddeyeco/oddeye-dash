@@ -244,12 +244,15 @@
                                 <ul class="nav navbar-nav navbar-right">
                                     <li class="">                                        
                                         <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                            <c:if test="${curentuser.getSwitchUser()==null}">
-                                                ${curentuser.getEmail()}
-                                            </c:if>
-                                            <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <b><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
-                                            </c:if>&nbsp;                                 
+                                            <sec:authorize var="isImpersonated" access="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')" />
+                                            <c:choose>
+                                            <c:when test="${isImpersonated}">
+                                                <b><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getEmail()}</b>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${curentuser.getEmail()}                                                
+                                            </c:otherwise>
+                                            </c:choose>&nbsp;                                 
                                             <span class=" fa fas fa-angle-down"></span>
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
