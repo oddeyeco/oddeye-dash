@@ -991,10 +991,7 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
      * @return the SwitchUser if not null and this user if null
      */
     public OddeyeUserModel proxy() {
-        if(null != SwitchUser)
-            return SwitchUser;
-        else
-            return this;
+        return this;
     }    
 
     /**

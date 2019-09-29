@@ -276,9 +276,12 @@
                                                     <spring:message code="index.allowEdit"/>                                            
                                                 </a>
                                             </li> 
-                                            <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                <li><a href="<c:url value="/switchoff/"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li>
-                                                </c:if>
+                                            <%--<c:if test="${curentuser.getSwitchUser()!=null}">--%>
+                                            <sec:authorize access="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')">    
+                                                <li><a href="<c:url value="/impersonate/logout"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li>
+                                            </sec:authorize>
+                                            <%--</c:if>--%>
+                                                
                                                 <c:url value="/logout/" var="logoutUrl" />
                                             <li><a href="${logoutUrl}"><i class="fa fa-sign-out pull-right"></i> <spring:message code="logout"/> </a></li>
                                         </ul>
