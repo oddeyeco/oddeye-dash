@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 /* global locale */
 
 class CounterEditForm extends EditForm {
@@ -105,7 +104,6 @@ class CounterEditForm extends EditForm {
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                                 ]}
                                         ]}
-
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "div", class: "titile_input_midle", content: [
@@ -122,7 +120,6 @@ class CounterEditForm extends EditForm {
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                                 ]}
                                         ]}
-
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "div", class: "titile_input_midle", content: [
@@ -131,7 +128,6 @@ class CounterEditForm extends EditForm {
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                                 ]}
                                         ]}
-
                                 ]}
                         ]}
                 ]},
@@ -195,9 +191,7 @@ class CounterEditForm extends EditForm {
                 contener.find("select").select2({minimumResultsForSearch: 15});
                 contener.find('[data-toggle="tooltip"]').tooltip();
             }
-
         });
-
     }
     opencontent() {
         var target = $(this).attr('target');
@@ -215,7 +209,6 @@ class CounterEditForm extends EditForm {
             {
                 shevron.removeClass("fa-chevron-circle-up");
                 shevron.addClass("fa-chevron-circle-down");
-
             }
         });
     }

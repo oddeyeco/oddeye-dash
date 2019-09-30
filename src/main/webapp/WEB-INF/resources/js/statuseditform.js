@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 /* global locale */
 
 class StatusEditForm extends EditForm {
@@ -56,7 +55,7 @@ class StatusEditForm extends EditForm {
 
         var edit_display = {tag: "div", class: 'forms statusDisplay', id: "edit_display"};
         edit_display.content = [
-
+            
             {tag: "div", class: "form-horizontal form-label-left edit-display float-left counter-colors",
                 content: [{tag: "div", class: "form-group form-group-custom text-center h5", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.fontColors"]}
@@ -135,9 +134,7 @@ class StatusEditForm extends EditForm {
                 contener.find("select").select2({minimumResultsForSearch: 15});
                 contener.find('[data-toggle="tooltip"]').tooltip();
             }
-
         });
-
     }
     opencontent() {
         var target = $(this).attr('target');
@@ -155,7 +152,6 @@ class StatusEditForm extends EditForm {
             {
                 shevron.removeClass("fa-chevron-circle-up");
                 shevron.addClass("fa-chevron-circle-down");
-
             }
         });
     }
