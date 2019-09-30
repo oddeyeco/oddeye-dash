@@ -27,18 +27,20 @@ class StatusEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
+
+        var dimensions_columnSpan = {tag: "div", class: "form_main_block depthShadowLightHover mb-0 p-2", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editform.span"], lfor: "dimensions_span"},
+                            {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
+                        ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
+                                    {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
+                                ]}
+                    ]};            
         
-//        this.tabcontent.tab_general.forms[0].content[2] = {tag: "div", class: "form-group form-group-custom", content: [
-//                {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
-//                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
-//            ]};
-        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form_main_block depthShadowLightHover my-0 p-2", content: [
-                {tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
-                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
-            ]}
-        ]};
-                
+        this.tabcontent.tab_general.forms[0].content.splice(0, 1, dimensions_columnSpan);
+    
         var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left float-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
         edit_chart_title.content = [{tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
                     {tag: "div", class: "form-group form-group-custom", content: [
@@ -53,38 +55,16 @@ class StatusEditForm extends EditForm {
         this.tabcontent.tab_display = {};
 
         var edit_display = {tag: "div", class: 'forms statusDisplay', id: "edit_display"};
-        edit_display.content = [{tag: "div", class: "form-horizontal form-label-left edit-display float-left counter-colors",
-                content: [{tag: "div", class: "form-group form-group-custom text-left h5", content: [
-                            {tag: "label", class: "control-label", text: locale["countereditform.backgroundColors"]}
-                        ]},
-                    {tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
-                        {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.alias"], lfor: "titlebackground-color"},
-                            {tag: "div", class: "titile_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "titlebackground-color", id: "titlebackground-color", name: "titlebackground-color", key_path: 'title.textStyle.background-color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
-                                        ]}
-                                ]}
-                        ]},
-                    {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.aliasSecondary"], lfor: "subtextbackground-color"},
-                            {tag: "div", class: "titile_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "subtextbackground-color", id: "subtextbackground-color", name: "subtextbackground-color", key_path: 'title.subtextStyle.background-color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
-                                        ]}
-                                ]}
-                        ]}   
-                    ]}                    
-                ]},
+        edit_display.content = [
+
             {tag: "div", class: "form-horizontal form-label-left edit-display float-left counter-colors",
-                content: [{tag: "div", class: "form-group form-group-custom text-left h5", content: [
+                content: [{tag: "div", class: "form-group form-group-custom text-center h5", content: [
                             {tag: "label", class: "control-label", text: locale["countereditform.fontColors"]}
                         ]},
                     {tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
                           {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "div", class: "titile_input_midle", content: [
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.alias"], lfor: "titlebackground-color"},     
+                            {tag: "div", class: "titile_input_midle", content: [                                    
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "titlefont-color", id: "titlefont-color", name: "titlefont-color", key_path: 'title.textStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -92,7 +72,8 @@ class StatusEditForm extends EditForm {
                                 ]}
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "div", class: "titile_input_midle", content: [
+                            {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.aliasSecondary"], lfor: "subtextbackground-color"},
+                            {tag: "div", class: "titile_input_midle", content: [                                    
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "subtextfont-color", id: "subtextfont-color", name: "subtextfont-color", key_path: 'title.subtextStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}

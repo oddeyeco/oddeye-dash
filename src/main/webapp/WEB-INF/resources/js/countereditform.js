@@ -11,14 +11,19 @@ class CounterEditForm extends EditForm {
     inittabcontent()
     {
         super.inittabcontent();
-//        console.log(this.tabcontent.tab_general.forms[0]);
-        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form_main_block depthShadowLightHover my-0 p-2", content: [
-                {tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
-                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
-            ]}   
-        ]};
-                
+
+        var dimensions_columnSpan = {tag: "div", class: "form_main_block depthShadowLightHover mb-0 p-2", content: [
+                    {tag: "div", class: "form-group form-group-custom", content: [
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editform.span"], lfor: "dimensions_span"},
+                            {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
+                        ]},
+                            {tag: "div", class: "form-group form-group-custom", content: [
+                                    {tag: "label", class: "control-label", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
+                                    {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
+                                ]}
+                    ]};            
+        
+        this.tabcontent.tab_general.forms[0].content.splice(0, 1, dimensions_columnSpan);        
         
         var edit_chart_title = {tag: "form", class: "form-horizontal form-label-left pull-left", id: "edit_chart_title", label: {show: true, text: locale["info"]}};
         edit_chart_title.content = [{tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
@@ -30,11 +35,6 @@ class CounterEditForm extends EditForm {
         ];
 
         this.tabcontent.tab_general.forms.splice(0, 0, edit_chart_title);
-
-//        this.tabcontent.tab_general.forms[0].content[1] = {tag: "div", class: "form-group form-group-custom", content: [
-//                {tag: "label", class: "control-label control-label-custom120", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
-//                {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
-//            ]};
 
         this.tabcontent.tab_display = {};//suren
 
