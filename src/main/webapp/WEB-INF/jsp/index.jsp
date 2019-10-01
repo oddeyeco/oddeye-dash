@@ -86,15 +86,30 @@
                     <!-- Sidebar  -->
                     <nav id="sidebar">
                         <div class="sidebar-header text-center">
-                                <a class="navbar-brand mr-0" href="<c:url value='/'/>">
-                            <c:if test="${empty whitelabel}" >
-                                <img src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
-                            </c:if>                        
-                            <c:if test="${not empty whitelabel}" >
-                                <img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="65px" style="float: left">                
-                            </c:if> 
-                        </a>
+                            <div class="sidebar_md">
+                                    <a class="navbar-brand mr-0" href="<c:url value='/'/>">
+                                <c:if test="${empty whitelabel}" >
+                                    <!--<img id="logo_md" src="${cp}/assets/images/oee1.png" alt="logo" width="160px" style="float:left">-->
+                                    <img id="logo_md" src="${cp}/assets/images/oee2.png" alt="logo" width="200px" style="float:left">
+                                </c:if>                        
+                                <c:if test="${not empty whitelabel}" >
+                                    <img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="65px" style="float: left">                
+                                </c:if> 
+                            </a>
+                        </div> 
+                        <div class="sidebar_sm">
+                            <a class="navbar-brand mr-0" href="<c:url value='/'/>">
+                                <c:if test="${empty whitelabel}" >
+                                    <img id="logo_sm" src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
+                                </c:if>                        
+                                <c:if test="${not empty whitelabel}" >
+                                    <img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="65px" style="float: left">                
+                                </c:if> 
+                            </a>
+                        </div>    
                     </div>                    
+                                           
+                                          
                     <!-- sidebar Menu -->
                     <div id="sidebar-menu"> 
                         <ul id="sidebarMenu" class="accordion list-unstyled">
@@ -287,6 +302,7 @@
                     </div>
                     
                     <!--                sidebar active          -->
+                    
                     <!-- sidebar-footer buttons -->
 
                     <div class="sidebar-footer hidden-small">

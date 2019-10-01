@@ -392,7 +392,7 @@ select#title_x_position option {
     background: #c7cccc;
     color: #000;      
     z-index: 99;
-    transition: all 0.2s;
+    /*transition: all 0.2s;*/
 }
 .nav-sm #sidebar {    
     width: 100px;
@@ -404,7 +404,7 @@ select#title_x_position option {
     background: #c7cccc;
     color: #000;      
     z-index: 999;
-    transition: all 0.2s;
+    /*transition: all 0.2s;*/
 }
 
 .nav-md #content {
@@ -414,7 +414,7 @@ select#title_x_position option {
     top: 0;
     right: 0;
     left:0;
-    transition: all 0.2s;
+    /*transition: all 0.2s;*/
 }
 
 .nav-sm #content {
@@ -424,9 +424,27 @@ select#title_x_position option {
     top: 0;
     right: 0;
     left:0;
-    transition: all 0.2s;
+    /*transition: all 0.2s;*/
+}
+.sidebar_md .navbar-brand {
+    padding: .1rem;
+}
+.sidebar_md .navbar-brand img#logo_md {
+    height: 50px;
+}
+#sidebar .sidebar_md {
+    display: block;
+}
+#sidebar.active .sidebar_md {
+    display: none;
 }
 
+#sidebar .sidebar_sm {
+    display: none;
+}
+#sidebar.active .sidebar_sm {
+    display: block;
+}
 /* ========================================================
     SIDEBAR STYLE
 =========================================================== */

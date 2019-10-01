@@ -13,7 +13,6 @@ var CURRENT_URL = window.location.href.split('?')[0],
 // Sidebar
 $(document).ready(function() {
     
-
 //    // toggle small or large menu
 //    $MENU_TOGGLE.on('click', function() {
 //        if ($BODY.hasClass('nav-md')) {
@@ -25,6 +24,7 @@ $(document).ready(function() {
 //        }        
 //        $BODY.toggleClass('nav-md nav-sm');        
 //    });
+    
     // toggle small or large menu
     $MENU_TOGGLE.on('click', function() {
         if ($BODY.hasClass('nav-md')) {
