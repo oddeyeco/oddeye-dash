@@ -90,7 +90,7 @@
                                     <a class="navbar-brand mr-0" href="<c:url value='/'/>">
                                 <c:if test="${empty whitelabel}" >
                                     <!--<img id="logo_md" src="${cp}/assets/images/oee1.png" alt="logo" width="160px" style="float:left">-->
-                                    <img id="logo_md" src="${cp}/assets/images/oee2.png" alt="logo" width="200px" style="float:left">
+                                    <img id="logo_md" src="${cp}/assets/images/oee2.png" alt="logo" width="160px" style="float:left">
                                 </c:if>                        
                                 <c:if test="${not empty whitelabel}" >
                                     <img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="65px" style="float: left">                
@@ -224,7 +224,7 @@
                                 <div class="dropdown dropright">
                                     <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuPersonal" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fas fa-info "></i>  
-                                        <spring:message code="index.personal"/>
+                                        <span><spring:message code="index.personal"/></span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="menuPersonal">
                                         <a class="dropdown-item" href="<c:url value="/profile"/>"><spring:message code="index.personal.profile"/></a>
@@ -238,7 +238,7 @@
                                 <div class="dropdown dropright">
                                     <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuMonitoring" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa far fa-bell"></i>
-                                        <spring:message code="index.monitoring"/>
+                                        <span><spring:message code="index.monitoring"/></span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="menuMonitoring">
                                         <a class="dropdown-item" href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
@@ -255,7 +255,7 @@
                                 <div class="dropdown dropright">
                                     <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuDash" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fa fas fa-desktop"></i>
-                                        <spring:message code="index.dashboardsDushList"/>
+                                        <span><spring:message code="index.dashboardsDushList"/></span>
                                         <span class="d-block">[ ${curentuser.getDushList().size()} ]</span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="menuDash">
@@ -279,7 +279,7 @@
                                     <div class="dropdown dropright">
                                         <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuManagement" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="fa fa-edit"></i>
-                                            <spring:message code="index.managment"/> 
+                                            <span><spring:message code="index.managment"/></span>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="menuManagement">
                                             <sec:authorize access="hasRole('USERMANAGER')">

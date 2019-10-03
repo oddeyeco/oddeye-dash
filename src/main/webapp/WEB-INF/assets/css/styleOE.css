@@ -303,6 +303,7 @@ span#select2-refreshtime_private-container.select2-selection__rendered,
 #edit_q .select2-selection__rendered {
     display: inline-block;
 }
+input#global-down-sample,
 .custom-select.customTemplate {
    padding: .2rem .7rem; 
 }
@@ -631,6 +632,7 @@ a.article:hover, a.download:hover {
         margin-left: 0 !important;
     }
  #sidebar .dropdown-toggle::after {
+        position: absolute;
         top: auto;
         bottom: 10px;
         right: 50%;
@@ -649,7 +651,8 @@ a.article:hover, a.download:hover {
         padding: 20px 10px;
     }
     #sidebar ul li a span {
-        font-size: 0.85em;
+/*        font-size: 0.85em;*/
+        display: none !important;
     }
     #sidebar ul li a i {
         margin-right: 0;
@@ -1540,7 +1543,14 @@ span.selection {
 #filter span.select2.select2-container.select2-container--default {
 /*    display: none !important;*/
 }
-#filter .blockTimeRefreshLock>div:not(#refresh_wrap) {
+/*.blockDownsampleAggregatorEnabled input[type="text"]::-webkit-input-placeholder { color: #444; }
+.blockDownsampleAggregatorEnabled input[type="text"]:-ms-input-placeholder { color: #444; }
+.blockDownsampleAggregatorEnabled input[type="text"]::-ms-input-placeholder { color: #444; }
+.blockDownsampleAggregatorEnabled input[type="text"]::placeholder { color: #444; } */
+   
+
+#filter .blockTimeRefreshLock>div:not(#refresh_wrap):not(.btnFilter),
+#filter .blockTimeRefreshLock>div.btnFilter>div {
     height: calc(1.5em + .75rem + 2px);
     font-size: 0.8rem;
     font-weight: 500;
@@ -1881,4 +1891,83 @@ select#refreshtime_private {
     background-color: #343a40;
 }
 
+/*================ @media ===================*/
+/*==== smartphone ====*/
+@media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+    .right_col {
+        padding: 2px;
+    }
+    .card-body {
+    padding: 0.4rem;
+}
+#sidebar.active {
+    min-width: 80px;
+    max-width: 80px;
+}
+.nav-sm #sidebar {
+    width: 80px;
+}
+#sidebar div#sidebar-menu {
+     padding: 0.2rem; 
+}
+#sidebar.active .dropdown-toggle::after {
+    position: absolute;    
+    top: 20px;
+    bottom: auto;
+    right: 20%;
+    -webkit-transform: translateX(50%);
+    -ms-transform: translateX(50%);
+    transform: translateX(50%);
+    }
+
+
+.nav-sm #content {
+    margin-left: 80px;
+}
+
+
+
+
+
+    #filter.filter.fix {
+        left: 5px!important;
+        right: 5px!important;
+        display: flex;
+    }
+    #filter.filter input#global-down-sample {
+        width: 120px;
+        padding: .2rem .7rem;
+    }
+    #filter.filter div#reportrange,
+    #filter.filter div#refresh_wrap {
+        width: 150px;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+ 
+/*==== iPads ====*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    #filter.filter.fix {
+        left: 5px!important;
+        right: 5px!important;
+        display: flex;
+    }
+    #filter.filter input#global-down-sample {
+        width: 120px;
+        padding: .2rem .7rem;
+    }
+    #filter.filter div#reportrange,
+    #filter.filter div#refresh_wrap {
+        width: 150px;
+    }
+}
+ 
 
