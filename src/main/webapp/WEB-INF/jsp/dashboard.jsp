@@ -160,7 +160,7 @@
     <div class="col-12 ">
         <div class="card fulldash shadow" style="display: none">
             <div class="card-header dash_header">
-                <div class="item_title float-left pt-2" >
+                <div class="item_title float-left mr-2 pt-2" >
                     <div class="title_text">
                         <span>${dashname}</span>
                         <i class="change_title fa fas fa-pencil-alt"></i>
@@ -208,7 +208,7 @@
                     <div class="col-6">
                         <div class="blockDownsampleAggregatorEnabled form-inline">
                             <div class="mb-1 mr-2">
-                                <input class="form-control  query_input" id="global-down-sample" name="global-down-sample" type="text"placeholder="<spring:message code="dashboard.downSample"/>">  
+                                <input class="form-control  query_input" id="global-down-sample" name="global-down-sample" type="text" placeholder="<spring:message code="dashboard.downSample"/>" data-toggle="tooltip" data-placement="top" title="" data-original-title="instruction for use Down Sample...">
                             </div>
                             <div class="mb-1 mr-2">
                                 <div class="select2wraper global-down-sample-ag-wraper">

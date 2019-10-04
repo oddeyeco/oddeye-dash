@@ -11,7 +11,7 @@
 
 <div class="row">
           <div class="col-lg-8">
-              <div class="card shadow mb-4">
+              <div class="card shadow mb-2 mb-md-4">
                   <h5 class="card-header">
                       <spring:message code="dashboards.myDashboards"/> (${activeuser.getDushList().size()})
                       <a class="btn btn-outline-success btn-xs float-right" href="<spring:url value="/dashboard/new" htmlEscape="true"/>"><spring:message code="dashboards.newDashboard"/></a>                            
@@ -34,7 +34,7 @@
                       </ul>
                   </div>
               </div>
-              <div class="card shadow mb-4">
+              <div class="card shadow mb-2 mb-md-4">
                   <h5 class="card-header">
                       <spring:message code="dashboards.statistic"/>
                       <a id="Get_Agent" class="btn btn-outline-success btn-xs float-right ml-2" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.getAgent"/></a>
