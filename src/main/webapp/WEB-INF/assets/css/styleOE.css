@@ -1896,7 +1896,9 @@ select#refreshtime_private {
 /*==== @media: smartphone ====*/
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
-    
+    img#logo_sm {
+        width: 50px!important;
+    }
     .row {
         margin-right: -2px;
         margin-left: -2px;
@@ -1930,23 +1932,30 @@ select#refreshtime_private {
         padding: 0.2rem;
     }
 #sidebar.active {
-    min-width: 65px;
-    max-width: 65px;
+    min-width: 50px;
+    max-width: 50px;
 }
 .nav-sm #sidebar {
-    width: 65px;
+    width: 50px;
 }
 .nav-sm #content {
-    margin-left: 65px;
+    margin-left: 50px;
 }
 #sidebar div#sidebar-menu {
      padding: 0.2rem; 
 }
+#sidebar.active ul li a {
+    padding: 10px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    margin: 0 0 10px -4px
+}
+#sidebar.active #menuDash.dropdown-toggle::after,
 #sidebar.active .dropdown-toggle::after {
     position: absolute;    
-    top: 20px;
+    top: 18px;
     bottom: auto;
-    right: 20%;
+    right: 6%;
     -webkit-transform: translateX(50%);
     -ms-transform: translateX(50%);
     transform: translateX(50%);
