@@ -385,7 +385,8 @@ select#title_x_position option {
     SIDEBAR - CONTENT & nav-md - nav-sm
 =========================================================== */
 .nav-md #sidebar {   
-    width: 220px;    
+    width: 220px;  
+    text-align: center;
     position: fixed;
     top: 0;
     left: 0;
@@ -428,7 +429,7 @@ select#title_x_position option {
     /*transition: all 0.2s;*/
 }
 .sidebar_md .navbar-brand {
-    padding: .1rem;
+    padding-top: .3rem;
 }
 .sidebar_md .navbar-brand img#logo_md {
     height: 50px;
