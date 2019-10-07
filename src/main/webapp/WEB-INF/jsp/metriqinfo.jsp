@@ -10,7 +10,7 @@
                 <spring:message code="metriginfo.metric.h1" arguments="${cp},${metric.sha256Code()},${metric.getName()}"/><fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}
             </h5>
             <div class="card-body row metriqs">
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="card row shadow">
                         <div class="col-12">
                             <div class="card-header row">
@@ -28,11 +28,11 @@
                             </div>
                             <div class="card-body row p-1">
                                 <div class="col-6">
-                                    <ul class="">
+                                    <ul class="" style="-webkit-padding-start: 10px">
                                         <c:forEach items="${metric.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
-                                                    <span class="name"> ${Tag.getKey()}:&#8194; </span>
+                                                    <span class="name"> ${Tag.getKey()} : </span>
                                                     <span class="value text-success"> ${Tag.getValue()}</span>
                                                 </li>
                                             </c:if>    
@@ -41,9 +41,9 @@
                                 </div>
                                 <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
                                     <div class="col-6">
-                                        <ul class="">                                                 
+                                        <ul class="" style="-webkit-padding-start: 10px">                                                 
                                             <li>
-                                                <span class="name"><spring:message code="regression.correlationCoefficient"/>:&#8194; </span>                            
+                                                <span class="name"><spring:message code="regression.correlationCoefficient"/> : </span>                            
                                                 <span class="value text-success">
                                                     <c:choose>
                                                         <c:when test="${metric.getRegression().getR() == Double.NaN}">
@@ -58,7 +58,7 @@
                                                 </span>                            
                                             </li>
                                             <li>
-                                                <span class="name"><spring:message code="regression.slope"/>:&#8194; </span>
+                                                <span class="name"><spring:message code="regression.slope"/> : </span>
                                                 <span class="value text-success">                                        
                                                     <c:choose>
                                                         <c:when test="${metric.getRegression().getSlope() == Double.NaN}">
@@ -73,7 +73,7 @@
                                                 </span>                                                                       
                                             </li> 
                                             <li>
-                                                <span class="name"><spring:message code="regression.rSquare"/>:&#8194; </span>
+                                                <span class="name"><spring:message code="regression.rSquare"/> : </span>
                                                 <span class="value text-success">
                                                     <c:choose>
                                                         <c:when test="${metric.getRegression().getRSquare() == Double.NaN}">
@@ -88,7 +88,7 @@
                                                 </span>
                                             </li>
                                             <li>
-                                                <span class="name"><spring:message code="regression.counts"/>:&#8194; </span>
+                                                <span class="name"><spring:message code="regression.counts"/> : </span>
                                                 <span class="value text-success">${metric.getRegression().getN()}</span>
                                             </li>
                                         </ul>
@@ -105,13 +105,13 @@
                                     <c:forEach var="i" begin="0" end="8" step="1" >
                                         <jsp:useBean id="dateValue" class="java.util.Date"/>
                                         <jsp:setProperty name="dateValue" property="time" value="${(Date.getTime()+(3600000*(i-4) ))}"/>
-                                        <a href="${cp}/metriq/${metric.sha256Code()}/<fmt:formatNumber type="number" groupingUsed="FALSE" maxFractionDigits="0" value="${dateValue.getTime()/1000}" />">
+                                        <a href="${cp}/metriq/${metric.sha256Code()}/<fmt:formatNumber type="number" groupingUsed="FALSE" maxFractionDigits="0" value="${dateValue.getTime()/1000}" />" class="">
                                             <li class="li complete">
                                                 <div class="timestamp">                                    
                                                     <span class="date">${i-4}</span>
                                                 </div>
                                                 <div class="status"> 
-                                                    <h6><fmt:formatDate value="${dateValue}" pattern="HH:mm" timeZone="${curentuser.getTimezone()}"/></h6>
+                                                    <b><fmt:formatDate value="${dateValue}" pattern="HH:mm" timeZone="${curentuser.getTimezone()}"/></b>
                                                 </div>
                                             </li>
                                         </a>
@@ -123,7 +123,7 @@
                     </div>                        
                 </div>
                 <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">          
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6 mt-3 mt-lg-0 p-n2">
                         <div class="card shadow">
                                 <div class="card-header">
                                     <h6 class="card-title">

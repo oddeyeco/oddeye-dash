@@ -107,8 +107,7 @@
                                 </c:if> 
                             </a>
                         </div>    
-                    </div>                    
-                                           
+                    </div>                                                              
                                           
                     <!-- sidebar Menu -->
                     <div id="sidebar-menu"> 

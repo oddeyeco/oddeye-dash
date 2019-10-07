@@ -58,7 +58,7 @@ http://joaopereirawd.github.io/animatedModal.js/-->
 </div>
 
 <div id="modall2" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-90">
+    <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">

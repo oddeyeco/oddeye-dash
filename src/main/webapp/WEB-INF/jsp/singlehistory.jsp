@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="card-body row metriqs">
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="card row shadow">
                         <div class="col-12">
 
@@ -41,7 +41,7 @@
                             </div>
                             <div class="card-body row p-1">
                                 <div class="col-6">
-                                    <ul class="">
+                                    <ul class="" style="-webkit-padding-start: 10px">
                                         <c:forEach items="${metric.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
@@ -54,7 +54,7 @@
                                 </div>
                                 <c:if test="${metric.getType()!=OddeeyMetricTypesEnum.SPECIAL}">
                                     <div class="col-6">
-                                        <ul class="">                                                 
+                                        <ul class="" style="-webkit-padding-start: 10px">                                                 
                                             <li>
                                                 <span class="name"><spring:message code="regression.correlationCoefficient"/>:&#8194; </span>                            
                                                 <span class="value text-success">
@@ -112,7 +112,7 @@
                     </div>                        
                 </div>
 
-                <div class="col-6">
+                <div class="col-12 col-lg-6 mt-3 mt-lg-0 p-n2">
                     <div class="card shadow">                                
                         <div class="card-body p-2">                                
                             <div id="echart_line" class="echart_line_single" style="height: 200px"></div>
