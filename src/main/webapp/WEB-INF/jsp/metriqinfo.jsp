@@ -165,7 +165,7 @@
                             </div>                            
                             <div class="card-body table-responsive">
                                 <!-- <canvas id="lineChart"></canvas> -->
-                                <div id="echart_line" style="height:600px;"></div>
+                                <div id="echart_line" class="mx-auto" style="height:600px;"></div>
                             </div>                        
                         </div>
                     </div>

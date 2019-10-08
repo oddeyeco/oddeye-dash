@@ -394,16 +394,15 @@ function ModifierColor(color, angel) {
 //}
 
 $(document).ready(function () {
-    
-//    if (getCookie('small') == 'true')
+
+//    if (getCookie('small') !== 'true')
 //    {
-//        $('ul.child_menu').hide();
-//        if ($BODY.hasClass('nav-sm')) {
-//            $SIDEBAR_MENU.find('li.active ul').hide();
-//            $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
+//        $('#sidebarSmallMenu').hide();
+//        if ($BODY.hasClass('nav-md')) {
+//            $('#sidebar, #content').removeClass('active');
 //        }
-//    }
-    if (getCookie('small') == 'true')
+//    } 
+    if (getCookie('small') === 'true')
     {
         $('#sidebarMenu').hide();
         if ($BODY.hasClass('nav-sm')) {

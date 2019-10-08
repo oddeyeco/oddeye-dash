@@ -86,138 +86,20 @@
                     <!-- Sidebar  -->
                     <nav id="sidebar">
                         <div class="sidebar-header text-center">
-                            <div class="sidebar_md">
-                                    <a class="navbar-brand mr-0" href="<c:url value='/'/>">
+                            <div class="sidebar_sm">
+                            <a class="navbar-brand mr-0 p-0" href="<c:url value='/'/>">
                                 <c:if test="${empty whitelabel}" >
-                                    <!--<img id="logo_md" src="${cp}/assets/images/oee1.png" alt="logo" width="160px" style="float:left">-->
-                                    <img id="logo_md" src="${cp}/assets/images/oee2.png" alt="logo" width="160px" style="float:left">
+                                    <img id="logo_sm" src="${cp}/assets/images/logoOE.png" alt="logo" width="100%" style="float: left">
                                 </c:if>                        
                                 <c:if test="${not empty whitelabel}" >
                                     <img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="65px" style="float: left">                
                                 </c:if> 
                             </a>
-                        </div> 
-                        <div class="sidebar_sm">
-                            <a class="navbar-brand mr-0" href="<c:url value='/'/>">
-                                <c:if test="${empty whitelabel}" >
-                                    <img id="logo_sm" src="${cp}/assets/images/logowhite.png" alt="logo" width="65px" style="float: left">
-                                </c:if>                        
-                                <c:if test="${not empty whitelabel}" >
-                                    <img src="${cp}${whitelabel.getFullfileName()}${whitelabel.logofilename}" alt="logo" width="65px" style="float: left">                
-                                </c:if> 
-                            </a>
-                        </div>    
+                        </div>                            
                     </div>                                                              
                                           
                     <!-- sidebar Menu -->
-                    <div id="sidebar-menu"> 
-                        <ul id="sidebarMenu" class="accordion list-unstyled">
-                            <li class="card">
-                                <div class="card-header" id="headPersonal">                                                
-                                    <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="false" aria-controls="collapsePersonal">
-                                        <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
-                                    </a>                                                
-                                </div>
-                                <div id="collapsePersonal" class="collapse depthShadowDarkHover" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
-                                    <div class="card-body">
-                                        <ul class="list-unstyled child_menu" id="personalMenu">
-                                                <li>
-                                                    <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
-                                            </li>
-                                            <li>
-                                                <a href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
-                                            </li>
-                                            <li>
-                                                <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
-                                            </li>
-                                            <li>
-                                                <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="card">
-                                <div class="card-header" id="headMonitoring">                                                
-                                    <a href="#monitoringMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
-                                        <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
-                                    </a>                                                
-                                </div>
-                                <div id="collapseMonitoring" class="collapse depthShadowDarkHover" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
-                                    <div class="card-body">
-                                        <ul class="list-unstyled child_menu" id="monitoringMenu">
-                                                <li>
-                                                    <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
-                                            </li>
-                                            <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
-                                                <li>
-                                                    <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                                        ${option.key}                                                             
-                                                    </a>
-                                                </li>
-                                            </c:forEach>
-                                            <li>
-                                                <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
-                                            </li>
-                                        </ul>            
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="card">
-                                <div class="card-header" id="headDashboards">                                                
-                                    <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
-                                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/> [${curentuser.getDushList().size()}]
-                                    </a>                                                
-                                </div>
-                                <div id="collapseDashboards" class="collapse depthShadowDarkHover" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
-                                    <div class="card-body">
-                                        <ul class="list-unstyled child_menu" id="dashboardsMenu">
-                                            <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
-                                                <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
-                                                <li class="text-wrap">
-                                                    <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
-                                                        <c:if test="${Dush.value.get(\"locked\")==true}">
-                                                            &nbsp; <i class="fa fas fa-lock"></i>
-                                                        </c:if>                                                               
-                                                        <c:if test="${Dush.value.get(\"locked\")!=true}">
-                                                            &nbsp; <i class="fa fas fa-lock-open"></i>
-                                                        </c:if>                                                                  
-                                                        ${Dush.key}                                                             
-                                                    </a>
-                                                </li>
-                                            </c:forEach>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </li>
-                            <sec:authorize access="hasRole('ADMIN')">                    
-                                <li class="card">
-                                    <div class="card-header" id="headManagment">                                                
-                                        <a href="#managementMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseManagment" aria-expanded="false" aria-controls="collapseManagment">
-                                            <i class="fa fa-edit"></i><spring:message code="index.managment"/>
-                                        </a>                                                
-                                    </div>
-                                    <div id="collapseManagment" class="collapse depthShadowDarkHover" aria-labelledby="headManagment" data-parent="#sidebarMenu">
-                                        <div class="card-body">
-                                            <ul class="list-unstyled child_menu" id="managementMenu">
-                                                <sec:authorize access="hasRole('USERMANAGER')">
-                                                    <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                                    <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
-                                                    <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                                    <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
-                                                    </sec:authorize>
-                                                    <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                                    <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                                                    </sec:authorize>
-                                                    <sec:authorize access="hasRole('USERMANAGER')">
-                                                    <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
-                                                    </sec:authorize> 
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </li>
-                            </sec:authorize>            
-                        </ul>
+                    <div id="sidebar-menu">                        
                         <ul id="sidebarSmallMenu" class="list-unstyled">
                             <li>                
                                 <div class="dropdown dropright">
@@ -297,7 +179,114 @@
                                     </div>
                                 </li> 
                             </sec:authorize>
-                        </ul>                        
+                        </ul> 
+                        <ul id="sidebarMenu" class="accordion list-unstyled">
+                            <li class="card">
+                                <div class="card-header" id="headPersonal">                                                
+                                    <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="false" aria-controls="collapsePersonal">
+                                        <i class="fa fas fa-info  ml-2"></i><spring:message code="index.personal"/> 
+                                    </a>                                                
+                                </div>
+                                <div id="collapsePersonal" class="collapse depthShadowDarkHover" aria-labelledby="headPersonal" data-parent="#sidebarMenu">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled child_menu" id="personalMenu">
+                                                <li>
+                                                    <a href="<c:url value="/profile"/>"> <spring:message code="index.personal.profile"/></a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="/dashboard/"/>"><spring:message code="index.personal.summary"/></a>
+                                            </li>
+                                            <li>
+                                                <a href="<c:url value="/infrastructure/"/>"><spring:message code="index.personal.infrastructure"/></a>
+                                            </li>
+                                            <li>
+                                                <a href="https://www.oddeye.co/documentation/" target="_blank"><spring:message code="index.personal.help"/></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="card">
+                                <div class="card-header" id="headMonitoring">                                                
+                                    <a href="#monitoringMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseMonitoring" aria-expanded="false" aria-controls="collapseMonitoring">
+                                        <i class="fa far fa-bell"></i><spring:message code="index.monitoring"/>
+                                    </a>                                                
+                                </div>
+                                <div id="collapseMonitoring" class="collapse depthShadowDarkHover" aria-labelledby="headMonitoring" data-parent="#sidebarMenu">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled child_menu" id="monitoringMenu">
+                                                <li>
+                                                    <a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a>
+                                            </li>
+                                            <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
+                                                <li>
+                                                    <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                        ${option.key}                                                             
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
+                                            <li>
+                                                <a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a>
+                                            </li>
+                                        </ul>            
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="card">
+                                <div class="card-header" id="headDashboards">                                                
+                                    <a href="#dashboardsMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseDashboards" aria-expanded="false" aria-controls="collapseDashboards">
+                                        <i class="fa fas fa-desktop"></i><spring:message code="index.dashboardsDushList"/>[${curentuser.getDushList().size()}]
+                                    </a>                                                
+                                </div>
+                                <div id="collapseDashboards" class="collapse depthShadowDarkHover" aria-labelledby="headDashboards" data-parent="#sidebarMenu">
+                                    <div class="card-body">
+                                        <ul class="list-unstyled child_menu" id="dashboardsMenu">
+                                            <li><a href="<c:url value="/dashboard/new"/>"><spring:message code="dashboards.newDashboard"/></a></li>
+                                                <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
+                                                <li class="text-wrap">
+                                                    <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
+                                                        <c:if test="${Dush.value.get(\"locked\")==true}">
+                                                            &nbsp; <i class="fa fas fa-lock"></i>
+                                                        </c:if>                                                               
+                                                        <c:if test="${Dush.value.get(\"locked\")!=true}">
+                                                            &nbsp; <i class="fa fas fa-lock-open"></i>
+                                                        </c:if>                                                                  
+                                                        ${Dush.key}                                                             
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </li>
+                            <sec:authorize access="hasRole('ADMIN')">                    
+                                <li class="card">
+                                    <div class="card-header" id="headManagment">                                                
+                                        <a href="#managementMenu" class="collapsed dropdown-toggle" data-toggle="collapse" data-target="#collapseManagment" aria-expanded="false" aria-controls="collapseManagment">
+                                            <i class="fa fa-edit"></i><spring:message code="index.managment"/>
+                                        </a>                                                
+                                    </div>
+                                    <div id="collapseManagment" class="collapse depthShadowDarkHover" aria-labelledby="headManagment" data-parent="#sidebarMenu">
+                                        <div class="card-body">
+                                            <ul class="list-unstyled child_menu" id="managementMenu">
+                                                <sec:authorize access="hasRole('USERMANAGER')">
+                                                    <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
+                                                    <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                                    <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
+                                                    <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
+                                                    </sec:authorize>
+                                                    <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                                    <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
+                                                    </sec:authorize>
+                                                    <sec:authorize access="hasRole('USERMANAGER')">
+                                                    <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
+                                                    </sec:authorize> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                            </sec:authorize>            
+                        </ul>                
                     </div>
                     
                     <!--                sidebar active          -->

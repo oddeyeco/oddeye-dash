@@ -12,7 +12,7 @@
                 <spring:message code="advansed.detailedEvents" arguments="${Error.getName()}"/> <fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.getTimezone()}
             </h5>
             <div class="card-body row advansed">
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="card row shadow">
                         <div class="col-12">
                             <div class="card-header row">                               
@@ -40,7 +40,7 @@
                             </div>
                             <div class="card-body row p-1">
                                 <div class="col-4">
-                                    <ul class="">
+                                    <ul class="" style="-webkit-padding-start: 10px">
                                         <c:forEach items="${Error.getTags()}" var="Tag" varStatus="loop">
                                             <c:if test="${Tag.getKey() != \"UUID\"}">
                                                 <li>
@@ -52,7 +52,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-4">
-                                    <ul class="">
+                                    <ul class="" style="-webkit-padding-start: 10px">
                                         <li>
                                             <span class="name"> <spring:message code="errorsanalysis.value"/>:&#8194; </span>
                                             <span class="value text-success"> <fmt:formatNumber type="number" maxFractionDigits="3" value="${Error.getValue()}" /></span>
@@ -81,7 +81,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-4">
-                                        <ul class="">                                                 
+                                        <ul class="" style="-webkit-padding-start: 10px">                                                 
                                             <li>
                                                 <span class="name"> <spring:message code="regression.predictDeviation"/>:&#8194; </span>
                                                 <span class="value text-success">
@@ -153,14 +153,14 @@
                                 
                             </div>
                         </div> 
-                        <div class="card-footer depthShadowLightHover p-2">                           
+                        <div class="card-footer depthShadowLightHover p-0 p-lg-2">                           
                            <div class="col"> 
                                <h6 class="card-title m-0">
                                    <i class="fas fa-redo-alt"></i> <spring:message code="advansed.recurrenceWeight"/>
                                </h6>
                             </div> 
-                            <div class="card-body row justify-content-md-center justify-content-lg-start tile_count p-1">
-                                    <div class="col tile_stats_count">
+                            <div class="row justify-content-md-center justify-content-lg-start tile_count p-1">
+                                    <div class="col-6 col-lg-3 tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute1"/>
                                         </span>
@@ -170,7 +170,7 @@
                                             <spring:message code="advansed.previousMinute1"/>
                                         </span>
                                     </div>
-                                    <div class="col tile_stats_count">
+                                    <div class="col-6 col-lg-3 tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute10"/></span>
                                         <div class="count spincrement">${Error.getRecurrence10m()}</div>
@@ -179,7 +179,7 @@
                                             <spring:message code="advansed.previousMinute10"/>
                                         </span>
                                     </div>
-                                    <div class="col tile_stats_count">
+                                    <div class="col-6 col-lg-3 tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute20"/></span>
                                         <div class="count spincrement">${Error.getRecurrence20m()}</div>
@@ -188,7 +188,7 @@
                                             <spring:message code="advansed.previousMinute20"/>
                                         </span>
                                     </div>
-                                    <div class="col tile_stats_count">
+                                    <div class="col-6 col-lg-3 tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute30"/></span>
                                         <div class="count spincrement">${Error.getRecurrence30m()}</div>
@@ -201,7 +201,7 @@
                         </div>
                     </div>                        
                 </div>
-                <div class="col-md-6 col-lg-6 col-12">
+                <div class="col-12 col-lg-6">
                     <div class="card shadow">
                         <div class="card-header">
                             <h6 class="card-title">

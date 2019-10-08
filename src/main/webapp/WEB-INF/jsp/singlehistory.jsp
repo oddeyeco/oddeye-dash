@@ -168,7 +168,6 @@
                                                 <c:if test="${metric.getType()>OddeeyMetricTypesEnum.SPECIAL}">                                            
                                                     <fmt:formatNumber type="number" maxFractionDigits="3" value=" ${listitem.getStartvalue()}" />
                                                 </c:if>
-
                                             </td>                                    
                                             <jsp:setProperty name="dateValue" property="time" value="${listitem.getTime()}"/>
                                             <td class="time" value ="${listitem.getTime()}">                                        

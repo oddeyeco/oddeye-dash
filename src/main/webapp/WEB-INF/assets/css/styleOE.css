@@ -385,7 +385,7 @@ select#title_x_position option {
     SIDEBAR - CONTENT & nav-md - nav-sm
 =========================================================== */
 .nav-md #sidebar {   
-    width: 220px;  
+    width: 180px;  
     text-align: center;
     position: fixed;
     top: 0;
@@ -410,7 +410,7 @@ select#title_x_position option {
 }
 
 .nav-md #content {
-    margin-left: 220px;
+    margin-left: 180px;
     min-height: 100vh;  
     position: absolute;
     top: 0;
@@ -427,25 +427,6 @@ select#title_x_position option {
     right: 0;
     left:0;
     /*transition: all 0.2s;*/
-}
-.sidebar_md .navbar-brand {
-    padding-top: .3rem;
-}
-.sidebar_md .navbar-brand img#logo_md {
-    height: 50px;
-}
-#sidebar .sidebar_md {
-    display: block;
-}
-#sidebar.active .sidebar_md {
-    display: none;
-}
-
-#sidebar .sidebar_sm {
-    display: none;
-}
-#sidebar.active .sidebar_sm {
-    display: block;
 }
 /* ========================================================
     SIDEBAR STYLE
@@ -472,7 +453,7 @@ select#title_x_position option {
     background: #c7cccc;
 }
 #sidebar div#sidebar-menu {
-    padding: 0.5rem;
+    padding: 0.2rem;
 }
 /*#sidebar ul#sidebarSmallMenu {
     padding: 0.5rem;
@@ -482,7 +463,7 @@ select#title_x_position option {
     box-shadow: 0 0.5rem 1rem rgba(0,0,0,.2);
 }
 #sidebar #sidebarMenu a {
-    padding: 10px;
+    padding: 10px 0 10px 4px;
     font-size: 1rem;
     display: block;
 }
@@ -526,7 +507,7 @@ a[data-toggle="collapse"] {
     display: block;
     position: absolute;
     top: 50%;
-    right: 10px;
+    right: 4px;
     transform: translateY(-50%);
 }
 
@@ -584,7 +565,7 @@ a.article:hover, a.download:hover {
 }
 #sidebarMenu.accordion>.card .card-header,
 #sidebarMenu.accordion>.card .card-body {
-    padding: 0.3rem;
+    padding: 0.2rem;
 }
 /*#sidebarMenu.accordion>.card .card-body>ul>li {
     margin-bottom: 4px; 
@@ -695,7 +676,7 @@ a.article:hover, a.download:hover {
     clear: both;
     display: block;
     padding: 5px 0 0 0;    
-    width: 220px;
+    width: 180px;
     background: #343a40;
 }
 .sidebar-footer a {
@@ -939,6 +920,10 @@ h5.card-header {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
+}
+.advansed .tile_count .tile_stats_count {
+    margin: 0;
+    padding: 2px;   
 }
 .tile_count .tile_stats_count:hover {
    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.25), 0 8px 12px -2px rgba(0,0,0,0.22);
@@ -1907,6 +1892,7 @@ select#refreshtime_private {
 @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
     img#logo_sm {
         width: 50px!important;
+        height: auto!important;
     }
     .row {
         margin-right: -2px;
@@ -1972,6 +1958,14 @@ select#refreshtime_private {
 .table {
     margin-bottom: .4rem;
 }
+.metriqs #echart_line {
+    width: 600px!important;
+    height: 360px!important;
+}
+.advansed #echart_line {
+    width: 600px!important;
+    height: 360px!important;
+}
 /*==== modals ====*/
 #modall2>.modal-dialog {
     width: auto;
@@ -2006,9 +2000,12 @@ input#saveas_name {
 
 
 
+/* ==== advansed(detailed) ==== */
 
-
-
+.advansed .tile_count .tile_stats_count {
+    margin: 0;
+    padding: 2px;   
+}
 
 
 
