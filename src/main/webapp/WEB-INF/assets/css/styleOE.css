@@ -1310,13 +1310,7 @@ fieldset #filters .filter .defined_filter:hover,
 fieldset #notifiers .defined_notifier:hover {
     box-shadow: 0 4px 12px -2px rgba(0,0,0,0.25), 0 8px 12px -2px rgba(0,0,0,0.22);
 }
-/*fieldset #notifiers .defined_notifier {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    transition: all 0.2s cubic-bezier(.24,.43,.6,.43);
-}
-fieldset #notifiers .defined_notifier:hover {
-    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.25), 0 8px 12px -2px rgba(0,0,0,0.22);
-}*/
+
 fieldset #options table.options {
     background-color: #ffffff;
     border: 1px solid #bbbdc0;
@@ -1432,6 +1426,10 @@ fieldset #options table.options th.name {
 }
 #query_form_content fieldset td.value span {
     line-height: normal;
+}
+td.value span.select2.select2-container ,
+td.action span.select2.select2-container {
+    width: 100%!important;
 }
 /*---- select2 ----*/
 span.selection {
@@ -1984,6 +1982,23 @@ select#refreshtime_private {
 }
 input#saveas_name {
     width: 120px;
+}
+fieldset #filters .filter .defined_filter>table>tr>th {
+    padding-left: .2rem;
+}
+td.value span.select2.select2-container ,
+td.action span.select2.select2-container {
+    width: 100%!important;
+}
+td.action .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px;
+    position: absolute;
+    top: -4px;
+    right: 1px;
+    width: 10px;
+}
+#filters .action span.select2-selection.select2-selection--single {
+    padding: 0 .2rem;
 }
 /*==== metriq ====*/
 .timelinecontener .status:before {
