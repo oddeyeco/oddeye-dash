@@ -457,7 +457,7 @@
                             </div>                            
                             <c:if test="${!empty nameoptions}">
                                 <div class="btn-group" role="group" aria-label="Delete group">
-                                    <button href="#" class="btn btn-sm btn-xs btn-outline-danger ml-1" id="rem_filter"><spring:message code="deleteView"/></button>
+                                    <button href="#" class="btn btn-sm btn-xs btn-outline-danger mt-1 mt-sm-0 ml-0 ml-sm-1" id="rem_filter"><spring:message code="deleteView"/></button>
                                 </div>                                
                             </c:if> 
                         </div>                                             
