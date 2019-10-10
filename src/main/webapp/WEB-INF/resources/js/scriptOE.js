@@ -27,19 +27,20 @@ $(document).ready(function() {
     
     // toggle small or large menu
     $MENU_TOGGLE.on('click', function() {
-//        if ($BODY.hasClass('nav-sm')) {
-//            $('#sidebar, #content').removeClass('active');
-//            $('#sidebarMenu').show();
-//        } else {
-//            $('#sidebar, #content').addClass('active');
-//            $('#sidebarSmallMenu').show();
-//        }        
+        
+        if ($BODY.hasClass('nav-sm')) {
+            $('#sidebar, #content').removeClass('active');
+        } else {
+            $('#sidebar, #content').addClass('active');
+            $('#sidebarSmallMenu').show();
+        }
         if ($BODY.hasClass('nav-md')) {
             $('#sidebar, #content').addClass('active');
         } else {
             $('#sidebar, #content').removeClass('active');
             $('#sidebarMenu').show();
         }        
+      
         $BODY.toggleClass('nav-md nav-sm');
         
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');

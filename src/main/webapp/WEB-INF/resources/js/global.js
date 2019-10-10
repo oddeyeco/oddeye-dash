@@ -402,11 +402,17 @@ $(document).ready(function () {
 //            $('#sidebar, #content').removeClass('active');
 //        }
 //    } 
-    if (getCookie('small') === 'true')
-    {
+    if (getCookie('small') === 'true') {
+
         $('#sidebarMenu').hide();
         if ($BODY.hasClass('nav-sm')) {
             $('#sidebar, #content').addClass('active');
+        }
+    } else 
+    {
+        $('#sidebarSmallMenu').hide();
+        if ($BODY.hasClass('nav-md')) {
+            $('#sidebar, #content').removeClass('active');
         }
     } 
     

@@ -84,7 +84,7 @@
         <body class="<c:if test="${cookie['small'].value != 'true'}">nav-md</c:if> <c:if test="${cookie['small'].value == 'true'}">nav-sm</c:if>">
                 <div class="wrapper">
                     <!-- Sidebar  -->
-                    <nav id="sidebar">
+                    <nav id="sidebar" class="active">
                         <div class="sidebar-header text-center">
                             <div class="sidebar_sm">
                             <a class="navbar-brand mr-0 p-0" href="<c:url value='/'/>">
@@ -309,7 +309,7 @@
                     </div>
                 </nav>
                 <!-- ======================== Page Content =========================  -->        
-                <div id="content">
+                <div id="content" class="active">
                     <nav class="navbar navbar-expand-sm navbar-light bg-light shadow">
                         <div class="container-fluid">
                             <button type="button" id="menu_toggle" class="btn btn-outline-dark">
