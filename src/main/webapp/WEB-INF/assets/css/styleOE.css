@@ -591,74 +591,6 @@ a.article:hover, a.download:hover {
     MEDIAQUERIES
 ----------------------------------------------------- */
 
-@media (max-width: 768px) {
-    #content {
-        width: auto;             
-    }
-    .nav-md #content {
-       margin-left: 0;            
-    }
-    .sidebar-footer {
-        display: none !important;
-    }
-    #sidebar {
-        display: none !important;
-    }
-    #sidebar.active {
-        display: block !important;
-        position: fixed;
-        min-width: 100px;
-        max-width: 100px;
-        height: 100%;
-        text-align: center;
-        margin-left: 0 !important;
-    }
- #sidebar .dropdown-toggle::after {
-        position: absolute;
-        top: auto;
-        bottom: 10px;
-        right: 50%;
-        -webkit-transform: translateX(50%);
-        -ms-transform: translateX(50%);
-        transform: translateX(50%);
-    }
-    #sidebar .sidebar-header h3,
-    #sidebar .CTAs {
-        display: none;
-    }
-    #sidebar .sidebar-header strong {
-        display: block;
-    }
-    #sidebar ul li a {
-        padding: 20px 10px;
-    }
-    #sidebar ul li a span {
-/*        font-size: 0.85em;*/
-        display: none !important;
-    }
-    #sidebar ul li a i {
-        margin-right: 0;
-        display: block;
-    }
-    #sidebar ul ul a {
-        padding: 10px !important;
-    }
-    #sidebar ul li a i {
-        font-size: 1.3em;
-    }
-/*    #sidebar {
-        margin-left: 0;
-    }*/
-    #menu_toggle span {
-        display: none;
-    }
-}
-@media (min-width: 992px)
-.tile_count .tile_stats_count {
-    margin-bottom: 10px;
-    border-bottom: 0;
-    padding-bottom: 10px;
-}    
 /* ---------------------------------------------------
    UNDERWAY
 ----------------------------------------------------- */
@@ -1883,11 +1815,31 @@ select#refreshtime_private {
     background-color: #343a40;
 }
 
-/*================ @media ===================*/
-
-/*==== @media: smartphone ====*/
+/*================== @media ===================*/
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
+    
+    .metriqs #echart_line {
+        width: 600px!important;
+        height: 360px!important;
+    }
+    .advansed #echart_line {
+        width: 600px!important;
+        height: 360px!important;
+    }
+    
+    
+}
+ 
+/*==== @media: smartphone ====*/
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 992px) {    
+    #content {
+        width: auto;             
+    }
+    .nav-md #content {
+       margin-left: 0;            
+    }       
     img#logo_sm {
         width: 50px!important;
         height: auto!important;
@@ -1924,10 +1876,60 @@ select#refreshtime_private {
     .card-header {
         padding: 0.2rem;
     }
-#sidebar.active {
-    min-width: 50px;
-    max-width: 50px;
-}
+    
+   /* ==== side-bar ==== */
+    .sidebar-footer {
+        display: none !important;
+    }
+    .nav-md #sidebar {
+        display: none !important;
+    }
+    
+    #sidebar.active {
+        display: block !important;
+        position: fixed;
+        min-width: 50px;
+        max-width: 50px;
+        height: 100%;
+        text-align: center;
+        margin-left: 0 !important;
+    }
+    #sidebar .dropdown-toggle::after {
+        position: absolute;
+        top: auto;
+        bottom: 10px;
+        right: 50%;
+        -webkit-transform: translateX(50%);
+        -ms-transform: translateX(50%);
+        transform: translateX(50%);
+    }
+    #sidebar .sidebar-header h3,
+    #sidebar .CTAs {
+        display: none;
+    }
+    #sidebar .sidebar-header strong {
+        display: block;
+    }
+    #sidebar ul li a {
+        padding: 20px 10px;
+    }
+    #sidebar ul li a span {
+        display: none !important;
+    }
+    #sidebar ul li a i {
+        margin-right: 0;
+        display: block;
+    }
+    #sidebar ul ul a {
+        padding: 10px !important;
+    }
+    #sidebar ul li a i {
+        font-size: 1.3em;
+    }
+    #menu_toggle span {
+        display: none;
+    }
+
 .nav-sm #sidebar {
     width: 50px;
 }
@@ -1956,18 +1958,15 @@ select#refreshtime_private {
 .table {
     margin-bottom: .4rem;
 }
-.metriqs #echart_line {
-    width: 600px!important;
-    height: 360px!important;
-}
-.advansed #echart_line {
-    width: 600px!important;
-    height: 360px!important;
-}
+
 /*==== modals ====*/
 #modall2>.modal-dialog {
     width: auto;
     max-width: 100%;
+}
+/*============ profile ===========*/
+.profile_left a.btn {
+    display: none;
 }
 /*============== infrastructure ============*/
 
@@ -2013,8 +2012,6 @@ td.action .select2-container--default .select2-selection--single .select2-select
     font-size: 11px;
 }
 
-
-
 /* ==== advansed(detailed) ==== */
 
 .advansed .tile_count .tile_stats_count {
@@ -2022,10 +2019,14 @@ td.action .select2-container--default .select2-selection--single .select2-select
     padding: 2px;   
 }
 
-
-
-
 /*============== dash ==============*/
+#dashcontent .chartTitleDiv li.hide-single,
+#dashcontent .chartTitleDiv li.hide-singleedit {
+    display: none;
+}
+
+
+
 /*============== filter dash ==============*/
     #filter.filter.fix {
         left: 5px!important;
@@ -2041,31 +2042,7 @@ td.action .select2-container--default .select2-selection--single .select2-select
         width: 150px;
     }
     
-    
-    
-    
-    
-    
-    
-    
+   
     
 }
- 
-/*==== @media: iPads ====*/
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-    #filter.filter.fix {
-        left: 5px!important;
-        right: 5px!important;
-        display: flex;
-    }
-    #filter.filter input#global-down-sample {
-        width: 120px;
-        padding: .2rem .7rem;
-    }
-    #filter.filter div#reportrange,
-    #filter.filter div#refresh_wrap {
-        width: 150px;
-    }
-}
- 
 

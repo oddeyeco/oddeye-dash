@@ -811,7 +811,7 @@ $(document).ready(function () {
     
     $("body").on("change", ".add_notifier_select", function () {
 //        $(this).find(':selected').attr("disabled", "disabled");
-        var row = $("<div class='col-xl-4 col-lg-6 col-12'>");
+        var row = $("<div class='col-xl-4 col-md-6 col-12'>");
         row.append("<div class='item notifier_label font-weight-bold'>" + $(this).find(':selected').attr("fname") + "</div>");
         row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + $(this).find(':selected').attr("value") + "][]' autocomplete='off'></div>");
         $(this).parents(".filter-body").find(".notifiers-table").append(row);
@@ -929,7 +929,7 @@ $(document).ready(function () {
             for (var nvalue in optionsJson["notifier-v"][notifier])
             {
 //                console.log(notifier + "=" + optionsJson["notifier-v"][notifier][nvalue]);
-                var row = $("<div class='col-xl-4 col-lg-6 col-12'>");
+                var row = $("<div class='col-xl-4 col-md-6 col-12'>");
                 row.append("<div class='item notifier_label font-weight-bold'>" + opt.attr("fname") + "</div>");
                 row.append("<div class='item value'><input class='notifier-value' type='text' name='notifier-v[" + opt.attr("value") + "][]' value='" + optionsJson["notifier-v"][notifier][nvalue] + "' autocomplete='off'></div>");
                 Domsection.find(".notifiers-table").append(row);

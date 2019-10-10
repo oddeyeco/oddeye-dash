@@ -47,7 +47,7 @@
                                 </div>                                    
                             </form>                        
                         </div>                                
-                        <div class="row profile_btn mb-2 mb-md-0">
+                        <div class="row profile_btn mb-2 mb-md-1">
                             <div class="col-auto mr-auto p-0">                                
                                 <button class="btn btn-sm btn-outline-success" type="button" value="Default" id="Save"><spring:message code="save"/></button>
                             </div>                                                         

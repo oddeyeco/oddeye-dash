@@ -108,7 +108,7 @@
                     <span class="echart_time hoverShow"></span>
                 </div>
                 <div class="chartTitle btn-group">
-                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <button class="btn btn-light btn-sm text-center dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <h3></h3>
                     </button>
                     
