@@ -100,7 +100,7 @@
                                           
                     <!-- sidebar Menu -->
                     <div id="sidebar-menu">                        
-                        <ul id="sidebarSmallMenu" class="list-unstyled">
+                        <ul id="sidebarSmallMenu" class="list-unstyled"<c:if test="${cookie['small'].value != 'true'}">style="display: none"</c:if>>
                             <li>                
                                 <div class="dropdown dropright">
                                     <a class="btn btn-outline-dark dropdown-toggle" href="#" role="button" id="menuPersonal" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -180,7 +180,7 @@
                                 </li> 
                             </sec:authorize>
                         </ul> 
-                        <ul id="sidebarMenu" class="accordion list-unstyled">
+                        <ul id="sidebarMenu" class="accordion list-unstyled"<c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>
                             <li class="card">
                                 <div class="card-header" id="headPersonal">                                                
                                     <a href="#personalMenu" class="dropdown-toggle" data-toggle="collapse" data-target="#collapsePersonal" aria-expanded="false" aria-controls="collapsePersonal">
@@ -555,4 +555,5 @@
             </c:if>              
         </body>
     </html>
-</compress:html>                                                    
+</compress:html>   
+    

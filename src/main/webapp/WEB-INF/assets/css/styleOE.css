@@ -1884,9 +1884,12 @@ select#refreshtime_private {
     .nav-md #sidebar {
         display: none !important;
     }
+    .nav-md .sidebar-header {
+        display: none !important;
+    }
     
     #sidebar.active {
-        display: block !important;
+        display: block;
         position: fixed;
         min-width: 50px;
         max-width: 50px;
