@@ -14,7 +14,7 @@
     </h5>
     <div class="card-body">                                
         <div class="row">
-            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 balanceAvailable">
+            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 depthShadowLightHover balanceAvailable">
                 <h6 class="count_top"><spring:message code="dashboards.available"/></h6>
                 <div class="count">
                     <c:set var="balance" value="${curentuser.getBalance()}" />
@@ -28,16 +28,17 @@
                         0
                     </c:if> 
                 </div>
-                <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
+                <%--<c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
                 <c:if test="${Consumption!=null}">
                     <fmt:formatNumber type="number" pattern = "0.00" maxFractionDigits="2" value=" ${Consumption.getAmount()}" />                                
                 </c:if>
                 <c:if test="${Consumption==null}">
                     0                            
-                </c:if>   
+                </c:if>--%>   
             </div>
-            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 tile_stats_count Consumptions">
+            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 tile_stats_count depthShadowLightHover Consumptions">
                 <h6 class="count_top"><spring:message code="dashboards.burnRate"/></h6>
+                <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
                 <div class="count_bottom clearfix">
                     <span class="float-left"><spring:message code="dashboards.burnRateToday"/></span>
                     <div class="green float-right">
@@ -87,7 +88,7 @@
                 </div>                                            
             </div>
             <div class="clearfix"></div>
-            <div class="col-12 moreunits">
+            <div class="col-12 depthShadowLightHover moreunits">
                 <h6><spring:message code="dashboards.getMore"/></h6>
                 <div class="clearfix"></div>
                 <div class="float-left col-xl-6 col-lg-12 col-sm-6 od p-0">

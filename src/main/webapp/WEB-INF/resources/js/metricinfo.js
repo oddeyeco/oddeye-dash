@@ -25,13 +25,19 @@ function getmetainfo(tagkey) {
                 $('#count').html(data.count);
                 $("#tagslist").html('');
                 jQuery.each(data.tags, function (i, val) {
-                    $("#tagslist").append('<div class="col-xl-2 col-md-3 col-sm-5 tile_stats_count">' +
-                            '<div class="tile_stats_inside">' +                    
-                            '<span class="count_top"><i class="fa fa-th-list"></i> ' + locale["metricinfo.tagtitle"].replace("{0}", i) + '</span>' +
-                            '<div class="count spincrement">' + val + '</div>' +
-                            '<span class="count_bottom">'+
-                            '<a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' + locale["metricinfo.showList"] + '</a>'+
-                            '</span>'+'</div>'+'</div>');                            
+                    $("#tagslist").append('<div class="col-md-3 col-sm-4 col-6">' +
+                            '<div class="tile_stats_count">' +
+                            '<div class="tile_stats_inside">' +
+                            '<span class="count_top"><i class="fa fa-th-list"></i> ' + ("{0}", i) + '</span>' +
+                            '<div class="row">' +
+                            '<div class="col count spincrement">' + val + '</div>' +
+                            '<span class="col count_bottom text-right">' +
+                            '<a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' + locale["metricinfo.showList"] + '</a>' +
+                            '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '</div>');                                                       
                 });
 
                 $('.spincrement').spincrement({duration: 2000});
