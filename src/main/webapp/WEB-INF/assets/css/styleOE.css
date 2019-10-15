@@ -678,10 +678,6 @@ a.article:hover, a.download:hover {
     transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
 }
 
-ul.gotodash {
-    padding: 10px;
-}
-
 ul.gotodash li {
     position: relative;
     padding: 3px;
@@ -864,14 +860,6 @@ h5.card-header {
 .tile_count .tile_stats_count:hover {
    box-shadow: 0 4px 12px -2px rgba(0,0,0,0.25), 0 8px 12px -2px rgba(0,0,0,0.22);
 }
-/*.balanceAvailable .count,
-.tile_stats_count>.count,
-.tile_stats_inside>.count{
-    font-size: 2rem;
-    line-height: 47px;
-    font-weight: 600;
-    color: #777e7e;
-}*/
 .balanceAvailable .count,
 .tile_stats_count>.row>.count,
 .tile_stats_inside>.row>.count {

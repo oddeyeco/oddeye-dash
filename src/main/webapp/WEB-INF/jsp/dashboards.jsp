@@ -17,10 +17,10 @@
                       <a class="btn btn-outline-success btn-xs float-right" href="<spring:url value="/dashboard/new" htmlEscape="true"/>"><spring:message code="dashboards.newDashboard"/></a>                            
                   </h5>                           
                   <div class="card-body">
-                      <ul class="row gotodash depthShadowLightHover">                            
+                      <ul class="row gotodash p-1 p-sm-2 depthShadowLightHover">                            
                           <c:forEach items="${activeuser.getDushListasObject()}" var="Dush" varStatus="loop">                                
-                              <li class=" col-12 col-sm-6 col-md-4 col-lg-4">
-                                  <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash">
+                              <li class=" col-6 col-sm-6 col-md-4 col-lg-4">
+                                  <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}" class="gotodash text-truncate">
                                       <c:if test="${Dush.value.get(\"locked\")==true}">
                                           &nbsp; <i class="fa fas fa-lock"></i>
                                       </c:if>                                                               
