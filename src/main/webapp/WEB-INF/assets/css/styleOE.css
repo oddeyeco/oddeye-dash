@@ -129,6 +129,9 @@ span {
     margin-right: -8px;
     margin-left: -8px;
 }
+.card-body {
+        padding: 0.8rem;
+    }
 .card-body.rowcontent.row,
 .chartsection .echart_line.row {
     margin-right: 2px;
@@ -842,7 +845,7 @@ h5.card-header {
 
 .tile_count .tile_stats_count {
     margin-bottom: 8px;
-    padding: 2px 10px;
+    /*padding: 2px 8px;*/
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -863,13 +866,13 @@ h5.card-header {
 .balanceAvailable .count,
 .tile_stats_count>.row>.count,
 .tile_stats_inside>.row>.count {
-    font-size: 1.5rem;
-    line-height: 38px;
+    font-size: 1.2rem;
+    line-height: 34px;
     font-weight: 600;
     color: #777e7e;
 }
 .count_bottom {
-     padding-top: 16px;
+     padding-top: 12px;
 }
 .count_bottom>div{
      color:green;
