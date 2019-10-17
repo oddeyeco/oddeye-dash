@@ -1,17 +1,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
- <link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>  
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>  
 <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}"/>
  
 <div class="row">
     <div class="col-12">
         <div class="card shadow">            
-            <h5 class="card-header">
+<!--            <h5 class="card-header">
                 <spring:message code="profileedit.controlSecure.h2"/>
-            </h5>            
+            </h5>            -->
+            <h5 class="card-header text-justify">
+                                <spring:message code="profile.userID"/> ${activeuser.getId().toString()}
+            </h5>
             <div class="card-body pr-0 pl-0" role="tabpanel" data-example-id="togglable-tabs">            
                 <nav id="nav-customTab" class="nav nav-tabs pl-sm-5 pl-sm-2 p-0 customTab"  role="tablist">                        
                     <c:choose>                    
@@ -34,7 +37,6 @@
                             <a class="nav-item nav-link <c:if test="${tab == \"general-tab\"}">active</c:if>" id="nav-general-tab" data-toggle="tab" href="#nav-general" role="tab" aria-controls="nav-general" aria-selected="true"><spring:message code="profileedit.general"/></a>                        
                             <a class="nav-item nav-link <c:if test="${tab == \"level-tab\"}">active</c:if> ml-2" id="nav-levelsSettings-tab" data-toggle="tab" href="#nav-levelsSettings" role="tab" aria-controls="nav-levelsSettings" aria-selected="false"><spring:message code="profileedit.levelsSettings"/></a>                        
                             <a class="nav-item nav-link <c:if test="${tab == \"pass-tab\"}">active</c:if> ml-2" id="nav-security-tab" data-toggle="tab" href="#nav-security" role="tab" aria-controls="nav-security" aria-selected="false"><spring:message code="profileedit.security"/></a>
-
                         </c:otherwise>                        
                     </c:choose>                                     
                 </nav>
@@ -76,13 +78,9 @@
                                 <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="country">
                                     <spring:message code="profileedit.country"/>
                                 </label>
-                                <div class="col-lg-5 col-md-6 col-12">
-<!--                                    <div class="custom-select">-->
-                                    <%-- <form:select path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1" />                                       
-                                         <form:errors path="country" /> --%>                                       
+                                <div class="col-lg-5 col-md-6 col-12">                                      
                                         <form:select path="country" items="${countryList}" cssClass="form-control select2_country"/>                                       
                                         <form:errors path="country" />                                   
-<!--                                    </div>-->
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -110,12 +108,8 @@
                                     <spring:message code="profileedit.timezone"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
-<!--                                    <div class="custom-select">-->
-                                        <%-- <form:select path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                       
-                                        <form:errors path="timezone" />--%> 
                                         <form:select path="timezone" items="${tzone}" cssClass="form-control select2_country"/>                                        
                                         <form:errors path="timezone" />
-<!--                                    </div>-->
                                 </div>
                             </div>    
                             <div class="form-group row">                    
@@ -124,11 +118,9 @@
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12"> 
                                     <div class="custom-select customTemplate">
-                                        <%--<form:select path="template" cssClass="form-control select2_tz" tabindex="-1">--%>
                                         <form:select path="template" cssClass="form-control rounded-0 w-50">                          
                                             <form:option value="default" ><spring:message code="profileedit.template.default"/></form:option>
                                             <form:option value="dark" ><spring:message code="profileedit.template.dark"/></form:option>
-                                            <%--  <form:option value="dark2" ><spring:message code="profileedit.template.dark2"/></form:option> --%>
                                         </form:select>
                                         <form:errors path="template" />                                
                                     </div>
@@ -182,8 +174,7 @@
                                     <button type="reset" class="btn btn-sm btn-outline-primary mr-1"><spring:message code="cancel"/></button>
                                     <button type="submit" class="btn btn-sm btn-outline-success"><spring:message code="save"/></button>
                                 </div>
-                            </div>                        
-
+                            </div>
                         </form:form>
                     </div>
 
@@ -232,8 +223,6 @@
         </div>
     </div>   
 </div>                    
-
-
 
 
                         

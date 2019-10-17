@@ -578,9 +578,9 @@ a.article:hover, a.download:hover {
     margin-bottom: 4px; 
 }*/
 
-/* ---------------------------------------------------
+/* =================================
     CONTENT STYLE
------------------------------------------------------ */
+================================= */
 
 /*#content {
     width: calc(100% - 220px);
@@ -594,13 +594,20 @@ a.article:hover, a.download:hover {
     width: calc(100% - 100px);
 }*/
 
-/* ---------------------------------------------------
-    MEDIAQUERIES
------------------------------------------------------ */
 
-/* ---------------------------------------------------
+/* ====================
+   NAV navbar
+======================*/
+a#navInfo,
+a#navLogout {
+    width: 32px;
+    padding: .375rem .3rem;
+}
+
+
+/* ====================
    UNDERWAY
------------------------------------------------------ */
+======================*/
 
 .right_col{
     padding: 10px; 
@@ -737,7 +744,7 @@ a[aria-expanded="true"] {
     display: none;
 }
 #sidebar.active ul li a {
-    padding: 10px 0 20px;
+    padding: 10px 0;
     text-align: center;
     font-size: 0.8rem;
     font-weight: 600;
@@ -753,15 +760,9 @@ a[aria-expanded="true"] {
 #sidebar.active ul ul a {
     padding: 10px !important;
 }
-#sidebar.active .dropdown-toggle::after {
-    top: auto;
-    bottom: 50px;
-    right: 20%;
-    -webkit-transform: translateX(50%);
-    -ms-transform: translateX(50%);
-    transform: translateX(50%);
-}
-#sidebar.active #menuDash.dropdown-toggle::after {
+#sidebar.active #menuMonitoring.dropdown-toggle::after,
+#sidebar.active #menuDash.dropdown-toggle::after,
+#sidebar.active #menuManagement.dropdown-toggle::after {
     top: 20px;
     bottom: auto;
     right: 20%;
@@ -1864,6 +1865,12 @@ select#refreshtime_private {
     .navbar {
         padding: .2rem;
     }
+    a#navInfo,
+    a#navLogout {
+        width: 32px;
+        text-align: center;
+        padding: .2rem;
+    }
     .btn {
         text-align: left;
         padding: .2rem;
@@ -1953,8 +1960,9 @@ select#refreshtime_private {
     font-size: 0.9rem;
     margin: 0 0 10px -4px
 }
+#sidebar.active #menuMonitoring.dropdown-toggle::after,
 #sidebar.active #menuDash.dropdown-toggle::after,
-#sidebar.active .dropdown-toggle::after {
+#sidebar.active #menuManagement.dropdown-toggle::after {
     position: absolute;    
     top: 18px;
     bottom: auto;

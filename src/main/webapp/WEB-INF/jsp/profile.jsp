@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
                 <div class="row">
@@ -30,7 +31,7 @@
                                                 ${activeuser.getCompany()}
                                             </li>                                            
                                         </ul>
-                                        <a class="btn btn-outline-success btn-sm" href="${cp}/profile/edit">
+                                        <a class="btn btn-sm btn-outline-success" href="${cp}/profile/edit">
                                             <i class="fa fa-edit"></i>
                                             <spring:message code="profile.editProfile"/>
                                         </a>
