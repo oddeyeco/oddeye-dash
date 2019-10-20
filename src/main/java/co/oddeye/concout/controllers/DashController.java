@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.DecoderException;
@@ -48,8 +47,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  *
@@ -91,8 +90,6 @@ public class DashController {
     @Value("${paypal.fix}")
     private String paypal_fix;
     
-    public static final String JSON_UTF8 = "application/json;charset=UTF-8";
-
     @RequestMapping(value = {"/infrastructure/","/infrastructure/{version}/"}, method = RequestMethod.GET)
     public String infrastructure(ModelMap map,@PathVariable(required = false) String version) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -183,16 +180,16 @@ public class DashController {
             map.put("paypal_percent", paypal_percent);
             map.put("paypal_fix", paypal_fix);
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    map.put("activeuser", userDetails.getSwitchUser());
-                    map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails.getSwitchUser(), 50));
-                    map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails.getSwitchUser(), 50));
-                    map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails.getSwitchUser(), 50));
-
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    map.put("activeuser", userDetails.getSwitchUser());
+//                    map.put("lasttemplates", TemplateDAO.getLasttemplates(userDetails.getSwitchUser(), 50));
+//                    map.put("recomend", TemplateDAO.getRecomendTemplates(userDetails.getSwitchUser(), 50));
+//                    map.put("mylasttemplates", TemplateDAO.getLastUsertemplates(userDetails.getSwitchUser(), 50));
+//
+//                }
+//            }
                 }
-            }
-        }
         map.put("paypal_url", paypal_url);
         map.put("paypal_email", paypal_email);
         map.put("paypal_returnurl", paypal_returnurl);
@@ -242,11 +239,11 @@ public class DashController {
                     getAuthentication().getPrincipal()).getUserModel();
 
             map.put("curentuser", userDetails);
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             map.put("activeuser", userDetails);
             map.put("dashname", "Dashboard" + (userDetails.getDushList().size() + 1));
             map.put("htitle", "Dashboard" + (userDetails.getDushList().size() + 1));
@@ -288,11 +285,11 @@ public class DashController {
 
             map.put("curentuser", userDetails);
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             map.put("activeuser", userDetails);
             map.put("dashname", dashname);
             map.put("htitle", dashname);
@@ -317,8 +314,8 @@ public class DashController {
         return "index";
     }
 
-    @RequestMapping(value = {"/dashboard/save"}, produces = JSON_UTF8)
-    public @ResponseBody String SaveDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/dashboard/save"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String SaveDash(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
 
@@ -326,11 +323,11 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String DushName = request.getParameter("name").trim().replaceAll(" +", " ");
             String DushInfo = request.getParameter("info").trim();
             String oldname = request.getParameter("oldname");
@@ -379,13 +376,12 @@ public class DashController {
                 jsonResult.addProperty("sucsses", false);
             }
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/dashboard/savetemplate"}, produces = JSON_UTF8)
-    public @ResponseBody String SaveDashTeplate(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/dashboard/savetemplate"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String SaveDashTeplate(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
 
@@ -393,11 +389,11 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String DushName = request.getParameter("name").trim();
             String DushInfo = request.getParameter("info").trim();
             if (DushName != null) {
@@ -409,13 +405,12 @@ public class DashController {
                 jsonResult.addProperty("sucsses", false);
             }
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/dashboard/delete"}, produces = JSON_UTF8)
-    public @ResponseBody String DeleteDash(ModelMap map, HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = {"/dashboard/delete"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String DeleteDash(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
 
@@ -423,11 +418,11 @@ public class DashController {
             OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
 
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String DushName = request.getParameter("name").trim();
             if (DushName != null) {
                 try {
@@ -470,13 +465,12 @@ public class DashController {
                 jsonResult.addProperty("sucsses", false);
             }
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/savefilter", "/savefilter/{filtername}"}, produces = JSON_UTF8)
-    public @ResponseBody String savemonitoringsetings(@PathVariable(value = "filtername", required = false) String filtername, ModelMap map, HttpServletRequest request) {
+    @RequestMapping(value = {"/savefilter", "/savefilter/{filtername}"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String savemonitoringsetings(@PathVariable(value = "filtername", required = false) String filtername, HttpServletRequest request) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -486,11 +480,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             if (filtername == null) {
                 filtername = "oddeye_base_def";
             }
@@ -525,24 +519,23 @@ public class DashController {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/addmonitoringpage/"}, produces = JSON_UTF8)
-    public @ResponseBody String savemonitoringOptions(ModelMap map, HttpServletRequest request) {
+    @RequestMapping(value = {"/addmonitoringpage/"}, produces = AjaxControlers.JSON_UTF8)
+    public @ResponseBody String savemonitoringOptions(HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails;
         JsonObject jsonResult = new JsonObject();
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String optionsname = request.getParameter("optionsname");
             if (optionsname == null) {
                 optionsname = "";
@@ -583,12 +576,11 @@ public class DashController {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
-    @RequestMapping(value = {"/deletemonitoringpage/"}, produces = JSON_UTF8)
+    @RequestMapping(value = {"/deletemonitoringpage/"}, produces = AjaxControlers.JSON_UTF8)
     public @ResponseBody String deletemonitoringOptions(ModelMap map, HttpServletRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails;
@@ -596,11 +588,11 @@ public class DashController {
         if (!(auth instanceof AnonymousAuthenticationToken)) {
             userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                     getAuthentication().getPrincipal()).getUserModel();
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             String optionsname = request.getParameter("optionsname");
 
             if (!optionsname.isEmpty()) {
@@ -636,8 +628,7 @@ public class DashController {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 }

@@ -23,11 +23,12 @@ import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.config.annotation.authentication.builders.*;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.*;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -57,6 +58,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
+    
+    @Bean
+    public SwitchUserFilter switchUserFilter() {
+
+        SwitchUserFilter filter = new SwitchUserFilter();
+
+        filter.setUserDetailsService(userService);
+
+        filter.setSwitchUserUrl("/impersonate/login");
+        
+        filter.setExitUserUrl("/impersonate/logout");
+
+        filter.setSwitchFailureUrl("/");
+
+        filter.setTargetUrl("/dashboard/");
+
+        return filter;
+    }    
+ 
+    // http://localhost:8080/OddeyeCoconut/impersonate/login?username=test%40mail.ru
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //        http.userDetailsService(userService);
@@ -65,6 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login/").deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true);
         http
+                .addFilterAfter(switchUserFilter(), FilterSecurityInterceptor.class)                
                 .authorizeRequests()
                 .antMatchers("/calculator/**", "/resources/**", "/assets/**", "/signup/", "/",
                         "/confirm/**", "/psreset/**", "/pschange/**", "/about/**", "/pricing/**", "/documentation/**",
@@ -74,14 +96,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //                .antMatchers("/gettagkey*").permitAll()
                 //                .antMatchers("/gettagvalue*").permitAll()
                 .antMatchers("/test", "/demomb/").permitAll()
+                
+                
                 .antMatchers(HttpMethod.POST, "/paypal/ipn/**").permitAll()
                 .antMatchers("/subscribe/**").permitAll()
                 .antMatchers("/userslist*", "/paymentslist/**").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/user/**").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/whitelable/**").hasAnyAuthority("ROLE_USERMANAGER")
-                .antMatchers("/user/switch/**").hasAnyAuthority("ROLE_CAN_SWICH")
+//                .antMatchers("/user/switch/**").hasAnyAuthority("ROLE_CAN_SWICH")
                 .antMatchers("/templatelist*").hasAnyAuthority("ROLE_USERMANAGER")
                 .antMatchers("/getmetastat/*").hasAnyAuthority("ROLE_USERMANAGER")
+                
+                .antMatchers("/impersonate/login/**").hasAnyAuthority("ROLE_CAN_SWICH")
+                .antMatchers("/impersonate/logout/**").hasAnyAuthority("ROLE_PREVIOUS_ADMINISTRATOR")                 
+               
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

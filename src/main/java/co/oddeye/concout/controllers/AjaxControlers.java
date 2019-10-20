@@ -47,13 +47,11 @@ import org.hbase.async.GetRequest;
 import org.hbase.async.KeyValue;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
-//import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -108,8 +106,7 @@ public class AjaxControlers {
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
             @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,
             @RequestParam(value = "rate", required = false, defaultValue = "false") Boolean rate,
-            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
-            ModelMap map) {
+            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails = null;
         if (!(auth instanceof AnonymousAuthenticationToken)) {
@@ -123,25 +120,21 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
             jsonResult.addProperty("sucsses", Boolean.FALSE);
-//            map.put("jsonmodel", jsonResult);
-//            return "ajax";
         return jsonResult.toString();
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             OddeeyMetricMeta metric = null;
             if ((hash != null)) {
                 metric = userDetails.getMetricsMeta().get(hash);
                 if (metric == null) {
                     jsonResult.addProperty("sucsses", Boolean.FALSE);
                     LOGGER.warn("Metric for hash:" + hash + " for user " + userDetails.getEmail() + " not exist");
-//                    map.put("jsonmodel", jsonResult);
-//                    return "ajax";
                     return jsonResult.toString();
                 }
                 metrics = metric.getName();
@@ -157,10 +150,7 @@ public class AjaxControlers {
 
                 jsonResult.addProperty("sucsses", Boolean.FALSE);
                 jsonResult.addProperty("message", " End time [" + enddate + "] must be greater than the start time [" + startdate + "]");
-//                map.put("jsonmodel", jsonResult);
-//                return "ajax";
                 return jsonResult.toString();
-
             }
             try {
                 ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
@@ -246,17 +236,15 @@ public class AjaxControlers {
 //            jsonMessages.
             
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getfiltredmetricsnames"}, produces = JSON_UTF8)
-    public @ResponseBody String GetMetricsLargeNames(
+    public @ResponseBody String getMetricsLargeNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            @RequestParam(value = "all", required = false, defaultValue = "false") String s_all,
-            ModelMap map) {
+            @RequestParam(value = "all", required = false, defaultValue = "false") String s_all) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -270,11 +258,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
                 for (String tag : tagslist) {
@@ -318,16 +306,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getSpecialMetricsNames"}, produces = JSON_UTF8)
     public @ResponseBody String getSpecialMetricsNames(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
-            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            ModelMap map) {
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -339,11 +325,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
                 for (String tag : tagslist) {
@@ -380,14 +366,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
-
     @RequestMapping(value = {"/gettypesinfo"}, produces = JSON_UTF8)
-    public @ResponseBody String GetMetricsTypesInfo(ModelMap map) {
+    public @ResponseBody String getMetricsTypesInfo() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();
@@ -402,11 +386,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
 
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
                 jsonResult.addProperty("sucsses", true);
@@ -427,13 +411,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getmetricsnamesinfo"}, produces = JSON_UTF8)
-    public @ResponseBody String GetMetricsNamesInfo(ModelMap map) {
+    public @ResponseBody String getMetricsNamesInfo() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonObject jsondata = new JsonObject();
@@ -448,11 +431,11 @@ public class AjaxControlers {
 
         if (userDetails != null) {
             try {
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
 
                 ConcoutMetricMetaList Metriclist = userDetails.getMetricsMeta();
                 jsonResult.addProperty("sucsses", true);
@@ -467,16 +450,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getfiltredmetrics"}, produces = JSON_UTF8)
-    public @ResponseBody String GetMetricsLarge(
+    public @ResponseBody String getMetricsLarge(
             @RequestParam(value = "tags", required = false, defaultValue = "") String tags,
-            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            ModelMap map) {
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -487,11 +468,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
                 String[] tagslist = tags.split(";");
                 final Map<String, String> tagsMap = new HashMap<>();
@@ -540,16 +521,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getmetrics"}, produces = JSON_UTF8)
-    public @ResponseBody String GetMetrics(
+    public @ResponseBody String getMetrics(
             @RequestParam(value = "key") String key,
-            @RequestParam(value = "value") String value,
-            ModelMap map) {
+            @RequestParam(value = "value") String value) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         JsonObject jsonResult = new JsonObject();
         JsonArray jsondata = new JsonArray();
@@ -558,11 +537,11 @@ public class AjaxControlers {
             try {
                 OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal()).getUserModel();
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
                 ConcoutMetricMetaList Metriclist;
                 if (key.equals("_name")) {
                     Metriclist = userDetails.getMetricsMeta().getbyName(value);
@@ -603,18 +582,16 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/deletemetrics"}, produces = JSON_UTF8)
-    public @ResponseBody String DeleteMetrics(
+    public @ResponseBody String deleteMetrics(
             @RequestParam(value = "key", required = false) String key,
             @RequestParam(value = "value", required = false) String value,
             @RequestParam(value = "hash", required = false) String hash,
-            @RequestParam(value = "name", required = false) String name,
-            ModelMap map
+            @RequestParam(value = "name", required = false) String name
     ) {
 
         SendToKafka KafkaLocalSender = (OddeyeUserModel user, String action, Object hash1) -> {
@@ -645,11 +622,11 @@ public class AjaxControlers {
             try {
                 OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
                         getAuthentication().getPrincipal()).getUserModel();
-                if ((userDetails.getSwitchUser() != null)) {
-                    if (userDetails.getSwitchUser().getAlowswitch()) {
-                        userDetails = userDetails.getSwitchUser();
-                    }
-                }
+//                if ((userDetails.getSwitchUser() != null)) {
+//                    if (userDetails.getSwitchUser().getAlowswitch()) {
+//                        userDetails = userDetails.getSwitchUser();
+//                    }
+//                }
 
                 if (hash != null) {
                     if (MetaDao.deleteMeta(hash, userDetails) != null) {
@@ -695,15 +672,13 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();        
     }
 
     @RequestMapping(value = {"/gettagkey"}, produces = JSON_UTF8)
     public @ResponseBody String getTagkeys(
-            @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            ModelMap map) {
+            @RequestParam(value = "filter", required = false, defaultValue = "") String filter) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -715,12 +690,13 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
+
 //                if (userDetails.getMetricsMeta() == null) {
 //                    userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
 //                }
@@ -752,16 +728,14 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/gettagvalue"}, produces = JSON_UTF8)
     public @ResponseBody String getTagvalues(
             @RequestParam(value = "filter", required = false, defaultValue = "") String filter,
-            @RequestParam(value = "key", required = true) String key,
-            ModelMap map) {
+            @RequestParam(value = "key", required = true) String key) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -774,11 +748,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
 
             Gson gson = new Gson();
 
@@ -820,15 +794,12 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/resetregression"}, produces = JSON_UTF8)
     public @ResponseBody String regrresinreset(
-            @RequestParam(value = "hash") String hash,
-            ModelMap map) {
+            @RequestParam(value = "hash") String hash) {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -841,11 +812,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
                 JsonObject Jsonchangedata = new JsonObject();
                 Jsonchangedata.addProperty("UUID", userDetails.getId().toString());
@@ -876,13 +847,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getstat"}, produces = JSON_UTF8)
-    public @ResponseBody String getstat(ModelMap map) {
+    public @ResponseBody String getstat() {
         JsonObject jsonResult = new JsonObject();
         try {
             jsonResult.addProperty("metriccount", MetaDao.getFullmetalist().size());
@@ -922,13 +892,12 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getpayinfo"}, produces = JSON_UTF8)
-    public @ResponseBody String getpayinfo(ModelMap map) {
+    public @ResponseBody String getpayinfo() {
         JsonObject jsonResult = new JsonObject();
         try {
 //            valod 
@@ -944,13 +913,12 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
             LOGGER.error(globalFunctions.stackTrace(ex));
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getmetastat"}, produces = JSON_UTF8)
-    public @ResponseBody String getmetastat(ModelMap map) {
+    public @ResponseBody String getmetastat() {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -962,11 +930,11 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             try {
 //                userDetails.setMetricsMeta(MetaDao.getByUUID(userDetails.getId()));
                 jsonResult.addProperty("names", userDetails.getMetricsMeta().GetNames().size());
@@ -988,12 +956,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/getmetastat/{uuid}"}, produces = JSON_UTF8)
-    public @ResponseBody String getmetastatadmin(@PathVariable(value = "uuid") String uuid, ModelMap map) {
+    public @ResponseBody String getmetastatadmin(@PathVariable(value = "uuid") String uuid) {
         JsonObject jsonResult = new JsonObject();
         OddeyeUserModel userDetails;
         userDetails = UserDao.getUserByUUID(UUID.fromString(uuid));
@@ -1022,12 +990,12 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
+
         return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/switchallow"}, produces = JSON_UTF8)
-    public @ResponseBody String switchallow(ModelMap map) {
+    public @ResponseBody String switchallow() {
         JsonObject jsonResult = new JsonObject();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -1050,8 +1018,7 @@ public class AjaxControlers {
         } else {
             jsonResult.addProperty("sucsses", false);
         }
-//        map.put("jsonmodel", jsonResult);
-//        return "ajax";
+
         return jsonResult.toString();
     }
 }

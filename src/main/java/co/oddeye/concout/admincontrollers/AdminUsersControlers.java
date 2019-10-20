@@ -5,10 +5,12 @@
  */
 package co.oddeye.concout.admincontrollers;
 
+import static co.oddeye.concout.controllers.DefaultController.setLocaleInfo;
 import co.oddeye.concout.dao.HbaseUserDao;
 import co.oddeye.concout.helpers.OddeyeMailSender;
 import co.oddeye.concout.model.OddeyeUserDetails;
 import co.oddeye.concout.model.OddeyeUserModel;
+import co.oddeye.concout.model.WhitelabelModel;
 import co.oddeye.concout.service.OddeyeUserService;
 import co.oddeye.concout.validator.UserValidator;
 import co.oddeye.core.globalFunctions;
@@ -29,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -353,7 +356,61 @@ public class AdminUsersControlers extends GRUDControler {
         map.put("jspart", "adminjs");
         return "index";
     }
+    
+    @RequestMapping(value = "user/new", method = RequestMethod.GET)
+    public String startRegisteringNewUser(
+            ModelMap map,
+            HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!(auth instanceof AnonymousAuthenticationToken)) {
+            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+                    getAuthentication().getPrincipal()).getUserModel();
+            map.put("curentuser", userDetails);
+            map.put("isAuthentication", true);
+        } else {
+            map.put("isAuthentication", false);
+        }
+     
+        OddeyeUserModel newUser = new OddeyeUserModel();
+        map.put("newUser", newUser);
+        map.put("configMap", getEditConfig());
+        map.put("modelname", "User");
+        map.put("path", "user");
+        map.put("body", "adminNewUser");
+        map.put("jspart", "adminNewUserjs");
+        return "index";
+    }
 
+    @RequestMapping(value = "user/new", method = RequestMethod.POST)
+    public String createUserFromAdmin(@ModelAttribute("newUser") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request) {
+
+        userValidator.adminCreateValidate(newUser, result);
+        if (result.hasErrors()) {
+            setLocaleInfo(map);
+            map.put("newUser", newUser);
+            map.put("result", result);
+            map.put("body", "adminNewUser");
+            map.put("jspart", "adminNewUserjs");
+        } else {
+            try {
+//                newUser.SendAdminMail("New user created from admin panel", mailSender);
+                newUser.addAuthoritie(OddeyeUserModel.ROLE_USER);
+                newUser.setActive(Boolean.FALSE);
+                Userdao.addUser(newUser);
+                return "redirect:/user/edit/" + newUser.getId().toString();
+            } catch (Exception ex) {
+                LOGGER.error(globalFunctions.stackTrace(ex));
+                map.put("newUser", newUser);
+                map.put("result", result);
+                map.put("body", "adminNewUser");
+                map.put("jspart", "adminNewUserjs");
+                map.put("message", ex.toString());
+            }
+        }
+        return "indexPrime";
+    }
+    
+    
     class GrantedAuthorityEditor extends PropertyEditorSupport {
 
         @Override
@@ -368,29 +425,29 @@ public class AdminUsersControlers extends GRUDControler {
         binder.registerCustomEditor(GrantedAuthority.class, new GrantedAuthorityEditor());
     }
 
-    @RequestMapping(value = "user/switch/{id}", method = RequestMethod.GET)
-    public String userswitch(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();
-            userDetails.setSwitchUser(Userdao.getUserByUUID(UUID.fromString(id), true));
-        }
-        return "redirect:/dashboard/";
+//    @RequestMapping(value = "user/switch/{id}", method = RequestMethod.GET)
+//    public String userswitch(@PathVariable(value = "id") String id, ModelMap map, HttpServletRequest request) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+//                    getAuthentication().getPrincipal()).getUserModel();
+//            userDetails.setSwitchUser(Userdao.getUserByUUID(UUID.fromString(id), true));
+//        }
+//        return "redirect:/dashboard/";
+//
+//    }
 
-    }
-
-    @RequestMapping(value = "/switchoff/", method = RequestMethod.GET)
-    public String userswitchoff(ModelMap map, HttpServletRequest request) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (!(auth instanceof AnonymousAuthenticationToken)) {
-            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
-                    getAuthentication().getPrincipal()).getUserModel();
-            userDetails.setSwitchUser(null);
-        }
-        return "redirect:/dashboard/";
-
-    }
+//    @RequestMapping(value = "/switchoff/", method = RequestMethod.GET)
+//    public String userswitchoff(ModelMap map, HttpServletRequest request) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (!(auth instanceof AnonymousAuthenticationToken)) {
+//            OddeyeUserModel userDetails = ((OddeyeUserDetails) SecurityContextHolder.getContext().
+//                    getAuthentication().getPrincipal()).getUserModel();
+//            userDetails.setSwitchUser(null);
+//        }
+//        return "redirect:/dashboard/";
+//
+//    }
 
     @RequestMapping(value = "user/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("model") OddeyeUserModel newUser, BindingResult result, ModelMap map, HttpServletRequest request, HttpServletResponse response) {

@@ -338,12 +338,12 @@
                                     <li class="nav-item">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                                                     
-                                                <c:if test="${curentuser.getSwitchUser()==null}">
+                                                <%--<c:if test="${curentuser.getSwitchUser()==null}">
                                                     ${curentuser.getEmail()}
                                                 </c:if>
-                                                <c:if test="${curentuser.getSwitchUser()!=null}">
-                                                    <b class="pagetitle"><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getSwitchUser().getEmail()}</b>
-                                                </c:if>&nbsp;
+                                                <c:if test="${curentuser.getSwitchUser()!=null}">--%>
+                                                    <b class="pagetitle"><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getEmail()}</b>
+                                                <%--</c:if>--%>&nbsp;
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
@@ -369,13 +369,13 @@
                                                         <spring:message code="index.allowEdit"/>                                            
                                                     </a>
                                                 </li>     
-                                                <c:if test="${curentuser.getSwitchUser()!=null}"> 
+                                                <%--<c:if test="${curentuser.getSwitchUser()!=null}">--%>
                                                     <li>        
                                                         <a href="<c:url value="/switchoff/"/>" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i>
                                                             <spring:message code="index.switchOff"/>
                                                         </a> 
                                                     </li> 
-                                                </c:if>                                                
+                                                <%--</c:if>--%>                                              
                                                 <%--<c:url value="/logout/" var="logoutUrl"/>--%> 
 <!--                                                <li> 
                                                     <a href="${logoutUrl}" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i>

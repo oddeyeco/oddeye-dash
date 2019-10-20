@@ -5,6 +5,7 @@
  */
 package co.oddeye.concout.controllers;
 
+import static co.oddeye.concout.controllers.AjaxControlers.JSON_UTF8;
 import co.oddeye.concout.core.ConcoutMetricMetaList;
 import co.oddeye.concout.dao.BaseTsdbConnect;
 import co.oddeye.concout.dao.HbaseDataDao;
@@ -81,8 +82,6 @@ public class dataControlers {
     @Value("${dash.error.status.delta_in_minutes}")   
     public long deltaStatusMinutes;
     
-    public static final String JSON_UTF8 = "application/json;charset=UTF-8";
-
     @RequestMapping(value = "/metriclist", params = {"tags",}, method = RequestMethod.GET)
     public String tagMetricsList(@RequestParam(value = "tags") String tags, ModelMap map) {
         map.put("body", "taglist");
@@ -111,11 +110,11 @@ public class dataControlers {
                 map.put("curentuser", currentUser);
 
                 OddeyeUserModel userDetails = currentUser;
-                if ((currentUser.getSwitchUser() != null)) {
-                    if (currentUser.getSwitchUser().getAlowswitch()) {
-                        userDetails = currentUser.getSwitchUser();
-                    }
-                }
+//                if ((currentUser.getSwitchUser() != null)) {
+//                    if (currentUser.getSwitchUser().getAlowswitch()) {
+//                        userDetails = currentUser.getSwitchUser();
+//                    }
+//                }
 
                 map.put("activeuser", userDetails);
 //                if (userDetails.getMetricsMeta() == null) {
@@ -176,11 +175,11 @@ public class dataControlers {
                 map.put("curentuser", currentUser);
 
                 OddeyeUserModel userDetails = currentUser;
-                if ((currentUser.getSwitchUser() != null)) {
-                    if (currentUser.getSwitchUser().getAlowswitch()) {
-                        userDetails = currentUser.getSwitchUser();
-                    }
-                }
+//                if ((currentUser.getSwitchUser() != null)) {
+//                    if (currentUser.getSwitchUser().getAlowswitch()) {
+//                        userDetails = currentUser.getSwitchUser();
+//                    }
+//                }
 
                 map.put("activeuser", userDetails);
 
@@ -323,8 +322,7 @@ public class dataControlers {
             @RequestParam(value = "enddate", required = false, defaultValue = "now") String enddate,
             @RequestParam(value = "aggregator", required = false, defaultValue = "none") String aggregator,
             @RequestParam(value = "rate", required = false, defaultValue = "false") Boolean rate,
-            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample,
-            ModelMap map) {
+            @RequestParam(value = "downsample", required = false, defaultValue = "") String downsample) {
         long startTime = System.currentTimeMillis();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         OddeyeUserModel userDetails = null;
@@ -357,17 +355,15 @@ public class dataControlers {
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
             jsonResult.addProperty("sucsses", Boolean.FALSE);
-//            map.put("jsonmodel", jsonResult);
-//            return "ajax";
             return jsonResult.toString();
         }
 
         if (userDetails != null) {
-            if ((userDetails.getSwitchUser() != null)) {
-                if (userDetails.getSwitchUser().getAlowswitch()) {
-                    userDetails = userDetails.getSwitchUser();
-                }
-            }
+//            if ((userDetails.getSwitchUser() != null)) {
+//                if (userDetails.getSwitchUser().getAlowswitch()) {
+//                    userDetails = userDetails.getSwitchUser();
+//                }
+//            }
             Map<String, OddeeyMetricMeta> foundMetrics = new HashMap<>();            
             if ((hash != null)) {
                 OddeeyMetricMeta metric = userDetails.getMetricsMeta().get(hash);
@@ -436,9 +432,7 @@ public class dataControlers {
                 }                
                 }
         }
-//        map.put("jsonmodel", jsonResult);
         LOGGER.info("getStatusData tooks:{} seconds", (System.currentTimeMillis() - startTime) / 1000.0);
-//        return "ajax";
         return jsonResult.toString();
     }
     
