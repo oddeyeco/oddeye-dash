@@ -338,12 +338,15 @@
                                     <li class="nav-item">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                                                     
-                                                <%--<c:if test="${curentuser.getSwitchUser()==null}">
-                                                    ${curentuser.getEmail()}
-                                                </c:if>
-                                                <c:if test="${curentuser.getSwitchUser()!=null}">--%>
-                                                    <b class="pagetitle"><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getEmail()}</b>
-                                                <%--</c:if>--%>&nbsp;
+                                            <sec:authorize var="isImpersonated" access="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')" />
+                                            <c:choose>
+                                            <c:when test="${isImpersonated}">
+                                                <b><spring:message code="index.switchedTo"/>&nbsp;${curentuser.getEmail()}</b>
+                                            </c:when>
+                                            <c:otherwise>
+                                                ${curentuser.getEmail()}                                                
+                                            </c:otherwise>
+                                            </c:choose>&nbsp;
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-right">
                                                 <li>
@@ -369,13 +372,9 @@
                                                         <spring:message code="index.allowEdit"/>                                            
                                                     </a>
                                                 </li>     
-                                                <%--<c:if test="${curentuser.getSwitchUser()!=null}">--%>
-                                                    <li>        
-                                                        <a href="<c:url value="/switchoff/"/>" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i>
-                                                            <spring:message code="index.switchOff"/>
-                                                        </a> 
-                                                    </li> 
-                                                <%--</c:if>--%>                                              
+                                                <sec:authorize access="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')">    
+                                                    <li><a href="<c:url value="/impersonate/logout"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li>
+                                                </sec:authorize>
                                                 <%--<c:url value="/logout/" var="logoutUrl"/>--%> 
 <!--                                                <li> 
                                                     <a href="${logoutUrl}" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i>
