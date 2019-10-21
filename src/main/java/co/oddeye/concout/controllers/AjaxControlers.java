@@ -120,7 +120,7 @@ public class AjaxControlers {
         JsonObject jsonResult = new JsonObject();
         if ((hash == null) && (metrics == null) && (tags == null)) {
             jsonResult.addProperty("sucsses", Boolean.FALSE);
-        return jsonResult.toString();
+            return jsonResult.toString();
         }
 
         if (userDetails != null) {
@@ -673,7 +673,7 @@ public class AjaxControlers {
             jsonResult.addProperty("sucsses", false);
         }
 
-        return jsonResult.toString();        
+        return jsonResult.toString();
     }
 
     @RequestMapping(value = {"/gettagkey"}, produces = JSON_UTF8)
