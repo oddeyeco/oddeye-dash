@@ -59,6 +59,7 @@
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />          
             
             <c:if test="${empty curentuser.getTemplate()}" >
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />   
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />
             </c:if> 
             <c:if test="${not empty curentuser.getTemplate()}" >
@@ -66,7 +67,8 @@
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />        
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
-                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />                   
+<!--                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />                   -->
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark.css?v=${version}" />                   
                     </c:when>
                     <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
                         <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />
@@ -315,7 +317,7 @@
                 </nav>
                 <!-- ======================== Page Content =========================  -->        
                 <div id="content" class="active">
-                    <nav class="navbar navbar-expand-sm navbar-light bg-light shadow">
+                    <nav class="navbar navbar-expand-sm <c:if test="${curentuser.getTemplate()=='default'}">navbar-light bg-light</c:if> <c:if test="${curentuser.getTemplate()=='dark'}">navbar-dark bg-dark</c:if> shadow">                    
                         <div class="container-fluid">
                             <button type="button" id="menu_toggle" class="btn btn-outline-dark">
                                 <i class="fas fa-indent"></i>
@@ -404,13 +406,13 @@
 
                         <c:if test="${!curentuser.getActive()}">
                             <div class="clearfix"></div>
-                            <div class="alert alert-danger alert-dismissible fade in " role="alert">
+                            <div class="alert alert-danger alert-dismissible fade show " role="alert">
                                 <spring:message code="index.alertNotActivate"/>
                             </div>
                         </c:if>                                         
                         <c:if test="${curentuser.getMetricsMeta().size()==0}">
                             <div class="clearfix"></div>
-                            <div class="alert alert-danger alert-dismissible fade in " role="alert">                                
+                            <div class="alert alert-danger alert-dismissible fade show " role="alert">                                
                                 <spring:message code="index.installAgent"/>
                             </div>
                         </c:if>                            
