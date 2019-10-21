@@ -89,7 +89,7 @@ public class DashController {
     private String paypal_percent;
     @Value("${paypal.fix}")
     private String paypal_fix;
-    
+
     @RequestMapping(value = {"/infrastructure/","/infrastructure/{version}/"}, method = RequestMethod.GET)
     public String infrastructure(ModelMap map,@PathVariable(required = false) String version) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -189,7 +189,7 @@ public class DashController {
 //
 //                }
 //            }
-                }
+        }
         map.put("paypal_url", paypal_url);
         map.put("paypal_email", paypal_email);
         map.put("paypal_returnurl", paypal_returnurl);

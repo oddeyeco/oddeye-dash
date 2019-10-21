@@ -992,7 +992,7 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
      */
     public OddeyeUserModel proxy() {
         return this;
-    }
+    }    
 
     /**
      * @param SwitchUser the SwitchUser to set
@@ -1312,7 +1312,7 @@ public class OddeyeUserModel implements Serializable, IHbaseModel {
     public void setTemplate(String template) {
         this.template = template;
     }
-
+    
     
 
 }

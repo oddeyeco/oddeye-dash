@@ -81,7 +81,7 @@ public class dataControlers {
     
     @Value("${dash.error.status.delta_in_minutes}")   
     public long deltaStatusMinutes;
-    
+
     @RequestMapping(value = "/metriclist", params = {"tags",}, method = RequestMethod.GET)
     public String tagMetricsList(@RequestParam(value = "tags") String tags, ModelMap map) {
         map.put("body", "taglist");

@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
-
+    
     
     @Bean
     public SwitchUserFilter switchUserFilter() {
