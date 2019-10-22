@@ -45,7 +45,7 @@
                     <div class="tab-pane fade show <c:if test="${tab == \"general-tab\"}">active</c:if>" id="nav-general" role="tabpanel" aria-labelledby="nav-general-tab">
                         <form:form method="post" action="${cp}/profile/saveuser" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="userdata">                            
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="name">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right te" for="name">
                                     <spring:message code="profileedit.firstName"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="lastname">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="lastname">
                                     <spring:message code="profileedit.lastName"/> 
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -65,7 +65,7 @@
                                 </div>
                             </div>                    
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="company">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="company">
                                     <spring:message code="profileedit.companyName"/> 
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -75,7 +75,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">   
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="country">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="country">
                                     <spring:message code="profileedit.country"/>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">                                      
@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="city">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="city">
                                     <spring:message code="profileedit.city"/> 
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="region">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="region">
                                     <spring:message code="profileedit.region"/> 
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">                    
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="timezone">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="timezone">
                                     <spring:message code="profileedit.timezone"/> <span class="required">*</span>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -113,7 +113,7 @@
                                 </div>
                             </div>    
                             <div class="form-group row">                    
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="template">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="template">
                                     <spring:message code="profileedit.template"/>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12"> 

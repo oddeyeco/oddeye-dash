@@ -57,7 +57,7 @@ font-style: normal;
 
 body {    
     font-family: 'Inter','Ubuntu','Roboto','Lato', sans-serif;
-    background: #f0f0f0;
+    background-color: #f0f0f0;
     font-size: 13px;
     line-height: 1.4;
     font-weight: 500;
@@ -104,7 +104,7 @@ a:focus {
     transition: all 0.3s;
 }
 .navbar {
-    background: #fff;
+    background-color: #fff;
     border: none;
     border-radius: 0;
     margin-bottom: 4px;
@@ -398,7 +398,7 @@ select#title_x_position option {
     top: 0;
     left: 0;
     height: 100vh;
-    background: #c7cccc;
+    background-color: #c7cccc;
     color: #000;      
     z-index: 99;
     /*transition: all 0.2s;*/
@@ -410,7 +410,7 @@ select#title_x_position option {
     top: 0;
     left: 0;
     height: 100vh;
-    background: #c7cccc;
+    background-color: #c7cccc;
     color: #000;      
     z-index: 999;
     /*transition: all 0.2s;*/
@@ -697,7 +697,7 @@ a.gotodash {
     display: block;
     margin: 2px;
     padding: 8px;    
-    background: #c7cccc;
+    background-color: #c7cccc;
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -714,7 +714,7 @@ a.gotodash:hover {
 #navbarNavDropdown ul.navbar-nav ul.dropdown-menu-right .dropdown-item:hover{
     border-radius: 4px;
     color: #fff;
-    background: #343a40;
+    background-color: #343a40;
     box-shadow: 0 0.5rem 0.8rem rgba(0,0,0,.3);
 }
 
