@@ -181,7 +181,7 @@
                     <div class="tab-pane fade show <c:if test="${tab == \"pass-tab\"}">active</c:if>" id="nav-security" role="tabpanel" aria-labelledby="nav-security-tab">                                                        
                         <form:form method="post" action="${cp}/profile/changepassword" modelAttribute="newuserdata" novalidate="true" cssClass="form-horizontal form-label-left" id="passwordform">
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="name">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="name">
                                     <spring:message code="profileedit.security.oldPassword"/>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -191,7 +191,7 @@
                                 </div>                              
                             </div>
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="name">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="name">
                                     <spring:message code="profileedit.security.newPassword"/>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">
@@ -201,7 +201,7 @@
                                 </div>                               
                             </div>
                             <div class="form-group row">
-                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center text-muted" for="name">
+                                <label class="col-form-label col-lg-4 col-md-4 col-12 text-md-right text-center" for="name">
                                     <spring:message code="profileedit.security.reEnterNewPassword"/>
                                 </label>
                                 <div class="col-lg-5 col-md-6 col-12">

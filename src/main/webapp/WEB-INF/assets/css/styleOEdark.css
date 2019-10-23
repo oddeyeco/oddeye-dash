@@ -7,6 +7,7 @@
     color: #D7DCDC!important;
     border-color: #0e0e0e!important;
 }
+/*====  table  ====*/
 .table {
     color: #D7DCDC;
 }
@@ -16,6 +17,82 @@
 .table thead th {
     border-bottom: 2px solid #0E0E0E;
 }
+.table-bordered {
+    border: 1px solid #979797;
+}
+.table th {
+    border-top: 1px solid #373737;
+}
+.table thead th {
+    border-bottom: 2px solid #373737;
+}
+.table-bordered td, .table-bordered th {
+    border: 1px solid #373737;
+}
+
+
+
+
+.table-striped tr {
+    background-color: rgba(199, 204, 204, 0.2);
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(199, 204, 204, 0.14);
+}
+.table-striped tbody tr {
+    background-color: rgba(199, 204, 204, 0.2);
+}
+.metricinfo>.icons>a {
+    margin-left: 2px;
+}
+.metricinfo>.icons>a>i {
+    vertical-align: bottom;
+}
+.checked {
+    border-color: #373737;
+    border-width: 2px;
+    background-color: transparent;
+}
+.page-link,
+.page-item.disabled .page-link {
+    background-color: #474747;
+    color: #D7DCDC;
+    border: 1px solid #979797;
+}
+.page-item.active .page-link {
+    background-color: #212121;
+    color: #D7DCDC;
+}
+.page-item.disabled .page-link {
+
+}
+
+#modall2 th.sorting_disabled ul.dropdown-menu.show {
+    background-color: #D7DCDC;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,.8);
+}
+.page-item.active .page-link,
+#modall2 th.sorting_disabled ul.dropdown-menu.show>li>a:hover {
+    background-color: #212121!important;
+    color: #D7DCDC!important;
+}
+/*====  modal  ====*/
+.modal-content {
+    background-color: #474747;
+}
+.modal-body {
+    background-color: #373737;
+}
+.modal-header {
+    border-bottom: 1px solid #979797;
+}
+.modal-footer {
+    border-top: 1px solid #979797;
+}
+#listtablediv, #modall1 .modal-body, #modall2 .modal-body {
+    padding: 0.2rem;
+}
+
 
 
 body,
@@ -58,7 +135,10 @@ a.gotodash,
 a.gotodash:hover {
     box-shadow: 0 8px 18px rgba(0,0,0,0.3), 0 4px 4px rgba(0,0,0,0.5);
 }
-
+.green:hover {
+    color: #D7DCDC;
+    text-decoration: underline;
+}
 
 .depthShadowLightHover:hover {
     background-color: #474747;
@@ -104,6 +184,7 @@ ul#sidebarSmallMenu .dropright.show .dropdown-menu.show {
 }
 #sidebarMenu.accordion>.card>.card-header {
     background-color: #212121;
+    padding: 0.2rem 0;
 }
 #sidebarMenu.accordion>.card .card-body, 
 #sidebar ul li.active>a,

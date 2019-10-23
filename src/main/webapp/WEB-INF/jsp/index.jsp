@@ -300,8 +300,8 @@
                     
                     <!-- sidebar-footer buttons -->
 
-<!--                    <div class="sidebar-footer hidden-small">
-                        <a href="<c:url value="/logout/"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' data-original-title='<spring:message code="logout"/>'>
+                    <div class="sidebar-footer hidden-small">
+<!--                        <a href="<c:url value="/logout/"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' data-original-title='<spring:message code="logout"/>'>
                             <span class="fas fa-power-off" aria-hidden="true"></span>
                         </a>
                         <a href="" data-toggle="tooltip" data-placement="top" title='<spring:message code="fullScreen"/>' data-original-title='<spring:message code="fullScreen"/>' id="FullScreen">
@@ -312,8 +312,8 @@
                         </a>
                         <a  href="<c:url value="/monitoring"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="index.monitoring"/>' data-original-title='<spring:message code="index.monitoring"/>'>
                             <span class="fas fa-clock" aria-hidden="true"></span>
-                        </a>
-                    </div> -->
+                        </a>-->
+                    </div>
                 </nav>
                 <!-- ======================== Page Content =========================  -->        
                 <div id="content" class="active">
