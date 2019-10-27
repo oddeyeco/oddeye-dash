@@ -20,17 +20,18 @@
     <html lang="en">
         <head>
             <sec:csrfMetaTags/>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">            
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
             <!-- Meta, title, CSS, favicons, etc. -->
             <link rel="shortcut icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
-            <link rel="icon" href="${cp}/assets/images/logo.png" type="image/x-icon">            
+            <link rel="icon" href="${cp}/assets/images/logo.png" type="image/x-icon">
+
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <c:if test="${!empty ogimage}">                        
                 <c:set var="image" value="${ogimage}" scope="request" />
             </c:if>              
-            <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/${image}" />            
+            <meta property="og:image" content="https://${pageContext.request.getHeader("X-OddEye-Host")}${cp}/assets/images/${image}" />   
             <title>${title}|oddeye.co</title>
 
             <!-- Bootstrap -->  
@@ -74,10 +75,13 @@
                     <c:otherwise>                      
                     </c:otherwise>                                                    
                 </c:choose>
-            </c:if>
+            </c:if>            
+
             <c:if test="${not empty whitelabel}" >                
                 <link rel="stylesheet" href="<c:url value="${whitelabel.getFullfileName()}${whitelabel.cssfilename}?v=${version}"/>" />
-            </c:if> 
+            </c:if>    
+
+
         </head>
 
         <body class="<c:if test="${cookie['small'].value != 'true'}">nav-md</c:if> <c:if test="${cookie['small'].value == 'true'}">nav-sm</c:if>">
@@ -426,6 +430,7 @@
             <c:if test="${empty curentuser.getTemplate()}" >
                 <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
             </c:if>                        
+
             <c:if test="${not empty curentuser.getTemplate()}" >                
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
@@ -439,17 +444,22 @@
                     </c:otherwise>                                                    
                 </c:choose>
             </c:if>             
-   
+
+
+
             <script>
                 var headerName = "${_csrf.headerName}";
                 var token = "${_csrf.token}";
                 var cp = "${cp}";
-                var uuid = "${curentuser.getId()}";
+                var uuid;
                 var Firstlogin = false;
                 <c:if test="${not empty curentuser}">
-                Firstlogin = ${curentuser.getFirstlogin()};
+                    uuid = "${curentuser.getId()}";                    
+                    Firstlogin = ${curentuser.getFirstlogin()};
                 </c:if>
+
             </script>                                         
+
             <!-- jQuery -->
             <script src="<c:url value="/resources/bootstrap/dist/bootstrap-4.3.1/js/jquery-3.3.1.min.js?v=${version}"/>"></script>           
             <script src="${cp}/assets/dist/switchery.min.js?v=${version}"></script>
@@ -515,17 +525,20 @@
                     a.src = g;
                     m.parentNode.insertBefore(a, m)
                 })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
                 ga('create', 'UA-101325828-1', 'auto');
                 ga('send', 'pageview');
                 setTimeout(function () {
                     ga('send', 'event', '10 seconds', 'read');
                 }, 10000);
+
                 window._mfq = window._mfq || [];
                 (function () {
                     var mf = document.createElement("script");
                     mf.type = "text/javascript";
                     mf.async = true;
                     mf.src = "//cdn.mouseflow.com/projects/56872595-6055-428f-99ba-9995277fc45c.js";
+
                     document.getElementsByTagName("head")[0].appendChild(mf);
                 })();
             </script>            
