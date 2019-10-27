@@ -7,7 +7,7 @@
 <div class="page-title">
     <div class="title_right">
 
-        <h3><spring:message code="advansed.detailedEvents" arguments="${Error.getName()}"/> <fmt:formatDate timeZone="${curentuser.proxy().getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.proxy().getTimezone()}</h3>
+        <h3><spring:message code="advansed.detailedEvents" arguments="${Error.getName()}"/> <fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="Y/M/d HH:mm:ss" /> ${curentuser.getTimezone()}</h3>
     </div>
 </div>
 
@@ -71,7 +71,7 @@
                         </li>
                         <li>
                             <span class="name"> <spring:message code="errorsanalysis.time"/> </span>
-                            <span class="value text-success"><fmt:formatDate timeZone="${curentuser.proxy().getTimezone()}" value="${Error.getDate()}" pattern="HH:mm Y/M/d" /> ${curentuser.proxy().getTimezone()}</span>
+                            <span class="value text-success"><fmt:formatDate timeZone="${curentuser.getTimezone()}" value="${Error.getDate()}" pattern="HH:mm Y/M/d" /> ${curentuser.getTimezone()}</span>
                         </li>                                           
                     </ul>                
 
@@ -209,7 +209,7 @@
                         </thead>                        
                         <c:forEach items="${Rules}" var="rule" varStatus="loop">                            
                             <tr>                                
-                                <td><fmt:formatDate type="both" pattern="H:00 Y/M/d" value="${rule.getValue().getTime().getTime()}" timeZone="${curentuser.proxy().getTimezone()}" /> ${curentuser.proxy().getTimezone()}</td>                                
+                                <td><fmt:formatDate type="both" pattern="H:00 Y/M/d" value="${rule.getValue().getTime().getTime()}" timeZone="${curentuser.getTimezone()}" /> ${curentuser.getTimezone()}</td>                                
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getAvg()}"/> </td>
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getDev()}"/> </td>
                                 <td><fmt:formatNumber type="number" maxFractionDigits="3" value="${rule.getValue().getMin()}"/> </td>

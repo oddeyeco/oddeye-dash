@@ -41,7 +41,7 @@
                 <h3><spring:message code="user.consumptionMonth"/></h3>
                 <ul class="list-group">
                     <c:forEach items="${model.getConsumptionList().getConsumptionListMonth()}" var="Consumption" varStatus="loop" end="10">
-                        <li class="list-group-item <c:if test="${loop.first}">disabled</c:if>"> <fmt:formatDate type="both" pattern="YYYY/MM z" value="${Consumption.getValue().getTime().getTime()}" timeZone="${curentuser.proxy().getTimezone()}"/> <span class="badge"><fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${Consumption.getValue().getAmount()}" /> $</span><span class="badge"> ${Consumption.getValue().getCount()}</span></li>    
+                        <li class="list-group-item <c:if test="${loop.first}">disabled</c:if>"> <fmt:formatDate type="both" pattern="YYYY/MM z" value="${Consumption.getValue().getTime().getTime()}" timeZone="${curentuser.getTimezone()}"/> <span class="badge"><fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${Consumption.getValue().getAmount()}" /> $</span><span class="badge"> ${Consumption.getValue().getCount()}</span></li>    
                     </c:forEach>                          
                 </ul>                          
             </div>            
@@ -50,7 +50,7 @@
                 <h3><spring:message code="user.consumptionDays"/></h3>
                 <ul class="list-group">
                     <c:forEach items="${model.getConsumptionList().getConsumptionListDaily()}" var="Consumption" varStatus="loop" end="10">
-                        <li class="list-group-item <c:if test="${loop.first}">disabled</c:if>"> <fmt:formatDate type="both" pattern="YY/MM/dd zz" value="${Consumption.getValue().getTime().getTime()}" timeZone="${curentuser.proxy().getTimezone()}"/> <span class="badge"><fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${Consumption.getValue().getAmount()}" /> $</span><span class="badge"> ${Consumption.getValue().getCount()}</span></li>    
+                        <li class="list-group-item <c:if test="${loop.first}">disabled</c:if>"> <fmt:formatDate type="both" pattern="YY/MM/dd zz" value="${Consumption.getValue().getTime().getTime()}" timeZone="${curentuser.getTimezone()}"/> <span class="badge"><fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${Consumption.getValue().getAmount()}" /> $</span><span class="badge"> ${Consumption.getValue().getCount()}</span></li>    
                     </c:forEach>                          
                 </ul>                          
             </div>
@@ -58,7 +58,7 @@
                 <h3><spring:message code="user.consumptionHoure"/></h3>
                 <ul class="list-group">
                     <c:forEach items="${model.getConsumptionList().getConsumptionListHoure()}" var="Consumption" varStatus="loop" end="10">
-                        <li class="list-group-item <c:if test="${loop.first}">disabled</c:if>"> <fmt:formatDate type="both" pattern="HH:mm YY/MM/dd z" value="${Consumption.getValue().getTime().getTime()}" timeZone="${curentuser.proxy().getTimezone()}"/> <span class="badge"><fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${Consumption.getValue().getAmount()}" /> $</span><span class="badge">${Consumption.getValue().getCount()}</span></li>    
+                        <li class="list-group-item <c:if test="${loop.first}">disabled</c:if>"> <fmt:formatDate type="both" pattern="HH:mm YY/MM/dd z" value="${Consumption.getValue().getTime().getTime()}" timeZone="${curentuser.getTimezone()}"/> <span class="badge"><fmt:formatNumber type="number" pattern = "0.0000" maxFractionDigits="4" value=" ${Consumption.getValue().getAmount()}" /> $</span><span class="badge">${Consumption.getValue().getCount()}</span></li>    
                     </c:forEach>                          
                 </ul>                    
             </div><div class="col-md-3">

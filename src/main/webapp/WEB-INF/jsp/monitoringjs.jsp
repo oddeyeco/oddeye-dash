@@ -2,8 +2,8 @@
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
     var sotoken = ${_sotoken};
-    var uuid = "${curentuser.proxy().getId()}";
-    var filterJson = ${curentuser.proxy().getDefaultFilter()};
+    var uuid = "${curentuser.getId()}";
+    var filterJson = ${curentuser.getDefaultFilter()};
     var cp = "${cp}";
 </script> 
 <script src="${cp}/assets/js/chartsfuncs.min.js?v=${version}"></script>

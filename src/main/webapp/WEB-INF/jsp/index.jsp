@@ -148,7 +148,7 @@
                                         <li><a><i class="fa far fa-bell"></i> <spring:message code="index.monitoring"/> <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                            
                                                 <li><a href="<c:url value="/monitoring"/>"><spring:message code="index.monitoring.realTime"/></a></li>
-                                                    <c:forEach items="${curentuser.proxy().getOptionsListasObject()}" var="option">
+                                                    <c:forEach items="${curentuser.getOptionsListasObject()}" var="option">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/monitoring/${option.key}/"  htmlEscape="true"/>" title="${Dush.key}">                                                         
 
@@ -161,10 +161,10 @@
                                                 <li><a href="<c:url value="/errorsanalysis"/>"><spring:message code="index.monitoring.detailed"/></a></li>
                                             </ul>
                                         </li>                                        
-                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushList"/> (${curentuser.proxy().getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
+                                        <li><a><i class="fa fas fa-desktop"></i> <spring:message code="index.dashboardsDushList"/> (${curentuser.getDushList().size()}) <span class="fa fas fa-chevron-down"></span></a>
                                             <ul class="nav child_menu" <c:if test="${cookie['small'].value == 'true'}">style="display: none"</c:if>>                                                                                        
                                                 <li><a href="<c:url value="/dashboard/new"/>" id="newdush"><spring:message code="dashboards.newDashboard"/></a></li>
-                                                    <c:forEach items="${curentuser.proxy().getDushListasObject()}" var="Dush">
+                                                    <c:forEach items="${curentuser.getDushListasObject()}" var="Dush">
                                                     <li class="text-nowrap">
                                                         <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}">                                                         
                                                             <c:if test="${Dush.value.get(\"locked\")==true}">
@@ -257,8 +257,8 @@
                                         </a>
                                         <ul class="dropdown-menu dropdown-usermenu pull-right">
                                             <li class="">     
-                                                ${curentuser.proxy().reload()}
-                                                <c:set var="balance" value="${curentuser.proxy().getBalance()}" />
+                                                ${curentuser.reload()}
+                                                <c:set var="balance" value="${curentuser.getBalance()}" />
                                                 <c:if test="${balance>0}">
                                                     <a href="javascript:;" class="user-profile">
                                                         <spring:message code="balance"/>&nbsp;
@@ -273,7 +273,7 @@
                                             </li>                                            
                                             <li>
                                                 <a href="javascript:void(0);" class="cluser-profile" id="allowedit">
-                                                    <c:if test="${curentuser.proxy().getAlowswitch()}">
+                                                    <c:if test="${curentuser.getAlowswitch()}">
                                                         <img src="${cp}/assets/images/allowedit.png" alt="Allow Edit" width="15px">
                                                     </c:if>                                                    
                                                     <spring:message code="index.allowEdit"/>                                            
@@ -367,13 +367,13 @@
 
                     <!-- page content -->
                     <div class="right_col" role="main">                         
-                        <c:if test="${!curentuser.proxy().getActive()}">
+                        <c:if test="${!curentuser.getActive()}">
                             <div class="clearfix"></div>
                             <div class="alert alert-danger alert-dismissible fade in " role="alert">
                                 <spring:message code="index.alertNotActivate"/>
                             </div>
                         </c:if>                                         
-                        <c:if test="${curentuser.proxy().getMetricsMeta().size()==0}">
+                        <c:if test="${curentuser.getMetricsMeta().size()==0}">
                             <div class="clearfix"></div>
                             <div class="alert alert-danger alert-dismissible fade in " role="alert">                                
                                 <spring:message code="index.installAgent"/>
@@ -428,16 +428,16 @@
                 </div>                        
             </c:if>
 
-            <c:if test="${empty curentuser.proxy().getTemplate()}" >
+            <c:if test="${empty curentuser.getTemplate()}" >
                 <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
             </c:if>                        
 
-            <c:if test="${not empty curentuser.proxy().getTemplate()}" >                
+            <c:if test="${not empty curentuser.getTemplate()}" >                
                 <c:choose>
-                    <c:when test="${curentuser.proxy().getTemplate() == 'dark'}">                                        
+                    <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
                         <script src="${cp}/resources/js/themes/dark_templatevars.js?v=${version}"></script>
                     </c:when>
-                    <c:when test="${curentuser.proxy().getTemplate() == 'dark2'}">                                        
+                    <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
                         <script src="${cp}/resources/js/themes/dark2_templatevars.js?v=${version}"></script>
                     </c:when>                        
                     <c:otherwise>                      
@@ -455,8 +455,8 @@
                 var uuid;
                 var Firstlogin = false;
                 <c:if test="${not empty curentuser}">
-                    uuid = "${curentuser.proxy().getId()}";                    
-                    Firstlogin = ${curentuser.proxy().getFirstlogin()};
+                    uuid = "${curentuser.getId()}";                    
+                    Firstlogin = ${curentuser.getFirstlogin()};
                 </c:if>
 
             </script>                                         

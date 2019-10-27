@@ -5,8 +5,8 @@
     var headerName = "${_csrf.headerName}";
     var token = "${_csrf.token}";
     var sotoken = ${_sotoken};
-    var uuid = "${curentuser.proxy().getId()}";
-    var filterOldJson = ${curentuser.proxy().getDefaultFilter()};
+    var uuid = "${curentuser.getId()}";
+    var filterOldJson = ${curentuser.getDefaultFilter()};
 //    var filtersJson = {};
 
     <c:if test="${!empty defoptions}">

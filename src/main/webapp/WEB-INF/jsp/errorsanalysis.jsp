@@ -19,7 +19,7 @@
                             <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.group"/></label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <select class="form-control" name="group_item">
-                                    <c:forEach items="${curentuser.proxy().getMetricsMeta().getTagsList()}" var="tagitem">   
+                                    <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
                                         <option <c:if test="${group_item == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
                                     </c:forEach>
                                 </select>
@@ -30,7 +30,7 @@
                             <label class="col-md-12 col-sm-12 col-xs-12"><spring:message code="errorsanalysis.showTag"/></label>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <select class="form-control" name="ident_tag">
-                                    <c:forEach items="${curentuser.proxy().getMetricsMeta().getTagsList()}" var="tagitem">   
+                                    <c:forEach items="${curentuser.getMetricsMeta().getTagsList()}" var="tagitem">   
                                         <option <c:if test="${ident_tag == tagitem.key}"> selected="true" </c:if> value="${tagitem.key}" > ${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))} (${tagitem.value.size()}) </option>
                                     </c:forEach>
                                 </select>
@@ -43,7 +43,7 @@
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <select class="form-control" name="level" id="level">
                                     <option <c:if test="${level_item == -1}"> selected="true" </c:if> value="-1" > <spring:message code="errorsanalysis.custom"/> </option>  
-                                    <c:forEach items="${curentuser.proxy().getAlertLevels()}" var="level">   
+                                    <c:forEach items="${curentuser.getAlertLevels()}" var="level">   
                                         <option <c:if test="${level_item == level.key}"> selected="true" </c:if>  value="${level.key}"><spring:message code="level_${level.key}"/> </option>
                                     </c:forEach>
                                 </select>
@@ -104,16 +104,16 @@
                         <!-- start accordion -->
                         <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
 
-                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser.proxy(),minValue,minPersent,minWeight,minRecurrenceCount,minRecurrenceTimeInterval,minPredictPersent)}" />                            
+                            <c:set var="MetricsMeta" value="${ErrorsDao.getLast(curentuser,minValue,minPersent,minWeight,minRecurrenceCount,minRecurrenceTimeInterval,minPredictPersent)}" />                            
                             <c:forEach items="${MetricsMeta.getTagsList().get(group_item)}" var="showgroupmap" varStatus="loopgrups">   
                                 <c:set var="showgroup" value="${showgroupmap.getKey()}" />
                                 <c:set var="showgroup_rp" value="${fn:replace(showgroup, '.', '_')}" />
 
                                 <div class="panel">
                                     <a class="panel-heading collapsed" role="tab" id="heading${showgroup_rp}" data-toggle="collapse" data-parent="#accordion1" href="#collapse_${showgroup_rp}" aria-expanded="false" aria-controls="collapseOne">
-                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()} of ${curentuser.proxy().getMetricsMeta().getbyTag(group_item,showgroup).size()}
+                                        <h4 class="panel-title">#${loopgrups.index+1} ${group_item} ${showgroup} ${MetricsMeta.getbyTag(group_item,showgroup).size()} of ${curentuser.getMetricsMeta().getbyTag(group_item,showgroup).size()}
                                             <div class="progress"> 
-                                                <c:set var="metricpercent" value="${MetricsMeta.getbyTag(group_item,showgroup).size()*100/curentuser.proxy().getMetricsMeta().getbyTag(group_item,showgroup).size()}" />                            
+                                                <c:set var="metricpercent" value="${MetricsMeta.getbyTag(group_item,showgroup).size()*100/curentuser.getMetricsMeta().getbyTag(group_item,showgroup).size()}" />                            
                                                 <div class="progress-bar progress-bar-success" data-transitiongoal="${metricpercent}" aria-valuenow="${metricpercent}" style="width: ${metricpercent}%;"></div>
                                             </div></h4>
                                     </a>
@@ -165,11 +165,11 @@
                                                             </td>
                                                             <td class="persent"><fmt:formatNumber type="number" maxFractionDigits="3" value="${metric.getPersent_predict()}" /></td>
                                                             <td class="persent">${metric.getRecurrenceTmp()}</td>
-                                                            <td class="level_${curentuser.proxy().getAlertLevels().getErrorLevel(metric)}"><spring:message code="level_${curentuser.proxy().getAlertLevels().getErrorLevel(metric)}"/></td>
+                                                            <td class="level_${curentuser.getAlertLevels().getErrorLevel(metric)}"><spring:message code="level_${curentuser.getAlertLevels().getErrorLevel(metric)}"/></td>
                                                             <td class="time">
                                                                 <jsp:useBean id="dateValue" class="java.util.Date"/>
                                                                 <jsp:setProperty name="dateValue" property="time" value="${metric.getTimestamp()*1000}"/>
-                                                                <fmt:formatDate value="${dateValue}" pattern="MM/dd HH:mm:ss" timeZone="${curentuser.proxy().getTimezone()}"/> ${curentuser.proxy().getTimezone()}</td>
+                                                                <fmt:formatDate value="${dateValue}" pattern="MM/dd HH:mm:ss" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}</td>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>

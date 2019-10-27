@@ -37,8 +37,8 @@
 
 
     var balanse = 0;
-    <c:if test="${curentuser.proxy().getBalance()!=null}">
-    balanse = ${curentuser.proxy().getBalance()};
+    <c:if test="${curentuser.getBalance()!=null}">
+    balanse = ${curentuser.getBalance()};
     </c:if>
     var hashcode = "${hashcode}";
     var merictype = ${type};
