@@ -892,7 +892,6 @@ h5.card-header {
 }
 
 
-
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(199, 204, 204, 0.2);
 }
@@ -905,6 +904,9 @@ h5.card-header {
 .table-striped.table td {
     vertical-align: middle; 
     border-top: none; 
+}
+#datatable-responsive.table-bordered {
+    border: none;
 }
 
 @media (min-width: 992px) { 

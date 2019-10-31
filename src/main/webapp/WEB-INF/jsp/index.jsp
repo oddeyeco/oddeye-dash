@@ -60,14 +60,16 @@
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />          
             
             <c:if test="${empty curentuser.getTemplate()}" >
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />
             </c:if> 
             <c:if test="${not empty curentuser.getTemplate()}" >
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />        
                 <c:choose>
-                    <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
-                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />                   
+                    <c:when test="${curentuser.getTemplate() == 'dark'}">
+                    <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />--> 
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark.css?v=${version}" />                                          
                     </c:when>
                     <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
                         <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />
@@ -75,13 +77,10 @@
                     <c:otherwise>                      
                     </c:otherwise>                                                    
                 </c:choose>
-            </c:if>            
-
+            </c:if> 
             <c:if test="${not empty whitelabel}" >                
                 <link rel="stylesheet" href="<c:url value="${whitelabel.getFullfileName()}${whitelabel.cssfilename}?v=${version}"/>" />
-            </c:if>    
-
-
+            </c:if> 
         </head>
 
         <body class="<c:if test="${cookie['small'].value != 'true'}">nav-md</c:if> <c:if test="${cookie['small'].value == 'true'}">nav-sm</c:if>">
@@ -184,16 +183,16 @@
                                             <ul class="list-unstyled child_menu" id="managementMenu">
                                                 <sec:authorize access="hasRole('USERMANAGER')">
                                                     <li><a href="<c:url value="/userslist"/>" ><spring:message code="index.managment.users"/></a></li>
-                                                    <li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>
+                                                    <%--<li><a href="<c:url value="/cookreport"/>" ><spring:message code="index.managment.cookAREKY"/></a></li>--%>
                                                     <li><a href="<c:url value="/paymentslist"/>" ><spring:message code="index.managment.payments"/></a></li>
-                                                    <li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>
+                                                    <%--<li><a href="<c:url value="/whitelable/list"/>" ><spring:message code="index.managment.whitelabels"/></a></li>--%>
                                                     </sec:authorize>
-                                                    <sec:authorize access="hasRole('CONTENTMANAGER')">
-                                                    <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
-                                                    </sec:authorize>
+                                                    <%--<sec:authorize access="hasRole('CONTENTMANAGER')">
+                                                        <li><a href="<c:url value="/pages"/>" ><spring:message code="index.managment.content"/></a></li>
+                                                        </sec:authorize>--%>
                                                     <sec:authorize access="hasRole('USERMANAGER')">
                                                     <li><a href="<c:url value="/templatelist"/>" ><spring:message code="index.managment.templates"/></a></li>
-                                                    </sec:authorize> 
+                                                    </sec:authorize>                                                    
                                             </ul>
                                         </div>
                                     </div>
@@ -280,13 +279,13 @@
                                         <div class="dropdown-menu" aria-labelledby="menuManagement">
                                             <sec:authorize access="hasRole('USERMANAGER')">
                                                 <a class="dropdown-item" href="<c:url value="/userslist"/>"><spring:message code="index.managment.users"/></a>
-                                                <a class="dropdown-item" href="<c:url value="/cookreport"/>"><spring:message code="index.managment.cookAREKY"/></a>
+                                                <%-- <a class="dropdown-item" href="<c:url value="/cookreport"/>"><spring:message code="index.managment.cookAREKY"/></a> --%>
                                                 <a class="dropdown-item" href="<c:url value="/paymentslist"/>"><spring:message code="index.managment.payments"/></a>
-                                                <a class="dropdown-item" href="<c:url value="/whitelable/list"/>"><spring:message code="index.managment.whitelabels"/></a>
+                                                <%-- <a class="dropdown-item" href="<c:url value="/whitelable/list"/>"><spring:message code="index.managment.whitelabels"/></a> --%>
                                             </sec:authorize>
-                                            <sec:authorize access="hasRole('CONTENTMANAGER')">
+                                            <%-- <sec:authorize access="hasRole('CONTENTMANAGER')">
                                                 <a class="dropdown-item" href="<c:url value="/pages"/>"><spring:message code="index.managment.content"/></a>
-                                            </sec:authorize>
+                                            </sec:authorize> --%>
                                             <sec:authorize access="hasRole('USERMANAGER')">
                                                 <a class="dropdown-item" href="<c:url value="/templatelist"/>"><spring:message code="index.managment.templates"/></a>
                                             </sec:authorize>
@@ -303,7 +302,7 @@
                     <!-- sidebar-footer buttons -->
 
                     <div class="sidebar-footer hidden-small">
-                        <a href="<c:url value="/logout/"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' data-original-title='<spring:message code="logout"/>'>
+<!--                        <a href="<c:url value="/logout/"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="logout"/>' data-original-title='<spring:message code="logout"/>'>
                             <span class="fas fa-power-off" aria-hidden="true"></span>
                         </a>
                         <a href="" data-toggle="tooltip" data-placement="top" title='<spring:message code="fullScreen"/>' data-original-title='<spring:message code="fullScreen"/>' id="FullScreen">
@@ -314,12 +313,12 @@
                         </a>
                         <a  href="<c:url value="/monitoring"/>" data-toggle="tooltip" data-placement="top" title='<spring:message code="index.monitoring"/>' data-original-title='<spring:message code="index.monitoring"/>'>
                             <span class="fas fa-clock" aria-hidden="true"></span>
-                        </a>
+                        </a>-->
                     </div>
                 </nav>
                 <!-- ======================== Page Content =========================  -->        
                 <div id="content" class="active">
-                    <nav class="navbar navbar-expand-sm navbar-light bg-light shadow">
+                     <nav class="navbar navbar-expand-sm <c:if test="${curentuser.getTemplate()=='default'}">navbar-light bg-light</c:if> <c:if test="${curentuser.getTemplate()=='dark'}">navbar-dark</c:if> shadow">
                         <div class="container-fluid">
                             <button type="button" id="menu_toggle" class="btn btn-outline-dark">
                                 <i class="fas fa-indent"></i>
@@ -407,13 +406,13 @@
 
                         <c:if test="${!curentuser.getActive()}">
                             <div class="clearfix"></div>
-                            <div class="alert alert-danger alert-dismissible fade in " role="alert">
+                            <div class="alert alert-danger alert-dismissible fade show " role="alert">
                                 <spring:message code="index.alertNotActivate"/>
                             </div>
                         </c:if>                                         
                         <c:if test="${curentuser.getMetricsMeta().size()==0}">
                             <div class="clearfix"></div>
-                            <div class="alert alert-danger alert-dismissible fade in " role="alert">                                
+                            <div class="alert alert-danger alert-dismissible fade show " role="alert">                                
                                 <spring:message code="index.installAgent"/>
                             </div>
                         </c:if>                            
@@ -429,8 +428,7 @@
          
             <c:if test="${empty curentuser.getTemplate()}" >
                 <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
-            </c:if>                        
-
+            </c:if>
             <c:if test="${not empty curentuser.getTemplate()}" >                
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">                                        
@@ -443,10 +441,8 @@
                         <script src="${cp}/resources/js/themes/templatevars.js?v=${version}"></script>
                     </c:otherwise>                                                    
                 </c:choose>
-            </c:if>             
-
-
-
+            </c:if>
+                        
             <script>
                 var headerName = "${_csrf.headerName}";
                 var token = "${_csrf.token}";
