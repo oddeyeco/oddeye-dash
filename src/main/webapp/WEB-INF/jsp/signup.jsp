@@ -45,7 +45,7 @@
         <div class=" contactform col-lg-6 col-xs-12">               
             <form:form method="post" action="${cp}/signup/" modelAttribute="newUser" novalidate="true">            
                 <c:if test="${not empty message}" >
-                    <div class="alert alert-danger alert-dismissible fadein" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
                         </button>
                         ${message}
@@ -56,50 +56,50 @@
                 <div class="form-group">
                     <spring:message code="adminlist.email" var="ph"/>
                     <form:input path="email" cssClass="form-control" type="email" required="" placeholder="${ph} *"/>                    
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="email" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="email" />
                 </div>
                 <div class="form-group">
                     <spring:message code="adminlist.password" var="ph"/>
                     <form:input path="password" cssClass="form-control" type="password" required="" placeholder="${ph} *"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="password" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="password" />
                 </div>
                 <div class="form-group">
                     <spring:message code="adminlist.reEnterPassword" var="ph"/>
                     <form:input path="passwordsecond" cssClass="form-control" type="password" required="" placeholder="${ph} *"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="passwordsecond"  />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="passwordsecond"  />
                 </div>                
                 <div class="form-group">
                     <spring:message code="adminlist.firstName" var="ph"/>
                     <form:input path="name" cssClass="form-control" required="" placeholder="${ph} *"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="name" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="name" />
                 </div>
                 <div class="form-group">
                     <form:hidden path="lastname" cssClass="form-control" placeholder="Last Name"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="lastname" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="lastname" />
                 </div>                    
                 <div class="form-group">
                     <form:hidden path="company" cssClass="form-control" placeholder="Company name"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="company" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="company" />
                 </div>
                 <div class="form-group">
                     <form:hidden path="country" items="${countryList}" cssClass="form-control select2_country" tabindex="-1"/>                                        
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="country" />                    
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="country" />                    
                 </div>
                 <div class="form-group">
                     <form:hidden path="city" cssClass="form-control" placeholder="City" />
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="city" />                    
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="city" />                    
                 </div>
                 <div class="form-group">
                     <form:hidden path="region" cssClass="form-control" placeholder="Region"/>
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="region" />              
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="region" />              
                 </div>
                 <div class="form-group">                    
                     <form:hidden path="timezone" items="${tzone}" cssClass="form-control select2_tz" tabindex="-1"/>                                        
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="timezone" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="timezone" />
                 </div>
                 <c:if test="${dashProp.captchaOn eq 'true'}" >
                 <div class="form-group">                    
-                    <form:errors element="div" class="alert alert-danger alert-dismissible fadein" role="alert" path="recaptcha" />
+                    <form:errors element="div" class="alert alert-danger alert-dismissible fade show" role="alert" path="recaptcha" />
                     <div id="recaptcha" data-sitekey="${dashProp.captchaSiteKey}"></div>                
                     <button class="btn btn-sm btn-primary btn-block SineUp" type="submit"><spring:message code="signUp"/></button>
                 </div>

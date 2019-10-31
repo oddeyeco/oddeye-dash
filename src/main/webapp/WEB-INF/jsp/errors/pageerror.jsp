@@ -9,6 +9,6 @@
 
 <div class="x_panel">
     <h1><spring:message code="pageerror.h1"/></h1>    
-    <h2 class="alert alert-danger alert-dismissible fade in " role="alert">    
+    <h2 class="alert alert-danger alert-dismissible fade show " role="alert">    
         <spring:message code="pageerror.h2" arguments="${title},${body}"/> </h2>    
 </div>
