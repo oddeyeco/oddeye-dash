@@ -968,7 +968,7 @@ div.profile_right-table>div.x_panel {
     margin-bottom: 10px;
     padding: 10px 17px;
     display: inline-block;
-    background: #fff;
+    background-color: #fff;
     border: 1px solid #aeb3b3;
     border-radius: 6px;
     -webkit-column-break-inside: avoid;
@@ -1029,7 +1029,7 @@ div#tagsconteger.ui-sortable .draggable:hover {
     box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3);   
 }*/
 div#tagsconteger.ui-sortable {
-    padding: 10px;
+    padding: 0;
 }
 /*div#tagsconteger.ui-sortable:hover {
     border-radius: 4px;
@@ -1064,6 +1064,7 @@ div#tagsconteger.ui-sortable .draggable:hover {
 }
 div#tagsconteger.ui-sortable .draggable>label{
     margin-bottom: 2px;
+    padding: 0;
     cursor: grabbing;
     cursor: -moz-grabbing;
     cursor: -webkit-grabbing;

@@ -120,7 +120,9 @@ body.nav-md {
 .card {
     background-color: #373737;
 }
-.card-header {
+.card-header,
+.card-body.metriqs .card-header,
+.card-body.metriqs .card-footer {
     background-color: #272727;
 }
 a.gotodash,
@@ -194,8 +196,8 @@ a[aria-expanded="true"] {
 }
 input#oddeyeAmmount {
     background-color: #272727;
-    color: #d7dcdc;
-    border: #c7cccc solid 1px;
+    color: #D7DCDC;
+    border-color: #0e0e0e;
     margin-right: 2px;
 }
 
@@ -248,3 +250,87 @@ div.customTemplate .select-items {
     background-color: #373737!important;
     color: #6c757d!important;
 }
+
+/*==========  metriqs ========*/
+h5>span.badge.badge-light {
+    background-color: #545555;   
+}
+.timelinecontener .li.complete .status b {
+    color: #777e7e;
+    
+}
+/*==========  chart ========*/
+.reportrange {
+    color: #0E0E0E;
+    background: #D7DCDC;
+}
+.daterangepicker {
+    color: #d7dcdc;
+    background-color: #575757;
+}
+.daterangepicker .calendar-table {
+    border: 1px solid #212121;
+    background-color: #373737;
+}
+.daterangepicker td.active, .daterangepicker td.active:hover {
+    background-color: #212121;
+    border-color: transparent;
+    color: #d7dcdc;
+}
+.daterangepicker td.available:hover, .daterangepicker th.available:hover {
+    background-color: #575757;
+}
+.daterangepicker td.off {
+    background-color: inherit;
+}
+.ranges li {
+    background-color: #373737;
+    color: #17a2b8;
+    border: 1px solid #212121;
+}
+.ranges li:hover,
+.ranges li.active {
+    background-color: #272727;
+    border: 1px solid #17a2b8;
+    color: #d7dcdc;
+}
+
+.range_inputs button.applyBtn,
+button.applyBtn:not(:disabled):not(.disabled):active {
+    background-color: #17a2b8;
+    border: 1px solid #272727;
+    color: #0E0E0E;
+}
+.range_inputs button.applyBtn:hover {
+    background-color: #138496;
+}
+.range_inputs button.cancelBtn {
+    border: 1px solid #272727;
+    color: #0E0E0E;
+}
+/*======== infrastructure ========*/
+div.profile_right-table>div.x_panel {
+    background-color: #474747;
+    border: 1px solid #0E0E0E;
+}
+/*.form-filter.profile_left-form {
+    width: 220px;
+}*/
+div#tagsconteger.ui-sortable {
+    padding: 0px;
+}
+
+div#tagsconteger.ui-sortable .draggable {
+    background-color: #474747;
+    color: #c7cccc;
+    border-color: #0e0e0e;
+}
+div#tagsconteger.ui-sortable .draggable:hover {
+    background-color: #c7cccc;
+    color: #0e0e0e;
+    border-color: #0e0e0e;
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.6), 0 8px 12px -4px rgba(0,0,0,0.5);
+}
+
+
+
