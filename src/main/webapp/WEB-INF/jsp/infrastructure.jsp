@@ -15,19 +15,20 @@
                         <i class="fas fa-indent fa-rotate-90"></i><b class="pagetitle"><spring:message code="filter"/></b>
                     </button>
                 </div>
-                <div class="card-body row">
-                    <div class="col-lg-1 col-md-3 col-12 profile_left d-flex flex-column">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-12 profile_left d-flex flex-column">
 
                         <div class="mb-auto">
                             <form class="form-group row form-label-left form-filter profile_left-form" style="display: block;">
                                 <div class="form-group">
                                     <label class="col-form-label"><spring:message code="infrastructure.forMetric"/></label>
-                                    <div class="col-12">
+                                    <div class="col-12 px-2">
                                         <input class="form-control autocomplete-append-metric filter-input" type="text" name="metric_input" id="metric_input" tagkey="metric" value="" autocomplete="off">
                                         <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>                                                    
                                     </div>
                                     <label class="col-form-label"><spring:message code="tags"/></label>
-                                    <div id="tagsconteger" style="clear: both" class="scrollTagsContant ui-sortable">                                        
+                                    <div id="tagsconteger" style="clear: both" class="scrollTagsContant ui-sortable p-2 depthShadowLightHover">                                        
                                         <c:forEach items="${taglist}" var="tagitem">                                  
                                             <div class="form-group tag-grop draggable draggableHint" style="display: none">
                                                 <label class="col-lg-12 col-md-12 col-12">
@@ -56,10 +57,11 @@
                             </div> 
                         </div>                                
                     </div>
-                    <div class="col-lg-11 col-md-9 col-12 profile_right-table">        
+                    <div class="col-lg-10 col-md-9 col-12 profile_right-table">        
                         <div class="x_panel depthShadowDark">
                             <div id="echart_line"></div>
                         </div> 
+                    </div>
                     </div>
                 </div>
             </div>

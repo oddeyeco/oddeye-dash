@@ -214,15 +214,15 @@
                                                             <option value="Start_Time"  key="StartTime" label="Start Time"><spring:message code="startTime"/></option> 
                                                             <option value="Last_Time"  key="LastTime" label="Last Time"><spring:message code="lastTime"/></option>   
                                                             <option value="duration"  key="duration" label="Duration"><spring:message code="duration"/></option>                                                                                                    
-                                                            <option value="info"  key="info" label="Info"><spring:message code="info"/></option>                                                          
+                                                            <option value="info"  key="info" label="Info"><spring:message code="info"/></option>
+                                                            <option value="message" key="message" label="message"><spring:message code="monitorings2.displayFieldsMessage"/></option>
                                                             <optgroup label="<spring:message code="tags"/>">
                                                                 <c:forEach items="${list}" var="tagitem">   
                                                                     <c:set var="text" value="${fn:toUpperCase(fn:substring(tagitem.key, 0, 1))}${fn:toLowerCase(fn:substring(tagitem.key, 1,fn:length(tagitem.key)))}"/>                                                        
                                                                     <option value="info_tags_${tagitem.key}_value"
                                                                             key="info.tags.${tagitem.key}.value" label="Tag:${text}"> Tag:${text} (${tagitem.value.size()}) </option>
                                                                 </c:forEach>                                
-                                                            </optgroup>
-                                                            <option value="message" key="message" label="message"><spring:message code="monitorings2.displayFieldsMessage"/></option> 
+                                                            </optgroup>                                                            
                                                         </select> 
                                                     </td>
                                                 </tr>

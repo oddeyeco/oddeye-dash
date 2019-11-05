@@ -1266,6 +1266,12 @@ fieldset #options table.options th.name {
     border: 1px solid #bbbdc0;
     background-color: #d6d8db;
 }
+fieldset #options table.options td.card-fields.value .select2-selection__rendered {
+    padding: 0;
+}
+fieldset #options table.options td.card-fields.value .select2-selection__rendered>.select2-selection__choice {
+    margin: 4px;
+}
 .monitorlist li {
     list-style: none;
 }
@@ -1364,7 +1370,7 @@ fieldset #options table.options th.name {
     bottom: -14px;
 }
 #query_form_content fieldset td.card-fields {
-    padding: 20px;
+    padding: 10px;
 }
 #query_form_content fieldset td.value span {
     line-height: normal;
