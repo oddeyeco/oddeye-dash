@@ -124,11 +124,6 @@ public class AjaxControlers {
         }
 
         if (userDetails != null) {
-//            if ((userDetails.getSwitchUser() != null)) {
-//                if (userDetails.getSwitchUser().getAlowswitch()) {
-//                    userDetails = userDetails.getSwitchUser();
-//                }
-//            }
             OddeeyMetricMeta metric = null;
             if ((hash != null)) {
                 metric = userDetails.getMetricsMeta().get(hash);
@@ -153,7 +148,7 @@ public class AjaxControlers {
                 return jsonResult.toString();
             }
             try {
-                ArrayList<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
+                List<DataPoints[]> data = DataDao.getDatabyQuery(userDetails, metrics, aggregator, tags, startdate, enddate, downsample, rate);
                 Long getinterval = System.currentTimeMillis() - starttime;
                 starttime = System.currentTimeMillis();
                 if (data != null) {

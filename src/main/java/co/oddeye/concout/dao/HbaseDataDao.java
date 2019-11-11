@@ -9,6 +9,7 @@ import co.oddeye.concout.config.DatabaseConfig;
 import co.oddeye.concout.model.OddeyeUserModel;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -181,5 +182,68 @@ public class HbaseDataDao extends HbaseBaseDao {
         return null;
 
     }
+    
+    private String getCacheKey(
+            OddeyeUserModel user,
+            String metrics,
+            String aggregator,
+            String tagsquery,
+            String startDate,
+            String endDate,
+            String downsample,
+            Boolean rate) {
+        return "YYYX";
+    }
+    
+    List<DataPoints[]>  cache = null;
+    private List<DataPoints[]> getDatabyQueryCached(
+            String key) {
+        return null;
+    }
+    
+    private void putToCache(String key, List<DataPoints[]> result) {
+        cache = new ArrayList<>(result.size());
+        for(DataPoints[] dataPoints : result) {
+            DataPoints[] newDataPointsArray = new DataPoints[dataPoints.length];
+            for(int i = 0;i < dataPoints.length;i++){
+                newDataPointsArray[i] = new DataPointsImpl(dataPoints[i]);
+            }
+                    
+            cache.add(newDataPointsArray);
+        }      
+    }
+    
+    public List<DataPoints[]> getDatabyQueryCached(
+            OddeyeUserModel user,
+            String metrics,
+            String aggregator,
+            String tagsquery,
+            String startDate,
+            String endDate,
+            String downsample,
+            Boolean rate) {
+        String cacheKey = getCacheKey(user, metrics, aggregator, tagsquery, startDate, endDate, downsample, rate);
+        List<DataPoints[]> result;
+        if(null != cacheKey) {
+            result = getDatabyQueryCached(cacheKey);
+            if(null != result) {
+                List<DataPoints[]> filteredResult = new ArrayList<>(result.size());
+                for(DataPoints[] metricPoints : result) {
+                    List<DataPoints> filteredMetric = new LinkedList<>();
+                    for(DataPoints point : metricPoints) {
+//                        if(point.getT)
+                    }
+//                    filteredResult.add(metricPoints.strea);
+                }
+                return result;
+            } else {
+                result = getDatabyQuery(user, metrics, aggregator, tagsquery, startDate, endDate, downsample, rate);
+                putToCache(cacheKey, result);
+                return cache;
+            }
+        } else {
+           return getDatabyQuery(user, metrics, aggregator, tagsquery, startDate, endDate, downsample, rate);
+        }
 
+    }
 }
