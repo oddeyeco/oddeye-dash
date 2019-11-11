@@ -141,7 +141,9 @@ a.gotodash:hover {
     color: #D7DCDC;
     text-decoration: underline;
 }
-
+.shadow {
+    box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.4)!important;
+}
 .depthShadowLightHover:hover {
     background-color: #474747;
 }
@@ -312,6 +314,7 @@ button.applyBtn:not(:disabled):not(.disabled):active {
 div.profile_right-table>div.x_panel {
     background-color: #272727;
     border: 1px solid #0E0E0E;
+    box-shadow: inset 0px 0rem 0.8rem 1px rgba(0, 0, 0, 0.8);
 }
 div#tagsconteger.ui-sortable {
     padding: 0px;
@@ -385,6 +388,29 @@ input#saveas_name {
 .profile_right-table.depthShadowLight {
     background-color: #777c7c;
     color: #0e0e0e;
+    border: 1px solid #0e0e0e;
+    box-shadow: inset 0px 0rem 0.8rem 1px rgba(0, 0, 0, 0.8);
+}
+
+/* ====  Detailing Analytics ====*/ 
+form.form-row>.form-group.detailedFilter {
+    background-color: #373737;
+    color: #c7cccc;
+    border-color: #0E0E0E;
+}
+form.form-row>.form-group.detailedFilter:hover {
+    background-color: #373737;
+    color: #c7cccc;
+    border-color: #0E0E0E;
+    box-shadow: 0 4px 12px -4px rgba(0,0,0,0.6), 0 8px 12px -4px rgba(0,0,0,0.5);
+}
+.form-group.detailedFilter .custom-select  {
+    background-color: #272727!important;
+    border-color: #0e0e0e!important;
+}
+.profile_left.depthShadowLight {
+    background-color: #777c7c;
+    color: #c7cccc;
     border: 1px solid #0e0e0e;
     box-shadow: inset 0px 0rem 0.8rem 1px rgba(0, 0, 0, 0.8);
 }
