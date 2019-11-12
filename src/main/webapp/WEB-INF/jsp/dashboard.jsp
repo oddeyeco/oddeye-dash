@@ -225,10 +225,7 @@
                     </div>
                     <div class="col-6">
                         <div class="blockTimeRefreshLock form-row float-right">
-                            <div id="reportrange" class="reportrange mb-1" data-toggle="tooltip"  title="<spring:message code="dashboard.title.quickRanges"/>" data-placement="bottom" >
-                                <i class="fa fa-calendar mr-1"></i>
-                                <span></span> <b class="caret"></b>
-                            </div>                  
+                                             
                             <div id="refresh_wrap" class="mb-1">
                                 <select id="refreshtime" name="refreshtime" class="form-control query_input" data-width="100%">
                                     <option value="" selected><spring:message code="dashboard.refreshOff"/></option>
@@ -244,6 +241,10 @@
                                     <option value="86400000"><spring:message code="dashboard.refresh1d"/></option>                
                                 </select>            
                             </div>
+                            <div id="reportrange" class="reportrange mb-1" data-toggle="tooltip"  title="<spring:message code="dashboard.title.quickRanges"/>" data-placement="bottom" >
+                                <i class="fa fa-calendar mr-1"></i>
+                                <span></span> <b class="caret"></b>
+                            </div>     
                             <div class="btnFilter d-flex justify-content-between">
                                 <div id="refresh" class="reflock" data-toggle="tooltip"  title="<spring:message code="dashboard.title.refresh"/>" data-placement="bottom" >                        
                                     <i class="fas fa-sync"></i>
