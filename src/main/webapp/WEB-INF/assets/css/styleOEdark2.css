@@ -5,7 +5,7 @@
 .form-control {
     background-color: #141717!important;
     color: #c7cccc!important;
-    border-color: #777c7c!important;
+    border-color: #333838!important;
 }
 p {
     color: #575757;
@@ -230,7 +230,7 @@ a[aria-expanded="true"] {
 input#oddeyeAmmount {
     background-color: #141717;
     color: #D7DCDC;
-    border-color: #777c7c;
+    border-color: #333838;
     border-radius: .25rem;
     margin-right: 2px;
 }
@@ -264,7 +264,7 @@ span.select2-selection.select2-selection--single,
 form#userdata input {
     background-color: #141717!important;
     color: #c7cccc!important;
-    border-color: #777c7c!important;    
+    border-color: #333838!important;    
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
      color: #D7DCDC!important;
@@ -390,17 +390,17 @@ fieldset #filters .filter .defined_filter, fieldset #notifiers .defined_notifier
 }
 #options .value span.select2-selection.select2-selection--multiple,
 #filters .value span.select2-selection.select2-selection--multiple {
-    border: 1px solid #777c7c;
+    border: 1px solid #333838;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #212424!important;
-    border: 1px solid #777c7c!important;
+    border: 1px solid #333838!important;
 }
 #query_form_content fieldset input.filter-value, #query_form_content fieldset input.notifier-value {
     background-color: #141717!important;
-    border: 1px solid #777c7c!important;
-    color: #c7cccc;
+    border: 1px solid #333838!important;
+    color: #c7cccc!important;
 }
 .select2-dropdown {
     border: 1px solid #0e0e0e!important;
@@ -427,7 +427,7 @@ fieldset #options table.options {
 input#saveas_name {
     background-color: #141717!important;
     color: #D7DCDC!important;
-    border: 1px solid #777c7c!important;
+    border: 1px solid #333838!important;
 }
 .profile_right-table.depthShadowLight {
     background-color: rgba(255, 255, 255, 0.32);
@@ -458,7 +458,7 @@ form.form-row>.form-group.detailedFilter:hover {
 .form-group.detailedFilter .custom-select  {
     background-color: #141717!important;
     color: #c7cccc;
-    border: 1px solid #777c7c!important;    
+    border: 1px solid #333838!important;    
 }
 .profile_left.depthShadowLight {
     background-color: rgba(255, 255, 255, 0.2);
@@ -513,7 +513,11 @@ form.form-row>.form-group.detailedFilter:hover {
 #filter .blockTimeRefreshLock>div.btnFilter>div {
     color: #c7cccc;
     background-color:inherit;
-    border: 1px solid #777c7c;
+    border: 1px solid #333838;
+}
+.blockTimeRefreshLock>div,
+.btnFilter>div {
+    margin: 0 2px;
 }
 
 .rowcontent .chartsection>div {
@@ -595,7 +599,7 @@ nav#nav-editTab {
     font-weight: bold;
 }
 .input-group-addon {
-    border: 1px solid #777c7c;
+    border: 1px solid #333838;
 }
 .chartTitle.show ul.dropdown-menu.show>li.dropdown-submenu>ul.dropdown-menu>li:hover,
 .chartTitleDiv .chartTitle>.dropdown-menu>li:not(:first-child):hover {
@@ -606,7 +610,9 @@ nav#nav-editTab {
 .icheckbox_flat-blue {
     margin: 0 2px;
 }
-
+select.datazoom_type_width option {
+    background-color: #141717;
+}
 
 
 /* ==== json-editor ==== */ 
