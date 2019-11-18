@@ -59,7 +59,7 @@
                       <spring:message code="dashboards.availableTemplates"/>                                 
                   </h5>
                   <div class="card-body">
-                      <ul class="row list-unstyled gotodash depthShadowLightHover">
+                      <ul class="row list-unstyled gotodash py-2 depthShadowLightHover">
                           <c:forEach items="${recomend}" var="Dush" varStatus="loop">                                
                               <li class="col-xl-12">
                                   <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span> 
@@ -76,7 +76,7 @@
                       <spring:message code="dashboards.myTemplates"/>           
                   </h5>
                   <div class="card-body"> 
-                      <ul class="row list-unstyled gotodash depthShadowLightHover"> 
+                      <ul class="row list-unstyled gotodash py-2 depthShadowLightHover"> 
                           <c:forEach items="${mylasttemplates}" var="Dush" varStatus="loop">                                
                               <li class="col-12">
                                   <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash">                                    

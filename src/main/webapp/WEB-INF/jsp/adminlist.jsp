@@ -77,7 +77,7 @@
                                             </c:when>                                            
                                             <c:when test="${config.getValue().type == 'Collection'}">                                                                                
                                                 <c:forEach items="${model[config.getValue().path] }" var="item">                                               
-                                                    <span class="badge badge-success">${config.getValue().items[item]}</span><br>
+                                                    <span class="badge badge-success">${config.getValue().items[item]}</span>
                                                 </c:forEach>                                                                                                            
                                             </c:when>  
                                             <c:when test="${config.getValue().type == 'cookies'}">                                                                                
@@ -89,14 +89,14 @@
                                                         <c:set var="urlString">${fn:replace(urlString,'%3F','?')}</c:set>
                                                         <c:set var="urlString">${fn:replace(urlString,'%26','&')}</c:set>                                            
                                                         <c:set var="urlString">${fn:replace(urlString,'%2F','/')}</c:set>                                            
-                                                        <span class="badge badge-success">${item.name}=${urlString}</span><br>
+                                                        <span class="badge badge-success">${item.name}=${urlString}</span>
                                                     </c:if>
 
                                                 </c:forEach>                                                                                                            
                                             </c:when>                                             
                                             <c:when test="${config.getValue().type == 'List'}">                                                                                
                                                 <c:forEach items="${model[config.getValue().path] }" var="item">                                               
-                                                    <span class="badge badge-success">${item}</span><br>
+                                                    <span class="badge badge-success">${item}</span>
                                                 </c:forEach>                                                                                                            
                                             </c:when>                                                                                                
 
@@ -106,7 +106,7 @@
                                                 </c:if>   
 
                                                 <c:forEach items="${model.getPagelist() }" var="item">   
-                                                    <span class="badge badge-success">${item.getValue()}</span><br>
+                                                    <span class="badge badge-success">${item.getValue()}</span>
                                                 </c:forEach>                                                 
                                             </c:when>                                                                                                                                            
                                             <c:otherwise>
