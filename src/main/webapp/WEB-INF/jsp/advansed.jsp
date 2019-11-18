@@ -160,7 +160,8 @@
                                </h6>
                             </div> 
                             <div class="row justify-content-md-center justify-content-lg-start tile_count p-1">
-                                    <div class="col-6 col-lg-3 tile_stats_count">
+                                <div class="col-6 col-lg-3">
+                                    <div class="tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute1"/>
                                         </span>
@@ -170,7 +171,9 @@
                                             <spring:message code="advansed.previousMinute1"/>
                                         </span>
                                     </div>
-                                    <div class="col-6 col-lg-3 tile_stats_count">
+                                </div>
+                                <div class="col-6 col-lg-3 ">
+                                    <div class="tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute10"/></span>
                                         <div class="count spincrement">${Error.getRecurrence10m()}</div>
@@ -179,7 +182,9 @@
                                             <spring:message code="advansed.previousMinute10"/>
                                         </span>
                                     </div>
-                                    <div class="col-6 col-lg-3 tile_stats_count">
+                                </div>
+                                <div class="col-6 col-lg-3 ">
+                                    <div class="tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute20"/></span>
                                         <div class="count spincrement">${Error.getRecurrence20m()}</div>
@@ -188,7 +193,9 @@
                                             <spring:message code="advansed.previousMinute20"/>
                                         </span>
                                     </div>
-                                    <div class="col-6 col-lg-3 tile_stats_count">
+                                </div>
+                                <div class="col-6 col-lg-3 ">
+                                    <div class="tile_stats_count">
                                         <span class="count_top"><i class="fa far fa-clock"></i>
                                             <spring:message code="advansed.currentMinute30"/></span>
                                         <div class="count spincrement">${Error.getRecurrence30m()}</div>
@@ -197,6 +204,7 @@
                                             <spring:message code="advansed.previousMinute30"/>
                                         </span>
                                     </div>                        
+                                </div>                        
                             </div>
                         </div>
                     </div>                        

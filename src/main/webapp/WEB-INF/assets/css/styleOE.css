@@ -56,7 +56,7 @@ font-style: normal;
 }
 
 body {    
-    font-family: 'Inter','Ubuntu','Roboto','Lato', sans-serif;
+    font-family: 'Roboto','Inter','Ubuntu','Lato', sans-serif;
     background-color: #f0f0f0;
     font-size: 13px;
     line-height: 1.4;
@@ -623,7 +623,7 @@ a#navLogout {
     display: block;
     padding: 5px 0 0 0;    
     width: 180px;
-    background: #343a40;
+    background: inherit;
 }
 .sidebar-footer a {
     padding: 7px 0 3px;
