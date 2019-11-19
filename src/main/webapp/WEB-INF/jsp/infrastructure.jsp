@@ -28,7 +28,7 @@
                                         <div class="autocomplete-container-metric" style="position: relative; float: left; width: 400px; margin: 0px;"></div>                                                    
                                     </div>
                                     <label class="col-form-label"><spring:message code="tags"/></label>
-                                    <div id="tagsconteger" style="clear: both" class="scrollTagsContant ui-sortable p-2 depthShadowLightHover">                                        
+                                    <div id="tagsconteger" style="clear: both" class="scrollTagsContant ui-sortable p-2">                                        
                                         <c:forEach items="${taglist}" var="tagitem">                                  
                                             <div class="form-group tag-grop draggable draggableHint" style="display: none">
                                                 <label class="col-lg-12 col-md-12 col-12">

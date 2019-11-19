@@ -10,11 +10,11 @@
 
 <div class="card shadow mb-4">
     <h5 class="card-header">
-        <spring:message code="balance"/>
+        <i class="fas fa-balance-scale mr-1"></i><spring:message code="balance"/>
     </h5>
     <div class="card-body">                                
         <div class="row">
-            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 py-2 depthShadowLightHover balanceAvailable">
+            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 py-2 balanceAvailable">
                 <h6 class="count_top"><spring:message code="dashboards.available"/></h6>
                 <div class="count">
                     <c:set var="balance" value="${curentuser.getBalance()}" />
@@ -36,7 +36,7 @@
                     0                            
                 </c:if>--%>   
             </div>
-            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 tile_stats_count py-2 depthShadowLightHover Consumptions">
+            <div class="col-xl-6 col-lg-12 col-md-6 col-sm-6 col-12 tile_stats_count py-2 Consumptions">
                 <h6 class="count_top"><spring:message code="dashboards.burnRate"/></h6>
                 <c:set var="Consumption" value="${curentuser.getConsumptionList().getConsumptionListDay(0)}" />
                 <div class="count_bottom clearfix">
@@ -88,7 +88,7 @@
                 </div>                                            
             </div>
             <div class="clearfix"></div>
-            <div class="col-12 py-2 depthShadowLightHover moreunits">
+            <div class="col-12 py-2 moreunits">
                 <h6><spring:message code="dashboards.getMore"/></h6>
                 <div class="clearfix"></div>
                 <div class="float-left col-xl-6 col-lg-12 col-sm-6 od p-0">
@@ -116,7 +116,9 @@
     </div>
 </div>                       
 <div class="card shadow mb-4">
-    <h5 class="card-header"><spring:message code="payments"/></h5>
+    <h5 class="card-header">
+        <i class="fas fa-file-invoice-dollar mr-1"></i><spring:message code="payments"/>
+    </h5>
     <div class="card-body"> 
         <ul class="row list-unstyled">
             <c:forEach items="${curentuser.getPayments()}" var="payment" varStatus="loop">                                

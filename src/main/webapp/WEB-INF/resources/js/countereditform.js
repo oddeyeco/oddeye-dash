@@ -17,7 +17,7 @@ class CounterEditForm extends EditForm {
                             {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
                         ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
                                     {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
                                 ]}
                     ]};            
@@ -154,7 +154,7 @@ class CounterEditForm extends EditForm {
         
         this.tabcontent.tab_display.forms = [edit_display];//suren            
         this.tabcontent.tab_metric.forms[0].content[0].template[0].content[4].content.push({tag: "div", class: "form-group form-group-custom", content: [
-                {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.unit"], lfor: "axes_unit_y"},
+                {tag: "label", class: "control-label", text: locale["editchartform.unit"], lfor: "axes_unit_y"},
                 {tag: "select", class: "form-control axes_select", prop_key: "unit", id: "{index}_axes_unit_y", name: "axes_unit_y", key_path: 'unit', default: "", options: this.units}
             ]}, );
         this.tabcontent.tab_metric.active = true;

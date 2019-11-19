@@ -13,7 +13,7 @@
                  <%--<c:set var="group_item" value="host" />--%> 
                 <div class="col-lg-2 col-md-12 col-12 profile_left">
                     <h6><spring:message code="filter"/></h6>
-                    <form class="form-row p-3 depthShadowLightHover">
+                    <form class="form-row p-3">
                         <div class="form-group col-12 detailedFilter">
                             <label class="col-form-label"><spring:message code="errorsanalysis.group"/></label>
                             <div class="custom-select">

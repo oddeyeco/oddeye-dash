@@ -290,7 +290,7 @@ var encodeHTML = function (source) {
                             tmpname = tmpname + ":" + param.data.hname;
                         }
                         out = out + '<div class="tooltip_item"><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + param.color + '"></span>' + "<span class='item-name'>" + tmpname + '</span> : <span class="item-value">' + value + " </span></div>";
-                        var indx= +ind+1;                        
+                        var indx = +ind+1;                        
 //                        if (((indx % 25) == 0))
 //                        {
 //                            out = out + "</div>";
@@ -420,7 +420,8 @@ var encodeHTML = function (source) {
                             out = head + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                         } else
                         {
-                            out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
+                            out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name.replace("~", " : ");
+//                            out = params.seriesName + '<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.name + ' : ' + value;
                             if (params.componentSubType === "boxplot")
                             {
                                 out = params.seriesName + ' for <br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + params.data.name + ' : ' + value;

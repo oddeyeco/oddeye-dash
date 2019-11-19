@@ -13,14 +13,15 @@
           <div class="col-lg-8">
               <div class="card shadow mb-2 mb-md-4">
                   <h5 class="card-header">
-                      <spring:message code="dashboards.myDashboards"/> (${activeuser.getDushList().size()})
+                      <i class="fas fa-chart-bar mr-1"></i><spring:message code="dashboards.myDashboards"/> (${activeuser.getDushList().size()})
                       <a class="btn btn-outline-success btn-xs float-right" href="<spring:url value="/dashboard/new" htmlEscape="true"/>"><spring:message code="dashboards.newDashboard"/></a>                            
                   </h5>                           
                   <div class="card-body">
-                      <ul class="row gotodash p-1 p-sm-2 depthShadowLightHover">                            
+                      <ul class="row gotodash p-1 p-sm-2">                            
                           <c:forEach items="${activeuser.getDushListasObject()}" var="Dush" varStatus="loop">                                
                               <li class=" col-6 col-sm-6 col-md-4 col-lg-4">
-                                  <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}" class="gotodash text-truncate">
+                                  <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" class="gotodash text-truncate">
+<!--                                  <a href="<spring:url value="/dashboard/${Dush.key}"  htmlEscape="true"/>" title="${Dush.key}" class="gotodash text-truncate">-->
                                       <c:if test="${Dush.value.get(\"locked\")==true}">
                                           &nbsp; <i class="fa fas fa-lock"></i>
                                       </c:if>                                                               
@@ -35,8 +36,8 @@
                   </div>
               </div>
               <div class="card shadow mb-2 mb-md-4">
-                  <h5 class="card-header">
-                      <spring:message code="dashboards.statistic"/>
+                  <h5 class="card-header">                      
+                      <i class="fas fa-tasks mr-1"></i><spring:message code="dashboards.statistic"/>
                       <a id="Get_Agent" class="btn btn-outline-success btn-xs float-right ml-2" href="<spring:url value="https://github.com/oddeyeco/"  htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.getAgent"/></a>
                       <a id="Agent_Guide" class="btn btn-outline-success btn-xs float-right" href="<spring:url value="https://www.oddeye.co/documentation/puypuy/puypuy/" htmlEscape="true"/>" target="_blank"><spring:message code="dashboards.guideAgent"/></a>
                   </h5>
@@ -56,10 +57,10 @@
               </c:if>                       
               <div class="card shadow mb-4">
                   <h5 class="card-header">
-                      <spring:message code="dashboards.availableTemplates"/>                                 
+                      <i class="fas fa-clipboard-list mr-1"></i><spring:message code="dashboards.availableTemplates"/>                                 
                   </h5>
                   <div class="card-body">
-                      <ul class="row list-unstyled gotodash py-2 depthShadowLightHover">
+                      <ul class="row list-unstyled gotodash py-2">
                           <c:forEach items="${recomend}" var="Dush" varStatus="loop">                                
                               <li class="col-xl-12">
                                   <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash"> <span> 
@@ -73,10 +74,10 @@
                       </ul>                  
                   </div>
                   <h5 class="card-header">
-                      <spring:message code="dashboards.myTemplates"/>           
+                      <i class="fas fa-clipboard-list mr-1"></i><spring:message code="dashboards.myTemplates"/>           
                   </h5>
                   <div class="card-body"> 
-                      <ul class="row list-unstyled gotodash py-2 depthShadowLightHover"> 
+                      <ul class="row list-unstyled gotodash py-2"> 
                           <c:forEach items="${mylasttemplates}" var="Dush" varStatus="loop">                                
                               <li class="col-12">
                                   <a href="<spring:url value="/template/${Dush.getStKey()}"  htmlEscape="true"/>" class="gotodash">                                    

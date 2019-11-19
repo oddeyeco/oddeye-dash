@@ -33,7 +33,7 @@ class StatusEditForm extends EditForm {
                             {tag: "select", class: "form-control dimensions_input", prop_key: "size", id: "dimensions_span", name: "dimensions_span", key_path: 'size', default: "", options: this.spanoptions}
                         ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "label", class: "control-label", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
+                                    {tag: "label", class: "control-label control-label-custom", text: locale["countereditform.columnSpan"], lfor: "dimensions_span"},
                                     {tag: "select", class: "form-control dimensions_input", prop_key: "col", id: "dimensions_col", name: "dimensions_col", key_path: 'col', default: "", options: this.spanoptions}
                                 ]}
                     ]};            

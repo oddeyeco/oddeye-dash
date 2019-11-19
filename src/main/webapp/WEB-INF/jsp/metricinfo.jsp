@@ -11,7 +11,7 @@
     (<span class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></span>)
 </h6>
 
-<div class="row justify-content-lg-start tile_count p-1 p-xl-2 rounded-0 depthShadowLightHover">
+<div class="row justify-content-lg-start tile_count p-1 p-xl-2 rounded-0">
     <div class="col-xl-3 col-sm-4 col-6">
         <div class="tile_stats_count p-1 p-xl-2">
         <span class="count_top"><i class="fa fa-list"></i>&#160;<spring:message code="metricNames"/></span>
@@ -42,7 +42,7 @@
     (<span class="count" id="tags"><img src="${cp}/assets/images/loading.gif" height='50px'></span>)
 </h6>
 <!-- // generation from "metricinfo.js" -->
-<div class="row justify-content-lg-start tile_count p-1 p-xl-2 depthShadowLightHover" id="tagslist"></div> 
+<div class="row justify-content-lg-start tile_count p-1 p-xl-2" id="tagslist"></div> 
 
 <!--//Vex
 http://joaopereirawd.github.io/animatedModal.js/-->

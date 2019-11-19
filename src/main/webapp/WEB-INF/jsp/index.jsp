@@ -320,7 +320,7 @@
                 <!-- ======================== Page Content =========================  -->        
                 <div id="content" class="active">
                      <nav class="navbar navbar-expand-sm <c:if test="${curentuser.getTemplate()=='default'}">navbar-light bg-light</c:if> <c:if test="${curentuser.getTemplate()=='dark'}">navbar-dark</c:if> shadow">
-                        <div class="container-fluid">
+                        <div class="container-fluid pl-0">
                             <button type="button" id="menu_toggle" class="btn btn-outline-dark">
                                 <i class="fas fa-indent"></i>
                                 <b class="pagetitle"> ${htitle} </b>
