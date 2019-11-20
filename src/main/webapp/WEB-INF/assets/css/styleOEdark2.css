@@ -690,4 +690,9 @@ table.jsoneditor-search div.jsoneditor-results,
 table.jsoneditor-search input {
     color: #c7cccc!important;
 }
-
+div.jsoneditor-contextmenu ul li button.jsoneditor-selected,
+div.jsoneditor-contextmenu ul li button.jsoneditor-selected:focus,
+div.jsoneditor-contextmenu ul li button.jsoneditor-selected:hover {
+    color: #fff;
+    background-color: #777c7c;
+}

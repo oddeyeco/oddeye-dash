@@ -10,7 +10,7 @@
 
 <div class="card shadow mb-4">
     <h5 class="card-header">
-        <i class="fas fa-balance-scale mr-1"></i><spring:message code="balance"/>
+        <i class="fas fa-balance-scale fa-sm mr-1"></i><spring:message code="balance"/>
     </h5>
     <div class="card-body">                                
         <div class="row">
@@ -117,7 +117,7 @@
 </div>                       
 <div class="card shadow mb-4">
     <h5 class="card-header">
-        <i class="fas fa-file-invoice-dollar mr-1"></i><spring:message code="payments"/>
+        <i class="fas fa-hand-holding-usd ml-1"></i><spring:message code="payments"/>
     </h5>
     <div class="card-body"> 
         <ul class="row list-unstyled">

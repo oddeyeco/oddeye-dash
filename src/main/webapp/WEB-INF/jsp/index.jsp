@@ -68,9 +68,8 @@
                 <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />        
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">
-                    <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme.css?v=${version}" />--> 
-<!--                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark.css?v=${version}" />                                          -->
-                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark2.css?v=${version}" />                                          
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark.css?v=${version}" />                                          
+                        <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark2.css?v=${version}" />-->                                          
                     </c:when>
                     <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
                         <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />
