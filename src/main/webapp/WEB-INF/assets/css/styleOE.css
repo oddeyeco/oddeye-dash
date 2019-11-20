@@ -1326,12 +1326,6 @@ fieldset #options table.options td.card-fields.value .select2-selection__rendere
     box-shadow: 0 0.1rem 0.1rem 0px rgba(0, 0, 0, 0.5);
     clear: both;
 }
-/*.monitorlist li ul li .icons .fa-bell {
-    color: #c60200;
-}
-.monitorlist li ul#speciallist .info.name {
-    background-color: #c60200;
-}*/
 .monitorlist li ul li .icons .fa-bell {
     color: #9d0d0b;
 }
@@ -1339,55 +1333,44 @@ fieldset #options table.options td.card-fields.value .select2-selection__rendere
     background-color: #9d0d0b;    
     color: #ffdf00;
 }
-/*.monitorlist .level_0 {
-        background-color: #f8f8f8;
-}*/
+
 .monitorlist .level_0 {
         background-color: #9f9f9f;
 }
 .monitorlist .level_0 .metricname {
         background-color: #6f6f6f;
 }
-/*.monitorlist .level_1 {
-        background-color: #d8d8d8;
-}*/
 .monitorlist .level_1 {
         background-color: #7cc2aa;
 }
 .monitorlist .level_1 .metricname {
         background-color: #30886d;
 }
-/*.monitorlist .level_2 {
-        background-color: #c8c8c8;
-}*/
 .monitorlist .level_2 {
         background-color: #779dcc;
 }  
 .monitorlist .level_2 .metricname{
         background-color: #436999;
 }  
-/*.monitorlist .level_3 {
-        background-color: #c0ffff;
-} */
 .monitorlist .level_3 {
         background-color: #ffee60;
 } 
 .monitorlist .level_3 .metricname {
         background-color: #ffdf00;
 } 
-/*.monitorlist .level_4 {
-        background-color: #ffffc0;
-} */
 .monitorlist .level_4 {
         background-color: #fe7700;
 }  
-/*.monitorlist .level_5 {
-        background-color: #f0666c;
-        font-weight: bold;
-}  */
+.monitorlist .level_4 .metricname {
+        background-color: #fe6900;
+}  
 .monitorlist .level_5 {
         background-color: #df0000;
         font-weight: bold;
+}  
+.monitorlist .level_5 .metricname {
+        background-color: #9d0d0b;
+        color: #ffee60;
 }  
 .monitorlist .level_-1 {
         background-color: #c0ffc0;

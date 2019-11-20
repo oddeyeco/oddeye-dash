@@ -80,7 +80,7 @@ class EditForm {
                                 contenttab.find('#' + form.id + ' .form_main_block').append('<h5><label class="control-label" >' + form.label.text + '</label></h5>');
                                 if (form.label.checker)
                                 {
-                                    contenttab.find('#' + form.id + ' .form_main_block h3').append('<div class="checkbox" style="display: inline-block">' +
+                                    contenttab.find('#' + form.id + ' .form_main_block h5').append('<div class="checkbox" style="display: inline-block">' +
                                             '<' + form.label.checker.tag + ' type="' + form.label.checker.type + '" class="' + form.label.checker.class + '" prop_key="' + form.label.checker.prop_key + '" id="' + form.label.checker.id + '" name="' + form.label.checker.name + '"' + '" key_path="' + form.label.checker.key_path + '" /> ' +
                                             '</div>');
                                     checked = this.getvaluebypath(form.label.checker.key_path, form.label.checker.default);
