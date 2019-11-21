@@ -172,7 +172,7 @@
                 </div>        
                 <div class="float-right">                   
                     <div class="btn-group blockSaveJsonRowDelete">                
-                        <div class="btn-group" role="group">
+                        <div class="btn-group btn-group-sm" role="group">
                             <button class="btn btn-outline-dark savedash" type="button" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.saveDash"/>">
                                 <i class="fa far fa-save"></i>
                             </button>
@@ -184,7 +184,7 @@
                                 <a class="dropdown-item savedashasTemplate"><spring:message code="dashboard.saveAsTemplate"/></a>
                             </div>
                         </div>
-                        <div class="btn-group" role="group">
+                        <div class="btn-group btn-group-sm" role="group">
                             <button class="btn btn-outline-dark" id="showasjson" type="button" data-toggle="tooltip" data-placement="top" title="<spring:message code="dashboard.title.viewDashJSON"/>">
                                 <i class="fa fa-edit"></i>
                             </button>
