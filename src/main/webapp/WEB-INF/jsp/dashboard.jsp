@@ -112,7 +112,7 @@
                         <h3></h3>
                     </button>
                     
-                    <ul class="dropdown-menu p-1 shadow">
+                    <ul class="dropdown-menu shadow">
                         <li class="dolock hide-single">
                             <div class="btn-group resize" role="group">
                                 <button class="btn btn-outline-dark plus col-6" type="button" data-toggle="tooltip" data-placement="left" title="Span +"><i class="fa fa-search-plus"></i></button>
@@ -142,7 +142,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><hr class="border-danger my-1"></li>                        
+                        <li><hr class="border-danger my-0"></li>                      
                         <li class="dolock hide-single">
                             <a class="deletewidget" data-toggle="tooltip" data-placement="top" title="Delete chart"><i class="fa fa-trash"></i><spring:message code="dashboard.chart.remove"/></a>
                         </li>

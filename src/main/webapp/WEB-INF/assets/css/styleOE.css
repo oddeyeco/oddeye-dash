@@ -1359,7 +1359,7 @@ fieldset #options table.options td.card-fields.value .select2-selection__rendere
         background-color: #ffdf00;
 } 
 .monitorlist .level_4 {
-        background-color: #fe7700;
+        background-color: #ff8800;
 }  
 .monitorlist .level_4 .metricname {
         background-color: #fe6900;
@@ -1431,13 +1431,13 @@ span.selection {
     box-shadow: inset -1px 1px 8px rgba(23, 162, 184, 0.5);
 }
 
-
-
-/*#draggableHint {
+/*
+#draggableHint {
     width: 100px;
     height: 100px;
     background: #27562f;
-  }*/
+  }
+*/
 
 /*==== Status ====*/
 #metricStatus.level_Severe {
@@ -1553,6 +1553,7 @@ span.selection {
     transform: translate3d(-50%, 26px, 0) !important;
     min-width: 110px;
     max-width: 110px;
+    padding: 2px;
     font-size: 13px;
     line-height: 1.5;    
     z-index: 1000;
@@ -1564,7 +1565,7 @@ span.selection {
     left: 100%;    
     right: auto;
     margin-left: 4px;
-    padding: .2rem;
+    padding: 2px;
 }
 
 /*==== edit dash ====*/
