@@ -258,7 +258,7 @@ input#oddeyeAmmount {
 .balanceAvailable .count,
 .tile_stats_count>.row>.count,
 .tile_stats_inside>.row>.count {
-/*    color: #ffdea2;*/
+/*    color: #f0660f;*/
     color: #f0660f;
 }
 /*====  profile  ====*/
@@ -596,7 +596,7 @@ table.metrictable td,
 #singlewidget .chartTitleDiv .chartTitle>.dropdown-menu>li,
 .rowcontent .chartsection .chartTitleDiv .dropdown-menu>li {
     background-color: #333838;
-    color: #ffdea2;
+    color: #f0660f;
     border: 1px solid #242727;
 }
 #singlewidget .chartTitleDiv .dropdown-menu .dropdown-submenu .dropdown-menu>li>a>i,
