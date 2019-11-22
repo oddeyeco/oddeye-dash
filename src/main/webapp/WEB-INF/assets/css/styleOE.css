@@ -1443,6 +1443,9 @@ span.selection {
 #singlewidget {
     color: #0e0e0e;
 }
+#metricStatus {
+    font-weight: bold;
+}
 #metricStatus.level_Severe { 
     background-color: #df0000;  
 }
@@ -1457,6 +1460,16 @@ span.selection {
     /*background-color: #34a34a;*/
     background-color: #67cc7d;
 }
+#metricStatus.level_Severe .metricname {
+    background-color: #9d0d0b;
+}
+#metricStatus.level_High .metricname {
+    background-color: #fe6900;
+}
+#metricStatus.level_OK .metricname {
+    background-color: #34a34a;
+}
+
 .tile_count #metricStatus.tile_stats_count {
     height: 146px!important;
     margin: 0;
@@ -1471,17 +1484,21 @@ span.selection {
     transition: all 0.3s cubic-bezier(.24,.43,.6,.43);
 }
 #metricStatus .metricname {
-    border: 1px solid #aeb3b3;
     padding: 5px;
     margin-bottom: 5px;
-    text-align: center;
+    text-align: center;    
+    font-size: 14px;
+    background-color: #343a40;
+    color: #efefef;
+    border: none;
     border-radius: 5px;
-    background-color: #c7cccc;
-    color: #343a40;
     clear: both;
+    box-shadow: 0 0.1rem 0.1rem 0px rgba(0, 0, 0, 0.5);
 }
-#metricStatus h6.alias2 {
-
+#metricStatus .tags,
+#metricStatus .alias2 {
+    font-weight: bold;
+    font-size: 16px;
 }
 #metricStatus hr {
     margin-top: .2rem;
@@ -1491,6 +1508,10 @@ span.selection {
 }
 #metricStatus .text-wrap.message {
     border-top: 1px solid #0e0e0e;
+}
+#metricStatus .level {
+    border: none;
+    box-shadow: 0 0.1rem 0.2rem 0px #000000;
 }
 /* ==== Counter====*/
 #metricCounter.tile-stats.tile_stats_count {
