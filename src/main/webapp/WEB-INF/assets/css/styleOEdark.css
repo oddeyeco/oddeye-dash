@@ -686,19 +686,31 @@ table.metrictable td,
     font-weight: bold;
 }
 #metricStatus .metricname {
-    border: 1px solid #c7cccc;
+    border: none;
     font-size: 14px;
-    background-color: #73879c;
+    background-color: #343a40;
     color: #efefef;
     clear: both;
+    box-shadow: 0 0.1rem 0.1rem 0px rgba(0, 0, 0, 0.5);
 }
+#metricStatus.level_Severe .metricname {
+    background-color: #9d0d0b;
+}
+#metricStatus.level_High .metricname {
+    background-color: #fe6900;
+}
+#metricStatus.level_OK .metricname {
+    background-color: #34a34a;
+}
+
 #metricStatus .tags,
 #metricStatus .alias2 {
     font-weight: bold;
     font-size: 16px;
 }
 #metricStatus .level {
-    border: 1px solid #c7cccc;
+    border: none;
+    box-shadow: 0 0.1rem 0.2rem 0px #000000;
 }
 /* ==== counterWidget====*/
 #metricCounter.tile-stats .count{

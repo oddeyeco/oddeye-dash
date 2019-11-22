@@ -1454,8 +1454,8 @@ span.selection {
     background-color: #ffee60;  
 }
 #metricStatus.level_OK {
-    background-color: #34a34a;
-/*    background-color: #67cc7d;*/
+    /*background-color: #34a34a;*/
+    background-color: #67cc7d;
 }
 .tile_count #metricStatus.tile_stats_count {
     height: 146px!important;
