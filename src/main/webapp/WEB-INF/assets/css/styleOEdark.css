@@ -669,7 +669,7 @@ table.metrictable td,
 }
 /* ==== statusWidget====*/
 
-#metricStatus.level_OK {
+/*#metricStatus.level_OK {
      background-color: #93c47d;    
 }
 #metricStatus.level_Severe {
@@ -680,7 +680,7 @@ table.metrictable td,
 }
 #metricStatus.level_Elevated {
     background-color: #c0ffff;
-}
+}*/
 
 #metricStatus {
     font-weight: bold;

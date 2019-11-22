@@ -1341,10 +1341,10 @@ fieldset #options table.options td.card-fields.value .select2-selection__rendere
         background-color: #6f6f6f;
 }
 .monitorlist .level_1 {
-        background-color: #7cc2aa;
+        background-color: #67cc7d;
 }
 .monitorlist .level_1 .metricname {
-        background-color: #30886d;
+        background-color: #34a34a;
 }
 .monitorlist .level_2 {
         background-color: #779dcc;
@@ -1440,17 +1440,22 @@ span.selection {
 */
 
 /*==== Status ====*/
-#metricStatus.level_Severe {
-    background-color: #f0666c;  
+#singlewidget {
+    color: #0e0e0e;
+}
+#metricStatus.level_Severe { 
+    background-color: #df0000;  
 }
 #metricStatus.level_High {
-    background-color: #ffbd44;  
+    background-color: #ff8800;
 }
 #metricStatus.level_Elevated {
-    background-color: #73879c;  
+/*    background-color: #73879c;  */
+    background-color: #ffee60;  
 }
 #metricStatus.level_OK {
-    background-color: #67cc7d;  
+    background-color: #34a34a;
+/*    background-color: #67cc7d;*/
 }
 .tile_count #metricStatus.tile_stats_count {
     height: 146px!important;
