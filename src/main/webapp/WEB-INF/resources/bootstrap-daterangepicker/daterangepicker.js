@@ -118,8 +118,8 @@
                 '</div>' +
                 '<div class="ranges">' +
                     '<div class="range_inputs">' +
-                        '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
-                        '<button class="cancelBtn btn-secondary" type="button"></button>' +
+                        '<button class="applyBtn mr-2" disabled="disabled" type="button"></button> ' +
+                        '<button class="cancelBtn btn-outline-secondary" type="button"></button>' +
                     '</div>' +
                 '</div>' +
             '</div>';

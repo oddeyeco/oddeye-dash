@@ -320,7 +320,7 @@
                 <div id="content" class="active">
                      <nav class="navbar navbar-expand-sm <c:if test="${curentuser.getTemplate()=='default'}">navbar-light bg-light</c:if> <c:if test="${curentuser.getTemplate()=='dark'}">navbar-dark</c:if> shadow">
                         <div class="container-fluid pl-0">
-                            <button type="button" id="menu_toggle" class="btn btn-outline-dark">
+                            <button type="button" id="menu_toggle" class="btn btn-sm btn-outline-dark">
                                 <i class="fas fa-indent"></i>
                                 <b class="pagetitle"> ${htitle} </b>
                             </button>
@@ -339,7 +339,7 @@
                                         </li>    
                                     </sec:authorize>                                                                             
                                     <li class="nav-item">
-                                        <div class="btn-group">
+                                        <div class="btn-group btn-group-sm">
                                             <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                                                                     
                                             <sec:authorize var="isImpersonated" access="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')" />
                                             <c:choose>
@@ -387,17 +387,19 @@
                                             </ul>
                                         </div>
                                     </li>
-                                    <li>
-                                        <a href="https://www.oddeye.co/documentation/" class="btn btn-outline-dark ml-1" role="button" target="_blank" data-toggle="tooltip" data-original-title="Documentation" id="navInfo">
+                                    <li class="nav-item">
+                                        <a href="https://www.oddeye.co/documentation/" class="btn btn-sm btn-outline-dark ml-1" role="button" target="_blank" data-toggle="tooltip" data-original-title="Documentation" id="navInfo">
                                             <i class="fa fas fa-info "></i>  
                                             <span></span>
                                         </a>  
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="<c:url value="/logout/"/>" class="btn btn-sm btn-outline-dark ml-1" data-toggle="tooltip" data-placement="bottom" data-original-title='<spring:message code="logout"/>' id="navLogout">
+                                            <span class="fas fa-power-off" aria-hidden="true"></span>
+                                        </a>
+                                    </li>
                                 </ul>
-                            </div>
-                            <a href="<c:url value="/logout/"/>" class="btn btn-outline-dark ml-1" data-toggle="tooltip" data-placement="bottom" data-original-title='<spring:message code="logout"/>' id="navLogout">
-                                <span class="fas fa-power-off" aria-hidden="true"></span>
-                            </a>                
+                            </div>                                            
                         </div>
                     </nav>
                     <!-- ========================== Right_Col ========================  -->

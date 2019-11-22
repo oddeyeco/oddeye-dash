@@ -342,7 +342,35 @@ h5>span.badge.badge-light {
 .daterangepicker:after {
     border-bottom: 6px solid #333838;
 }
+
+.daterangepicker.dropdown-menu select.monthselect,
+.daterangepicker.dropdown-menu select.yearselect,
+.daterangepicker .daterangepicker_input select.hourselect,
+.daterangepicker .daterangepicker_input select.minuteselect {
+    font-size: 14px;
+    background-color: #141717;    
+    border: 1px solid #777c7c;
+    color: #f0660f;
+}
+.daterangepicker select.monthselect,
+.daterangepicker.dropdown-menu select.yearselect {
+    margin-right: 2%;
+    width: auto;
+}
+.daterangepicker.dropdown-menu select.monthselect,
+.daterangepicker .daterangepicker_input select.hourselect {
+    border-radius: 4px 0 0 4px;    
+}
+.daterangepicker.dropdown-menu select.yearselect,
+.daterangepicker .daterangepicker_input select.minuteselect {
+    border-radius: 0 4px 4px 0;
+}
+.calendar-time {
+    color: #f0660f;
+}
+
 .daterangepicker .calendar-table {
+    font-size: 13px;
     border: 1px solid #212121;
     background-color: #212424;
 }
@@ -358,15 +386,18 @@ h5>span.badge.badge-light {
     background-color: inherit;
 }
 .ranges li {
+    font-size: 0.8rem;    
     background-color: #212424;
     color: #f0660f;
     border: 1px solid #212121;
+    margin-bottom: 6px;
+    padding: 2px 8px;
 }
 .ranges li:hover,
 .ranges li.active {
     background-color: #272727;
-    border: 1px solid #f0660f;
     color: #d7dcdc;
+    border: 1px solid #f0660f;
 }
 
 button.applyBtn:not(:disabled):not(.disabled):active {
@@ -376,8 +407,8 @@ button.applyBtn:not(:disabled):not(.disabled):active {
 }
 
 .range_inputs button.cancelBtn {
-    border: 1px solid #272727;
-    color: #0E0E0E;
+    border: 1px solid #777c7c;
+    color: #c7cccc;
 }
 /*======== infrastructure ========*/
 div.profile_right-table>div.x_panel {
