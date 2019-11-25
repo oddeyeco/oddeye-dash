@@ -6,6 +6,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <link rel="stylesheet" type="text/css" href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}"/>
+
 <div id="saveModal" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
 
@@ -15,12 +16,12 @@
                     <spring:message code="dashboard.Modal.successfullySaved"/></h5>
                 <button type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true">&times;</span>
-                </button>
-                
+                </button>                
             </div>
         </div>
     </div>
 </div>
+                
 <div id="lockConfirm" class="modal fade" tabindex="-1">
     <div class="modal-dialog ">
         <div class="modal-content">
@@ -104,7 +105,11 @@
                         <a href="#" class="chartSubText hoverShow"></a>
                 </div>
                 <div class="chartTime wrap">
-                    <div class="borderRadius"><span class="echart_time_icon"><i class="fa far fa-clock"></i></i></span></div>
+                    <div class="borderRadius">
+                        <span class="echart_time_icon">
+                            <i class="fa far fa-clock"></i>
+                        </span>
+                    </div>
                     <span class="echart_time hoverShow"></span>
                 </div>
                 <div class="chartTitle btn-group">

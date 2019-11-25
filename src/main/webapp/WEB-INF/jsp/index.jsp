@@ -43,12 +43,12 @@
             <!-- iCheck -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/_all.css?v=${version}" />        
             <!-- bootstrap-progressbar -->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css?v=${version}" />            
+            <!--<link rel="stylesheet" type="text/css" href="${cp}/resources/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css?v=${version}" />-->            
             <!-- Bootstrap Colorpicker -->
             <link href="${cp}/resources/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css?v=${version}" rel="stylesheet" />
             <link href="${cp}/resources/cropper/dist/cropper.min.css?v=${version}" rel="stylesheet" /> 
             <!-- Select2 -->
-<!--            <link href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}" rel="stylesheet">-->
+            <!--<link href="${cp}/resources/select2/dist/css/select2.min.css?v=${version}" rel="stylesheet">-->
             <!-- Bootstrap bootstrap-daterangepicker -->
             <link href="${cp}/resources/bootstrap-daterangepicker/daterangepicker.css?v=${version}" rel="stylesheet"> 
             <!-- Jsoneditor -->
