@@ -46,7 +46,7 @@ class CounterEditForm extends EditForm {
                     {tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.alias"], lfor: "titlebackground-color"},
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "titlebackground-color", id: "titlebackground-color", name: "titlebackground-color", key_path: 'title.textStyle.background-color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -55,7 +55,7 @@ class CounterEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.aliasSecondary"], lfor: "subtextbackground-color"},
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "subtextbackground-color", id: "subtextbackground-color", name: "subtextbackground-color", key_path: 'title.subtextStyle.background-color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -64,7 +64,7 @@ class CounterEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom120-left", text: locale["editchartform.value"], lfor: "valuebackground-color"},
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "valuebackground-color", id: "valuebackground-color", name: "valuebackground-color", key_path: 'valueStyle.background-color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -73,7 +73,7 @@ class CounterEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom120-left", text: locale["editchartform.unit"], lfor: "unitbackground-color"},
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "unitbackground-color", id: "unitbackground-color", name: "unitbackground-color", key_path: 'unitStyle.background-color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -82,7 +82,7 @@ class CounterEditForm extends EditForm {
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
                                     {tag: "label", class: "control-label control-label-custom120-left", text: locale["countereditform.box"], lfor: "background-color"},
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "background-color", id: "background-color", name: "background-color", key_path: 'style.background-color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -98,7 +98,7 @@ class CounterEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "titlefont-color", id: "titlefont-color", name: "titlefont-color", key_path: 'title.textStyle.color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -106,7 +106,7 @@ class CounterEditForm extends EditForm {
                                         ]}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "subtextfont-color", id: "subtextfont-color", name: "subtextfont-color", key_path: 'title.subtextStyle.color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -114,7 +114,7 @@ class CounterEditForm extends EditForm {
                                         ]}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "valuefont-color", id: "valuefont-color", name: "valuefont-color", key_path: 'valueStyle.color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -122,7 +122,7 @@ class CounterEditForm extends EditForm {
                                         ]}
                                 ]},
                             {tag: "div", class: "form-group form-group-custom", content: [
-                                    {tag: "div", class: "titile_input_midle", content: [
+                                    {tag: "div", class: "title_input_midle", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "unitfont-color", id: "unitfont-color", name: "unitfont-color", key_path: 'unitStyle.color', default: ""},
                                                     {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}

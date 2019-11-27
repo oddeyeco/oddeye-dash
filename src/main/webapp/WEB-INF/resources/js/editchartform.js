@@ -540,14 +540,14 @@ class BaseChartEditForm extends EditForm {
             {tag: "div", id: "color_block", style: "display: none;", content: [{
                         tag: "div", class: "form-group form-group-custom", id: "title_color", content: [
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.border"], lfor: "title_border_color"},
-                            {tag: "div", class: "titile_input_midle", content: [
+                            {tag: "div", class: "title_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                         ]}
                                 ]},
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.background"], lfor: "title_background_color"},
-                            {tag: "div", class: "titile_input_midle", content: [
+                            {tag: "div", class: "title_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "title_background_color", name: "title_background_color", key_path: 'title.style.backgroundColor', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -559,14 +559,14 @@ class BaseChartEditForm extends EditForm {
 
                     {tag: "div", class: "form-group form-group-custom ", content: [
                             {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_name_color"},
-                            {tag: "div", class: "titile_input_midle", content: [
+                            {tag: "div", class: "title_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "TitleColor", id: "title_name_color", name: "title_name_color", key_path: 'title.style.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                         ]}
                                 ]},
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.description"], lfor: "title_description_color"},
-                            {tag: "div", class: "titile_input_midle", content: [
+                            {tag: "div", class: "title_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "descriptioncolor", id: "title_description_color", name: "title_description_color", key_path: 'title.subtextStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -579,16 +579,16 @@ class BaseChartEditForm extends EditForm {
             {tag: "div", id: "border_block", style: "display: none;", content: [{
                         tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.color"], lfor: "title_border_color"},
-                            {tag: "div", class: "titile_input_midle", content: [
+                            {tag: "div", class: "title_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                         ]}
                                 ]},
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.width"], lfor: "title_border_width"},
-                            {tag: "div", class: "titile_input_midle2", content: [
+                            {tag: "div", class: "title_input_midle2", content: [
                                     {tag: "div", class: "input-group", content: [
-                                            {tag: "input", type: "number", class: "form-control titile_input_midle", prop_key: "borderWidth", id: "title_border_width", name: "title_border_width", key_path: 'title.style.borderWidth', default: ""}
+                                            {tag: "input", type: "number", class: "form-control title_input_midle", prop_key: "borderWidth", id: "title_border_width", name: "title_border_width", key_path: 'title.style.borderWidth', default: ""}
                                         ]}
                                 ]}
                         ]
@@ -625,7 +625,7 @@ class BaseChartEditForm extends EditForm {
                     {tag: "div", class: "form-group  ", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Ycolor"], lfor: "axes_color_y"},
 
-                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                            {tag: "div", class: "title_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
                                             {tag: "input", type: "text", class: "form-control ", prop_key: "ycolor", id: "{index}_ycolor", name: "ycolor", key_path: 'axisLine.lineStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -732,7 +732,7 @@ class BaseChartEditForm extends EditForm {
                     {tag: "div", class: "form-group ", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Xcolor"], lfor: "axes_color_x"},
 
-                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                            {tag: "div", class: "title_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
                                             {tag: "input", type: "text", class: "form-control axes_select ", prop_key: "xcolor", id: "{index}_xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -1102,7 +1102,7 @@ class BaseChartEditForm extends EditForm {
                             {tag: "div", class: "form-group form-group-custom typegauge", content: [
                                     {tag: "label", class: "control-label control-label-custom120 typegauge", text: locale["editchartform.color"], lfor: "detailColor"},
 
-                                    {tag: "div", class: "titile_input_midle typegauge", content: [
+                                    {tag: "div", class: "title_input_midle typegauge", content: [
                                             {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
 
                                                     {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "detailColor", name: "detailColor", key_path: 'detail.color', default: ""},
@@ -1428,7 +1428,7 @@ class HmEditForm extends BaseChartEditForm {
                     {tag: "div", class: "form-group  ", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Ycolor"], lfor: "axes_color_y"},
 
-                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                            {tag: "div", class: "title_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
                                             {tag: "input", type: "text", class: "form-control ", prop_key: "ycolor", id: "{index}_ycolor", name: "ycolor", key_path: 'axisLine.lineStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -1475,7 +1475,7 @@ class HmEditForm extends BaseChartEditForm {
                     {tag: "div", class: "form-group ", content: [
                             {tag: "label", class: "control-label control-label-custom-legend", text: locale["editchartform.Xcolor"], lfor: "axes_color_x"},
 
-                            {tag: "div", class: "titile_input_midle axes_select ", content: [
+                            {tag: "div", class: "title_input_midle axes_select ", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input hasdublicatepath", content: [
                                             {tag: "input", type: "text", class: "form-control axes_select ", prop_key: "xcolor", id: "{index}_xcolor", name: "xcolor", key_path: 'axisLine.lineStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}

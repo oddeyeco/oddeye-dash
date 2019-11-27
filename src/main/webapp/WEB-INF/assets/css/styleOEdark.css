@@ -12,7 +12,6 @@
 }
 .form-control {
     background-color: #141717!important;
-/*    color: #c7cccc!important;*/
     color: #f0660f!important;
     border-color: #333838!important;
 }
@@ -91,9 +90,6 @@ table#datatable-responsive>tbody>tr>td {
 .modal-content {
     background-color: #212424;
 }
-/*.modal-body {
-    background-color: #212424;
-}*/
 #modall1 table>tbody>tr>td,
 #modall2 table>tbody>tr>td:not(.icons) {
     color: #f0660f;
@@ -124,10 +120,7 @@ table#datatable-responsive>tbody>tr>td {
 body,
 body.nav-sm ,
 body.nav-md {
-    /*background-color: #141717;*/
-/*    background-color: #212424;*/
     background-color: #242727;
-    /*color: #D7DCDC;*/
     color: #c7cccc;
 }
 .nav-sm #sidebar,
@@ -135,7 +128,6 @@ body.nav-md {
     background-color: #0e0e0e;
     color: #D7DCDC;
 }
-
 #content nav.navbar-dark {
     background-color: #141717;
     color: #D7DCDC;
@@ -172,12 +164,6 @@ a.gotodash:hover {
     background-color: #242727;
     box-shadow: inset 0px 0rem 0.8rem 1px rgba(0, 0, 0, 0.8);
 }
-/*.gotodash.depthShadowLightHover:hover a.gotodash {
-    background-color: #333838;  
-}
-.tile_count.depthShadowLightHover:hover .tile_stats_count {
-     background-color: #333838;
-}*/
 .btn-outline-dark {
     color: #c7cccc;
     border-color: #777c7c;
@@ -202,7 +188,6 @@ a.gotodash:hover {
 .show>.btn-light.dropdown-toggle:focus {
     box-shadow: none;
 }
-
 #sidebarMenu.accordion>.card .card-body>ul>li>a:hover,
 #sidebar ul li a:hover,
 div#sidebar-menu .card-header a:hover {
@@ -249,7 +234,6 @@ a[aria-expanded="true"] {
 }
 input#oddeyeAmmount {
     background-color: #141717;
-/*    color: #D7DCDC;*/
     color: #f0660f;
     border-color: #333838;
     border-radius: .25rem;
@@ -262,9 +246,6 @@ input#oddeyeAmmount {
     color: #f0660f;
 }
 /*====  profile  ====*/
-div#nav-tabContent {
-/*    background-color: #272727;*/
-}
 .nav-tabs .nav-item.show .nav-link,
 .nav-tabs .nav-link.active {
     background-color: #212424;
@@ -289,12 +270,10 @@ span.select2-selection.select2-selection--single,
 .custom-select.customTemplate,
 form#userdata input {
     background-color: #141717!important;
-    /*color: #c7cccc!important;*/
     color: #f0660f!important;
     border-color: #333838!important;    
 }
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-/*     color: #D7DCDC!important;*/
      color: #f0660f!important;
 }
 
@@ -303,9 +282,6 @@ form#userdata input {
     color: #D7DCDC!important;
     border: 1px solid #777c7c!important;
 }
-/*span.select2-results ul.select2-results__options {
-    background-color: #474747!important;
-}*/
 div.customTemplate .select-items {
     background-color: #c7cccc!important;
     color: #0e0e0e;
@@ -368,7 +344,6 @@ h5>span.badge.badge-light {
 .calendar-time {
     color: #f0660f;
 }
-
 .daterangepicker .calendar-table {
     font-size: 13px;
     border: 1px solid #212121;
@@ -399,13 +374,11 @@ h5>span.badge.badge-light {
     color: #d7dcdc;
     border: 1px solid #f0660f;
 }
-
 button.applyBtn:not(:disabled):not(.disabled):active {
     background-color: #17a2b8;
     border: 1px solid #272727;
     color: #0E0E0E;
 }
-
 .range_inputs button.cancelBtn {
     border: 1px solid #777c7c;
     color: #c7cccc;
@@ -431,7 +404,6 @@ div#tagsconteger.ui-sortable .draggable:hover {
     border-color: #0E0E0E;
     box-shadow: 0 4px 12px -4px rgba(0,0,0,0.6), 0 8px 12px -4px rgba(0,0,0,0.5);
 }
-
 /*=========  Real-Time Monitor ==========*/
 .all_filter h5.card-header,
 .machine_filter h5.card-header, 
@@ -443,9 +415,6 @@ fieldset #filters .filter .defined_filter, fieldset #notifiers .defined_notifier
     box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.4);
     transition: all 0.2s cubic-bezier(.24,.43,.6,.43);
 }
-/*#query_form_content fieldset td.value span {
-    background-color: #141717;
-}*/
 #options .value span.select2-selection.select2-selection--multiple,
 #filters .value span.select2-selection.select2-selection--multiple {
     background-color: #141717;
@@ -460,7 +429,6 @@ fieldset #filters .filter .defined_filter, fieldset #notifiers .defined_notifier
 #query_form_content fieldset input.filter-value, #query_form_content fieldset input.notifier-value {
     background-color: #141717!important;
     border: 1px solid #333838!important;
-/*    color: #c7cccc!important;*/
     color: #f0660f!important;
 }
 .select2-dropdown {
@@ -470,7 +438,6 @@ span.select2-results ul.select2-results__options,
 span.select2-results ul#select2-allfilter-results,
 span.select2-results ul#select2-mlfilter-results,
 span.select2-results ul#select2-manualfilter-results {
-/*    background-color: #474747!important;*/
     color: #0e0e0e;
 }
 .select2-container--default span.select2-results .select2-results__option[aria-disabled=true] {
@@ -487,7 +454,6 @@ fieldset #options table.options {
 }
 input#saveas_name {
     background-color: #141717!important;
-/*    color: #D7DCDC!important;*/
     color: #f0660f!important;
     border: 1px solid #333838!important;
 }
@@ -564,7 +530,6 @@ table.metrictable td,
 .card.fulldash .card .card-header {
     background-color: #212424;
 }
-
  .blockSaveJsonRowDelete,
  .blockCounterHeatmapChartJsonDelete {
     background-color: inherit;
@@ -593,7 +558,6 @@ table.metrictable td,
 .btnFilter>div {
     margin: 0 2px;
 }
-
 .rowcontent .chartsection>div {
     background-color: #212424;
     border: 1px solid #0e0e0e;
@@ -602,14 +566,12 @@ table.metrictable td,
 .rowcontent .chartsection .chartTitleDiv {
     background-color: inherit;
 }
-
 #singlewidget .chartTitleDiv .chartTitle>.dropdown-toggle,
 .rowcontent .chartsection .chartTitleDiv .chartTitle>.dropdown-toggle {
     color: #c7cccc;
     background-color: rgba(14, 14, 14, 0.24);
     border: none;
 }
-
 .depthShadowChartsection:hover {
     background-color: #242727!important;
 }
@@ -634,11 +596,6 @@ table.metrictable td,
 .rowcontent .chartsection .chartTitleDiv .dropdown-menu>li>a>i,
 .chartTitleDiv a.jsonsave>span {
     color: #c7cccc;
-}
-.btn-outline-dark.minus,
-.btn-outline-dark.plus {
-/*    color: #c7cccc;
-    border-color: #c7cccc;*/
 }
 .btn-outline-dark.minus:hover,
 .btn-outline-dark.plus:hover {
@@ -668,20 +625,6 @@ table.metrictable td,
     border: 1px solid #0e0e0e;
 }
 /* ==== statusWidget====*/
-
-/*#metricStatus.level_OK {
-     background-color: #93c47d;    
-}
-#metricStatus.level_Severe {
-    background-color: #ffc0c0;
-}
-#metricStatus.level_High {
-    background-color: #ffffc0;
-}
-#metricStatus.level_Elevated {
-    background-color: #c0ffff;
-}*/
-
 #metricStatus {
     font-weight: bold;
 }

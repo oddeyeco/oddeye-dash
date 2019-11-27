@@ -60,19 +60,21 @@
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />          
             
             <c:if test="${empty curentuser.getTemplate()}" >
-                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />
-                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />
+                <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />-->
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/styleOE.css?v=${version}" />                
+                <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />-->
             </c:if> 
             <c:if test="${not empty curentuser.getTemplate()}" >
-                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />        
-                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />        
+                <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/maindash.css?v=${version}" />-->
+                <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/styleOE.css?v=${version}" />        
+                <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOE.css?v=${version}" />-->        
                 <c:choose>
                     <c:when test="${curentuser.getTemplate() == 'dark'}">
-                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark.css?v=${version}" />                                          
-                        <!--<link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark2.css?v=${version}" />-->                                          
+<!--                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/styleOEdark.css?v=${version}" />                                          -->
+                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_themeOE.css?v=${version}" />                                         
                     </c:when>
                     <c:when test="${curentuser.getTemplate() == 'dark2'}">                                        
-                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />
+<!--                        <link rel="stylesheet" type="text/css" href="${cp}/assets/css/dash/dark_theme2.css?v=${version}" />-->
                     </c:when>                        
                     <c:otherwise>                      
                     </c:otherwise>                                                    

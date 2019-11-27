@@ -63,7 +63,7 @@ class StatusEditForm extends EditForm {
                     {tag: "div", class: "form_main_block depthShadowLightHover p-2", content: [
                           {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.alias"], lfor: "titlebackground-color"},     
-                            {tag: "div", class: "titile_input_midle", content: [                                    
+                            {tag: "div", class: "title_input_midle", content: [                                    
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "titlefont-color", id: "titlefont-color", name: "titlefont-color", key_path: 'title.textStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
@@ -72,7 +72,7 @@ class StatusEditForm extends EditForm {
                         ]},
                     {tag: "div", class: "form-group form-group-custom", content: [
                             {tag: "label", class: "control-label control-label-custom120-left", text: locale["editform.aliasSecondary"], lfor: "subtextbackground-color"},
-                            {tag: "div", class: "titile_input_midle", content: [                                    
+                            {tag: "div", class: "title_input_midle", content: [                                    
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "subtextfont-color", id: "subtextfont-color", name: "subtextfont-color", key_path: 'title.subtextStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
