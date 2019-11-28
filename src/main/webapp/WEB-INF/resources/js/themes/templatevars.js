@@ -26,5 +26,3 @@ var gauge_detail_color = '#494949';
 
 var icheckbox_flat_clr = 'icheckbox_flat-grey';
 var iradio_flat_clr = 'iradio_flat-grey';
-//var icheckbox_flat_clr = 'icheckbox_flat-green';
-//var iradio_flat_clr = 'iradio_flat-green';

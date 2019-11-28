@@ -13,28 +13,28 @@
 <div class="card shadow">    
     <div class="card-body">  
     <div class="profile_left">
-        <div class="row tile_count mb-2 rounded-0 depthShadowLightHover">
-            <div class="col-lg-2 col-sm-4 col-6 tile_stats_count">
+        <div class="row tile_count mb-2 rounded-0">
+            <div class="col-lg-2 col-sm-4 col-6 mr-1 tile_stats_count">
                 <span class="count_top"><i class="fa fa-list"></i> <spring:message code="metricNames"/></span>
                 <div class="count" id="metrics"><img src="${cp}/assets/images/loading.gif" height='50px' ></div>                   
             </div>                                                
-            <div class="col-lg-2 col-sm-4 col-6 tile_stats_count">
+            <div class="col-lg-2 col-sm-4 col-6 mr-1 tile_stats_count">
                 <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="totalTags"/></span>
                 <div class="count" id="tags"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                 <span class="count_bottom">&nbsp;</span>
             </div>                                                
-            <div class="col-lg-2 col-sm-4 col-6 tile_stats_count">
+            <div class="col-lg-2 col-sm-4 col-6 mr-1 tile_stats_count">
                 <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="metrics"/></span>
                 <div class="count" id="count"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                 <span class="count_bottom">&nbsp;</span>
             </div>                                                          
-            <div class="col-lg-2 col-sm-4 col-6 tile_stats_count">
+            <div class="col-lg-2 col-sm-4 col-6 mr-1 tile_stats_count">
                 <span class="count_top"><i class="fa fa-folder"></i> <spring:message code="user.uniqueTags"/></span>
                 <div class="count" id="uniqtagscount"><img src="${cp}/assets/images/loading.gif" height='50px'></div>
                 <span class="count_bottom">&nbsp;</span>
             </div>            
         </div>
-        <div class="row tile_count rounded-0 depthShadowLightHover" id="tagslist"></div>
+        <div class="row tile_count rounded-0" id="tagslist"></div>
         
         <div id="listtablediv" class="row raw">
             <div class="col-lg-3 depthShadowLightHover">

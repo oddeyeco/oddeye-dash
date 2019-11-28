@@ -25,5 +25,5 @@ var gauge_detail_color = '#fff';
 
 // iCheck
 
-var icheckbox_flat_clr = 'icheckbox_flat-blue';
-var iradio_flat_clr = 'iradio_flat-blue';
+var icheckbox_flat_clr = 'icheckbox_flat-grey';
+var iradio_flat_clr = 'iradio_flat-grey';
