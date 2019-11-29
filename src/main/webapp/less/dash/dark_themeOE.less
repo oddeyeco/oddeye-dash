@@ -435,6 +435,30 @@ ul#sidebarSmallMenu {
         }
     }
 }
+.select2-container--default {
+    span.select2-results {
+        .select2-results__option[aria-disabled=true] {
+            color: #ffffff !important;
+        }
+    }
+    .select2-results__option[aria-selected=true] {
+        background-color: #c7cccc !important;
+        color: #ffffff !important;
+    }
+    .select2-results__option--highlighted[aria-selected] {
+        background-color: #343a40 !important;
+        color: #efefef !important;
+        border-radius: 4px !important;
+        box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3) !important;
+    }
+    .select2-selection--multiple {
+        background-color: #141717 !important;
+        border: 1px solid #333838 !important;
+        .select2-selection__clear {
+            color: #f0660f !important;
+        }
+    }
+}
 .select-items {
     div {
         &:hover {
@@ -461,6 +485,7 @@ input#oddeyeAmmount {
     border-color: #333838;
     border-radius: .25rem;
     margin-right: 2px;
+    padding-left: 2px;
 }
 .balanceAvailable {
     .count {
@@ -1188,10 +1213,7 @@ nav#nav-editTab {
 .input-group-addon {
     border: 1px solid #333838;
 }
-/*.icheckbox_flat-blue,
-.iradio_flat-blue {
-    margin: 0 2px;
-}*/
+
 .icheckbox_flat-grey,
 .iradio_flat-grey {
     margin: 0 2px;
@@ -1233,6 +1255,18 @@ table.jsoneditor-search {
         color: #c7cccc !important;
     }
 }
+table#datatable {
+    >tbody {
+        >tr {
+            >td.level {
+                div {
+                    color: #777c7c;
+                    border: 1px solid #333838;
+                }
+            }            
+        }
+    }
+}
 div.jsoneditor-contextmenu {
     ul {
         li {
@@ -1259,3 +1293,34 @@ div.jsoneditor-contextmenu {
 .list-group-item {
     background-color: #333838;
 }
+
+  /*==== Managment checkboxes ====*/ 
+input#Recomended1,  
+input#mailconfirm1,  
+input#firstlogin1,  
+input#active1,  
+input#alowswitch1,
+input#unlimit1 {
+    -webkit-appearance: none;
+    background-color: #141717;
+    border: 1px solid #333838;
+}
+input#Recomended1:checked:after,
+input#mailconfirm1:checked:after,
+input#firstlogin1:checked:after,
+input#active1:checked:after,
+input#alowswitch1:checked:after,
+input#unlimit1:checked:after {
+    color: #f0660f;
+}
+input#Recomended1:checked, 
+input#mailconfirm1:checked, 
+input#firstlogin1:checked, 
+input#active1:checked, 
+input#alowswitch1:checked,
+input#unlimit1:checked {
+    background-color: #141717;
+    border: 1px solid #333838;
+    color: #f0660f;
+}
+

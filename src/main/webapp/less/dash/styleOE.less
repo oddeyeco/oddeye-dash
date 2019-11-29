@@ -581,6 +581,7 @@ span#select2-refreshtime_private-container.select2-selection__rendered {
 }
 input#global-down-sample {
     padding: .2rem .7rem;
+    margin-bottom: 1px;
 }
 .custom-select.customTemplate {
     padding: .2rem .7rem;
@@ -599,28 +600,6 @@ input#global-down-sample {
         }
         .select2-selection__rendered {
             line-height: 26px;
-        }
-    }
-    span.select2-results {
-        .select2-results__option[aria-disabled=true] {
-            color: #ffffff !important;
-        }
-    }
-    .select2-results__option[aria-selected=true] {
-        background-color: #c7cccc !important;
-        color: #ffffff !important;
-    }
-    .select2-results__option--highlighted[aria-selected] {
-        background-color: #343a40 !important;
-        color: #efefef !important;
-        border-radius: 4px !important;
-        box-shadow: 0 4px 12px -4px rgba(0,0,0,0.4), 0 8px 12px -4px rgba(0,0,0,0.3) !important;
-    }
-    .select2-selection--multiple {
-        background-color: #141717 !important;
-        border: 1px solid #333838 !important;
-        .select2-selection__clear {
-            color: #f0660f !important;
         }
     }
 }
@@ -2701,6 +2680,16 @@ span.selection {
         }
     }
 }
+.blockTimeRefreshLock {
+    >div {
+        margin: 0 2px;
+    }
+}
+.btnFilter {
+    >div {
+        margin: 0 2px;
+    }
+}
 .blockSaveJsonRowDelete {
     background-color: #ffffff;
     border-radius: .25rem;
@@ -4089,4 +4078,50 @@ i[data-toggle="tooltip"] {
             width: 150px;
         }
     }
+}
+/*==== Managment checkboxes ====*/ 
+input#Recomended1,  
+input#mailconfirm1,  
+input#firstlogin1,  
+input#active1,  
+input#alowswitch1,
+input#unlimit1 {
+    -webkit-appearance: none;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    padding: 18px;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+}
+input#Recomended1:checked:after,
+input#mailconfirm1:checked:after,
+input#firstlogin1:checked:after,
+input#active1:checked:after,
+input#alowswitch1:checked:after,
+input#unlimit1:checked:after {
+    content: '\2714';
+    font-size: 28px;
+    position: absolute;
+    top: 0;
+    left: 8px;
+    color: #343a40;
+}
+input#Recomended1:checked, 
+input#mailconfirm1:checked, 
+input#firstlogin1:checked, 
+input#active1:checked, 
+input#alowswitch1:checked,
+input#unlimit1:checked {
+    background-color: #c7cccc;
+    border: 1px solid #777c7c;
+    color: #343a40;
+}
+input#Recomended1:active, input#Recomended1:checked:active,
+input#mailconfirm1:active, input#mailconfirm1:checked:active,
+input#firstlogin1:active, input#firstlogin1:checked:active,
+input#active1:active, input#active1:checked:active,
+input#alowswitch1:active, inputalowswitch1:checked:active,
+input#unlimit1:active, input#unlimit1:checked:active {
+	box-shadow: inset 0px 0px 3px 2px rgb(51, 56, 56);
 }

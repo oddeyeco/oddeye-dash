@@ -269,11 +269,11 @@
                         <include>font-awesome/fontawesome.less</include>
                         <include>font-awesome/solid.less</include>
                         <include>font-awesome/regular.less</include>
-                        <include>font-awesome/brands.less</include>                        
+                        <include>font-awesome/brands.less</include>                   
                         <include>main.less</include>
-                        <include>dash/maindash.less</include>                        
+                        <!--<include>dash/maindash.less</include>-->                      
                         <include>dash/styleOE.less</include>                        
-                        <include>dash/dark_theme.less</include>
+                        <!--<include>dash/dark_theme.less</include>-->
                         <include>dash/dark_themeOE.less</include>
                     </includes>
                 </configuration>

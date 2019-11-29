@@ -113,8 +113,8 @@
                         </c:if>
                     </label>
                     <div class="col-lg-5 col-md-6 col-12">
-                        <spring:message code="${config.getValue().title}" var="placeholderTitle"/>
-                        <form:checkbox path="${config.getValue().path}" cssClass="form-control" placeholder="${placeholderTitle} "/><%--${config.getValue().title}--%>                            
+                        <spring:message code="${config.getValue().title}" var="placeholderTitle"/>                         
+                        <form:checkbox path="${config.getValue().path}" cssClass="" placeholder="${placeholderTitle} "/><%--${config.getValue().title}--%>                           
                         <form:errors path="${config.getValue().path}" />
                     </div>
                 </div>  
