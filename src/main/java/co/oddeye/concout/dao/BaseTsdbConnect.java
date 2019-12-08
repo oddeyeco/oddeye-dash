@@ -40,6 +40,9 @@ public final class BaseTsdbConnect {
             openTsdbConfig.overrideConfig("tsd.core.auto_create_metrics", config.getTsdbAutoCreateMetrics());
             openTsdbConfig.overrideConfig("tsd.storage.enable_compaction", config.getTsdbEnableCompaction());
             openTsdbConfig.overrideConfig("tsd.storage.hbase.data_table", config.getTsdbDataTable());
+            
+            openTsdbConfig.overrideConfig("tsd.rollups.config", config.getTsdRollupsConfig());
+            
             openTsdbConfig.overrideConfig("tsd.storage.hbase.uid_table", config.getTsdbUidTable());
             this.tsdb = new TSDB(
                     this.getClient(),
