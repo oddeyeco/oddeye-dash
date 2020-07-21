@@ -2625,13 +2625,13 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             }
             if (getParameterByName('metrics', uri))
             {
-                chart.showLoading("default", {
-                    text: '',
-                    color: colorPalette[colorPalette.length - 1],
-                    textColor: '#000',
-                    maskColor: 'rgba(255, 255, 255, 0)',
-                    zlevel: 0
-                });
+//                chart.showLoading("default", {
+//                    text: '',
+//                    color: colorPalette[colorPalette.length - 1],
+//                    textColor: '#000',
+//                    maskColor: 'rgba(255, 255, 255, 0)',
+//                    zlevel: 0
+//                });
                 $(chart._dom).parent().find('.error').remove();
                 if (prevuri !== uri)
                 {
