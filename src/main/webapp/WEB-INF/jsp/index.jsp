@@ -39,7 +39,7 @@
             <!-- Font Awesome -->
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/solid.css?v=${version}" />
             <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/regular.css?v=${version}" />
-            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />
+            <link rel="stylesheet" type="text/css" href="${cp}/assets/css/font-awesome/fontawesome.css?v=${version}" />            
             <!-- iCheck -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/iCheck/skins/flat/_all.css?v=${version}" />        
             <!-- bootstrap-progressbar -->
@@ -52,11 +52,10 @@
             <!-- Bootstrap bootstrap-daterangepicker -->
             <link href="${cp}/resources/bootstrap-daterangepicker/daterangepicker.css?v=${version}" rel="stylesheet"> 
             <!-- Jsoneditor -->
-            <link href="${cp}/resources/jsoneditor/dist/jsoneditor.min.css?v=${version}" rel="stylesheet" type="text/css">
-            <!-- Custom Theme Style -->
-            <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />
+            <link href="${cp}/resources/jsoneditor/dist/jsoneditor.min.css?v=${version}" rel="stylesheet" type="text/css">        
             <!-- DataTables bootstrap4 -->
             <link href="${cp}/resources/dataTablesBS4/css/dataTables.bootstrap4.min.css?v=${version}" rel="stylesheet"> 
+            <!-- Switchery -->
             <link rel="stylesheet" type="text/css" href="${cp}/resources/switchery/dist/switchery.min.css?v=${version}" />          
             
             <c:if test="${empty curentuser.getTemplate()}" >

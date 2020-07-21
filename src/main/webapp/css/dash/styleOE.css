@@ -97,282 +97,75 @@ span {
   margin-right: 2px;
   margin-left: 2px;
 }
-.col {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-1 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-10 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-11 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-12 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-2 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-3 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-4 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-5 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-6 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-7 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-8 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-9 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-auto {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-1 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-10 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-11 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-12 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-2 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-3 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-4 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-5 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-6 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-7 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-8 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-9 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-lg-auto {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-1 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-10 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-11 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-12 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-2 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-3 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-4 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-5 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-6 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-7 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-8 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-9 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-md-auto {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-1 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-10 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-11 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-12 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-2 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-3 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-4 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-5 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-6 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-7 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-8 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-9 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-sm-auto {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-1 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-10 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-11 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-12 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-2 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-3 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-4 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-5 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-6 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-7 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-8 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
-.col-xl-9 {
-  padding-right: 8px;
-  padding-left: 8px;
-}
+.col,
+.col-1,
+.col-10,
+.col-11,
+.col-12,
+.col-2,
+.col-3,
+.col-4,
+.col-5,
+.col-6,
+.col-7,
+.col-8,
+.col-9,
+.col-auto,
+.col-lg,
+.col-lg-1,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-lg-auto,
+.col-md,
+.col-md-1,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-md-auto,
+.col-sm,
+.col-sm-1,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-sm-auto,
+.col-xl,
+.col-xl-1,
+.col-xl-10,
+.col-xl-11,
+.col-xl-12,
+.col-xl-2,
+.col-xl-3,
+.col-xl-4,
+.col-xl-5,
+.col-xl-6,
+.col-xl-7,
+.col-xl-8,
+.col-xl-9,
 .col-xl-auto {
   padding-right: 8px;
   padding-left: 8px;
@@ -1389,227 +1182,6 @@ fieldset #options table.options td.card-fields.value .select2-selection__rendere
 .spec {
   font-weight: bold;
 }
-/*
-.monitorlist
-{
-    li,
-    ul
-    {
-        list-style: none;
-        padding: 0;
-        margin: 0;                
-    }
-    li
-    {
-        ul
-        {
-            li
-            {
-                &.selected{
-                    box-shadow: none;
-                    border: inset;
-                }                                
-                .icons
-                {
-                    .fa {
-                        margin: 2px;
-                    }
-                    .fa-bell
-                    {
-                        color: red;
-                    }                                        
-                    text-align: right;
-                    margin: -3px -3px 0;
-                    font-size: 16px;
-
-                }
-                .inline
-                {
-                    display: inline-block;
-                    margin: 0 5px 0 0;
-                }
-                .level
-                {
-                    font-size: 13px;                    
-                    margin-bottom: 2px;
-                }
-                .badge
-                {
-                    margin-bottom: 2px
-                }                
-                .metricname
-                {
-                    a{                        
-                        padding: 5px;
-                        margin: -5px;                        
-                    }
-                    border: 1px solid #d5d5d5;                    
-                    padding: 5px;
-                    margin-bottom: 5px;
-                    text-align: center;
-                    border-radius: 5px;
-                    background-color: #e4e4e4;  
-                    clear: both;
-                }
-
-                .message,                
-                {
-                    white-space: initial;
-                    font-style: italic;                    
-                    border-top: 1px solid #d5d5d5;                    
-                    margin-top: 5px;                        
-
-                }
-                .valueinfo
-                {
-                    border-bottom: 1px solid #d5d5d5;
-                    font-size: 20px;                 
-                }            
-                flex: 1; 
-                list-style: none;
-                padding: 5px;
-                border: solid 1px #d5d5d5;                    
-                border-radius: 5px;
-                margin: 3px;
-                word-wrap: break-word;
-                text-align: left;
-                white-space: nowrap;
-                cursor: pointer;
-                position: relative;      
-                -webkit-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
-                -moz-box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);
-                box-shadow: 2px 2px 2px 0px rgba(138,138,138,1);          
-            }            
-
-            &#regularlist
-            {
-
-            }   
-            &#speciallist 
-            {
-                .info.name
-                {
-                    border-color: #73879C;
-                    background-color: #73879C;  
-                    color: #e4e4e4;                          
-                }
-
-            }              
-            display: flex;                    
-            flex-direction: row;
-            align-items: stretch;
-            flex-wrap: wrap;
-        }
-
-        list-style: none;                    
-    }    
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.monitorlist {
-    li {
-        list-style: none;
-        ul {
-            display: flex;
-            flex-direction: row;
-            align-items: stretch;
-            flex-wrap: wrap;
-            li {
-                position: relative;
-                flex: 1;
-                list-style: none;
-                margin: 3px;
-                padding: 8px;
-                border: solid 1px #aeb3b3;
-                border-radius: 5px;
-                word-wrap: break-word;
-                text-align: left;
-                white-space: nowrap;
-                cursor: pointer;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-                transition: all 0.2s cubic-bezier(.24,.43,.6,.43);
-                .icons {
-                    text-align: right;
-                    margin: -3px -3px 0;
-                    font-size: 16px;
-                    .fa-bell {
-                        color: #9d0d0b;
-                    }
-                }
-                .level {
-                    font-size: 13px;
-                    margin-bottom: 2px;
-                }
-                .inline {
-                    display: inline-block;
-                    margin: 0 5px 5px 0;
-                }
-                .metricname {
-                    border: none;
-                    padding: 5px;
-                    margin-bottom: 5px;
-                    text-align: center;
-                    border-radius: 5px;
-                    box-shadow: 0 0.1rem 0.1rem 0px rgba(0, 0, 0, 0.5);
-                    clear: both;
-                }
-            }
-            li.selected {
-                border: 1px solid rgba(0, 0, 0, 0.5);
-                box-shadow: inset 0px 0px 2px 1px rgba(0, 0, 0, 0.4), inset 0px 0px 8px 4px rgba(0, 0, 0, 0.3);
-            }
-        }
-        ul#speciallist {
-            .info.name {
-                background-color: #9d0d0b;
-                color: #ffdf00;
-            }
-        }
-    }
-    .level_0 {
-        background-color: #9f9f9f;
-        .metricname {
-            background-color: #6f6f6f;
-        }
-    }
-    .level_1 {
-        background-color: #67cc7d;
-        .metricname {
-            background-color: #34a34a;
-        }
-    }
-    .level_2 {
-        background-color: #779dcc;
-        .metricname {
-            background-color: #436999;
-        }
-    }
-    .level_3 {
-        background-color: #ffee60;
-        .metricname {
-            background-color: #ffdf00;
-        }
-    }
-    .level_4 {
-        background-color: #ff8800;
-        .metricname {
-            background-color: #fe6900;
-        }
-    }
-    .level_5 {
-        background-color: #df0000;
-        font-weight: bold;
-        .metricname {
-            background-color: #9d0d0b;
-            color: #ffee60;
-        }
-    }
-    .level_-1 {
-        background-color: #c0ffc0;
-    }
-}
-*/
 .monitorlist li ul {
   display: flex;
   flex-direction: row;
@@ -2671,33 +2243,6 @@ span.tagspan span.text {
 #edit_display.statusDisplay .form-horizontal .form-group-custom {
   margin: 2px 0 2px;
 }
-/*form.form-horizontal {
-    padding: 0.5rem 0.2rem 0.2rem;
-}*/
-/*#edit_display.counterDisplay {
-    .form-horizontal.counter-colors {
-        .form-group-custom {
-            margin-bottom: 10px;
-        }
-    }
-    .form-horizontal {
-        .form-group-custom {
-            margin: 2px 0 2px;
-        }
-    }
-}
-#edit_display.statusDisplay {
-    .form-horizontal.counter-colors {
-        .form-group-custom {
-            margin-bottom: 10px;
-        }
-    }
-    .form-horizontal {
-        .form-group-custom {
-            margin: 2px 0 2px;
-        }
-    }
-}*/
 #modall2 > .modal-dialog {
   max-width: 90%;
 }

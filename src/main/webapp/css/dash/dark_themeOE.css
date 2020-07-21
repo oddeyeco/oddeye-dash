@@ -258,7 +258,7 @@ div#sidebar-menu .card-header a:hover {
   box-shadow: 0 0.5rem 0.8rem #000000;
 }
 #navbarNavDropdown ul.navbar-nav ul.dropdown-menu-right {
-  background-color: #C7CCCC;
+  background-color: #979f9f;
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.8);
 }
 #navbarNavDropdown ul.navbar-nav ul.dropdown-menu-right .dropdown-item:hover {
