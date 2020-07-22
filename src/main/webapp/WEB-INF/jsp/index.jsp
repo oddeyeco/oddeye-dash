@@ -391,7 +391,6 @@
                                     <li class="nav-item">
                                         <a href="https://www.oddeye.co/documentation/" class="btn btn-sm btn-outline-dark ml-1" role="button" target="_blank" data-toggle="tooltip" data-original-title="Documentation" id="navInfo">
                                             <i class="fa fas fa-info "></i>
-                                            Test!!!
                                             <span></span>
                                         </a>  
                                     </li>
