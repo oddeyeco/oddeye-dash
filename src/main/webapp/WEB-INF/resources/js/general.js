@@ -35,6 +35,7 @@ if (document.referrer)
     setCookie("lar", document.referrer, {domain: host, path: '/', expires: 50000000000});
 }
 $(document).ready(function () {
+    
     $("body").on("click", ".addtagq", function () {
         if ($(this).hasClass("hider"))
         {
@@ -48,19 +49,18 @@ $(document).ready(function () {
             $(this).addClass("hider");
         }
     });
-
     $("body").on("click", "input", function (event) {
         ga('send', 'event', 'input click', $(this).attr("name"));
     });
-
     $("body").on("click", "a", function (event) {
         ga('send', 'event', 'link click', $(this).attr("href"));
     });
-
     $("body").on("click", "a.idcheck", function (event) {
         ga('send', 'event', $(this).attr("id"), $(this).text());
     });
+    
 });
+
 var getQueryString = function (url) {
     var href = url ? url : window.location.href;
     return string ? string[1] : null;
@@ -77,14 +77,14 @@ function getParameterByName(name, url) {
     if (!results[2])
         return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+};
 
 function getCookie(name) {
     var matches = document.cookie.match(new RegExp(
             "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
             ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
-}
+};
 
 function setCookie(name, value, options) {
     options = options || {};
@@ -109,4 +109,4 @@ function setCookie(name, value, options) {
     }
 
     document.cookie = updatedCookie;
-}
+};

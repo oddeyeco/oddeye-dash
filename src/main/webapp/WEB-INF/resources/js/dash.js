@@ -48,24 +48,20 @@ function currentpagelock() {
     } else if ($('.current-i').hasClass('fa-unlock')) {
         $('.current-i').removeClass('fa-unlock').addClass('fa-lock');
     }
-}
-;
+};
 
-function domodifier()
-{
+function domodifier() {
     dashmodifier = true;
     $('.savedash').parent().find('.btn').addClass('btn-outline-warning');
     $('.savedash').parent().find('.btn').removeClass('btn-outline-dark');    
-}
-;
+};
 
-function dounmodifier()
-{
+function dounmodifier() {
     dashmodifier = false;
     
     $('.savedash').parent().find('.btn').addClass('btn-outline-dark');
     $('.savedash').parent().find('.btn').removeClass('btn-outline-warning');
-}
+};
 
 function doeditTitle(e) {
     if (((e.which === 13) && (e.type === 'keypress')) || (e.type === 'click'))
@@ -81,8 +77,8 @@ function doeditTitle(e) {
         }
         domodifier();
     }
-}
-;
+};
+
 function opensave() {
     $('#saveModal .modal-title').text(locale["dashboard.Modal.successfullySaved"]);
     $('#saveModal').modal('show');
@@ -90,8 +86,8 @@ function opensave() {
     setTimeout(function () {
         $('#saveModal').modal('hide');
     }, 2000);
-}
-;
+};
+
 function savedash() {
     var url = cp + "/dashboard/save";
     var senddata = {};
@@ -181,7 +177,7 @@ function savedash() {
         });
     }
     dounmodifier();
-}
+};
 
 function btnlock() {
     if ($('#btnlock').hasClass('btnunlock'))
@@ -211,8 +207,8 @@ function btnlock() {
                 $('#savelock').focus();
             });
             btn = $('#btnlock');
-
-        } else {
+        } else
+        {
             $('.dash_header,.raw-controls i,.raw-controls .btn-group').hide(500, function () {
 
                 if (!$('#btnlock').parents('.fulldash').hasClass('locked')) {
@@ -242,7 +238,7 @@ function locktooltip() {
     } else {
         $('#btnlock').attr('data-original-title', locale["dash.title.lockDashboard"]);
     }
-}
+};
 
 var queryCallback = function (inputdata) {
     var q_index = inputdata[0];
@@ -282,7 +278,7 @@ var queryCallback = function (inputdata) {
 //    };
     
     return function (data) {
-// ---- tooltip.triggerOn + tooltip.enterable
+// ==== tooltip.triggerOn + tooltip.enterable ====
         if (widget.type === "line") {                    
                     if (widget.options.tooltip.triggerOn === "click") {                     
                         widget.options.tooltip = {
@@ -322,14 +318,13 @@ var queryCallback = function (inputdata) {
 //                                    p0 = pos[0] + 5;
 //                                }
 //                                return [p0, p1];
-//                            },                                                        
-//                            "position": tooltipPos,
-
+//                            },  
                             "enterable": false                        
                         };           
                     } 
                 }
-// ---- /tooltip.triggerOn + tooltip.enterable 
+// ==== /tooltip.triggerOn + tooltip.enterable ====
+
         if (data.chartsdata)
         {
             if (widget.type === "counter")
@@ -502,7 +497,6 @@ var queryCallback = function (inputdata) {
                                             name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
                                         }
                                     }
-
                                     if (widget.q[q_index].info.alias2)
                                     {
                                         if (widget.q[q_index].info.alias2 !== "")
@@ -523,7 +517,6 @@ var queryCallback = function (inputdata) {
                                         {
                                             series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
                                         }
-
                                     }
                                     if (series.yAxisIndex.length === 0)
                                     {
@@ -594,8 +587,7 @@ var queryCallback = function (inputdata) {
                                         
                                         switch (widget.type) {
                                             case 'pie':
-                                            {
-                                                //TODO Mi ban anel
+                                            {                                              
 //                                        series.data.push({value: val[1], 'unit': widget.options.yAxis[yAxis].unit, 'name': moment(val[0]).format('YYYY-MM-DD hh:mm'), isinverse: widget.q[q_index].info.inverse});
                                                 break;
                                             }
@@ -621,11 +613,11 @@ var queryCallback = function (inputdata) {
                                         }
                                     }
                                 }
-                                var yAxis = 0;
+                                var yAxis = 0;                                
                                 if (series.yAxisIndex)
                                 {
                                     yAxis = series.yAxisIndex[0];
-                                }
+                                }    
                                 
                                 if (widget.stacked)
                                 {
@@ -666,7 +658,6 @@ var queryCallback = function (inputdata) {
                                 widget.options.series.push(series);
                             }
                         }
-
                     }
 
                     if (widget.options.xAxis[xAxis_Index].type === "category")
@@ -691,7 +682,6 @@ var queryCallback = function (inputdata) {
                                         {
                                             name = applyAlias(widget.q[q_index].info.alias, data.chartsdata[index]);
                                         }
-
                                     }
                                     if (widget.q[q_index].info.alias2)
                                     {
@@ -752,7 +742,6 @@ var queryCallback = function (inputdata) {
                                 {
                                     tmpname = name2;
                                 }
-
                                 if (!tmp_series_1[name])
                                 {
                                     tmp_series_1[name] = [];
@@ -798,7 +787,6 @@ var queryCallback = function (inputdata) {
                                     val = val + tmp_series_1[key][ind].value;
                                     cildren.push({value: tmp_series_1[key][ind].value, name: tmp_series_1[key][ind].name, unit: widget.options.yAxis[yAxis].unit});
                                 }
-
                                 data.push({value: val, name: key, children: cildren, unit: widget.options.yAxis[yAxis].unit});
                             }
                             series.name = tmp_series_1[Object.keys(tmp_series_1)[0]][0].name;
@@ -835,7 +823,6 @@ var queryCallback = function (inputdata) {
                                         {
                                             series.yAxisIndex.push(widget.q[q_index].yAxisIndex[ax]);
                                         }
-
                                     }
                                     if (series.yAxisIndex.length === 0)
                                     {
@@ -854,7 +841,6 @@ var queryCallback = function (inputdata) {
                                         {
                                             series.xAxisIndex.push(widget.q[q_index].xAxisIndex[ax]);
                                         }
-
                                     }
                                     if (series.xAxisIndex.length === 0)
                                     {
@@ -891,7 +877,6 @@ var queryCallback = function (inputdata) {
                                         delete series.symbol;
                                         delete series.showSymbol;
                                     }
-
                                 }
                                 
                                 if (series.type === "gauge")
@@ -1140,19 +1125,16 @@ var queryCallback = function (inputdata) {
                             }
                         }
                         JQcounter.find('.tile-stats p').text(widget.data[val].name2);
-
                         JQcounter.find('.tile-stats .param').text(avalue[paramindex]);
 
                         if (widget.valueStyle)
                         {
                             JQcounter.find('.tile-stats .number').css(widget.valueStyle);
                         }
-
                         if (widget.unitStyle)
                         {
                             JQcounter.find('.tile-stats .param').css(widget.unitStyle);
                         }
-
                         if (widget.style)
                         {
                             JQcounter.find('.tile-stats').css(widget.style);
@@ -1177,13 +1159,16 @@ var queryCallback = function (inputdata) {
                             };
                         };
 
-                        JQcounter.find(".count").prop('Counter', JQcounter.find(".count .number").text()).animate({
-                            Counter: endvalue
-                        }, {
-                            duration: 1000,
-                            easing: 'linear',
-                            step: steper(fix)
-                        });
+                        JQcounter.find(".count").prop('Counter', JQcounter.find(".count .number").text()).animate(
+                            {
+                                Counter: endvalue
+                            },
+                            {
+                                duration: 1000,
+                                easing: 'linear',
+                                step: steper(fix)
+                            }
+                        );
                     } else
                     {
                         JQcounter.find(".count .number").text(avalue[numberindex]);
@@ -1335,7 +1320,6 @@ var queryCallback = function (inputdata) {
                         ydataS.push(i.toFixed(2));
                         previ = i;
                         i = i + step;
-
                     }
                     if (max > ydataF[ydataF.length - 1])
                     {
@@ -1818,8 +1802,7 @@ var queryCallback = function (inputdata) {
                                     });
                                 }
                             });
-                        }
-                    ;
+                        };
                     if (widget.label)
                     {
                         if (!ser.label)
@@ -1956,7 +1939,6 @@ var queryCallback = function (inputdata) {
                             if (!ser.radius)
                             {
                                 ser.radius = Math.min(a / 2, b / 2) - 5;
-//                                ser.radius = Math.min(a / 3, b / 3);
                             }
                             delete ser.axisLine;
                             delete ser.axisTick;
@@ -2288,7 +2270,7 @@ function datafunc() {
         len++;
     }
     return d;
-}
+};
 
 function getURL(type) {
     if(type === "status"){
@@ -2297,11 +2279,11 @@ function getURL(type) {
     else {
         return "getdata";
     }
-}
+};
 
 var lockq = {};
 function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customchart = null) {
-    redraw = false;
+
     if (lockq[ri + " " + wi])
     {
         return;
@@ -2335,7 +2317,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
     widget.visible = !redraw;
     var k;
 
-    //Cheto kaskacelija ****************************************************
+    //Cheto kaskacelija ****
     var start = "5m-ago";
     var end = "now";
 
@@ -2485,7 +2467,6 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                         query = query + "&downsample=" + downsample;
                     }
                 }
-
             }
         }
         
@@ -2598,7 +2579,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
                     }
                 }
             }
-            //Cheto kaskacelija ****************************************************   
+            //Cheto kaskacelija ****
             if (!widget.options.legend)
             {
                 widget.options.legend = {data: []};
@@ -2625,6 +2606,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             }
             if (getParameterByName('metrics', uri))
             {
+// ==== Shows loading spinner animation ====
 //                chart.showLoading("default", {
 //                    text: '',
 //                    color: colorPalette[colorPalette.length - 1],
@@ -2659,7 +2641,7 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             }
         }
     }
-}
+};
 
 function AutoRefresh(redraw = false) {
     redrawAllJSON(gdd, redraw);
@@ -2676,7 +2658,7 @@ function AutoRefreshSingle(row, index, readonly = false, rebuildform = true, red
             }, 500);
         }
     });
-}
+};
 
 function redrawAllJSON(dashJSON, redraw = false) {
     var ri;
@@ -2811,7 +2793,6 @@ function redrawAllJSON(dashJSON, redraw = false) {
                         chartobj.find(".echart_time_icon").css({display: 'block'});
                         if (tmprow.widgets[wi].times.pickervalue !== "custom")
                         {
-                            //??????
                             chartobj.find(".echart_time").append(tmprow.widgets[wi].times.pickerlabel + " ");
                         } else
                         {
@@ -2948,7 +2929,7 @@ function redrawAllJSON(dashJSON, redraw = false) {
         });
     }
     $('.fulldash .btn').tooltip();
-}
+};
 
 function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = true, redraw = false, callback = null) {
     $(".fulldash").hide();
@@ -3268,7 +3249,7 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
         }
     }
     return;
-}
+};
 
 function repaint(redraw = false, rebuildform = true) {
     doapplyjson = true;
@@ -3326,7 +3307,7 @@ function repaint(redraw = false, rebuildform = true) {
         }
     }
     doapplyjson = false;
-}
+};
 
 $(document).ready(function () {
     $("#global-down-sample-ag").select2({minimumResultsForSearch: 15, data: EditForm.aggregatoroptions_selct2});

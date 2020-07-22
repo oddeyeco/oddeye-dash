@@ -13,8 +13,7 @@ var headers = {};
 headers["page"] = document.URL;
 
 globalconnect(headers);
-function replaceArgumets(str,argumets)
-{
+function replaceArgumets(str,argumets) {
         const regex = /{(\d*?)}/g;        
         var text = str.replace(regex, function (strOut, strIn) {
             var str = argumets[strIn].toString();
@@ -25,10 +24,9 @@ function replaceArgumets(str,argumets)
             return strOut;
         });  
         return text;
-}
+};
 
-function updatecounter(counter, widget)
-{
+function updatecounter(counter, widget) {
     if (widget.title)
     {
         counter.find('.tile-stats h3').text(widget.title.text);
@@ -45,16 +43,14 @@ function updatecounter(counter, widget)
     }
 
 
-}
-;
+};
 function getDecimalSeparator() {
     var n = 1.1;
     n = n.toLocaleString().substring(1, 2);
     return n;
-}
+};
 
-function globalconnect(head)
-{
+function globalconnect(head) {
     globalsocket = new SockJS(cp + '/subscribe');
     globalstompClient = Stomp.over(globalsocket);
     globalstompClient.debug = null;
@@ -116,7 +112,7 @@ function globalconnect(head)
         }, 60000);
 
     });
-}
+};
 
 function menuscroll() {
     var $LEFT_COL = $('.left_col');
@@ -139,20 +135,19 @@ function menuscroll() {
         $("li.active .nav.child_menu").css("max-height", "");
         $("#sidebar-menu").addClass('y-overflow');
     }
-}
+};
 
-function applyAlias(text, object)
-{
+function applyAlias(text, object) {
     text = text.replace(new RegExp("\\{metric(.*?)\\}", 'g'), replacerM(object.metric));
     text = text.replace(new RegExp("\\{\w+\\}", 'g'), replacer(object.tags));
     text = text.replace(new RegExp("\\{tag.(.*?)\\}", 'g'), replacer(object.tags));
     return text;
-}
+};
 
 function replacerM(metric) {
     return function (str, p1) {
         var split_str = p1.split('|');
-//        var func_rexp = new RegExp("r\(\"(.*)\",\"(.*)\"\)", 'g')
+
         if (typeof split_str[1] !== "undefined")
         {
             var func_rexp = new RegExp("r\\(\"(.*)\",\"(.*)\"\\)");
@@ -180,7 +175,7 @@ function replacerM(metric) {
         }
         return metric;
     };
-}
+};
 
 function replacer(tags) {
     return function (str, p1) {
@@ -190,8 +185,6 @@ function replacer(tags) {
         {
             return "tag." + split_str[0];
         }
-
-//        var func_rexp = new RegExp("r\(\"(.*)\",\"(.*)\"\)", 'g')
         if (typeof split_str[1] !== "undefined")
         {
             var func_rexp = new RegExp("r\\(\"(.*)\",\"(.*)\"\\)");
@@ -217,17 +210,17 @@ function replacer(tags) {
             }
 
         }
-
-
+        
         return tags[split_str[0]];
     };
-}
+};
+
 function compareStrings(a, b) {
     // Assuming you want case-insensitive comparison
     a = a.toLowerCase();
     b = b.toLowerCase();
     return (a < b) ? -1 : (a > b) ? 1 : 0;
-}
+};
 
 function compareNameName(a, b) {
     var _aname = a.name2;
@@ -236,7 +229,7 @@ function compareNameName(a, b) {
     var _bname2 = b.name;
 
     return ((_aname2 < _bname2)) ? -1 : ((_aname2 > _bname2)) ? 1 : (((_aname < _bname)) ? -1 : ((_aname > _bname)) ? 1 : 0);
-}
+};
 
 function compareMetric(a, b, tagident) {
     var _aname = a.info.name.toLowerCase();
@@ -252,7 +245,7 @@ function compareMetric(a, b, tagident) {
         _btag = b.info.tags[tagident].value.toLowerCase();
     }
     return ((_atag < _btag)) ? -1 : ((_atag > _btag)) ? 1 : (((_aname < _bname)) ? -1 : ((_aname > _bname)) ? 1 : 0);
-}
+};
 
 function exportToCsv(filename, rows) {
     var processRow = function (row) {
@@ -272,6 +265,7 @@ function exportToCsv(filename, rows) {
         }
         return finalVal + '\n';
     };
+    
     var csvFile = '';
     for (var i = 0; i < rows.length; i++) {
         csvFile += processRow(rows[i]);
@@ -293,7 +287,8 @@ function exportToCsv(filename, rows) {
             document.body.removeChild(link);
         }
     }
-}
+};
+
 function exportTojson(filename, saveData) {
 var json = JSON.stringify(saveData);
     var blob = new Blob([json], {type: 'text/json;charset=utf-8;'});
@@ -312,42 +307,28 @@ var json = JSON.stringify(saveData);
             document.body.removeChild(link);
         }
     }
-}
-function fullscreenrequest(fullscreen)
-{
+};
+
+function fullscreenrequest(fullscreen) {
     if (!fullscreen)
     {
         setCookie("fullscreen", true, {path: '/'});
         var right_col_style = $(".right_col").attr('style');
         setCookie("right_col_style", right_col_style, {path: '/'});
-//        if (window.location.pathname.indexOf("monitoring") !== -1)
-//        {
             $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").hide();
             $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('margin', "0");
             $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
             $(".profile_right").css("width", "100%");
             $RIGHT_COL.css('min-height', $(window).height());
-//        } else
-//        {
-//            location.reload();
-//        }
     } else
     {
         setCookie("fullscreen", false, {path: '/'});
-//        if (window.location.pathname.indexOf("monitoring") !== -1)
-//        {
             $(".nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").show();
             $(".right_col").attr('style', getCookie('right_col_style'));
             $(".left_col,.profile_right,.widgetraw,.fulldash").removeAttr('style');
             $RIGHT_COL.css('min-height', $(window).height());
-//        } else
-//        {
-//            location.reload();
-//        }
-
     }
-
-}
+};
 
 function ModifierColor(color, angel) {    
     var colorarray = [];
@@ -379,29 +360,10 @@ function ModifierColor(color, angel) {
     var newRgba = 'rgba(' + colorarray[0] + ',' + colorarray[1] + ',' + colorarray[2] + ',' + alfa + ')';
     //TODO return as input    
     return newRgba;
-}
-
-//var fullscreen = getCookie('fullscreen');
-//if (fullscreen == 'true')
-//{
-//    $(".left_col,.nav_menu,#dash_main,.dash_action,.rawButton,.controls,.page-title").hide();
-//    var right_col_style = "";
-//    right_col_style = $(".right_col").attr('style');
-//    setCookie("right_col_style", right_col_style, {path: '/'});
-//    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('margin', "0");
-//    $(".right_col,.widgetraw,.fulldash,.chartbkg,.editchartpanel").css('padding', "0");
-//    $(".profile_right").css("width", "100%");
-//}
+};
 
 $(document).ready(function () {
 
-//    if (getCookie('small') !== 'true')
-//    {
-//        $('#sidebarSmallMenu').hide();
-//        if ($BODY.hasClass('nav-md')) {
-//            $('#sidebar, #content').removeClass('active');
-//        }
-//    } 
     if (getCookie('small') === 'true') {
 
         $('#sidebarMenu').hide();
@@ -418,25 +380,13 @@ $(document).ready(function () {
     
     if (!$('.profile_left-form').is(":visible"))
     {
-//        $('.hidefilter').removeClass('fa-chevron-up');
-//        $('.hidefilter').addClass('fa-chevron-down');
         $('.profile_right-table').css('width', '100%');
     }
     $("body").on("click", ".hidefilter", function () {
-//        if ($(this).hasClass('fa-chevron-up'))
-//        {
-//            $(this).removeClass('fa-chevron-up');
-//            $(this).addClass('fa-chevron-down');
-//            $('.profile_left-form').hide();
-//            $('.profile_right-table').css('width', '100%');
-//        } else
         {
-//            $(this).removeClass('fa-chevron-down');
-//            $(this).addClass('fa-chevron-up');
             $('.profile_left-form').show();
             $('.profile_right-table').removeAttr('style');
         }
-
         if (typeof echartLine !== 'undefined')
         {
             echartLine.resize();
@@ -457,26 +407,15 @@ $(document).ready(function () {
     $("body").on("click", "#FullScreen", function () {
         fullscreenrequest(getCookie('fullscreen') == 'true');
     });
-
     $("body").on("click", "#menu_toggle", function () {
         setCookie("small", getCookie('small') != 'true', {path: '/'});
     });
     $('body').on("click", '.nav.side-menu li', function () {
         menuscroll();
     });
-
-//    $('.right_col, .nav_menu').on('click', function (ev) {
-//        if ($('body').hasClass('nav-sm'))
-//        {
-//            $SIDEBAR_MENU.find('li').removeClass('active active-sm');
-//            $SIDEBAR_MENU.find('a').filter(function () {
-//                return this.href == CURRENT_URL;
-//            }).parent('li').addClass('current-page').parents('ul').parent().addClass("active-sm");
-//
-//            $SIDEBAR_MENU.find('li ul').slideUp();
-//        }
-//    });
+    
 });
+
 //$(window).load(function () {
 //    menuscroll();
 //});

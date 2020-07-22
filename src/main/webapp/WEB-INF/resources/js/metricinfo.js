@@ -73,7 +73,7 @@ function getmetatypes(tablename) {
                     var val = data.data[i];
                     table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='type' value='" + val.value + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val.count + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-outline-primary btn-sm showtagsl2' title_text='" + locale["metricinfo.metricsWithType"] + "' key='_type' value='" + val.value + "' valuetext='" + i + "'><i class='fa fa-list'></i> " + locale["metricinfo.showList"] + "</a>  <a href='javascript:void(0)' class='btn btn-outline-danger btn-sm ml-1 deletemetrics' key='_type' value='" + val.value + "'><i class='fa far fa-trash-alt'></i> " + locale["delete"] + "</a></td></tr>");
                 }
-//                $('#listtable').DataTable({});
+
                 $('#listtable').find('td input.rawflat').iCheck({
                     checkboxClass: icheckbox_flat_clr,
                     radioClass: iradio_flat_clr
@@ -97,14 +97,13 @@ function getmetatypes(tablename) {
                     });
                 });
                 $("#modall1").modal('show');
-            }
-            ;
+            };
         },
         error: function (xhr, ajaxOptions, thrownError) {
             $("#listtablediv").html("Loading Error");
         }
     });
-}
+};
 
 function getmetanames(tablename) {
     var url = cp + "/getmetricsnamesinfo";
@@ -130,7 +129,7 @@ function getmetanames(tablename) {
                     var table = $(tablename);
                     table.append("<tr id=parent_" + i + " data-tt-id=" + i + " key='name' value='" + i + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + i + "</td><td class='count'> " + val + "  </td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-outline-primary btn-sm showtagsl2' title_text='" + locale["metricinfo.metricsWithName"] + "' key='_name' value='" + i + "'><i class='fa fa-list'></i> " + locale["metricinfo.showList"] + "</a>  <a href='javascript:void(0)' class='btn btn-outline-danger btn-sm ml-1 deletemetrics' key='_name' value='" + i + "'><i class='fa far fa-trash-alt'></i> " + locale["delete"] + "</a></td></tr>");
                 }
-//                $('#listtable').DataTable({});
+
                 $('#listtable').find('td input.rawflat').iCheck({
                     checkboxClass: icheckbox_flat_clr,
                     radioClass: iradio_flat_clr
@@ -153,15 +152,13 @@ function getmetanames(tablename) {
                     });
                 });
                 $("#modall1").modal('show');
-            }
-            ;
+            };
         },
         error: function (xhr, ajaxOptions, thrownError) {
             $("#listtablediv").html("Loading Error");
         }
     });
-}
-
+};
 
 function getmetatags(key) {
     var url = cp + "/gettagvalue?key=" + key;
@@ -183,8 +180,6 @@ function getmetatags(key) {
                     $("#listtable").append("<tr id=parent_" + i + " data-tt-id=" + i + " key='" + key + "' value='" + ikey + "'><td><input type='checkbox' class='rawflat' name='table_records'></td><td>" + ikey + "</td><td class='count'> " + val + "</td><td class='action text-right'><a href='javascript:void(0)' class='btn btn-outline-primary btn-sm showtagsl2' title_text='" + locale["metricinfo.metricsWithTag"] + "' key='" + key + "' value='" + ikey + "'><i class='fa fa-list'></i> " + locale["metricinfo.showList"] + "</a><a href='javascript:void(0)' class='btn btn-outline-danger btn-sm ml-1 deletemetrics' key='" + key + "' value='" + ikey + "'><i class='fa far fa-trash-alt'></i> " + locale["delete"] + "</a></td></tr>");
                 });
 
-
-
                 tablelist = $('#listtable').DataTable({
                     "language": lang,
                     "order": [[1, "asc"]],
@@ -203,20 +198,18 @@ function getmetatags(key) {
                     });
                 });
                 $("#modall1").modal('show');
-            }
-            ;
+            };
         },
         error: function (xhr, ajaxOptions, thrownError) {
             $("#listtablediv").html("Loading Error");
         }
     });
-}
+};
 
 function getmetrics(key, idvalue, id, draw) {
-
+    
 //    var re = new RegExp("[//.|///]", 'g');
 //    id = id.replace(re, "_");
-
 
     var url = cp + "/getmetrics?key=" + key + "&value=" + idvalue;
     $.getJSON(url, function (value) {
@@ -293,7 +286,7 @@ function getmetrics(key, idvalue, id, draw) {
         }
 
     });
-}
+};
 tmphide = true;
 $(document).ready(function () {
 
@@ -319,7 +312,6 @@ $(document).ready(function () {
             "sortDescending": locale["dataTable.aria.sortDescending"]
         }
     };
-
 
     maetricrow_regular_HTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap">{type}</td><td class="text-nowrap">{firsttime}</td><td class="text-nowrap">{lasttime}</td> <td class="text-nowrap">{livedays}</td><td class="text-nowrap">{silencedays}</td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-outline-primary btn-sm clreg" value="{hash}"> ' + locale["metricinfo.clearRegression"] + ' </a><a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ml-1 deletemetric" value="{hash}"><i class="fa far fa-trash-alt"></i> ' + locale["delete"] + ' </a></td></tr>';
     maetricrow_special_HTML = '<tr class="metricinfo" id={hash}><td class="icons text-nowrap"><input type="checkbox" class="rawflat" name="table_records">{icons}<a href="' + cp + '/history/{hash}" target="_blank"><i class="fa fa-history" style="font-size: 18px;"></i></a></td><td><a href="' + cp + '/metriq/{hash}">{metricname}</a></td><td class="tags">{tags} </td><td class="text-nowrap">{type}</td><td class="text-nowrap">{firsttime}</td><td class="text-nowrap">{lasttime}</td> <td class="text-nowrap">{livedays}</td><td class="text-nowrap">{silencedays}</td><td class="text-nowrap text-right"><a href="javascript:void(0)" class="btn btn-outline-danger btn-sm ml-1 deletemetric" value="{hash}"><i class="fa far fa-trash-alt"></i> ' + locale["delete"] + ' </a></td></tr>';
@@ -401,8 +393,6 @@ $(document).ready(function () {
         });
     });
 
-
-
 //    $('body').on("click", ".deletemetricgroup", function () {
 //        var key = $(this).parents("#listtable").attr("key");
 //        $(this).parents('table').find("tbody input[name='table_records']:checked").each(function () {
@@ -414,8 +404,6 @@ $(document).ready(function () {
 //        });
 ////        getmetainfo(key);
 //    });
-
-
     $('body').on('click', '.deletemetriclistgroup', function (e) {
         $(this).parents("table").find("td input:checked").parents("tr").each(function () {
             if (tablelist)
@@ -432,6 +420,7 @@ $(document).ready(function () {
         }
 
     });
+    
     $('body').on('click', '.deletemetricgroup', function (e) {
 
         $(this).parents("table").find("td input:checked").parents("tr").each(function () {
@@ -448,7 +437,6 @@ $(document).ready(function () {
             $(this).parents("table").find("th .checkall").iCheck('uncheck');                
         }
     });
-
 
     $('body').on("click", ".deletemetrics", function () {
         if (tablelist)
@@ -497,9 +485,7 @@ $(document).ready(function () {
             console.log("Request failed");
         });
 
-
     });
-
 
     $('body').on("click", ".Show_chart", function () {
         hashes = "";
