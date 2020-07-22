@@ -15,13 +15,14 @@ var array_spec = [];
 //var strop = "<option value='~'>contains</option><option value='!~'>doesn't contain</option><option value='=='>equal</option><option value='!='>not equal</option><option value='!*'>none</option><option value='*'>any</option> <option value='regexp'>RegExp true</option><option value='regexp'>RegExp false</option>";
 var strop = "<option value='~'>" + locale['contains'] + "</option><option value='!~'>" + locale['doesntContain'] + "</option><option value='=='>" + locale['equal'] + "</option><option value='!='>" + locale['notEqual'] + "</option>";
 var eniumop = "<option value='='>" + locale['is'] + "</option><option value='!'>" + locale['isNot'] + "</option>";
+
 function redrawBoard() {
     $(".monitorlist ul").html("");
     if (Object.keys(errorlistJson).length > 0)
     {
         DrawErrorList(errorlistJson, $(".metrictable"));
     }
-}
+};
 
 function connectstompClient()
 {
@@ -30,10 +31,9 @@ function connectstompClient()
     headers["sotoken"] = sotoken;
     headers["options"] = JSON.stringify(optionsJson);
     realtimeconnect(headers);
-}
+};
 
-function realtimeconnect(head)
-{
+function realtimeconnect(head) {
     console.log("connect START");
     socket = new SockJS(cp + '/subscribe');
     stompClient = Stomp.over(socket);
@@ -50,7 +50,7 @@ function realtimeconnect(head)
                     realtimeconnect(head);
                 }, 6000);
             });
-}
+};
 
 function aftersubscribe(error) {
     $(".metrictable").find("tr.wait").remove();
@@ -101,7 +101,8 @@ function aftersubscribe(error) {
     }
 //            console.log(errorlistJson[errorjson.hash]);
 
-}
+};
+
 function findeByhash(element, array) {
     for (var i = 0; i < array.length; i++) {
         if (array[i].hash === element.hash) {
@@ -109,7 +110,7 @@ function findeByhash(element, array) {
         }
     }
     return -1;
-}
+};
 
 function findeBy_ihash(hash, array) {
     for (var i = 0; i < array.length; i++) {
@@ -118,7 +119,7 @@ function findeBy_ihash(hash, array) {
         }
     }
     return -1;
-}
+};
 
 function drawUL(errorjson, table, hashindex, update) {    
     if (typeof (hashindex) === "undefined")
@@ -142,7 +143,6 @@ function drawUL(errorjson, table, hashindex, update) {
         {
             val = val + errorjson.values[key].value;
             count++;
-//              val = errorjson.values[key].value;
         }
         val = val / count;
         if (val > 1000)
@@ -182,13 +182,11 @@ function drawUL(errorjson, table, hashindex, update) {
         eRclass = eRclass + " spec";
         UlID = "speciallist";
     }
-
     if (errorjson.flap > 5)
     {
         console.log(errorjson.info.name + " " + errorjson.flap);
         eRclass = eRclass + " flapdetect";
-    }
-    
+    }    
     if (!update)
     {
         var html = '<li style="display:none" id="' + errorjson.hash + '" class="' + eRclass + '" time="' + moment().format("x") + '">';
@@ -382,16 +380,15 @@ function drawUL(errorjson, table, hashindex, update) {
     $('.summary .Tablecount').html(array_regular.length + array_spec.length);
     $('.summary .regcount').html(array_regular.length);
     $('.summary .Speccount').html(array_spec.length);
-}
+};
 
-function reDrawErrorList(listJson, listclass, errorjson)
-{
+function reDrawErrorList(listJson, listclass, errorjson) {
+    
     var filtred = checkfilter(errorjson);
     if (!filtred)
     {
         delete listJson[errorjson.hash];
     }
-
     if (errorjson.isspec === 0)
     {
         var indexregular = findeByhash(errorjson, array_regular);
@@ -464,10 +461,10 @@ function reDrawErrorList(listJson, listclass, errorjson)
             });            
         }
     }
-}
+};
 
-function DrawErrorList(listJson, table)
-{
+function DrawErrorList(listJson, table) {
+    
     array_regular = [];
     array_spec = [];
 
@@ -502,10 +499,9 @@ function DrawErrorList(listJson, table)
         checkboxClass: 'icheckbox_flat-green',
         radioClass: 'iradio_flat-green'
     });
-}
+};
 
-function checkfilter(message)
-{
+function checkfilter(message) {
     var filtred = true;
 
     for (var filterindex in optionsJson.v)
@@ -559,7 +555,7 @@ function checkfilter(message)
         }
     }
     return filtred;
-}
+};
 
 $(document).ready(function () {
 
@@ -610,11 +606,12 @@ $(document).ready(function () {
         }).fail(function (jqXHR, textStatus) {
             console.log("Request failed");
         });
-    }
+    };
+    
     $('body').on("click", ".monitorlist li ul li a", function (e) {
         e.stopPropagation();
     });
-
+    
     $('body').on("click", ".deletemetric", function (e) {
         e.stopPropagation();
         $(this).closest("li").each(function () {
@@ -635,7 +632,7 @@ $(document).ready(function () {
             });
         });
     });
-
+    
     $('body').on("click", ".resetregretion", function (e) {
         e.stopPropagation();
         $(this).closest("li").each(cleareregresion);
@@ -644,8 +641,7 @@ $(document).ready(function () {
     $('body').on("click", "#Clear_reg", function (e) {
         $("#regularlist li.selected").each(cleareregresion);
     });
-
-
+    
     $('body').on("click", "#Move_down", function (e) {
 
         $("li.selected").each(function () {
@@ -744,7 +740,6 @@ $(document).ready(function () {
             alert(locale["requestFailed"]);
         });
     });
-
 
     $("body").on("click", "#deleteviewconfirm", function () {
         url = cp + "/deletemonitoringpage/";
@@ -867,11 +862,11 @@ $(document).ready(function () {
                     '<option value="4" ' + (levels.indexOf("4") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_4"] + '</option>' +
                     '<option value="5" ' + (levels.indexOf("5") !== -1 ? ' selected="selected" ' : "") + '>' + locale["level_5"] + '</option>' +
                     '</select></td>');
-        }
+        }        
         $(".card-fields.value .f_col option").prop('selected', 'selected');
-
+        
         updateFilter();
-
+        
     } else
     {
         optionsJson.f_col.forEach(function (entry) {
@@ -962,7 +957,7 @@ $(document).ready(function () {
     });
 
     $('body').on("click", '.monitorlist li ul li', function (e) {
-
+        
         $(this).toggleClass("selected");
         if ($("#regularlist .selected").length > 0)
         {
@@ -992,12 +987,12 @@ $(document).ready(function () {
     });
 
     $("select").select2({minimumResultsForSearch: 15});
-
     connectstompClient();
 
 });
 
 function updateFilter() {
+    
     var formData = $("form.form-options").serializeArray();
     optionsJson = {};
     const regex = /[a-zA-Z-.]+/g;
@@ -1013,21 +1008,20 @@ function updateFilter() {
                 {
                     optionsJson[name] = {};
                 }
+                
                 var m = field.name.match(regex);
-
-
                 var fgroup = m[1];
                 var fname = m[2];
+                
                 if (!optionsJson[name][fgroup])
                 {
                     optionsJson[name][fgroup] = {};
                 }
                 optionsJson[name][fgroup][fname] = field.value;
 
-
-            } else if (field.name.indexOf("v[") !== -1)
+            }
+            else if (field.name.indexOf("v[") !== -1)
             {
-
                 name = field.name.substring(0, field.name.indexOf("v[") + 1);
                 if (!optionsJson[name])
                 {
@@ -1084,9 +1078,7 @@ function updateFilter() {
                 {
                     optionsJson[field.name] = field.value;
                 }
-
             }
-
         }
     });
-}
+};
