@@ -828,6 +828,9 @@ a.panel-heading[aria-expanded="true"] {
   box-shadow: none;
   background-color: transparent;
 }
+.locked .dolock {
+  display: none;
+}
 .filter.fix {
   background: #141717;
   border: 1px solid #0e0e0e;
