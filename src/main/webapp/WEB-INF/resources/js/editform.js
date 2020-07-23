@@ -1081,25 +1081,25 @@ class EditForm {
         this.tabcontent.tab_general.forms = [edit_dimensions];
         this.tabcontent.tab_metric.forms = [edit_q];
                 
-//        this.tabcontent.tab_time = {};
-//        var edit_time = {tag: "form", class: 'form-horizontal form-label-left edit-times', id: "edit_time"};
-//        edit_time.content = [{tag: "div", class: "form-group form-group-custom pull-left filter", content: [
-//                    {tag: "label", class: "control-label pull-left", text: locale["editform.times"], lfor: "padding_height"},
-//                    {tag: "div", id: "reportrange_private", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
-//                        content: [
-//                            {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
-//                            {tag: "span"},
-//                            {tag: "b", class: "caret"}
-//                        ]},
+        this.tabcontent.tab_time = {};
+        var edit_time = {tag: "form", class: 'form-horizontal form-label-left edit-times', id: "edit_time"};
+        edit_time.content = [{tag: "div", class: "form-group form-group-custom pull-left filter", content: [
+                    {tag: "label", class: "control-label pull-left", text: locale["editform.times"], lfor: "padding_height"},
+                    {tag: "div", id: "reportrange_private", class: "pull-left", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                        content: [
+                            {tag: "i", class: "glyphicon glyphicon-calendar fa fa-calendar"},
+                            {tag: "span"},
+                            {tag: "b", class: "caret"}
+                        ]},
 //                    {tag: "select", id: "shiftX", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift", default: "off", options: this.shifttimes},
-//                    {tag: "div", id: "refresh_wrap_private", class: "pull-left",
-//                        content: [
-//                            {tag: "select", id: "refreshtime_private", name: "refreshtime", key_path: 'times.intervall', style: "width: 150px", options: this.privaterefreshtimes}
-//                        ]}                                        
-//                ]},
+                    {tag: "div", id: "refresh_wrap_private", class: "pull-left",
+                        content: [
+                            {tag: "select", id: "refreshtime_private", name: "refreshtime", key_path: 'times.intervall', style: "width: 150px", options: this.privaterefreshtimes}
+                        ]}                                        
+                ]},
 //                {tag: "span", class: "pull-right q_warning",info: {text: locale["editform.infoShift.text"]} }
-//            ];
-//        this.tabcontent.tab_time.forms = [edit_time];
+            ];
+        this.tabcontent.tab_time.forms = [edit_time];
         
         this.tabcontent.tab_json = {};
         var edit_json = {tag: "form", class: 'edit-ljson', id: "edit_json", label: {show: true, text: locale["editform.jsonEditor"], checker: false}};
