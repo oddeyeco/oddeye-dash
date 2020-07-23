@@ -170,7 +170,7 @@ class CounterEditForm extends EditForm {
         return [{id: "general-tab", title: locale["editchartform.general"], contentid: "tab_general"},
             {id: "metrics-tab", title: locale["metrics"], contentid: "tab_metric"},
             {id: "display-tab", title: locale["display"], contentid: "tab_display"},
-//            {id: "time-tab", title: locale["editchartform.timeRange"], contentid: "tab_time"},
+            {id: "time-tab", title: locale["editchartform.timeRange"], contentid: "tab_time"},
             {id: "json-tab", title: locale["editchartform.json"], contentid: "tab_json"}
         ];
     }

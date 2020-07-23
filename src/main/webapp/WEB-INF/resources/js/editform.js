@@ -1071,41 +1071,41 @@ class EditForm {
         this.tabcontent.tab_general.forms = [edit_dimensions];
         this.tabcontent.tab_metric.forms = [edit_q];
         
-//        this.tabcontent.tab_time = {};
-//        var edit_time = {tag: "form", class: 'form-inline form-label-left edit-times col', id: "edit_time"};
-//        edit_time.content = [{tag: "div", class: "filter form-row depthShadowLightHover p-2", content: [
-//                    {tag: "div", class: "form-inline col-6", content: [
-//                      {tag: "div", class: "form-inline col-12", content: [
+        this.tabcontent.tab_time = {};
+        var edit_time = {tag: "form", class: 'form-inline form-label-left edit-times col', id: "edit_time"};
+        edit_time.content = [{tag: "div", class: "filter form-row depthShadowLightHover p-2", content: [
+                    {tag: "div", class: "form-inline col-6", content: [
+                      {tag: "div", class: "form-inline col-12", content: [
 //                            {tag: "label", class: "control-label", text: [locale["editform.times"], "_x0"], lfor: "padding_height"},
 //                            {tag: "span", class: "float-right q_warning",info: {text: locale["editform.infoShift.text"]} },
-//                            {tag: "div", id: "reportrange_private", class: "form-control form-control dropdown-toggle", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
-//                                content: [
-//                                    {tag: "i", class: "fa fa-calendar"},
-//                                    {tag: "span"}
-//                                ]},
-//
+                            {tag: "div", id: "reportrange_private", class: "form-control form-control dropdown-toggle", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",
+                                content: [
+                                    {tag: "i", class: "fa fa-calendar"},
+                                    {tag: "span"}
+                                ]},
+
 //                            {tag: "select", id: "shiftX", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift", default: "off", options: this.shifttimes}
-//                        ]},
+                        ]},
 //                    {tag: "div", class: "form-inline col-12", content: [
 //                            {tag: "label", class: "control-label", text: [locale["editform.times"], "_x1"], lfor: "padding_height"},
 //                            {tag: "span", class: "float-right q_warning",info: {text: locale["editform.infoShift.text"]} },
 //                            {tag: "div", id: "reportrange_privateX1", class: "form-control form-control dropdown-toggle", style: "background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc",content: [
 //                                    {tag: "i", class: "fa fa-calendar"},
-//                                    {tag: "span"}
-//                                ]},
+//                                   {tag: "span"}
+//                               ]},
 //                            {tag: "select", id: "shiftX1", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift", default: "off", options: this.shifttimes}
 //                        ]}                    
-//                    ]},
-//                    {tag: "div", class: "col-6", content: [
-//                       {tag: "div", class: "form-inline col-12", id: "refresh_wrap_private", content: [
-//                            {tag: "label", class: "control-label", text: [locale["dashboard.title.refresh"]], lfor: "padding_height"},
-//                            {tag: "select", id: "refreshtime_private", class: "form-control form-control-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
-//                        ]}     
-//                    ]}                                                         
-//                ]}             
-//        ];
-//
-//        this.tabcontent.tab_time.forms = [edit_time];
+                    ]},
+                    {tag: "div", class: "col-6", content: [
+                       {tag: "div", class: "form-inline col-12", id: "refresh_wrap_private", content: [
+                            {tag: "label", class: "control-label", text: [locale["dashboard.title.refresh"]], lfor: "padding_height"},
+                            {tag: "select", id: "refreshtime_private", class: "form-control form-control-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
+                        ]}     
+                    ]}                                                         
+                ]}             
+        ];
+
+        this.tabcontent.tab_time.forms = [edit_time];
         
         this.tabcontent.tab_json = {};
         var edit_json = {tag: "form", class: 'edit-ljson col', id: "edit_json", label: {show: true, text: locale["editform.jsonEditor"], checker: false}};
