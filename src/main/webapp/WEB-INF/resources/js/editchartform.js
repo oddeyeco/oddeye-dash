@@ -465,7 +465,7 @@ class BaseChartEditForm extends EditForm {
             {id: "data_zoom_tab", title: locale["editchartform.dataZoom"], contentid: "tab_data_zoom"},
             {id: "legend-tab", title: locale["editchartform.legend"], contentid: "tab_legend"},
             {id: "display-tab", title: locale["display"], contentid: "tab_display"},
-            {id: "time-tab", title: locale["editchartform.timeRange"], contentid: "tab_time"},
+//            {id: "time-tab", title: locale["editchartform.timeRange"], contentid: "tab_time"},
             {id: "json-tab", title: locale["editchartform.json"], contentid: "tab_json"}
         ];
     }
