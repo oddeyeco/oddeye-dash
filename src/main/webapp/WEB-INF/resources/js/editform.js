@@ -1074,7 +1074,7 @@ class EditForm {
         this.tabcontent.tab_time = {};
         var edit_time = {tag: "form", class: 'form-inline form-label-left edit-times col', id: "edit_time"};
         edit_time.content = [{tag: "div", class: "filter form-row depthShadowLightHover p-2", content: [
-                    {tag: "div", class: "form-inline col-6", content: [
+                    {tag: "div", class: "form-inline", content: [
                       {tag: "div", class: "form-inline col-12", content: [
 //                            {tag: "label", class: "control-label", text: [locale["editform.times"], "_x0"], lfor: "padding_height"},
 //                            {tag: "span", class: "float-right q_warning",info: {text: locale["editform.infoShift.text"]} },
@@ -1096,7 +1096,7 @@ class EditForm {
 //                            {tag: "select", id: "shiftX1", class: "form-control form-control-sm", name: "shifttime", key_path: "times.shift", default: "off", options: this.shifttimes}
 //                        ]}                    
                     ]},
-                    {tag: "div", class: "col-6", content: [
+                    {tag: "div", class: "form-inline", content: [
                        {tag: "div", class: "form-inline col-12", id: "refresh_wrap_private", content: [
                             {tag: "label", class: "control-label", text: [locale["dashboard.title.refresh"]], lfor: "padding_height"},
                             {tag: "select", id: "refreshtime_private", class: "form-control form-control-sm", name: "refreshtime", key_path: 'times.intervall', options: this.privaterefreshtimes}
