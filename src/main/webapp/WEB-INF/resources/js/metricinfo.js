@@ -26,17 +26,19 @@ function getmetainfo(tagkey) {
                 $("#tagslist").html('');
                 jQuery.each(data.tags, function (i, val) {
                     $("#tagslist").append('<div class="col-xl-3 col-sm-4 col-6">' +
+                            '<a href="javascript:void(0)" class="showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' +
                             '<div class="tile_stats_count p-1 p-xl-2">' +
                             '<div class="tile_stats_inside">' +
                             '<span class="count_top"><i class="fa fa-th-list"></i> ' + ("{0}", i) + '</span>' +
                             '<div class="row">' +
                             '<div class="col count spincrement">' + val + '</div>' +
-                            '<span class="col count_bottom text-right">' +
-                            '<a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' + locale["metricinfo.showList"] + '</a>' +
-                            '</span>' +
+//                            '<span class="col count_bottom text-right">' +
+//                            '<a href="javascript:void(0)" class="green showtags" data-toggle="modal" data-target="#exampleModal" value="' + i + '">' + locale["metricinfo.showList"] + '</a>' +
+//                            '</span>' +
                             '</div>' +
                             '</div>' +
                             '</div>' +
+                            '</a>' +
                             '</div>');                                                       
                 });
 
