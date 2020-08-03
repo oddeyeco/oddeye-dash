@@ -518,38 +518,40 @@ class BaseChartEditForm extends EditForm {
                 ]},
             {tag: "div", class: "raw", content: [
                     {tag: "div", id: "buttons_div", content: [
-                            {tag: "button", type: "button", class: "btn btn-outline-primary btn-sm m-1 button_title_adv", target: "position_block", id: "button_title_position", text: locale["editchartform.positions"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
-                            {tag: "button", type: "button", class: "btn btn-outline-primary btn-sm m-1 button_title_adv", target: "color_block", id: "button_title_color", text: locale["editchartform.colors"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
-                            {tag: "button", type: "button", class: "btn btn-outline-primary btn-sm m-1 button_title_adv", target: "border_block", id: "button_title_border", text: locale["editchartform.border"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}}
+                            {tag: "button", type: "button", class: "btn btn-outline-primary btn-sm m-1 button_title_adv", target: "color_block", id: "button_title_color", text: locale["editchartform.colors"]+"&"+locale["editchartform.border"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}}
+//                            {tag: "button", type: "button", class: "btn btn-outline-primary btn-sm m-1 button_title_adv", target: "position_block", id: "button_title_position", text: locale["editchartform.positions"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
+//                            {tag: "button", type: "button", class: "btn btn-outline-primary btn-sm m-1 button_title_adv", target: "color_block", id: "button_title_color", text: locale["editchartform.colors"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}},
+//                            {tag: "button", type: "button", class: "btn btn-outline-primary btn-sm m-1 button_title_adv", target: "border_block", id: "button_title_border", text: locale["editchartform.border"], content: [{tag: "i", class: "fa fa-chevron-circle-down"}], actions: {click: this.opencontent}}
                         ]}
                 ]},
-            {tag: "div", id: "position_block", style: "display: none;", content: [{
-                        tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: "X", lfor: "title_x_position"},
-                            {tag: "select", class: "form-control title_select", prop_key: "x", id: "title_x_position", name: "title_x_position", key_path: 'title.x', default: "", options: this.xpositionoptions},
-                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "title_x_position_text", name: "title_x_position_text", key_path: 'title.x', placeholder: "px", default: ""},
-//                            {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"},
-                            {tag: "label", class: "control-label control-label_Y", text: "Y", lfor: "title_y_position"},
-                            {tag: "select", class: "form-control title_select", prop_key: "y", id: "title_y_position", name: "title_y_position", key_path: 'title.y', default: "", options: this.ypositionoptions},
-                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
-                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'title.y', placeholder: "px", default: ""}
-//                            {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
-                        ]
-                    }]},
+//            {tag: "div", id: "position_block", style: "display: none;", content: [{
+//                        tag: "div", class: "form-group form-group-custom", content: [
+//                            {tag: "label", class: "control-label control-label-custom", text: "X", lfor: "title_x_position"},
+//                            {tag: "select", class: "form-control title_select", prop_key: "x", id: "title_x_position", name: "title_x_position", key_path: 'title.x', default: "", options: this.xpositionoptions},
+//                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
+//                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "x", id: "title_x_position_text", name: "title_x_position_text", key_path: 'title.x', placeholder: "px", default: ""},
+//////                            {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"},
+//                            {tag: "label", class: "control-label control-label_Y", text: "Y", lfor: "title_y_position"},
+//                            {tag: "select", class: "form-control title_select", prop_key: "y", id: "title_y_position", name: "title_y_position", key_path: 'title.y', default: "", options: this.ypositionoptions},
+//                            {tag: "label", class: "control-label control-label-custom3 control_label_or", text: locale["editchartform.OR"]},
+//                            {tag: "input", type: "number", class: "form-control title_input_small", prop_key: "y", id: "title_y_position_text", name: "title_y_position_text", key_path: 'title.y', placeholder: "px", default: ""}
+//////                            {tag: "label", class: "control-label control-label-custom3 control_label_custom3", text: "px"}
+//                        ]
+//                    }]},
             {tag: "div", id: "color_block", style: "display: none;", content: [{
                         tag: "div", class: "form-group form-group-custom", id: "title_color", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.border"], lfor: "title_border_color"},
-                            {tag: "div", class: "title_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
-                                        ]}
-                                ]},
+
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.background"], lfor: "title_background_color"},
                             {tag: "div", class: "title_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "backgroundColor", id: "title_background_color", name: "title_background_color", key_path: 'title.style.backgroundColor', default: ""},
+                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
+                                        ]}
+                                ]},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.border"]+locale["editchartform.colors"], lfor: "title_border_color"},
+                            {tag: "div", class: "title_input_midle", content: [
+                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
+                                            {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                         ]}
                                 ]}
@@ -558,41 +560,46 @@ class BaseChartEditForm extends EditForm {
                     },
 
                     {tag: "div", class: "form-group form-group-custom ", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_name_color"},
-                            {tag: "div", class: "title_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "TitleColor", id: "title_name_color", name: "title_name_color", key_path: 'title.style.color', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
-                                        ]}
-                                ]},
+//                            {tag: "label", class: "control-label control-label-custom", text: locale["title"], lfor: "title_name_color"},
+//                            {tag: "div", class: "title_input_midle", content: [
+//                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
+//                                            {tag: "input", type: "text", class: "form-control", prop_key: "TitleColor", id: "title_name_color", name: "title_name_color", key_path: 'title.style.color', default: ""},
+//                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
+//                                        ]}
+//                                ]},
                             {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.description"], lfor: "title_description_color"},
                             {tag: "div", class: "title_input_midle", content: [
                                     {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
                                             {tag: "input", type: "text", class: "form-control", prop_key: "descriptioncolor", id: "title_description_color", name: "title_description_color", key_path: 'title.subtextStyle.color', default: ""},
                                             {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
                                         ]}
-                                ]}
-
-                        ]
-                    }]},
-
-            {tag: "div", id: "border_block", style: "display: none;", content: [{
-                        tag: "div", class: "form-group form-group-custom", content: [
-                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.color"], lfor: "title_border_color"},
-                            {tag: "div", class: "title_input_midle", content: [
-                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
-                                            {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
-                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
-                                        ]}
                                 ]},
-                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.width"], lfor: "title_border_width"},
+                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.border"]+locale["editchartform.width"], lfor: "title_border_width"},
                             {tag: "div", class: "title_input_midle2", content: [
                                     {tag: "div", class: "input-group", content: [
                                             {tag: "input", type: "number", class: "form-control title_input_midle", prop_key: "borderWidth", id: "title_border_width", name: "title_border_width", key_path: 'title.style.borderWidth', default: ""}
                                         ]}
                                 ]}
                         ]
-                    }]}   
+                    }]},
+
+//            {tag: "div", id: "border_block", style: "display: none;", content: [{
+//                        tag: "div", class: "form-group form-group-custom", content: [
+//                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.color"], lfor: "title_border_color"},
+//                            {tag: "div", class: "title_input_midle", content: [
+//                                    {tag: "div", class: "input-group cl_picer cl_picer_input", content: [
+//                                            {tag: "input", type: "text", class: "form-control", prop_key: "borderColor", id: "title_border_color", name: "title_border_color", key_path: 'title.style.borderColor', default: ""},
+//                                            {tag: "span", class: "input-group-addon", content: [{tag: "i", class: "fas fa-fill-drip"}]}
+//                                        ]}
+//                                ]},
+//                            {tag: "label", class: "control-label control-label-custom", text: locale["editchartform.width"], lfor: "title_border_width"},
+//                            {tag: "div", class: "title_input_midle2", content: [
+//                                    {tag: "div", class: "input-group", content: [
+//                                            {tag: "input", type: "number", class: "form-control title_input_midle", prop_key: "borderWidth", id: "title_border_width", name: "title_border_width", key_path: 'title.style.borderWidth', default: ""}
+//                                        ]}
+//                                ]}
+//                        ]
+//                    }]}   
             ]}
             
         ];
