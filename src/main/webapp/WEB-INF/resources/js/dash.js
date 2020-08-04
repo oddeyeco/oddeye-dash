@@ -2360,15 +2360,15 @@ function setdatabyQ(json, ri, wi, url, redraw = false, callback = null, customch
             }
         }
 // shift ===============================================      
-        if (widget.times.shift)
-        {
-            if (widget.times.shift !== "off")
-            {
-                start = widget.times.pickerstart - widget.times.shift;
-                end = widget.times.pickerend - widget.times.shift;
-                usePersonalTime = true;
-            }
-        }
+//        if (widget.times.shift)
+//        {
+//            if (widget.times.shift !== "off")
+//            {
+//                start = widget.times.pickerstart - widget.times.shift;
+//                end = widget.times.pickerend - widget.times.shift;
+//                usePersonalTime = true;
+//            }
+//        }
 // /shift ===============================================            
     }
                             
