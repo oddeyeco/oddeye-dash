@@ -3068,11 +3068,13 @@ function showsingleWidget(row, index, dashJSON, readonly = false, rebuildform = 
             if (!redraw)
             {
                 if (readonly)
-                {
+                { 
+                    var height = "600px";
                     $(".right_col .editpanel").append('<div class="card-body" id="singlewidget">' +
                             '<div class="echart_line_single" id="echart_line_single"></div>' +
                             '</div>');
                     var wraper = $(".right_col .editpanel #singlewidget");
+                    wraper.find(".echart_line_single").css("height", height);
                 } else
                 {
                     var height = "300px";
