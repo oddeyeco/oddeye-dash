@@ -375,9 +375,44 @@
                                                         </c:if>                                                    
                                                         <spring:message code="index.allowEdit"/>                                            
                                                     </a>
-                                                </li>     
+                                                </li>  
+                                                
+                                           <%-- <sec:authorize access="hasRole('USERMANAGER')">
+                                                <li>
+                                                <table id="" class="">
+                                                    <tbody>
+                                                         <c:forEach items="${modellist}" var="model">
+                                                            <tr>
+                                                                <c:forEach items="${configMap}" var="config">   
+                                                                    <td>
+                                                                        <c:choose>
+                                                                            <c:when test="${config.getValue().type == 'actions'}">                                        
+                                                                                <c:choose>                                               
+                                                                                    <c:when test="${config.getValue().path == 'alowswitch'}">
+                                                                                        <sec:authorize access="hasRole('ROLE_CAN_SWICH')">                                                                                        
+                                                                                            <c:if test="${model[config.getValue().path]}">
+                                                                                                <p>${model.getEmail()}</p>    
+                                                                                                <a href="<c:url value="/impersonate/login?username=${model.getEmail()}"/>" class="btn btn-outline-info btn-sm" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> <spring:message code="adminlist.switch"/> </a>    
+                                                                                            </c:if>
+                                                                                        </sec:authorize>
+                                                                                    </c:when>
+                                                                                    <c:otherwise>
+                                                                                    </c:otherwise>                                                    
+                                                                                </c:choose>
+                                                                            </c:when>                                                                              
+                                                                        </c:choose>                                        
+                                                                    </td>
+
+                                                                </c:forEach>                        
+                                                            </tr>
+                                                       </c:forEach>     
+                                                    </tbody>
+                                                </table> 
+                                                </li>
+                                                </sec:authorize> --%>
+                                                
                                                 <sec:authorize access="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')">    
-                                                    <li><a href="<c:url value="/impersonate/logout"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li>
+                                                    <li><a href="<c:url value="/impersonate/logout"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li> 
                                                 </sec:authorize>
                                                 <%--<c:url value="/logout/" var="logoutUrl"/>--%> 
 <!--                                                <li> 
