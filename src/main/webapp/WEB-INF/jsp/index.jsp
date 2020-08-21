@@ -377,22 +377,26 @@
                                                     </a>
                                                 </li>  
                                                 
-                                           <%-- <sec:authorize access="hasRole('USERMANAGER')">
-                                                <li>
-                                                <table id="" class="">
+ <%--<!--                                            <sec:authorize access="hasRole('USERMANAGER')">
+                                                <li class="my-1">
+                                                <table id="switchListManager" class="table-hover table-dark">
                                                     <tbody>
                                                          <c:forEach items="${modellist}" var="model">
-                                                            <tr>
-                                                                <c:forEach items="${configMap}" var="config">   
-                                                                    <td>
+                                                                <c:forEach items="${configMap}" var="config">                                                                       
                                                                         <c:choose>
                                                                             <c:when test="${config.getValue().type == 'actions'}">                                        
                                                                                 <c:choose>                                               
                                                                                     <c:when test="${config.getValue().path == 'alowswitch'}">
                                                                                         <sec:authorize access="hasRole('ROLE_CAN_SWICH')">                                                                                        
                                                                                             <c:if test="${model[config.getValue().path]}">
-                                                                                                <p>${model.getEmail()}</p>    
-                                                                                                <a href="<c:url value="/impersonate/login?username=${model.getEmail()}"/>" class="btn btn-outline-info btn-sm" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> <spring:message code="adminlist.switch"/> </a>    
+                                                                                            <tr>
+                                                                                                <th>
+                                                                                                    <p>${model.getEmail()}</p>
+                                                                                                </th>
+                                                                                                <td>
+                                                                                                    <a href="<c:url value="/impersonate/login?username=${model.getEmail()}"/>" class="btn btn-outline-info btn-sm" value="${model.getId()}"><i class="fas fa-exchange-alt"></i></a>
+                                                                                                </td>
+                                                                                            </tr>
                                                                                             </c:if>
                                                                                         </sec:authorize>
                                                                                     </c:when>
@@ -400,24 +404,20 @@
                                                                                     </c:otherwise>                                                    
                                                                                 </c:choose>
                                                                             </c:when>                                                                              
-                                                                        </c:choose>                                        
-                                                                    </td>
-
-                                                                </c:forEach>                        
-                                                            </tr>
+                                                                        </c:choose>  
+                                                                </c:forEach>  
                                                        </c:forEach>     
                                                     </tbody>
                                                 </table> 
                                                 </li>
-                                                </sec:authorize> --%>
+                                                </sec:authorize> -->--%>
                                                 
                                                 <sec:authorize access="hasRole('ROLE_PREVIOUS_ADMINISTRATOR')">    
                                                     <li><a href="<c:url value="/impersonate/logout"/>"><i class="fa fa-sign-out pull-right"></i> <spring:message code="index.switchOff"/></a></li> 
                                                 </sec:authorize>
                                                 <%--<c:url value="/logout/" var="logoutUrl"/>--%> 
 <!--                                                <li> 
-                                                    <a href="${logoutUrl}" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i>
-                                                        <spring:message code="logout"/>
+                                                    <a href="${logoutUrl}" class="dropdown-item"><i class="fa fa-sign-out pull-right"></i><spring:message code="logout"/>
                                                     </a> 
                                                 </li> -->
                                             </ul>

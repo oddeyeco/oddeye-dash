@@ -42,7 +42,7 @@
                                                     <c:when test="${config.getValue().path == 'alowswitch'}">
                                                         <sec:authorize access="hasRole('ROLE_CAN_SWICH')">
                                                             <c:if test="${model[config.getValue().path]}">
-                                                                <a href="<c:url value="/impersonate/login?username=${model.getEmail()}"/>" class="btn btn-outline-info btn-sm" value="${model.getId()}"><i class="fa fas fa-pencil-alt"></i> <spring:message code="adminlist.switch"/> </a>    
+                                                                <a href="<c:url value="/impersonate/login?username=${model.getEmail()}"/>" class="btn btn-outline-info btn-sm" value="${model.getId()}"><i class="fas fa-exchange-alt"></i> <spring:message code="adminlist.switch"/> </a>    
                                                             </c:if>
                                                         </sec:authorize>
                                                     </c:when>

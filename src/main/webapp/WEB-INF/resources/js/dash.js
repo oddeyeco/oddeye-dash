@@ -389,7 +389,7 @@ var queryCallback = function (inputdata) {
                         name = widget.title.text;
                     } else
                     {
-                        name = data.chartsdata[dindex].metric + JSON.stringify(data.chartsdata[dindex].tags);
+                        name = data.chartsdata[dindex].metric + ": " + JSON.stringify(data.chartsdata[dindex].tags);
                     }
                     if (widget.title)
                     {
@@ -1207,13 +1207,15 @@ var queryCallback = function (inputdata) {
                     var basecounterStatus = 
                          '<div class="animated flipInY tile_count col-6 chartsection" >' +
                             '<div class="tile-stats tile_stats_count level_'+ widgetVal.metriclevel +'" id="metricStatus">' +
-                                '<div class="metricname"></div>' +                           
-                                '<div class="float-left">' +
+                                '<div class="metricname"></div>' +                                 
+                                '<div class="row no-gutters">' +                                 
+                                '<div class="col-8">' +
                                 '<h6 class="mx-0 my-2 text-wrap tags"></h6>'+'<h6 class="mx-0 my-1 text-wrap alias2"></h6>' +
                                 '</div>' +
-                                '<div class="float-right">' +
-                                '<h1 class="mx-0"><span class="badge badge-dark mb-2 p-1 level"></span></h1>' +
+                                '<div class="col-4">' +
+                                '<h1 class="mx-0 text-right"><span class="badge badge-dark mb-2 mr-1 p-1 level"></span></h1>' +
                                 '</div>' +
+                                '</div>' +                                
                                 '<div class="clearfix"></div>'+                        
                                 '<div class="text-wrap message"></div>' +                                       
                             '</div>' +

@@ -1143,6 +1143,7 @@ a.panel-heading[aria-expanded="true"] {
 }
 #metricStatus {
     font-weight: bold;
+    border: none!important; 
     .metricname {
         border: none;
         font-size: 14px;
@@ -1160,8 +1161,11 @@ a.panel-heading[aria-expanded="true"] {
         font-size: 16px;
     }
     .level {
-        border: none;
-        box-shadow: 0 0.1rem 0.2rem 0px #000000;
+/*        border: none;
+        box-shadow: 0 0.1rem 0.2rem 0px #000000;*/
+        border: 1px solid rgba(0,0,0,0.2);
+        color: #fff;
+        background-color: rgba(0,0,0,0.1);
     }
 }
 #metricStatus.level_Severe {
