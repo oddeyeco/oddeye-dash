@@ -1151,6 +1151,30 @@ h5.card-header {
 #datatable-responsive.table-bordered {
     border: none;
 }
+.dropdownTagsMetrics {
+    min-width: fit-content;
+    min-height: fit-content;
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+    box-shadow: 0 0 0 0.2rem rgba(23,162,184,.5);
+    transform: translate3d(-6px, 0px, 0px)!important;
+}
+.dropdownMonitoringConneted {
+    width: fit-content;
+    max-width: 400px;
+    min-width: auto;
+    min-height: fit-content;
+    border-top-left-radius: 0!important;
+    border-bottom-left-radius: 0!important;
+    box-shadow: 0 0 0 0.2rem rgba(23,162,184,.5);
+    transform: translate3d(-5px, 0px, 0px)!important;
+    overflow-x: auto;
+}
+.buttonTagsMetrics,.buttonMonitoringConneted {
+    border-top-right-radius: 0!important;
+    border-bottom-right-radius: 0!important;
+}
+
 .minHeight180 {
     min-height: 180px;
 }
@@ -1881,22 +1905,29 @@ span.selection {
     .tile-stats {
         margin-bottom: 0;
         h6 {
-            margin: 0 10px;
-            border-radius: 2px;
+            margin: 0;
+            border-radius: 4px 4px 0 0;
+            padding: 0 4px;
         }
         p {
-            margin: 0 10px;
-            border-radius: 2px;
+            margin: 0;
+            border-radius: 0;
+            padding: 0 4px;
         }
         .count {
             position: relative;
             margin: 0;
-            margin-left: 10px;
+            /*margin-left: 10px;*/
             z-index: 5;
             padding: 0;
             .number {
                 word-break: break-word !important;
                 overflow-wrap: break-word !important;
+                border-bottom-left-radius: 4px;
+                padding: 0 4px;            
+            }
+            .param {
+                padding: 0 2px;
             }
         }
     }
@@ -1907,22 +1938,29 @@ span.selection {
         .tile-stats {
             margin-bottom: 0;
             h6 {
-                margin: 0 10px;
-                border-radius: 2px;
+                margin: 0;
+                border-radius: 4px 4px 0 0;
+                padding: 0 4px;
             }
             p {
-                margin: 0 10px;
-                border-radius: 2px;
+                margin: 0;
+                border-radius: 0;
+                padding: 0 4px;
             }
             .count {
                 position: relative;
                 margin: 0;
-                margin-left: 10px;
+                /*margin-left: 10px;*/
                 z-index: 5;
                 padding: 0;
                 .number {
                     word-break: break-word !important;
                     overflow-wrap: break-word !important;
+                    border-bottom-left-radius: 4px;
+                    padding: 0 4px;            
+                }
+                .param {
+                    padding: 0 2px;
                 }
             }
         }
@@ -2925,22 +2963,29 @@ i[data-toggle="tooltip"] {
         .tile-stats {
             margin-bottom: 0;
             h6 {
-                margin: 0 10px;
-                border-radius: 2px;
+                margin: 0;
+                border-radius: 4px 4px 0 0;
+                padding: 0 4px;
             }
             p {
-                margin: 0 10px;
-                border-radius: 2px;
+                margin: 0;
+                border-radius: 0;
+                padding: 0 4px;
             }
             .count {
                 position: relative;
                 margin: 0;
-                margin-left: 10px;
+                /*margin-left: 10px;*/
                 z-index: 5;
                 padding: 0;
                 .number {
                     word-break: break-word !important;
                     overflow-wrap: break-word !important;
+                    border-bottom-left-radius: 4px;
+                    padding: 0 4px;
+                }
+                .param {
+                    padding: 0 2px;
                 }
             }
         }
@@ -3184,22 +3229,29 @@ i[data-toggle="tooltip"] {
     .tile-stats {
         margin-bottom: 0;
         h6 {
-            margin: 0 10px;
-            border-radius: 2px;
+            margin: 0;
+            border-radius: 4px 4px 0 0;
+            padding: 0 4px;
         }
         p {
-            margin: 0 10px;
-            border-radius: 2px;
+            margin: 0;
+            border-radius: 0;
+            padding: 0 4px;
         }
         .count {
             position: relative;
             margin: 0;
-            margin-left: 10px;
+            /*margin-left: 10px;*/
             z-index: 5;
             padding: 0;
             .number {
                 word-break: break-word !important;
                 overflow-wrap: break-word !important;
+                border-bottom-left-radius: 4px;
+                padding: 0 4px;
+            }
+            .param {
+                padding: 0 2px;
             }
         }
     }

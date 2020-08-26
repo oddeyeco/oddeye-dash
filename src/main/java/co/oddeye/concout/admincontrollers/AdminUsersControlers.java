@@ -129,15 +129,16 @@ public class AdminUsersControlers extends GRUDControler {
                 put("display", "email");
                 put("items", null);
             }
-        }).AddViewConfig("whitelabel", new HashMap<String, Object>() {
-            {
-                put("path", "whitelabel");
-                put("title", "adminlist.whitelabel");
-                put("type", "Object");
-                put("display", "url");
-                put("items", null);
-            }
         })
+//                .AddViewConfig("whitelabel", new HashMap<String, Object>() {
+//            {
+//                put("path", "whitelabel");
+//                put("title", "adminlist.whitelabel");
+//                put("type", "Object");
+//                put("display", "url");
+//                put("items", null);
+//            }
+//        })
 //                .AddViewConfig("Timezone", new HashMap<String, Object>() {
 //            {
 //                put("path", "timezone");

@@ -30,7 +30,6 @@
                             <tr>
                                 <c:forEach items="${configMap}" var="config">   
                                     <td>
-
                                         <c:choose>
                                             <c:when test="${config.getValue().type == 'actions'}">                                        
                                                 <c:choose>
@@ -94,26 +93,44 @@
 
                                                 </c:forEach>                                                                                                            
                                             </c:when>                                             
-                                            <c:when test="${config.getValue().type == 'List'}">                                                                                
-                                                <c:forEach items="${model[config.getValue().path] }" var="item">                                               
+                                            <c:when test="${config.getValue().type == 'List'}">                           
+                                                <%-- <c:forEach items="${model[config.getValue().path] }" var="item">                                               
                                                     <span class="badge badge-success">${item}</span>
-                                                </c:forEach>                                                                                                            
+                                                </c:forEach> --%>                                                 
+                                                    <div class="btn-group dropright ml-1">
+                                                        <button type="button" class="btn btn-outline-info btn-sm dropdown-toggle buttonTagsMetrics" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-chart-line"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdownTagsMetrics border border-left-0 border-info position-relative bg-dark">                                                                                                                     
+                                                            <c:forEach items="${model[config.getValue().path]}" var="item">                                                               
+                                                                <div class="px-1"><span class="badge badge-success">${item}</span></div>  
+                                                            </c:forEach>                                                             
+                                                        </div>
+                                                    </div>   
                                             </c:when>                                                                                                
 
                                             <c:when test="${config.getValue().type == 'userstatus'}">    
                                                 <c:if test="${model.getListenerContainer().isRunning()}">
                                                     <span class="badge badge-success"><spring:message code="adminlist.looksMonitoring"/> ${model.getSotokenlist().size()}</span><br>
-                                                </c:if>   
-
-                                                <c:forEach items="${model.getPagelist() }" var="item">   
+                                                </c:if>  
+                                                <%-- <c:forEach items="${model.getPagelist() }" var="item">   
                                                     <span class="badge badge-success">${item.getValue()}</span>
-                                                </c:forEach>                                                 
+                                                </c:forEach> --%>  
+                                                    <div class="btn-group dropright ml-1">
+                                                        <button type="button" class="btn btn-outline-info btn-sm dropdown-toggle buttonMonitoringConneted" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-link"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdownMonitoringConneted border border-left-0 border-info position-relative bg-dark">
+                                                            <c:forEach items="${model.getPagelist()}" var="item">                                                             
+                                                                <div class="px-1"><span class="badge badge-success">${item.getValue()}</span></div>
+                                                            </c:forEach>                                                  
+                                                        </div>
+                                                    </div>
                                             </c:when>                                                                                                                                            
                                             <c:otherwise>
                                                 <c:if test="${model[config.getValue().path]!=null}">
                                                     ${model[config.getValue().path] }
-                                                </c:if>                                        
-
+                                                </c:if>    
                                             </c:otherwise>
                                         </c:choose>                                        
                                     </td>
