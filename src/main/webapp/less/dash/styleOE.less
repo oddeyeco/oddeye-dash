@@ -1154,6 +1154,7 @@ h5.card-header {
 .dropdownTagsMetrics {
     min-width: fit-content;
     min-height: fit-content;
+    padding: .2rem 0;
     border-top-left-radius: 0!important;
     border-bottom-left-radius: 0!important;
     box-shadow: 0 0 0 0.2rem rgba(23,162,184,.5);
@@ -1164,6 +1165,7 @@ h5.card-header {
     max-width: 400px;
     min-width: auto;
     min-height: fit-content;
+    padding: .2rem 0;
     border-top-left-radius: 0!important;
     border-bottom-left-radius: 0!important;
     box-shadow: 0 0 0 0.2rem rgba(23,162,184,.5);
@@ -1173,6 +1175,12 @@ h5.card-header {
 .buttonTagsMetrics,.buttonMonitoringConneted {
     border-top-right-radius: 0!important;
     border-bottom-right-radius: 0!important;
+}
+.dropdownMonitoringConneted:empty::after,.dropdownTagsMetrics:empty::after {
+    content: " None ";
+    padding: 0 4px;
+    font-size: 13px;
+    color: #fff;
 }
 
 .minHeight180 {
