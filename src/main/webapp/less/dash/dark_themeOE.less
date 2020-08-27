@@ -48,12 +48,16 @@ p {
     }
     tbody {
         tr {
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.2);
+            }           
             &:nth-of-type(odd) {
-/*                background-color: rgba(199, 204, 204, 0.14);*/
-            background-color: rgba(51, 56, 56, 0.2);
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.2);
+                }
+            background-color: rgba(51, 56, 56, 0.2);            
                
             }
-            /*background-color: rgba(199, 204, 204, 0.2);*/
             background-color: rgba(51, 56, 56, 0.4);
         }
     }
