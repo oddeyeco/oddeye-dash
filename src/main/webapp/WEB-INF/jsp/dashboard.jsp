@@ -134,8 +134,8 @@
                             <a class="dublicate hide-single" data-toggle="tooltip" data-placement="top" title="Dublicate"><i class="fa far fa-copy"></i><spring:message code="dashboard.chart.duplicate"/></a>
                         </li>                        
                         <li class="dropdown-submenu">
-                            <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i><spring:message code="dashboard.chart.saveAs"/><i class="fa fa-caret-right float-right"></i></a>
-                            <ul class="dropdown-menu shadow">
+                            <a class="more" tabindex="-1" href="#"><i class="fa fa-cube"></i><spring:message code="dashboard.chart.saveAs"/><i class="fa fa-caret-right"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-more shadow">
                                 <li>
                                     <a class="csv" data-toggle="tooltip" data-placement="top" title="Save as csv"><i class="fa fa-th-list"></i> <spring:message code="dashboard.chart.saveAs.csv"/></a>
                                 </li>
