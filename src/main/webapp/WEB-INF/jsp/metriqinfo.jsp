@@ -7,7 +7,7 @@
     <div class="col-12">
         <div class="card shadow">
             <h5 class="card-header">
-                <spring:message code="metriginfo.metric.h1" arguments="${cp},${metric.sha256Code()},${metric.getName()}"/><fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}
+                <spring:message code="metriginfo.metric.h1" arguments="${cp},${metric.sha256Code()},${metric.getName()}"/>&nbsp;<fmt:formatDate type="both" pattern="HH:00 Y/MM/dd" value="${Date}" timeZone="${curentuser.getTimezone()}"/> ${curentuser.getTimezone()}
             </h5>
             <div class="card-body row metriqs">
                 <div class="col-12 col-lg-6">

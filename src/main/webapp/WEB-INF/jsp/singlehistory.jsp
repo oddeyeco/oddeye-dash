@@ -14,7 +14,7 @@
         <div class="card shadow">
             <div class="card-header">
                 <h5 class="card-title float-left">
-                    <span class="badge badge-light text-success align-top"><a href="${cp}/metriq/${metric.sha256Code()}"> ${metric.getDisplayName()} :</a></span> ${metric.getTypeName()}               
+                    <span class="badge text-success align-top"><a href="${cp}/metriq/${metric.sha256Code()}"> ${metric.getDisplayName()} :</a></span> ${metric.getTypeName()}               
                 </h5>
                 <div id="reportrange" class="float-right pull-right dropdown-toggle rounded-top border-secondary reportrange" >
                     <i class="fa fa-calendar p-1"></i>
