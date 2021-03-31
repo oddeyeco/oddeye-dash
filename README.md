@@ -1,16 +1,15 @@
 ﻿**Install**
 
 ```
-git clone https://connect.netangels.net/pastor/oddeye-dash.git
+git clone https://github.com/oddeyeco/oddeye-dash.git
 cd oddete-dash
 mvn clean package
 ```
+
 **Deploy**
 
 ```
-/opt/jetty/bin/jetty.sh stop 
-rm /opt/jetty/webapps/OddeyeCoconut-{VERSION}.war
-cp target/OddeyeCoconut-0.1.war /opt/jetty/webapps/
-/opt/jetty/bin/jetty.sh start
+cp target/OddeyeCoconut-{VERSION}.war $TOMCAT_HOME/webapps/OddeyeCoconut.war
 ```
 
+Requires Apache Tomcat 8+ ana Java 1.8+ 
